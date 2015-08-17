@@ -237,6 +237,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Arears\BizManager\" />
+    <Folder Include="Arears\Company\" />
+    <Folder Include="Arears\Expert\" />
+    <Folder Include="Arears\Mentor\" />
+    <Folder Include="Arears\SysManager\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
