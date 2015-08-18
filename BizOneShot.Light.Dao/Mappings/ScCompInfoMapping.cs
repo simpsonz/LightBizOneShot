@@ -21,7 +21,7 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao
+namespace BizOneShot.Light.Dao.Mappings
 {
     // SC_COMP_INFO
     internal partial class ScCompInfoMapping : EntityTypeConfiguration<ScCompInfo>

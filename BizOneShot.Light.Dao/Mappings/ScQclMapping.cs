@@ -21,35 +21,34 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao
+namespace BizOneShot.Light.Dao.Mappings
 {
-    // SC_COMP_MAPPING
-    internal partial class ScCompMappingMapping : EntityTypeConfiguration<ScCompMapping>
+    // SC_QCL
+    internal partial class ScQclMapping : EntityTypeConfiguration<ScQcl>
     {
-        public ScCompMappingMapping()
+        public ScQclMapping()
             : this("dbo")
         {
         }
  
-        public ScCompMappingMapping(string schema)
+        public ScQclMapping(string schema)
         {
-            ToTable(schema + ".SC_COMP_MAPPING");
-            HasKey(x => new { x.CompSn, x.BizWorkSn });
+            ToTable(schema + ".SC_QCL");
+            HasKey(x => x.QclSn);
 
-            Property(x => x.CompSn).HasColumnName("COMP_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.BizWorkSn).HasColumnName("BIZ_WORK_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.MentorId).HasColumnName("MENTOR_ID").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
+            Property(x => x.QclSn).HasColumnName("QCL_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.QclType).HasColumnName("QCL_TYPE").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
+            Property(x => x.QclNm).HasColumnName("QCL_NM").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
             Property(x => x.Status).HasColumnName("STATUS").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
+            Property(x => x.DspOdr).HasColumnName("DSP_ODR").IsRequired().HasColumnType("int");
             Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
             Property(x => x.UpdId).HasColumnName("UPD_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.UpdDt).HasColumnName("UPD_DT").IsOptional().HasColumnType("datetime");
 
             // Foreign keys
-            HasOptional(a => a.ScUsr_RegId).WithMany(b => b.ScCompMappings_RegId).HasForeignKey(c => c.RegId); // FK_SC_USR_TO_SC_COMP_MAPPING
-            HasOptional(a => a.ScUsr_UpdId).WithMany(b => b.ScCompMappings_UpdId).HasForeignKey(c => c.UpdId); // FK_SC_USR_TO_SC_COMP_MAPPING2
-            HasRequired(a => a.ScBizWork).WithMany(b => b.ScCompMappings).HasForeignKey(c => c.BizWorkSn); // FK_SC_BIZ_WORK_TO_SC_COMP_MAPPING
-            HasRequired(a => a.ScCompInfo).WithMany(b => b.ScCompMappings).HasForeignKey(c => c.CompSn); // FK_SC_COMP_INFO_TO_SC_COMP_MAPPING
+            HasOptional(a => a.ScUsr_RegId).WithMany(b => b.ScQcls_RegId).HasForeignKey(c => c.RegId); // FK_SC_USR_TO_SC_QCL
+            HasOptional(a => a.ScUsr_UpdId).WithMany(b => b.ScQcls_UpdId).HasForeignKey(c => c.UpdId); // FK_SC_USR_TO_SC_QCL2
             InitializePartial();
         }
         partial void InitializePartial();

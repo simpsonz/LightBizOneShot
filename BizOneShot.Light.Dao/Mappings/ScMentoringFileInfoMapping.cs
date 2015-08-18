@@ -21,27 +21,28 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao
+namespace BizOneShot.Light.Dao.Mappings
 {
-    // SC_USR_RESUME
-    internal partial class ScUsrResumeMapping : EntityTypeConfiguration<ScUsrResume>
+    // SC_MENTORING_FILE_INFO
+    internal partial class ScMentoringFileInfoMapping : EntityTypeConfiguration<ScMentoringFileInfo>
     {
-        public ScUsrResumeMapping()
+        public ScMentoringFileInfoMapping()
             : this("dbo")
         {
         }
  
-        public ScUsrResumeMapping(string schema)
+        public ScMentoringFileInfoMapping(string schema)
         {
-            ToTable(schema + ".SC_USR_RESUME");
-            HasKey(x => x.LoginId);
+            ToTable(schema + ".SC_MENTORING_FILE_INFO");
+            HasKey(x => x.FileSn);
 
-            Property(x => x.LoginId).HasColumnName("LOGIN_ID").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.FileSn).HasColumnName("FILE_SN").IsOptional().HasColumnType("int");
+            Property(x => x.FileSn).HasColumnName("FILE_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.ReportSn).HasColumnName("REPORT_SN").IsRequired().HasColumnType("int");
+            Property(x => x.Classify).HasColumnName("CLASSIFY").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
 
             // Foreign keys
-            HasOptional(a => a.ScFileInfo).WithMany(b => b.ScUsrResumes).HasForeignKey(c => c.FileSn); // FK_SC_FILE_INFO_TO_SC_USR_RESUME
-            HasRequired(a => a.ScUsr).WithOptional(b => b.ScUsrResume); // FK_SC_USR_TO_SC_USR_RESUME
+            HasRequired(a => a.ScFileInfo).WithOptional(b => b.ScMentoringFileInfo); // FK_SC_FILE_INFO_TO_SC_MENTORING_FILE_INFO
+            HasRequired(a => a.ScMentoringReport).WithMany(b => b.ScMentoringFileInfoes).HasForeignKey(c => c.ReportSn); // FK_SC_MENTORING_REPORT_TO_SC_MENTORING_FILE_INFO
             InitializePartial();
         }
         partial void InitializePartial();
