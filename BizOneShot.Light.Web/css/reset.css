@@ -1,0 +1,59 @@
+@charset "utf-8";
+ 
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup,
+var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, 
+header, hgroup, menu, nav, section, summary, time, mark, audio, video 
+{margin:0; padding:0; border:0; outline:0; font-size:100%; vertical-align:middle; background:transparent; font-family:NanumGothic,nanum,"나눔고딕",NG,"맑은 고딕","Malgun Gothic","돋움",Dotum,"애플고딕","AppleGothic,Arial",sans-serif; font-size:13px; color:#717171;}
+article,aside,details,figcaption,figure, footer,header,hgroup,menu,nav,section {display:block;}
+ul,ol,li { list-style:none;}
+blockquote, q { quotes:none;}
+blockquote:before, blockquote:after, q:before, q:after { content:''; content:none;}
+a { margin:0; padding:0; font-size:100%; vertical-align:baseline; background:transparent; font-family:NanumGothic,nanum,"나눔고딕",NG,"맑은 고딕","Malgun Gothic","돋움",Dotum,"애플고딕","AppleGothic,Arial",sans-serif, arial; font-size:13px; color:#717171; text-decoration:none;}
+ins { background-color:#ff9; color:#000; text-decoration:none;}
+mark { background-color:#ff9; color:#000; font-style:italic; font-weight:bold;}
+del { text-decoration: line-through;}
+abbr[title], dfn[title] { border-bottom:1px dotted; cursor:help;}
+table { border-collapse:collapse; border-spacing:0;}
+hr {display:none;border:none;}
+input, select, img {border:none;vertical-align:middle; font-family:NanumGothic,nanum,"나눔고딕",NG,"맑은 고딕","Malgun Gothic","돋움",Dotum,"애플고딕","AppleGothic,Arial",sans-serif, arial; font-size:13px;color:#717171;}
+img { border:0 none; margin:0;}
+em {font-style:normal;display:block;text-indent:-1000em;overflow:hidden;height:0px;}
+textarea { resize:none;font-family:NanumGothic,nanum,"나눔고딕",NG,"맑은 고딕","Malgun Gothic","돋움",Dotum,"애플고딕","AppleGothic,Arial",sans-serif, arial; font-size:13px; color:#717171;}
+button { position:relative; background:none; border:0 none; cursor:pointer;}
+legend {position:absolute; top:0; left:0; width:0; height:0;overflow:hidden;padding:0;visibility:hidden;font-size:0;line-height:0;}
+select {padding-left:5px;}
+caption {display:none;}
+input[type="button"], input[type="submit"]{cursor:pointer;}
+input[type="text"],input[type="password"]{vertical-align:middle;padding:5px 5px 0;}
+input::-webkit-input-placeholder{color:#b5b5b5;}
+input::-moz-input-placeholder{color:#b5b5b5;}
+input:-moz-input-placeholder{color:#b5b5b5;}
+input:-ms-input-placeholder{color:#b5b5b5;}
+
+ /* style all input elements with a required attribute */
+    input:required {
+      border: 1px solid red;
+      outline: none;
+    }
+    /**
+     * style input elements that have a required
+     * attribute and a focus state
+     */
+    input:required:focus {
+      border: 1px solid red;
+      outline: none;
+    }
+
+/*web font*/
+@font-face
+{
+font-family: 'nanum';
+src: url('font/nanum.eot');
+src:local(※), url('font/nanum.woff') format('woff'); /* IE 9, 파이어폭스, 크롬 폰트 적용 */
+src:url('font/nanum.eot?#iefix') format('embedded-opentype'),
+    url('font/nanum.woff') format('woff'),
+    url('font/NanumGothic.ttf') format('truetype');
+/*url('/Content/Css/2013/font/NanumGothic.svg') format('svg');*/
+font-weight: normal;
+font-style: normal;
+}
