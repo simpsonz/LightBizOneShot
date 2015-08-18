@@ -1,0 +1,42 @@
+﻿@using BizOneShot.Light.Web.Models
+@model LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div id="login_loginarea">
+    <div class="container">
+        <div id="login_loginwrap">
+            @using (Html.BeginForm("Login", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <p class="login_input">
+                    @Html.TextBoxFor(m => m.ID, new { @placeholder = "아이디" })
+                </p>
+                @Html.ValidationMessageFor(m => m.ID, "", new { @class = "text-danger" })
+                <p class="login_input">
+                    @Html.PasswordFor(m => m.Password, new { @placeholder = "비밀번호" })
+                </p>
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                <p>
+                    @*<input type="checkbox" id="remYn" name="remYn" value="Y"> <img src="~/Images/login_text_idsave.png"><em>아이디 저장</em>*@
+                    <div class="checkbox">
+                        @Html.CheckBoxFor(m => m.RememberMe)
+                        <img src="../images/login_text_idsave.png"><em>아이디 저장</em>
+                    </div>
+                </p><br>
+                <p><input type="submit" class="login_gray" id="btn_loginUser" name="btn_loginUser"><em>로그인</em></p>
+            }
+            <p class="login_left"><a href="@Url.Action("SearchId","Member")"><input type="button" class="id_search" value="아이디 찾기"></a><img src="~/Images/login_text_bar.png"><a href="@Url.Action("SearchPassword","Member")"><input type="button" class="pw_search" value="비밀번호 찾기"></a></p>
+            <p class="login_right"><a href="@Url.Action("ChoiceMemberType","Member")"><input type="button" class="join"></a></p>
+
+        </div>
+    </div>
+</div><!--login_loginarea//-->
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

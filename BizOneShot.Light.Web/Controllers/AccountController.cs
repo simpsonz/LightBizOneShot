@@ -66,7 +66,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(Login1ViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -90,6 +90,9 @@ namespace BizOneShot.Light.Web.Controllers
                     return View(model);
             }
         }
+
+
+        
 
         //
         // GET: /Account/VerifyCode

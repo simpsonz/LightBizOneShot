@@ -1,6 +1,7 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 @import url("reset.css");
+
 html {overflow-y:scroll;}
 html,body{position:relative;height:100%;}
 
@@ -179,7 +180,7 @@ html,body{position:relative;height:100%;}
 /*login*/
 #login_loginarea{height:260px;background:url('../images/login_bg_pattern.jpg') repeat-x top center; padding-top:58px;}
 #login_loginwrap{width:294px;margin:0 auto;}
-#login_loginwrap p{margin-bottom:10px;}
+#login_loginwrap p{margin-bottom:5px;}
 
 #admin_loginwrap{width:294px;margin:0 auto;margin-top:12px;}
 #admin_loginwrap p{margin-bottom:10px;}
@@ -1208,3 +1209,8 @@ input.list{width:114px;height:42px;background:url('../images/bt_list.png');color
 .resume_open{text-decoration:underline;}
 .file_open{text-decoration:underline;}
 .file_photo img{width:320px;height:auto;text-align:center;}
+
+
+.text-danger {
+  color: #ffffff;
+}

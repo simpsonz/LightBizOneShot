@@ -1,64 +1,55 @@
-﻿
+﻿@using BizOneShot.Light.Web.Models
+@model LoginViewModel
+
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="../css/common.css" />
+<div id="main_cont1wrap">
+    <div class="container">
+        @using (Html.BeginForm("index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <title>메인(로그인 전)</title>
-
-</head>
-
-<body>
-    <div id="Wrapper">
-
-        <div id="headerwrap_main">
-            <div class="container">
-                <h1><em>Biz onshot</em></h1>
+            <div id="main_loginwrap">
+                <p class="login_input">
+                    @Html.TextBoxFor(m => m.ID, new { @placeholder = "아이디" })
+                </p>
+                @Html.ValidationMessageFor(m => m.ID, "", new { @class = "text-danger" })
+                <p class="login_input">
+                    @Html.PasswordFor(m => m.Password, new { @placeholder = "비밀번호" })
+                </p>
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                <p>
+                    @*<input type="checkbox"> <img src="../images/login_text_idsave.png"><em>아이디 저장</em>*@
+                    <div class="checkbox">
+                        @Html.CheckBoxFor(m => m.RememberMe)
+                        <img src="../images/login_text_idsave.png"><em>아이디 저장</em>
+                    </div>
+                </p><br>
+                <p><input type="submit" class="login"><em>로그인</em></p>
+                <p class="login_left">
+                    <input type="button" class="id_search" value="아이디 찾기">
+                    <img src="../images/login_text_bar.png">
+                    <input type="button" class="pw_search" value="비밀번호 찾기">
+                </p>
+                <p class="login_right"><input type="button" class="join"></p>
             </div>
-        </div><!--headerwrap//-->
+        }
+    </div>
+</div><!--main_cont1wrap//-->
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<div class="container">
+    <div id="main_cont4wrap">
+        <a href="" class="m8"><img src="../images/companymember_logo.png"></a><a href="" class="m8"><img src="../images/mentomember_logo.png"></a><a href="" class="m8"><img src="../images/expertmember_logo.png"></a><a href=""><img src="../images/customercenter_logo.png"></a>
+    </div><!--main_cont2wrap//-->
+    <div class="line_dot"></div>
+    <div id="main_cont3wrap">
+        <a href=""><img src="../images/main_partner01.png"></a><a href=""><img src="../images/main_partner01.png"></a><a href=""><img src="../images/main_partner01.png"></a><a href=""><img src="../images/main_partner01.png"></a><a href=""><img src="../images/main_partner01.png"></a><a href=""><img src="../images/main_partner01.png"></a>
+    </div><!--main_cont3wrap//-->
+</div>
 
-        <div id="main_cont1wrap">
-            <div class="container">
-                <div id="main_loginwrap">
-                    <p class="login_input"><input type="text" placeholder="아이디"></p>
-                    <p class="login_input"><input type="password" placeholder="비밀번호"></p>
-                    <p><input type="checkbox"> <img src="../images/login_text_idsave.png"><em>아이디 저장</em></p><br>
-                    <p><input type="submit" class="login"><em>로그인</em></p>
-                    <p class="login_left">
-                        <input type="button" class="id_search" value="아이디 찾기">
-                        <img src="../images/login_text_bar.png">
-                        <input type="button" class="pw_search" value="비밀번호 찾기">
-                    </p>
-                    <p class="login_right"><input type="button" class="join"></p>
-                </div>
-            </div>
-        </div><!--main_cont1wrap//-->
-        <div class="container">
-            <div id="main_cont4wrap">
-                <a href="" class="m8"><img src="../images/companymember_logo.png"></a><a href="" class="m8"><img src="../images/mentomember_logo.png"></a><a href="" class="m8"><img src="../images/expertmember_logo.png"></a><a href=""><img src="../images/customercenter_logo.png"></a>
-            </div><!--main_cont2wrap//-->
-            <div class="line_dot"></div>
-            <div id="main_cont3wrap">
-                <a href=""><img src="../images/main_partner01.png"></a><a href=""><img src="../images/main_partner01.png"></a><a href=""><img src="../images/main_partner01.png"></a><a href=""><img src="../images/main_partner01.png"></a><a href=""><img src="../images/main_partner01.png"></a><a href=""><img src="../images/main_partner01.png"></a>
-            </div><!--main_cont3wrap//-->
-        </div>
-
-        <!--// footer //-->
-        @RenderPage("~/Views/Shared/_Footer.cshtml")
-        <!--// footer //-->
-        <!--container+footwrap//-->
-
-    </div><!--Wrapper//-->
-
-
-
-</body>
-</html>
 
