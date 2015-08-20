@@ -8,6 +8,12 @@ using BizOneShot.Light.Dao.Infrastructure;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
+    public interface IScCompInfoRepository : IRepository<ScCompInfo>
+    {
+        IList<ScCompInfo> GetScCompInfoByName(string compNm);
+    }
+
+
     public class ScCompInfoRepository : RepositoryBase<ScCompInfo>, IScCompInfoRepository
     {
         public ScCompInfoRepository(IDbFactory dbFactory) : base(dbFactory) { }
@@ -25,11 +31,5 @@ namespace BizOneShot.Light.Dao.Repositories
 
             base.Update(compInfo);
         }
-    }
-
-
-    public interface IScCompInfoRepository : IRepository<ScCompInfo>
-    {
-        IList<ScCompInfo> GetScCompInfoByName(string compNm);
     }
 }
