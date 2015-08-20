@@ -21,17 +21,17 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
     // SC_EXPERT_MAPPING
-    internal partial class ScExpertMappingMapping : EntityTypeConfiguration<ScExpertMapping>
+    internal partial class ScExpertMappingConfiguration : EntityTypeConfiguration<ScExpertMapping>
     {
-        public ScExpertMappingMapping()
+        public ScExpertMappingConfiguration()
             : this("dbo")
         {
         }
  
-        public ScExpertMappingMapping(string schema)
+        public ScExpertMappingConfiguration(string schema)
         {
             ToTable(schema + ".SC_EXPERT_MAPPING");
             HasKey(x => new { x.BizWorkSn, x.ExpertId });

@@ -21,33 +21,30 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
-    // SC_NTC
-    internal partial class ScNtcMapping : EntityTypeConfiguration<ScNtc>
+    // SC_FILE_INFO
+    internal partial class ScFileInfoConfiguration : EntityTypeConfiguration<ScFileInfo>
     {
-        public ScNtcMapping()
+        public ScFileInfoConfiguration()
             : this("dbo")
         {
         }
  
-        public ScNtcMapping(string schema)
+        public ScFileInfoConfiguration(string schema)
         {
-            ToTable(schema + ".SC_NTC");
-            HasKey(x => x.NoticeSn);
+            ToTable(schema + ".SC_FILE_INFO");
+            HasKey(x => x.FileSn);
 
-            Property(x => x.NoticeSn).HasColumnName("NOTICE_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.Subject).HasColumnName("SUBJECT").IsOptional().HasColumnType("nvarchar").HasMaxLength(1000);
-            Property(x => x.RmkTxt).HasColumnName("RMK_TXT").IsOptional().HasColumnType("nvarchar").HasMaxLength(2000);
+            Property(x => x.FileSn).HasColumnName("FILE_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.FileNm).HasColumnName("FILE_NM").IsOptional().HasColumnType("nvarchar").HasMaxLength(255);
+            Property(x => x.FilePath).HasColumnName("FILE_PATH").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(1000);
             Property(x => x.Status).HasColumnName("STATUS").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
-            Property(x => x.UpdId).HasColumnName("UPD_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
-            Property(x => x.UpdDt).HasColumnName("UPD_DT").IsOptional().HasColumnType("datetime");
 
             // Foreign keys
-            HasOptional(a => a.ScUsr_RegId).WithMany(b => b.ScNtcs_RegId).HasForeignKey(c => c.RegId); // FK_SC_USR_TO_SC_NTC
-            HasOptional(a => a.ScUsr_UpdId).WithMany(b => b.ScNtcs_UpdId).HasForeignKey(c => c.UpdId); // FK_SC_USR_TO_SC_NTC2
+            HasOptional(a => a.ScUsr).WithMany(b => b.ScFileInfoes).HasForeignKey(c => c.RegId); // FK_SC_USR_TO_SC_FILE_INFO
             InitializePartial();
         }
         partial void InitializePartial();

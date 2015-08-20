@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BizOneShot.Light.Dao.Mappings;
+using BizOneShot.Light.Dao.Configuration;
 using BizOneShot.Light.Models;
 
 namespace EntityTestConsole

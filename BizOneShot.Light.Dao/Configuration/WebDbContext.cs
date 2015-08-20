@@ -21,7 +21,7 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
     public partial class WebDbContext : DbContext, IWebDbContext
     {
@@ -78,56 +78,56 @@ namespace BizOneShot.Light.Dao.Mappings
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Configurations.Add(new ScBizTypeMapping());
-            modelBuilder.Configurations.Add(new ScBizWorkMapping());
-            modelBuilder.Configurations.Add(new ScCompInfoMapping());
-            modelBuilder.Configurations.Add(new ScCompMappingMapping());
-            modelBuilder.Configurations.Add(new ScExpertMappingMapping());
-            modelBuilder.Configurations.Add(new ScFaqMapping());
-            modelBuilder.Configurations.Add(new ScFileInfoMapping());
-            modelBuilder.Configurations.Add(new ScFormMapping());
-            modelBuilder.Configurations.Add(new ScFormFileMapping());
-            modelBuilder.Configurations.Add(new ScMentoringFileInfoMapping());
-            modelBuilder.Configurations.Add(new ScMentoringReportMapping());
-            modelBuilder.Configurations.Add(new ScMentoringTotalReportMapping());
-            modelBuilder.Configurations.Add(new ScMentoringTrFileInfoMapping());
-            modelBuilder.Configurations.Add(new ScMentorMappiingMapping());
-            modelBuilder.Configurations.Add(new ScNtcMapping());
-            modelBuilder.Configurations.Add(new ScQaMapping());
-            modelBuilder.Configurations.Add(new ScQclMapping());
-            modelBuilder.Configurations.Add(new ScReqDocMapping());
-            modelBuilder.Configurations.Add(new ScReqDocFileMapping());
-            modelBuilder.Configurations.Add(new ScUsrMapping());
-            modelBuilder.Configurations.Add(new ScUsrResumeMapping());
-            modelBuilder.Configurations.Add(new SyDareDbInfoMapping());
+            modelBuilder.Configurations.Add(new ScBizTypeConfiguration());
+            modelBuilder.Configurations.Add(new ScBizWorkConfiguration());
+            modelBuilder.Configurations.Add(new ScCompInfoConfiguration());
+            modelBuilder.Configurations.Add(new ScCompMappingConfiguration());
+            modelBuilder.Configurations.Add(new ScExpertMappingConfiguration());
+            modelBuilder.Configurations.Add(new ScFaqConfiguration());
+            modelBuilder.Configurations.Add(new ScFileInfoConfiguration());
+            modelBuilder.Configurations.Add(new ScFormConfiguration());
+            modelBuilder.Configurations.Add(new ScFormFileConfiguration());
+            modelBuilder.Configurations.Add(new ScMentoringFileInfoConfiguration());
+            modelBuilder.Configurations.Add(new ScMentoringReportConfiguration());
+            modelBuilder.Configurations.Add(new ScMentoringTotalReportConfiguration());
+            modelBuilder.Configurations.Add(new ScMentoringTrFileInfoConfiguration());
+            modelBuilder.Configurations.Add(new ScMentorMappiingConfiguration());
+            modelBuilder.Configurations.Add(new ScNtcConfiguration());
+            modelBuilder.Configurations.Add(new ScQaConfiguration());
+            modelBuilder.Configurations.Add(new ScQclConfiguration());
+            modelBuilder.Configurations.Add(new ScReqDocConfiguration());
+            modelBuilder.Configurations.Add(new ScReqDocFileConfiguration());
+            modelBuilder.Configurations.Add(new ScUsrConfiguration());
+            modelBuilder.Configurations.Add(new ScUsrResumeConfiguration());
+            modelBuilder.Configurations.Add(new SyDareDbInfoConfiguration());
 
             OnModelCreatingPartial(modelBuilder);
         }
 
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)
         {
-            modelBuilder.Configurations.Add(new ScBizTypeMapping(schema));
-            modelBuilder.Configurations.Add(new ScBizWorkMapping(schema));
-            modelBuilder.Configurations.Add(new ScCompInfoMapping(schema));
-            modelBuilder.Configurations.Add(new ScCompMappingMapping(schema));
-            modelBuilder.Configurations.Add(new ScExpertMappingMapping(schema));
-            modelBuilder.Configurations.Add(new ScFaqMapping(schema));
-            modelBuilder.Configurations.Add(new ScFileInfoMapping(schema));
-            modelBuilder.Configurations.Add(new ScFormMapping(schema));
-            modelBuilder.Configurations.Add(new ScFormFileMapping(schema));
-            modelBuilder.Configurations.Add(new ScMentoringFileInfoMapping(schema));
-            modelBuilder.Configurations.Add(new ScMentoringReportMapping(schema));
-            modelBuilder.Configurations.Add(new ScMentoringTotalReportMapping(schema));
-            modelBuilder.Configurations.Add(new ScMentoringTrFileInfoMapping(schema));
-            modelBuilder.Configurations.Add(new ScMentorMappiingMapping(schema));
-            modelBuilder.Configurations.Add(new ScNtcMapping(schema));
-            modelBuilder.Configurations.Add(new ScQaMapping(schema));
-            modelBuilder.Configurations.Add(new ScQclMapping(schema));
-            modelBuilder.Configurations.Add(new ScReqDocMapping(schema));
-            modelBuilder.Configurations.Add(new ScReqDocFileMapping(schema));
-            modelBuilder.Configurations.Add(new ScUsrMapping(schema));
-            modelBuilder.Configurations.Add(new ScUsrResumeMapping(schema));
-            modelBuilder.Configurations.Add(new SyDareDbInfoMapping(schema));
+            modelBuilder.Configurations.Add(new ScBizTypeConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScBizWorkConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScCompInfoConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScCompMappingConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScExpertMappingConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScFaqConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScFileInfoConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScFormConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScFormFileConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScMentoringFileInfoConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScMentoringReportConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScMentoringTotalReportConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScMentoringTrFileInfoConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScMentorMappiingConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScNtcConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScQaConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScQclConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScReqDocConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScReqDocFileConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScUsrConfiguration(schema));
+            modelBuilder.Configurations.Add(new ScUsrResumeConfiguration(schema));
+            modelBuilder.Configurations.Add(new SyDareDbInfoConfiguration(schema));
             return modelBuilder;
         }
 

@@ -21,17 +21,17 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
     // SC_USR
-    internal partial class ScUsrMapping : EntityTypeConfiguration<ScUsr>
+    internal partial class ScUsrConfiguration : EntityTypeConfiguration<ScUsr>
     {
-        public ScUsrMapping()
+        public ScUsrConfiguration()
             : this("dbo")
         {
         }
  
-        public ScUsrMapping(string schema)
+        public ScUsrConfiguration(string schema)
         {
             ToTable(schema + ".SC_USR");
             HasKey(x => x.LoginId);

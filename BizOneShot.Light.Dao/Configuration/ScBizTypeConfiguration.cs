@@ -21,27 +21,27 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
-    // SC_FORM_FILE
-    internal partial class ScFormFileMapping : EntityTypeConfiguration<ScFormFile>
+    // SC_BIZ_TYPE
+    internal partial class ScBizTypeConfiguration : EntityTypeConfiguration<ScBizType>
     {
-        public ScFormFileMapping()
+        public ScBizTypeConfiguration()
             : this("dbo")
         {
         }
  
-        public ScFormFileMapping(string schema)
+        public ScBizTypeConfiguration(string schema)
         {
-            ToTable(schema + ".SC_FORM_FILE");
-            HasKey(x => x.FileSn2);
+            ToTable(schema + ".SC_BIZ_TYPE");
+            HasKey(x => x.CompSn);
 
-            Property(x => x.FileSn2).HasColumnName("FILE_SN2").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.FormSn).HasColumnName("FORM_SN").IsRequired().HasColumnType("int");
+            Property(x => x.CompSn).HasColumnName("COMP_SN").IsRequired().HasColumnType("int");
+            Property(x => x.BizTypeCd).HasColumnName("BIZ_TYPE_CD").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(2);
+            Property(x => x.BizCondCd).HasColumnName("BIZ_COND_CD").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(2);
 
             // Foreign keys
-            HasRequired(a => a.ScFileInfo).WithOptional(b => b.ScFormFile); // FK_SC_FILE_INFO_TO_SC_FORM_FILE
-            HasRequired(a => a.ScForm).WithMany(b => b.ScFormFiles).HasForeignKey(c => c.FormSn); // FK_SC_FORM_TO_SC_FORM_FILE
+            HasRequired(a => a.ScCompInfo).WithOptional(b => b.ScBizType); // FK_SC_COMP_INFO_TO_SC_BIZ_TYPE
             InitializePartial();
         }
         partial void InitializePartial();

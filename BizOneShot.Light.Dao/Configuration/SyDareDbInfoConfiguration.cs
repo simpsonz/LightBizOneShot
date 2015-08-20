@@ -21,17 +21,17 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
     // SY_DARE_DB_INFO
-    internal partial class SyDareDbInfoMapping : EntityTypeConfiguration<SyDareDbInfo>
+    internal partial class SyDareDbInfoConfiguration : EntityTypeConfiguration<SyDareDbInfo>
     {
-        public SyDareDbInfoMapping()
+        public SyDareDbInfoConfiguration()
             : this("dbo")
         {
         }
  
-        public SyDareDbInfoMapping(string schema)
+        public SyDareDbInfoConfiguration(string schema)
         {
             ToTable(schema + ".SY_DARE_DB_INFO");
             HasKey(x => x.DbType);

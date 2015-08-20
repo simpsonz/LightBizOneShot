@@ -21,17 +21,17 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
     // SC_QA
-    internal partial class ScQaMapping : EntityTypeConfiguration<ScQa>
+    internal partial class ScQaConfiguration : EntityTypeConfiguration<ScQa>
     {
-        public ScQaMapping()
+        public ScQaConfiguration()
             : this("dbo")
         {
         }
  
-        public ScQaMapping(string schema)
+        public ScQaConfiguration(string schema)
         {
             ToTable(schema + ".SC_QA");
             HasKey(x => x.UsrQaSn);

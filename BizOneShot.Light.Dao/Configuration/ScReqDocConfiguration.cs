@@ -21,17 +21,17 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
     // SC_REQ_DOC
-    internal partial class ScReqDocMapping : EntityTypeConfiguration<ScReqDoc>
+    internal partial class ScReqDocConfiguration : EntityTypeConfiguration<ScReqDoc>
     {
-        public ScReqDocMapping()
+        public ScReqDocConfiguration()
             : this("dbo")
         {
         }
  
-        public ScReqDocMapping(string schema)
+        public ScReqDocConfiguration(string schema)
         {
             ToTable(schema + ".SC_REQ_DOC");
             HasKey(x => x.ReqDocSn);

@@ -21,24 +21,25 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
-    // SC_COMP_MAPPING
-    internal partial class ScCompMappingMapping : EntityTypeConfiguration<ScCompMapping>
+    // SC_FORM
+    internal partial class ScFormConfiguration : EntityTypeConfiguration<ScForm>
     {
-        public ScCompMappingMapping()
+        public ScFormConfiguration()
             : this("dbo")
         {
         }
  
-        public ScCompMappingMapping(string schema)
+        public ScFormConfiguration(string schema)
         {
-            ToTable(schema + ".SC_COMP_MAPPING");
-            HasKey(x => new { x.CompSn, x.BizWorkSn });
+            ToTable(schema + ".SC_FORM");
+            HasKey(x => x.FormSn);
 
-            Property(x => x.CompSn).HasColumnName("COMP_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.BizWorkSn).HasColumnName("BIZ_WORK_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.MentorId).HasColumnName("MENTOR_ID").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
+            Property(x => x.FormSn).HasColumnName("FORM_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.Subject).HasColumnName("SUBJECT").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
+            Property(x => x.Contents).HasColumnName("CONTENTS").IsOptional().HasColumnType("nvarchar").HasMaxLength(2000);
+            Property(x => x.FormType).HasColumnName("FORM_TYPE").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             Property(x => x.Status).HasColumnName("STATUS").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
@@ -46,10 +47,8 @@ namespace BizOneShot.Light.Dao.Mappings
             Property(x => x.UpdDt).HasColumnName("UPD_DT").IsOptional().HasColumnType("datetime");
 
             // Foreign keys
-            HasOptional(a => a.ScUsr_RegId).WithMany(b => b.ScCompMappings_RegId).HasForeignKey(c => c.RegId); // FK_SC_USR_TO_SC_COMP_MAPPING
-            HasOptional(a => a.ScUsr_UpdId).WithMany(b => b.ScCompMappings_UpdId).HasForeignKey(c => c.UpdId); // FK_SC_USR_TO_SC_COMP_MAPPING2
-            HasRequired(a => a.ScBizWork).WithMany(b => b.ScCompMappings).HasForeignKey(c => c.BizWorkSn); // FK_SC_BIZ_WORK_TO_SC_COMP_MAPPING
-            HasRequired(a => a.ScCompInfo).WithMany(b => b.ScCompMappings).HasForeignKey(c => c.CompSn); // FK_SC_COMP_INFO_TO_SC_COMP_MAPPING
+            HasOptional(a => a.ScUsr_RegId).WithMany(b => b.ScForms_RegId).HasForeignKey(c => c.RegId); // FK_SC_USR_TO_SC_FORM
+            HasOptional(a => a.ScUsr_UpdId).WithMany(b => b.ScForms_UpdId).HasForeignKey(c => c.UpdId); // FK_SC_USR_TO_SC_FORM2
             InitializePartial();
         }
         partial void InitializePartial();

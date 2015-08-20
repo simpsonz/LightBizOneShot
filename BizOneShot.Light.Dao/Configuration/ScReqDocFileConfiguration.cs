@@ -21,28 +21,28 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
-    // SC_MENTORING_FILE_INFO
-    internal partial class ScMentoringFileInfoMapping : EntityTypeConfiguration<ScMentoringFileInfo>
+    // SC_REQ_DOC_FILE
+    internal partial class ScReqDocFileConfiguration : EntityTypeConfiguration<ScReqDocFile>
     {
-        public ScMentoringFileInfoMapping()
+        public ScReqDocFileConfiguration()
             : this("dbo")
         {
         }
  
-        public ScMentoringFileInfoMapping(string schema)
+        public ScReqDocFileConfiguration(string schema)
         {
-            ToTable(schema + ".SC_MENTORING_FILE_INFO");
-            HasKey(x => x.FileSn);
+            ToTable(schema + ".SC_REQ_DOC_FILE");
+            HasKey(x => x.FileSn2);
 
-            Property(x => x.FileSn).HasColumnName("FILE_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.ReportSn).HasColumnName("REPORT_SN").IsRequired().HasColumnType("int");
-            Property(x => x.Classify).HasColumnName("CLASSIFY").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
+            Property(x => x.FileSn2).HasColumnName("FILE_SN2").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.ReqDocSn).HasColumnName("REQ_DOC_SN").IsRequired().HasColumnType("int");
+            Property(x => x.RegType).HasColumnName("REG_TYPE").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
 
             // Foreign keys
-            HasRequired(a => a.ScFileInfo).WithOptional(b => b.ScMentoringFileInfo); // FK_SC_FILE_INFO_TO_SC_MENTORING_FILE_INFO
-            HasRequired(a => a.ScMentoringReport).WithMany(b => b.ScMentoringFileInfoes).HasForeignKey(c => c.ReportSn); // FK_SC_MENTORING_REPORT_TO_SC_MENTORING_FILE_INFO
+            HasRequired(a => a.ScFileInfo).WithOptional(b => b.ScReqDocFile); // FK_SC_FILE_INFO_TO_SC_REQ_DOC_FILE
+            HasRequired(a => a.ScReqDoc).WithMany(b => b.ScReqDocFiles).HasForeignKey(c => c.ReqDocSn); // FK_SC_REQ_DOC_TO_SC_REQ_DOC_FILE
             InitializePartial();
         }
         partial void InitializePartial();

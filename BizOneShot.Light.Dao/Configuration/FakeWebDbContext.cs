@@ -21,7 +21,7 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
     [GeneratedCodeAttribute("EF.Reverse.POCO.Generator", "2.15.1.0")]
     public class FakeWebDbContext : IWebDbContext

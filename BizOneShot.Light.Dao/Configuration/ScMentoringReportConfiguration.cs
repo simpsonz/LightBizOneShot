@@ -21,17 +21,17 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
     // SC_MENTORING_REPORT
-    internal partial class ScMentoringReportMapping : EntityTypeConfiguration<ScMentoringReport>
+    internal partial class ScMentoringReportConfiguration : EntityTypeConfiguration<ScMentoringReport>
     {
-        public ScMentoringReportMapping()
+        public ScMentoringReportConfiguration()
             : this("dbo")
         {
         }
  
-        public ScMentoringReportMapping(string schema)
+        public ScMentoringReportConfiguration(string schema)
         {
             ToTable(schema + ".SC_MENTORING_REPORT");
             HasKey(x => x.ReportSn);

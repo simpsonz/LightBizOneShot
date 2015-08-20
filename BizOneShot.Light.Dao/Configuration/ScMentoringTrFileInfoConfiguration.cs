@@ -21,17 +21,17 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
     // SC_MENTORING_TR_FILE_INFO
-    internal partial class ScMentoringTrFileInfoMapping : EntityTypeConfiguration<ScMentoringTrFileInfo>
+    internal partial class ScMentoringTrFileInfoConfiguration : EntityTypeConfiguration<ScMentoringTrFileInfo>
     {
-        public ScMentoringTrFileInfoMapping()
+        public ScMentoringTrFileInfoConfiguration()
             : this("dbo")
         {
         }
  
-        public ScMentoringTrFileInfoMapping(string schema)
+        public ScMentoringTrFileInfoConfiguration(string schema)
         {
             ToTable(schema + ".SC_MENTORING_TR_FILE_INFO");
             HasKey(x => x.FileSn);

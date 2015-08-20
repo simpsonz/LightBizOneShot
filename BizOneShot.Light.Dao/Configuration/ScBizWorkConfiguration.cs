@@ -21,17 +21,17 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
     // SC_BIZ_WORK
-    internal partial class ScBizWorkMapping : EntityTypeConfiguration<ScBizWork>
+    internal partial class ScBizWorkConfiguration : EntityTypeConfiguration<ScBizWork>
     {
-        public ScBizWorkMapping()
+        public ScBizWorkConfiguration()
             : this("dbo")
         {
         }
  
-        public ScBizWorkMapping(string schema)
+        public ScBizWorkConfiguration(string schema)
         {
             ToTable(schema + ".SC_BIZ_WORK");
             HasKey(x => x.BizWorkSn);

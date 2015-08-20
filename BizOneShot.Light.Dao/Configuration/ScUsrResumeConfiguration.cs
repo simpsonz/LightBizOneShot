@@ -21,28 +21,27 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
-    // SC_REQ_DOC_FILE
-    internal partial class ScReqDocFileMapping : EntityTypeConfiguration<ScReqDocFile>
+    // SC_USR_RESUME
+    internal partial class ScUsrResumeConfiguration : EntityTypeConfiguration<ScUsrResume>
     {
-        public ScReqDocFileMapping()
+        public ScUsrResumeConfiguration()
             : this("dbo")
         {
         }
  
-        public ScReqDocFileMapping(string schema)
+        public ScUsrResumeConfiguration(string schema)
         {
-            ToTable(schema + ".SC_REQ_DOC_FILE");
-            HasKey(x => x.FileSn2);
+            ToTable(schema + ".SC_USR_RESUME");
+            HasKey(x => x.LoginId);
 
-            Property(x => x.FileSn2).HasColumnName("FILE_SN2").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.ReqDocSn).HasColumnName("REQ_DOC_SN").IsRequired().HasColumnType("int");
-            Property(x => x.RegType).HasColumnName("REG_TYPE").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
+            Property(x => x.LoginId).HasColumnName("LOGIN_ID").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.FileSn).HasColumnName("FILE_SN").IsOptional().HasColumnType("int");
 
             // Foreign keys
-            HasRequired(a => a.ScFileInfo).WithOptional(b => b.ScReqDocFile); // FK_SC_FILE_INFO_TO_SC_REQ_DOC_FILE
-            HasRequired(a => a.ScReqDoc).WithMany(b => b.ScReqDocFiles).HasForeignKey(c => c.ReqDocSn); // FK_SC_REQ_DOC_TO_SC_REQ_DOC_FILE
+            HasOptional(a => a.ScFileInfo).WithMany(b => b.ScUsrResumes).HasForeignKey(c => c.FileSn); // FK_SC_FILE_INFO_TO_SC_USR_RESUME
+            HasRequired(a => a.ScUsr).WithOptional(b => b.ScUsrResume); // FK_SC_USR_TO_SC_USR_RESUME
             InitializePartial();
         }
         partial void InitializePartial();

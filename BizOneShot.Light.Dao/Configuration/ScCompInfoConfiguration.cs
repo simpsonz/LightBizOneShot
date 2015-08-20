@@ -21,17 +21,17 @@ using BizOneShot.Light.Models;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Dao.Mappings
+namespace BizOneShot.Light.Dao.Configuration
 {
     // SC_COMP_INFO
-    internal partial class ScCompInfoMapping : EntityTypeConfiguration<ScCompInfo>
+    internal partial class ScCompInfoConfiguration : EntityTypeConfiguration<ScCompInfo>
     {
-        public ScCompInfoMapping()
+        public ScCompInfoConfiguration()
             : this("dbo")
         {
         }
  
-        public ScCompInfoMapping(string schema)
+        public ScCompInfoConfiguration(string schema)
         {
             ToTable(schema + ".SC_COMP_INFO");
             HasKey(x => x.CompSn);
