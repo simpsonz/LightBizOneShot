@@ -1,0 +1,49 @@
+﻿<div id="custom_leftwrap">
+    <div class="custom_gnbwrap">
+        <ul>
+            <li class="title"><em>고객센터</em></li>
+
+            @if (Session[Global.UserType] == null)
+            {
+                @*<li><a href="@Url.Action("Guide","Cs")" class="gnb gnb_guide">이용안내</a></li>
+                    <li><a href="@Url.Action("Notice","Cs")" class="gnb gnb_notice">공지사항</a></li>*@
+                    <li><a href="@Url.Action("Faq","Cs")" class="gnb gnb_faq">FAQ</a></li>
+            }
+            else
+            {
+                if (Session[Global.UserType].Equals("C") || Session[Global.UserType].Equals("B"))
+                {
+                    <li><a href="@Url.Action("PushList","Cs")" class="gnb gnb_push">알림목록</a></li>
+                        <li><a href="@Url.Action("News","Cs")" class="gnb gnb_news">뉴스</a></li>
+                        <li><a href="@Url.Action("Guide","Cs")" class="gnb gnb_guide">이용안내</a></li>
+                        <li><a href="@Url.Action("Notice","Cs")" class="gnb gnb_notice">공지사항</a></li>
+                        <li><a href="@Url.Action("Faq","Cs")" class="gnb gnb_faq">FAQ</a></li>
+                        <li><a href="@Url.Action("Inquiry","Cs")" class="gnb gnb_inquery">1:1문의</a></li>
+                        <li><a href="@Url.Action("Menual","Cs")" class="gnb gnb_menual">매뉴얼 및 서식</a></li>
+                        @*<li><a href="javascript:alert('차후 오픈예정입니다.');" class="gnb gnb_download">프로그램 다운로드</a></li>*@
+                        <li><a href="http://me2.do/GcgjeEpB" target=_blank class="gnb gnb_download">프로그램 다운로드</a></li>
+                }
+                if (Session[Global.UserType].Equals("T") || Session[Global.UserType].Equals("O"))
+                {
+                    <li><a href="@Url.Action("PushList","Cs")" class="gnb gnb_push">알림목록</a></li>
+                        <li><a href="@Url.Action("News","Cs")" class="gnb gnb_news">뉴스</a></li>
+                        <li><a href="@Url.Action("Guide","Cs")" class="gnb gnb_guide">이용안내</a></li>
+                        <li><a href="@Url.Action("Notice","Cs")" class="gnb gnb_notice">공지사항</a></li>
+                        <li><a href="@Url.Action("Faq","Cs")" class="gnb gnb_faq">FAQ</a></li>
+                        <li><a href="@Url.Action("Menual","Cs")" class="gnb gnb_menual">매뉴얼 및 서식</a></li>
+                        @*<li><a href="javascript:alert('차후 오픈예정입니다.');" class="gnb gnb_download">프로그램 다운로드</a></li>*@
+                        <li><a href="http://me2.do/GcgjeEpB" target=_blank class="gnb gnb_download">프로그램 다운로드</a></li>
+                }
+                if (Session[Global.UserType].Equals("S"))
+                {
+                    <li><a href="@Url.Action("PushList","Cs",new { area= "" })" class="gnb gnb_push">알림목록</a></li>
+                        <li><a href="@Url.Action("News","Cs",new { area= "Manager" })" class="gnb gnb_news">뉴스</a></li>
+                        <li><a href="@Url.Action("Notice","Cs",new { area= "Manager" })" class="gnb gnb_notice">공지사항</a></li>
+                        <li><a href="@Url.Action("Faq","Cs",new { area= "Manager" })" class="gnb gnb_faq">FAQ</a></li>
+                        <li><a href="@Url.Action("Menual","Cs",new { area= "Manager" })" class="gnb gnb_menual">매뉴얼 및 서식</a></li>
+                }
+            }
+        </ul>
+    </div><!--custom_gnbwrap//-->
+</div><!--custom_leftwrap//-->
+

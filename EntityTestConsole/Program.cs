@@ -18,11 +18,12 @@ namespace EntityTestConsole
             //UpdateScCompInfoAsync();
             //UpdateScCompInfoWithoutSelect();
             //UpdateScCompInfoWithQuery();
-            UpdateScCompInfoWithQuery1();
+            //UpdateScCompInfoWithQuery1();
             //UpdateCompInfoMulti();
 
             //DeleteCompInfo();
-            DeleteScCompInfoWithoutSelect();
+            //DeleteScCompInfoWithoutSelect();
+            SelectFaq();
 
 
         }
@@ -247,6 +248,28 @@ namespace EntityTestConsole
 
             }
            
+        }
+
+        public static void SelectFaq()
+        {
+            using (var db = new WebDbContext())
+            {
+                //db.ScCompInfoes.Attach(comp);
+
+                //db.ScCompInfoes.Remove(comp);
+
+                var faqs = from m in db.ScFaqs select m;
+
+                faqs = faqs.Where(s => s.QstTxt.Contains("2"));
+
+                foreach(var od in faqs)
+                {
+
+                    Console.WriteLine(od.QstTxt);
+                }
+
+            }
+
         }
 
 

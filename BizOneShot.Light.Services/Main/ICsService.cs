@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BizOneShot.Light.Services
+namespace BizOneShot.Light.Services.Main
 {
-    public class Class1
+    interface ICsService
     {
     }
 }

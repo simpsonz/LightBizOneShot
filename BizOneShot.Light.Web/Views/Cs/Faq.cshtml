@@ -1,0 +1,111 @@
+﻿@model IPagedList<BizOneShot.Light.Web.Models.FaqViewModel>
+
+<script>
+    $(document).ready(function () {
+
+        //top menu
+        $('.navi_all > a.navi_cs').addClass('on');
+
+        //Cs menu
+        $('#custom_leftwrap > .custom_gnbwrap > ul > li > a.gnb_faq').addClass('on');
+
+
+	    $('#faq_slide > li.board > .que > a').click(function(){
+		    var checkElement = $(this).parent().next();
+		    if((checkElement.is('ul')) && (checkElement.is(':visible'))) {
+		        $('#faq_slide > li.board > .que > ul:visible').slideUp(300);
+		        checkElement.slideUp(300);
+			    $(this).attr("class", "dft");
+			    return false;
+		    }
+		    if((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
+			    $('#faq_slide > li.board > ul:visible').slideUp(300);
+			    checkElement.slideDown(300);
+			    $('#faq_slide > li.board > .que > a').attr("class", "dft");
+			    $(this).attr("class", "on");
+			    return false;
+		    }
+	    });
+
+    });
+
+    function goPage(page) {
+        $.ajax({
+            type: 'post',
+            url: '@Url.Action("Faq")',
+            data: {
+                PAGE: page,
+                SEARCH_BY: $('#SEARCH_BY').val(),
+                QUERY: $('#QUERY').val()
+            },
+            success: function (data) {
+                $("#list").html(data);
+            },
+            error: function (error) {
+                alert("error:" + error.responseText);
+            }
+        });
+    }
+</script>
+
+
+<div id="custom_rightwrap">
+    <div class="custom_right_title03">
+        <em>FAQ</em>
+    </div>
+    <div id="list">
+        <div id="faqwrap">
+            <div class="faq">
+                <ul class="heading">
+                    <li class="sep">분류</li>
+                    <li class="que">질문</li>
+                </ul>
+                <ul id="faq_slide">
+                    <!--list01-->
+                    @if (Model != null &&  Model.TotalItemCount != 0)
+                    { 
+                        foreach (var item in Model)
+                        {
+                            <li class="board">
+                                <span class="sep">@item.QCL_NM</span><span class="que"><a href="" class="on">@item.QST_TXT</a></span>
+                                <!--슬라이드시작-->
+                                <ul style="display:none;">
+                                    <li class="read">
+                                        <div class="apply_wrap">
+                                            <p>@Html.Raw(item.ANS_TXT)</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!--슬라이드끝-->
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="board">
+                            <span class="sep" style="display:block;text-align:center;width:750px">검색 결과가 없습니다.</span>
+                        </li>
+                    }
+                    <!--list01//-->
+                </ul><!--faq_slide//-->
+            </div><!--faq//-->
+        </div><!--faqwrap//-->
+
+        @if (Model != null && Model.TotalItemCount != 0)
+        {
+            @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+        }
+
+    </div>
+
+    <div id="custom_search_box">
+        <span class="bold">SEARCH&nbsp;</span>
+        <select class="select" id="SEARCH_BY">
+            <option value="0">제목 + 내용</option>
+            <option value="1">제목</option>
+            <option value="2">내용</option>
+        </select>
+        <img src="~/Images/icon_lenz.png" class="lenz"><input type="text" class="search" placeholder="검색어를 입력하세요" id="QUERY" value="@ViewBag.Query">
+        <input type="submit" id="search" class="bt_search" value="검색">
+    </div><!--custom_search_box//-->
+</div><!--custom_rightwrap//-->
