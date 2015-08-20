@@ -40,10 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main\ICsService.cs" />
+    <Compile Include="ScCompInfoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BizOneShot.Light.Dao\BizOneShot.Light.Dao.csproj">
+      <Project>{ea21367d-7ba1-442e-8a57-7b95a80381d8}</Project>
+      <Name>BizOneShot.Light.Dao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BizOneShot.Light.Models\BizOneShot.Light.Models.csproj">
+      <Project>{4016e654-2288-49d2-8a5a-628d11f6cf63}</Project>
+      <Name>BizOneShot.Light.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using BizOneShot.Light.Web.App_Start;
 
 namespace BizOneShot.Light.Web
 {
@@ -16,6 +17,9 @@ namespace BizOneShot.Light.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            // Autofac and Automapper configurations
+            AutofacModule.Run();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BizOneShot.Light.Dao.Mappings;
+using BizOneShot.Light.Dao.Configuration;
 using BizOneShot.Light.Models;
 
 namespace EntityTestConsole
@@ -17,13 +17,12 @@ namespace EntityTestConsole
             //UpdateScCompInfo();
             //UpdateScCompInfoAsync();
             //UpdateScCompInfoWithoutSelect();
-            //UpdateScCompInfoWithQuery();
+            UpdateScCompInfoWithQuery();
             //UpdateScCompInfoWithQuery1();
             //UpdateCompInfoMulti();
 
             //DeleteCompInfo();
             //DeleteScCompInfoWithoutSelect();
-            SelectFaq();
 
 
         }
@@ -149,7 +148,7 @@ namespace EntityTestConsole
             using (var db = new WebDbContext())
             {
                 List<Object> sqlParamsList = new List<object>();
-                sqlParamsList.Add("test113");
+                sqlParamsList.Add("test117");
                 sqlParamsList.Add("A");
 
                 db.Database.ExecuteSqlCommand(sql, sqlParamsList.ToArray());
@@ -248,28 +247,6 @@ namespace EntityTestConsole
 
             }
            
-        }
-
-        public static void SelectFaq()
-        {
-            using (var db = new WebDbContext())
-            {
-                //db.ScCompInfoes.Attach(comp);
-
-                //db.ScCompInfoes.Remove(comp);
-
-                var faqs = from m in db.ScFaqs select m;
-
-                faqs = faqs.Where(s => s.QstTxt.Contains("2"));
-
-                foreach(var od in faqs)
-                {
-
-                    Console.WriteLine(od.QstTxt);
-                }
-
-            }
-
         }
 
 
