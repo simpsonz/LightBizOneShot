@@ -23,7 +23,6 @@ namespace BizOneShot.Light.Services
         void SaveScCompInfo();
     }
 
-
     public class ScCompInfoService : IScCompInfoService
     {
         private readonly IScCompInfoRepository scCompInfoRespository;
