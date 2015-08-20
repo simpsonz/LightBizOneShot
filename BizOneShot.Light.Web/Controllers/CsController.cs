@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BizOneShot.Light.Web.Models;
 using PagedList;
-using BizOneShot.Light.Dao.Mappings;
+
 using BizOneShot.Light.Models;
 
 namespace BizOneShot.Light.Web.Controllers
