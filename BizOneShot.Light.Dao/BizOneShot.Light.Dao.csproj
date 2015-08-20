@@ -56,12 +56,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Mappings\FakeDbSet.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Mappings\FakeWebDbContext.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
     <Compile Include="Mappings\IWebDbContext.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
