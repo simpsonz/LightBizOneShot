@@ -17,12 +17,12 @@ namespace EntityTestConsole
             //UpdateScCompInfo();
             //UpdateScCompInfoAsync();
             //UpdateScCompInfoWithoutSelect();
-            //UpdateScCompInfoWithQuery();
-            UpdateScCompInfoWithQuery1();
+            UpdateScCompInfoWithQuery();
+            //UpdateScCompInfoWithQuery1();
             //UpdateCompInfoMulti();
 
             //DeleteCompInfo();
-            DeleteScCompInfoWithoutSelect();
+            //DeleteScCompInfoWithoutSelect();
 
 
         }
@@ -148,7 +148,7 @@ namespace EntityTestConsole
             using (var db = new WebDbContext())
             {
                 List<Object> sqlParamsList = new List<object>();
-                sqlParamsList.Add("test113");
+                sqlParamsList.Add("test117");
                 sqlParamsList.Add("A");
 
                 db.Database.ExecuteSqlCommand(sql, sqlParamsList.ToArray());
