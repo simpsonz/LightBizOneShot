@@ -33,7 +33,7 @@ namespace BizOneShot.Light.Dao.Infrastructure
             dbSet = DbContext.Set<T>();
         }
 
-        #region Implementation
+        #region 구현
         public virtual void Add(T entity)
         {
             dbSet.Add(entity);

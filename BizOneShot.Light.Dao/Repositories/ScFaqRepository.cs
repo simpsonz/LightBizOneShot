@@ -11,13 +11,11 @@ namespace BizOneShot.Light.Dao.Repositories
 {
     public interface IScFaqRepository : IRepository<ScFaq>
     {
-        //IList<ScCompInfo> GetScCompInfoByName(string compNm);
     }
 
 
     public class ScFaqRepository : RepositoryBase<ScFaq>, IScFaqRepository
     {
         public ScFaqRepository(IDbFactory dbFactory) : base(dbFactory) { }
-
     }
 }

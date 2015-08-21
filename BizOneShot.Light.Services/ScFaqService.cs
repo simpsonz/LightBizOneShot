@@ -44,6 +44,8 @@ namespace BizOneShot.Light.Services
                 result = result.Where(ci => ci.AnsTxt.Contains(keyword));
             }
 
+
+
             return result;
         }
 

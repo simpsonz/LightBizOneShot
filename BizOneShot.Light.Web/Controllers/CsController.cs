@@ -8,7 +8,7 @@ namespace BizOneShot.Light.Web.Controllers
 {
     public class CsController : Controller
     {
-        private IScFaqService _scFaqService;
+        private readonly IScFaqService _scFaqService;
 
         public CsController(IScFaqService scFaqService)
         {
