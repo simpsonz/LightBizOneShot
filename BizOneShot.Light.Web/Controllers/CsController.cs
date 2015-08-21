@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using BizOneShot.Light.Web.ViewModels;
+using BizOneShot.Light.ViewModels;
 using BizOneShot.Light.Services;
 using PagedList;
+using AutoMapper;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -28,16 +29,49 @@ namespace BizOneShot.Light.Web.Controllers
 
         public ActionResult Faq()
         {
+
+            var searchBy = new List<SelectListItem>(){
+                new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
+                new SelectListItem { Value = "1", Text = "제목" },
+                new SelectListItem { Value = "2", Text = "내용" }
+            };
+
+            ViewBag.SelectList = searchBy;
+
+
             var faqs = _scFaqService.GetFaqs();
-            return View(new StaticPagedList<FaqViewModel>((IList<FaqViewModel>)faqs.ToPagedList(1, 10), 1, 10, faqs.Count));
+            IList<FaqViewModel> faqVM = new List<FaqViewModel>();
+
+
+            foreach(var temp in faqs)
+            {
+                faqVM.Add(temp);
+            }
+
+
+            return View(new StaticPagedList<FaqViewModel>(faqVM.ToPagedList(1, 10), 1, 10, faqVM.Count));
         }
 
         [HttpPost]
         public ActionResult Faq(string SelectList, string Query, string curPage)
         {
+            var searchBy = new List<SelectListItem>(){
+                new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
+                new SelectListItem { Value = "1", Text = "제목" },
+                new SelectListItem { Value = "2", Text = "내용" }
+            };
+            ViewBag.SelectList = searchBy;
 
             var faqs = _scFaqService.GetFaqs(SelectList, Query);
-            return View(new StaticPagedList<FaqViewModel>((IList<FaqViewModel>)faqs.ToPagedList(1, 10), 1, 10, faqs.Count));
+
+            IList<FaqViewModel> faqVM = new List<FaqViewModel>();
+
+            foreach (var temp in faqs)
+            {
+                faqVM.Add(temp);
+            }
+
+            return View(new StaticPagedList<FaqViewModel>(faqVM.ToPagedList(1, 10), 1, 10, faqVM.Count));
         }
     }
 }

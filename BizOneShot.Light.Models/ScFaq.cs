@@ -28,7 +28,7 @@ namespace BizOneShot.Light.Models
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시
         public string UpdId { get; set; } // UPD_ID. 수정자
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
-        public string QclNm { get; set; } // QCL_NM. 질문분류 이름
+        //public string QclNm { get; set; } // QCL_NM. 질문분류 이름
 
         // Foreign keys
         public virtual ScQcl ScQcl { get; set; } // FK_SC_QCL_TO_SC_FAQ

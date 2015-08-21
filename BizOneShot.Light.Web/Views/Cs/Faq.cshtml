@@ -1,4 +1,4 @@
-﻿@model IPagedList<BizOneShot.Light.Web.ViewModels.FaqViewModel>
+﻿@model IPagedList<BizOneShot.Light.ViewModels.FaqViewModel>
 
 <script>
     $(document).ready(function () {
@@ -54,12 +54,12 @@
                         foreach (var item in Model)
                         {
                             <li class="board">
-                                <span class="sep">@item.QCL_NM</span><span class="que"><a href="" class="on">@item.QST_TXT</a></span>
+                                <span class="sep">@item.QclNm</span><span class="que"><a href="" class="on">@item.QstTxt</a></span>
                                 <!--슬라이드시작-->
                                 <ul style="display:none;">
                                     <li class="read">
                                         <div class="apply_wrap">
-                                            <p>@Html.Raw(item.ANS_TXT)</p>
+                                            <p>@Html.Raw(item.AnsTxt)</p>
                                         </div>
                                     </li>
                                 </ul>
