@@ -10,7 +10,7 @@ using BizOneShot.Light.Dao.Repositories;
 namespace BizOneShot.Light.Services
 {
 
-    public interface IScCompInfoService
+    public interface IScCompInfoService : IBaseService
     {
         IList<ScCompInfo> GetScCompInfoByName(string compNm);
 
@@ -20,20 +20,21 @@ namespace BizOneShot.Light.Services
 
         void CreateScCompInfo(ScCompInfo scCompInfo);
 
-        void SaveScCompInfo();
     }
 
 
     public class ScCompInfoService : IScCompInfoService
     {
         private readonly IScCompInfoRepository scCompInfoRespository;
-        private readonly IUnitOfWork unitOfWork;
+        private readonly  IUnitOfWork unitOfWork;
 
         public ScCompInfoService(IScCompInfoRepository scCompInfoRespository, IUnitOfWork unitOfWork)
         {
             this.scCompInfoRespository = scCompInfoRespository;
             this.unitOfWork = unitOfWork;
         }
+
+
 
         public IList<ScCompInfo> GetScCompInfoByName(string compNm)
         {
@@ -63,15 +64,10 @@ namespace BizOneShot.Light.Services
             scCompInfoRespository.Add(scCompInfo);
         }
 
-
-        public void SaveScCompInfo()
+        public void SaveDbContext()
         {
             unitOfWork.Commit();
         }
 
-        public  void SaveScCompInfoAsync()
-        {
-            unitOfWork.CommitAsync();
-        }
     }
 }

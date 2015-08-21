@@ -9,7 +9,7 @@ using System;
 
 namespace BizOneShot.Light.Services
 {
-    public interface IScFaqService
+    public interface IScFaqService : IBaseService
     {
 
         IEnumerable<ScFaq> GetFaqs(string searchType = null, string keyword = null);
@@ -44,15 +44,9 @@ namespace BizOneShot.Light.Services
                 result = result.Where(ci => ci.AnsTxt.Contains(keyword));
             }
 
-
-
             return result;
         }
 
-        public void SaveScFaq()
-        {
-            unitOfWork.Commit();
-        }
 
         /// <summary>
         /// Pages the specified query.
@@ -84,6 +78,11 @@ namespace BizOneShot.Light.Services
 
             //Skip the required rows for the current page and take the next records of pagesize count
             return query.Skip(excludedRows).Take(pageSize);
+        }
+
+        public void SaveDbContext()
+        {
+            unitOfWork.Commit();
         }
     }
 }

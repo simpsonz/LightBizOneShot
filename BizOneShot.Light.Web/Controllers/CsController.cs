@@ -55,7 +55,6 @@ namespace BizOneShot.Light.Web.Controllers
 
             var faqs = _scFaqService.GetFaqs(SelectList, Query);
 
-
             //var searchBy = new List<SelectListItem>(){
             //    new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
             //    new SelectListItem { Value = "1", Text = "제목" },

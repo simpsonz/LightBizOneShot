@@ -43,6 +43,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScCompInfoService.cs" />
     <Compile Include="ScFaqService.cs" />
+    <Compile Include="IBaseService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BizOneShot.Light.Dao\BizOneShot.Light.Dao.csproj">
