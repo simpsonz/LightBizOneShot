@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace BizOneShot.Light.Web.Models
+namespace BizOneShot.Light.Web.ViewModels
 {
     public class CsViewModels
     {

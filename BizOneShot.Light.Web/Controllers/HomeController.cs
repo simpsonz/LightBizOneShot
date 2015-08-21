@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using BizOneShot.Light.Web.Models;
+using BizOneShot.Light.Web.ViewModels;
 using Microsoft.AspNet.Identity.Owin;
 
 namespace BizOneShot.Light.Web.Controllers

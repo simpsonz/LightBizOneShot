@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using BizOneShot.Light.Web.Models;
+using BizOneShot.Light.Web.ViewModels;
 
 namespace BizOneShot.Light.Web.Controllers
 {

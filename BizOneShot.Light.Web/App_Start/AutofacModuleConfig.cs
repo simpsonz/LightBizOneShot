@@ -9,16 +9,18 @@ using Autofac;
 using Autofac.Integration.Mvc;
 
 using BizOneShot.Light.Dao.Infrastructure;
-using BizOneShot.Light.Dao.Repositories;
-using BizOneShot.Light.Services;
+using BizOneShot.Light.Web.Mappings;
 
 namespace BizOneShot.Light.Web.App_Start
 {
-    public static class AutofacModule
+    public static class AutofacModuleConfig
     {
         public static void Run()
         {
+            SetAutofacContainer();
 
+            //AutoMapper 설정
+            AutoMapperConfiguration.Configure();
         }
 
         private static void SetAutofacContainer()

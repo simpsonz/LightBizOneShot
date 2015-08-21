@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -67,6 +71,10 @@
     <ProjectReference Include="..\BizOneShot.Light.Models\BizOneShot.Light.Models.csproj">
       <Project>{4016e654-2288-49d2-8a5a-628d11f6cf63}</Project>
       <Name>BizOneShot.Light.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BizOneShot.Light.Web\BizOneShot.Light.Web.csproj">
+      <Project>{2b41ab9a-5b66-4f99-af56-91444348139f}</Project>
+      <Name>BizOneShot.Light.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -25,6 +25,12 @@ namespace BizOneShot.Light.Dao.Infrastructure
         public void Commit()
         {
             DbContext.SaveChanges();
+
+        }
+
+        public async void CommitAsync()
+        {
+            await DbContext.SaveChangesAsync();
         }
     }
 }
