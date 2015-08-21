@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Configuration;
 using BizOneShot.Light.Models;
+using BizOneShot.Light.Web.ViewModels;
+
+using AutoMapper;
+
 
 namespace EntityTestConsole
 {
@@ -17,15 +21,34 @@ namespace EntityTestConsole
             //UpdateScCompInfo();
             //UpdateScCompInfoAsync();
             //UpdateScCompInfoWithoutSelect();
-            UpdateScCompInfoWithQuery();
+            //UpdateScCompInfoWithQuery();
             //UpdateScCompInfoWithQuery1();
             //UpdateCompInfoMulti();
 
             //DeleteCompInfo();
             //DeleteScCompInfoWithoutSelect();
 
+            Mapper.CreateMap<ScFaq, FaqViewModel>()
+                   .ForMember(d => d.FAQ_SN, map => map.MapFrom(s => s.FaqSn))
+                   .ForMember(d => d.ANS_TXT, map => map.MapFrom(s => s.AnsTxt))
+                   .ForMember(d => d.QST_TXT, map => map.MapFrom(s => s.QstTxt));
 
+
+
+            ScFaq faq = new ScFaq
+            {
+                FaqSn = 1,
+                AnsTxt = "답변",
+                QstTxt = "질문"
+            };
+
+            var vm =  Mapper.Map<FaqViewModel>(faq);
+
+            Console.WriteLine(vm.FAQ_SN + "//" + vm.QST_TXT + "//" + vm.ANS_TXT);
+
+            Console.ReadLine();
         }
+
 
         public static void insertScCompInfo()
         {
@@ -250,7 +273,21 @@ namespace EntityTestConsole
         }
 
 
+        public class ViewModelToDomainMappingProfile : Profile
+        {
+            public override string ProfileName
+            {
+                get { return "ViewModelToDomainMappings"; }
+            }
 
+            protected override void Configure()
+            {
+                Mapper.CreateMap<ScFaq, FaqViewModel>()
+                    .ForMember(f => f.FAQ_SN, map => map.MapFrom(vm => vm.FaqSn))
+                    .ForMember(f => f.ANS_TXT, map => map.MapFrom(vm => vm.AnsTxt))
+                    .ForMember(f => f.QST_TXT, map => map.MapFrom(vm => vm.QstTxt));
+            }
+        }
 
     }
 }

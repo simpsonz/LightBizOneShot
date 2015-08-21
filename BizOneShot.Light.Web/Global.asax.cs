@@ -19,7 +19,7 @@ namespace BizOneShot.Light.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             // Autofac and Automapper configurations
-            AutofacModule.Run();
+            AutofacModuleConfig.Run();
         }
     }
 }

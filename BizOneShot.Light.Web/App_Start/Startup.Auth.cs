@@ -5,7 +5,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using BizOneShot.Light.Web.Models;
+using BizOneShot.Light.Web.ViewModels;
 
 namespace BizOneShot.Light.Web
 {

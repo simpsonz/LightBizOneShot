@@ -13,13 +13,13 @@ using BizOneShot.Light.Web.Mappings;
 
 namespace BizOneShot.Light.Web.App_Start
 {
-    public static class AutofacModule
+    public static class AutofacModuleConfig
     {
         public static void Run()
         {
             SetAutofacContainer();
 
-            //Configure AutoMapper
+            //AutoMapper 설정
             AutoMapperConfiguration.Configure();
         }
 

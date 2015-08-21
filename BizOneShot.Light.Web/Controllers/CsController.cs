@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using BizOneShot.Light.Web.Models;
+using BizOneShot.Light.Web.ViewModels;
 using PagedList;
 
 namespace BizOneShot.Light.Web.Controllers

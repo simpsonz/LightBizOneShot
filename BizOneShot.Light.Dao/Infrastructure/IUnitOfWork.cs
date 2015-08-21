@@ -9,5 +9,7 @@ namespace BizOneShot.Light.Dao.Infrastructure
     public interface IUnitOfWork
     {
         void Commit();
+
+        void CommitAsync();
     }
 }

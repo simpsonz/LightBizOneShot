@@ -12,7 +12,8 @@ namespace BizOneShot.Light.Web.Mappings
         {
             Mapper.Initialize(x =>
             {
-                //x.AddProfile<TProfile>
+                x.AddProfile<DomainToViewModelMappingProfile>();
+                x.AddProfile<ViewModelToDomainMappingProfile>();
             });
         }
     }

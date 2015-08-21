@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace BizOneShot.Light.Web.Models
+namespace BizOneShot.Light.Web.ViewModels
 {
     public class IndexViewModel
     {
