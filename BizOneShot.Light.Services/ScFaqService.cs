@@ -12,13 +12,14 @@ namespace BizOneShot.Light.Services
     public interface IScFaqService
     {
 
-        IEnumerable<ScFaq> GetFaqs(string searchType = null, string keyword = null);
+        IList<ScFaq> GetFaqs(string searchType = null, string keyword = null);
     }
 
 
     public class ScFaqService : IScFaqService
     {
         private readonly IScFaqRepository scFaqRespository;
+        private readonly IScQclRepository scQclRepository;
         private readonly IUnitOfWork unitOfWork;
 
         public ScFaqService(IScFaqRepository scFaqRespository, IUnitOfWork unitOfWork)
@@ -27,9 +28,24 @@ namespace BizOneShot.Light.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<ScFaq> GetFaqs(string searchType = null, string keyword = null)
+        public IList<ScFaq> GetFaqs(string searchType = null, string keyword = null)
         {
-            var result = scFaqRespository.GetAll();
+            var result = from tFaq in scFaqRespository.GetAll()
+                         join tQcl in scQclRepository.GetAll() on tFaq.QclSn equals tQcl.QclSn
+                         where tFaq.Stat == "N"
+                         select new
+                         {
+                             FaqSn = tFaq.FaqSn,
+                             QclSn = tFaq.QclSn,
+                             QstTxt = tFaq.QstTxt,
+                             AnsTxt = tFaq.AnsTxt,
+                             Stat = tFaq.Stat,
+                             RegId = tFaq.RegId,
+                             RegDt = tFaq.RegDt,
+                             UpdId = tFaq.UpdId,
+                             UpdDt = tFaq.UpdDt,
+                             QclNm = tQcl.QclNm
+                         };
 
             if (searchType.Equals("0")) // 질문, 답변중 keyword가 포함된 faq 검색 
             {
@@ -44,7 +60,7 @@ namespace BizOneShot.Light.Services
                 result = result.Where(ci => ci.AnsTxt.Contains(keyword));
             }
 
-            return result;
+            return (IList< ScFaq > )result;
         }
 
         public void SaveScFaq()
