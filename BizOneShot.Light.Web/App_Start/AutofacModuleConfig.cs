@@ -10,6 +10,7 @@ using Autofac.Integration.Mvc;
 
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Web.Mappings;
+using BizOneShot.Light.Services;
 
 namespace BizOneShot.Light.Web.App_Start
 {
@@ -35,15 +36,15 @@ namespace BizOneShot.Light.Web.App_Start
             //    .Where(t => t.Name.EndsWith("Repository"))
             //    .AsImplementedInterfaces().InstancePerRequest();
 
-            builder.RegisterAssemblyTypes(Assembly.Load("BizOneShot.Light.Dao.Repositories"))
+            builder.RegisterAssemblyTypes(Assembly.Load("BizOneShot.Light.Dao"))
                 .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
             // Services
-            //builder.RegisterAssemblyTypes(typeof(ScCompInfoService).Assembly)
-            //   .Where(t => t.Name.EndsWith("Service"))
-            //   .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(ScFaqService).Assembly)
+               .Where(t => t.Name.EndsWith("Service"))
+               .AsImplementedInterfaces().InstancePerRequest();
 
             builder.RegisterAssemblyTypes(Assembly.Load("BizOneShot.Light.Services"))
                 .Where(t => t.Name.EndsWith("Service"))
