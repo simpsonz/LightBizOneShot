@@ -218,6 +218,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="ComLib\Global.cs" />
     <Compile Include="ComLib\MvcHtmlStringHelper.cs" />
+    <Compile Include="ComLib\TransactionAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
