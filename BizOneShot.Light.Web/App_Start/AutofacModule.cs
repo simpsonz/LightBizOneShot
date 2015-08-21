@@ -9,8 +9,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 
 using BizOneShot.Light.Dao.Infrastructure;
-using BizOneShot.Light.Dao.Repositories;
-using BizOneShot.Light.Services;
+using BizOneShot.Light.Web.Mappings;
 
 namespace BizOneShot.Light.Web.App_Start
 {
@@ -18,7 +17,10 @@ namespace BizOneShot.Light.Web.App_Start
     {
         public static void Run()
         {
+            SetAutofacContainer();
 
+            //Configure AutoMapper
+            AutoMapperConfiguration.Configure();
         }
 
         private static void SetAutofacContainer()
