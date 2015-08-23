@@ -35,7 +35,7 @@ namespace BizOneShot.Light.Services
         {
             var result = from tFaq in scFaqRespository.GetAll()
                          join tQcl in scQclRepository.GetAll() on tFaq.QclSn equals tQcl.QclSn
-                         where tFaq.Stat == "N"
+                         where tFaq.Stat == "N" 
                          select new FaqViewModel
                          {
                              FaqSn = tFaq.FaqSn,
@@ -49,7 +49,6 @@ namespace BizOneShot.Light.Services
                              UpdDt = tFaq.UpdDt,
                              QclNm = tQcl.QclNm
                          };
-
             //var result = scFaqRespository.GetAll();
 
             if (string.IsNullOrEmpty(searchType) || string.IsNullOrEmpty(keyword))
