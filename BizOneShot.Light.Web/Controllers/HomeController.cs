@@ -133,5 +133,10 @@ namespace BizOneShot.Light.Web.Controllers
 
             return View();
         }
+
+        public ActionResult CompanyAgreement()
+        {
+            return View();
+        }
     }
 }

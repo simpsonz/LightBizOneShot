@@ -66,7 +66,7 @@ namespace BizOneShot.Light.Web.Controllers
 
             IList<FaqViewModel> faqVM = new List<FaqViewModel>();
 
-            foreach (var temp in faqs.)
+            foreach (var temp in faqs)
             {
                 faqVM.Add(temp);
             }
