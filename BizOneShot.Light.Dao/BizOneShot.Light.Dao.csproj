@@ -143,6 +143,7 @@
     </Compile>
     <Compile Include="Repositories\ScCompInfoRepository.cs" />
     <Compile Include="Repositories\ScFaqRepository.cs" />
+    <Compile Include="Repositories\ScNtcRepository.cs" />
     <Compile Include="Repositories\ScQclRepository.cs" />
     <Compile Include="Repositories\ScUsrRepository.cs" />
   </ItemGroup>

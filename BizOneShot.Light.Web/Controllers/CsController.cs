@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using BizOneShot.Light.Models;
 using BizOneShot.Light.ViewModels;
 using BizOneShot.Light.Services;
 using PagedList;
@@ -10,10 +11,12 @@ namespace BizOneShot.Light.Web.Controllers
     public class CsController : Controller
     {
         private readonly IScFaqService _scFaqService;
+        private readonly IScNtcService _scNtcService;
 
-        public CsController(IScFaqService scFaqService)
+        public CsController(IScFaqService scFaqService, IScNtcService scNtcServcie)
         {
             this._scFaqService = scFaqService;
+            this._scNtcService = scNtcServcie;
         }
 
         public CsController()
@@ -27,6 +30,7 @@ namespace BizOneShot.Light.Web.Controllers
             return View();
         }
 
+        #region FAQ 
         public ActionResult Faq()
         {
 
@@ -73,5 +77,28 @@ namespace BizOneShot.Light.Web.Controllers
 
             return View(new StaticPagedList<FaqViewModel>(faqVM.ToPagedList(1, 10), 1, 10, faqVM.Count));
         }
+
+        #endregion
+
+        #region Notice(공지사항)
+        public ActionResult Notice()
+        {
+
+            var searchBy = new List<SelectListItem>(){
+                new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
+                new SelectListItem { Value = "1", Text = "제목" },
+                new SelectListItem { Value = "2", Text = "내용" }
+            };
+
+            ViewBag.SelectList = searchBy;
+
+            var scNtc = _scNtcService.GetNotices();
+
+            var noticeViews =
+                Mapper.Map<List<NoticeViewModel>>(scNtc);
+
+            return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(1, 10), 1, 10, noticeViews.Count));
+        }
+        #endregion
     }
 }

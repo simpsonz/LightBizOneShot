@@ -26,6 +26,9 @@ namespace BizOneShot.Light.Web.Mappings
                    .ForMember(d => d.FaqSn, map => map.MapFrom(s => s.FaqSn))
                    .ForMember(d => d.AnsTxt, map => map.MapFrom(s => s.AnsTxt))
                    .ForMember(d => d.QstTxt, map => map.MapFrom(s => s.QstTxt));
+
+            //공지사항 Notice 매핑
+            Mapper.CreateMap<ScNtc, NoticeViewModel>();
         }
     }
 }
