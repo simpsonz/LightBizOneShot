@@ -3,23 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Data.Entity;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Dao.Infrastructure;
+using BizOneShot.Light.Dao.WebConfiguration;
 using BizOneShot.Light.Dao.WebConfiguration;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
-
-    public interface IScQclRepository : IRepository<ScQcl>
+    public interface IScNtcRepository : IRepository<ScNtc>
     {
-        //IList<ScCompInfo> GetScCompInfoByName(string compNm);
     }
 
-
-    public class ScQclRepository : RepositoryBase<ScQcl>, IScQclRepository
+    public class ScNtcRepository : RepositoryBase<ScNtc>, IScNtcRepository
     {
-        public ScQclRepository(IDbFactory dbFactory) : base(dbFactory) { }
+        public ScNtcRepository(IDbFactory dbFactory) : base(dbFactory) { }
 
     }
 }

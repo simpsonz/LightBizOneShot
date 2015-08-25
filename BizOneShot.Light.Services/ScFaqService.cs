@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using BizOneShot.Light.Models;
-using BizOneShot.Light.ViewModels;
+using BizOneShot.Light.Models.WebModels;
+using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
 

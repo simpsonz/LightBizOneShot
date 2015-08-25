@@ -24,6 +24,7 @@ namespace BizOneShot.Light.Dao.Infrastructure
         }
     }
 
+
     public class DareDbFactory : Disposable, IDareDbFactory
     {
         DareDbContext dareDbContext;

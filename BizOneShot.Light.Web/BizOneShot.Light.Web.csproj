@@ -759,6 +759,7 @@
     <Content Include="Views\Cs\Notice.cshtml" />
     <Content Include="Views\Account\CompanyJoin.cshtml" />
     <Content Include="Views\Account\CompanyAgreement.cshtml" />
+    <Content Include="Views\Cs\NoticeDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

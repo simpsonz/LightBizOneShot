@@ -134,7 +134,6 @@
     <Compile Include="DareConfiguration\DareDbContext.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="DareConfiguration\Database.cs" />
     <Compile Include="DareConfiguration\Database1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -158,6 +157,7 @@
     </Compile>
     <Compile Include="Repositories\ScCompInfoRepository.cs" />
     <Compile Include="Repositories\ScFaqRepository.cs" />
+    <Compile Include="Repositories\ScNtcRepository.cs" />
     <Compile Include="Repositories\ScQclRepository.cs" />
     <Compile Include="Repositories\ScUsrRepository.cs" />
     <Compile Include="Infrastructure\Dbfactory.cs" />

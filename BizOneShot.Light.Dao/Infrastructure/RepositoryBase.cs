@@ -15,6 +15,7 @@ namespace BizOneShot.Light.Dao.Infrastructure
         #region Properties
         private WebDbContext dbContext;
         private readonly IDbSet<T> dbSet;
+        private IDbFactory dbFactory;
 
         protected IDbFactory DbFactory
         {
@@ -22,10 +23,15 @@ namespace BizOneShot.Light.Dao.Infrastructure
             private set;
         }
 
+
+
         protected WebDbContext DbContext
         {
             get { return dbContext ?? (dbContext = DbFactory.Init()); }
         }
+
+
+
         #endregion
 
         protected RepositoryBase(IDbFactory dbFactory)
@@ -33,6 +39,8 @@ namespace BizOneShot.Light.Dao.Infrastructure
             DbFactory = dbFactory;
             dbSet = DbContext.Set<T>();
         }
+
+
 
         #region 구현
         public virtual void Add(T entity)
