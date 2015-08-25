@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Configuration;
 using BizOneShot.Light.ViewModels;
 using BizOneShot.Light.Services;
 using PagedList;
@@ -29,7 +30,6 @@ namespace BizOneShot.Light.Web.Controllers
 
         public ActionResult Faq()
         {
-
             var searchBy = new List<SelectListItem>(){
                 new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
                 new SelectListItem { Value = "1", Text = "제목" },
@@ -40,7 +40,8 @@ namespace BizOneShot.Light.Web.Controllers
 
             var faqVM = _scFaqService.GetFaqs();
 
-            return View(new StaticPagedList<FaqViewModel>(faqVM.ToPagedList(1, 10), 1, 10, faqVM.Count));
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            return View(new StaticPagedList<FaqViewModel>(faqVM.ToPagedList(1, pagingSize), 1, pagingSize, faqVM.Count));
         }
 
         [HttpPost]
@@ -55,7 +56,9 @@ namespace BizOneShot.Light.Web.Controllers
 
             var faqs = _scFaqService.GetFaqs(SelectList, Query);
 
-            return View(new StaticPagedList<FaqViewModel>(faqs.ToPagedList(1, 10), 1, 10, faqs.Count));
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            return View(new StaticPagedList<FaqViewModel>(faqs.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, faqs.Count));
         }
     }
 }

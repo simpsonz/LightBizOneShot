@@ -98,18 +98,19 @@
     <div class="desc">
         <p class="title join"><em>기업회원 정보입력</em></p>
     </div><!--desc//-->
-    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("CompanyJoin", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.Hidden("LoginIdChk")
         @Html.Hidden("ComRegistrationNoChk")
 
         <div class="join_infoinput_wrap">
             <ul><li class="mark">아이디</li>
-            <li class="info">@Html.TextBoxFor(model => model.LoginId, new { @class = "w240" })<input type="button" class="td_overlap" id="BTN_LOGIN_ID_CHK" value="중복확인"></li></ul>
+            <li class="info">@Html.TextBoxFor(model => model.LoginId, new { @class = "w240" })<input type="button" class="td_overlap" id="BTN_LOGIN_ID_CHK" value="중복확인">  @Html.ValidationMessageFor(model => model.LoginId, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
+            
             <ul><li class="mark">비밀번호</li>
-            <li class="info">@Html.PasswordFor(model => model.LoginPw, new { @class = "w240" })<span class="blue">영문+숫자 8~12자 가능</span></li></ul>
+            <li class="info">@Html.PasswordFor(model => model.LoginPw, new { @class = "w240" })@*<span class="blue">영문+숫자 8~12자 가능</span>*@  @Html.ValidationMessageFor(model => model.LoginPw, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
             <ul><li class="mark">비밀번호 확인</li>
-            <li class="info">@Html.PasswordFor(model => model.ConfirmLoginPw, new { @class = "w240" })<span class="blue">비밀번호를 한 번 더 입력하세요</span></li></ul>
+            <li class="info">@Html.PasswordFor(model => model.ConfirmLoginPw, new { @class = "w240" })@*<span class="blue">비밀번호를 한 번 더 입력하세요</span>*@  @Html.ValidationMessageFor(model => model.ConfirmLoginPw, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
         </div><!--join_infoinput_wrap//-->
         <div class="line_dot10"></div>
         <div class="join_infoinput_wrap">
@@ -133,17 +134,20 @@
                     }
                 </li>
             </ul>
-            <ul><li class="mark">회사명</li><li class="info_short">@Html.TextBoxFor(model => model.CompNm, new { @class = "w240" })
-            <li class="mark">대표자명</li><li class="info">@Html.TextBoxFor(model => model.ComOwnNm, new { @class = "w240" })</li></ul>
-            <ul><li class="mark">사업자등록번호</li><li class="info_short">@Html.TextBoxFor(model => model.ComRegistrationNo, new { @class = "w240", @placeholder = "-표시없이 기입해 주세요" })<input type="button" class="td_confirm" value="확인"></ul>
+            <ul><li class="mark">회사명</li><li class="info">@Html.TextBoxFor(model => model.CompNm, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.CompNm, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
+            <ul><li class="mark">대표자명</li><li class="info">@Html.TextBoxFor(model => model.ComOwnNm, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComOwnNm, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
+            <ul>
+                <li class="mark">사업자등록번호</li>
+                <li class="info">@Html.TextBoxFor(model => model.ComRegistrationNo, new { @class = "w240", @placeholder = "-표시없이 기입해 주세요" })<input type="button" class="td_confirm" value="확인">  @Html.ValidationMessageFor(model => model.ComRegistrationNo, "", new { @class = "text-danger", @color = "#b94a48" })</li>
+            </ul>
 
             <ul>
                 <li class="mark">업태</li>
-                <li class="info">@Html.TextBoxFor(model => model.ComBizClass, new { @class = "w240" })</li>
+                <li class="info">@Html.TextBoxFor(model => model.ComBizClass, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComBizClass, "", new { @class = "text-danger", @color = "#b94a48" })</li>
             </ul>
             <ul>
                 <li class="mark">업종</li>
-                <li class="info">@Html.TextBoxFor(model => model.ComBizType, new { @class = "w240" })</li>
+                <li class="info">@Html.TextBoxFor(model => model.ComBizType, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComBizType, "", new { @class = "text-danger", @color = "#b94a48" })</li>
             </ul>
             @*<ul class="long_ul">
                 <li class="mark_long">업종/업태</li>
@@ -195,7 +199,7 @@
         <div class="line_dot10"></div>
         <div class="join_infoinput_wrap">
 
-            <ul><li class="mark">담당자명</li><li class="info">@Html.TextBoxFor(model => model.Name, new { @class = "w240" })</li></ul>
+            <ul><li class="mark">담당자명</li><li class="info">@Html.TextBoxFor(model => model.Name, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
             <ul>
                 <li class="mark">전화번호</li>
                 <li class="info">
@@ -267,6 +271,8 @@
                         <option value="paran.com">paran.com</option>
                         <option value="yahoo.com">yahoo.com</option>
                     </select>
+                      @Html.ValidationMessageFor(model => model.Email1, "", new { @class = "text-danger", @color = "#b94a48" })
+                      @Html.ValidationMessageFor(model => model.Email2, "", new { @class = "text-danger", @color = "#b94a48" })
                 </li>
             </ul>
         </div><!--join_infoinput_wrap//-->
@@ -274,5 +280,9 @@
         <div class="btnwrap center">
             <input type="submit" class="confirm" value="확인"><input type="submit" class="cancel" value="취소">
         </div>
+    }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
     }
 </div>
