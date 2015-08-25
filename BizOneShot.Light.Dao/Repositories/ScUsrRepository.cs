@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Data.Entity;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Dao.Infrastructure;
 
@@ -17,7 +17,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public class ScUsrRepository : RepositoryBase<ScUsr>, IScUsrRepository
     {
-        public ScUsrRepository(IDbFactory dbFactory) : base(dbFactory) { }
+        public ScUsrRepository(IDbFactory<DbContext> dbFactory) : base(dbFactory) { }
 
         public IList<ScUsr> GetScUsrById(string loginId)
         {

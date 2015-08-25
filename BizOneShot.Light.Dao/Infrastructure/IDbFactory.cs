@@ -7,9 +7,13 @@ using System.Data.Entity;
 using BizOneShot.Light.Dao.WebConfiguration;
 
 namespace BizOneShot.Light.Dao.Infrastructure{
-    public interface IDbFactory
-    {
-        WebDbContext Init();
+    //public interface IDbFactory
+    //{
+    //    WebDbContext Init();
 
+    //}
+    public interface IDbFactory<TDbConext>
+    {
+        DbContext Init();
     }
 }

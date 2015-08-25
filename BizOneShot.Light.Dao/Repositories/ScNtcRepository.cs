@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BizOneShot.Light.Models;
+using System.Data.Entity;
+using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Dao.Infrastructure;
+using BizOneShot.Light.Dao.WebConfiguration;
+using BizOneShot.Light.Dao.WebConfiguration;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -14,6 +17,9 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public class ScNtcRepository : RepositoryBase<ScNtc>, IScNtcRepository
     {
-        public ScNtcRepository(IDbFactory dbFactory) : base(dbFactory) { }
+        //public ScNtcRepository(IDbFactory dbFactory) : base(dbFactory) { }
+
+        public ScNtcRepository(IDbFactory<WebDbContext> dbFactory)  { }
+
     }
 }

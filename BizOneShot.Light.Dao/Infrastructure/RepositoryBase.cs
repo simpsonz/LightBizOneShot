@@ -5,33 +5,59 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 using BizOneShot.Light.Dao.WebConfiguration;
+using BizOneShot.Light.Dao.DareConfiguration;
 
 namespace BizOneShot.Light.Dao.Infrastructure
 {
     public abstract class RepositoryBase<T> where T : class
     {
         #region Properties
-        private WebDbContext dbContext;
+        //private WebDbContext dbContext;
+        private DbContext dbContext;
         private readonly IDbSet<T> dbSet;
+        //private IDbFactory<WebDbContext> dbFactory;
+        private IDbFactory<DbContext> dbFactory;
 
-        protected IDbFactory DbFactory
+        //protected IDbFactory DbFactory
+        //{
+        //    get;
+        //    private set;
+        //}
+
+        protected IDbFactory<DbContext> DbFactory
         {
             get;
             private set;
         }
 
-        protected WebDbContext DbContext
+        //protected WebDbContext DbContext
+        //{
+        //    get { return dbContext ?? (dbContext = DbFactory.Init()); }
+        //}
+
+        protected DbContext DbContext
         {
-            get { return dbContext ?? (dbContext = DbFactory.Init()); }
+            get
+            {
+                return DbFactory.Init();
+            }
         }
         #endregion
 
-        protected RepositoryBase(IDbFactory dbFactory)
+        //protected RepositoryBase(IDbFactory dbFactory)
+        //{
+        //    DbFactory = dbFactory;
+        //    dbSet = DbContext.Set<T>();
+        //}
+
+        protected RepositoryBase(IDbFactory<DbContext> dbFactory)
         {
             DbFactory = dbFactory;
             dbSet = DbContext.Set<T>();
         }
+
 
         #region 구현
         public virtual void Add(T entity)

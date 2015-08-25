@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Dao.Infrastructure;
+using BizOneShot.Light.Dao.WebConfiguration;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -16,7 +17,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public class ScCompInfoRepository : RepositoryBase<ScCompInfo>, IScCompInfoRepository
     {
-        public ScCompInfoRepository(IDbFactory dbFactory) : base(dbFactory) { }
+        public ScCompInfoRepository(IDbFactory<WebDbContext> dbFactory) : base(dbFactory) { }
 
         public IList<ScCompInfo> GetScCompInfoByName(string compNm)
         {

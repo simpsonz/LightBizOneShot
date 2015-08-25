@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using BizOneShot.Light.Models;
-using BizOneShot.Light.ViewModels;
+using BizOneShot.Light.Models.WebModels;
+using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Services;
 using PagedList;
 using AutoMapper;

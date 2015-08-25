@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Dao.Infrastructure;
+using BizOneShot.Light.Dao.WebConfiguration;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -18,7 +19,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public class ScQclRepository : RepositoryBase<ScQcl>, IScQclRepository
     {
-        public ScQclRepository(IDbFactory dbFactory) : base(dbFactory) { }
+        public ScQclRepository(IDbFactory<WebDbContext> dbFactory) : base(dbFactory) { }
 
     }
 }
