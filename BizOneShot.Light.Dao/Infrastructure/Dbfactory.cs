@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.WebConfiguration;
+using BizOneShot.Light.Dao.DareConfiguration;
 
 namespace BizOneShot.Light.Dao.Infrastructure
 {
@@ -20,6 +21,22 @@ namespace BizOneShot.Light.Dao.Infrastructure
         {
             if (dbContext != null)
                 dbContext.Dispose();
+        }
+    }
+
+    public class DareDbFactory : Disposable, IDareDbFactory
+    {
+        DareDbContext dareDbContext;
+
+        public DareDbContext Init()
+        {
+            return dareDbContext ?? (dareDbContext = new DareDbContext());
+        }
+
+        protected override void DisposeCore()
+        {
+            if (dareDbContext != null)
+                dareDbContext.Dispose();
         }
     }
 }

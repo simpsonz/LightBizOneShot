@@ -32,6 +32,9 @@ namespace BizOneShot.Light.Web.App_Start
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
             builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
 
+            builder.RegisterType<DareUnitOfWork>().As<IDareUnitOfWork>().InstancePerRequest();
+            builder.RegisterType<DareDbFactory>().As<IDareDbFactory>().InstancePerRequest();
+
 
             // Repositories
             //builder.RegisterAssemblyTypes(typeof(ScFaqRepository).Assembly)

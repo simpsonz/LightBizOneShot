@@ -23,18 +23,26 @@ namespace BizOneShot.Light.Services
         private readonly IScUsrRepository scUsrRespository;
         private readonly IUnitOfWork unitOfWork;
 
-        public ScUsrService(IScUsrRepository scUsrRespository, IUnitOfWork unitOfWork)
+        private readonly ISyUserRepository syUserRespository;
+        private readonly IDareUnitOfWork dareUnitOfWork;
+
+        public ScUsrService(IScUsrRepository scUsrRespository, IUnitOfWork unitOfWork, ISyUserRepository syUserRespository, IDareUnitOfWork dareUnitOfWor)
         {
             this.scUsrRespository = scUsrRespository;
             this.unitOfWork = unitOfWork;
+            this.syUserRespository = syUserRespository;
+            this.dareUnitOfWork = dareUnitOfWor;
         }
 
         public bool ChkLoginId(string loginId)
         {
             if (scUsrRespository.GetScUsrById(loginId).Count() > 0)
                 return false;
-            else
-                return true;
+
+            if (syUserRespository.GetSyUserById(loginId).Count() > 0)
+                return false;
+
+            return true;
         }
 
 
