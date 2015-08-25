@@ -14,7 +14,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Threading;
 
-namespace BizOneShot.Light.Models
+namespace BizOneShot.Light.Models.WebModels
 {
     // SC_MENTORING_FILE_INFO
     public class ScMentoringFileInfo

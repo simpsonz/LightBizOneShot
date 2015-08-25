@@ -89,7 +89,9 @@
         @using (Html.BeginForm("Faq", "Cs", FormMethod.Post, new { id = "searchForm"@*, onsubmit = "return goPage(1);"*@ }))
         {
             <span class="bold">SEARCH&nbsp;</span>
+
             @Html.DropDownList("SelectList", null, new { @class = "select", @id="searchType" })
+
             <img src="~/Images/icon_lenz.png" class="lenz">@Html.TextBox("QUERY", null, new { @class = "search", @placeholder = "검색어를 입력하세요", @id = "QUERY" })
             <input type="submit" id="search" class="bt_search" value="검색" onclick="goPage('1');">
 

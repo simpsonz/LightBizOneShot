@@ -130,6 +130,30 @@
     <Compile Include="Configuration\SyDareDbInfoConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="DareConfiguration\DareDbContext.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\Database.cs" />
+    <Compile Include="DareConfiguration\Database1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\FakeDareDbContext.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\FakeDbSet.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\IDareDbContext.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\SHUSER_SyUser.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\SHUSER_SyUserConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\Dbfactory.cs" />
     <Compile Include="Infrastructure\Disposable.cs" />
     <Compile Include="Infrastructure\RepositoryBase.cs" />
@@ -150,12 +174,18 @@
     <None Include="App.config" />
     <None Include="Configuration\EF.Reverse.POCO.Core.ttinclude" />
     <None Include="Configuration\EF.Reverse.POCO.ttinclude" />
+    <None Include="DareConfiguration\EF.Reverse.POCO.Core.ttinclude" />
+    <None Include="DareConfiguration\EF.Reverse.POCO.ttinclude" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Configuration\Database.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Database.cs</LastGenOutput>
+    </Content>
+    <Content Include="DareConfiguration\Database.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Database1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

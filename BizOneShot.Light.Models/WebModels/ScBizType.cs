@@ -14,17 +14,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Threading;
 
-namespace BizOneShot.Light.Models
+namespace BizOneShot.Light.Models.WebModels
 {
-    // SC_USR_RESUME
-    public class ScUsrResume
+    // SC_BIZ_TYPE
+    public class ScBizType
     {
-        public string LoginId { get; set; } // LOGIN_ID (Primary key). 로그인식별자
-        public int? FileSn { get; set; } // FILE_SN. 파일식별자
+        public int CompSn { get; set; } // COMP_SN. 기업식별자
+        public string BizTypeCd { get; set; } // BIZ_TYPE_CD. 업종코드
+        public string BizCondCd { get; set; } // BIZ_COND_CD. 업태코드
 
         // Foreign keys
-        public virtual ScFileInfo ScFileInfo { get; set; } // FK_SC_FILE_INFO_TO_SC_USR_RESUME
-        public virtual ScUsr ScUsr { get; set; } // FK_SC_USR_TO_SC_USR_RESUME
+        public virtual ScCompInfo ScCompInfo { get; set; } // FK_SC_COMP_INFO_TO_SC_BIZ_TYPE
     }
 
 }

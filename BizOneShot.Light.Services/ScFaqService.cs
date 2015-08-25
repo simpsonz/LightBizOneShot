@@ -76,49 +76,6 @@ namespace BizOneShot.Light.Services
             return result.ToList();
         }
 
-        //public IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null)
-        //{
-        //    var result = from tFaq in scFaqRespository.GetAll()
-        //                 join tQcl in scQclRepository.GetAll() on tFaq.QclSn equals tQcl.QclSn
-        //                 where tFaq.Stat == "N"
-        //                 select new FaqViewModel
-        //                 {
-        //                     FaqSn = tFaq.FaqSn,
-        //                     QclSn = tFaq.QclSn,
-        //                     QstTxt = tFaq.QstTxt,
-        //                     AnsTxt = tFaq.AnsTxt,
-        //                     Stat = tFaq.Stat,
-        //                     RegId = tFaq.RegId,
-        //                     RegDt = tFaq.RegDt,
-        //                     UpdId = tFaq.UpdId,
-        //                     UpdDt = tFaq.UpdDt,
-        //                     QclNm = tQcl.QclNm
-        //                 };
-
-
-
-        //    //var result = scFaqRespository.GetAll();
-
-        //    if (string.IsNullOrEmpty(searchType) || string.IsNullOrEmpty(keyword))
-        //    {
-        //        return result;
-        //    }
-        //    else if (searchType.Equals("0")) // 질문, 답변중 keyword가 포함된 faq 검색 
-        //    {
-        //        result = result.Where(ci => ci.QstTxt.Contains(keyword) || ci.AnsTxt.Contains(keyword));
-        //    }
-        //    else if (searchType.Equals("1")) // 질문중에 keyword가 포함된 faq 검색 
-        //    {
-        //        result = result.Where(ci => ci.QstTxt.Contains(keyword));
-        //    }
-        //    else if (searchType.Equals("2")) // 답변중에 keyword가 포함된 faq 검색 
-        //    {
-        //        result = result.Where(ci => ci.AnsTxt.Contains(keyword));
-        //    }
-
-        //    return result;
-        //}
-
 
         public void SaveDbContext()
         {

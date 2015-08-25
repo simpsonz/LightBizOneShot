@@ -6,8 +6,8 @@
 // The following connection settings were used to generate this file
 // 
 //     Configuration file:     "BizOneShot.Light.Dao\App.config"
-//     Connection String Name: "WebDbContext"
-//     Connection String:      "Data Source=192.168.100.65;password=**zapped**;"
+//     Connection String Name: "DareDbContext"
+//     Connection String:      "Data Source=219.252.53.127;password=**zapped**;"
 
 // Database Edition: Enterprise Edition (64-bit)
 // Database Engine Edition: Enterprise
@@ -24,11 +24,17 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Data.Entity.Infrastructure;
+using System.Linq.Expressions;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration;
 using System.Threading;
+using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace BizOneShot.Light.Models
+namespace BizOneShot.Light.Dao.DareConfiguration
 {
 }
 

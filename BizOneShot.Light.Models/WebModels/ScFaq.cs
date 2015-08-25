@@ -14,24 +14,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Threading;
 
-namespace BizOneShot.Light.Models
+namespace BizOneShot.Light.Models.WebModels
 {
-    // SC_EXPERT_MAPPING
-    public class ScExpertMapping
+    // SC_FAQ
+    public class ScFaq
     {
-        public int BizWorkSn { get; set; } // BIZ_WORK_SN (Primary key). 사업식별자
-        public string ExpertId { get; set; } // EXPERT_ID (Primary key). 전문가식별자
-        public string Status { get; set; } // STATUS. 상태
+        public int FaqSn { get; set; } // FAQ_SN (Primary key). 자주하는질문순번
+        public int? QclSn { get; set; } // QCL_SN. 질문분류코드(순번)
+        public string QstTxt { get; set; } // QST_TXT. 질문
+        public string AnsTxt { get; set; } // ANS_TXT. 답변
+        public string Stat { get; set; } // STAT. 상태  N: 정상(Normal)  D: 사용안함(Deleted)
         public string RegId { get; set; } // REG_ID. 등록자
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시
         public string UpdId { get; set; } // UPD_ID. 수정자
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
 
         // Foreign keys
-        public virtual ScBizWork ScBizWork { get; set; } // FK_SC_BIZ_WORK_TO_SC_EXPERT_MAPPING
-        public virtual ScUsr ScUsr_ExpertId { get; set; } // FK_SC_USR_TO_SC_EXPERT_MAPPING3
-        public virtual ScUsr ScUsr_RegId { get; set; } // FK_SC_USR_TO_SC_EXPERT_MAPPING
-        public virtual ScUsr ScUsr_UpdId { get; set; } // FK_SC_USR_TO_SC_EXPERT_MAPPING2
+        public virtual ScQcl ScQcl { get; set; } // FK_SC_QCL_TO_SC_FAQ
+        public virtual ScUsr ScUsr_RegId { get; set; } // FK_SC_USR_TO_SC_FAQ
+        public virtual ScUsr ScUsr_UpdId { get; set; } // FK_SC_USR_TO_SC_FAQ2
     }
 
 }

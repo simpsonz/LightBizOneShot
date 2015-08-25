@@ -14,14 +14,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Threading;
 
-namespace BizOneShot.Light.Models
+namespace BizOneShot.Light.Models.WebModels
 {
-    // SC_COMP_MAPPING
-    public class ScCompMapping
+    // SC_MENTOR_MAPPIING
+    public class ScMentorMappiing
     {
-        public int CompSn { get; set; } // COMP_SN (Primary key). 기업식별자
         public int BizWorkSn { get; set; } // BIZ_WORK_SN (Primary key). 사업식별자
-        public string MentorId { get; set; } // MENTOR_ID. 맨토식별자
+        public string MentorId { get; set; } // MENTOR_ID (Primary key). 회원테이블의 LOGIN_ID
         public string Status { get; set; } // STATUS. 상태
         public string RegId { get; set; } // REG_ID. 등록자
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시
@@ -29,10 +28,10 @@ namespace BizOneShot.Light.Models
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
 
         // Foreign keys
-        public virtual ScBizWork ScBizWork { get; set; } // FK_SC_BIZ_WORK_TO_SC_COMP_MAPPING
-        public virtual ScCompInfo ScCompInfo { get; set; } // FK_SC_COMP_INFO_TO_SC_COMP_MAPPING
-        public virtual ScUsr ScUsr_RegId { get; set; } // FK_SC_USR_TO_SC_COMP_MAPPING
-        public virtual ScUsr ScUsr_UpdId { get; set; } // FK_SC_USR_TO_SC_COMP_MAPPING2
+        public virtual ScBizWork ScBizWork { get; set; } // FK_SC_BIZ_WORK_TO_SC_MENTOR_MAPPIING
+        public virtual ScUsr ScUsr_MentorId { get; set; } // FK_SC_USR_TO_SC_MENTOR_MAPPIING
+        public virtual ScUsr ScUsr_RegId { get; set; } // FK_SC_USR_TO_SC_MENTOR_MAPPIING2
+        public virtual ScUsr ScUsr_UpdId { get; set; } // FK_SC_USR_TO_SC_MENTOR_MAPPIING3
     }
 
 }

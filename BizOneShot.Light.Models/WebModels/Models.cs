@@ -1,3 +1,17 @@
+﻿
+
+// This file was automatically generated.
+// Do not make changes directly to this file - edit the template instead.
+// 
+// The following connection settings were used to generate this file
+// 
+//     Configuration file:     "BizOneShot.Light.Dao\App.config"
+//     Connection String Name: "WebDbContext"
+//     Connection String:      "Data Source=192.168.100.65;password=**zapped**;"
+
+// Database Edition: Enterprise Edition (64-bit)
+// Database Engine Edition: Enterprise
+
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
 // ReSharper disable InconsistentNaming
@@ -14,17 +28,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Threading;
 
-namespace BizOneShot.Light.Models
+namespace BizOneShot.Light.Models.WebModels
 {
-    // SC_FORM_FILE
-    public class ScFormFile
-    {
-        public int FileSn2 { get; set; } // FILE_SN2 (Primary key). 파일식별자
-        public int FormSn { get; set; } // FORM_SN. 서식식별자(순번)
-
-        // Foreign keys
-        public virtual ScFileInfo ScFileInfo { get; set; } // FK_SC_FILE_INFO_TO_SC_FORM_FILE
-        public virtual ScForm ScForm { get; set; } // FK_SC_FORM_TO_SC_FORM_FILE
-    }
-
 }
+

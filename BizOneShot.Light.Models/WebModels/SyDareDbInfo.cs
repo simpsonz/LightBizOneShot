@@ -14,7 +14,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Threading;
 
-namespace BizOneShot.Light.Models
+namespace BizOneShot.Light.Models.WebModels
 {
     // SY_DARE_DB_INFO
     [GeneratedCodeAttribute("EF.Reverse.POCO.Generator", "2.15.1.0")]
