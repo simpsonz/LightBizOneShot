@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using BizOneShot.Light.Services;
+using BizOneShot.Light.Models.ViewModels;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -23,6 +24,19 @@ namespace BizOneShot.Light.Web.Controllers
         public ActionResult CompanyJoin()
         {
             return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult CompanyJoin(JoinCompanyViewModel joinCompanyViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+                // 이 경우 오류가 발생한 것이므로 폼을 다시 표시하십시오.
+            return View(joinCompanyViewModel);
         }
 
         [HttpPost]
