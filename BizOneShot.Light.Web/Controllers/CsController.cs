@@ -21,7 +21,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public CsController()
         {
-            
+
         }
 
         // GET: Cs
