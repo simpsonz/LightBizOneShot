@@ -17,7 +17,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public class ScCompInfoRepository : RepositoryBase<ScCompInfo>, IScCompInfoRepository
     {
-        public ScCompInfoRepository(IDbFactory<WebDbContext> dbFactory) : base(dbFactory) { }
+        public ScCompInfoRepository(IDbFactory dbFactory) : base(dbFactory) { }
 
         public IList<ScCompInfo> GetScCompInfoByName(string compNm)
         {

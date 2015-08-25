@@ -17,7 +17,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public class ScUsrRepository : RepositoryBase<ScUsr>, IScUsrRepository
     {
-        public ScUsrRepository(IDbFactory<DbContext> dbFactory) : base(dbFactory) { }
+        public ScUsrRepository(IDbFactory dbFactory) : base(dbFactory) { }
 
         public IList<ScUsr> GetScUsrById(string loginId)
         {

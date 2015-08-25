@@ -1,15 +1,74 @@
-﻿@model IPagedList<BizOneShot.Light.ViewModels.NoticeViewModel>
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.NoticeViewModel>
 
-<!DOCTYPE html>
+<script>
+    $(document).ready(function () {
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-    
+        //top menu
+        $('.navi_all > a.navi_cs').addClass('on');
+
+        //Cs menu
+        $('#custom_leftwrap > .custom_gnbwrap > ul > li > a.gnb_notice').addClass('on');
+
+        $('#search').bind('click', function () {
+            goPage(1);
+        });
+
+    });
+
+    function goPage(page) {
+        $('#curPage').val(page);
+        $('#searchForm').submit();
+    }
+</script>
+
+
+
+<div id="custom_rightwrap">
+    <div class="custom_right_title02"><em>공지사항</em></div>
+
+    <div id="list">
+        <div class="tablewrap">
+            <table>
+                <tr>
+                    @*<th width="9%">번호</th>*@
+                    <th width="79%">제목</th>
+                    <th width="20%">등록일</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @*<td>@item.NTC_SN</td>*@
+                        <td class="left">@Html.ActionLink(item.Subject, "NoticeDetail", new { noticeSn = item.NoticeSn })</td>
+                        <td>@item.RegDt.Value.ToShortDateString()</td>
+                    </tr>
+                }
+                @if (Model.TotalItemCount == 0)
+                {
+                    <tr>
+                        <td colspan="2" style="text-align:center;">검색 결과가 없습니다.</td>
+                    </tr>
+                }
+
+            </table>
+        </div><!--tablewrap//-->
     </div>
-</body>
-</html>
+    @if (Model != null && Model.TotalItemCount != 0)
+    {
+        @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+    }
+
+
+    <div id="custom_search_box">
+        @using (Html.BeginForm("Notice", "Cs", FormMethod.Post, new {id = "searchForm"@*, onsubmit = "return goPage(1);"*@ }))
+        {
+            <span class="bold">SEARCH&nbsp;</span>
+
+            @Html.DropDownList("SelectList", null, new { @class = "select", @id = "searchType" })
+
+            <img src="~/Images/icon_lenz.png" class="lenz">@Html.TextBox("QUERY", null, new { @class = "search", @placeholder = "검색어를 입력하세요", @id = "QUERY" })
+            <input type="submit" id="search" class="bt_search" value="검색" onclick="goPage('1');">
+
+            @Html.Hidden("curPage", "1")
+        }
+    </div><!--custom_search_box//-->
+</div><!--custom_rightwrap//-->

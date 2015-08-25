@@ -19,7 +19,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public class ScQclRepository : RepositoryBase<ScQcl>, IScQclRepository
     {
-        public ScQclRepository(IDbFactory<WebDbContext> dbFactory) : base(dbFactory) { }
+        public ScQclRepository(IDbFactory dbFactory) : base(dbFactory) { }
 
     }
 }

@@ -59,7 +59,7 @@ namespace BizOneShot.Light.Web.Controllers
 
             var faqs = _scFaqService.GetFaqs(SelectList, Query);
 
-            return View(new StaticPagedList<FaqViewModel>(faqs.ToPagedList(1, 10), 1, 10, faqs.Count));
+            return View(new StaticPagedList<FaqViewModel>(faqs.ToPagedList(1, int.Parse(curPage)), int.Parse(curPage), 10, faqs.Count));
         }
 
         #endregion
@@ -76,12 +76,41 @@ namespace BizOneShot.Light.Web.Controllers
 
             ViewBag.SelectList = searchBy;
 
-            var scNtc = _scNtcService.GetNotices();
+            var listScNtc = _scNtcService.GetNotices();
 
             var noticeViews =
-                Mapper.Map<List<NoticeViewModel>>(scNtc);
+                Mapper.Map<List<NoticeViewModel>>(listScNtc);
 
-            return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(1, 10), 1, 10, noticeViews.Count));
+            return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(1, 1), 1, 1, noticeViews.Count));
+        }
+
+        [HttpPost]
+        public ActionResult Notice(string SelectList, string Query, string curPage)
+        {
+            var searchBy = new List<SelectListItem>(){
+                new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
+                new SelectListItem { Value = "1", Text = "제목" },
+                new SelectListItem { Value = "2", Text = "내용" }
+            };
+            ViewBag.SelectList = searchBy;
+
+            var listScNtc = _scNtcService.GetNotices(SelectList, Query);
+
+            var noticeViews =
+                Mapper.Map<List<NoticeViewModel>>(listScNtc);
+
+            return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(int.Parse(curPage), 10), int.Parse(curPage), 10, noticeViews.Count));
+        }
+
+        [HttpPost]
+        public ActionResult NoticeDetail(int noticeSn)
+        {
+            var scNtc = _scNtcService.GetNoticeById(noticeSn);
+
+            var noticeView =
+                Mapper.Map<NoticeViewModel>(scNtc);
+
+            return View(noticeView);
         }
         #endregion
     }

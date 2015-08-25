@@ -5,15 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using BizOneShot.Light.Dao.WebConfiguration;
+using BizOneShot.Light.Dao.DareConfiguration;
 
 namespace BizOneShot.Light.Dao.Infrastructure{
-    //public interface IDbFactory
-    //{
-    //    WebDbContext Init();
-
-    //}
-    public interface IDbFactory<TDbConext>
+    public interface IDbFactory
     {
-        DbContext Init();
+        WebDbContext Init();
+
+    }
+
+
+    public interface IDareDbFactory
+    {
+        DareDbContext Init();
     }
 }

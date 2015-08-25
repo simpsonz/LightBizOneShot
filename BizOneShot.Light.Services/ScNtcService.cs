@@ -14,6 +14,7 @@ namespace BizOneShot.Light.Services
     public interface IScNtcService : IBaseService
     {
         IList<ScNtc> GetNotices(string searchType = null, string keyword = null);
+        ScNtc GetNoticeById(int noticeSn);
     }
 
 
@@ -49,6 +50,12 @@ namespace BizOneShot.Light.Services
             }
 
             return scNtcRepository.GetAll().ToList();
+        }
+
+        public ScNtc GetNoticeById(int noticeSn)
+        {
+            return scNtcRepository.GetById(noticeSn);
+
         }
 
         public void SaveDbContext()

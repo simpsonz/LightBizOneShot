@@ -12,4 +12,11 @@ namespace BizOneShot.Light.Dao.Infrastructure
 
         void CommitAsync();
     }
+
+    public interface IDareUnitOfWork
+    {
+        void Commit();
+
+        void CommitAsync();
+    }
 }
