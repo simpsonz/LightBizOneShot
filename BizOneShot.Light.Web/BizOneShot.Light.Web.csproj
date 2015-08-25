@@ -222,7 +222,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -747,13 +746,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index_bak.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Home\index.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
-    <Content Include="Views\Home\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
@@ -761,7 +756,6 @@
     <Content Include="Views\Shared\_TopMenuPartial.cshtml" />
     <Content Include="Views\Cs\Faq.cshtml" />
     <Content Include="Views\Shared\_JoinLayout.cshtml" />
-    <Content Include="Views\Home\CompanyAgreement.cshtml" />
     <Content Include="Views\Cs\Notice.cshtml" />
     <Content Include="Views\Account\CompanyJoin.cshtml" />
     <Content Include="Views\Account\CompanyAgreement.cshtml" />
