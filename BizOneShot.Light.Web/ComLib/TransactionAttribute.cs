@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BizOneShot.Light.Dao.Configuration;
+using BizOneShot.Light.Dao.WebConfiguration;
 using BizOneShot.Light.Dao.Infrastructure;
 
 namespace BizOneShot.Light.Web.ComLib

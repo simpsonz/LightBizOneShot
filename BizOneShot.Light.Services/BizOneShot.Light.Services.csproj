@@ -45,6 +45,7 @@
     <Compile Include="ScNtcService.cs" />
     <Compile Include="ScFaqService.cs" />
     <Compile Include="IBaseService.cs" />
+    <Compile Include="ScUsrService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BizOneShot.Light.Dao\BizOneShot.Light.Dao.csproj">

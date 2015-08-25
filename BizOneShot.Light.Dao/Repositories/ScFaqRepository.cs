@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using BizOneShot.Light.Models;
+using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Dao.Infrastructure;
 
 namespace BizOneShot.Light.Dao.Repositories

@@ -5,7 +5,7 @@ using System.Web;
 
 using AutoMapper;
 using BizOneShot.Light.ViewModels;
-using BizOneShot.Light.Models;
+using BizOneShot.Light.Models.WebModels;
 
 namespace BizOneShot.Light.Web.Mappings
 {

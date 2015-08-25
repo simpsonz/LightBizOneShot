@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BizOneShot.Light.Dao.Configuration;
+using BizOneShot.Light.Dao.WebConfiguration;
 
 namespace BizOneShot.Light.Dao.Infrastructure
 {

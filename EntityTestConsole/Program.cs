@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BizOneShot.Light.Dao.Configuration;
-using BizOneShot.Light.Models;
+using BizOneShot.Light.Dao.WebConfiguration;
+using BizOneShot.Light.Models.WebModels;
 
 using AutoMapper;
 

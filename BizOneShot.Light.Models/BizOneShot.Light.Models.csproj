@@ -43,94 +43,109 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models.cs">
+    <Compile Include="DareModels\Models.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareModels\SHUSER_SyUser.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebModels\Models.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScBizType.cs">
+    <Compile Include="WebModels\ScBizType.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScBizWork.cs">
+    <Compile Include="WebModels\ScBizWork.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScCompInfo.cs">
+    <Compile Include="WebModels\ScCompInfo.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScCompMapping.cs">
+    <Compile Include="WebModels\ScCompMapping.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScExpertMapping.cs">
+    <Compile Include="WebModels\ScExpertMapping.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScFaq.cs">
+    <Compile Include="WebModels\ScFaq.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScFileInfo.cs">
+    <Compile Include="WebModels\ScFileInfo.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScForm.cs">
+    <Compile Include="WebModels\ScForm.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScFormFile.cs">
+    <Compile Include="WebModels\ScFormFile.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScMentoringFileInfo.cs">
+    <Compile Include="WebModels\ScMentoringFileInfo.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScMentoringReport.cs">
+    <Compile Include="WebModels\ScMentoringReport.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScMentoringTotalReport.cs">
+    <Compile Include="WebModels\ScMentoringTotalReport.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScMentoringTrFileInfo.cs">
+    <Compile Include="WebModels\ScMentoringTrFileInfo.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScMentorMappiing.cs">
+    <Compile Include="WebModels\ScMentorMappiing.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScNtc.cs">
+    <Compile Include="WebModels\ScNtc.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScQa.cs">
+    <Compile Include="WebModels\ScQa.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScQcl.cs">
+    <Compile Include="WebModels\ScQcl.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScReqDoc.cs">
+    <Compile Include="WebModels\ScReqDoc.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScReqDocFile.cs">
+    <Compile Include="WebModels\ScReqDocFile.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScUsr.cs">
+    <Compile Include="WebModels\ScUsr.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScUsrResume.cs">
+    <Compile Include="WebModels\ScUsrResume.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="SyDareDbInfo.cs">
+    <Compile Include="WebModels\SyDareDbInfo.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\CsViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Models.tt">
+    <Content Include="DareModels\Models.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Models.cs</LastGenOutput>
+    </Content>
+    <Content Include="WebModels\Models.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Models.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="EF.Reverse.POCO.Core.ttinclude" />
-    <None Include="EF.Reverse.POCO.ttinclude" />
+    <None Include="DareModels\EF.Reverse.POCO.Core.ttinclude" />
+    <None Include="DareModels\EF.Reverse.POCO.ttinclude" />
+    <None Include="WebModels\EF.Reverse.POCO.Core.ttinclude" />
+    <None Include="WebModels\EF.Reverse.POCO.ttinclude" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -50,84 +50,104 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\Database.cs">
+    <Compile Include="WebConfiguration\Database.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\FakeDbSet.cs">
+    <Compile Include="WebConfiguration\FakeDbSet.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\FakeWebDbContext.cs">
+    <Compile Include="WebConfiguration\FakeWebDbContext.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\IWebDbContext.cs">
+    <Compile Include="WebConfiguration\IWebDbContext.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScBizTypeConfiguration.cs">
+    <Compile Include="WebConfiguration\ScBizTypeConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScBizWorkConfiguration.cs">
+    <Compile Include="WebConfiguration\ScBizWorkConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScCompInfoConfiguration.cs">
+    <Compile Include="WebConfiguration\ScCompInfoConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScCompMappingConfiguration.cs">
+    <Compile Include="WebConfiguration\ScCompMappingConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScExpertMappingConfiguration.cs">
+    <Compile Include="WebConfiguration\ScExpertMappingConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScFaqConfiguration.cs">
+    <Compile Include="WebConfiguration\ScFaqConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScFileInfoConfiguration.cs">
+    <Compile Include="WebConfiguration\ScFileInfoConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScFormConfiguration.cs">
+    <Compile Include="WebConfiguration\ScFormConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScFormFileConfiguration.cs">
+    <Compile Include="WebConfiguration\ScFormFileConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScMentoringFileInfoConfiguration.cs">
+    <Compile Include="WebConfiguration\ScMentoringFileInfoConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScMentoringReportConfiguration.cs">
+    <Compile Include="WebConfiguration\ScMentoringReportConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScMentoringTotalReportConfiguration.cs">
+    <Compile Include="WebConfiguration\ScMentoringTotalReportConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScMentoringTrFileInfoConfiguration.cs">
+    <Compile Include="WebConfiguration\ScMentoringTrFileInfoConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScMentorMappiingConfiguration.cs">
+    <Compile Include="WebConfiguration\ScMentorMappiingConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScNtcConfiguration.cs">
+    <Compile Include="WebConfiguration\ScNtcConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScQaConfiguration.cs">
+    <Compile Include="WebConfiguration\ScQaConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScQclConfiguration.cs">
+    <Compile Include="WebConfiguration\ScQclConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScReqDocConfiguration.cs">
+    <Compile Include="WebConfiguration\ScReqDocConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScReqDocFileConfiguration.cs">
+    <Compile Include="WebConfiguration\ScReqDocFileConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScUsrConfiguration.cs">
+    <Compile Include="WebConfiguration\ScUsrConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ScUsrResumeConfiguration.cs">
+    <Compile Include="WebConfiguration\ScUsrResumeConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\SyDareDbInfoConfiguration.cs">
+    <Compile Include="WebConfiguration\SyDareDbInfoConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\DareDbContext.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\Database1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\FakeDareDbContext.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\FakeDbSet.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\IDareDbContext.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\SHUSER_SyUserConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Dbfactory.cs" />
@@ -138,7 +158,7 @@
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Configuration\WebDbContext.cs">
+    <Compile Include="WebConfiguration\WebDbContext.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\ScCompInfoRepository.cs" />
@@ -149,14 +169,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Configuration\EF.Reverse.POCO.Core.ttinclude" />
-    <None Include="Configuration\EF.Reverse.POCO.ttinclude" />
+    <None Include="WebConfiguration\EF.Reverse.POCO.Core.ttinclude" />
+    <None Include="WebConfiguration\EF.Reverse.POCO.ttinclude" />
+    <None Include="DareConfiguration\EF.Reverse.POCO.Core.ttinclude" />
+    <None Include="DareConfiguration\EF.Reverse.POCO.ttinclude" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Configuration\Database.tt">
+    <Content Include="WebConfiguration\Database.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Database.cs</LastGenOutput>
+    </Content>
+    <Content Include="DareConfiguration\Database.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Database1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
