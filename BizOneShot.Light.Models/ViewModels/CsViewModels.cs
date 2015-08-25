@@ -10,6 +10,7 @@ namespace BizOneShot.Light.ViewModels
 
     }
 
+    #region FAQ 뷰모델
     public class SelectAdminFaqListViewModel
     {
         public int TOT_CNT { get; set; }
@@ -41,4 +42,22 @@ namespace BizOneShot.Light.ViewModels
         public string QclNm { get; set; } // QCL_NM. 질문분류 이름
 
     }
+
+    #endregion
+
+    #region Notice(공지사항) 뷰모델
+    public class NoticeViewModel
+    {
+        public int NoticeSn { get; set; } // NOTICE_SN (Primary key). 공지사항순번
+        public string Subject { get; set; } // SUBJECT. 제목
+        public string RmkTxt { get; set; } // RMK_TXT. 내용
+        public string Status { get; set; } // STATUS. 상태  N: 정상(Normal)  D: 사용안함(Deleted)
+        public string RegId { get; set; } // REG_ID. 등록자
+        public DateTime? RegDt { get; set; } // REG_DT. 등록일시
+        public string UpdId { get; set; } // UPD_ID. 수정자
+        public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
+    }
+
+    #endregion
+
 }
