@@ -62,14 +62,14 @@ namespace BizOneShot.Light.Web.Controllers
             };
             ViewBag.SelectList = searchBy;
 
-            var faqs = _scFaqService.GetFaqs(SelectList, Query);
+            var faqVM = _scFaqService.GetFaqs(SelectList, Query);
 
-            IList<FaqViewModel> faqVM = new List<FaqViewModel>();
+            //IList<FaqViewModel> faqVM = new List<FaqViewModel>();
 
-            foreach (var temp in faqs)
-            {
-                faqVM.Add(temp);
-            }
+            //foreach (var temp in faqs)
+            //{
+            //    faqVM.Add(temp);
+            //}
 
             return View(new StaticPagedList<FaqViewModel>(faqVM.ToPagedList(1, 10), 1, 10, faqVM.Count));
         }
