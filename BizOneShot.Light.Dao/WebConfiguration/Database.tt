@@ -6,10 +6,10 @@
 
     // Main settings **********************************************************************************************************************
     // Namespace = ""; // Override the default namespace here
-    DbContextName = "DareDbContext";
+    DbContextName = "WebDbContext";
     DbContextInterfaceBaseClasses = "IDisposable";    // Specify what the base classes are for your database context interface
     DbContextBaseClass = "DbContext";   // Specify what the base class is for your DbContext. For ASP.NET Identity use "IdentityDbContext<ApplicationUser>"
-    ConnectionStringName = "DareDbContext";   // Searches for this connection string in config files listed below
+    ConnectionStringName = "WebDbContext";   // Searches for this connection string in config files listed below
     TargetFrameworkVersion = "4.51"; // Please set this to your .NET framework version, 4.0, 4.5, 4.51, etc.
     ConfigurationClassName = "Configuration"; // Configuration, Mapping, Map, etc. This is appended to the Poco class name to configure the mappings.
     ConfigFilenameSearchOrder = new[] { "app.config", "web.config", "app.config.transform", "web.config.transform" }; // Add more here if required. The config files are searched for in the local project first, then the whole solution second.
@@ -60,8 +60,8 @@
     // Add the elements that should be generated when the template is executed.
     // Multiple projects can now be used that separate the different concerns.
     //ElementsToGenerate = Elements.Poco | Elements.Context | Elements.UnitOfWork | Elements.PocoConfiguration | Elements.StoredProcedures;
-	ElementsToGenerate = Elements.Context | Elements.UnitOfWork | Elements.PocoConfiguration;
-	
+	ElementsToGenerate = Elements.Context | Elements.UnitOfWork | Elements.PocoConfiguration; 
+
     // Use these namespaces to specify where the different elements now live. These may even be in different assemblies.
     // Please note this does not create the files in these locations, it only adds a using statement to say where they are.
     // I show how this works on the video from 26:08 onwards.
@@ -75,7 +75,7 @@
     //      UnitOfWorkNamespace = "YourProject.Context";	
     //      PocoConfigurationNamespace = "YourProject.Maps";
     // You also need to set the following to the namespace where they now live:
-    PocoNamespace = "";
+    PocoNamespace = "BizOneShot.Light.Models.WebModels";
     ContextNamespace = "";
     UnitOfWorkNamespace = "";	
     PocoConfigurationNamespace = "";
@@ -103,7 +103,7 @@
     //              TableFilterInclude = new Regex("^table_name1$|^table_name2$|etc");
     //              ColumnFilterExclude = new Regex("^FK_.*$");
     TableFilterExclude = null;
-    TableFilterInclude = new Regex("SY_USER");
+    TableFilterInclude = null;
     ColumnFilterExclude = null;
 
     // Stored Procedures ******************************************************************************************************************

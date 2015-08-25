@@ -20,6 +20,8 @@ using System.Data.Entity.ModelConfiguration;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
+using BizOneShot.Light.Models.DareModels;
+
 namespace BizOneShot.Light.Dao.DareConfiguration
 {
     // SY_USER

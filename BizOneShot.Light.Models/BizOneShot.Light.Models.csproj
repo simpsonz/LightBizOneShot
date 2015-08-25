@@ -43,6 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DareModels\Models.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareModels\SHUSER_SyUser.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="WebModels\Models.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -119,21 +127,25 @@
     <Compile Include="ViewModels\CsViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DareModels\Models.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Models.cs</LastGenOutput>
+    </Content>
     <Content Include="WebModels\Models.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Models.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="DareModels\EF.Reverse.POCO.Core.ttinclude" />
+    <None Include="DareModels\EF.Reverse.POCO.ttinclude" />
     <None Include="WebModels\EF.Reverse.POCO.Core.ttinclude" />
     <None Include="WebModels\EF.Reverse.POCO.ttinclude" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DareModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
