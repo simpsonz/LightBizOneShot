@@ -14,7 +14,7 @@ namespace BizOneShot.Light.Services
     public interface IScNtcService : IBaseService
     {
         IList<ScNtc> GetNotices(string searchType = null, string keyword = null);
-        IList<ScNtc> GetNoticeById(int noticeSn);
+        IDictionary<string, ScNtc> GetNoticeById(int noticeSn);
     }
 
 

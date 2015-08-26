@@ -28,7 +28,9 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public SHUSER_SyUser Insert(SHUSER_SyUser syUser)
         {
-            return this.DareDbContext.SHUSER_SyUsers.Add(syUser);
+            // 다래 DB가 운영이기 때문에 개발단계에서는 실제 저장안함. 운영 반영시 적용 필요
+            return null;
+            //return this.DareDbContext.SHUSER_SyUsers.Add(syUser);
         }
     }
 }

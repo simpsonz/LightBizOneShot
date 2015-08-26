@@ -1211,6 +1211,6 @@ input.list{width:114px;height:42px;background:url('../images/bt_list.png');color
 .file_photo img{width:320px;height:auto;text-align:center;}
 
 
-.text-danger {
-  color: #b94a48;
+.text-danger span {
+  color: #b94a48 !important;
 }
