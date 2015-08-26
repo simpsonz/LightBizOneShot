@@ -10,5 +10,7 @@ namespace BizOneShot.Light.Services
     public interface IBaseService
     {
         void SaveDbContext();
+
+        void SaveDbContextAsync();
     }
 }

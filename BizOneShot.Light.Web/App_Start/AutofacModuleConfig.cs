@@ -30,18 +30,14 @@ namespace BizOneShot.Light.Web.App_Start
             var builder = new ContainerBuilder();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>()
-                //.InstancePerRequest();
                 .InstancePerLifetimeScope();
             builder.RegisterType<DbFactory>().As<IDbFactory>()
-                //.InstancePerRequest();
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<DareUnitOfWork>().As<IDareUnitOfWork>()
-                //.InstancePerRequest();
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<DareDbFactory>().As<IDareDbFactory>()
-                //.InstancePerRequest();
                 .InstancePerLifetimeScope();
 
 
@@ -53,8 +49,7 @@ namespace BizOneShot.Light.Web.App_Start
             builder.RegisterAssemblyTypes(Assembly.Load("BizOneShot.Light.Dao"))
                 .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces()
-                //.InstancePerRequest();
-                .InstancePerLifetimeScope();
+                .InstancePerRequest();
 
             //Services
             //builder.RegisterAssemblyTypes(typeof(ScFaqService).Assembly)
@@ -64,8 +59,7 @@ namespace BizOneShot.Light.Web.App_Start
             builder.RegisterAssemblyTypes(Assembly.Load("BizOneShot.Light.Services"))
                 .Where(t => t.Name.EndsWith("Service"))
                 .AsImplementedInterfaces()
-                //.InstancePerRequest();
-                .InstancePerLifetimeScope();
+                .InstancePerRequest();
 
             IContainer container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

@@ -59,5 +59,10 @@ namespace BizOneShot.Light.Services
         {
             unitOfWork.Commit();
         }
+
+        public void SaveDbContextAsync()
+        {
+            unitOfWork.CommitAsync();
+        }
     }
 }
