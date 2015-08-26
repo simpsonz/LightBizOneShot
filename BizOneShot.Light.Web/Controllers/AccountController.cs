@@ -5,6 +5,7 @@ using BizOneShot.Light.Services;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Models.DareModels;
+using BizOneShot.Light.Util.Security;
 using AutoMapper;
 
 namespace BizOneShot.Light.Web.Controllers
@@ -48,6 +49,9 @@ namespace BizOneShot.Light.Web.Controllers
                 scUsr.Status = "N";
                 scUsr.UsrType = "C";
                 scUsr.UsrTypeDetail = "A";
+
+                SHACryptography sha2 = new SHACryptography();
+                scUsr.LoginPw = sha2.EncryptString(scUsr.LoginPw);
 
                 //회사정보 추가 정보 설정
                 scCompInfo.Status = "N";
