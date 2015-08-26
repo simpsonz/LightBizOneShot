@@ -1,4 +1,6 @@
 ﻿using System.Web.Mvc;
+using System;
+using System.Collections.Generic;
 using BizOneShot.Light.Services;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
@@ -39,6 +41,42 @@ namespace BizOneShot.Light.Web.Controllers
                 var scUsr = Mapper.Map<ScUsr>(joinCompanyViewModel);
                 var syUser = Mapper.Map<SHUSER_SyUser>(joinCompanyViewModel);
                 var scCompInfo = Mapper.Map<ScCompInfo>(joinCompanyViewModel);
+
+                //회원정보 추가 정보 설정
+                scUsr.RegId = scUsr.LoginId;
+                scUsr.RegDt = DateTime.Now;
+                scUsr.Status = "N";
+                scUsr.UsrType = "C";
+                scUsr.UsrTypeDetail = "A";
+
+                //회사정보 추가 정보 설정
+                scCompInfo.Status = "N";
+                scCompInfo.RegId = scUsr.LoginId;
+                scUsr.RegDt = DateTime.Now;
+
+                //개인, 법인사업자 구분 설정
+                int bizCode = Convert.ToInt32(scCompInfo.RegistrationNo.Substring(3, 2));
+                string bizType = string.Empty; //법인 : L, 개인 : C
+
+                if ((bizCode >= 1 && bizCode <= 79) || (bizCode >= 90 && bizCode <= 99) || bizCode == 89 || bizCode == 80)
+                {
+                    scCompInfo.CompType = "I"; //개인
+                }
+                else 
+                {
+                    scCompInfo.CompType = "C"; //법인
+                }
+
+                //다래 추가정보 설정
+                syUser.UsrGbn = "1";
+                syUser.UserStatus = "1";
+
+                //저장
+                IList<ScUsr> scUsrs = new List<ScUsr>();
+                scUsrs.Add(scUsr);
+                scCompInfo.ScUsrs = scUsrs;
+
+                bool result = _scUsrService.AddCompanyUser(scCompInfo, scUsr, syUser);
 
 
                 return View(joinCompanyViewModel);

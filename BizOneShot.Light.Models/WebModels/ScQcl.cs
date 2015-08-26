@@ -32,10 +32,6 @@ namespace BizOneShot.Light.Models.WebModels
 
         // Reverse navigation
         public virtual ICollection<ScFaq> ScFaqs { get; set; } // SC_FAQ.FK_SC_QCL_TO_SC_FAQ
-
-        // Foreign keys
-        public virtual ScUsr ScUsr_RegId { get; set; } // FK_SC_USR_TO_SC_QCL
-        public virtual ScUsr ScUsr_UpdId { get; set; } // FK_SC_USR_TO_SC_QCL2
         
         public ScQcl()
         {

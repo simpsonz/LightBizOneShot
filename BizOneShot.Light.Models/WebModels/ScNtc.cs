@@ -27,10 +27,6 @@ namespace BizOneShot.Light.Models.WebModels
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시
         public string UpdId { get; set; } // UPD_ID. 수정자
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
-
-        // Foreign keys
-        public virtual ScUsr ScUsr_RegId { get; set; } // FK_SC_USR_TO_SC_NTC
-        public virtual ScUsr ScUsr_UpdId { get; set; } // FK_SC_USR_TO_SC_NTC2
     }
 
 }

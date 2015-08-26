@@ -33,9 +33,6 @@ namespace BizOneShot.Light.Models.WebModels
         public virtual ScMentoringFileInfo ScMentoringFileInfo { get; set; } // SC_MENTORING_FILE_INFO.FK_SC_FILE_INFO_TO_SC_MENTORING_FILE_INFO
         public virtual ScMentoringTrFileInfo ScMentoringTrFileInfo { get; set; } // SC_MENTORING_TR_FILE_INFO.FK_SC_FILE_INFO_TO_SC_MENTORING_TR_FILE_INFO
         public virtual ScReqDocFile ScReqDocFile { get; set; } // SC_REQ_DOC_FILE.FK_SC_FILE_INFO_TO_SC_REQ_DOC_FILE
-
-        // Foreign keys
-        public virtual ScUsr ScUsr { get; set; } // FK_SC_USR_TO_SC_FILE_INFO
         
         public ScFileInfo()
         {

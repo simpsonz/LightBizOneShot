@@ -12,6 +12,7 @@ namespace BizOneShot.Light.Dao.Repositories
     public interface IScUsrRepository : IRepository<ScUsr>
     {
         IList<ScUsr> GetScUsrById(string loginId);
+        ScUsr Insert(ScUsr scUsr);
     }
 
 
@@ -23,6 +24,11 @@ namespace BizOneShot.Light.Dao.Repositories
         {
             var usrInfo = this.DbContext.ScUsrs.Where(ci => ci.LoginId == loginId).ToList();
             return usrInfo;
+        }
+
+        public ScUsr Insert(ScUsr scUsr)
+        {
+            return this.DbContext.ScUsrs.Add(scUsr);
         }
     }
 }

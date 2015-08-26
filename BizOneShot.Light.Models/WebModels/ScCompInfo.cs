@@ -43,10 +43,6 @@ namespace BizOneShot.Light.Models.WebModels
         public virtual ICollection<ScMentoringTotalReport> ScMentoringTotalReports { get; set; } // SC_MENTORING_TOTAL_REPORT.FK_SC_COMP_INFO_TO_MENTORING_TOTAL_REPORT
         public virtual ICollection<ScUsr> ScUsrs { get; set; } // SC_USR.FK_SC_COMP_INFO_TO_SC_USR
         public virtual ScBizType ScBizType { get; set; } // SC_BIZ_TYPE.FK_SC_COMP_INFO_TO_SC_BIZ_TYPE
-
-        // Foreign keys
-        public virtual ScUsr ScUsr_RegId { get; set; } // FK_SC_USR_TO_SC_COMP_INFO
-        public virtual ScUsr ScUsr_UpdId { get; set; } // FK_SC_USR_TO_SC_COMP_INFO2
         
         public ScCompInfo()
         {

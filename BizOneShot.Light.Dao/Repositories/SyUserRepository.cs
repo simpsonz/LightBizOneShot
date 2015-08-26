@@ -12,6 +12,7 @@ namespace BizOneShot.Light.Dao.Repositories
     public interface ISyUserRepository : IRepository<SHUSER_SyUser>
     {
         IList<SHUSER_SyUser> GetSyUserById(string loginId);
+        SHUSER_SyUser Insert(SHUSER_SyUser syUser);
     }
 
 
@@ -23,6 +24,11 @@ namespace BizOneShot.Light.Dao.Repositories
         {
             var usrInfo = this.DareDbContext.SHUSER_SyUsers.Where(ci => ci.IdUser == loginId).ToList();
             return usrInfo;
+        }
+
+        public SHUSER_SyUser Insert(SHUSER_SyUser syUser)
+        {
+            return this.DareDbContext.SHUSER_SyUsers.Add(syUser);
         }
     }
 }

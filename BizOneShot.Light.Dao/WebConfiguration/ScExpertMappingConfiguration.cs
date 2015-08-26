@@ -45,10 +45,8 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.UpdDt).HasColumnName("UPD_DT").IsOptional().HasColumnType("datetime");
 
             // Foreign keys
-            HasOptional(a => a.ScUsr_RegId).WithMany(b => b.ScExpertMappings_RegId).HasForeignKey(c => c.RegId); // FK_SC_USR_TO_SC_EXPERT_MAPPING
-            HasOptional(a => a.ScUsr_UpdId).WithMany(b => b.ScExpertMappings_UpdId).HasForeignKey(c => c.UpdId); // FK_SC_USR_TO_SC_EXPERT_MAPPING2
             HasRequired(a => a.ScBizWork).WithMany(b => b.ScExpertMappings).HasForeignKey(c => c.BizWorkSn); // FK_SC_BIZ_WORK_TO_SC_EXPERT_MAPPING
-            HasRequired(a => a.ScUsr_ExpertId).WithMany(b => b.ScExpertMappings_ExpertId).HasForeignKey(c => c.ExpertId); // FK_SC_USR_TO_SC_EXPERT_MAPPING3
+            HasRequired(a => a.ScUsr).WithMany(b => b.ScExpertMappings).HasForeignKey(c => c.ExpertId); // FK_SC_USR_TO_SC_EXPERT_MAPPING3
             InitializePartial();
         }
         partial void InitializePartial();

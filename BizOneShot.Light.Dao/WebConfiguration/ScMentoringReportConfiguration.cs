@@ -55,9 +55,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
 
             // Foreign keys
             HasOptional(a => a.ScCompInfo).WithMany(b => b.ScMentoringReports).HasForeignKey(c => c.CompSn); // FK_SC_COMP_INFO_TO_SC_MENTORING_REPORT
-            HasOptional(a => a.ScUsr_MentorId).WithMany(b => b.ScMentoringReports_MentorId).HasForeignKey(c => c.MentorId); // FK_SC_USR_TO_SC_MENTORING_REPORT
-            HasOptional(a => a.ScUsr_RegId).WithMany(b => b.ScMentoringReports_RegId).HasForeignKey(c => c.RegId); // FK_SC_USR_TO_SC_MENTORING_REPORT2
-            HasOptional(a => a.ScUsr_UpdId).WithMany(b => b.ScMentoringReports_UpdId).HasForeignKey(c => c.UpdId); // FK_SC_USR_TO_SC_MENTORING_REPORT3
+            HasOptional(a => a.ScUsr).WithMany(b => b.ScMentoringReports).HasForeignKey(c => c.MentorId); // FK_SC_USR_TO_SC_MENTORING_REPORT
             HasRequired(a => a.ScBizWork).WithMany(b => b.ScMentoringReports).HasForeignKey(c => c.BizWorkSn); // FK_SC_BIZ_WORK_TO_SC_MENTORING_REPORT
             InitializePartial();
         }

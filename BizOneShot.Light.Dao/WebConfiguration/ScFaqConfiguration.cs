@@ -48,8 +48,6 @@ namespace BizOneShot.Light.Dao.WebConfiguration
 
             // Foreign keys
             HasOptional(a => a.ScQcl).WithMany(b => b.ScFaqs).HasForeignKey(c => c.QclSn); // FK_SC_QCL_TO_SC_FAQ
-            HasOptional(a => a.ScUsr_RegId).WithMany(b => b.ScFaqs_RegId).HasForeignKey(c => c.RegId); // FK_SC_USR_TO_SC_FAQ
-            HasOptional(a => a.ScUsr_UpdId).WithMany(b => b.ScFaqs_UpdId).HasForeignKey(c => c.UpdId); // FK_SC_USR_TO_SC_FAQ2
             InitializePartial();
         }
         partial void InitializePartial();

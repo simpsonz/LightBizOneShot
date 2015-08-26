@@ -42,9 +42,6 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.Status).HasColumnName("STATUS").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
-
-            // Foreign keys
-            HasOptional(a => a.ScUsr).WithMany(b => b.ScFileInfoes).HasForeignKey(c => c.RegId); // FK_SC_USR_TO_SC_FILE_INFO
             InitializePartial();
         }
         partial void InitializePartial();

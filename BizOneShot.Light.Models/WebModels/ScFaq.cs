@@ -31,8 +31,6 @@ namespace BizOneShot.Light.Models.WebModels
 
         // Foreign keys
         public virtual ScQcl ScQcl { get; set; } // FK_SC_QCL_TO_SC_FAQ
-        public virtual ScUsr ScUsr_RegId { get; set; } // FK_SC_USR_TO_SC_FAQ
-        public virtual ScUsr ScUsr_UpdId { get; set; } // FK_SC_USR_TO_SC_FAQ2
     }
 
 }
