@@ -88,11 +88,13 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.SelectList = searchBy;
 
             var listScNtc = _scNtcService.GetNotices();
-
+            
             var noticeViews =
                 Mapper.Map<List<NoticeViewModel>>(listScNtc);
 
-            return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(1, 1), 1, 1, noticeViews.Count));
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(1, pagingSize), 1, pagingSize, noticeViews.Count));
         }
 
         [HttpPost]
@@ -110,7 +112,9 @@ namespace BizOneShot.Light.Web.Controllers
             var noticeViews =
                 Mapper.Map<List<NoticeViewModel>>(listScNtc);
 
-            return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(int.Parse(curPage), 10), int.Parse(curPage), 10, noticeViews.Count));
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, noticeViews.Count));
         }
 
         [HttpPost]

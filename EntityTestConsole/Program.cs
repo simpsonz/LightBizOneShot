@@ -48,6 +48,34 @@ namespace EntityTestConsole
             //Console.WriteLine(vm.FAQ_SN + "//" + vm.QST_TXT + "//" + vm.ANS_TXT);
 
             //Console.ReadLine();
+
+
+            using (var db = new WebDbContext())
+            {
+
+                var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).Take(1).FirstOrDefault();
+
+                Console.WriteLine(scNtc.NoticeSn);
+
+                //var usr = new ScUsr
+                //{
+                //    LoginId = "shinkoooooo",
+
+
+                //    RegId = "shinkoooooo",
+
+
+                //};
+
+                //usr.ScCompInfo = new ScCompInfo
+                //{
+                //    CompNm = "테스트"
+                //};
+
+                //db.ScUsrs.Add(usr);
+
+                //db.SaveChanges();
+            }
         }
 
 
