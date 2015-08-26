@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Configuration;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Services;
@@ -42,9 +43,14 @@ namespace BizOneShot.Light.Web.Controllers
 
             ViewBag.SelectList = searchBy;
 
-            var faqVM = _scFaqService.GetFaqs();
+            var faqs = _scFaqService.GetFaqs();
 
-            return View(new StaticPagedList<FaqViewModel>(faqVM.ToPagedList(1, 10), 1, 10, faqVM.Count));
+            var faqViews =
+               Mapper.Map<List<FaqViewModel>>(faqs);
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            return View(new StaticPagedList<FaqViewModel>(faqViews.ToPagedList(1, pagingSize), 1, pagingSize, faqViews.Count));
         }
 
         [HttpPost]
@@ -59,7 +65,12 @@ namespace BizOneShot.Light.Web.Controllers
 
             var faqs = _scFaqService.GetFaqs(SelectList, Query);
 
-            return View(new StaticPagedList<FaqViewModel>(faqs.ToPagedList(1, int.Parse(curPage)), int.Parse(curPage), 10, faqs.Count));
+            var faqViews =
+               Mapper.Map<List<FaqViewModel>>(faqs);
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            return View(new StaticPagedList<FaqViewModel>(faqViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, faqViews.Count));
         }
 
         #endregion

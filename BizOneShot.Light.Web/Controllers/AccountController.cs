@@ -1,6 +1,9 @@
 ﻿using System.Web.Mvc;
 using BizOneShot.Light.Services;
 using BizOneShot.Light.Models.ViewModels;
+using BizOneShot.Light.Models.WebModels;
+using BizOneShot.Light.Models.DareModels;
+using AutoMapper;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -33,7 +36,13 @@ namespace BizOneShot.Light.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var scUsr = Mapper.Map<ScUsr>(joinCompanyViewModel);
+                var syUser = Mapper.Map<SHUSER_SyUser>(joinCompanyViewModel);
+                var scCompInfo = Mapper.Map<ScCompInfo>(joinCompanyViewModel);
 
+
+                return View(joinCompanyViewModel);
+                //return RedirectToAction("CompanyJoinComplete", "Account");
             }
                 // 이 경우 오류가 발생한 것이므로 폼을 다시 표시하십시오.
             return View(joinCompanyViewModel);

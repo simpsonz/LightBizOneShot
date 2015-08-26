@@ -7,7 +7,6 @@ using System.Data.Entity;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.WebConfiguration;
-using BizOneShot.Light.Dao.WebConfiguration;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
