@@ -82,9 +82,10 @@ namespace BizOneShot.Light.Web.Controllers
 
                 bool result = _scUsrService.AddCompanyUser(scCompInfo, scUsr, syUser);
 
-
-                return View(joinCompanyViewModel);
-                //return RedirectToAction("CompanyJoinComplete", "Account");
+                if(result)
+                    return RedirectToAction("CompanyJoinComplete", "Account");
+                else
+                    return View(joinCompanyViewModel);
             }
                 // 이 경우 오류가 발생한 것이므로 폼을 다시 표시하십시오.
             return View(joinCompanyViewModel);
@@ -105,6 +106,12 @@ namespace BizOneShot.Light.Web.Controllers
                 return Json(new { result = false });
             }
 
+        }
+
+        [AllowAnonymous]
+        public ActionResult CompanyJoinComplete()
+        {
+            return View();
         }
     }
 }

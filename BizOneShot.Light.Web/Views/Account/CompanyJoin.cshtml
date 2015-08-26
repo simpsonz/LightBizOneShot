@@ -94,10 +94,13 @@
 </script>
 
 <div class="container">
-
+    
     <div class="desc">
         <p class="title join"><em>기업회원 정보입력</em></p>
     </div><!--desc//-->
+    <div class="joinstep">
+        <p class="accountant02"><em>정보입력</em></p>
+    </div>
     @using (Html.BeginForm("CompanyJoin", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()

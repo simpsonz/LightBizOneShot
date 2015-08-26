@@ -31,6 +31,21 @@ namespace BizOneShot.Light.Web.Controllers
             return View();
         }
 
+        public ActionResult CompanyGuide()
+        {
+            return View();
+        }
+
+        public ActionResult MentorGuide()
+        {
+            return View();
+        }
+
+        public ActionResult ExpertGuide()
+        {
+            return View();
+        }
+
         #region FAQ 
         public ActionResult Faq()
         {
