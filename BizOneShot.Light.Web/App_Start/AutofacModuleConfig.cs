@@ -29,11 +29,20 @@ namespace BizOneShot.Light.Web.App_Start
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
-            builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>()
+                //.InstancePerRequest();
+                .InstancePerLifetimeScope();
+            builder.RegisterType<DbFactory>().As<IDbFactory>()
+                //.InstancePerRequest();
+                .InstancePerLifetimeScope();
 
-            builder.RegisterType<DareUnitOfWork>().As<IDareUnitOfWork>().InstancePerRequest();
-            builder.RegisterType<DareDbFactory>().As<IDareDbFactory>().InstancePerRequest();
+            builder.RegisterType<DareUnitOfWork>().As<IDareUnitOfWork>()
+                //.InstancePerRequest();
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<DareDbFactory>().As<IDareDbFactory>()
+                //.InstancePerRequest();
+                .InstancePerLifetimeScope();
 
 
             // Repositories
@@ -43,8 +52,9 @@ namespace BizOneShot.Light.Web.App_Start
 
             builder.RegisterAssemblyTypes(Assembly.Load("BizOneShot.Light.Dao"))
                 .Where(t => t.Name.EndsWith("Repository"))
-                .AsImplementedInterfaces().InstancePerRequest();
-            //.InstancePerLifetimeScope();
+                .AsImplementedInterfaces()
+                //.InstancePerRequest();
+                .InstancePerLifetimeScope();
 
             //Services
             //builder.RegisterAssemblyTypes(typeof(ScFaqService).Assembly)
@@ -53,8 +63,9 @@ namespace BizOneShot.Light.Web.App_Start
 
             builder.RegisterAssemblyTypes(Assembly.Load("BizOneShot.Light.Services"))
                 .Where(t => t.Name.EndsWith("Service"))
-                .AsImplementedInterfaces().InstancePerRequest();
-            //.InstancePerLifetimeScope();
+                .AsImplementedInterfaces()
+                //.InstancePerRequest();
+                .InstancePerLifetimeScope();
 
             IContainer container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

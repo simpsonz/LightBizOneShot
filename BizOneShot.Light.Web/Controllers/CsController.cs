@@ -117,15 +117,30 @@ namespace BizOneShot.Light.Web.Controllers
             return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, noticeViews.Count));
         }
 
-        [HttpPost]
         public ActionResult NoticeDetail(int noticeSn)
         {
-            var scNtc = _scNtcService.GetNoticeById(noticeSn);
+            var dicScNtc = _scNtcService.GetNoticeDetailById(noticeSn);
 
-            var noticeView =
-                Mapper.Map<NoticeViewModel>(scNtc);
+            var noticeDetailView =
+                Mapper.Map<NoticeDetailViewModel>(dicScNtc["curNotice"]);
 
-            return View(noticeView);
+            foreach (var key in dicScNtc.Keys)
+            {
+                var value = dicScNtc[key];
+
+                if (key == "preNotice" && value != null)
+                {
+                    noticeDetailView.PreNoticeSn = value.NoticeSn;
+                    noticeDetailView.PreSubject = value.Subject;
+                }
+                else if (key == "nextNotice" && value != null)
+                {
+                    noticeDetailView.NextNoticeSn = value.NoticeSn;
+                    noticeDetailView.NextSubject = value.Subject;
+                }
+            }
+
+            return View(noticeDetailView);
         }
         #endregion
     }

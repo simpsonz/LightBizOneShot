@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.WebConfiguration;
 using BizOneShot.Light.Models.WebModels;
@@ -29,6 +32,12 @@ namespace EntityTestConsole
             //DeleteCompInfo();
             //DeleteScCompInfoWithoutSelect();
 
+            var r = pwdEncrypt("test");
+
+            Console.WriteLine(r);
+
+            Console.ReadLine();
+
             //Mapper.CreateMap<ScFaq, FaqViewModel>()
             //       .ForMember(d => d.FAQ_SN, map => map.MapFrom(s => s.FaqSn))
             //       .ForMember(d => d.ANS_TXT, map => map.MapFrom(s => s.AnsTxt))
@@ -50,32 +59,41 @@ namespace EntityTestConsole
             //Console.ReadLine();
 
 
-            using (var db = new WebDbContext())
-            {
+            //using (var db = new WebDbContext())
+            //{
 
-                var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).Take(1).FirstOrDefault();
+            //    //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).Take(1).FirstOrDefault();
 
-                Console.WriteLine(scNtc.NoticeSn);
-
-                //var usr = new ScUsr
-                //{
-                //    LoginId = "shinkoooooo",
+            //    //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).FirstOrDefault();
+            //    //Console.WriteLine(scNtc.NoticeSn);
 
 
-                //    RegId = "shinkoooooo",
 
 
-                //};
 
-                //usr.ScCompInfo = new ScCompInfo
-                //{
-                //    CompNm = "테스트"
-                //};
+            //    //var usr = new ScUsr
+            //    //{
+            //    //    LoginId = "shinkoooooo",
 
-                //db.ScUsrs.Add(usr);
 
-                //db.SaveChanges();
-            }
+            //    //    RegId = "shinkoooooo",
+
+
+            //    //};
+
+            //    //usr.ScCompInfo = new ScCompInfo
+            //    //{
+            //    //    CompNm = "테스트"
+            //    //};
+
+            //    //db.ScUsrs.Add(usr);
+
+            //    //db.SaveChanges();
+            //}
+
+
+
+
         }
 
 
@@ -299,6 +317,28 @@ namespace EntityTestConsole
 
             }
            
+        }
+
+
+        public static string pwdEncrypt(string password)
+        {
+            using (var db = new WebDbContext())
+            {
+                string sql = @"select PWDENCRYPT({0})";
+
+                List<Object> sqlParamsList = new List<object>();
+                sqlParamsList.Add(password);
+
+
+
+                var result = db.Database.SqlQuery<byte[]>(sql, sqlParamsList.ToArray()).FirstOrDefault();
+
+
+                return System.Text.Encoding.ASCII.GetString(result);
+            }
+
+
+            
         }
 
 

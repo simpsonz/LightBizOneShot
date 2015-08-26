@@ -58,6 +58,22 @@ namespace BizOneShot.Light.Models.ViewModels
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
     }
 
+    public class NoticeDetailViewModel
+    {
+        public int PreNoticeSn { get; set;}
+        public string PreSubject { get; set; }
+        public int NextNoticeSn { get; set; }
+        public string NextSubject { get; set; }
+        public int NoticeSn { get; set; } // NOTICE_SN (Primary key). 공지사항순번
+        public string Subject { get; set; } // SUBJECT. 제목
+        public string RmkTxt { get; set; } // RMK_TXT. 내용
+        public string Status { get; set; } // STATUS. 상태  N: 정상(Normal)  D: 사용안함(Deleted)
+        public string RegId { get; set; } // REG_ID. 등록자
+        public DateTime? RegDt { get; set; } // REG_DT. 등록일시
+        public string UpdId { get; set; } // UPD_ID. 수정자
+        public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
+    }
+
     #endregion
 
 }

@@ -736,6 +736,7 @@
     <Content Include="Scripts\PIE.htc" />
     <Content Include="Scripts\PIE.js" />
     <Content Include="Scripts\placeholders.min.js" />
+    <Content Include="Views\Cs\NoticeDetail.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

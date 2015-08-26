@@ -45,7 +45,7 @@
                                      }
                         else
                         {
-                            @Html.ActionLink(Model.PreSubject, "NoticeDetail", new { ntcSN = Model.PreNoticeSn })
+                            @Html.ActionLink(Model.PreSubject, "NoticeDetail", new { noticeSn = Model.PreNoticeSn })
                         }
                     </td>
                 </tr>
@@ -59,7 +59,7 @@
                         else
                         {
 
-                            @Html.ActionLink(Model.NextSubject, "NoticeDetail", new { ntcSN = Model.NextNoticeSn })
+                            @Html.ActionLink(Model.NextSubject, "NoticeDetail", new { noticeSn = Model.NextNoticeSn })
                         }
                     </td>
                 </tr>
