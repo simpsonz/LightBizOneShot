@@ -42,9 +42,7 @@ namespace BizOneShot.Light.Models.WebModels
 
         // Foreign keys
         public virtual ScCompInfo ScCompInfo { get; set; } // FK_SC_COMP_INFO_TO_SC_BIZ_WORK
-        public virtual ScUsr ScUsr_ExecutorId { get; set; } // FK_SC_USR_TO_SC_BIZ_WORK
-        public virtual ScUsr ScUsr_RegId { get; set; } // FK_SC_USR_TO_SC_BIZ_WORK2
-        public virtual ScUsr ScUsr_UpdId { get; set; } // FK_SC_USR_TO_SC_BIZ_WORK3
+        public virtual ScUsr ScUsr { get; set; } // FK_SC_USR_TO_SC_BIZ_WORK
         
         public ScBizWork()
         {

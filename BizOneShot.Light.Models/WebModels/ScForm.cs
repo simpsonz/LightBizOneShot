@@ -32,10 +32,6 @@ namespace BizOneShot.Light.Models.WebModels
 
         // Reverse navigation
         public virtual ICollection<ScFormFile> ScFormFiles { get; set; } // SC_FORM_FILE.FK_SC_FORM_TO_SC_FORM_FILE
-
-        // Foreign keys
-        public virtual ScUsr ScUsr_RegId { get; set; } // FK_SC_USR_TO_SC_FORM
-        public virtual ScUsr ScUsr_UpdId { get; set; } // FK_SC_USR_TO_SC_FORM2
         
         public ScForm()
         {

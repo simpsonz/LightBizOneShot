@@ -45,10 +45,6 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
             Property(x => x.UpdId).HasColumnName("UPD_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.UpdDt).HasColumnName("UPD_DT").IsOptional().HasColumnType("datetime");
-
-            // Foreign keys
-            HasOptional(a => a.ScUsr_RegId).WithMany(b => b.ScForms_RegId).HasForeignKey(c => c.RegId); // FK_SC_USR_TO_SC_FORM
-            HasOptional(a => a.ScUsr_UpdId).WithMany(b => b.ScForms_UpdId).HasForeignKey(c => c.UpdId); // FK_SC_USR_TO_SC_FORM2
             InitializePartial();
         }
         partial void InitializePartial();

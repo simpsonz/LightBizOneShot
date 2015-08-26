@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
+using BizOneShot.Light.Models.WebModels;
+using BizOneShot.Light.Models.ViewModels;
+using BizOneShot.Light.Models.DareModels;
 
 namespace BizOneShot.Light.Services
 {
@@ -15,23 +18,26 @@ namespace BizOneShot.Light.Services
         //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
 
         bool ChkLoginId(string loginId);
+        bool AddCompanyUser(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser);
     }
 
 
     public class ScUsrService : IScUsrService
     {
         private readonly IScUsrRepository scUsrRespository;
+        private readonly IScCompInfoRepository scCompInfoRespository;
         private readonly IUnitOfWork unitOfWork;
 
         private readonly ISyUserRepository syUserRespository;
         private readonly IDareUnitOfWork dareUnitOfWork;
 
-        public ScUsrService(IScUsrRepository scUsrRespository, IUnitOfWork unitOfWork, ISyUserRepository syUserRespository, IDareUnitOfWork dareUnitOfWor)
+        public ScUsrService(IScUsrRepository scUsrRespository, IUnitOfWork unitOfWork, ISyUserRepository syUserRespository, IDareUnitOfWork dareUnitOfWor, IScCompInfoRepository scCompInfoRespository)
         {
             this.scUsrRespository = scUsrRespository;
             this.unitOfWork = unitOfWork;
             this.syUserRespository = syUserRespository;
             this.dareUnitOfWork = dareUnitOfWor;
+            this.scCompInfoRespository = scCompInfoRespository;
         }
 
         public bool ChkLoginId(string loginId)
@@ -44,6 +50,19 @@ namespace BizOneShot.Light.Services
 
             return true;
         }
+
+        public bool AddCompanyUser(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser)
+        {
+            //var rstScUsr = scUsrRespository.Insert(scUsr);
+            //scCompInfo.
+            var rstScCompInfo = scCompInfoRespository.Insert(scCompInfo);
+            //var rstSyUser = syUserRespository.Insert(syUser);
+            SaveDbContext();
+
+            return true;
+        }
+
+
 
 
         public void SaveDbContext()

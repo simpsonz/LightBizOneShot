@@ -12,6 +12,7 @@ namespace BizOneShot.Light.Dao.Repositories
     public interface IScCompInfoRepository : IRepository<ScCompInfo>
     {
         IList<ScCompInfo> GetScCompInfoByName(string compNm);
+        ScCompInfo Insert(ScCompInfo compInfo);
     }
 
 
@@ -31,6 +32,11 @@ namespace BizOneShot.Light.Dao.Repositories
             compInfo.Email = "test@test.com";
 
             base.Update(compInfo);
+        }
+
+        public ScCompInfo Insert(ScCompInfo compInfo)
+        {
+            return this.DbContext.ScCompInfoes.Add(compInfo);
         }
     }
 }
