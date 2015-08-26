@@ -86,6 +86,30 @@ namespace BizOneShot.Light.Services
             return dicScNtcs;
         }
 
+        //이거 다시 봐야 함
+        public IDictionary<string, ScNtc> GetNoticeDetailByIdAsync(int noticeSn)
+        {
+
+            var preNotice =  scNtcRepository.GetManyAsync(ntc => ntc.NoticeSn < noticeSn && ntc.Status == "N").Result
+                .OrderBy(ntc => ntc.NoticeSn)
+                .LastOrDefault();
+
+            var curNotice = scNtcRepository.Get(ntc => ntc.NoticeSn == noticeSn);
+
+            var nextNotice = scNtcRepository.GetManyAsync(ntc => ntc.NoticeSn > noticeSn && ntc.Status == "N").Result
+                .OrderBy(ntc => ntc.NoticeSn)
+                .FirstOrDefault();
+
+            IDictionary<string, ScNtc> dicScNtcs = new Dictionary<string, ScNtc>();
+
+            dicScNtcs.Add("preNotice", preNotice);
+            dicScNtcs.Add("curNotice", curNotice);
+            dicScNtcs.Add("nextNotice", nextNotice);
+
+
+            return  dicScNtcs;
+        }
+
 
 
         public void SaveDbContext()

@@ -94,7 +94,12 @@ namespace BizOneShot.Light.Dao.Infrastructure
             return dbSet.Where(where).ToList();
         }
 
-        public T Get(Expression<Func<T, bool>> where)
+        public async Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where)
+        {
+            return await dbSet.Where(where).ToListAsync();
+        }
+
+        public virtual T Get(Expression<Func<T, bool>> where)
         {
             return dbSet.Where(where).FirstOrDefault<T>();
         }
@@ -178,7 +183,12 @@ namespace BizOneShot.Light.Dao.Infrastructure
             return dbSet.Where(where).ToList();
         }
 
-        public T Get(Expression<Func<T, bool>> where)
+        public async Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where)
+        {
+            return await dbSet.Where(where).ToListAsync();
+        }
+
+        public virtual T Get(Expression<Func<T, bool>> where)
         {
             return dbSet.Where(where).FirstOrDefault<T>();
         }
