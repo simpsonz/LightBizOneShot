@@ -48,7 +48,7 @@ namespace BizOneShot.Light.Web.Controllers
         }
 
         #region FAQ 
-        public ActionResult Faq()
+        public async Task<ActionResult> Faq()
         {
 
             var searchBy = new List<SelectListItem>(){
@@ -59,7 +59,7 @@ namespace BizOneShot.Light.Web.Controllers
 
             ViewBag.SelectList = searchBy;
 
-            var faqs = _scFaqService.GetFaqs();
+            var faqs = await _scFaqService.GetFaqs();
 
             var faqViews =
                Mapper.Map<List<FaqViewModel>>(faqs);
@@ -70,7 +70,7 @@ namespace BizOneShot.Light.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Faq(string SelectList, string Query, string curPage)
+        public async Task<ActionResult> Faq(string SelectList, string Query, string curPage)
         {
             var searchBy = new List<SelectListItem>(){
                 new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
@@ -79,7 +79,7 @@ namespace BizOneShot.Light.Web.Controllers
             };
             ViewBag.SelectList = searchBy;
 
-            var faqs = _scFaqService.GetFaqs(SelectList, Query);
+            var faqs = await _scFaqService.GetFaqs(SelectList, Query);
 
             var faqViews =
                Mapper.Map<List<FaqViewModel>>(faqs);

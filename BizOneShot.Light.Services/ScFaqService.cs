@@ -8,6 +8,7 @@ using BizOneShot.Light.Dao.Repositories;
 
 using System.Linq.Expressions;
 using System;
+using System.Threading.Tasks;
 
 namespace BizOneShot.Light.Services
 {
@@ -16,7 +17,7 @@ namespace BizOneShot.Light.Services
 
         //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
 
-        IList<ScFaq> GetFaqs(string searchType = null, string keyword = null);
+        Task<IList<ScFaq>> GetFaqs(string searchType = null, string keyword = null);
     }
 
 
@@ -31,27 +32,33 @@ namespace BizOneShot.Light.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public IList<ScFaq> GetFaqs(string searchType = null, string keyword = null)
+        public async Task<IList<ScFaq>> GetFaqs(string searchType = null, string keyword = null)
         {
+            IEnumerable<ScFaq> listScFaqTask = null;
 
             if (string.IsNullOrEmpty(searchType) || string.IsNullOrEmpty(keyword))
             {
-                return scFaqRespository.GetAll().ToList();
+                listScFaqTask = await scFaqRespository.GetManyAsync(faq => faq.Stat == "N");
+                return listScFaqTask.OrderByDescending(faq => faq.FaqSn).ToList();
             }
             else if (searchType.Equals("0")) // 질문, 답변중 keyword가 포함된 faq 검색 
             {
-                return scFaqRespository.GetMany(ci => ci.QstTxt.Contains(keyword) || ci.AnsTxt.Contains(keyword)).ToList();
+                listScFaqTask = await scFaqRespository.GetManyAsync(faq => faq.QstTxt.Contains(keyword) || faq.AnsTxt.Contains(keyword)& faq.Stat == "N");
+                return listScFaqTask.OrderByDescending(faq => faq.FaqSn).ToList();
             }
             else if (searchType.Equals("1")) // 질문중에 keyword가 포함된 faq 검색 
             {
-                return scFaqRespository.GetMany(ci => ci.QstTxt.Contains(keyword)).ToList();
+                listScFaqTask = await scFaqRespository.GetManyAsync(faq => faq.QstTxt.Contains(keyword) & faq.Stat == "N");
+                return listScFaqTask.OrderByDescending(faq => faq.FaqSn).ToList();
             }
             else if (searchType.Equals("2")) // 답변중에 keyword가 포함된 faq 검색 
             {
-                return scFaqRespository.GetMany(ci => ci.AnsTxt.Contains(keyword)).ToList();
+                listScFaqTask = await scFaqRespository.GetManyAsync(faq => faq.AnsTxt.Contains(keyword) & faq.Stat == "N");
+                return listScFaqTask.OrderByDescending(faq => faq.FaqSn).ToList();
             }
 
-            return scFaqRespository.GetAll().ToList();
+            listScFaqTask = await scFaqRespository.GetManyAsync(faq => faq.Stat == "N");
+            return listScFaqTask.OrderByDescending(faq => faq.FaqSn).ToList();
         }
 
 

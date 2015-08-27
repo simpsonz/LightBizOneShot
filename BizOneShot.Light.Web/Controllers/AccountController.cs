@@ -7,6 +7,7 @@ using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Models.DareModels;
 using BizOneShot.Light.Util.Security;
 using AutoMapper;
+using System.Threading.Tasks;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -74,6 +75,7 @@ namespace BizOneShot.Light.Web.Controllers
                 //다래 추가정보 설정
                 syUser.UsrGbn = "1";
                 syUser.UserStatus = "1";
+                syUser.Pwd = scUsr.LoginPw;
 
                 //저장
                 IList<ScUsr> scUsrs = new List<ScUsr>();
@@ -93,11 +95,11 @@ namespace BizOneShot.Light.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public JsonResult DoLoginIdSelect(string LoginId)
+        public async Task<JsonResult> DoLoginIdSelect(string LoginId)
         {
-            bool result = _scUsrService.ChkLoginId(LoginId);
+            bool result = await _scUsrService.ChkLoginId(LoginId);
 
-            if (result == true)
+            if (result.Equals(true))
             {
                 return Json(new { result = true });
             }
