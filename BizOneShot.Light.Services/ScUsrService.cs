@@ -58,7 +58,7 @@ namespace BizOneShot.Light.Services
             var rstScCompInfo = scCompInfoRespository.Insert(scCompInfo);
             var rstSyUser = syUserRespository.Insert(syUser);
 
-            if (rstScCompInfo == null || rstSyUser == null)
+            if (rstScCompInfo == null || rstSyUser != 1)
             { 
                 return false;
             }

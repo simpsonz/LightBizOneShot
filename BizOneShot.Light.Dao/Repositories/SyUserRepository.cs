@@ -12,7 +12,7 @@ namespace BizOneShot.Light.Dao.Repositories
     public interface ISyUserRepository : IRepository<SHUSER_SyUser>
     {
         IList<SHUSER_SyUser> GetSyUserById(string loginId);
-        SHUSER_SyUser Insert(SHUSER_SyUser syUser);
+        int Insert(SHUSER_SyUser syUser);
     }
 
 
@@ -26,10 +26,13 @@ namespace BizOneShot.Light.Dao.Repositories
             return usrInfo;
         }
 
-        public SHUSER_SyUser Insert(SHUSER_SyUser syUser)
+        public int Insert(SHUSER_SyUser syUser)
         {
             // 다래 DB가 운영이기 때문에 개발단계에서는 실제 저장안함. 운영 반영시 적용 필요
-            return null;
+            string commandString = string.Format("INSERT INTO SHUSER.SY_USER (ID_USER, MEMB_BUSNPERS_NO, NM_USER, PWD, USR_GBN, USER_STATUS) VALUES('{0}','{1}','{2}',PWDENCRYPT('{3}'),'{4}','{5}')",
+                                                      syUser.IdUser, syUser.MembBusnpersNo, syUser.NmUser, syUser.Pwd, syUser.UsrGbn, syUser.UserStatus);
+
+            return  this.DareDbContext.Database.ExecuteSqlCommand(commandString);
             //return this.DareDbContext.SHUSER_SyUsers.Add(syUser);
         }
     }

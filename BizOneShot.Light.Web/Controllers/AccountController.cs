@@ -74,6 +74,7 @@ namespace BizOneShot.Light.Web.Controllers
                 //다래 추가정보 설정
                 syUser.UsrGbn = "1";
                 syUser.UserStatus = "1";
+                syUser.Pwd = scUsr.LoginPw;
 
                 //저장
                 IList<ScUsr> scUsrs = new List<ScUsr>();

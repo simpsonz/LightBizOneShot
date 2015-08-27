@@ -10,7 +10,7 @@ using BizOneShot.Light.Dao.WebConfiguration;
 using BizOneShot.Light.Models.WebModels;
 
 using AutoMapper;
-
+using System.Data.SqlClient;
 
 namespace EntityTestConsole
 {
@@ -32,7 +32,7 @@ namespace EntityTestConsole
             //DeleteCompInfo();
             //DeleteScCompInfoWithoutSelect();
 
-            var r = pwdEncrypt("test");
+            var r = pwdEncrypt("ge40903910!!");
 
             Console.WriteLine(r);
 
@@ -324,17 +324,29 @@ namespace EntityTestConsole
         {
             using (var db = new WebDbContext())
             {
-                string sql = @"select PWDENCRYPT({0})";
+                //string sql = @"select PWDENCRYPT({0})";
+               // string commandString = @"UPDATE SC_USR set LOGIN_PW = PWDENCRYPT({0}) where LOGIN_ID = {1}";
 
-                List<Object> sqlParamsList = new List<object>();
-                sqlParamsList.Add(password);
+                string commandString = string.Format(@"UPDATE SC_USR set LOGIN_PW = PWDENCRYPT('{0}') where LOGIN_ID = '{1}'",
+                                                      password, "shinkoooooo");
+
+                var result = db.Database.ExecuteSqlCommand(commandString);
 
 
 
-                var result = db.Database.SqlQuery<byte[]>(sql, sqlParamsList.ToArray()).FirstOrDefault();
+                //var result = db.Database.SqlQuery<>(commandString, sqlParamsList.ToArray()).FirstOrDefault();
 
+                //var comps = db.ScUsrs.Where(ci => ci.LoginId == "shinkoooooo").ToList();
 
-                return System.Text.Encoding.ASCII.GetString(result);
+                //comps.ForEach(cis =>
+                //{
+                //    cis.LoginPw = result.;+
+                //});
+
+                db.SaveChanges();
+
+                //return System.Text.Encoding.ASCII.GetString(result);
+                return "TRUE";
             }
 
 
