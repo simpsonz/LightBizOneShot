@@ -29,9 +29,9 @@ namespace BizOneShot.Light.Dao.Infrastructure
 
         }
 
-        public async void CommitAsync()
+        public async Task<int> CommitAsync()
         {
-            await DbContext.SaveChangesAsync();
+            return await DbContext.SaveChangesAsync();
         }
     }
 
@@ -56,9 +56,9 @@ namespace BizOneShot.Light.Dao.Infrastructure
 
         }
 
-        public async void CommitAsync()
+        public async Task<int> CommitAsync()
         {
-            await dareDbContext.SaveChangesAsync();
+            return await dareDbContext.SaveChangesAsync();
         }
     }
 }
