@@ -17,7 +17,7 @@ namespace BizOneShot.Light.Services
 
         //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
 
-        bool ChkLoginId(string loginId);
+        Task<bool> ChkLoginId(string loginId);
         bool AddCompanyUser(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser);
     }
 
@@ -40,17 +40,23 @@ namespace BizOneShot.Light.Services
             this.scCompInfoRespository = scCompInfoRespository;
         }
 
-        public bool ChkLoginId(string loginId)
+        public async Task<bool> ChkLoginId(string loginId)
         {
-            if (scUsrRespository.GetScUsrById(loginId).Count() > 0)
+            IEnumerable<ScUsr> listScUsrTask = null;
+            listScUsrTask = await scUsrRespository.GetManyAsync(usr => usr.LoginId == loginId);
+
+            if (listScUsrTask.Count() > 0)
                 return false;
 
-            if (syUserRespository.GetSyUserById(loginId).Count() > 0)
+            IEnumerable<SHUSER_SyUser> listSyUserTask = null;
+            listSyUserTask = await syUserRespository.GetManyAsync(usr => usr.IdUser == loginId);
+
+            if (listSyUserTask.Count() > 0)
                 return false;
 
             return true;
         }
-
+         
         public bool AddCompanyUser(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser)
         {
             //var rstScUsr = scUsrRespository.Insert(scUsr);
@@ -64,7 +70,7 @@ namespace BizOneShot.Light.Services
             }
             else
             {
-                SaveDbContext();
+                SaveDbContextAsync();
                 return true;
             }
             
