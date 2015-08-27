@@ -6,8 +6,9 @@
             @if (Session[Global.UserType] == null)
             {
                 @*<li><a href="@Url.Action("Guide","Cs")" class="gnb gnb_guide">이용안내</a></li>*@
-                <li><a href="@Url.Action("Notice","Cs")" class="gnb gnb_notice">공지사항</a></li>
+                <li><a href="@Url.Action("Notice","Cs")" class="gnb gnb_notice">공지사항</a></li> @*나중에제거 : 로그인전에는 FAQ만*@
                 <li><a href="@Url.Action("Faq","Cs")" class="gnb gnb_faq">FAQ</a></li>
+                <li><a href="@Url.Action("Menual","Cs")" class="gnb gnb_menual">매뉴얼 및 서식</a></li> @*나중에제거 : 로그인전에는 FAQ만*@
             }
             else
             {

@@ -92,7 +92,8 @@ namespace BizOneShot.Light.Web.Controllers
         #endregion
 
         #region Notice(공지사항)
-        public ActionResult Notice()
+        [HttpGet]
+        public async Task<ActionResult> Notice()
         {
 
             var searchBy = new List<SelectListItem>(){
@@ -103,8 +104,9 @@ namespace BizOneShot.Light.Web.Controllers
 
             ViewBag.SelectList = searchBy;
 
-            var listScNtc = _scNtcService.GetNotices();
-            
+            //var listScNtc = _scNtcService.GetNotices();
+            var listScNtc = await _scNtcService.GetNoticesAsync();
+
             var noticeViews =
                 Mapper.Map<List<NoticeViewModel>>(listScNtc);
 
@@ -114,7 +116,7 @@ namespace BizOneShot.Light.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Notice(string SelectList, string Query, string curPage)
+        public async Task<ActionResult> Notice(string SelectList, string Query, string curPage)
         {
             var searchBy = new List<SelectListItem>(){
                 new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
@@ -123,7 +125,8 @@ namespace BizOneShot.Light.Web.Controllers
             };
             ViewBag.SelectList = searchBy;
 
-            var listScNtc = _scNtcService.GetNotices(SelectList, Query);
+            //var listScNtc = _scNtcService.GetNotices(SelectList, Query);
+            var listScNtc = await _scNtcService.GetNoticesAsync(SelectList, Query);
 
             var noticeViews =
                 Mapper.Map<List<NoticeViewModel>>(listScNtc);
@@ -133,16 +136,14 @@ namespace BizOneShot.Light.Web.Controllers
             return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, noticeViews.Count));
         }
 
+        [HttpGet]
         public  async Task<ActionResult> NoticeDetail(int noticeSn)
         {
             //var dicScNtc = _scNtcService.GetNoticeDetailById(noticeSn);
-           
-
             var dicScNtc = await _scNtcService.GetNoticeDetailByIdAsync(noticeSn);
 
             var noticeDetailView =
                 Mapper.Map<NoticeDetailViewModel>(dicScNtc["curNotice"]);
-
 
             foreach (var key in dicScNtc.Keys)
             {
@@ -160,7 +161,7 @@ namespace BizOneShot.Light.Web.Controllers
                 }
             }
 
-            return View(noticeDetailView);
+            return  View(noticeDetailView);
         }
         #endregion
     }
