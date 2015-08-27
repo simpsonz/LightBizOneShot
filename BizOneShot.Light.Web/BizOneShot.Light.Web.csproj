@@ -216,6 +216,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="ComLib\BaseController.cs" />
     <Compile Include="ComLib\Global.cs" />
     <Compile Include="ComLib\MvcHtmlStringHelper.cs" />
     <Compile Include="ComLib\TransactionAttribute.cs" />

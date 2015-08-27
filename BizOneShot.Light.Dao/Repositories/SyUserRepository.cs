@@ -29,8 +29,8 @@ namespace BizOneShot.Light.Dao.Repositories
         public int Insert(SHUSER_SyUser syUser)
         {
             // 다래 DB가 운영이기 때문에 개발단계에서는 실제 저장안함. 운영 반영시 적용 필요
-            string commandString = string.Format("INSERT INTO SHUSER.SY_USER (ID_USER, MEMB_BUSNPERS_NO, NM_USER, PWD, USR_GBN, USER_STATUS) VALUES('{0}','{1}','{2}',PWDENCRYPT('{3}'),'{4}','{5}')",
-                                                      syUser.IdUser, syUser.MembBusnpersNo, syUser.NmUser, syUser.Pwd, syUser.UsrGbn, syUser.UserStatus);
+            string commandString = string.Format("INSERT INTO SHUSER.SY_USER (ID_USER, MEMB_BUSNPERS_NO, NM_USER, PWD, USR_GBN, USER_STATUS, INSERT_ID, INSERT_DT) VALUES('{0}','{1}','{2}',PWDENCRYPT('{3}'),'{4}','{5}', '{6}' CONVERT(VARCHAR, GETDATE(), 112))",
+                                                      syUser.IdUser, syUser.MembBusnpersNo, syUser.NmUser, syUser.Pwd, syUser.UsrGbn, syUser.UserStatus, syUser.IdUser);
 
             return  this.DareDbContext.Database.ExecuteSqlCommand(commandString);
             //return this.DareDbContext.SHUSER_SyUsers.Add(syUser);
