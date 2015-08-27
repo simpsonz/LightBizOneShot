@@ -24,11 +24,12 @@ namespace BizOneShot.Light.Dao.Infrastructure
         T GetByKeys(IList<object> keys);
         // Get an entity using delegate
         T Get(Expression<Func<T, bool>> where);
+        Task<T> GetAsync(Expression<Func<T, bool>> where);
         // Gets all entities of type T
         IEnumerable<T> GetAll();
+        Task<IEnumerable<T>> GetAllAsync();
         // Gets entities using delegate
         IEnumerable<T> GetMany(Expression<Func<T, bool>> where);
-        // Gets entities using delegate by Async
         Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where);
     }
 }

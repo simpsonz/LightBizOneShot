@@ -23,14 +23,10 @@ namespace BizOneShot.Light.Dao.Infrastructure
             private set;
         }
 
-
-
         protected WebDbContext DbContext
         {
             get { return dbContext ?? (dbContext = DbFactory.Init()); }
         }
-
-
 
         #endregion
 
@@ -39,8 +35,6 @@ namespace BizOneShot.Light.Dao.Infrastructure
             DbFactory = dbFactory;
             dbSet = DbContext.Set<T>();
         }
-
-
 
         #region 구현
         public virtual void Add(T entity)
@@ -84,9 +78,24 @@ namespace BizOneShot.Light.Dao.Infrastructure
             return dbSet.Find(keys.ToArray());
         }
 
+        public virtual T Get(Expression<Func<T, bool>> where)
+        {
+            return dbSet.Where(where).FirstOrDefault<T>();
+        }
+
+        public virtual async Task<T> GetAsync(Expression<Func<T, bool>> where)
+        {
+            return await dbSet.Where(where).FirstOrDefaultAsync<T>();
+        }
+
         public virtual IEnumerable<T> GetAll()
         {
             return dbSet.ToList();
+        }
+
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await dbSet.ToListAsync();
         }
 
         public virtual IEnumerable<T> GetMany(Expression<Func<T, bool>> where)
@@ -94,14 +103,9 @@ namespace BizOneShot.Light.Dao.Infrastructure
             return dbSet.Where(where).ToList();
         }
 
-        public async Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where)
+        public virtual async Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where)
         {
             return await dbSet.Where(where).ToListAsync();
-        }
-
-        public virtual T Get(Expression<Func<T, bool>> where)
-        {
-            return dbSet.Where(where).FirstOrDefault<T>();
         }
 
         #endregion
@@ -173,9 +177,24 @@ namespace BizOneShot.Light.Dao.Infrastructure
             return dbSet.Find(keys.ToArray());
         }
 
+        public virtual T Get(Expression<Func<T, bool>> where)
+        {
+            return dbSet.Where(where).FirstOrDefault<T>();
+        }
+
+        public virtual async Task<T> GetAsync(Expression<Func<T, bool>> where)
+        {
+            return await dbSet.Where(where).FirstOrDefaultAsync<T>();
+        }
+
         public virtual IEnumerable<T> GetAll()
         {
             return dbSet.ToList();
+        }
+
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await dbSet.ToListAsync();
         }
 
         public virtual IEnumerable<T> GetMany(Expression<Func<T, bool>> where)
@@ -183,14 +202,9 @@ namespace BizOneShot.Light.Dao.Infrastructure
             return dbSet.Where(where).ToList();
         }
 
-        public async Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where)
+        public virtual async Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where)
         {
             return await dbSet.Where(where).ToListAsync();
-        }
-
-        public virtual T Get(Expression<Func<T, bool>> where)
-        {
-            return dbSet.Where(where).FirstOrDefault<T>();
         }
 
         #endregion
