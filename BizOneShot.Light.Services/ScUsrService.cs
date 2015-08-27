@@ -18,7 +18,9 @@ namespace BizOneShot.Light.Services
         //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
 
         Task<bool> ChkLoginId(string loginId);
-        bool AddCompanyUser(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser);
+        //bool AddCompanyUser(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser);
+
+        Task<int> AddCompanyUserAsync(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser);
     }
 
 
@@ -56,8 +58,28 @@ namespace BizOneShot.Light.Services
 
             return true;
         }
-         
-        public bool AddCompanyUser(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser)
+
+        //public  bool AddCompanyUser(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser)
+        //{
+        //    //var rstScUsr = scUsrRespository.Insert(scUsr);
+        //    //scCompInfo.
+        //    var rstScCompInfo = scCompInfoRespository.Insert(scCompInfo);
+        //    var rstSyUser = syUserRespository.Insert(syUser);
+
+        //    if (rstScCompInfo == null || rstSyUser != 1)
+        //    { 
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        await SaveDbContextAsync();
+        //        return true;
+        //    }
+
+        //}
+
+
+        public async Task<int> AddCompanyUserAsync(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser)
         {
             //var rstScUsr = scUsrRespository.Insert(scUsr);
             //scCompInfo.
@@ -65,15 +87,14 @@ namespace BizOneShot.Light.Services
             var rstSyUser = syUserRespository.Insert(syUser);
 
             if (rstScCompInfo == null || rstSyUser != 1)
-            { 
-                return false;
+            {
+                return -1;
             }
             else
             {
-                SaveDbContextAsync();
-                return true;
+                return await SaveDbContextAsync();
             }
-            
+
         }
 
 
@@ -84,9 +105,9 @@ namespace BizOneShot.Light.Services
             unitOfWork.Commit();
         }
 
-        public void SaveDbContextAsync()
+        public async Task<int> SaveDbContextAsync()
         {
-            unitOfWork.CommitAsync();
+            return await unitOfWork.CommitAsync();
         }
     }
 }

@@ -36,7 +36,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult CompanyJoin(JoinCompanyViewModel joinCompanyViewModel)
+        public async Task<ActionResult> CompanyJoin(JoinCompanyViewModel joinCompanyViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -82,14 +82,20 @@ namespace BizOneShot.Light.Web.Controllers
                 scUsrs.Add(scUsr);
                 scCompInfo.ScUsrs = scUsrs;
 
-                bool result = _scUsrService.AddCompanyUser(scCompInfo, scUsr, syUser);
+                //bool result = _scUsrService.AddCompanyUser(scCompInfo, scUsr, syUser);
+                int result = await _scUsrService.AddCompanyUserAsync(scCompInfo, scUsr, syUser);
 
-                if(result)
+                if (result != -1)
                     return RedirectToAction("CompanyJoinComplete", "Account");
                 else
                     return View(joinCompanyViewModel);
+
+                //if (result)
+                //    return RedirectToAction("CompanyJoinComplete", "Account");
+                //else
+                //    return View(joinCompanyViewModel);
             }
-                // 이 경우 오류가 발생한 것이므로 폼을 다시 표시하십시오.
+            // 이 경우 오류가 발생한 것이므로 폼을 다시 표시하십시오.
             return View(joinCompanyViewModel);
         }
 

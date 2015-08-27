@@ -11,6 +11,6 @@ namespace BizOneShot.Light.Services
     {
         void SaveDbContext();
 
-        void SaveDbContextAsync();
+        Task<int> SaveDbContextAsync();
     }
 }
