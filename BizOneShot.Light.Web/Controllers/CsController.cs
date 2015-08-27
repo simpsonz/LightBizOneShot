@@ -6,6 +6,7 @@ using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Services;
 using PagedList;
 using AutoMapper;
+using System.Threading.Tasks;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -132,12 +133,16 @@ namespace BizOneShot.Light.Web.Controllers
             return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, noticeViews.Count));
         }
 
-        public ActionResult NoticeDetail(int noticeSn)
+        public  async Task<ActionResult> NoticeDetail(int noticeSn)
         {
-            var dicScNtc = _scNtcService.GetNoticeDetailById(noticeSn);
+            //var dicScNtc = _scNtcService.GetNoticeDetailById(noticeSn);
+           
+
+            var dicScNtc = await _scNtcService.GetNoticeDetailByIdAsync(noticeSn);
 
             var noticeDetailView =
                 Mapper.Map<NoticeDetailViewModel>(dicScNtc["curNotice"]);
+
 
             foreach (var key in dicScNtc.Keys)
             {

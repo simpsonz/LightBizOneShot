@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Dao.Infrastructure;
@@ -16,6 +16,7 @@ namespace BizOneShot.Light.Services
     {
         IList<ScNtc> GetNotices(string searchType = null, string keyword = null);
         IDictionary<string, ScNtc> GetNoticeDetailById(int noticeSn);
+        Task<IDictionary<string, ScNtc>> GetNoticeDetailByIdAsync(int noticeSn);
     }
 
 
@@ -86,19 +87,18 @@ namespace BizOneShot.Light.Services
             return dicScNtcs;
         }
 
-        //이거 다시 봐야 함
-        public IDictionary<string, ScNtc> GetNoticeDetailByIdAsync(int noticeSn)
+        //Async
+        public async Task<IDictionary<string, ScNtc>> GetNoticeDetailByIdAsync(int noticeSn)
         {
 
-            var preNotice =  scNtcRepository.GetManyAsync(ntc => ntc.NoticeSn < noticeSn && ntc.Status == "N").Result
-                .OrderBy(ntc => ntc.NoticeSn)
-                .LastOrDefault();
+            var preNoticeTask = await scNtcRepository.GetManyAsync(ntc => ntc.NoticeSn < noticeSn && ntc.Status == "N");
+            var preNotice = preNoticeTask.OrderBy(ntc => ntc.NoticeSn).LastOrDefault();
 
-            var curNotice = scNtcRepository.Get(ntc => ntc.NoticeSn == noticeSn);
 
-            var nextNotice = scNtcRepository.GetManyAsync(ntc => ntc.NoticeSn > noticeSn && ntc.Status == "N").Result
-                .OrderBy(ntc => ntc.NoticeSn)
-                .FirstOrDefault();
+            var curNotice = await scNtcRepository.GetAsync(ntc => ntc.NoticeSn == noticeSn);
+
+            var nextNoticeTask = await scNtcRepository.GetManyAsync(ntc => ntc.NoticeSn > noticeSn && ntc.Status == "N");
+            var nextNotice = nextNoticeTask.OrderBy(ntc => ntc.NoticeSn).FirstOrDefault();
 
             IDictionary<string, ScNtc> dicScNtcs = new Dictionary<string, ScNtc>();
 
