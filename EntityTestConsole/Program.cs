@@ -144,7 +144,6 @@ namespace EntityTestConsole
         {
             using (var db = new WebDbContext())
             {
-
                 var compinfo = db.ScCompInfoes.Find(6);
                 if (compinfo != null)
                 {

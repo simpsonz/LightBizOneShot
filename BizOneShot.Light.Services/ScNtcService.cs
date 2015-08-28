@@ -142,8 +142,7 @@ namespace BizOneShot.Light.Services
             return  dicScNtcs;
         }
 
-
-
+        #region SaveDbContext
         public void SaveDbContext()
         {
             unitOfWork.Commit();
@@ -153,5 +152,7 @@ namespace BizOneShot.Light.Services
         {
             return await unitOfWork.CommitAsync();
         }
+        #endregion
+
     }
 }

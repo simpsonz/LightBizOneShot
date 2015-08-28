@@ -773,6 +773,7 @@
     <Content Include="Views\Cs\CompanyGuide.cshtml" />
     <Content Include="Views\Cs\MentorGuide.cshtml" />
     <Content Include="Views\Cs\ExpertGuide.cshtml" />
+    <Content Include="Views\Cs\Manual.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

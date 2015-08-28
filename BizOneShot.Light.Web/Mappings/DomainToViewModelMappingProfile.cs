@@ -31,6 +31,9 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<ScNtc, NoticeDetailViewModel>()
                 .ForMember(d => d.PreNoticeSn, map => map.UseValue(0))
                 .ForMember(d => d.NextNoticeSn, map => map.UseValue(0));
+
+            //매뉴얼 Manual 매핑
+            Mapper.CreateMap<ScForm, ManualViewModel>();
         }
     }
 }

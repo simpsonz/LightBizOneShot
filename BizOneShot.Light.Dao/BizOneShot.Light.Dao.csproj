@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\ScFormRepository.cs" />
     <Compile Include="Repositories\SyUserRepository.cs" />
     <Compile Include="WebConfiguration\Database.cs">
       <AutoGen>True</AutoGen>

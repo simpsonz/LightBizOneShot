@@ -17,7 +17,7 @@ namespace BizOneShot.Light.Services
 
         //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
 
-        Task<IList<ScFaq>> GetFaqs(string searchType = null, string keyword = null);
+        Task<IList<ScFaq>> GetFaqsAsync(string searchType = null, string keyword = null);
     }
 
 
@@ -32,7 +32,7 @@ namespace BizOneShot.Light.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<IList<ScFaq>> GetFaqs(string searchType = null, string keyword = null)
+        public async Task<IList<ScFaq>> GetFaqsAsync(string searchType = null, string keyword = null)
         {
             IEnumerable<ScFaq> listScFaqTask = null;
 

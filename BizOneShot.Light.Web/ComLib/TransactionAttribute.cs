@@ -8,14 +8,14 @@ using BizOneShot.Light.Dao.Infrastructure;
 
 namespace BizOneShot.Light.Web.ComLib
 {
-    public class TransactionAttribute : ActionFilterAttribute
+    public class WebDbTransactionAttribute : ActionFilterAttribute
     {
         protected readonly IDbFactory dbFactory;
         private WebDbContext dbContext;
         private System.Data.Entity.DbContextTransaction tran;
 
      
-        public TransactionAttribute(IDbFactory dbFactory)
+        public WebDbTransactionAttribute(IDbFactory dbFactory)
         {
             this.dbFactory = dbFactory;
         }

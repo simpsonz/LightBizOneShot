@@ -19,7 +19,7 @@ namespace BizOneShot.Light.Models.WebModels
     // SC_FORM_FILE
     public class ScFormFile
     {
-        public int FileSn2 { get; set; } // FILE_SN2 (Primary key). 파일식별자
+        public int FileSn { get; set; } // FILE_SN (Primary key). 파일식별자
         public int FormSn { get; set; } // FORM_SN. 서식식별자(순번)
 
         // Foreign keys
