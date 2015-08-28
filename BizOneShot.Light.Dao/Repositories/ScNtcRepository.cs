@@ -16,7 +16,9 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public class ScNtcRepository : RepositoryBase<ScNtc>, IScNtcRepository
     {
-        public ScNtcRepository(IDbFactory dbFactory) : base(dbFactory) { }
+        public ScNtcRepository(IDbFactory dbFactory) : base(dbFactory)
+        {
+        }
 
     }
 }
