@@ -108,6 +108,12 @@ namespace BizOneShot.Light.Dao.Infrastructure
             return await dbSet.Where(where).ToListAsync();
         }
 
+        //public virtual async Task<IEnumerable<T>> GetManyIncludeAsync(Expression<Func<T, bool>> where, string include)
+        //{
+        //    return await dbSet.Include(include).Where(where).ToListAsync();
+        //}
+
+
         #endregion
     }
 
@@ -206,6 +212,8 @@ namespace BizOneShot.Light.Dao.Infrastructure
         {
             return await dbSet.Where(where).ToListAsync();
         }
+
+       
 
         #endregion
     }

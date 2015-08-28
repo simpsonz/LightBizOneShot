@@ -239,8 +239,11 @@ namespace EntityTestConsole
               
                 db.Database.ExecuteSqlCommand(sql,p1,p2);
 
+
   
             }
+
+            
 
         }
 
