@@ -221,6 +221,12 @@ namespace BizOneShot.Light.Web.Controllers
             return View();
         }
 
-        
+
+        public ActionResult Logoff()
+        {
+            LogOff();
+            return RedirectToAction("Login");
+        }
+
     }
 }

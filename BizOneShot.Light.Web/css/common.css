@@ -1217,3 +1217,7 @@ input.list{width:114px;height:42px;background:url('../images/bt_list.png');color
 .text-danger span {
   color: #b94a48 !important;
 }
+
+.text-danger ul li {
+  color: #b94a48 !important;
+}

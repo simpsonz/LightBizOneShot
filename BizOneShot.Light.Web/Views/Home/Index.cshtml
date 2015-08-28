@@ -9,9 +9,8 @@
         @using (Html.BeginForm("index", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
             <div id="main_loginwrap">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <p class="login_input">
                     @Html.TextBoxFor(m => m.ID, new { @placeholder = "아이디" })
                 </p>
