@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Resources;
 
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BizOneShot.Light.Web.ComLib
 {
@@ -75,6 +77,24 @@ namespace BizOneShot.Light.Web.ComLib
 
             sb.Append("</ul></div></div>");
             return MvcHtmlString.Create(sb.ToString());
+        }
+
+
+        /// <summary>
+        /// HTML 금지문자 변경
+        /// </summary>
+        /// <param name="helper"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static IHtmlString RepladeHtmlText(this HtmlHelper helper, string text)
+        {
+            if (String.IsNullOrEmpty(text))
+            {
+                return new HtmlString(""); 
+            }
+
+           return helper.Raw(text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\n", "<br/>").Replace(" ", "&nbsp;"));
+
         }
     }
 }

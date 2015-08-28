@@ -34,9 +34,9 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public ScFormFileConfiguration(string schema)
         {
             ToTable(schema + ".SC_FORM_FILE");
-            HasKey(x => x.FileSn2);
+            HasKey(x => x.FileSn);
 
-            Property(x => x.FileSn2).HasColumnName("FILE_SN2").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.FileSn).HasColumnName("FILE_SN2").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.FormSn).HasColumnName("FORM_SN").IsRequired().HasColumnType("int");
 
             // Foreign keys

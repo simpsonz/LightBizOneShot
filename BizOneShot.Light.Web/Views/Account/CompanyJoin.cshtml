@@ -142,7 +142,7 @@
             <ul><li class="mark">대표자명</li><li class="info">@Html.TextBoxFor(model => model.ComOwnNm, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComOwnNm, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
             <ul>
                 <li class="mark">사업자등록번호</li>
-                <li class="info">@Html.TextBoxFor(model => model.ComRegistrationNo, new { @class = "w240", @placeholder = "-표시없이 기입해 주세요" })<input type="button" class="td_confirm" value="확인">  @Html.ValidationMessageFor(model => model.ComRegistrationNo, "", new { @class = "text-danger", @color = "#b94a48" })</li>
+                <li class="info">@Html.TextBoxFor(model => model.ComRegistrationNo, new {@maxlength="10", @class = "w240", @placeholder = "-표시없이 기입해 주세요" })<input type="button" class="td_confirm" value="확인">  @Html.ValidationMessageFor(model => model.ComRegistrationNo, "", new { @class = "text-danger", @color = "#b94a48" })</li>
             </ul>
 
             <ul>

@@ -31,5 +31,7 @@ namespace BizOneShot.Light.Dao.Infrastructure
         // Gets entities using delegate
         IEnumerable<T> GetMany(Expression<Func<T, bool>> where);
         Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where);
+        //Task<IEnumerable<T>> GetManyIncludeAsync(Expression<Func<T, bool>> where, string include);
+
     }
 }

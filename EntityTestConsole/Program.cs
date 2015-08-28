@@ -144,7 +144,6 @@ namespace EntityTestConsole
         {
             using (var db = new WebDbContext())
             {
-
                 var compinfo = db.ScCompInfoes.Find(6);
                 if (compinfo != null)
                 {
@@ -240,8 +239,11 @@ namespace EntityTestConsole
               
                 db.Database.ExecuteSqlCommand(sql,p1,p2);
 
+
   
             }
+
+            
 
         }
 

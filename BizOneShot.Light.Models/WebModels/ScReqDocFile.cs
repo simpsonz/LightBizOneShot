@@ -19,7 +19,7 @@ namespace BizOneShot.Light.Models.WebModels
     // SC_REQ_DOC_FILE
     public class ScReqDocFile
     {
-        public int FileSn2 { get; set; } // FILE_SN2 (Primary key). 파일식별자
+        public int FileSn { get; set; } // FILE_SN (Primary key). 파일식별자
         public int ReqDocSn { get; set; } // REQ_DOC_SN. 자료요청식별자(순번)
         public string RegType { get; set; } // REG_TYPE. 작성자 유형  S: 요청자가 작성한 첨부파일(Sender)  R: 답변자가 작성한 첨부파일(Receiver)
 

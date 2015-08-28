@@ -10,16 +10,13 @@ using BizOneShot.Light.Dao.WebConfiguration;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
-
-    public interface IScQclRepository : IRepository<ScQcl>
+    public interface IScFormRepository : IRepository<ScForm>
     {
-        //IList<ScCompInfo> GetScCompInfoByName(string compNm);
     }
 
-
-    public class ScQclRepository : RepositoryBase<ScQcl>, IScQclRepository
+    public class ScFormRepository : RepositoryBase<ScForm>, IScFormRepository
     {
-        public ScQclRepository(IDbFactory dbFactory) : base(dbFactory) { }
+        public ScFormRepository(IDbFactory dbFactory) : base(dbFactory) { }
 
     }
 }

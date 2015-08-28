@@ -14,11 +14,13 @@ namespace BizOneShot.Light.Web.Controllers
     {
         private readonly IScFaqService _scFaqService;
         private readonly IScNtcService _scNtcService;
+        private readonly IScFormService _scFormService;
 
-        public CsController(IScFaqService scFaqService, IScNtcService scNtcServcie)
+        public CsController(IScFaqService scFaqService, IScNtcService scNtcServcie, IScFormService scFormService)
         {
             this._scFaqService = scFaqService;
             this._scNtcService = scNtcServcie;
+            this._scFormService = scFormService;
         }
 
         public CsController()
@@ -59,7 +61,7 @@ namespace BizOneShot.Light.Web.Controllers
 
             ViewBag.SelectList = searchBy;
 
-            var faqs = await _scFaqService.GetFaqs();
+            var faqs = await _scFaqService.GetFaqsAsync();
 
             var faqViews =
                Mapper.Map<List<FaqViewModel>>(faqs);
@@ -79,7 +81,7 @@ namespace BizOneShot.Light.Web.Controllers
             };
             ViewBag.SelectList = searchBy;
 
-            var faqs = await _scFaqService.GetFaqs(SelectList, Query);
+            var faqs = await _scFaqService.GetFaqsAsync(SelectList, Query);
 
             var faqViews =
                Mapper.Map<List<FaqViewModel>>(faqs);
@@ -92,7 +94,6 @@ namespace BizOneShot.Light.Web.Controllers
         #endregion
 
         #region Notice(공지사항)
-        [HttpGet]
         public async Task<ActionResult> Notice()
         {
 
@@ -136,7 +137,6 @@ namespace BizOneShot.Light.Web.Controllers
             return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, noticeViews.Count));
         }
 
-        [HttpGet]
         public  async Task<ActionResult> NoticeDetail(int noticeSn)
         {
             //var dicScNtc = _scNtcService.GetNoticeDetailById(noticeSn);
@@ -162,6 +162,53 @@ namespace BizOneShot.Light.Web.Controllers
             }
 
             return  View(noticeDetailView);
+        }
+        #endregion
+
+        #region Manual(매뉴얼)
+        public async Task<ActionResult> Manual()
+        {
+
+            var searchBy = new List<SelectListItem>(){
+                new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
+                new SelectListItem { Value = "1", Text = "제목" },
+                new SelectListItem { Value = "2", Text = "내용" }
+            };
+
+            ViewBag.SelectList = searchBy;
+
+
+            var listScForm = await _scFormService.GetManualsAsync();
+
+            var manualViews =
+                Mapper.Map<List<ManualViewModel>>(listScForm);
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            return View(new StaticPagedList<ManualViewModel>(manualViews.ToPagedList(1, pagingSize), 1, pagingSize, manualViews.Count));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Manual(string SelectList, string Query, string curPage)
+        {
+
+            var searchBy = new List<SelectListItem>(){
+                new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
+                new SelectListItem { Value = "1", Text = "제목" },
+                new SelectListItem { Value = "2", Text = "내용" }
+            };
+
+            ViewBag.SelectList = searchBy;
+
+
+            var listScForm = await _scFormService.GetManualsAsync(SelectList, Query);
+
+            var manualViews =
+                Mapper.Map<List<ManualViewModel>>(listScForm);
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            return View(new StaticPagedList<ManualViewModel>(manualViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, manualViews.Count));
         }
         #endregion
     }
