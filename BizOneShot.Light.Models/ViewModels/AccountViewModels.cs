@@ -107,4 +107,23 @@ namespace BizOneShot.Light.Models.ViewModels
         public int MngCompSn { get; set; } // COMP_SN. 기업식별자 (관리기관 식별자)
         public int BizWorkSn { get; set; } // BIZ_WORK_SN (Primary key). 사업식별자
     }
+
+    public class LoginViewModel
+    {
+        [Required]
+        [Display(Name = "아이디")]
+        [MaxLength(12, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [MinLength(6, ErrorMessage = "{0}는 {1}자 이상이어야 합니다.")]
+        public string ID { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "암호")]
+        [MaxLength(12, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [MinLength(8, ErrorMessage = "{0}는 {1}자 이상이어야 합니다.")]
+        public string Password { get; set; }
+
+        [Display(Name = "아이디 저장")]
+        public bool RememberMe { get; set; }
+    }
 }

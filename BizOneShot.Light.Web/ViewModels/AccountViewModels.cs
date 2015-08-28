@@ -62,24 +62,7 @@ namespace BizOneShot.Light.Web.ViewModels
         public bool RememberMe { get; set; }
     }
 
-    public class LoginViewModel
-    {
-        [Required]
-        [Display(Name = "아이디")]
-        [MaxLength(12, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
-        [MinLength(6, ErrorMessage = "{0}는 {1}자 이상이어야 합니다.")]
-        public string ID { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "암호")]
-        [MaxLength(12, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
-        [MinLength(8, ErrorMessage = "{0}는 {1}자 이상이어야 합니다.")]
-        public string Password { get; set; }
-
-        [Display(Name = "아이디 저장")]
-        public bool RememberMe { get; set; }
-    }
+   
 
     public class RegisterViewModel
     {

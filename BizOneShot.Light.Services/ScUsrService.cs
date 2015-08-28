@@ -18,7 +18,7 @@ namespace BizOneShot.Light.Services
         //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
 
         Task<bool> ChkLoginId(string loginId);
-        //bool AddCompanyUser(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser);
+        Task<ScUsr> SelectScUsr(string loginId);
 
         Task<int> AddCompanyUserAsync(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser);
     }
@@ -59,24 +59,13 @@ namespace BizOneShot.Light.Services
             return true;
         }
 
-        //public  bool AddCompanyUser(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser)
-        //{
-        //    //var rstScUsr = scUsrRespository.Insert(scUsr);
-        //    //scCompInfo.
-        //    var rstScCompInfo = scCompInfoRespository.Insert(scCompInfo);
-        //    var rstSyUser = syUserRespository.Insert(syUser);
 
-        //    if (rstScCompInfo == null || rstSyUser != 1)
-        //    { 
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        await SaveDbContextAsync();
-        //        return true;
-        //    }
+        public async Task<ScUsr> SelectScUsr(string loginId)
+        {
+            var scUsr = await scUsrRespository.GetAsync(sc => sc.LoginId == loginId);
 
-        //}
+            return scUsr;
+        }
 
 
         public async Task<int> AddCompanyUserAsync(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser)

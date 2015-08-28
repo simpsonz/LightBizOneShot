@@ -12,17 +12,18 @@ namespace BizOneShot.Light.Web.ComLib
         public static readonly string UserSN = "UserSN";
         public static readonly string UserNM = "UserNM";
         public static readonly string UserType = "UserType";
-        public static readonly string UserTypeVal = "UserTypeEnum";
+        public static readonly string UserDetailType = "UserDetailType";
+        public static readonly string UserLogo = "UserLogo";
 
         //쿠키상수
         public static readonly string ScpSearch = "ScpSearch";
 
         //UserType
-        public const string CompanyUser = "C";
-        public const string Bookkeeper = "B";
-        public const string TaxAccountant = "T";
-        public const string TaxOperator = "O";
-        public const string SCPAdministrator = "S";
+        public const string Company = "C";
+        public const string Mentor = "M";
+        public const string Expert = "P";
+        public const string BizManager = "B";
+        public const string SysManager = "S";
 
     }
 }

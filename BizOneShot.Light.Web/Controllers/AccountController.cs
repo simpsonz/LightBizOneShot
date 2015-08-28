@@ -57,7 +57,7 @@ namespace BizOneShot.Light.Web.Controllers
                 //회사정보 추가 정보 설정
                 scCompInfo.Status = "N";
                 scCompInfo.RegId = scUsr.LoginId;
-                scUsr.RegDt = DateTime.Now;
+                scCompInfo.RegDt = DateTime.Now;
 
                 //개인, 법인사업자 구분 설정
                 int bizCode = Convert.ToInt32(scCompInfo.RegistrationNo.Substring(3, 2));
@@ -120,6 +120,49 @@ namespace BizOneShot.Light.Web.Controllers
         public ActionResult CompanyJoinComplete()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<ActionResult> DoLogin(LoginViewModel loginViewModel)
+        {
+            ScUsr scUsr = await _scUsrService.SelectScUsr(loginViewModel.ID);
+            if (scUsr != null)
+            {
+                //패스워드비교
+                SHACryptography sha2 = new SHACryptography();
+                if (scUsr.LoginPw == sha2.EncryptString(loginViewModel.Password))
+                //if (user.LOGIN_PW == param.LOGIN_PW)
+                {
+                    //base.LogOn(scUsr);
+                    //string usrType = user.USR_TYPE;
+                    switch(scUsr.UsrType)
+                    {
+                        case "C": //기업
+                            return RedirectToAction("index", "Commpany/Main");
+                        case "M": //멘토
+                            return RedirectToAction("index", "Mentor/Main");
+                        case "P": //전문가
+                            return RedirectToAction("index", "Expert/Main");
+                        case "S": //SCP
+                            return RedirectToAction("index", "SysManager/Main");
+                        case "B": //사업관리자
+                            return RedirectToAction("index", "BizManager/Main");
+                        default:
+                            return RedirectToAction("index", "Home");
+                    }
+                    
+                }
+                else
+                {
+                    return RedirectToAction("index", "Home");
+                }
+            }
+            else
+            {
+                return RedirectToAction("index", "Home");
+            }
         }
     }
 }
