@@ -40,7 +40,6 @@ namespace BizOneShot.Light.Web.App_Start
             builder.RegisterType<DareDbFactory>().As<IDareDbFactory>()
                 .InstancePerLifetimeScope();
 
-
             // Repositories
             //builder.RegisterAssemblyTypes(typeof(ScFaqRepository).Assembly)
             //    .Where(t => t.Name.EndsWith("Repository"))
