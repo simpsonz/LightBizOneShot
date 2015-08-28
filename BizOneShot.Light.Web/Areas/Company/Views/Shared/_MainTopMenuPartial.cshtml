@@ -1,0 +1,21 @@
+﻿@Scripts.Render("~/bundles/common")
+
+<div id="headerwrap_biz">
+    <div class="container">
+        <a href="@Url.Action("Index","Main",new { area= "Company" })"><h1 class="gangneung_logo_small04"><em>강릉원주대학교 기업회원</em></h1></a><a href="#" class="name">@if (Session[BizOneShot.Light.Web.ComLib.Global.UserNM] != null)
+        { @Session[BizOneShot.Light.Web.ComLib.Global.UserNM].ToString() } 님</a><a href="#" class="down"></a>
+        <div id="header_logoutwrap">
+            <!--로그아웃 레이어(클릭시 보임)-->
+            <div class="header_logout"><a href="@Url.Action("Logoff","Member",new { area= "" })">로그아웃</a></div>
+        </div><!--로그아웃 레이어 끝-->
+        <div id="naviwrap_biz">
+            <div class="navi_biz">
+                <a href="" class="navi_biz01"><em>보고서</em></a><img src="../images/header_bar.png" class="navi_bizbar" />
+                <a href="@Url.Action("RegisterPaper","Accounting",new { area= "Company" })" class="navi_biz05"><em>전문가서비스</em></a><img src="../images/header_bar.png" class="navi_bizbar" />
+                <a href="@Url.Action("PushList","Cs",new { area= "" })" class="navi_biz03"><em>고객센터</em></a><img src="../images/header_bar.png" class="navi_bizbar" />
+                <a href="@Url.Action("MyInfo","Member",new { area= "" })" class="navi_biz04"><em>내정보관리</em></a>
+            </div>
+        </div><!--naviwrap_biz//-->
+    </div><!--container//-->
+</div><!--headerwrap_biz//-->
+

@@ -12,6 +12,7 @@ namespace BizOneShot.Light.Web.ComLib
         public static readonly string UserSN = "UserSN";
         public static readonly string UserNM = "UserNM";
         public static readonly string UserType = "UserType";
+        public static readonly string UserTypeVal = "UserTypeEnum";
         public static readonly string UserDetailType = "UserDetailType";
         public static readonly string UserLogo = "UserLogo";
 

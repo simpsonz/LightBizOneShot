@@ -126,4 +126,15 @@ namespace BizOneShot.Light.Models.ViewModels
         [Display(Name = "아이디 저장")]
         public bool RememberMe { get; set; }
     }
+
+    [Serializable]
+    [Flags]
+    public enum UserType
+    {
+        Company,            //기업회원
+        Mentor,             //멘토
+        Expert,             //전문가
+        SysManager,         //SCP 관리자
+        BizManager          //사업 관리자
+    }
 }

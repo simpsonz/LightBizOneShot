@@ -85,6 +85,13 @@ namespace BizOneShot.Light.Web.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Index(LoginViewModel loginViewModel)
         {
+            ViewBag.LogoCSS = "headerwrap_main";
+
+            if (!ModelState.IsValid)
+            {
+                return View(loginViewModel);
+            }
+
             ScUsr scUsr = await _scUsrService.SelectScUsr(loginViewModel.ID);
             if (scUsr != null)
             {
@@ -96,8 +103,8 @@ namespace BizOneShot.Light.Web.Controllers
                     base.LogOn(scUsr);
                     switch (scUsr.UsrType)
                     {
-                        case Global.Company : //기업
-                            return RedirectToAction("index", "Commpany/Main");
+                        case Global.Company: //기업
+                            return RedirectToAction("index", "Company/Main");
                         case Global.Mentor: //멘토
                             return RedirectToAction("index", "Mentor/Main");
                         case Global.Expert: //전문가
@@ -107,17 +114,20 @@ namespace BizOneShot.Light.Web.Controllers
                         case Global.BizManager: //사업관리자
                             return RedirectToAction("index", "BizManager/Main");
                         default:
+                            ModelState.AddModelError("", "정의되지 않은 사용자 타입입니다.");
                             return View(loginViewModel);
                     }
 
                 }
                 else
                 {
+                    ModelState.AddModelError("", "비밀번호가 일치하지 않습니다.");
                     return View(loginViewModel);
                 }
             }
             else
             {
+                ModelState.AddModelError("", "아이디가 존재하지 않습니다.");
                 return View(loginViewModel);
             }
         }
@@ -127,30 +137,52 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel loginViewModel)
         {
             ViewBag.LogoCSS = "headerwrap_main";
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View(loginViewModel);
             }
 
-            // 계정이 잠기는 로그인 실패로 간주되지 않습니다.
-            // 암호 오류 시 계정 잠금을 트리거하도록 설정하려면 shouldLockout: true로 변경하십시오.
-            var result = await SignInManager.PasswordSignInAsync(model.ID, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            ScUsr scUsr = await _scUsrService.SelectScUsr(loginViewModel.ID);
+            if (scUsr != null)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "잘못된 로그인 시도입니다.");
-                    return View(model);
+                //패스워드비교
+                SHACryptography sha2 = new SHACryptography();
+                if (scUsr.LoginPw == sha2.EncryptString(loginViewModel.Password))
+                //if (user.LOGIN_PW == param.LOGIN_PW)
+                {
+                    base.LogOn(scUsr);
+                    switch (scUsr.UsrType)
+                    {
+                        case Global.Company: //기업
+                            return RedirectToAction("index", "Company/Main");
+                        case Global.Mentor: //멘토
+                            return RedirectToAction("index", "Mentor/Main");
+                        case Global.Expert: //전문가
+                            return RedirectToAction("index", "Expert/Main");
+                        case Global.SysManager: //SCP
+                            return RedirectToAction("index", "SysManager/Main");
+                        case Global.BizManager: //사업관리자
+                            return RedirectToAction("index", "BizManager/Main");
+                        default:
+                            ModelState.AddModelError("", "정의되지 않은 사용자 타입입니다.");
+                            return View(loginViewModel);
+                    }
+
+                }
+                else
+                {
+                    ModelState.AddModelError("", "비밀번호가 일치하지 않습니다.");
+                    return View(loginViewModel);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "아이디가 존재하지 않습니다.");
+                return View(loginViewModel);
             }
         }
 
