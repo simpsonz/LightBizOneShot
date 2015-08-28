@@ -20,7 +20,7 @@ namespace EntityTestConsole
     {
         static  void Main(string[] args)
         {
-            insertScCompInfo();
+            //insertScCompInfo();
             //insertScCompInfoAsync();
             //UpdateScCompInfo();
             //UpdateScCompInfoAsync();
@@ -32,11 +32,7 @@ namespace EntityTestConsole
             //DeleteCompInfo();
             //DeleteScCompInfoWithoutSelect();
 
-            var r = pwdEncrypt("ge40903910!!");
 
-            Console.WriteLine(r);
-
-            Console.ReadLine();
 
             //Mapper.CreateMap<ScFaq, FaqViewModel>()
             //       .ForMember(d => d.FAQ_SN, map => map.MapFrom(s => s.FaqSn))
@@ -59,42 +55,43 @@ namespace EntityTestConsole
             //Console.ReadLine();
 
 
-            //using (var db = new WebDbContext())
-            //{
+            using (var db = new WebDbContext())
+            {
 
-            //    //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).Take(1).FirstOrDefault();
+                //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).Take(1).FirstOrDefault();
 
-            //    //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).FirstOrDefault();
-            //    //Console.WriteLine(scNtc.NoticeSn);
+                //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).FirstOrDefault();
+                //Console.WriteLine(scNtc.NoticeSn);
 
-
-
-
-
-            //    //var usr = new ScUsr
-            //    //{
-            //    //    LoginId = "shinkoooooo",
-
-
-            //    //    RegId = "shinkoooooo",
-
-
-            //    //};
-
-            //    //usr.ScCompInfo = new ScCompInfo
-            //    //{
-            //    //    CompNm = "테스트"
-            //    //};
-
-            //    //db.ScUsrs.Add(usr);
-
-            //    //db.SaveChanges();
-            //}
+                db.Configuration.LazyLoadingEnabled = false;
 
 
 
+                var usr = new ScUsr
+                {
+                    LoginId = "shinkoooooo",
 
+
+                    RegId = "shinkoooooo",
+
+
+                };
+
+                usr.ScCompInfo = new ScCompInfo
+                {
+                    CompNm = "테스트"
+                };
+
+                db.ScUsrs.Add(usr);
+
+                db.SaveChanges();
+            }
         }
+
+
+
+
+
 
 
         public static void insertScCompInfo()

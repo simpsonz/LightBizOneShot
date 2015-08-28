@@ -30,15 +30,19 @@ namespace BizOneShot.Light.Web.App_Start
             var builder = new ContainerBuilder();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>()
-                .InstancePerLifetimeScope();
+                //.InstancePerLifetimeScope();
+                .InstancePerRequest();
             builder.RegisterType<DbFactory>().As<IDbFactory>()
-                .InstancePerLifetimeScope();
+                //.InstancePerLifetimeScope();
+                .InstancePerRequest();
 
             builder.RegisterType<DareUnitOfWork>().As<IDareUnitOfWork>()
-                .InstancePerLifetimeScope();
+                //.InstancePerLifetimeScope();
+                .InstancePerRequest();
 
             builder.RegisterType<DareDbFactory>().As<IDareDbFactory>()
-                .InstancePerLifetimeScope();
+                //.InstancePerLifetimeScope();
+                .InstancePerRequest();
 
             // Repositories
             //builder.RegisterAssemblyTypes(typeof(ScFaqRepository).Assembly)

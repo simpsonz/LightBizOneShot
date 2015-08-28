@@ -23,7 +23,6 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         public ScFaqRepository(IDbFactory dbFactory) : base(dbFactory)
         {
-            //this.DbContext.Configuration.LazyLoadingEnabled = false;
         }
 
         public override async Task<IEnumerable<ScFaq>> GetManyAsync(Expression<Func<ScFaq, bool>> where)
