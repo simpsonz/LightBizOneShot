@@ -17,7 +17,8 @@ namespace BizOneShot.Light.Web.Areas.Company
             context.MapRoute(
                 "Company_default",
                 "Company/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "BizOneShot.Light.Web.Areas.Company.Controllers" }
             );
         }
     }

@@ -220,8 +220,10 @@
     <Compile Include="Areas\Company\Controllers\MainController.cs" />
     <Compile Include="ComLib\BaseController.cs" />
     <Compile Include="ComLib\Global.cs" />
+    <Compile Include="ComLib\MenuAuthorizeAttribute.cs" />
     <Compile Include="ComLib\MvcHtmlStringHelper.cs" />
     <Compile Include="ComLib\TransactionAttribute.cs" />
+    <Compile Include="ComLib\UserAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -259,6 +261,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Company\Views\web.config" />
     <Content Include="Areas\Company\Views\Main\Index.cshtml" />
+    <Content Include="Areas\Company\Views\Shared\_MainTopMenuPartial.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -778,11 +781,11 @@
     <Content Include="Views\Cs\CompanyGuide.cshtml" />
     <Content Include="Views\Cs\MentorGuide.cshtml" />
     <Content Include="Views\Cs\ExpertGuide.cshtml" />
+    <Content Include="Views\Shared\_CompanyIndexLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Company\Models\" />
-    <Folder Include="Areas\Company\Views\Shared\" />
     <Folder Include="js\" />
   </ItemGroup>
   <ItemGroup>

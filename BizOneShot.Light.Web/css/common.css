@@ -106,6 +106,8 @@ html,body{position:relative;height:100%;}
 .navi_mentor04{display:block;width:91px;height:32px;overflow:hidden;background:url('../images/header_myinfo.png');}	/*내정보관리*/
 .navi_mentor04:hover, .navi_mentor04.on{background-position:0 32px;}
 
+.bt_searchC{width:63px;height:27px;background:url('../images/bt_search.png');margin-left:5px}
+
 /*--------------------------------------------------SCP관리자-----------------------------------------------------------------*/
 #headerwrap_SCPadmin{height:65px;background:url('../images/main_bg_top.png') repeat-x;padding-top:35px;border-bottom:5px solid #545151;}
 #headerwrap_SCPadmin h1{display:block;float:left;width:260px;height:41px;background:url('../images/bi_admin.png') no-repeat;cursor:hand;}
@@ -176,6 +178,7 @@ html,body{position:relative;height:100%;}
 #main_cont5wrap{margin:35px 0px 20px;}
 #main_cont5wrap a{margin-left:14px;}
 #main_cont5wrap a:first-child{margin-left:0px;}
+#main_cont6wrap{height:343px;background:url('../images/main_bg_cont6.png') repeat-x top center;}
 
 /*login*/
 #login_loginarea{height:260px;background:url('../images/login_bg_pattern.jpg') repeat-x top center; padding-top:58px;}
@@ -794,7 +797,7 @@ button{color:transparent;}
 #btnwrap_sub .centerwrap{text-align:center;}
 #btnwrap_sub .left{float:left;margin-right:8px;}
 #btnwrap_sub .right{float:right;}
-
+#btnwrap_sub .rightmargin {margin-right:8px}
 #btnwrap_sub .rightwrap2{float:right; display:inline-flex;}
 #btnwrap_sub .rightwrap2 button, #btnwrap_sub .rightwrap2 a{display:inline-flex;}
 
@@ -951,7 +954,7 @@ button.confirm_red{width:88px;height:42px;background:url('../images/bt_confirm_r
 #sub_rightwrap SPAN.business_name {margin-left:35px}
 #sub_rightwrap SPAN.full_line {float:left;width:100%;text-decoration:underline}
 .business_main{height:521px;background:url('../images/business_admin_bg.png') repeat-x top;padding-top:42px}
-
+#sub_rightwrap select.w202{width:202px;height:26px;border:1px solid #C8C8C8;color:#7b7b7b;margin-top:-5px}
 
 
 /*---------------------------------------------------------------------------- common  ----------------------------------------------------------------------------*/

@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Configuration;
 
 using BizOneShot.Light.Models.WebModels;
-
+using BizOneShot.Light.Models.ViewModels;
 
 namespace BizOneShot.Light.Web.ComLib
 {
@@ -109,7 +109,8 @@ namespace BizOneShot.Light.Web.ComLib
             Session[Global.LoginID] = user.LoginId;
             Session[Global.UserNM] = user.Name;
             Session[Global.UserType] = user.UsrType;
-            Session[Global.UserDetailType] = user.UsrType;
+            Session[Global.UserDetailType] = user.UsrTypeDetail;
+            Session[Global.UserTypeVal] = GetUserTypeVal(user.UsrType);    //권한체크용
         }
 
         /// <summary>
@@ -132,24 +133,24 @@ namespace BizOneShot.Light.Web.ComLib
         /// </summary>
         /// <param name="userType"></param>
         /// <returns></returns>
-        //private int GetUserTypeVal(string userType)
-        //{
-        //    switch (userType)
-        //    {
-        //        case Global.CompanyUser:
-        //            return (int)UserType.Company;
-        //        case Global.Bookkeeper:
-        //            return (int)UserType.Bookkeeper;
-        //        case Global.TaxAccountant:
-        //            return (int)UserType.TaxAccountant;
-        //        case Global.TaxOperator:
-        //            return (int)UserType.TaxOperator;
-        //        case Global.SCPAdministrator:
-        //            return (int)UserType.SCPAdministrator;
-        //        default:
-        //            return 0;
-        //    };
-        //}
+        private int GetUserTypeVal(string userType)
+        {
+            switch (userType)
+            {
+                case Global.Company:
+                    return (int)UserType.Company;
+                case Global.Mentor:
+                    return (int)UserType.Mentor;
+                case Global.Expert:
+                    return (int)UserType.Expert;
+                case Global.BizManager:
+                    return (int)UserType.BizManager;
+                case Global.SysManager:
+                    return (int)UserType.SysManager;
+                default:
+                    return 0;
+            };
+        }
 
         /// <summary>
         /// [기능] : 로그온 회원정보 전역변수

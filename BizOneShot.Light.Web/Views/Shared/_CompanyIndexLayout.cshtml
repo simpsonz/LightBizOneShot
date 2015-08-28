@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/css/common")
+    @*@Styles.Render("~/Content/css")*@
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body>
+    <div id="Wrapper">
+        @RenderPage("~/Views/Shared/_TopMenuPartial.cshtml")
+        <div id="custom_wrapper">
+
+            <div>
+                @RenderBody()
+            </div>
+
+        </div><!--custom_wrapper//-->
+
+        @RenderPage("~/Views/Shared/_Footer.cshtml")
+
+    </div><!--Wrapper//-->
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
