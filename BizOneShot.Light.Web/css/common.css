@@ -24,6 +24,8 @@ html,body{position:relative;height:100%;}
 #headerwrap_main a.name{float:left;text-decoration:underline;color:#0069d4;font-weight:bold;margin-left:20px;margin-top:13px;}
 #headerwrap_main a.down{float:left;width:17px;height:16px;background:url('../images/header_bullet_down.png') no-repeat;margin-left:5px;margin-top:15px;}
 
+#headerwrap_woonjoouniv{height:65px;background:url('../images/gangneung_logo.png') no-repeat;}
+
 #naviwrap{float:right;margin-top:-45px;}
 .min {margin-top:-65px !important}
 .navi a{display:inline-block;vertical-align:middle;}

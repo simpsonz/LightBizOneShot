@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<BizOneShot.Light.Models.ViewModels.NoticeViewModel>
+
+@{
     Layout = "~/Views/Shared/_JoinLayout.cshtml";
 }
 
@@ -14,11 +16,16 @@
 <div id="main_biz_cont6wrap">
     <div id="main_biz_alertwrap">
         <!--알림창-->
-        <p><span class="alert">공지사항</span><a href="" class="more" alt="더보기"></a></p>
+        <p><span class="alert">공지사항</span><a href="@Url.Action("Notice", "Cs", new { area= "" })" class="more" alt="더보기"></a></p>
         <ul>
-            <li><a href="" class="list">분기 보고서에 코멘트가 등록 되었습니다.</a><span class="date">2014-10-21 21:00:24</span></li>
-            <li></li>
-            <li></li>
+            @foreach (var item in Model)
+            {
+                <li><a href="@Url.Action("NoticeDetail", "Cs", new { area= "", noticeSn=item.NoticeSn})" class="list">@item.Subject</a><span class="date">@item.RegDt.Value.ToShortDateString()</span></li>
+            }
+            @if (Model.Count() == 0)
+            {
+                <li>공지사항이 없습니다.</li>
+            }
         </ul>
     </div><!--biz_main_alertwrap//-->
 

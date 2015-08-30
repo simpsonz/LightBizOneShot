@@ -95,7 +95,7 @@ namespace BizOneShot.Light.Web.ComLib
         /// <returns></returns>
         private bool HasSession()
         {
-            return Session[Global.UserSN] != null;
+            return Session[Global.LoginID] != null;
         }
 
         /// <summary>
@@ -107,10 +107,16 @@ namespace BizOneShot.Light.Web.ComLib
         protected void LogOn(ScUsr user)
         {
             Session[Global.LoginID] = user.LoginId;
+            Session[Global.CompSN] = user.CompSn;
             Session[Global.UserNM] = user.Name;
             Session[Global.UserType] = user.UsrType;
             Session[Global.UserDetailType] = user.UsrTypeDetail;
             Session[Global.UserTypeVal] = GetUserTypeVal(user.UsrType);    //권한체크용
+        }
+
+        protected void SetLogo(string logo)
+        {
+            Session[Global.UserLogo] = logo;
         }
 
         /// <summary>

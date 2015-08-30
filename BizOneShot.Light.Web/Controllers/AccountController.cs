@@ -8,11 +8,12 @@ using BizOneShot.Light.Models.DareModels;
 using BizOneShot.Light.Util.Security;
 using AutoMapper;
 using System.Threading.Tasks;
+using BizOneShot.Light.Web.ComLib;
 
 namespace BizOneShot.Light.Web.Controllers
 {
-    [Authorize]
-    public class AccountController : Controller
+    [UserAuthorize(Order = 1)]
+    public class AccountController : BaseController
     {
         private readonly IScUsrService _scUsrService;
 
@@ -163,6 +164,13 @@ namespace BizOneShot.Light.Web.Controllers
             {
                 return RedirectToAction("index", "Home");
             }
+        }
+
+        [MenuAuthorize(Roles = UserType.Company, Order = 2)]
+        public async Task<ActionResult> CompanyMyInfo()
+        {
+
+            return View();
         }
     }
 }

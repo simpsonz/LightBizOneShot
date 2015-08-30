@@ -18,6 +18,7 @@ namespace BizOneShot.Light.Services
         Task<IList<ScNtc>> GetNoticesAsync(string searchType = null, string keyword = null);
         IDictionary<string, ScNtc> GetNoticeDetailById(int noticeSn);
         Task<IDictionary<string, ScNtc>> GetNoticeDetailByIdAsync(int noticeSn);
+        Task<IList<ScNtc>> GetNoticesForMainAsync();
     }
 
 
@@ -94,6 +95,15 @@ namespace BizOneShot.Light.Services
 
             listScNtcTask = await scNtcRepository.GetManyAsync(ntc => ntc.Status == "N");
             return listScNtcTask.OrderByDescending(ntc => ntc.NoticeSn)
+                .ToList();
+        }
+
+        public async Task<IList<ScNtc>> GetNoticesForMainAsync()
+        {
+            IEnumerable<ScNtc> listScNtcTask = null;
+
+            listScNtcTask = await scNtcRepository.GetManyAsync(ntc => ntc.Status == "N");
+            return listScNtcTask.OrderByDescending(ntc => ntc.NoticeSn).Take(5)
                 .ToList();
         }
 

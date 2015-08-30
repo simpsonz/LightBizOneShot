@@ -26,58 +26,21 @@ namespace BizOneShot.Light.Web.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.LogoCSS = "headerwrap_main";
+            if(Session[Global.UserLogo] == null)
+            { 
+                base.SetLogo("headerwrap_main");
+            }
             return View();
         }
 
         public ActionResult Login()
         {
-            ViewBag.LogoCSS = "headerwrap_main";
+            if (Session[Global.UserLogo] == null)
+            {
+                base.SetLogo("headerwrap_main");
+            }
             return View();
         }
-
-        //
-        // GET: /Account/Login
-        //[AllowAnonymous]
-        //public ActionResult index(string returnUrl)
-        //{
-        //    ViewBag.ReturnUrl = returnUrl;
-        //    return View();
-        //}
-
-        //
-        // POST: /Account/Login
-
-
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> index(LoginViewModel model, string returnUrl)
-        //{
-        //    ViewBag.LogoCSS = "headerwrap_main";
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(model);
-        //    }
-
-        //    // 계정이 잠기는 로그인 실패로 간주되지 않습니다.
-        //    // 암호 오류 시 계정 잠금을 트리거하도록 설정하려면 shouldLockout: true로 변경하십시오.
-        //    var result = await SignInManager.PasswordSignInAsync(model.ID, model.Password, model.RememberMe, shouldLockout: false);
-        //    switch (result)
-        //    {
-        //        case SignInStatus.Success:
-        //            return RedirectToLocal(returnUrl);
-        //        case SignInStatus.LockedOut:
-        //            return View("Lockout");
-        //        case SignInStatus.RequiresVerification:
-        //            return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-        //        case SignInStatus.Failure:
-        //        default:
-        //            ModelState.AddModelError("", "잘못된 로그인 시도입니다.");
-        //            return View(model);
-        //    }
-        //}
 
 
         [HttpPost]
@@ -85,7 +48,10 @@ namespace BizOneShot.Light.Web.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Index(LoginViewModel loginViewModel)
         {
-            ViewBag.LogoCSS = "headerwrap_main";
+            if (Session[Global.UserLogo] == null)
+            {
+                base.SetLogo("headerwrap_main");
+            }
 
             if (!ModelState.IsValid)
             {
@@ -139,7 +105,10 @@ namespace BizOneShot.Light.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel loginViewModel)
         {
-            ViewBag.LogoCSS = "headerwrap_main";
+            if (Session[Global.UserLogo] == null)
+            {
+                base.SetLogo("headerwrap_main");
+            }
 
             if (!ModelState.IsValid)
             {
@@ -227,6 +196,20 @@ namespace BizOneShot.Light.Web.Controllers
             LogOff();
             return RedirectToAction("Login");
         }
+
+        public  ActionResult WoonjooUniv()
+        {
+            base.SetLogo("headerwrap_woonjoouniv");
+            return RedirectToAction("Login", "Home");
+        }
+
+        public ActionResult SmartBizOn()
+        {
+            base.SetLogo("headerwrap_main");
+            return RedirectToAction("Index", "Home");
+        }
+
+
 
     }
 }
