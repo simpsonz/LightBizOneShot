@@ -34,6 +34,9 @@ namespace BizOneShot.Light.Dao.Infrastructure
         {
             DbFactory = dbFactory;
             dbSet = DbContext.Set<T>();
+
+            //Eagar Loading을 사용하고자 하면 주석 풀면됨
+            //DbContext.Configuration.LazyLoadingEnabled = false;
         }
 
         #region 구현
