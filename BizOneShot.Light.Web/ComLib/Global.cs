@@ -28,7 +28,11 @@ namespace BizOneShot.Light.Web.ComLib
 
 
         //LeftMenu
+        //기업회원
         public const string MyInfo = "MyInfo";
+        public const string Cs = "Cs";
+        public const string ExpertService = "ExpertService";
+        public const string Report = "Report";
 
     }
 }

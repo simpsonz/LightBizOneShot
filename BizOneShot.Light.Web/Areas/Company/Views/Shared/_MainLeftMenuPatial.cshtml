@@ -1,0 +1,35 @@
+﻿<div id="sub_leftwrap">
+    <div class="sub_gnbwrap">
+        <ul>
+
+            @if (ViewBag.LeftMenu == Global.MyInfo)//내정보
+            {
+                <li class="title biz_myinfo"><em>내정보 관리</em></li>
+                <li><a href="" class="gnb gnb1">내정보 관리</a></li>
+                <li><a href="" class="gnb gnb2">비밀번호 변경</a></li>
+            }
+            else if (ViewBag.LeftMenu == Global.Cs)//내정보
+            {
+
+            }
+            else if (ViewBag.LeftMenu == Global.ExpertService)//내정보
+            {
+                <li class="title biz_expert"><em>전문가서비스</em></li>
+                <li><a href="" class="gnb on">세무회계</a></li>
+                <li><a href="" class="gnb">법무</a></li>
+                <li><a href="" class="gnb">노무</a></li>
+                <li><a href="" class="gnb">특허</a></li>
+                <li><a href="" class="gnb">마케팅</a></li>
+            }
+            else if (ViewBag.LeftMenu == Global.Report)//내정보
+            {
+
+            }
+            else
+            {
+
+            }
+
+        </ul>
+    </div><!--sub_gnbwrap//-->
+</div><!--sub_leftwrap//-->

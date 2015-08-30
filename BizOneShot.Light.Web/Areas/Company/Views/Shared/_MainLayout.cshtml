@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/css/common")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body>
+    <div id="Wrapper">
+        @RenderPage("~/Areas/Company/Views/Shared/_MainTopMenuPartial.cshtml")
+        <div id="sub_wrapper">
+            <div class="container">
+                @RenderPage("~/Areas/Company/Views/Shared/_MainLeftMenuPatial.cshtml")
+
+                <div>
+                    @RenderBody()
+                </div>
+
+            </div><!--container//-->
+        </div><!--sub_wrapper//-->
+
+        @RenderPage("~/Views/Shared/_Footer.cshtml")
+
+    </div><!--Wrapper//-->
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
