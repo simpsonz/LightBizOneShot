@@ -4,12 +4,12 @@
 {
     <div id="headerwrap">
         <div class="container">
-            <h1><a href="@Url.Action("Index","Home")"><img src="/images/bi_main.png" /></a></h1>
+            <h1><a href="@Url.Action("Index","Home", new { area = "" })"><img src="/images/bi_main.png" /></a></h1>
             <div id="naviwrap">
                 <div class="navi navi_all">
-                    <a href="@Url.Action("Login","Home")" class="navi01 navi_login"><em>로그인</em></a><img src="~/Images/header_bar.png" class="navibar">
-                    <a href="@Url.Action("CompanyAgreement","Account")" class="navi02 navi_join"><em>회원가입</em></a><img src="~/Images/header_bar.png" class="navibar">
-                    <a href="@Url.Action("Faq","Cs")" class="navi03 navi_cs"><em>고객센터</em></a>
+                    <a href="@Url.Action("Login","Home", new { area = "" })" class="navi01 navi_login"><em>로그인</em></a><img src="~/Images/header_bar.png" class="navibar">
+                    <a href="@Url.Action("CompanyAgreement","Account", new { area = "" })" class="navi02 navi_join"><em>회원가입</em></a><img src="~/Images/header_bar.png" class="navibar">
+                    <a href="@Url.Action("Faq","Cs", new { area = "" })" class="navi03 navi_cs"><em>고객센터</em></a>
                 </div>
             </div><!--naviwrap//-->
         </div>
@@ -23,19 +23,19 @@ else
     }
     if (Session[Global.UserType].Equals(Global.Mentor))
     {// 멘토
-        @RenderPage("~/Areas/TaxAccountant/Views/Shared/MainTopMenuPartial.cshtml")
+        @RenderPage("~/Areas/Mentor/Views/Shared/_MainTopMenuPartial.cshtml")
     }
     if (Session[Global.UserType].Equals(Global.SysManager))
     {//SCP 관리자
-        @RenderPage("~/Areas/Manager/Views/Shared/MainTopMenuPartial.cshtml")
+        @RenderPage("~/Areas/SysManager/Views/Shared/_MainTopMenuPartial.cshtml")
     }
     if (Session[Global.UserType].Equals(Global.BizManager))
     {//사업 관리자
-        @RenderPage("~/Areas/Manager/Views/Shared/MainTopMenuPartial.cshtml")
+        @RenderPage("~/Areas/BizManager/Views/Shared/_MainTopMenuPartial.cshtml")
     }
     if (Session[Global.UserType].Equals(Global.Expert))
     {//사업 관리자
-        @RenderPage("~/Areas/Manager/Views/Shared/MainTopMenuPartial.cshtml")
+        @RenderPage("~/Areas/Expert/Views/Shared/_MainTopMenuPartial.cshtml")
     }
 }
 

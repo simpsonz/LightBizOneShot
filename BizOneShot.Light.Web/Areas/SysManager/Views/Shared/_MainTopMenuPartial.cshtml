@@ -1,0 +1,20 @@
+﻿@Scripts.Render("~/bundles/common")
+
+<div id="headerwrap_SCPadmin">
+    <div class="container">
+        <a href="@Url.Action("Index","Main",new { area= "SysManager" })"><h1><em>Biz onshot SCPadmin</em></h1></a><a href="#" class="name">@if (Session[BizOneShot.Light.Web.ComLib.Global.UserNM] != null)
+        { @Session[BizOneShot.Light.Web.ComLib.Global.UserNM].ToString() } 님</a><a href="#" class="down"></a>
+        <div id="header_logoutwrap_account">
+            <!--로그아웃 레이어(클릭시 보임)-->
+            <div class="header_logout"><a href="@Url.Action("Logoff","Home",new { area= "" })">로그아웃</a></div>
+        </div><!--로그아웃 레이어 끝-->
+        <div id="naviwrap_biz">
+            <div class="navi_biz">
+                <a href="" class="navi_scpadmin01"><em>전문가회원관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
+                <a href="" class="navi_scpadmin02"><em>보고서관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
+                <a href="@Url.Action("Notice","Cs",new { area= "" })" class="navi_scpadmin03"><em>고객센터관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
+                <a href="" class="navi_scpadmin04"><em>사업관리기관관리</em></a>
+            </div>
+        </div><!--naviwrap_biz//-->
+    </div><!--container//-->
+</div><!--headerwrap_account//-->

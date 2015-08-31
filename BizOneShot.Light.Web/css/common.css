@@ -1060,7 +1060,7 @@ input.list{width:114px;height:42px;background:url('../images/bt_list.png');color
 .navi_scpadmin02:hover, .navi_scpadmin02.on{background-position:0 32px;}
 .navi_scpadmin03{display:block;width:104px;height:32px;overflow:hidden;background:url('../images/header_scpadmin_customcenter.png');}	/*고객센터관리*/
 .navi_scpadmin03:hover, .navi_scpadmin03.on{background-position:0 32px;}
-.navi_scpadmin04{display:block;width:85px;height:32px;overflow:hidden;background:url('../images/header_scpadmin_group.png');}	/*그룹관리*/
+.navi_scpadmin04{display:block;width:85px;height:32px;overflow:hidden;background:url('../images/header_scpadmin_work.png');}	/*그룹관리*/
 .navi_scpadmin04:hover, .navi_scpadmin04.on{background-position:0 32px;}
 
 #headerwrap_Mentor{height:65px;background:url('../images/main_bg_top.png') repeat-x;padding-top:35px;border-bottom:5px solid #545151;}

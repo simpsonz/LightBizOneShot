@@ -223,6 +223,8 @@
     <Compile Include="Areas\Company\Controllers\MyInfoController.cs" />
     <Compile Include="Areas\Expert\ExpertAreaRegistration.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
+    <Compile Include="Areas\SysManager\Controllers\BizManagerController.cs" />
+    <Compile Include="Areas\SysManager\Controllers\MainController.cs" />
     <Compile Include="Areas\SysManager\SysManagerAreaRegistration.cs" />
     <Compile Include="ComLib\BaseController.cs" />
     <Compile Include="ComLib\Global.cs" />
@@ -277,6 +279,11 @@
     <Content Include="Areas\BizManager\Views\web.config" />
     <Content Include="Areas\Mentor\Views\web.config" />
     <Content Include="Areas\Expert\Views\web.config" />
+    <Content Include="Areas\SysManager\Views\Main\Index.cshtml" />
+    <Content Include="Areas\SysManager\Views\Shared\_MainTopMenuPartial.cshtml" />
+    <Content Include="Areas\SysManager\Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Areas\SysManager\Views\Shared\_MainLeftMenuPatial.cshtml" />
+    <Content Include="Areas\SysManager\Views\BizManager\BizManager.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -801,16 +808,11 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\BizManager\Controllers\" />
-    <Folder Include="Areas\BizManager\Models\" />
     <Folder Include="Areas\BizManager\Views\Shared\" />
     <Folder Include="Areas\Expert\Controllers\" />
-    <Folder Include="Areas\Expert\Models\" />
     <Folder Include="Areas\Expert\Views\Shared\" />
     <Folder Include="Areas\Mentor\Controllers\" />
-    <Folder Include="Areas\Mentor\Models\" />
     <Folder Include="Areas\Mentor\Views\Shared\" />
-    <Folder Include="Areas\SysManager\Controllers\" />
-    <Folder Include="Areas\SysManager\Views\Shared\" />
     <Folder Include="js\" />
   </ItemGroup>
   <ItemGroup>
