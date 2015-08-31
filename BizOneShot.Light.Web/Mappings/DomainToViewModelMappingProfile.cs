@@ -34,6 +34,14 @@ namespace BizOneShot.Light.Web.Mappings
 
             //매뉴얼 Manual 매핑
             Mapper.CreateMap<ScForm, ManualViewModel>();
+
+            //Company MyInfo 매핑
+            Mapper.CreateMap<ScUsr, CompanyMyInfoViewModel>()
+                .ForMember(d => d.ComAddr, map => map.MapFrom(s => s.ScCompInfo.PostNo + " " + s.ScCompInfo.Addr1 + " " + s.ScCompInfo.Addr2))
+                .ForMember(d => d.ComOwnNm, map => map.MapFrom(s => s.ScCompInfo.OwnNm))
+                .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
+                .ForMember(d => d.ComRegistrationNo, map => map.MapFrom(s => s.ScCompInfo.RegistrationNo))
+                .ForMember(d => d.ComTelNo, map => map.MapFrom(s => s.ScCompInfo.TelNo));
         }
     }
 }

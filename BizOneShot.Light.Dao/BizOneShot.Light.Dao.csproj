@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Repositories\ScFormRepository.cs" />
+    <Compile Include="Repositories\ScReqDocRepository.cs" />
     <Compile Include="Repositories\SyUserRepository.cs" />
     <Compile Include="WebConfiguration\Database.cs">
       <AutoGen>True</AutoGen>

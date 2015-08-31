@@ -1,12 +1,26 @@
 ﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.ManualViewModel>
 
+@{
+    if (Session[Global.UserType] == null)
+    {
+        Layout = "~/Views/Shared/_MainLayout.cshtml";
+    }
+    else if (Session[Global.UserType].Equals(Global.Company))
+    {
+        Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+    }
+    else if (Session[Global.UserType].Equals(Global.Expert))
+    {
+    }
+}
+
 <script>
     $(document).ready(function () {
         //top menu
-        $('.navi_all > a.navi_cs').addClass('on');
+        $('#naviwrap_biz > .navi_biz >  a.navi_biz03').addClass('on');
 
         //Cs menu
-        $('#custom_leftwrap > .custom_gnbwrap > ul > li > a.gnb_menual').addClass('on');
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_menual').addClass('on');
 
         $('#search').bind('click', function () {
             goPage(1);

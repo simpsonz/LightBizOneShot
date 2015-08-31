@@ -1,4 +1,6 @@
-﻿@{
+﻿@model BizOneShot.Light.Models.ViewModels.CompanyMyInfoViewModel
+
+@{
     Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
 }
 
@@ -23,7 +25,7 @@
             </colgroup>
             <tr>
                 <th>아이디</th>
-                <td><span class="blue bold">businesson</span></td>
+                <td><span class="blue bold">@Model.LoginId</span></td>
             </tr>
         </table>
         <div class="line_dot10"></div>
@@ -35,15 +37,15 @@
             </colgroup>
             <tr>
                 <th>회사명</th>
-                <td>비즈니스온</td>
+                <td>@Model.CompNm</td>
             </tr>
             <tr>
                 <th>대표자명</th>
-                <td>홍길동</td>
+                <td>@Model.ComOwnNm</td>
             </tr>
             <tr>
                 <th>사업자등록번호</th>
-                <td>221-81-15869</td>
+                <td>@Model.ComRegistrationNo</td>
             </tr>
             <tr>
                 <th>업종 / 업태</th>
@@ -71,19 +73,19 @@
             </tr>
             <tr>
                 <th>사업관리기관</th>
-                <td>강릉원주대학교</td>
+                <td>@Model.MngCompName</td>
             </tr>
             <tr>
                 <th>사업명</th>
-                <td>창업맞춤형 지원사업</td>
+                <td>@Model.BizWorkName</td>
             </tr>
             <tr>
                 <th>전화번호</th>
-                <td>02-345-1234</td>
+                <td>@Model.ComTelNo</td>
             </tr>
             <tr>
                 <th>주소</th>
-                <td>(135-123) 서울특별시 강남구 논현동 112-1</td>
+                <td>@Model.ComAddr</td>
             </tr>
         </table>
         <div class="line_dot10"></div>
@@ -95,19 +97,19 @@
             </colgroup>
             <tr>
                 <th>담당자명</th>
-                <td>나과장</td>
+                <td>@Model.Name</td>
             </tr>
             <tr>
                 <th>전화번호</th>
-                <td>02-345-1234</td>
+                <td>@Model.TelNo</td>
             </tr>
             <tr>
                 <th>휴대폰</th>
-                <td>010-9172-0987</td>
+                <td>@Model.MbNo</td>
             </tr>
             <tr>
                 <th>이메일 주소</th>
-                <td>bujang@biz.com</td>
+                <td>@Model.Email</td>
             </tr>
         </table>
         <div class="line_dot10"></div>
@@ -119,19 +121,19 @@
             </colgroup>
             <tr>
                 <th>담당멘토</th>
-                <td>나멘토</td>
+                <td>@Model.MentorName</td>
             </tr>
             <tr>
                 <th>전화번호</th>
-                <td>02-345-1234</td>
+                <td>@Model.MentorTelNo</td>
             </tr>
             <tr>
                 <th>휴대폰</th>
-                <td>010-9172-0987</td>
+                <td>@Model.MentorMbNo</td>
             </tr>
             <tr>
                 <th>이메일 주소</th>
-                <td>bujang@biz.com</td>
+                <td>@Model.MentorEmail</td>
             </tr>
         </table>
     </div><!--tablewrap//-->

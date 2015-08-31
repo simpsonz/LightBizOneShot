@@ -216,9 +216,14 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\BizManager\BizManagerAreaRegistration.cs" />
     <Compile Include="Areas\Company\CompanyAreaRegistration.cs" />
+    <Compile Include="Areas\Company\Controllers\ExpertServiceController.cs" />
     <Compile Include="Areas\Company\Controllers\MainController.cs" />
     <Compile Include="Areas\Company\Controllers\MyInfoController.cs" />
+    <Compile Include="Areas\Expert\ExpertAreaRegistration.cs" />
+    <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
+    <Compile Include="Areas\SysManager\SysManagerAreaRegistration.cs" />
     <Compile Include="ComLib\BaseController.cs" />
     <Compile Include="ComLib\Global.cs" />
     <Compile Include="ComLib\MenuAuthorizeAttribute.cs" />
@@ -266,6 +271,12 @@
     <Content Include="Areas\Company\Views\Shared\_MainTopMenuPartial.cshtml" />
     <Content Include="Areas\Company\Views\Shared\_MainLeftMenuPatial.cshtml" />
     <Content Include="Areas\Company\Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Areas\Company\Views\MyInfo\ChangePassword.cshtml" />
+    <Content Include="Areas\Company\Views\ExpertService\TaxReceive.cshtml" />
+    <Content Include="Areas\SysManager\Views\web.config" />
+    <Content Include="Areas\BizManager\Views\web.config" />
+    <Content Include="Areas\Mentor\Views\web.config" />
+    <Content Include="Areas\Expert\Views\web.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -789,6 +800,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\BizManager\Controllers\" />
+    <Folder Include="Areas\BizManager\Models\" />
+    <Folder Include="Areas\BizManager\Views\Shared\" />
+    <Folder Include="Areas\Expert\Controllers\" />
+    <Folder Include="Areas\Expert\Models\" />
+    <Folder Include="Areas\Expert\Views\Shared\" />
+    <Folder Include="Areas\Mentor\Controllers\" />
+    <Folder Include="Areas\Mentor\Models\" />
+    <Folder Include="Areas\Mentor\Views\Shared\" />
+    <Folder Include="Areas\SysManager\Controllers\" />
+    <Folder Include="Areas\SysManager\Views\Shared\" />
     <Folder Include="js\" />
   </ItemGroup>
   <ItemGroup>

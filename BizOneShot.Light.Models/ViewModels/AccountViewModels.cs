@@ -127,6 +127,34 @@ namespace BizOneShot.Light.Models.ViewModels
         public bool RememberMe { get; set; }
     }
 
+    public class ChangePasswordViewModel
+    {
+        [Required]
+        [Display(Name = "아이디")]
+        [MaxLength(12, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [MinLength(6, ErrorMessage = "{0}는 {1}자 이상이어야 합니다.")]
+        public string ID { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "기존 비밀번호")]
+        [MaxLength(12, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [MinLength(8, ErrorMessage = "{0}는 {1}자 이상이어야 합니다.")]
+        public string LoginPw { get; set; } // LOGIN_PW. 로그인비밀번호
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "새 비밀번호")]
+        [MaxLength(12, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [MinLength(8, ErrorMessage = "{0}는 {1}자 이상이어야 합니다.")]
+        public string NewLoginPw { get; set; } // LOGIN_PW. 로그인비밀번호
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "새 비밀번호 확인")]
+        [MaxLength(12, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [MinLength(8, ErrorMessage = "{0}는 {1}자 이상이어야 합니다.")]
+        [Compare("NewLoginPw", ErrorMessage = "비밀번호와 확인 비밀번호가 일치하지 않습니다.")]
+        public string ConfirmNewLoginPw { get; set; } // LOGIN_PW. 로그인비밀번호 확인
+    }
+
     [Serializable]
     [Flags]
     public enum UserType
@@ -136,5 +164,60 @@ namespace BizOneShot.Light.Models.ViewModels
         Expert,             //전문가
         SysManager,         //SCP 관리자
         BizManager          //사업 관리자
+    }
+
+
+     public class CompanyMyInfoViewModel
+    {
+        //회원정보
+        [Required]
+        [Display(Name = "아이디")]
+        [MaxLength(12, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [MinLength(6, ErrorMessage = "{0}는 {1}자 이상이어야 합니다.")]
+        public string LoginId { get; set; } // LOGIN_ID (Primary key). 로그인식별자
+        [Required]
+        [Display(Name = "담당자명")]
+        [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
+        public string Name { get; set; } // Name. 이름
+        public string TelNo { get; set; } // TEL_NO. 전화번호
+        public string MbNo { get; set; } // MB_NO. 휴대폰
+        [Required]
+        [Display(Name = "이메일")]
+        public string Email { get; set; } // EMAIL. 이메일
+
+        //멘토정보
+        public string MentorName { get; set; } // Name. 이름
+        public string MentorTelNo { get; set; } // TEL_NO. 전화번호
+        public string MentorMbNo { get; set; } // MB_NO. 휴대폰
+        public string MentorEmail { get; set; } // EMAIL. 이메일
+
+        //기업정보
+        [Required]
+        [Display(Name = "사업자번호")]
+        [RegularExpression(@"[0-9]*\.?[0-9]+", ErrorMessage = "숫자만 입력할 수 있습니다.")]
+        [StringLength(10, ErrorMessage = "{0}는 {1}자 입니다.", MinimumLength = 10)]
+        public string ComRegistrationNo { get; set; } // REGISTRATION_NO. 사업자등록번호
+        [Required]
+        [Display(Name = "회사명")]
+        [MaxLength(35, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
+        public string CompNm { get; set; } // COMP_NM. 회사명
+        public string ComTelNo { get; set; } // TEL_NO. 대표전화번호
+        public string ComAddr { get; set; } // ADDR_1. 주소1
+        [Required]
+        [Display(Name = "대표자명")]
+        [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
+        public string ComOwnNm { get; set; } // OWN_NM. 대표자명
+        [Required]
+        [Display(Name = "업태")]
+        [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
+        public string ComBizClass { get; set; } // 업태
+        [Required]
+        [Display(Name = "업종")]
+        [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
+        public string ComBizType { get; set; } // 업종
+
+        //사업관리정보
+        public string MngCompName { get; set; } // COMP_SN. 기업식별자 (관리기관 식별자)
+        public string BizWorkName { get; set; } // BIZ_WORK_SN (Primary key). 사업식별자
     }
 }

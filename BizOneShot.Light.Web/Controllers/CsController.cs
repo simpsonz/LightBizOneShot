@@ -4,6 +4,7 @@ using System.Configuration;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Services;
+using BizOneShot.Light.Web.ComLib;
 using PagedList;
 using AutoMapper;
 using System.Threading.Tasks;
@@ -52,6 +53,7 @@ namespace BizOneShot.Light.Web.Controllers
         #region FAQ 
         public async Task<ActionResult> Faq()
         {
+            ViewBag.LeftMenu = Global.Cs;
 
             var searchBy = new List<SelectListItem>(){
                 new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
@@ -74,6 +76,8 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Faq(string SelectList, string Query, string curPage)
         {
+            ViewBag.LeftMenu = Global.Cs;
+
             var searchBy = new List<SelectListItem>(){
                 new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
                 new SelectListItem { Value = "1", Text = "제목" },
@@ -96,6 +100,7 @@ namespace BizOneShot.Light.Web.Controllers
         #region Notice(공지사항)
         public async Task<ActionResult> Notice()
         {
+            ViewBag.LeftMenu = Global.Cs;
 
             var searchBy = new List<SelectListItem>(){
                 new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
@@ -119,6 +124,8 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Notice(string SelectList, string Query, string curPage)
         {
+            ViewBag.LeftMenu = Global.Cs;
+
             var searchBy = new List<SelectListItem>(){
                 new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
                 new SelectListItem { Value = "1", Text = "제목" },
@@ -139,6 +146,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public  async Task<ActionResult> NoticeDetail(int noticeSn)
         {
+            ViewBag.LeftMenu = Global.Cs;
             //var dicScNtc = _scNtcService.GetNoticeDetailById(noticeSn);
             var dicScNtc = await _scNtcService.GetNoticeDetailByIdAsync(noticeSn);
 
@@ -168,6 +176,7 @@ namespace BizOneShot.Light.Web.Controllers
         #region Manual(매뉴얼)
         public async Task<ActionResult> Manual()
         {
+            ViewBag.LeftMenu = Global.Cs;
 
             var searchBy = new List<SelectListItem>(){
                 new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },
@@ -191,6 +200,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Manual(string SelectList, string Query, string curPage)
         {
+            ViewBag.LeftMenu = Global.Cs;
 
             var searchBy = new List<SelectListItem>(){
                 new SelectListItem { Value = "0", Text = "제목 + 내용", Selected = true },

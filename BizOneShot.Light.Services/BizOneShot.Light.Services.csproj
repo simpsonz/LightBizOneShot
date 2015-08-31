@@ -46,6 +46,7 @@
     <Compile Include="ScNtcService.cs" />
     <Compile Include="ScFaqService.cs" />
     <Compile Include="IBaseService.cs" />
+    <Compile Include="ScReqDocService.cs" />
     <Compile Include="ScUsrService.cs" />
   </ItemGroup>
   <ItemGroup>

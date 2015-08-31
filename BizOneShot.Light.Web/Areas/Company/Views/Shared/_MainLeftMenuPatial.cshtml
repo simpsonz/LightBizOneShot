@@ -5,23 +5,27 @@
             @if (ViewBag.LeftMenu == Global.MyInfo)//내정보
             {
                 <li class="title biz_myinfo"><em>내정보 관리</em></li>
-                <li><a href="" class="gnb gnb1">내정보 관리</a></li>
-                <li><a href="" class="gnb gnb2">비밀번호 변경</a></li>
+                <li><a href="@Url.Action("MyInfo","MyInfo",new { area= "Company" })" class="gnb gnb1">내정보 관리</a></li>
+                <li><a href="@Url.Action("ChangePassword","MyInfo",new { area= "Company" })" class="gnb gnb2">비밀번호 변경</a></li>
             }
-            else if (ViewBag.LeftMenu == Global.Cs)//내정보
+            else if (ViewBag.LeftMenu == Global.Cs)//고객센터
             {
-
+                <li class="title biz_customcenter"><em>고객센터</em></li>
+                <li><a href="@Url.Action("Notice","Cs")" class="gnb gnb_notice">공지사항</a></li>
+                <li><a href="@Url.Action("Faq","Cs")" class="gnb gnb_faq">FAQ</a></li>
+                <li><a href="@Url.Action("Manual","Cs")" class="gnb gnb_menual">매뉴얼 및 서식</a></li>
+                <li><a href="http://me2.do/GcgjeEpB" target=_blank class="gnb gnb_download">프로그램 다운로드</a></li>
             }
-            else if (ViewBag.LeftMenu == Global.ExpertService)//내정보
+            else if (ViewBag.LeftMenu == Global.ExpertService)//전문가 서비스
             {
                 <li class="title biz_expert"><em>전문가서비스</em></li>
-                <li><a href="" class="gnb on">세무회계</a></li>
-                <li><a href="" class="gnb">법무</a></li>
-                <li><a href="" class="gnb">노무</a></li>
-                <li><a href="" class="gnb">특허</a></li>
-                <li><a href="" class="gnb">마케팅</a></li>
+                <li><a href="" class="gnb gnb_tax">세무회계</a></li>
+                <li><a href="" class="gnb gnb_law">법무</a></li>
+                <li><a href="" class="gnb gnb_work">노무</a></li>
+                <li><a href="" class="gnb gnb_patent">특허</a></li>
+                <li><a href="" class="gnb gnb_marketing">마케팅</a></li>
             }
-            else if (ViewBag.LeftMenu == Global.Report)//내정보
+            else if (ViewBag.LeftMenu == Global.Report)//보고서
             {
 
             }
