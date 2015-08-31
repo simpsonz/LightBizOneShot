@@ -1,5 +1,78 @@
-﻿@{
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.CompanyMyInfoViewModel>
+
+@{
     Layout = "~/Areas/SysManager/Views/Shared/_MainLayout.cshtml";
 }
 
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_scpadmin04').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_bizMng').addClass('on');
+    });
+</script>
 
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title scpadmin_04_01"><em>소속그룹 관리</em></div>
+    <p>소속그룹(사업관리 기관)을 등록ㆍ관리 합니다.</p>
+    <p>&nbsp;</p>
+    <div id="sub_inquiry_box">
+        <input type="text" placeholder="그룹명">
+        <button type="submit" class="bt_td_search" value="검색" />검색</button>
+    </div><!--custom_term_box//-->
+
+    <div class="line_dot20"></div>
+    <form method="" action="" name="" id="">
+        <div class="tablewrap">
+            <!--목록-->
+            <table class="admin_list">
+                <caption>그룹명 검색 목록</caption>
+                <colgroup>
+                    <col width="5%">
+                    <col width="17%">
+                    <col width="10%">
+                    <col width="17%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="20%">
+                </colgroup>
+                <tr>
+                    <th class="topcen"><input type="checkbox" /></th>
+                    <th class="topcen">그룹명</th>
+                    <th class="topcen">담당자(ID)</th>
+                    <th class="topcen">전화</th>
+                    <th class="topcen">휴대폰</th>
+                    <th class="topcen">이메일</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><input type="checkbox" value="@item.LoginId"/></td>
+                        <td><a href="" class="resume_open">@item.CompNm</a></td>
+                        <td>@item.Name</td>
+                        <td>@item.TelNo</td>
+                        <td>@item.MbNo</td>
+                        <td>@item.Email</td>
+                    </tr>
+                }
+                @if (Model.TotalItemCount == 0)
+                {
+                    <tr>
+                        <td colspan="6" style="text-align:center;">검색 결과가 없습니다.</td>
+                    </tr>
+                }
+            </table>
+        </div><!--tablewrap//-->
+        @if (Model != null && Model.TotalItemCount != 0)
+        {
+            @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+        }
+        <div id="btnwrap_sub">
+            <a href="" class="delete left" onclick="confirm('정말로 삭제 하시겠습니까?');return false;"><em>삭제</em></a>
+            <a href="" class="regi2 right"></a><em>등록</em></a>
+        </div>
+    </form>
+
+</div><!--sub_rightwrap//-->

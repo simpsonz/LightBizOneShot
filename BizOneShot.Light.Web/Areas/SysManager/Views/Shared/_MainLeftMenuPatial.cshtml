@@ -5,8 +5,8 @@
             @if (ViewBag.LeftMenu == Global.BizMng)//사업관리기관 관리
             {
                 <li class="title scpadmin_group"><em>사업관리기관 관리</em></li>
-                <li><a href="@Url.Action("MyInfo","MyInfo",new { area= "SysManager" })" class="gnb on">사업관리기관 관리</a></li>
-                <li><a href="@Url.Action("MyInfo","MyInfo",new { area= "SysManager" })" class="gnb">사업관리기관 등록</a></li>
+                <li><a href="@Url.Action("BizManager","BizManager",new { area= "SysManager" })" class="gnb gnb_bizMng">사업관리기관 관리</a></li>
+                <li><a href="@Url.Action("MyInfo","MyInfo",new { area= "SysManager" })" class="gnb gnb_regBizMng">사업관리기관 등록</a></li>
             }
             else if (ViewBag.LeftMenu == Global.Cs)//고객센터
             {

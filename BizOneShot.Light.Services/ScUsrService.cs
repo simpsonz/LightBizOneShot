@@ -21,6 +21,7 @@ namespace BizOneShot.Light.Services
         Task<ScUsr> SelectScUsr(string loginId);
 
         Task<int> AddCompanyUserAsync(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser);
+        Task<IList<ScUsr>> GetBizManagerAsync();
     }
 
 
@@ -86,6 +87,14 @@ namespace BizOneShot.Light.Services
 
         }
 
+
+        public async Task<IList<ScUsr>> GetBizManagerAsync()
+        {
+            IEnumerable<ScUsr> listScUsrTask = null;
+
+            listScUsrTask = await scUsrRespository.GetManyAsync(usr => usr.Status == "N" && usr.UsrType == "B" && usr.UsrTypeDetail == "A");
+            return listScUsrTask.OrderByDescending(usr => usr.RegDt).ToList();
+        }
 
 
 
