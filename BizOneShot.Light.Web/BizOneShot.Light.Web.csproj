@@ -224,6 +224,7 @@
     <Compile Include="Areas\Expert\ExpertAreaRegistration.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
     <Compile Include="Areas\SysManager\Controllers\BizManagerController.cs" />
+    <Compile Include="Areas\SysManager\Controllers\ExpertManagerController.cs" />
     <Compile Include="Areas\SysManager\Controllers\MainController.cs" />
     <Compile Include="Areas\SysManager\SysManagerAreaRegistration.cs" />
     <Compile Include="ComLib\BaseController.cs" />
@@ -284,6 +285,9 @@
     <Content Include="Areas\SysManager\Views\Shared\_MainLayout.cshtml" />
     <Content Include="Areas\SysManager\Views\Shared\_MainLeftMenuPatial.cshtml" />
     <Content Include="Areas\SysManager\Views\BizManager\BizManager.cshtml" />
+    <Content Include="Areas\SysManager\Views\BizManager\RegBizManager.cshtml" />
+    <Content Include="Areas\SysManager\Views\BizManager\BizManagerDetail.cshtml" />
+    <Content Include="Areas\SysManager\Views\ExpertManager\ExpertManager.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

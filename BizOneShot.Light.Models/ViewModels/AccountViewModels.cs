@@ -42,7 +42,9 @@ namespace BizOneShot.Light.Models.ViewModels
         [Display(Name = "담당자명")]
         [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
         public string Name { get; set; } // Name. 이름
-        public string FaxNo { get; set; } // FAX_NO. Fax
+        public string FaxNo1 { get; set; } // FAX_NO. Fax
+        public string FaxNo2 { get; set; } // FAX_NO. Fax
+        public string FaxNo3 { get; set; } // FAX_NO. Fax
         public string TelNo1 { get; set; } // TEL_NO. 전화번호
         public string TelNo2 { get; set; } // TEL_NO. 전화번호
         public string TelNo3 { get; set; } // TEL_NO. 전화번호

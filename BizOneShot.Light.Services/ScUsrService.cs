@@ -21,7 +21,9 @@ namespace BizOneShot.Light.Services
         Task<ScUsr> SelectScUsr(string loginId);
 
         Task<int> AddCompanyUserAsync(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser);
+        Task<int> AddBizManagerAsync(ScCompInfo scCompInfo, ScUsr scUsr);
         Task<IList<ScUsr>> GetBizManagerAsync();
+        Task<IList<ScUsr>> GetBizManagerByComNameAsync(string keyword = null);
     }
 
 
@@ -87,6 +89,23 @@ namespace BizOneShot.Light.Services
 
         }
 
+        public async Task<int> AddBizManagerAsync(ScCompInfo scCompInfo, ScUsr scUsr)
+        {
+            //var rstScUsr = scUsrRespository.Insert(scUsr);
+            //scCompInfo.
+            var rstScCompInfo = scCompInfoRespository.Insert(scCompInfo);
+
+            if (rstScCompInfo == null )
+            {
+                return -1;
+            }
+            else
+            {
+                return await SaveDbContextAsync();
+            }
+
+        }
+
 
         public async Task<IList<ScUsr>> GetBizManagerAsync()
         {
@@ -94,6 +113,16 @@ namespace BizOneShot.Light.Services
 
             listScUsrTask = await scUsrRespository.GetManyAsync(usr => usr.Status == "N" && usr.UsrType == "B" && usr.UsrTypeDetail == "A");
             return listScUsrTask.OrderByDescending(usr => usr.RegDt).ToList();
+        }
+
+
+        public async Task<IList<ScUsr>> GetBizManagerByComNameAsync(string keyword = null)
+        {
+            IEnumerable<ScUsr> listScUsrTask = null;
+
+            listScUsrTask = await scUsrRespository.GetManyAsync(usr => usr.Status == "N" && usr.UsrType == "B" && usr.UsrTypeDetail == "A" && usr.ScCompInfo.CompNm.Contains(keyword));
+            return listScUsrTask.OrderByDescending(usr => usr.RegDt).ToList();
+
         }
 
 

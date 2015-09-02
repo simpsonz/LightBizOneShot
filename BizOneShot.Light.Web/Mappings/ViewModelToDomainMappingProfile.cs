@@ -32,6 +32,7 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<JoinCompanyViewModel, ScUsr>()
                 .ForMember(d => d.TelNo, map => map.MapFrom(s => s.TelNo1 + "-" + s.TelNo2 + "-" + s.TelNo3))
                 .ForMember(d => d.MbNo, map => map.MapFrom(s => s.MbNo1 + "-" + s.MbNo2 + "-" + s.MbNo3))
+                .ForMember(d => d.FaxNo, map => map.MapFrom(s => s.FaxNo1 + "-" + s.FaxNo2 + "-" + s.FaxNo2))
                 .ForMember(d => d.Email, map => map.MapFrom(s => s.Email1 + "@"+ s.Email2));
 
             //회원가입모델 to 회사

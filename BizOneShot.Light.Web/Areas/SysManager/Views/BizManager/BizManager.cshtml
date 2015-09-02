@@ -11,6 +11,11 @@
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_bizMng').addClass('on');
     });
+
+    function goPage(page) {
+        $('#curPage').val(page);
+        $('#searchForm').submit();
+    }
 </script>
 
 
@@ -18,10 +23,13 @@
     <div class="sub_right_title scpadmin_04_01"><em>소속그룹 관리</em></div>
     <p>소속그룹(사업관리 기관)을 등록ㆍ관리 합니다.</p>
     <p>&nbsp;</p>
-    <div id="sub_inquiry_box">
-        <input type="text" placeholder="그룹명">
-        <button type="submit" class="bt_td_search" value="검색" />검색</button>
-    </div><!--custom_term_box//-->
+    @using (Html.BeginForm("BizManager", "BizManager", FormMethod.Post, new {area = "SysManager", id = "searchForm"}))
+    {
+        <div id="sub_inquiry_box">
+            @Html.TextBox("QUERY", null, new { @class = "search", @placeholder = "검색어를 입력하세요", @id = "QUERY" })
+            <button type="submit" class="bt_td_search" value="검색" >검색</button>
+        </div><!--custom_term_box//-->
+    }
 
     <div class="line_dot20"></div>
     <form method="" action="" name="" id="">
@@ -50,7 +58,7 @@
                 {
                     <tr>
                         <td><input type="checkbox" value="@item.LoginId"/></td>
-                        <td><a href="" class="resume_open">@item.CompNm</a></td>
+                        <td class="center">@Html.ActionLink(item.CompNm, "BizManagerDetail", new { loginId = item.LoginId })</td>
                         <td>@item.Name</td>
                         <td>@item.TelNo</td>
                         <td>@item.MbNo</td>
@@ -71,7 +79,7 @@
         }
         <div id="btnwrap_sub">
             <a href="" class="delete left" onclick="confirm('정말로 삭제 하시겠습니까?');return false;"><em>삭제</em></a>
-            <a href="" class="regi2 right"></a><em>등록</em></a>
+            <a href="@Url.Action("RegBizManager","BizManager",new { area= "SysManager" })" class="regi2 right"><em>등록</em></a>
         </div>
     </form>
 

@@ -6,7 +6,7 @@
             {
                 <li class="title scpadmin_group"><em>사업관리기관 관리</em></li>
                 <li><a href="@Url.Action("BizManager","BizManager",new { area= "SysManager" })" class="gnb gnb_bizMng">사업관리기관 관리</a></li>
-                <li><a href="@Url.Action("MyInfo","MyInfo",new { area= "SysManager" })" class="gnb gnb_regBizMng">사업관리기관 등록</a></li>
+                <li><a href="@Url.Action("RegBizManager","BizManager",new { area= "SysManager" })" class="gnb gnb_regBizMng">사업관리기관 등록</a></li>
             }
             else if (ViewBag.LeftMenu == Global.Cs)//고객센터
             {
@@ -17,12 +17,9 @@
             }
             else if (ViewBag.LeftMenu == Global.ExpertMng)//전문가회원 관리
             {
-                <li class="title biz_expert"><em>전문가서비스</em></li>
-                <li><a href="" class="gnb gnb_tax">세무회계</a></li>
-                <li><a href="" class="gnb gnb_law">법무</a></li>
-                <li><a href="" class="gnb gnb_work">노무</a></li>
-                <li><a href="" class="gnb gnb_patent">특허</a></li>
-                <li><a href="" class="gnb gnb_marketing">마케팅</a></li>
+                <li class="title scpadmin_master"><em>전문가회원 관리</em></li>
+                <li><a href="" class="gnb gnb_ExpertMng">전문회원 조회</a></li>
+                <li><a href="" class="gnb gnb_RegExpert">전문회원 등록</a></li>
             }
             else if (ViewBag.LeftMenu == Global.Report)//보고서관리
             {
