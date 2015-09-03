@@ -28,13 +28,21 @@ namespace BizOneShot.Light.Web.ComLib
 
 
         //LeftMenu
+        //공통
+        public const string Cs = "Cs";                          //고객센터
+        public const string Report = "Report";                  //보고서
         //기업회원
-        public const string MyInfo = "MyInfo"; //내정보관리
-        public const string Cs = "Cs";         //고객센터
+        public const string MyInfo = "MyInfo";                  //내정보관리
         public const string ExpertService = "ExpertService";    //전문가서비스
-        public const string Report = "Report";                  //보고서   
+       
+        //SysManager   
         public const string ExpertMng = "ExpertMng";            //전문가 관리
         public const string BizMng = "BizMng";                  //사업관리자 관리
+
+        //BizManager
+        public const string MentorMng = "MentorMng";            //멘토 관리
+        public const string BizWorkMng = "BizWorkMng";          //사업 관리
+        public const string ComMng = "ComMng";                  //기업 관리
 
     }
 }

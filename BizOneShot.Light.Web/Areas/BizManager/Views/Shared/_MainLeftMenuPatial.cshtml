@@ -1,0 +1,37 @@
+﻿<div id="sub_leftwrap">
+    <div class="sub_gnbwrap">
+        <ul>
+
+            @if (ViewBag.LeftMenu == Global.BizWorkMng)//사업 관리
+            {
+                <li class="title bizmanager_biz"><em>사업관리</em></li>
+                <li><a href="@Url.Action("BizWorkMng","BizWorkMng",new { area= "BizManager" })" class="gnb gnb_bizWorkMng">사업 관리</a></li>
+                <li><a href="@Url.Action("RegBizWorkMng","BizWorkMng",new { area= "BizManager" })" class="gnb gnb_regBizWorkMng">사업 등록</a></li>
+            }
+            else if (ViewBag.LeftMenu == Global.Cs)//고객센터
+            {
+                <li class="title biz_customcenter"><em>고객센터</em></li>
+                <li><a href="@Url.Action("Notice","Cs")" class="gnb gnb_notice">공지사항</a></li>
+                <li><a href="@Url.Action("Faq","Cs")" class="gnb gnb_faq">FAQ</a></li>
+                <li><a href="@Url.Action("Manual","Cs")" class="gnb gnb_menual">매뉴얼 및 서식</a></li>
+            }
+            else if (ViewBag.LeftMenu == Global.MentorMng) // 멘토 관리
+            {
+            }
+            else if (ViewBag.LeftMenu == Global.Report)//보고서관리
+            {
+
+            }
+            else if (ViewBag.LeftMenu == Global.ComMng)//기업관리
+            {
+
+            }
+            else
+            {
+
+            }
+
+        </ul>
+    </div><!--sub_gnbwrap//-->
+</div><!--sub_leftwrap//-->
+
