@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.JoinExpertViewModel>
+
+@{
     Layout = "~/Areas/SysManager/Views/Shared/_MainLayout.cshtml";
 }
 
@@ -9,26 +11,25 @@
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_ExpertMng').addClass('on');
     });
+
+    function goPage(page) {
+        $('#curPage').val(page);
+        $('#searchForm').submit();
+    }
 </script>
 
 <div id="sub_rightwrap">
     <div class="sub_right_title scpadmin_01_02"><em>전문회원 조회</em></div>
 
-    <div id="sub_inquiry_box">
-        <select class="w130">
-            <option value="">사업관리기관</option>
-            <option value="">그룹1</option>
-            <option value="">그룹2</option>
-        </select><select class="w110">
-            <option value="">전문분야</option>
-            <option value="">세무회계</option>
-            <option value="">법무</option>
-            <option value="">노무</option>
-            <option value="">특허</option>
-            <option value="">마케팅</option>
-        </select>
-        <button type="submit" class="special_inquire" value="전문회원 조회" />전문회원 조회</button>
-    </div><!--sub_inquiry_box//-->
+    @using (Html.BeginForm("ExpertManager", "ExpertManager", FormMethod.Post, new { area = "SysManager", id = "searchForm" }))
+    {
+        <div id="sub_inquiry_box">
+            @Html.DropDownList("BizMngList", ViewBag.SelectBizList as SelectList, new { @class = "w130" })
+            @Html.DropDownList("ExpertPartList", ViewBag.SelectBizPartList as SelectList, new { @class = "w130" })
+            <button type="submit" class="special_inquire" value="전문회원 조회">전문회원 조회</button>
+        </div><!--sub_inquiry_box//-->
+        @Html.Hidden("curPage", "1")
+    }
 
     <div class="line_dot20"></div>
     <form method="" action="" name="" id="">
@@ -51,72 +52,68 @@
                     <th class="topcen"><input type="checkbox" /></th>
                     <th class="topcen">이름</th>
                     <th class="topcen">ID</th>
-                    <th class="topcen">그룹</th>
+                    <th class="topcen">사업관리기관</th>
                     <th class="topcen">분야</th>
                     <th class="topcen">전화</th>
                     <th class="topcen">휴대폰</th>
                     <th class="topcen">이메일</th>
                     <th class="topcen">이력서</th>
                 </tr>
-                <tr>
-                    <td><input type="checkbox" /></td>
-                    <td>나회계</td>
-                    <td>A001</td>
-                    <td>강릉원주대</td>
-                    <td>세무회계</td>
-                    <td>02-566-0826</td>
-                    <td>010-0000-0000</td>
-                    <td>smartbill@smartbill.co.kr</td>
-                    <td><a href="" class="resume_open">이력서_나회계.hwp</a></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" /></td>
-                    <td>황노무</td>
-                    <td>L007</td>
-                    <td>연세대</td>
-                    <td>노무</td>
-                    <td>031-235-2356</td>
-                    <td>010-9876-5332</td>
-                    <td>email@naver.com</td>
-                    <td><a href="#" class="resume_open">resume_hwang.hwp</a></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" /></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><input type="checkbox" value="@item.LoginId" /></td>
+                        <td class="center">@Html.ActionLink(item.Name, "ExpertManagerDetail", new { loginId = item.LoginId })</td>
+                        <td>@item.LoginId</td>
+                        <td>@item.BizMagComName</td>
+                        
+                        @if (item.UsrTypeDetail == "T")
+                        {
+                            <td>세무회계</td>
+                        }
+                        else if (item.UsrTypeDetail == "L")
+                        {
+                            <td>법무</td>
+                        }
+                        else if (item.UsrTypeDetail == "W")
+                        {
+                            <td>노무</td>
+                        }
+                        else if (item.UsrTypeDetail == "P")
+                        {
+                            <td>특허</td>
+                        }
+                        else if (item.UsrTypeDetail == "M")
+                        {
+                            <td>마케팅</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        <td>@item.TelNo1-@item.TelNo2-@item.TelNo3</td>
+                        <td>@item.MbNo1-@item.MbNo2-@item.MbNo3</td>
+                        <td>@item.Email1@@@item.Email2 </td>
+                        <td>@item.ResumeName</td>
+                    </tr>
+                }
+                @if (Model.TotalItemCount == 0)
+                {
+                    <tr>
+                        <td colspan="9" style="text-align:center;">검색 결과가 없습니다.</td>
+                    </tr>
+                }
+               
             </table>
         </div><!--tablewrap//-->
-        <div class="page_num_wrap">
-            <div class="page_num">
-                <ul>
-                    <li><input type="button" class="first" value="첫페이지"></li>
-                    <li><input type="button" class="pre" value="이전 페이지"></li>
-                    <li class="on">1<span>l</span></li>
-                    <li><a href="">2</a><span>l</span></li>
-                    <li><a href="">3</a><span>l</span></li>
-                    <li><a href="">4</a><span>l</span></li>
-                    <li><a href="">5</a><span>l</span></li>
-                    <li><a href="">6</a><span>l</span></li>
-                    <li><a href="">7</a><span>l</span></li>
-                    <li><a href="">8</a><span>l</span></li>
-                    <li><a href="">9</a><span>l</span></li>
-                    <li><a href="">10</a></li>
-                    <li><input type="button" class="next" value="다음 페이지"></li>
-                    <li><input type="button" class="last" value="끝 페이지" /></li>
-                </ul>
-            </div>
-        </div><!-- page_num_wrap//-->
+        @if (Model != null && Model.TotalItemCount != 0)
+        {
+            @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+        }
         <div id="btnwrap_sub">
-            <input type="button" class="modify left" title="수정" />
-            <input type="button" class="delete left" onclick="confirm('선택하신 멘토를 목록에서 삭제하시겠습니까?');return false;" title="삭제">
-            <button class="print right" value=""><em>출력</em></button>
+            <a href="" class="delete left" onclick="confirm('선택하신 멘토를 목록에서 삭제하시겠습니까?'); return false;"><em>삭제</em></a>
+            <a href="@Url.Action("RegExpertManager","ExpertManager",new { area= "SysManager" })" class="regi2 right"><em>등록</em></a>
         </div>
     </form>
 

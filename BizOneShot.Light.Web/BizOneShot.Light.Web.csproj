@@ -288,6 +288,7 @@
     <Content Include="Areas\SysManager\Views\BizManager\RegBizManager.cshtml" />
     <Content Include="Areas\SysManager\Views\BizManager\BizManagerDetail.cshtml" />
     <Content Include="Areas\SysManager\Views\ExpertManager\ExpertManager.cshtml" />
+    <Content Include="Areas\SysManager\Views\ExpertManager\RegExpertManager.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

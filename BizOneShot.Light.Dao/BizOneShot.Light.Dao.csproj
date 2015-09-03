@@ -54,6 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\ScBizWorkRepository.cs" />
+    <Compile Include="Repositories\ScExpertMappingRepository.cs" />
     <Compile Include="Repositories\ScFormRepository.cs" />
     <Compile Include="Repositories\ScReqDocRepository.cs" />
     <Compile Include="Repositories\SyUserRepository.cs" />

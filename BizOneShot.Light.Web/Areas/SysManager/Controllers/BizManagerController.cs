@@ -20,10 +20,12 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
     public class BizManagerController : BaseController
     {
         private readonly IScUsrService _scUsrService;
+        private readonly IScBizWorkService _scBizWorkService;
 
-        public BizManagerController(IScUsrService scUsrService)
+        public BizManagerController(IScUsrService scUsrService, IScBizWorkService _scBizWorkService)
         {
             this._scUsrService = scUsrService;
+            this._scBizWorkService = _scBizWorkService;
         }
 
         // GET: SysManager/BizManager
@@ -62,7 +64,7 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
 
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            return View(new StaticPagedList<CompanyMyInfoViewModel>(usrViews.ToPagedList(1, pagingSize), 1, pagingSize, usrViews.Count));
+            return View(new StaticPagedList<CompanyMyInfoViewModel>(usrViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, usrViews.Count));
         }
 
 
@@ -104,7 +106,7 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
             scCompInfo.ScUsrs = scUsrs;
 
             //bool result = _scUsrService.AddCompanyUser(scCompInfo, scUsr, syUser);
-            int result = await _scUsrService.AddBizManagerAsync(scCompInfo, scUsr);
+            int result = await _scUsrService.AddBizManagerAsync(scCompInfo);
 
             if (result != -1)
                 return RedirectToAction("BizManager", "BizManager");
@@ -141,6 +143,17 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
                 Mapper.Map<JoinCompanyViewModel>(scUsr);
 
             return View(joinCompanyView);
+        }
+
+        [HttpPost]
+        public JsonResult GetBizList(string comSn)
+        {
+            var bizWork = _scBizWorkService.GetBizWorkList(int.Parse(comSn));
+
+            var bizWorkDropDown =
+                Mapper.Map<List<BizWorkDropDownModel>>(bizWork);
+
+            return Json(bizWorkDropDown);
         }
 
 

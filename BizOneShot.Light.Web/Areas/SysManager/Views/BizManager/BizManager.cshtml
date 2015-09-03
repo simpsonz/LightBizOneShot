@@ -29,6 +29,7 @@
             @Html.TextBox("QUERY", null, new { @class = "search", @placeholder = "검색어를 입력하세요", @id = "QUERY" })
             <button type="submit" class="bt_td_search" value="검색" >검색</button>
         </div><!--custom_term_box//-->
+        @Html.Hidden("curPage", "1")
     }
 
     <div class="line_dot20"></div>
