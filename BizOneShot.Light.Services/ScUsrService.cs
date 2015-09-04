@@ -22,6 +22,7 @@ namespace BizOneShot.Light.Services
 
         Task<int> AddCompanyUserAsync(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser);
         Task<int> AddBizManagerAsync(ScCompInfo scCompInfo);
+        Task<int> AddBizManagerMemberAsync(ScUsr scUsr);
         Task<IList<ScUsr>> GetBizManagerAsync();
         Task<IList<ScUsr>> GetBizManagerByComNameAsync(string keyword = null);
         Task<IList<ScUsr>> GetExpertManagerAsync();
@@ -81,6 +82,21 @@ namespace BizOneShot.Light.Services
             var rstSyUser = syUserRespository.Insert(syUser);
 
             if (rstScCompInfo == null || rstSyUser != 1)
+            {
+                return -1;
+            }
+            else
+            {
+                return await SaveDbContextAsync();
+            }
+
+        }
+
+        public async Task<int> AddBizManagerMemberAsync(ScUsr scUsr)
+        {
+            var rstScUsr = scUsrRespository.Insert(scUsr);
+
+            if (rstScUsr == null)
             {
                 return -1;
             }

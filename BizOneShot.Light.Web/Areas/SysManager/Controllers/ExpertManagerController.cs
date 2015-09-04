@@ -273,5 +273,16 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
 
             return Json(bizWorkDropDown);
         }
+
+        public async Task<ActionResult> ExpertManagerDetail(string loginId)
+        {
+            ViewBag.LeftMenu = Global.ExpertMng;
+
+            ScUsr scUsr = await _scUsrService.SelectScUsr(loginId);
+            var myInfo =
+              Mapper.Map<JoinExpertViewModel>(scUsr);
+
+            return View(myInfo);
+        }
     }
 }

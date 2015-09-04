@@ -131,9 +131,6 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             return modelBuilder;
         }
 
-       
-
-
         partial void InitializePartial();
         partial void OnModelCreatingPartial(DbModelBuilder modelBuilder);
     }

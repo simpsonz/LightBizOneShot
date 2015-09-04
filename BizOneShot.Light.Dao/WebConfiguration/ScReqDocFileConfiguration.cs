@@ -36,7 +36,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             ToTable(schema + ".SC_REQ_DOC_FILE");
             HasKey(x => x.FileSn);
 
-            Property(x => x.FileSn).HasColumnName("FILE_SN2").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.FileSn).HasColumnName("FILE_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.ReqDocSn).HasColumnName("REQ_DOC_SN").IsRequired().HasColumnType("int");
             Property(x => x.RegType).HasColumnName("REG_TYPE").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
 

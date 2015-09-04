@@ -15,6 +15,8 @@ namespace BizOneShot.Light.Services
 
         //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
         Task<IList<ScBizWork>> GetBizWorkList(int comSn);
+        ScBizWork Insert(ScBizWork scBizWork);
+        Task<int> AddBizWorkAsync(ScBizWork scBizWork);
     }
 
 
@@ -35,6 +37,25 @@ namespace BizOneShot.Light.Services
             return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
         }
 
+        public ScBizWork Insert(ScBizWork scBizWork)
+        {
+            return scBizWorkRespository.Insert(scBizWork);
+        }
+
+        public async Task<int> AddBizWorkAsync(ScBizWork scBizWork)
+        {
+            var rstScUsr = scBizWorkRespository.Insert(scBizWork);
+
+            if (rstScUsr == null)
+            {
+                return -1;
+            }
+            else
+            {
+                return await SaveDbContextAsync();
+            }
+
+        }
 
         public void SaveDbContext()
         {

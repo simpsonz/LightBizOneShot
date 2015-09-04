@@ -5,8 +5,8 @@
             @if (ViewBag.LeftMenu == Global.BizWorkMng)//사업 관리
             {
                 <li class="title bizmanager_biz"><em>사업관리</em></li>
-                <li><a href="@Url.Action("BizWorkMng","BizWorkMng",new { area= "BizManager" })" class="gnb gnb_bizWorkMng">사업 관리</a></li>
-                <li><a href="@Url.Action("RegBizWorkMng","BizWorkMng",new { area= "BizManager" })" class="gnb gnb_regBizWorkMng">사업 등록</a></li>
+                <li><a href="@Url.Action("BizWorkList","BizWorkMng",new { area= "BizManager" })" class="gnb gnb_bizWorkMng">사업 관리</a></li>
+                <li><a href="@Url.Action("RegBizWork","BizWorkMng",new { area= "BizManager" })" class="gnb gnb_regBizWorkMng">사업 등록</a></li>
             }
             else if (ViewBag.LeftMenu == Global.Cs)//고객센터
             {

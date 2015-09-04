@@ -10,13 +10,18 @@ namespace BizOneShot.Light.Dao.Repositories
 {
     public interface IScBizWorkRepository : IRepository<ScBizWork>
     {
-        //IList<ScCompInfo> GetScCompInfoByName(string compNm);
+        ScBizWork Insert(ScBizWork scBizWork);
     }
 
 
     public class ScBizWorkRepository : RepositoryBase<ScBizWork>, IScBizWorkRepository
     {
         public ScBizWorkRepository(IDbFactory dbFactory) : base(dbFactory) { }
+
+        public ScBizWork Insert(ScBizWork scBizWork)
+        {
+            return this.DbContext.ScBizWorks.Add(scBizWork);
+        }
 
     }
 }

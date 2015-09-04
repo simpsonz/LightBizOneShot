@@ -65,6 +65,17 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.MembBusnpersNo, map => map.MapFrom(s => s.ComRegistrationNo))
                 .ForMember(d => d.NmUser, map => map.MapFrom(s => s.Name))
                 .ForMember(d => d.Pwd, map => map.MapFrom(s => s.LoginPw));
+
+            //사업관리 담당자 to 회원
+            Mapper.CreateMap<BizWorkViewModel, ScUsr>()
+                .ForMember(d => d.TelNo, map => map.MapFrom(s => s.TelNo1 + "-" + s.TelNo2 + "-" + s.TelNo3))
+                .ForMember(d => d.MbNo, map => map.MapFrom(s => s.MbNo1 + "-" + s.MbNo2 + "-" + s.MbNo3))
+                .ForMember(d => d.FaxNo, map => map.MapFrom(s => s.FaxNo1 + "-" + s.FaxNo2 + "-" + s.FaxNo3))
+                .ForMember(d => d.Email, map => map.MapFrom(s => s.Email1 + "@" + s.Email2));
+
+            //사업관리 담당자 to 사업
+            Mapper.CreateMap<BizWorkViewModel, ScBizWork>()
+                .ForMember(d => d.ExecutorId, map => map.MapFrom(s => s.LoginId));
         }
     }
 }

@@ -32,6 +32,7 @@ namespace BizOneShot.Light.Models.WebModels
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시
         public string UpdId { get; set; } // UPD_ID. 수정자
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
+        public string MngDept { get; set; } // MNG_DEPT
 
         // Reverse navigation
         public virtual ICollection<ScCompMapping> ScCompMappings { get; set; } // Many to many mapping

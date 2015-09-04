@@ -14,6 +14,12 @@ namespace BizOneShot.Light.Web
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include(
+                       "~/Scripts/jquery-ui-1.11.4/jquery-ui-1.11.4.js"));
+
+            bundles.Add(new StyleBundle("~/css/jquery-ui").Include(
+                      "~/Scripts/jquery-ui-themes-1.11.4/themes/smoothness/jquery-ui.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
