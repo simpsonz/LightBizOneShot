@@ -219,8 +219,8 @@
     <Compile Include="Areas\BizManager\BizManagerAreaRegistration.cs" />
     <Compile Include="Areas\BizManager\Controllers\BizWorkMngController.cs" />
     <Compile Include="Areas\BizManager\Controllers\CompanyMngController.cs" />
-    <Compile Include="Areas\BizManager\Controllers\MentorMngController.cs" />
     <Compile Include="Areas\BizManager\Controllers\MainController.cs" />
+    <Compile Include="Areas\BizManager\Controllers\MentorMngController.cs" />
     <Compile Include="Areas\Company\CompanyAreaRegistration.cs" />
     <Compile Include="Areas\Company\Controllers\ExpertServiceController.cs" />
     <Compile Include="Areas\Company\Controllers\MainController.cs" />
@@ -296,6 +296,8 @@
     <Content Include="Areas\BizManager\Views\Shared\_MainTopMenuPartial.cshtml" />
     <Content Include="Areas\BizManager\Views\Shared\_MainLeftMenuPatial.cshtml" />
     <Content Include="Areas\BizManager\Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Areas\BizManager\Views\Main\Index.cshtml" />
+    <Content Include="Areas\BizManager\Views\BizWorkMng\BizWorkMng.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -819,9 +821,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\BizManager\Views\BizWorkMng\" />
     <Folder Include="Areas\BizManager\Views\CompanyMng\" />
-    <Folder Include="Areas\BizManager\Views\Main\" />
     <Folder Include="Areas\BizManager\Views\MentorMng\" />
     <Folder Include="Areas\Expert\Controllers\" />
     <Folder Include="Areas\Expert\Views\Shared\" />

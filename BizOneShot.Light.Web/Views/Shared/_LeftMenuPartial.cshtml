@@ -20,8 +20,9 @@ else
     {
         @RenderPage("~/Areas/Company/Views/Shared/_MainLeftMenuPatial.cshtml")
     }
-    if (Session[Global.UserType].Equals("T") || Session[Global.UserType].Equals("O"))
+    if (Session[Global.UserType].Equals("B"))
     {
+        @RenderPage("~/Areas/BizManager/Views/Shared/_MainLeftMenuPatial.cshtml")
     }
     if (Session[Global.UserType].Equals("S"))
     {
