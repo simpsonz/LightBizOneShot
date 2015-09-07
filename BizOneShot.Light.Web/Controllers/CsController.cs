@@ -11,17 +11,21 @@ using System.Threading.Tasks;
 
 namespace BizOneShot.Light.Web.Controllers
 {
-    public class CsController : Controller
+    public class CsController : BaseController
     {
         private readonly IScFaqService _scFaqService;
         private readonly IScNtcService _scNtcService;
         private readonly IScFormService _scFormService;
+        private readonly IScFormFileService _scFormFileService;
 
-        public CsController(IScFaqService scFaqService, IScNtcService scNtcServcie, IScFormService scFormService)
+        public CsController(
+            IScFaqService scFaqService, IScNtcService scNtcServcie, 
+            IScFormService scFormService, IScFormFileService scFormFileService)
         {
             this._scFaqService = scFaqService;
             this._scNtcService = scNtcServcie;
             this._scFormService = scFormService;
+            this._scFormFileService = scFormFileService;
         }
 
         public CsController()
@@ -147,7 +151,7 @@ namespace BizOneShot.Light.Web.Controllers
         public  async Task<ActionResult> NoticeDetail(int noticeSn)
         {
             ViewBag.LeftMenu = Global.Cs;
-            //var dicScNtc = _scNtcService.GetNoticeDetailById(noticeSn);
+
             var dicScNtc = await _scNtcService.GetNoticeDetailByIdAsync(noticeSn);
 
             var noticeDetailView =
@@ -219,6 +223,43 @@ namespace BizOneShot.Light.Web.Controllers
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
             return View(new StaticPagedList<ManualViewModel>(manualViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, manualViews.Count));
+        }
+
+        public async Task<ActionResult> ManualDetail(int formSn)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+
+            var dicScForm = await _scFormService.GetManualDetailByIdAsync(formSn);
+
+            var listScFormFile = await _scFormFileService.GetFormFilesByIdAsync(formSn);
+
+
+            var manualDetailView =
+                Mapper.Map<ManualDetailViewModel>(dicScForm["curForm"]);
+
+            var manualDetailFileInfo = Mapper.Map<ManualDetailViewModel>(listScFormFile);
+
+
+            manualDetailView.ManualFiles = manualDetailFileInfo.ManualFiles;
+
+
+            foreach (var key in dicScForm.Keys)
+            {
+                var value = dicScForm[key];
+
+                if (key == "preForm" && value != null)
+                {
+                    manualDetailView.PreFormSn = value.FormSn;
+                    manualDetailView.PreSubject = value.Subject;
+                }
+                else if (key == "nextForm" && value != null)
+                {
+                    manualDetailView.NextFormSn = value.FormSn;
+                    manualDetailView.NextSubject = value.Subject;
+                }
+            }
+
+            return View(manualDetailView);
         }
         #endregion
     }
