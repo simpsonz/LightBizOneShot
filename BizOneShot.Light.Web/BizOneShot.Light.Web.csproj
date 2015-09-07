@@ -254,6 +254,11 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\BizManager\Views\BizWorkMng\BizWorkComList.cshtml" />
+    <Content Include="Areas\BizManager\Views\BizWorkMng\BizWorkDetail.cshtml" />
+    <Content Include="Areas\BizManager\Views\BizWorkMng\BizWorkList.cshtml" />
+    <Content Include="Areas\BizManager\Views\BizWorkMng\ModifyBizWork.cshtml" />
+    <Content Include="Areas\BizManager\Views\BizWorkMng\RegBizWork.cshtml" />
     <Content Include="Areas\Company\Views\MyInfo\MyInfo.cshtml" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -297,9 +302,7 @@
     <Content Include="Areas\BizManager\Views\Shared\_MainLeftMenuPatial.cshtml" />
     <Content Include="Areas\BizManager\Views\Shared\_MainLayout.cshtml" />
     <Content Include="Areas\BizManager\Views\Main\Index.cshtml" />
-    <Content Include="Areas\BizManager\Views\BizWorkMng\BizWorkList.cshtml" />
     <Content Include="Areas\SysManager\Views\ExpertManager\ExpertManagerDetail.cshtml" />
-    <Content Include="Areas\BizManager\Views\BizWorkMng\RegBizWork.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

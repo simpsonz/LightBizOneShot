@@ -1,0 +1,105 @@
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.JoinCompanyViewModel>
+
+@{
+    Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_business04').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_bizWorkMng').addClass('on');
+
+    });
+
+    function goPage(page) {
+        $('#curPage').val(page);
+        $('#searchForm').submit();
+    }
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title bizadmin_project04"><em>참여기업목록</em></div>
+    <div id="sub_inquiry_box">
+        <p>창업맞춤형 지원사업</p>
+    </div><!--sub_inquiry_box//-->
+    <div class="line_dot20"></div>
+
+    <form method="" action="" name="" id="">
+        <div class="tablewrap">
+            <!--목록-->
+            <table class="admin_list">
+                <colgroup>
+                    <col width="5%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="17%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="17%">
+                </colgroup>
+                <tr>
+                    <th class="topcen"><input type="checkbox" /></th>
+                    <th class="topcen">기업명</th>
+                    <th class="topcen">대표자명</th>
+                    <th class="topcen">사업자번호</th>
+                    <th class="topcen">담당자</th>
+                    <th class="topcen">전화번호</th>
+                    <th class="topcen">이메일</th>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>
+                        <span class="full_line">비즈니스온</span>
+
+                    </td>
+                    <td>나대표</td>
+                    <td>110-21-22324</td>
+                    <td>나비즈</td>
+                    <td>03-000-0000</td>
+                    <td>
+                        main@mail.com
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>
+                        <span class="full_line">비즈니스온</span>
+
+                    </td>
+                    <td>나대표</td>
+                    <td>110-21-22324</td>
+                    <td>나비즈</td>
+                    <td>03-000-0000</td>
+                    <td>
+                        main@mail.com
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>
+                        <span class="full_line">비즈니스온</span>
+
+                    </td>
+                    <td>나대표</td>
+                    <td>110-21-22324</td>
+                    <td>나비즈</td>
+                    <td>03-000-0000</td>
+                    <td>
+                        main@mail.com
+                    </td>
+                </tr>
+
+
+            </table>
+        </div><!--tablewrap//-->
+
+        @if (Model != null && Model.TotalItemCount != 0)
+        {
+            @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+        }
+
+    </form>
+
+</div><!--sub_rightwrap//-->

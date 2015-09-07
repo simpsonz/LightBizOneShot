@@ -32,7 +32,7 @@ namespace BizOneShot.Light.Models.ViewModels
     public class BizWorkViewModel
     {
         //사업정보
-        //public int BizWorkSn { get; set; } // BIZ_WORK_SN (Primary key). 사업식별자
+        public int BizWorkSn { get; set; } // BIZ_WORK_SN (Primary key). 사업식별자
         public int CompSn { get; set; } // COMP_SN. 주관기관식별자
         [Required]
         [Display(Name = "사업명")]
@@ -42,13 +42,13 @@ namespace BizOneShot.Light.Models.ViewModels
         public string BizWorkSummary { get; set; } // BIZ_WORK_SUMMARY. 사업개요
         [Required]
         [Display(Name = "사업시작일")]
-        public DateTime? BizWorkStDt { get; set; } // BIZ_WORK_ST_DT. 사업시작일
+        public string BizWorkStDt { get; set; } // BIZ_WORK_ST_DT. 사업시작일
         [Required]
         [Display(Name = "사업종료일")]
-        public DateTime? BizWorkEdDt { get; set; } // BIZ_WORK_ED_DT. 사업종료일
+        public string BizWorkEdDt { get; set; } // BIZ_WORK_ED_DT. 사업종료일
         [Required]
         [Display(Name = "주관기관")]
-        public string ManagingDepartment { get; set; } // MANAGING_DEPARTMENT 주관기관
+        public string MngDept { get; set; } // MNG_DEPT 주관기관
 
         //담당자
         [Required]
@@ -108,5 +108,7 @@ namespace BizOneShot.Light.Models.ViewModels
         [Required]
         [Display(Name = "부서명")]
         public string DeptNm { get; set; } // DEPT_NM. 소속부서명
+
+        public string ComCount { get; set; } // 참여기업수
     }
 }

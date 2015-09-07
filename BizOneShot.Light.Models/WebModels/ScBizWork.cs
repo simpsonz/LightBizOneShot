@@ -25,8 +25,8 @@ namespace BizOneShot.Light.Models.WebModels
         public int CompSn { get; set; } // COMP_SN. 주관기관식별자
         public string BizWorkNm { get; set; } // BIZ_WORK_NM. 사업명
         public string BizWorkSummary { get; set; } // BIZ_WORK_SUMMARY. 사업개요
-        public DateTime? BizWorkStDt { get; set; } // BIZ_WORK_ST_DT. 사업시작일
-        public DateTime? BizWorkEdDt { get; set; } // BIZ_WORK_ED_DT. 사업종료일
+        public DateTime BizWorkStDt { get; set; } // BIZ_WORK_ST_DT. 사업시작일
+        public DateTime BizWorkEdDt { get; set; } // BIZ_WORK_ED_DT. 사업종료일
         public string Status { get; set; } // STATUS. 사업상태
         public string RegId { get; set; } // REG_ID. 등록자
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시

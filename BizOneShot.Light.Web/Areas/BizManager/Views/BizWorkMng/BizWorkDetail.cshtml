@@ -1,0 +1,111 @@
+﻿@model BizOneShot.Light.Models.ViewModels.BizWorkViewModel
+
+@{
+    Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_business04').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_bizWorkMng').addClass('on');
+
+    });
+</script>
+
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title bizadmin_project02"><em>사업요약</em></div>
+
+    <form method="" action="" name="" id="">
+        <div class="tablewrap">
+            <table>
+                <!--사업명-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th>사업명</th>
+                    <td>@Model.BizWorkNm</td>
+                </tr>
+                <tr>
+                    <th>사업개요</th>
+                    <td>@Model.BizWorkSummary</td>
+                </tr>
+                <tr>
+                    <th>사업기간</th>
+                    <td>
+                        @Model.BizWorkStDt~@Model.BizWorkEdDt
+                    </td>
+                </tr>
+                <tr>
+                    <th>주관기관</th>
+                    <td>@Model.MngDept</td>
+                </tr>
+            </table>
+            <div class="line_dot10"></div>
+            <table>
+                <!--담당자-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+
+                <tr>
+                    <th>담당자</th>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <th>소속부서</th>
+                    <td>@Model.DeptNm</td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td>
+                        @Model.TelNo1-@Model.TelNo2-@Model.TelNo3
+                    </td>
+                </tr>
+                <tr>
+                    <th>휴대폰</th>
+                    <td>
+                        @Model.MbNo1-@Model.MbNo2-@Model.MbNo3
+                    </td>
+                </tr>
+                <tr>
+                    <th>FAX</th>
+                    <td>
+                        @Model.FaxNo1-@Model.FaxNo2-@Model.FaxNo3
+                    </td>
+                </tr>
+                <tr>
+                    <th>이메일 주소</th>
+                    <td>
+                        @Model.Email1@@@Model.Email2
+                    </td>
+                </tr>
+            </table>
+            <div class="line_dot10"></div>
+            <table>
+                <!--담당자ID-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th>담당자ID</th>
+                    <td>@Model.LoginId</td>
+                </tr>
+
+            </table>
+
+        </div><!--tablewrap//-->
+
+        <div id="btnwrap_sub">
+            <a href="@Url.Action("BizWorkList","BizWorkMng")" class="list2 right"><em>목록</em></a><a href="@Url.Action("ModifyBizWork","BizWorkMng", new { bizWorkSn = @Model.BizWorkSn })" class="modify right rightmargin"><em>수정</em></a>
+        </div><!--btnwrap//-->
+
+    </form>
+
+</div><!--sub_rightwrap//-->
