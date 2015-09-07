@@ -64,9 +64,10 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             return View(new StaticPagedList<BizWorkViewModel>(bizWorkViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, bizWorkViews.Count));
         }
 
-        public async Task<ActionResult> BizWorkComList(string bizWorkSn)
+        public async Task<ActionResult> BizWorkComList(string bizWorkSn, string bizWorkNm)
         {
             ViewBag.LeftMenu = Global.BizWorkMng;
+            ViewBag.BizWorkNm = bizWorkNm;
 
             var comListScBizWork = await _scBizWorkService.GetBizWorkComList(int.Parse(bizWorkSn));
 

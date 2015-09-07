@@ -75,7 +75,7 @@
                             <td>@item.Name</td>
                             <td>@item.TelNo1-@item.TelNo2-@item.TelNo3</td>
                             <td>
-                                <span class="full_line">@Html.ActionLink(item.ComCount, "BizWorkComList", new { bizWorkSn = item.BizWorkSn })</span>
+                                <span class="full_line">@Html.ActionLink(item.ComCount, "BizWorkComList", new { bizWorkSn = item.BizWorkSn, bizWorkNm = item.BizWorkNm })</span>
                             </td>
                         </tr>
                     }

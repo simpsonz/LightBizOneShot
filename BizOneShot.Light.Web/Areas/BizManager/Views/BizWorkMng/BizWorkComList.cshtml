@@ -1,4 +1,5 @@
-﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.JoinCompanyViewModel>
+﻿
+@model IPagedList<BizOneShot.Light.Models.ViewModels.JoinCompanyViewModel>
 
 @{
     Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
@@ -22,7 +23,7 @@
 <div id="sub_rightwrap">
     <div class="sub_right_title bizadmin_project04"><em>참여기업목록</em></div>
     <div id="sub_inquiry_box">
-        <p>창업맞춤형 지원사업</p>
+        <p>@ViewBag.BizWorkNm</p>
     </div><!--sub_inquiry_box//-->
     <div class="line_dot20"></div>
 
@@ -48,50 +49,30 @@
                     <th class="topcen">전화번호</th>
                     <th class="topcen">이메일</th>
                 </tr>
+
+                @if (Model == null || Model.TotalItemCount == 0)
+                {
                 <tr>
-                    <td><input type="checkbox" /></td>
-                    <td>
-                        <span class="full_line">비즈니스온</span>
-
-                    </td>
-                    <td>나대표</td>
-                    <td>110-21-22324</td>
-                    <td>나비즈</td>
-                    <td>03-000-0000</td>
-                    <td>
-                        main@mail.com
-                    </td>
+                    <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
                 </tr>
-                <tr>
-                    <td><input type="checkbox" /></td>
-                    <td>
-                        <span class="full_line">비즈니스온</span>
-
-                    </td>
-                    <td>나대표</td>
-                    <td>110-21-22324</td>
-                    <td>나비즈</td>
-                    <td>03-000-0000</td>
-                    <td>
-                        main@mail.com
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" /></td>
-                    <td>
-                        <span class="full_line">비즈니스온</span>
-
-                    </td>
-                    <td>나대표</td>
-                    <td>110-21-22324</td>
-                    <td>나비즈</td>
-                    <td>03-000-0000</td>
-                    <td>
-                        main@mail.com
-                    </td>
-                </tr>
-
-
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                    <tr>
+                        <td><input type="checkbox" value="@item." /></td>
+                        <td>
+                            <span class="full_line">@Html.ActionLink(item.CompNm, "ComInfoDetail", new { compSn = item.CompSn })</span>
+                        </td>
+                        <td>@item.ComOwnNm</td>
+                        <td>@item.ComRegistrationNo</td>
+                        <td>@item.Name</td>
+                        <td>@item.TelNo1-@item.TelNo2-@item.TelNo3</td>
+                        <td>@item.Email1@@@item.Email2</td>
+                    </tr>
+                    }
+                }
             </table>
         </div><!--tablewrap//-->
 
