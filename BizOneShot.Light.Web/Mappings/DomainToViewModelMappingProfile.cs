@@ -123,6 +123,42 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.Name, map => map.MapFrom(s => s.ScUsr.Name))
                 .ForMember(d => d.LoginId, map => map.MapFrom(s => s.ScUsr.LoginId))
                 .ForMember(d => d.UsrTypeDetail, map => map.MapFrom(s => s.ScUsr.UsrTypeDetail));
+
+            //공지사항 Notice 매핑
+            Mapper.CreateMap<ScBizWork, BizWorkViewModel>()
+                .ForMember(d => d.ComCount, map => map.MapFrom(s => s.ScCompMappings.Count))
+                .ForMember(d => d.Name, map => map.MapFrom(s => s.ScUsr.Name))
+                .ForMember(d => d.TelNo1, map => map.MapFrom(s => s.ScUsr.TelNo.Split('-').GetValue(0).ToString()))
+                .ForMember(d => d.TelNo2, map => map.MapFrom(s => s.ScUsr.TelNo.Split('-').GetValue(1).ToString()))
+                .ForMember(d => d.TelNo3, map => map.MapFrom(s => s.ScUsr.TelNo.Split('-').GetValue(2).ToString()))
+                .ForMember(d => d.MbNo1, map => map.MapFrom(s => s.ScUsr.MbNo.Split('-').GetValue(0).ToString()))
+                .ForMember(d => d.MbNo2, map => map.MapFrom(s => s.ScUsr.MbNo.Split('-').GetValue(1).ToString()))
+                .ForMember(d => d.MbNo3, map => map.MapFrom(s => s.ScUsr.MbNo.Split('-').GetValue(2).ToString()))
+                .ForMember(d => d.FaxNo1, map => map.MapFrom(s => s.ScUsr.FaxNo.Split('-').GetValue(0).ToString()))
+                .ForMember(d => d.FaxNo2, map => map.MapFrom(s => s.ScUsr.FaxNo.Split('-').GetValue(1).ToString()))
+                .ForMember(d => d.FaxNo3, map => map.MapFrom(s => s.ScUsr.FaxNo.Split('-').GetValue(2).ToString()))
+                .ForMember(d => d.Email1, map => map.MapFrom(s => s.ScUsr.Email.Split('@').GetValue(0).ToString()))
+                .ForMember(d => d.Email2, map => map.MapFrom(s => s.ScUsr.Email.Split('@').GetValue(1).ToString()))
+                .ForMember(d => d.LoginId, map => map.MapFrom(s => s.ScUsr.LoginId))
+                .ForMember(d => d.DeptNm, map => map.MapFrom(s => s.ScUsr.DeptNm));
+
+
+            Mapper.CreateMap<ScCompInfo, JoinCompanyViewModel>()
+                .ForMember(d => d.TelNo1, map => map.MapFrom(s => s.ScUsrs.ElementAt(0).TelNo.Split('-').GetValue(0).ToString()))
+                .ForMember(d => d.TelNo2, map => map.MapFrom(s => s.ScUsrs.ElementAt(0).TelNo.Split('-').GetValue(1).ToString()))
+                .ForMember(d => d.TelNo3, map => map.MapFrom(s => s.ScUsrs.ElementAt(0).TelNo.Split('-').GetValue(2).ToString()))
+                //.ForMember(d => d.FaxNo1, map => map.MapFrom(s => s.ScUsrs.ElementAt(0).FaxNo.Split('-').GetValue(0).ToString()))
+                //.ForMember(d => d.FaxNo2, map => map.MapFrom(s => s.ScUsrs.ElementAt(0).FaxNo.Split('-').GetValue(1).ToString()))
+                //.ForMember(d => d.FaxNo3, map => map.MapFrom(s => s.ScUsrs.ElementAt(0).FaxNo.Split('-').GetValue(2).ToString()))
+                //.ForMember(d => d.MbNo1, map => map.MapFrom(s => s.ScUsrs.ElementAt(0).MbNo.Split('-').GetValue(0).ToString()))
+                //.ForMember(d => d.MbNo2, map => map.MapFrom(s => s.ScUsrs.ElementAt(0).MbNo.Split('-').GetValue(1).ToString()))
+                //.ForMember(d => d.MbNo3, map => map.MapFrom(s => s.ScUsrs.ElementAt(0).MbNo.Split('-').GetValue(2).ToString()))
+                .ForMember(d => d.Email1, map => map.MapFrom(s => s.ScUsrs.ElementAt(0).Email.Split('@').GetValue(0).ToString()))
+                .ForMember(d => d.Email2, map => map.MapFrom(s => s.ScUsrs.ElementAt(0).Email.Split('@').GetValue(1).ToString()))
+                .ForMember(d => d.Name, map => map.MapFrom(s => s.ScUsrs.ElementAt(0).Name))
+                .ForMember(d => d.CompNm, map => map.MapFrom(s => s.CompNm))
+                .ForMember(d => d.ComOwnNm, map => map.MapFrom(s => s.OwnNm))
+                .ForMember(d => d.ComRegistrationNo, map => map.MapFrom(s => s.RegistrationNo));
         }
     }
 }

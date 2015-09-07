@@ -1,0 +1,177 @@
+﻿@model BizOneShot.Light.Models.ViewModels.BizWorkViewModel
+
+@{
+    Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_business04').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_bizWorkMng').addClass('on');
+
+        $('#EMAIL_DOMAIN').bind('change', function () {
+            if ($(this).val() == "") {
+                $('#Email2').show("slow");
+                $('#Email2').val('');
+            } else {
+                $('#Email2').hide("slow");
+                $('#Email2').val($(this).val());
+            }
+            return false;
+        });
+
+        $("#START_DATE,  #END_DATE").datepicker({
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            dateFormat: 'yy-mm-dd'
+        });
+        $('#START_DATE').change(function () {
+            var sDate = $('#START_DATE').val().split('-');
+            var nsDate = new Date(sDate[0], sDate[1], sDate[2]).valueOf();
+
+            var eDate = $('#END_DATE').val().split('-');
+            var neDate = new Date(eDate[0], eDate[1], eDate[2]).valueOf();
+
+            if (nsDate > neDate) {
+                alert("시작날짜가 종료날짜 보다 큽니다.");
+                return false;
+            }
+        });
+
+        $('#END_DATE').change(function () {
+            var sDate = $('#START_DATE').val().split('-');
+            var nsDate = new Date(sDate[0], sDate[1], sDate[2]).valueOf();
+
+            var eDate = $('#END_DATE').val().split('-');
+            var neDate = new Date(eDate[0], eDate[1], eDate[2]).valueOf();
+
+            if (nsDate > neDate) {
+                alert("종료날짜가 시작날짜 보다 작습니다.");
+                //$('#START_DATE').val($('#END_DATE').val());
+                return false;
+            }
+        });
+        $('.bt_calendar').on('click', function () {
+            $(this).prev().focus();
+            return false;
+        });
+    });
+</script>
+
+@* 캘린더 처리를위해 추가한 JS 및 SCC *@
+@Styles.Render("~/css/jquery-ui")
+@Scripts.Render("~/bundles/jquery-ui")
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title bizadmin_project03"><em>사업수정</em></div>
+
+    @using (Html.BeginForm("ModifyBizWork", "BizWorkMng", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.BizWorkSn);
+        <div class="tablewrap">
+            <table>
+                <!--사업명-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th>사업명</th>
+                    <td>@Model.BizWorkNm</td>
+                </tr>
+                <tr>
+                    <th>사업개요</th>
+                    <td class="form">@Html.TextAreaFor(model => model.BizWorkSummary) @Html.ValidationMessageFor(model => model.BizWorkSummary, "", new { @class = "text-danger", @color = "#b94a48" })</td>
+                </tr>
+                <tr>
+                    <th>사업기간</th>
+                    <td class="form">
+                        @Html.TextBoxFor(model => model.BizWorkStDt, new { @class = "w120", @id = "START_DATE", @name = "START_DATE", @readonly = "readonly" })
+                        <a href="" class="bt_calendar"><em>날짜선택</em></a> ~
+                        @Html.TextBoxFor(model => model.BizWorkEdDt, new { @class = "w120", @id = "END_DATE", @name = "END_DATE", @readonly = "readonly" })
+                        <a href="" class="bt_calendar"><em>날짜선택</em></a>
+                        @Html.ValidationMessageFor(model => model.BizWorkStDt, "", new { @class = "text-danger", @color = "#b94a48" })
+                        @Html.ValidationMessageFor(model => model.BizWorkEdDt, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>주관기관</th>
+                    <td class="form">@Html.TextBoxFor(model => model.MngDept, new { @class = "w235" }) @Html.ValidationMessageFor(model => model.MngDept, "", new { @class = "text-danger", @color = "#b94a48" })</td>
+                </tr>
+            </table>
+            <div class="line_dot10"></div>
+            <table>
+                <!--담당자-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+
+                <tr>
+                    <th>담당자</th>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <th>소속부서</th>
+                    <td>@Model.DeptNm</td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td>
+                        @Model.TelNo1-@Model.TelNo2-@Model.TelNo3
+                    </td>
+                </tr>
+                <tr>
+                    <th>휴대폰</th>
+                    <td>
+                        @Model.MbNo1-@Model.MbNo2-@Model.MbNo3
+                    </td>
+                </tr>
+                <tr>
+                    <th>FAX</th>
+                    <td>
+                        @Model.FaxNo1-@Model.FaxNo2-@Model.FaxNo3
+                    </td>
+                </tr>
+                <tr>
+                    <th>이메일 주소</th>
+                    <td>
+                        @Model.Email1@@@Model.Email2
+                    </td>
+                </tr>
+            </table>
+            <div class="line_dot10"></div>
+            <table>
+                <!--담당자ID-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th>담당자ID</th>
+                    <td>@Model.LoginId</td>
+                </tr>
+
+            </table>
+                    </div><!--tablewrap//-->
+                    <div id="btnwrap_sub">
+                        <div class="rightwrap">
+                            @*<button type="submit" class="save rightmargin" value="저장"></button><button type="submit" class="cancel2" value="취소"></button>*@
+                            <button type="submit" class="save" value="저장"></button>
+                            <a href="@Url.Action("BizWorkDetail","BizWorkMng", new { bizWorkSn = @Model.BizWorkSn })" class="cancel2 right"><em>취소</em></a>
+                        </div>
+                    </div><!--btnwrap//-->
+                    @section Scripts {
+                        @Scripts.Render("~/bundles/jqueryval")
+                    }
+
+    }
+
+</div><!--sub_rightwrap//-->

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -10,6 +11,7 @@ using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Services;
 using BizOneShot.Light.Util.Security;
 using BizOneShot.Light.Web.ComLib;
+using PagedList;
 
 namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 {
@@ -32,10 +34,100 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             return View();
         }
 
-        public ActionResult BizWorkList()
+        public async Task<ActionResult> BizWorkList()
         {
             ViewBag.LeftMenu = Global.BizWorkMng;
-            return View();
+
+            var listScBizWork = await _scBizWorkService.GetBizWorkList(int.Parse(Session[Global.CompSN].ToString()));
+
+            var bizWorkViews =
+                Mapper.Map<List<BizWorkViewModel>>(listScBizWork);
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            return View(new StaticPagedList<BizWorkViewModel>(bizWorkViews.ToPagedList(1, pagingSize), 1, pagingSize, bizWorkViews.Count));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BizWorkList(string Query, string curPage)
+        {
+            ViewBag.LeftMenu = Global.BizWorkMng;
+
+            //var listScNtc = _scNtcService.GetNotices(SelectList, Query);
+            var listScBizWork = await _scBizWorkService.GetBizWorkListByBizWorkNm(int.Parse(Session[Global.CompSN].ToString()), Query);
+
+            var bizWorkViews =
+                Mapper.Map<List<BizWorkViewModel>>(listScBizWork);
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            return View(new StaticPagedList<BizWorkViewModel>(bizWorkViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, bizWorkViews.Count));
+        }
+
+        public async Task<ActionResult> BizWorkComList(string bizWorkSn, string bizWorkNm)
+        {
+            ViewBag.LeftMenu = Global.BizWorkMng;
+            ViewBag.BizWorkNm = bizWorkNm;
+
+            var comListScBizWork = await _scBizWorkService.GetBizWorkComList(int.Parse(bizWorkSn));
+
+            var comListViews =
+                Mapper.Map<List<JoinCompanyViewModel>>(comListScBizWork);
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            return View(new StaticPagedList<JoinCompanyViewModel>(comListViews.ToPagedList(1, pagingSize), 1, pagingSize, comListViews.Count));
+        }
+
+
+        public async Task<ActionResult> BizWorkDetail(string bizWorkSn)
+        {
+            ViewBag.LeftMenu = Global.BizWorkMng;
+
+            //var listScNtc = _scNtcService.GetNotices(SelectList, Query);
+            var scBizWork = await _scBizWorkService.GetBizWorkByBizWorkSn(int.Parse(bizWorkSn));
+
+            var bizWorkViews =
+               Mapper.Map<BizWorkViewModel>(scBizWork);
+
+            return View(bizWorkViews);
+        }
+
+        public async Task<ActionResult> ModifyBizWork(string bizWorkSn)
+        {
+            ViewBag.LeftMenu = Global.BizWorkMng;
+
+            //var listScNtc = _scNtcService.GetNotices(SelectList, Query);
+            var scBizWork = await _scBizWorkService.GetBizWorkByBizWorkSn(int.Parse(bizWorkSn));
+
+            var bizWorkViews =
+               Mapper.Map<BizWorkViewModel>(scBizWork);
+
+            return View(bizWorkViews);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ModifyBizWork(BizWorkViewModel bizWorkViewModel)
+        {
+            ViewBag.LeftMenu = Global.BizWorkMng;
+
+            //var listScNtc = _scNtcService.GetNotices(SelectList, Query);
+            var scBizWork = await _scBizWorkService.GetBizWorkByBizWorkSn(bizWorkViewModel.BizWorkSn);
+
+            scBizWork.BizWorkSummary = bizWorkViewModel.BizWorkSummary;
+            scBizWork.BizWorkStDt = DateTime.Parse(bizWorkViewModel.BizWorkStDt);
+            scBizWork.BizWorkEdDt = DateTime.Parse(bizWorkViewModel.BizWorkEdDt);
+            scBizWork.MngDept = bizWorkViewModel.MngDept;
+
+            int result = await _scBizWorkService.SaveDbContextAsync();
+
+            if (result != -1)
+                return RedirectToAction("BizWorkDetail", "BizWorkMng", new { bizWorkSn = scBizWork.BizWorkSn });
+            else
+            {
+                ModelState.AddModelError("", "사업 수정 실패.");
+                return View(bizWorkViewModel);
+            }
         }
 
         public ActionResult RegBizWork()
