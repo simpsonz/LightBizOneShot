@@ -62,6 +62,7 @@
     <Compile Include="Repositories\ScBizWorkRepository.cs" />
     <Compile Include="Repositories\ScCompMappingRepository.cs" />
     <Compile Include="Repositories\ScExpertMappingRepository.cs" />
+    <Compile Include="Repositories\ScFormFileRepository.cs" />
     <Compile Include="Repositories\ScFormRepository.cs" />
     <Compile Include="Repositories\ScMentorMappingRepository.cs" />
     <Compile Include="Repositories\ScReqDocRepository.cs" />

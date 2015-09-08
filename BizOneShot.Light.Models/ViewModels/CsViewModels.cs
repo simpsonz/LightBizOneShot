@@ -89,14 +89,38 @@ namespace BizOneShot.Light.Models.ViewModels
         public string UpdId { get; set; } // UPD_ID. 수정자
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
 
-        //// Reverse navigation
-        //public virtual ICollection<ScFormFile> ScFormFiles { get; set; } // SC_FORM_FILE.FK_SC_FORM_TO_SC_FORM_FILE
-
-        //public ManualViewModel()
-        //{
-        //    ScFormFiles = new List<ScFormFile>();
-        //}
     }
+
+    public class ManualDetailViewModel
+    {
+        public int PreFormSn { get; set; }
+        public string PreSubject { get; set; }
+        public int NextFormSn { get; set; }
+        public string NextSubject { get; set; }
+
+        public ManualViewModel Manual { get; set; }
+
+        public IList<FileInfoViewModel> ManualFiles { get; set; }
+    }
+
+    public class ManualFileViewModel
+    {
+        public int FileSn { get; set; } // FILE_SN (Primary key). 파일식별자
+        public int FormSn { get; set; } // FORM_SN. 서식식별자(순번)
+    }
+
+
+    
     #endregion
+
+    public class FileInfoViewModel
+    {
+        public int FileSn { get; set; } // FILE_SN (Primary key). 파일식별자
+        public string FileNm { get; set; } // FILE_NM. 파일명
+        public string FilePath { get; set; } // FILE_PATH. 파일경로
+        public string Status { get; set; } // STATUS. 상태  N: 정상  D: 삭제됨(Deleted)
+        public string RegId { get; set; } // REG_ID. 등록자
+        public DateTime? RegDt { get; set; } // REG_DT. 등록일시
+    }
 
 }

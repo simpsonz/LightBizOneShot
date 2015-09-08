@@ -1,0 +1,123 @@
+﻿@model BizOneShot.Light.Models.ViewModels.ManualDetailViewModel
+
+@{
+    if (Session[Global.UserType] == null)
+    {
+        Layout = "~/Views/Shared/_MainLayout.cshtml";
+    }
+    else if (Session[Global.UserType].Equals(Global.Company))
+    {
+        Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+    }
+    else if (Session[Global.UserType].Equals(Global.Expert))
+    {
+    }
+}
+
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('.navi_all > a.navi_cs').addClass('on');
+
+        //Cs menu
+        $('#custom_leftwrap > .custom_gnbwrap > ul > li > a.gnb_menual').addClass('on');
+
+    });
+</script>
+
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title biz0407"><em>메뉴얼 및 서식</em></div>
+
+    <div class="tablewrap">
+        <table>
+            <colgroup>
+                <col width="100px" />
+                <col width="260px" />
+                <col width="100px" />
+                <col width="150px" />
+                <col width="140px" />
+            </colgroup>
+            <tr>
+                <th>제목</th>
+                <td colspan="4">@Html.Raw(Model.Manual.Subject)</td>
+            </tr>
+            <tr>
+                <th>등록일</th>
+                <td colspan="4">@Model.Manual.RegDt.Value.ToShortDateString()</td>
+            </tr>
+            <tr>
+                <td colspan="5" class="read_short">
+                    @Html.RepladeHtmlText(Model.Manual.Contents)
+                </td>
+            </tr>
+            @if (Model.ManualFiles.Count == 1)
+            {
+                <tr>
+                    <!--첨부파일1개일때-->
+                    <th>첨부파일</th>
+                    <td colspan="4" class="nopad">
+                        <div id="file_downwrap">
+                            <ul>
+                                <li><span>@Model.ManualFiles[0].FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DocumentDownload", new { fileSn = @Model.ManualFiles[0].FileSn })';" value="다운로드"></button></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr><!--첨부파일1개일때 끝-->
+            }
+            else if (Model.ManualFiles.Count > 1)
+            {
+                <tr>
+                    <!--첨부파일2개이상일때-->
+                    <th>첨부파일</th>
+                    <td colspan="3" class="nopad">
+                        <div id="file_downwrap">
+                            <ul>
+                                @foreach (var item in Model.ManualFiles)
+                                {
+                                    <li><span>@item.FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DocumentDownload", new { fileSn = @item.FileSn })';" value="다운로드"></button></li>
+
+                                }
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="all"><button type="button" class="file_all_down" onclick="location.href='@Url.Action("DocumentDownload", new { formSn = Model.Manual.FormSn })';" value="전체 다운로드"></button></td>
+                </tr><!--첨부파일2개이상일때 끝-->
+            }
+            <tr>
+                <th>이전글</th>
+                <td colspan="4">
+                    @if (Model.PreFormSn == 0)
+                    {
+                        @:없음
+                                }
+                    else
+                    {
+                        @Html.ActionLink(Model.PreSubject, "ManualDetail", new { formSn = Model.PreFormSn })
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th>다음글</th>
+                <td colspan="4">
+                    @if (Model.NextFormSn == 0)
+                    {
+                        @:없음
+                            }
+                    else
+                    {
+                        @Html.ActionLink(Model.NextSubject, "ManualDetail", new { formSn = Model.NextFormSn })
+                    }
+                </td>
+            </tr>
+        </table>
+    </div><!--tablewrap//-->
+
+    <div id="btnwrap_sub">
+        <div class="rightwrap">
+            <a href="@Url.Action("Manual","Cs")" class="list2 right"><em>목록</em></a>
+        </div>
+    </div><!--btnwrap_sub//-->
+
+</div><!--sub_rightwrap//-->

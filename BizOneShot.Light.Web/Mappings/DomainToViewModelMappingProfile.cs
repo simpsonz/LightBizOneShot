@@ -35,7 +35,18 @@ namespace BizOneShot.Light.Web.Mappings
             //매뉴얼 Manual 매핑
             Mapper.CreateMap<ScForm, ManualViewModel>();
 
-            //Company MyInfo 매핑
+            Mapper.CreateMap<ScForm, ManualDetailViewModel>()
+                .ForMember(d => d.Manual, map => map.MapFrom(s => s))
+                .ForMember(d => d.PreFormSn, map => map.UseValue(0))
+                .ForMember(d => d.NextFormSn, map => map.UseValue(0));
+
+
+            //Mapper.CreateMap<IList<ScFormFile>, ManualDetailViewModel>()
+            //    .ForMember(d => d.ManualFiles, map => map.MapFrom(s => s.SelectMany(ss => ss.ScFileInfo,)));
+
+          
+
+            //Company MyInfo 매);
             Mapper.CreateMap<ScUsr, CompanyMyInfoViewModel>()
                 .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FileNm))
                 .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FilePath))

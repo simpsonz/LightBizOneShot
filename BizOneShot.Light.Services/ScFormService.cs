@@ -15,6 +15,8 @@ namespace BizOneShot.Light.Services
     public interface IScFormService : IBaseService
     {
         Task<IList<ScForm>> GetManualsAsync(string searchType = null, string keyword = null);
+
+        Task<IDictionary<string, ScForm>> GetManualDetailByIdAsync(int formSn);
     }
 
 
@@ -60,6 +62,25 @@ namespace BizOneShot.Light.Services
             listScFormTask = await scFormRepository.GetManyAsync(manual => manual.Status == "N");
             return listScFormTask.OrderByDescending(manual => manual.FormSn)
                 .ToList();
+        }
+
+        public async Task<IDictionary<string, ScForm>> GetManualDetailByIdAsync(int formSn)
+        {
+            var preFormTask = await scFormRepository.GetManyAsync(manual => manual.FormSn < formSn && manual.Status == "N");
+            var preForm = preFormTask.OrderBy(manual => manual.FormSn).LastOrDefault();
+
+            var curForm = await scFormRepository.GetAsync(manual => manual.FormSn == formSn);
+
+            var nextFormTask = await scFormRepository.GetManyAsync(manual => manual.FormSn > formSn && manual.Status == "N");
+            var nextForm = preFormTask.OrderBy(manual => manual.FormSn).FirstOrDefault();
+
+            var dicScForms = new Dictionary<string, ScForm>();
+
+            dicScForms.Add("preForm", preForm);
+            dicScForms.Add("curForm", curForm);
+            dicScForms.Add("nextForm", nextForm);
+
+            return dicScForms;
         }
 
         #region SaveDbContext
