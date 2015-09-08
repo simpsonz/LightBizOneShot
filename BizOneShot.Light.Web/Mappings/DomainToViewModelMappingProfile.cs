@@ -6,6 +6,7 @@ using System.Web;
 using AutoMapper;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
+using BizOneShot.Light.Util.Helper;
 
 namespace BizOneShot.Light.Web.Mappings
 {
@@ -41,10 +42,11 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.NextFormSn, map => map.UseValue(0));
 
 
-            //Mapper.CreateMap<IList<ScFormFile>, ManualDetailViewModel>()
-            //    .ForMember(d => d.ManualFiles, map => map.MapFrom(s => s.SelectMany(ss => ss.ScFileInfo,)));
+            //파일 FileInfo 매핑
+            Mapper.CreateMap<ScFileInfo, FileInfoViewModel>();
 
-          
+            Mapper.CreateMap<ScFileInfo, FileContent>();
+
 
             //Company MyInfo 매);
             Mapper.CreateMap<ScUsr, CompanyMyInfoViewModel>()

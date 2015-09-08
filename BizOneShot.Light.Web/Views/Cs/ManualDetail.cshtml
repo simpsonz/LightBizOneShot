@@ -23,7 +23,9 @@
         //Cs menu
         $('#custom_leftwrap > .custom_gnbwrap > ul > li > a.gnb_menual').addClass('on');
 
+
     });
+
 </script>
 
 
@@ -76,13 +78,16 @@
                             <ul>
                                 @foreach (var item in Model.ManualFiles)
                                 {
-                                    <li><span>@item.FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DocumentDownload", new { fileSn = @item.FileSn })';" value="다운로드"></button></li>
+                                    @*<li><span>@item.FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DocumentDownload", new { fileSn = @item.FileSn })';" value="다운로드"></button></li>*@
+
+                                    <li><span>@item.FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DownloadManualFile", item)';" value="다운로드"></button></li>
 
                                 }
                             </ul>
                         </div>
                     </td>
-                    <td class="all"><button type="button" class="file_all_down" onclick="location.href='@Url.Action("DocumentDownload", new { formSn = Model.Manual.FormSn })';" value="전체 다운로드"></button></td>
+                    <td class="all"><button type="button" class="file_all_down" onclick="location.href='@Url.Action("DownloadManualFileMulti", new { formSn = Model.Manual.FormSn })';" value="전체 다운로드"></button></td>
+                    @*<td class="all"><button type="button" class="file_all_down" onclick="location.href='@Url.Action("DownloadManual", Model.ManualFiles)';" value="전체 다운로드"></button></td>*@
                 </tr><!--첨부파일2개이상일때 끝-->
             }
             <tr>

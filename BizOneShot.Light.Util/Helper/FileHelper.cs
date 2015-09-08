@@ -13,20 +13,21 @@ namespace BizOneShot.Light.Util.Helper
 {
     public class FileHelper
     {
-        public async Task DownloadFileAsync(IList<FileContent> files, string archiveName)
-        {
-            await new TaskFactory().StartNew(
-                () =>
-                {
-                    DownloadFile(files, archiveName);
-                });
-        }
+        //public async Task DownloadFileAsync(IList<FileContent> files, string archiveName)
+        //{
+        //    await new TaskFactory().StartNew(
+        //        () =>
+        //        {
+        //            DownloadFile(files, archiveName);
+        //        });
+        //}
 
         public void DownloadFile(IList<FileContent> files, string archiveName)
         {
             string rootFilePath = ConfigurationManager.AppSettings["RootFilePath"];
 
             System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+
 
             response.Clear();
 
@@ -104,5 +105,8 @@ namespace BizOneShot.Light.Util.Helper
         public string FileUrl { get; set; }
         public string FileType { get; set; }
         public string FileExtension { get; set; }
+        public long FileSizeInbytes { get; set; }
+        public long FileSizeInKb { get { return (long)Math.Ceiling((double)FileSizeInbytes / 1024);  } }
     }
+
 }
