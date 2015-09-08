@@ -26,6 +26,9 @@ namespace BizOneShot.Light.Web.ComLib
         public const string BizManager = "B";
         public const string SysManager = "S";
 
+        //UserDetailType
+        public const string Admin = "A";
+        public const string Member = "M";
 
         //LeftMenu
         //공통

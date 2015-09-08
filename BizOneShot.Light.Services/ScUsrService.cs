@@ -27,6 +27,8 @@ namespace BizOneShot.Light.Services
         Task<IList<ScUsr>> GetBizManagerByComNameAsync(string keyword = null);
         Task<IList<ScUsr>> GetExpertManagerAsync();
         Task<IList<ScUsr>> GetExpertManagerAsync(string bizMngSn = null, string expertType = null);
+        //Task<IList<ScUsr>> GetMentorListAsync(int mngCompSn);
+        
     }
 
 
@@ -34,18 +36,20 @@ namespace BizOneShot.Light.Services
     {
         private readonly IScUsrRepository scUsrRespository;
         private readonly IScCompInfoRepository scCompInfoRespository;
+        private readonly IScMentorMappingRepository scMentorMappingRepository;
         private readonly IUnitOfWork unitOfWork;
 
         private readonly ISyUserRepository syUserRespository;
         private readonly IDareUnitOfWork dareUnitOfWork;
 
-        public ScUsrService(IScUsrRepository scUsrRespository, IUnitOfWork unitOfWork, ISyUserRepository syUserRespository, IDareUnitOfWork dareUnitOfWor, IScCompInfoRepository scCompInfoRespository)
+        public ScUsrService(IScUsrRepository scUsrRespository, IUnitOfWork unitOfWork, ISyUserRepository syUserRespository, IDareUnitOfWork dareUnitOfWor, IScCompInfoRepository scCompInfoRespository, IScMentorMappingRepository scMentorMappingRepository)
         {
             this.scUsrRespository = scUsrRespository;
             this.unitOfWork = unitOfWork;
             this.syUserRespository = syUserRespository;
             this.dareUnitOfWork = dareUnitOfWor;
             this.scCompInfoRespository = scCompInfoRespository;
+            this.scMentorMappingRepository = scMentorMappingRepository;
         }
 
         public async Task<bool> ChkLoginId(string loginId)
@@ -87,7 +91,11 @@ namespace BizOneShot.Light.Services
             }
             else
             {
-                return await SaveDbContextAsync();
+                int rst =  await SaveDbContextAsync();
+                if (rst != 1)
+                    return rst;
+
+                return await SaveDareDbContextAsync();
             }
 
         }
@@ -165,7 +173,7 @@ namespace BizOneShot.Light.Services
             }
             else if ((bizMngSn != "0") && string.IsNullOrEmpty(expertType))
             {
-                listScUsrTask = await scUsrRespository.GetManyAsync(usr => usr.Status == "N" && usr.UsrType == "P");
+                listScUsrTask = await scUsrRespository.GetManyAsync(usr => usr.Status == "N" && usr.UsrType == "P" && usr.ScCompInfo.CompSn == int.Parse(bizMngSn));
                 return listScUsrTask.OrderByDescending(usr => usr.RegDt).ToList();
             }
             else if ((bizMngSn == "0") && !string.IsNullOrEmpty(expertType))
@@ -182,6 +190,16 @@ namespace BizOneShot.Light.Services
 
         }
 
+        //public async Task<IList<ScUsr>> GetMentorListAsync(int mngCompSn)
+        //{
+        //    IEnumerable<ScMentorMappiing> listScUsrTask = null;
+
+        //    listScUsrTask = await scMentorMappingRepository.GetManyAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.ScCompInfo.CompSn == mngCompSn);
+        //    return listScUsrTask.Select(mmp => mmp.ScUsr).OrderByDescending(usr => usr.RegDt).ToList();
+        //}
+
+        
+
 
 
         public void SaveDbContext()
@@ -192,6 +210,11 @@ namespace BizOneShot.Light.Services
         public async Task<int> SaveDbContextAsync()
         {
             return await unitOfWork.CommitAsync();
+        }
+
+        public async Task<int> SaveDareDbContextAsync()
+        {
+            return await dareUnitOfWork.CommitAsync();
         }
     }
 }

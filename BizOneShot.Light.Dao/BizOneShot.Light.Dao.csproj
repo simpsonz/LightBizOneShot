@@ -54,11 +54,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DareConfiguration\Database1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\ScBizWorkRepository.cs" />
     <Compile Include="Repositories\ScCompMappingRepository.cs" />
     <Compile Include="Repositories\ScExpertMappingRepository.cs" />
     <Compile Include="Repositories\ScFormFileRepository.cs" />
     <Compile Include="Repositories\ScFormRepository.cs" />
+    <Compile Include="Repositories\ScMentorMappingRepository.cs" />
     <Compile Include="Repositories\ScReqDocRepository.cs" />
     <Compile Include="Repositories\SyUserRepository.cs" />
     <Compile Include="WebConfiguration\Database.cs">
@@ -142,11 +148,6 @@
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="DareConfiguration\DareDbContext.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareConfiguration\Database1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="DareConfiguration\FakeDareDbContext.cs">

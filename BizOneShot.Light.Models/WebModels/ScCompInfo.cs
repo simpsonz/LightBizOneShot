@@ -41,6 +41,7 @@ namespace BizOneShot.Light.Models.WebModels
         public virtual ICollection<ScCompMapping> ScCompMappings { get; set; } // Many to many mapping
         public virtual ICollection<ScMentoringReport> ScMentoringReports { get; set; } // SC_MENTORING_REPORT.FK_SC_COMP_INFO_TO_SC_MENTORING_REPORT
         public virtual ICollection<ScMentoringTotalReport> ScMentoringTotalReports { get; set; } // SC_MENTORING_TOTAL_REPORT.FK_SC_COMP_INFO_TO_MENTORING_TOTAL_REPORT
+        public virtual ICollection<ScMentorMappiing> ScMentorMappiings { get; set; } // SC_MENTOR_MAPPIING.FK_SC_COMP_INFO_TO_SC_MENTOR_MAPPIING
         public virtual ICollection<ScUsr> ScUsrs { get; set; } // SC_USR.FK_SC_COMP_INFO_TO_SC_USR
         public virtual ScBizType ScBizType { get; set; } // SC_BIZ_TYPE.FK_SC_COMP_INFO_TO_SC_BIZ_TYPE
         
@@ -48,6 +49,7 @@ namespace BizOneShot.Light.Models.WebModels
         {
             ScBizWorks = new List<ScBizWork>();
             ScCompMappings = new List<ScCompMapping>();
+            ScMentorMappiings = new List<ScMentorMappiing>();
             ScMentoringReports = new List<ScMentoringReport>();
             ScMentoringTotalReports = new List<ScMentoringTotalReport>();
             ScUsrs = new List<ScUsr>();

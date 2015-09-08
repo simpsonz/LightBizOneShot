@@ -74,9 +74,13 @@ namespace BizOneShot.Light.Web.Controllers
                 }
 
                 //다래 추가정보 설정
+                // 기업회원 : 1, 세무회계사 : 2
                 syUser.UsrGbn = "1";
+                //사용가능 : 1, 사용불가 : 0
                 syUser.UserStatus = "1";
-                syUser.Pwd = scUsr.LoginPw;
+                // 무료사용자 : 3, 유료사용자 : 1
+                syUser.WebUsrGbn = "3";
+                syUser.SmartPwd = scUsr.LoginPw;
 
                 //저장
                 IList<ScUsr> scUsrs = new List<ScUsr>();

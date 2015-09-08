@@ -29,13 +29,6 @@ namespace BizOneShot.Light.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<ScExpertMapping> SelectScExpertMapping(string expertId)
-        {
-            var scUsr = await scExpertMappingRespository.GetAsync(sc => sc.ExpertId == expertId);
-
-            return scUsr;
-        }
-
         public async Task<IList<ScExpertMapping>> GetExpertManagerAsync(string bizMngSn = null, string expertType = null)
         {
             IEnumerable<ScExpertMapping> listScUsrTask = null;

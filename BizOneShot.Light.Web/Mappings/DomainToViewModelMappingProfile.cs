@@ -103,7 +103,6 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.Email2, map => map.MapFrom(s => s.Email.Split('@').GetValue(1).ToString()));
 
             Mapper.CreateMap<ScExpertMapping, JoinExpertViewModel>()
-                
                 .ForMember(d => d.BizMagComName, map => map.MapFrom(s => s.ScBizWork.ScCompInfo.CompNm))
                 .ForMember(d => d.BizMngCompSn, map => map.MapFrom(s => s.ScBizWork.ScCompInfo.CompSn))
                 .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsr.ScUsrResume.ScFileInfo.FileNm))
@@ -161,6 +160,17 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.CompNm, map => map.MapFrom(s => s.CompNm))
                 .ForMember(d => d.ComOwnNm, map => map.MapFrom(s => s.OwnNm))
                 .ForMember(d => d.ComRegistrationNo, map => map.MapFrom(s => s.RegistrationNo));
+
+            //멘토 회원 뷰 매핑
+            Mapper.CreateMap<ScMentorMappiing, JoinMentorViewModel>()
+                .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
+                .ForMember(d => d.LoginId, map => map.MapFrom(s => s.ScUsr.LoginId))
+                .ForMember(d => d.Email, map => map.MapFrom(s => s.ScUsr.Email))
+                .ForMember(d => d.TelNo, map => map.MapFrom(s => s.ScUsr.TelNo))
+                .ForMember(d => d.Name, map => map.MapFrom(s => s.ScUsr.Name))
+                .ForMember(d => d.UsrTypeDetail, map => map.MapFrom(s => s.ScUsr.UsrTypeDetail))
+                .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsr.ScUsrResume.ScFileInfo.FileNm));
+
         }
     }
 }
