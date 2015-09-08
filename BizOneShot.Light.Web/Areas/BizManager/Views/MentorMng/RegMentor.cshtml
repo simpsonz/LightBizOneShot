@@ -1,0 +1,134 @@
+﻿@model BizOneShot.Light.Models.ViewModels.JoinMentorViewModel
+
+@{
+    Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_business03').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_regMentor').addClass('on');
+
+        //아이디 중복 확인
+        $('#BTN_LOGIN_ID_CHK').bind('click', function () {
+            if ($('#LoginId').val() == "") {
+                alert('아이디를 입력해주세요.');
+                $('#BTN_LOGIN_ID_CHK').attr("disabled", "disabled");
+                return false;
+            }
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("DoLoginIdSelect", "MentorMng")',
+                dataType: "json",
+                data: { LoginId: $('#LoginId').val() },
+                success: function (data) {
+                    if (data.result == true) {
+                        $('#LoginIdChk').val(1);
+                        alert('사용 가능한 아이디입니다.');
+                        $('#BTN_LOGIN_ID_CHK').attr("disabled", "disabled");
+                    }
+                    else {
+                        $('#LoginId').focus();
+                        alert("이미 사용중입니다. 다른 아이디를 입력해주세요.");
+                    }
+                },
+                fail: function (error) {
+                    alert('error :' + error.responseText);
+                }
+            });
+            return false;
+        });
+
+        $('#EMAIL_DOMAIN').bind('change', function () {
+            if ($(this).val() == "") {
+                $('#Email2').show("slow");
+                $('#Email2').val('');
+            } else {
+                $('#Email2').hide("slow");
+                $('#Email2').val($(this).val());
+            }
+            return false;
+        });
+    });
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title bizadmin_02_01"><em>멘토등록</em></div>
+
+    @using (Html.BeginForm("RegMentor", "MentorMng", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("LoginIdChk")
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="join_infoinput_wrap">
+            <ul><li class="mark">아이디</li><li class="info">
+                @Html.TextBoxFor(model => model.LoginId, new { @class = "w240" })<input type="button" class="td_overlap" id="BTN_LOGIN_ID_CHK" value="중복확인">  @Html.ValidationMessageFor(model => model.LoginId, "", new { @class = "text-danger", @color = "#b94a48" })
+            </li></ul>
+            <ul><li class="mark">비밀번호</li><li class="info">@Html.PasswordFor(model => model.LoginPw, new { @class = "w240" })@*<span class="blue">영문+숫자 8~12자 가능</span>*@  @Html.ValidationMessageFor(model => model.LoginPw, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
+            <ul><li class="mark">비밀번호 확인</li><li class="info">@Html.PasswordFor(model => model.ConfirmLoginPw, new { @class = "w240" })@*<span class="blue">비밀번호를 한 번 더 입력하세요</span>*@  @Html.ValidationMessageFor(model => model.ConfirmLoginPw, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
+        </div><!--join_infoinput_wrap//-->
+        <div class="line_dot10"></div>
+        <div class="join_infoinput_wrap">
+            <ul>
+                <li class="mark">사업명</li>
+                <li class="info_selectshort">
+                    @{
+                        if (ViewBag.SelectBizWorkList != null)
+                        {
+                            @Html.DropDownListFor(model => model.BizWorkSn, ViewBag.SelectBizWorkList as SelectList, new { @class = "w242" });
+                        }
+                    }
+                </li>
+            </ul>
+        </div>
+        <div class="line_dot10"></div>
+
+        <div class="join_infoinput_wrap">
+
+            <ul><li class="mark">이름</li><li class="info">@Html.TextBoxFor(model => model.Name, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
+            <ul>
+                <li class="mark">이메일주소</li>
+                <li class="info">
+                    @Html.TextBoxFor(model => model.Email1, new { @class = "w115", @title = "이메일 아이디", @maxlength = "20" })&nbsp;@@&nbsp;
+                    @Html.TextBoxFor(model => model.Email2, new { @class = "w115", @title = "이메일 도메인", @maxlength = "19" })
+                    <select id="EMAIL_DOMAIN">
+                        <option value="">직접입력</option>
+                        <option value="naver.com">naver.com</option>
+                        <option value="daum.net">daum.net</option>
+                        <option value="chol.com">chol.com</option>
+                        <option value="dreamwiz.com">dreamwiz.com</option>
+                        <option value="empal.com">empal.com</option>
+                        <option value="freechal.com">freechal.com</option>
+                        <option value="gmail.com">gmail.com</option>
+                        <option value="hanafos.com">hanafos.com</option>
+                        <option value="hanmail.net">hanmail.net</option>
+                        <option value="hanmir.com">hanmir.com</option>
+                        <option value="hitel.net">hitel.net</option>
+                        <option value="hotmail.com">hotmail.com</option>
+                        <option value="korea.com">korea.com</option>
+                        <option value="lycos.co.kr">lycos.co.kr</option>
+                        <option value="nate.com">nate.com</option>
+                        <option value="netian.com">netian.com</option>
+                        <option value="paran.com">paran.com</option>
+                        <option value="yahoo.com">yahoo.com</option>
+                    </select>
+                    
+                </li>
+                @Html.ValidationMessageFor(model => model.Email1, "", new { @class = "text-danger", @color = "#b94a48" })
+                @Html.ValidationMessageFor(model => model.Email2, "", new { @class = "text-danger", @color = "#b94a48" })
+            </ul>
+        </div><!--join_infoinput_wrap//-->
+
+        <div id="btnwrap_sub">
+            @*<button class="cancel2 right" value=""><em>취소</em></button>*@
+            <a href="@Url.Action("MentorList","MentorMng")" class="cancel2 right"><em>취소</em></a>
+            <button class="confirm_red right rightmargin" value=""><em>등록</em></button>
+        </div>
+
+    }
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+</div><!--sub_rightwrap//-->

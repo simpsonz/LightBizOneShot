@@ -1,0 +1,148 @@
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.JoinMentorViewModel>
+
+@{
+    Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_business03').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_mentorList').addClass('on');
+    });
+
+    function goPage(page) {
+        $('#curPage').val(page);
+        $('#searchForm').submit();
+    }
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title bizadmin_02_02"><em>멘토조회</em></div>
+    @*<div id="sub_inquiry_box">
+        <select class="w130">
+            <option value="">사업선택</option>
+            <option value="">사업1</option>
+            <option value="">사업2</option>
+        </select><select class="w130">
+            <option value="">멘토분야</option>
+            <option value="">자금</option>
+            <option value="">기술개발</option>
+            <option value="">특허</option>
+            <option value="">마케팅</option>
+            <option value="">법무</option>
+            <option value="">세무회계</option>
+            <option value="">노무</option>
+            <option value="">기타</option>
+        </select><input type="button" class="bt_searchC" title="멘토조회 " />
+    </div>*@<!--sub_inquiry_box//-->
+
+    @using (Html.BeginForm("MentorList", "MentorMng", FormMethod.Post, new { area = "BizManager", id = "searchForm" }))
+    {
+        <div id="sub_inquiry_box">
+            @Html.DropDownList("BizWorkList", ViewBag.SelectBizWorkList as SelectList, new { @class = "w130" })
+            @Html.DropDownList("MentorPartList", ViewBag.SelectMentorPartList as SelectList, new { @class = "w130" })
+            <button type="submit" class="special_inquire" value="멘토 조회">멘토 조회</button>
+        </div><!--sub_inquiry_box//-->
+        @Html.Hidden("curPage", "1")
+    }
+
+    <div class="line_dot20"></div>
+
+    <form method="" action="" name="" id="">
+        <div class="tablewrap">
+            <!--목록-->
+            <table class="admin_list">
+                <caption>멘토링 일지 조회 목록</caption>
+                <colgroup>
+                    <col width="5%">
+                    <col width="15%">
+                    <col width="22%">
+                    <col width="12%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="15%">
+                </colgroup>
+                <tr>
+                    <th class="topcen"><input type="checkbox" /></th>
+                    <th class="topcen">이름(ID)</th>
+                    <th class="topcen">사업명</th>
+                    <th class="topcen">전문분야</th>
+                    <th class="topcen">전화번호</th>
+                    <th class="topcen">이메일</th>
+                    <th class="topcen">이력서</th>
+                </tr>
+                @if (Model == null || Model.TotalItemCount == 0)
+                {
+                    <tr>
+                        <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><input type="checkbox" value="@item.LoginId" bizWorkSn="@item.BizWorkSn" /></td>
+                            <td>
+                                <span class="full_line">@Html.ActionLink(item.Name+"(" +item.LoginId + ")", "MentorDetail", new { bizWorkSn = item.BizWorkSn, mentorId = item.LoginId })</span>
+                            </td>
+                            <td>@item.BizWorkNm</td>
+                            @if (item.UsrTypeDetail == "T")
+                            {
+                                <td>세무회계</td>
+                            }
+                            else if (item.UsrTypeDetail == "L")
+                            {
+                                <td>법무</td>
+                            }
+                            else if (item.UsrTypeDetail == "W")
+                            {
+                                <td>노무</td>
+                            }
+                            else if (item.UsrTypeDetail == "P")
+                            {
+                                <td>특허</td>
+                            }
+                            else if (item.UsrTypeDetail == "M")
+                            {
+                                <td>마케팅</td>
+                            }
+                            else if (item.UsrTypeDetail == "F")
+                            {
+                                <td>자금</td>
+                            }
+                            else if (item.UsrTypeDetail == "D")
+                            {
+                                <td>기술개발</td>
+                            }
+                            else if (item.UsrTypeDetail == "E")
+                            {
+                                <td>기타</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                            <td>@item.TelNo</td>
+                            <td>@item.Email</td>
+                            <td>@item.ResumeName</td>
+                        </tr>
+                    }
+                }
+               
+            </table>
+
+        </div><!--tablewrap//-->
+
+        @if (Model != null && Model.TotalItemCount != 0)
+        {
+            @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+        }
+        <div id="btnwrap_sub">
+            <button class="red_delete right" value=""><em>삭제</em></button>
+        </div>
+    </form>
+
+</div><!--sub_rightwrap//-->

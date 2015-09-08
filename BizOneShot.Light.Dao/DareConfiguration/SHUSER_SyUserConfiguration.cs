@@ -17,10 +17,9 @@ using System.Linq.Expressions;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
+using BizOneShot.Light.Models.DareModels;
 using System.Threading;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
-
-using BizOneShot.Light.Models.DareModels;
 
 namespace BizOneShot.Light.Dao.DareConfiguration
 {
@@ -73,6 +72,7 @@ namespace BizOneShot.Light.Dao.DareConfiguration
             Property(x => x.Etc).HasColumnName("ETC").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
             Property(x => x.IsHrModuleYn).HasColumnName("IS_HR_MODULE_YN").IsOptional().HasColumnType("nvarchar").HasMaxLength(1);
             Property(x => x.MobileData).HasColumnName("MOBILE_DATA").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
+            Property(x => x.WebUsrGbn).HasColumnName("WEB_USR_GBN").IsOptional().HasColumnType("nvarchar").HasMaxLength(1);
             InitializePartial();
         }
         partial void InitializePartial();

@@ -17,6 +17,9 @@
             }
             else if (ViewBag.LeftMenu == Global.MentorMng) // 멘토 관리
             {
+                <li class="title biz_mento_manage"><em>멘토관리</em></li>
+                <li><a href="@Url.Action("MentorList","MentorMng",new { area= "BizManager" })" class="gnb gnb_mentorList">멘토 조회</a></li>
+                <li><a href="@Url.Action("RegMentor","MentorMng",new { area= "BizManager" })" class="gnb gnb_regMentor">멘토 등록</a></li>
             }
             else if (ViewBag.LeftMenu == Global.Report)//보고서관리
             {

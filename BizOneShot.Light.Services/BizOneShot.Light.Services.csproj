@@ -45,6 +45,7 @@
     <Compile Include="ScCompInfoService.cs" />
     <Compile Include="ScExpertMappingService.cs" />
     <Compile Include="ScFormService.cs" />
+    <Compile Include="ScMentorMappingService.cs" />
     <Compile Include="ScNtcService.cs" />
     <Compile Include="ScFaqService.cs" />
     <Compile Include="IBaseService.cs" />

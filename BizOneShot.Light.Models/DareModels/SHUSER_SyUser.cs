@@ -55,6 +55,7 @@ namespace BizOneShot.Light.Models.DareModels
         public string Etc { get; set; } // ETC
         public string IsHrModuleYn { get; set; } // IS_HR_MODULE_YN
         public string MobileData { get; set; } // MOBILE_DATA
+        public string WebUsrGbn { get; set; } // WEB_USR_GBN
     }
 
 }
