@@ -111,4 +111,28 @@ namespace BizOneShot.Light.Models.ViewModels
 
         public string ComCount { get; set; } // 참여기업수
     }
+
+    public class CompanyMngViewModel
+    {
+        public int BizWorkSn { get; set; } // BIZ_WORK_SN (Primary key). 사업식별자
+        public int MngCompSn { get; set; } // COMP_SN (Primary key). 관리기업식별자
+        public int CompSn { get; set; } // COMP_SN (Primary key). 기업식별자
+        public string ApproveRequestDate { get; set; } // 승인요청일
+        public string CompNm { get; set; } // COMP_NM. 회사명
+        public string RegistrationNo { get; set; } // REGISTRATION_NO. 사업자등록번호
+        public string OwnNm { get; set; } // OWN_NM. 대표자명
+        public string BizWorkNm { get; set; } // BIZ_WORK_NM. 사업명
+        public string Status { get; set; } // STATUS. 상태 R : 승인대기 A : 승인
+        public string PostNo { get; set; } // POST_NO. 우편번호
+        public string Addr1 { get; set; } // ADDR_1. 주소1
+        public string Addr2 { get; set; } // ADDR_2. 주소2
+        public string Name { get; set; } // Name. 이름
+        public string TelNo { get; set; } // TEL_NO. 전화번호
+        public string MbNo { get; set; } // MB_NO. 휴대폰
+        public string Email { get; set; } // EMAIL. 이메일
+        public string MentorName { get; set; } // Name. 이름
+        public string MentorTelNo { get; set; } // TEL_NO. 전화번호
+        public string MentorMbNo { get; set; } // MB_NO. 휴대폰
+        public string MentorEmail { get; set; } // EMAIL. 이메일
+    }
 }

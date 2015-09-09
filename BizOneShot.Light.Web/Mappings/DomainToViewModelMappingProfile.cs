@@ -169,6 +169,33 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.UsrTypeDetail, map => map.MapFrom(s => s.ScUsr.UsrTypeDetail))
                 .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsr.ScUsrResume.ScFileInfo.FileNm));
 
+            //기업 회원 관리(사업관리자) 뷰 매핑
+            Mapper.CreateMap<ScCompMapping, CompanyMngViewModel>()
+                .ForMember(d => d.ApproveRequestDate, map => map.MapFrom(s => s.RegDt))
+                .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
+                .ForMember(d => d.RegistrationNo, map => map.MapFrom(s => s.ScCompInfo.RegistrationNo))
+                .ForMember(d => d.OwnNm, map => map.MapFrom(s => s.ScCompInfo.OwnNm))
+                .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
+                .ForMember(d => d.MngCompSn, map => map.MapFrom(s => s.ScBizWork.ScCompInfo.CompSn))
+                .ForMember(d => d.PostNo, map => map.MapFrom(s => s.ScCompInfo.PostNo))
+                .ForMember(d => d.Addr1, map => map.MapFrom(s => s.ScCompInfo.Addr1))
+                .ForMember(d => d.Addr2, map => map.MapFrom(s => s.ScCompInfo.Addr2))
+                //.ForMember(d => d.Name, map => map.MapFrom(s => s.ScCompInfo.ScUsrs.ElementAt(0).Name))
+                .ForMember(d => d.Name, map => map.MapFrom(s => s.ScBizWork.ScUsr.Name))
+                .ForMember(d => d.TelNo, map => map.MapFrom(s => s.ScBizWork.ScUsr.TelNo))
+                .ForMember(d => d.MbNo, map => map.MapFrom(s => s.ScBizWork.ScUsr.MbNo))
+                .ForMember(d => d.Email, map => map.MapFrom(s => s.ScBizWork.ScUsr.Email))
+                .ForMember(d => d.MentorName, map => map.MapFrom(s => s.ScUsr.Name))
+                .ForMember(d => d.MentorTelNo, map => map.MapFrom(s => s.ScUsr.TelNo))
+                .ForMember(d => d.MentorMbNo, map => map.MapFrom(s => s.ScUsr.MbNo))
+                .ForMember(d => d.MentorEmail, map => map.MapFrom(s => s.ScUsr.Email));
+
+
+
+
+
+            
+
         }
     }
 }

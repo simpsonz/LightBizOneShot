@@ -1,0 +1,103 @@
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.CompanyMngViewModel>
+@{
+    Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_business02').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gbn_CompanyList').addClass('on');
+    });
+
+    function goPage(page) {
+        $('#curPage').val(page);
+        $('#searchForm').submit();
+    }
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title approve01"><em>기업승인관리</em></div>
+    @using (Html.BeginForm("CompanyList", "CompanyMng", FormMethod.Post, new { area = "BizManager", id = "searchForm" }))
+    {
+        <div id="sub_inquiry_box">
+            @Html.DropDownList("BizWorkList", ViewBag.SelectBizWorkList as SelectList, new { @class = "w130" })
+            @Html.DropDownList("StatusList", ViewBag.SelectStatusList as SelectList, new { @class = "w150" })
+            @Html.TextBox("QUERY", null, new { @class = "w150", @placeholder = "기업명을 입력하세요", @id = "QUERY" })
+            <button type="submit" class="bt_inquire_company" value="기업조회">기업조회</button>
+        </div><!--sub_inquiry_box//-->
+        @Html.Hidden("curPage", "1")
+    }
+    <div class="line_dot20"></div>
+
+    <form method="" action="" name="" id="">
+        <div class="tablewrap">
+            <!--목록-->
+            <table class="admin_list">
+                <caption>기업 조회 목록</caption>
+                <colgroup>
+                    <col width="5%">
+                    <col width="16%">
+                    <col width="16%">
+                    <col width="15%">
+                    <col width="14%">
+                    <col width="22%">
+                    <col width="12%">
+                </colgroup>
+                <tr>
+                    <th class="topcen"><input type="checkbox" /></th>
+                    <th class="topcen">승인요청일</th>
+                    <th class="topcen">기업명</th>
+                    <th class="topcen">사업자번호</th>
+                    <th class="topcen">대표자명</th>
+                    <th class="topcen">사업명</th>
+                    <th class="topcen">승인상태</th>
+                </tr>
+                @if (Model == null || Model.TotalItemCount == 0)
+                {
+                    <tr>
+                        <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><input type="checkbox" value="@item.CompSn" bizWorkSn="@item.BizWorkSn" /></td>
+                            <td>@item.ApproveRequestDate</td>
+                            <td>
+                                <span class="full_line">@Html.ActionLink(item.CompNm, "CompanyDetail", new { bizWorkSn = item.BizWorkSn, compSn = item.CompSn })</span>
+                            </td>
+                            <td>@item.RegistrationNo</td>
+                            <td>@item.OwnNm</td>
+                            <td>@item.BizWorkNm</td>
+                            @if (item.Status == "R")
+                            {
+                                <td>승인대기</td>
+                            }
+                            else if (item.Status == "A")
+                            {
+                                <td>승인</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        </tr>
+                    }
+                }
+            </table>
+        </div><!--tablewrap//-->
+
+        @if (Model != null && Model.TotalItemCount != 0)
+        {
+            @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+        }
+        <div id="btnwrap_sub">
+            <button class="approve_cancel right" value=""><em>승인취소</em></button>
+        </div>
+    </form>
+
+</div><!--sub_rightwrap//-->
