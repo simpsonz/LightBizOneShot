@@ -14,7 +14,7 @@ namespace BizOneShot.Light.Services
     {
 
         //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
-        Task<IList<ScBizWork>> GetBizWorkList(int comSn);
+        Task<IList<ScBizWork>> GetBizWorkList(int comSn, string excutorId = null);
         Task<IList<ScBizWork>> GetBizWorkListByBizWorkNm(int comSn, string query);
         Task<ScBizWork> GetBizWorkByBizWorkSn(int bizWorkSn);
         ScBizWork Insert(ScBizWork scBizWork);
@@ -37,10 +37,18 @@ namespace BizOneShot.Light.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<IList<ScBizWork>> GetBizWorkList(int comSn)
+        public async Task<IList<ScBizWork>> GetBizWorkList(int comSn, string excutorId = null)
         {
-            var scBizWorks = await scBizWorkRespository.GetManyAsync(bw => bw.CompSn == comSn);
-            return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
+            if(string.IsNullOrEmpty(excutorId))
+            { 
+                var scBizWorks = await scBizWorkRespository.GetManyAsync(bw => bw.CompSn == comSn);
+                return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
+            }
+            else
+            {
+                var scBizWorks = await scBizWorkRespository.GetManyAsync(bw => bw.CompSn == comSn && bw.ExecutorId == excutorId);
+                return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
+            }
         }
 
         public async Task<IList<ScCompInfo>> GetBizWorkComList(int bizWorkSn)

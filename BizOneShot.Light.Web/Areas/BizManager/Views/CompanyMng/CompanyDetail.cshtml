@@ -1,0 +1,138 @@
+﻿@model BizOneShot.Light.Models.ViewModels.CompanyMngViewModel
+
+@{
+    Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_business02').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gbn_CompanyList').addClass('on');
+    });
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title approve01"><em>기업승인관리</em></div>
+
+    <form method="" action="" name="" id="">
+        <div class="tablewrap">
+            <table>
+                <!--아이디-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="587px" />
+                </colgroup>
+                <tr>
+                    <th>
+                        회사명 : @Model.CompNm
+                        <span class="business_name">사업명 : @Model.BizWorkNm</span>
+                    </th>
+
+                </tr>
+            </table>
+            <div class="line_dot10"></div>
+            <table>
+                <!--사업자명 외-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th>대표자명</th>
+                    <td>@Model.OwnNm</td>
+                </tr>
+                <tr>
+                    <th>사업자등록번호</th>
+                    <td>@Model.RegistrationNo</td>
+                </tr>
+                <tr>
+                    <th>업종 / 업태</th>
+                    <td colspan="5" class="nopad">
+                        <div id="list_downwrap">
+                            <ul>
+                                <li>
+                                    <span>서비스</span><span> / </span><span>서비스</span>
+                                </li>
+                                <li>
+                                    <span>서비스</span><span> / </span><span>서비스</span>
+                                </li>
+                                <li>
+                                    <span>서비스</span><span> / </span><span>서비스</span>
+                                </li>
+                                <li>
+                                    <span>서비스</span><span> / </span><span>서비스</span>
+                                </li>
+                                <li>
+                                    <span>서비스</span><span> / </span><span>서비스</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>본사주소</th>
+                    <td>(@Model.PostNo) @Model.Addr1 @Model.Addr2</td>
+                </tr>
+            </table>
+            <div class="line_dot10"></div>
+            <table>
+                <!--담당자명 외-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th>담당자명</th>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td>@Model.TelNo</td>
+                </tr>
+                <tr>
+                    <th>휴대폰</th>
+                    <td>@Model.MbNo</td>
+                </tr>
+                <tr>
+                    <th>이메일 주소</th>
+                    <td>@Model.Email</td>
+                </tr>
+            </table>
+            <div class="line_dot10"></div>
+            <table>
+                <!--담당자명 외-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th>담당멘토</th>
+                    <td>
+                        @Model.MentorName
+                    </td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td>@Model.MentorTelNo</td>
+                </tr>
+                <tr>
+                    <th>휴대폰</th>
+                    <td>@Model.MentorMbNo</td>
+                </tr>
+                <tr>
+                    <th>이메일 주소</th>
+                    <td>@Model.MentorEmail</td>
+                </tr>
+            </table>
+
+        </div><!--tablewrap//-->
+
+
+        <div id="btnwrap_sub">
+            <button class="list2 right" value=""><em>출력</em></button><button class="approve right" value=""><em>승인</em></button>
+        </div>
+    </form>
+
+</div><!--sub_rightwrap//-->

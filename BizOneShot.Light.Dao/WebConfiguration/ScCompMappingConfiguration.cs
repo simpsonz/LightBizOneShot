@@ -48,6 +48,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             // Foreign keys
             HasRequired(a => a.ScBizWork).WithMany(b => b.ScCompMappings).HasForeignKey(c => c.BizWorkSn); // FK_SC_BIZ_WORK_TO_SC_COMP_MAPPING
             HasRequired(a => a.ScCompInfo).WithMany(b => b.ScCompMappings).HasForeignKey(c => c.CompSn); // FK_SC_COMP_INFO_TO_SC_COMP_MAPPING
+            HasRequired(a => a.ScUsr).WithMany(b => b.ScCompMappings).HasForeignKey(c => c.MentorId); // FK_SC_MENTOR_MAPPIING_TO_SC_COMP_MAPPING
             InitializePartial();
         }
         partial void InitializePartial();

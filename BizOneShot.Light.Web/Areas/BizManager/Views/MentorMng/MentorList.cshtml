@@ -20,24 +20,6 @@
 
 <div id="sub_rightwrap">
     <div class="sub_right_title bizadmin_02_02"><em>멘토조회</em></div>
-    @*<div id="sub_inquiry_box">
-        <select class="w130">
-            <option value="">사업선택</option>
-            <option value="">사업1</option>
-            <option value="">사업2</option>
-        </select><select class="w130">
-            <option value="">멘토분야</option>
-            <option value="">자금</option>
-            <option value="">기술개발</option>
-            <option value="">특허</option>
-            <option value="">마케팅</option>
-            <option value="">법무</option>
-            <option value="">세무회계</option>
-            <option value="">노무</option>
-            <option value="">기타</option>
-        </select><input type="button" class="bt_searchC" title="멘토조회 " />
-    </div>*@<!--sub_inquiry_box//-->
-
     @using (Html.BeginForm("MentorList", "MentorMng", FormMethod.Post, new { area = "BizManager", id = "searchForm" }))
     {
         <div id="sub_inquiry_box">

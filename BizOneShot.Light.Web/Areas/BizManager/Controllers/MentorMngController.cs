@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Linq;
 using AutoMapper;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
@@ -38,17 +39,33 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         {
             ViewBag.LeftMenu = Global.MentorMng;
 
-            //사업 DropDown List Data
-            var listScBizWork = await _scBizWorkService.GetBizWorkList(int.Parse(Session[Global.CompSN].ToString()));
+            string excutorId = null;
+            int bizWorkSn = 0;
 
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
+            //사업 DropDown List Data
+            var listScBizWork = await _scBizWorkService.GetBizWorkList(int.Parse(Session[Global.CompSN].ToString()), excutorId);
 
             var bizWorkDropDown =
                 Mapper.Map<List<BizWorkDropDownModel>>(listScBizWork);
 
-            BizWorkDropDownModel title = new BizWorkDropDownModel();
-            title.BizWorkSn = 0;
-            title.BizWorkNm = "사업명 선택";
-            bizWorkDropDown.Insert(0, title);
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                bizWorkSn = listScBizWork.First().BizWorkSn;
+            }
+            else
+            {
+                BizWorkDropDownModel title = new BizWorkDropDownModel();
+                title.BizWorkSn = 0;
+                title.BizWorkNm = "사업명 선택";
+                bizWorkDropDown.Insert(0, title);
+            }
 
             SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
 
@@ -73,7 +90,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             ViewBag.SelectMentorPartList = mentorPartList;
 
             //전문가 리스트 조회
-            var listMentor = await _scMentorMappingService.GetMentorListAsync(int.Parse(Session[Global.CompSN].ToString()));
+            var listMentor = await _scMentorMappingService.GetMentorListAsync(int.Parse(Session[Global.CompSN].ToString()), bizWorkSn);
 
             var usrViews =
                 Mapper.Map<List<JoinMentorViewModel>>(listMentor);
@@ -87,6 +104,13 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         {
             ViewBag.LeftMenu = Global.MentorMng;
 
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
             //사업 DropDown List Data
             var listScBizWork = await _scBizWorkService.GetBizWorkList(int.Parse(Session[Global.CompSN].ToString()));
 
@@ -94,10 +118,19 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             var bizWorkDropDown =
                 Mapper.Map<List<BizWorkDropDownModel>>(listScBizWork);
 
-            BizWorkDropDownModel title = new BizWorkDropDownModel();
-            title.BizWorkSn = 0;
-            title.BizWorkNm = "사업명 선택";
-            bizWorkDropDown.Insert(0, title);
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                BizWorkList = listScBizWork.First().BizWorkSn.ToString();
+            }
+            else
+            {
+                BizWorkDropDownModel title = new BizWorkDropDownModel();
+                title.BizWorkSn = 0;
+                title.BizWorkNm = "사업명 선택";
+                bizWorkDropDown.Insert(0, title);
+            }
+
 
             SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
 
@@ -136,17 +169,28 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         {
             ViewBag.LeftMenu = Global.MentorMng;
 
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
             //사업 DropDown List Data
-            var listScBizWork = await _scBizWorkService.GetBizWorkList(int.Parse(Session[Global.CompSN].ToString()));
+            var listScBizWork = await _scBizWorkService.GetBizWorkList(int.Parse(Session[Global.CompSN].ToString()), excutorId);
 
 
             var bizWorkDropDown =
                 Mapper.Map<List<BizWorkDropDownModel>>(listScBizWork);
 
-            BizWorkDropDownModel title = new BizWorkDropDownModel();
-            title.BizWorkSn = 0;
-            title.BizWorkNm = "사업명 선택";
-            bizWorkDropDown.Insert(0, title);
+            if (Session[Global.UserDetailType].ToString() == "A")
+            {
+                BizWorkDropDownModel title = new BizWorkDropDownModel();
+                title.BizWorkSn = 0;
+                title.BizWorkNm = "사업명 선택";
+                bizWorkDropDown.Insert(0, title);
+            }
 
             SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
 
@@ -159,17 +203,27 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         {
             ViewBag.LeftMenu = Global.MentorMng;
 
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
             //사업 DropDown List Data
-            var listScBizWork = await _scBizWorkService.GetBizWorkList(int.Parse(Session[Global.CompSN].ToString()));
+            var listScBizWork = await _scBizWorkService.GetBizWorkList(int.Parse(Session[Global.CompSN].ToString()), excutorId);
 
 
             var bizWorkDropDown =
                 Mapper.Map<List<BizWorkDropDownModel>>(listScBizWork);
 
-            BizWorkDropDownModel title = new BizWorkDropDownModel();
-            title.BizWorkSn = 0;
-            title.BizWorkNm = "사업명 선택";
-            bizWorkDropDown.Insert(0, title);
+            if (Session[Global.UserDetailType].ToString() == "A")
+            {
+                BizWorkDropDownModel title = new BizWorkDropDownModel();
+                title.BizWorkSn = 0;
+                title.BizWorkNm = "사업명 선택";
+                bizWorkDropDown.Insert(0, title);
+            }
 
             SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
 

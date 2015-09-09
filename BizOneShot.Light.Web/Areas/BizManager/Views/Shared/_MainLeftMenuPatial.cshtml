@@ -27,7 +27,8 @@
             }
             else if (ViewBag.LeftMenu == Global.ComMng)//기업관리
             {
-
+                <li class="title biz_company_manage"><em>기업관리</em></li>
+                <li><a href="@Url.Action("CompanyList","CompanyMng")" class="gnb gbn_CompanyList">기업승인관리</a></li>
             }
             else
             {

@@ -319,6 +319,9 @@
     <Content Include="Areas\BizManager\Views\MentorMng\MentorList.cshtml" />
     <Content Include="Areas\BizManager\Views\MentorMng\RegMentor.cshtml" />
     <Content Include="Areas\BizManager\Views\MentorMng\MentorDetail.cshtml" />
+    <Content Include="Areas\BizManager\Views\CompanyMng\CompanyList.cshtml" />
+    <Content Include="Areas\BizManager\Views\CompanyMng\CompanyDetail.cshtml" />
+    <Content Include="Areas\BizManager\Views\CompanyMng\ModifyCompany.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1284,7 +1287,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\BizManager\Views\CompanyMng\" />
     <Folder Include="Areas\Expert\Controllers\" />
     <Folder Include="Areas\Expert\Views\Shared\" />
     <Folder Include="Areas\Mentor\Controllers\" />
