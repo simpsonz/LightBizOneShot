@@ -171,6 +171,8 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.UsrTypeDetail, map => map.MapFrom(s => s.ScUsr.UsrTypeDetail))
                 .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsr.ScUsrResume.ScFileInfo.FileNm));
 
+            Mapper.CreateMap<ScUsr, JoinMentorViewModel>();
+
             //기업 회원 관리(사업관리자) 뷰 매핑
             Mapper.CreateMap<ScCompMapping, CompanyMngViewModel>()
                 .ForMember(d => d.ApproveRequestDate, map => map.MapFrom(s => s.RegDt))
@@ -192,11 +194,10 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.MentorMbNo, map => map.MapFrom(s => s.ScUsr.MbNo))
                 .ForMember(d => d.MentorEmail, map => map.MapFrom(s => s.ScUsr.Email));
 
+            Mapper.CreateMap<ScMentorMappiing, MentorDropDownModel>()
+                .ForMember(d => d.LoginId, map => map.MapFrom(s => s.ScUsr.LoginId))
+                .ForMember(d => d.Name , map => map.MapFrom(s => s.ScUsr.Name));
 
-
-
-
-            
 
         }
     }

@@ -58,9 +58,9 @@
 </script>
 
 <div id="sub_rightwrap">
-    <div class="sub_right_title company_inquiry02"><em>기업정보수정</em></div>
+    <div class="sub_right_title approve01"><em>기업승인관리</em></div>
 
-    @using (Html.BeginForm("ModifyCompany", "CompanyMng", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("ApproveCompany", "CompanyMng", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form" }))
     {
         @Html.HiddenFor(model => model.BizWorkSn)
         @Html.HiddenFor(model => model.CompSn)
@@ -188,11 +188,10 @@
         </div><!--tablewrap//-->
 
 
-        <div id="btnwrap_sub">
-            <div class="rightwrap">
-                <button type="submit" class="save rightmargin" value="저장"></button><a href="@Url.Action("CompanyList", "CompanyMng")" class="cancel2 right"><em>취소</em></a>
-            </div>
-        </div>
-    }
+                            <div id="btnwrap_sub">
+                                <a href="@Url.Action("CompanyList", "CompanyMng")" class="list2 right"><em>목록</em></a>
+                                <button type="submit" class="approve right" value="승인"></button>
+                            </div>
+                            }
 
 </div><!--sub_rightwrap//-->

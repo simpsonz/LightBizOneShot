@@ -74,7 +74,7 @@
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.BizWorkSn);
+        @Html.HiddenFor(model => model.BizWorkSn)
         <div class="tablewrap">
             <table>
                 <!--사업명-->

@@ -130,6 +130,7 @@ namespace BizOneShot.Light.Models.ViewModels
         public string TelNo { get; set; } // TEL_NO. 전화번호
         public string MbNo { get; set; } // MB_NO. 휴대폰
         public string Email { get; set; } // EMAIL. 이메일
+        public string MentorLoginId { get; set; } // Name. 멘토이름
         public string MentorName { get; set; } // Name. 이름
         public string MentorTelNo { get; set; } // TEL_NO. 전화번호
         public string MentorMbNo { get; set; } // MB_NO. 휴대폰

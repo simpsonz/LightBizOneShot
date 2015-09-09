@@ -19,7 +19,6 @@ namespace BizOneShot.Light.Services
         Task<ScBizWork> GetBizWorkByBizWorkSn(int bizWorkSn);
         ScBizWork Insert(ScBizWork scBizWork);
         Task<IList<ScCompInfo>> GetBizWorkComList(int bizWorkSn);
-        Task<int> UpdateBizWorkAsync(ScBizWork scBizWork);
         Task<int> AddBizWorkAsync(ScBizWork scBizWork);
     }
 
@@ -75,20 +74,6 @@ namespace BizOneShot.Light.Services
             return scBizWorkRespository.Insert(scBizWork);
         }
 
-        public async Task<int> UpdateBizWorkAsync(ScBizWork scBizWork)
-        {
-            var rstScUsr = scBizWorkRespository.Insert(scBizWork);
-
-            if (rstScUsr == null)
-            {
-                return -1;
-            }
-            else
-            {
-                return await SaveDbContextAsync();
-            }
-
-        }
 
         public async Task<int> AddBizWorkAsync(ScBizWork scBizWork)
         {
