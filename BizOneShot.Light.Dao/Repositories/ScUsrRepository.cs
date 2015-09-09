@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
@@ -30,5 +31,11 @@ namespace BizOneShot.Light.Dao.Repositories
         {
             return this.DbContext.ScUsrs.Add(scUsr);
         }
+
+        //public override async Task<IEnumerable<ScUsr>> GetManyAsync(Expression<Func<ScUsr, bool>> where)
+        //{
+        //    return await this.DbContext.ScUsrs.Include("ScCompInfo").Include("ScUsrResume").Include("ScExpertMappings").Where(where).ToListAsync();
+
+        //}
     }
 }
