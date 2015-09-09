@@ -8,6 +8,7 @@ using BizOneShot.Light.Web.ComLib;
 using PagedList;
 using AutoMapper;
 using System.Threading.Tasks;
+using BizOneShot.Light.Util.Helper;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -231,17 +232,10 @@ namespace BizOneShot.Light.Web.Controllers
 
             var dicScForm = await _scFormService.GetManualDetailByIdAsync(formSn);
 
-            var listScFormFile = await _scFormFileService.GetFormFilesByIdAsync(formSn);
-
+            var curScForm = dicScForm["curForm"];
 
             var manualDetailView =
-                Mapper.Map<ManualDetailViewModel>(dicScForm["curForm"]);
-
-            var manualDetailFileInfo = Mapper.Map<ManualDetailViewModel>(listScFormFile);
-
-
-            manualDetailView.ManualFiles = manualDetailFileInfo.ManualFiles;
-
+                Mapper.Map<ManualDetailViewModel>(curScForm);
 
             foreach (var key in dicScForm.Keys)
             {
@@ -259,8 +253,76 @@ namespace BizOneShot.Light.Web.Controllers
                 }
             }
 
+
+            ////Lazy Loading 방식
+            //var listScFileInfo = new List<ScFileInfo>();
+            //foreach (var scFormFile in curScForm.ScFormFiles)
+            //{
+            //    listScFileInfo.Add(scFormFile.ScFileInfo);
+            //}
+
+            //var fileInfoViewModel = Mapper.Map<IList<FileInfoViewModel>>(listScFileInfo);
+            //manualDetailView.ManualFiles = manualDetailFileInfo;
+
+
+            //Eager Loading 방식
+            var listScFormFile = await _scFormFileService.GetFormFilesByIdAsync(formSn);
+
+            var listScFileInfo = new List<ScFileInfo>();
+            foreach (var scFormFile in listScFormFile)
+            {
+                listScFileInfo.Add(scFormFile.ScFileInfo);
+            }
+
+            var fileInfoViewModel = Mapper.Map<IList<FileInfoViewModel>>(listScFileInfo);
+
+            manualDetailView.ManualFiles = fileInfoViewModel;
+
             return View(manualDetailView);
         }
         #endregion
+
+
+
+        public void DownloadManualFile()
+        {
+            //System.Collections.Specialized.NameValueCollection col = Request.QueryString;
+            string fileNm = Request.QueryString["FileNm"];
+            string filePath = Request.QueryString["FilePath"];
+
+            string archiveName = fileNm;
+
+            var files = new List<FileContent>();
+
+            var file = new FileContent
+            {
+                FileNm = fileNm,
+                FilePath = filePath
+            };
+            files.Add(file);
+
+            new FileHelper().DownloadFile(files, archiveName);
+        }
+
+        public async Task DownloadManualFileMulti()
+        {
+            string formSn = Request.QueryString["FormSn"];
+
+            string archiveName = "download.zip";
+
+            //Eager Loading 방식
+            var listScFormFile = await _scFormFileService.GetFormFilesByIdAsync(int.Parse(formSn));
+
+            var listScFileInfo = new List<ScFileInfo>();
+            foreach (var scFormFile in listScFormFile)
+            {
+                listScFileInfo.Add(scFormFile.ScFileInfo);
+            }
+
+            var files = Mapper.Map<IList<FileContent>>(listScFileInfo);
+
+            new FileHelper().DownloadFile(files, archiveName);
+
+        }
     }
 }
