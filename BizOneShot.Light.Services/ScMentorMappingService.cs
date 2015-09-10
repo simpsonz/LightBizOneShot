@@ -36,19 +36,19 @@ namespace BizOneShot.Light.Services
 
             if (bizWorkSn == 0 && string.IsNullOrEmpty(usrTypeDetail))
             {
-                listMentorTask = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.CompSn == mngCompSn);
+                listMentorTask = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.MngCompSn == mngCompSn);
             }
             else if (bizWorkSn != 0 && string.IsNullOrEmpty(usrTypeDetail))
             {
-                listMentorTask = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.CompSn == mngCompSn && mmp.BizWorkSn == bizWorkSn);
+                listMentorTask = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.MngCompSn == mngCompSn && mmp.BizWorkSn == bizWorkSn);
             }
             else if (bizWorkSn == 0 && !string.IsNullOrEmpty(usrTypeDetail))
             {
-                listMentorTask = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.CompSn == mngCompSn && mmp.ScUsr.UsrTypeDetail == usrTypeDetail);
+                listMentorTask = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.MngCompSn == mngCompSn && mmp.ScUsr.UsrTypeDetail == usrTypeDetail);
             }
             else
             {
-                listMentorTask = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.CompSn == mngCompSn && mmp.BizWorkSn == bizWorkSn && mmp.ScUsr.UsrTypeDetail == usrTypeDetail);
+                listMentorTask = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.MngCompSn == mngCompSn && mmp.BizWorkSn == bizWorkSn && mmp.ScUsr.UsrTypeDetail == usrTypeDetail);
             }
             return listMentorTask.OrderByDescending(mmp => mmp.RegDt).ToList();
         }

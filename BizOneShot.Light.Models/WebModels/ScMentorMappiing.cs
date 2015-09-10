@@ -21,7 +21,7 @@ namespace BizOneShot.Light.Models.WebModels
     {
         public int BizWorkSn { get; set; } // BIZ_WORK_SN (Primary key). 사업식별자
         public string MentorId { get; set; } // MENTOR_ID (Primary key). 회원테이블의 LOGIN_ID
-        public int? CompSn { get; set; } // COMP_SN
+        public int? MngCompSn { get; set; } // MNG_COMP_SN
         public string Status { get; set; } // STATUS. 상태
         public string RegId { get; set; } // REG_ID. 등록자
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시

@@ -261,7 +261,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
                 scMentorMappiing.BizWorkSn = joinMentorViewModel.BizWorkSn;
                 scMentorMappiing.MentorId = scUsr.LoginId;
                 scMentorMappiing.Status = "N";
-                scMentorMappiing.CompSn = int.Parse(Session[Global.CompSN].ToString());
+                scMentorMappiing.MngCompSn = int.Parse(Session[Global.CompSN].ToString());
                 scMentorMappiing.RegId = scUsr.RegId;
                 scMentorMappiing.RegDt = scUsr.RegDt;
                 scUsr.ScMentorMappiings.Add(scMentorMappiing);
