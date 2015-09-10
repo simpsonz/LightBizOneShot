@@ -19,9 +19,12 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
     {
         private readonly IScNtcService _scNtcService;
 
-        public MainController(IScNtcService scNtcServcie)
+        private readonly IScUsrService _scUsrService;
+
+        public MainController(IScNtcService scNtcServcie, IScUsrService scUsrService)
         {
             this._scNtcService = scNtcServcie;
+            this._scUsrService = scUsrService;
 
         }
         // GET: Company/Main
@@ -34,6 +37,21 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             var noticeViews =
                 Mapper.Map<List<NoticeViewModel>>(listScNtc);
             return View(noticeViews);
+        }
+
+        [MenuAuthorize(Roles = UserType.Mentor, Order = 2)]
+        public async Task<ActionResult> MyInfo()
+        {
+            ViewBag.LeftMenu = Global.MyInfo;
+
+            ScUsr scUsr = await _scUsrService.SelectScUsr(Session[Global.LoginID].ToString());
+
+            var myInfo =
+               Mapper.Map<MentorMyInfoViewModel>(scUsr);
+
+            //myInfo.BizWorkNm = scUsr.ScMentorMappiings.FirstOrDefault().ScBizWork.BizWorkNm;
+
+            return View(myInfo);
         }
     }
 }
