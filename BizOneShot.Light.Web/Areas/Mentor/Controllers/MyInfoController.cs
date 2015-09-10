@@ -19,7 +19,6 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
     {
         private readonly IScUsrService _scUsrService;
     
-
         public MyInfoController(IScUsrService scUsrService)
         {
             this._scUsrService = scUsrService;
