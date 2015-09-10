@@ -46,7 +46,7 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.RegistrationNo, map => map.MapFrom(s => s.ComRegistrationNo));
 
             //멘토 회원가입 to 회원
-            Mapper.CreateMap<JoinMentorViewModel, ScUsr>()
+            Mapper.CreateMap<BizOneShot.Light.Models.ViewModels.JoinMentorViewModel, ScUsr>()
                 .ForMember(d => d.Email, map => map.MapFrom(s => s.Email1 + "@" + s.Email2));
 
             //멘토 회원가입모델 to 회사

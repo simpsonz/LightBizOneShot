@@ -12,6 +12,10 @@
     else if (Session[Global.UserType].Equals(Global.Expert))
     {
     }
+    else if (Session[Global.UserType].Equals(Global.Mentor))
+    {
+        Layout = "~/Areas/mentor/Views/Shared/_MainLayout.cshtml";
+    }
 }
 
 <script>

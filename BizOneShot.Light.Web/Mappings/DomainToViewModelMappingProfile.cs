@@ -48,10 +48,10 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<ScFileInfo, FileContent>();
 
 
-            //Company MyInfo 매);
+            //Company MyInfo 매핑;
             Mapper.CreateMap<ScUsr, CompanyMyInfoViewModel>()
                 .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FileNm))
-                .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FilePath))
+                .ForMember(d => d.ResumePath, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FilePath))
                 .ForMember(d => d.ComAddr, map => map.MapFrom(s => s.ScCompInfo.PostNo + " " + s.ScCompInfo.Addr1 + " " + s.ScCompInfo.Addr2))
                 .ForMember(d => d.ComOwnNm, map => map.MapFrom(s => s.ScCompInfo.OwnNm))
                 .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
@@ -125,7 +125,7 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.LoginId, map => map.MapFrom(s => s.ScUsr.LoginId))
                 .ForMember(d => d.UsrTypeDetail, map => map.MapFrom(s => s.ScUsr.UsrTypeDetail));
 
-            //공지사항 Notice 매핑
+
             Mapper.CreateMap<ScBizWork, BizWorkViewModel>()
                 .ForMember(d => d.ComCount, map => map.MapFrom(s => s.ScCompMappings.Count))
                 .ForMember(d => d.Name, map => map.MapFrom(s => s.ScUsr.Name))
@@ -165,7 +165,7 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.ComOwnNm, map => map.MapFrom(s => s.OwnNm))
                 .ForMember(d => d.ComRegistrationNo, map => map.MapFrom(s => s.RegistrationNo));
 
-            //멘토 회원 뷰 매핑
+            //멘토 회원 등록 매핑
             Mapper.CreateMap<ScMentorMappiing, JoinMentorViewModel>()
                 .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
                 .ForMember(d => d.LoginId, map => map.MapFrom(s => s.ScUsr.LoginId))
@@ -175,7 +175,11 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.UsrTypeDetail, map => map.MapFrom(s => s.ScUsr.UsrTypeDetail))
                 .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsr.ScUsrResume.ScFileInfo.FileNm));
 
-            Mapper.CreateMap<ScUsr, JoinMentorViewModel>();
+            //맨토 회원 뷰 매핑
+            Mapper.CreateMap<ScUsr, MentorMyInfoViewModel>()
+                .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FileNm))
+                .ForMember(d => d.ResumePath, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FilePath))
+                .ForMember(d => d.Addr, map => map.MapFrom(s => s.ScCompInfo.PostNo + " " + s.ScCompInfo.Addr1 + " " + s.ScCompInfo.Addr2));
 
             //기업 회원 관리(사업관리자) 뷰 매핑
             Mapper.CreateMap<ScCompMapping, CompanyMngViewModel>()
