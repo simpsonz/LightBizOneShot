@@ -34,8 +34,9 @@ namespace BizOneShot.Light.Web.ComLib
         //공통
         public const string Cs = "Cs";                          //고객센터
         public const string Report = "Report";                  //보고서
-        //기업회원
         public const string MyInfo = "MyInfo";                  //내정보관리
+
+        //기업회원
         public const string ExpertService = "ExpertService";    //전문가서비스
        
         //SysManager   

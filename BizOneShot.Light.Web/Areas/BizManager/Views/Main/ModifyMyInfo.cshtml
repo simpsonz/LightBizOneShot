@@ -1,0 +1,180 @@
+﻿@model BizOneShot.Light.Models.ViewModels.BizWorkViewModel
+
+@{
+    Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_business06').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_MyInfo').addClass('on');
+    });
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title biz050103"><em>내정보 수정</em></div>
+    @using (Html.BeginForm("ModifyMyInfo", "Main", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form" }))
+    {
+        <div class="tablewrap">
+            <table>
+                <!--아이디-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="587px" />
+                </colgroup>
+                <tr>
+                    <th>아이디</th>
+                    <td><span class="blue bold">@Model.LoginId</span></td>
+                </tr>
+            </table>
+            <div class="line_dot10"></div>
+            <table>
+                <!--사업명-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="587px" />
+                </colgroup>
+                <tr>
+                    <th>사업명</th>
+                    <td>@Model.BizWorkNm</td>
+                </tr>
+            </table>
+            <div class="line_dot10"></div>
+            <table>
+                <!--사업자명 외-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th>이름</th>
+                    <td>@Html.TextBoxFor(model => model.Name, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @color = "#b94a48" })</td>
+                </tr>
+                <tr>
+                    <th>소속부서</th>
+                    <td>@Html.TextBoxFor(model => model.DeptNm, new { @class = "w235" }) @Html.ValidationMessageFor(model => model.DeptNm, "", new { @class = "text-danger", @color = "#b94a48" })</td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td class="form">
+                    @Html.DropDownListFor(model => model.TelNo1, new SelectList(
+                                   new List<Object>{
+                                               new { value = "02" , text = "02"  },
+                                               new { value = "031" , text = "031" },
+                                               new { value = "032" , text = "032" },
+                                               new { value = "033" , text = "033" },
+                                               new { value = "041" , text = "041" },
+                                               new { value = "043" , text = "043" },
+                                               new { value = "044" , text = "044" },
+                                               new { value = "051" , text = "051" },
+                                               new { value = "052" , text = "052" },
+                                               new { value = "053" , text = "053" },
+                                               new { value = "054" , text = "054" },
+                                               new { value = "055" , text = "055" },
+                                               new { value = "061" , text = "061" },
+                                               new { value = "062" , text = "062" },
+                                               new { value = "063" , text = "063" },
+                                               new { value = "064" , text = "064" },
+                                               new { value = "070" , text = "070" }
+                                     },
+                                   "value",
+                                   "text",
+                                    2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.TelNo2, new { @class = "w80", @title = "전화번호 중간자리" })&nbsp;
+                                        -&nbsp;@Html.TextBoxFor(model => model.TelNo3, new { @class = "w80", @title = "전화번호 마지막자리" })
+                                        @Html.ValidationMessageFor(model => model.TelNo2, "", new { @class = "text-danger", @color = "#b94a48" })
+                                        @Html.ValidationMessageFor(model => model.TelNo3, "", new { @class = "text-danger", @color = "#b94a48" })
+                                        </td>
+                </tr>
+                <tr>
+                    <th>휴대폰</th>
+                    <td class="form">
+                        @Html.DropDownListFor(model => model.MbNo1, new SelectList(
+                               new List<Object>{
+                                               new { value = "010" , text = "010"  },
+                                               new { value = "011" , text = "011" },
+                                               new { value = "016" , text = "016" },
+                                               new { value = "017" , text = "017" },
+                                               new { value = "019" , text = "019" }
+                                 },
+                               "value",
+                               "text",
+                                2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.MbNo2, new { @class = "w80", @title = "휴대폰번호 중간자리" })&nbsp;-&nbsp;@Html.TextBoxFor(model => model.MbNo3, new { @class = "w80", @title = "휴대폰 번호 마지막자리" })
+                                        @Html.ValidationMessageFor(model => model.MbNo2, "", new { @class = "text-danger", @color = "#b94a48" })
+                                        @Html.ValidationMessageFor(model => model.MbNo3, "", new { @class = "text-danger", @color = "#b94a48" })
+                                    </td>
+                </tr>
+                <tr>
+                    <th>FAX</th>
+                    <td class="form">
+                        @Html.DropDownListFor(model => model.FaxNo1, new SelectList(
+                               new List<Object>{
+                                               new { value = "02" , text = "02"  },
+                                               new { value = "031" , text = "031" },
+                                               new { value = "032" , text = "032" },
+                                               new { value = "033" , text = "033" },
+                                               new { value = "041" , text = "041" },
+                                               new { value = "043" , text = "043" },
+                                               new { value = "044" , text = "044" },
+                                               new { value = "051" , text = "051" },
+                                               new { value = "052" , text = "052" },
+                                               new { value = "053" , text = "053" },
+                                               new { value = "054" , text = "054" },
+                                               new { value = "055" , text = "055" },
+                                               new { value = "061" , text = "061" },
+                                               new { value = "062" , text = "062" },
+                                               new { value = "063" , text = "063" },
+                                               new { value = "064" , text = "064" },
+                                               new { value = "070" , text = "070" }
+                                 },
+                               "value",
+                               "text",
+                                2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.FaxNo2, new { @class = "w80", @title = "팩스 중간자리" })&nbsp;
+                                        -&nbsp;@Html.TextBoxFor(model => model.FaxNo3, new { @class = "w80", @title = "팩스 마지막자리" })
+
+                                        @Html.ValidationMessageFor(model => model.FaxNo2, "", new { @class = "text-danger", @color = "#b94a48" })
+                                        @Html.ValidationMessageFor(model => model.FaxNo3, "", new { @class = "text-danger", @color = "#b94a48" })
+                                    </td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td class="form">
+                        @Html.TextBoxFor(model => model.Email1, new { @class = "w115", @title = "이메일 아이디", @maxlength = "20" })&nbsp;@@&nbsp;
+                        @Html.TextBoxFor(model => model.Email2, new { @class = "w115", @title = "이메일 도메인", @maxlength = "19" })
+                        <select id="EMAIL_DOMAIN">
+                            <option value="">직접입력</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="daum.net">daum.net</option>
+                            <option value="chol.com">chol.com</option>
+                            <option value="dreamwiz.com">dreamwiz.com</option>
+                            <option value="empal.com">empal.com</option>
+                            <option value="freechal.com">freechal.com</option>
+                            <option value="gmail.com">gmail.com</option>
+                            <option value="hanafos.com">hanafos.com</option>
+                            <option value="hanmail.net">hanmail.net</option>
+                            <option value="hanmir.com">hanmir.com</option>
+                            <option value="hitel.net">hitel.net</option>
+                            <option value="hotmail.com">hotmail.com</option>
+                            <option value="korea.com">korea.com</option>
+                            <option value="lycos.co.kr">lycos.co.kr</option>
+                            <option value="nate.com">nate.com</option>
+                            <option value="netian.com">netian.com</option>
+                            <option value="paran.com">paran.com</option>
+                            <option value="yahoo.com">yahoo.com</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.Email1, "", new { @class = "text-danger", @color = "#b94a48" })
+                        @Html.ValidationMessageFor(model => model.Email2, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+                </tr>
+            </table>
+            <div class="line_dot10"></div>
+        </div><!--tablewrap//-->
+
+        <div id="btnwrap_sub">
+            <a href="@Url.Action("MyInfo", "Main")" class="cancel2 right"><em>취소</em></a>
+            <button type="submit" class="save right" value="저장"></button>
+            
+        </div><!--btnwrap//-->
+    }
+</div><!--sub_rightwrap//-->

@@ -83,6 +83,7 @@ namespace BizOneShot.Light.Models.ViewModels
         [Required]
         [Display(Name = "전화번호")]
         public string TelNo3 { get; set; } // TEL_NO. 전화번호
+        public string TelNo { get; set; } // TEL_NO. 전화번호
         [Required]
         public string MbNo1 { get; set; } // MB_NO. 휴대폰
         [Required]
@@ -91,12 +92,14 @@ namespace BizOneShot.Light.Models.ViewModels
         [Required]
         [Display(Name = "핸드폰번호")]
         public string MbNo3 { get; set; } // MB_NO. 휴대폰
+        public string MbNo { get; set; } // MB_NO. 휴대폰
         [Required]
         [Display(Name = "이메일")]
         public string Email1 { get; set; } // EMAIL. 이메일
         [Required]
         [Display(Name = "이메일")]
         public string Email2 { get; set; } // EMAIL. 이메일
+        public string Email { get; set; } // EMAIL. 이메일
         [Required]
         public string FaxNo1 { get; set; } // FAX_NO. Fax
         [Required]
@@ -105,6 +108,7 @@ namespace BizOneShot.Light.Models.ViewModels
         [Required]
         [Display(Name = "팩스번호")]
         public string FaxNo3 { get; set; } // FAX_NO. Fax
+        public string FaxNo { get; set; } // FAX_NO. Fax
         [Required]
         [Display(Name = "부서명")]
         public string DeptNm { get; set; } // DEPT_NM. 소속부서명
@@ -130,9 +134,11 @@ namespace BizOneShot.Light.Models.ViewModels
         public string TelNo { get; set; } // TEL_NO. 전화번호
         public string MbNo { get; set; } // MB_NO. 휴대폰
         public string Email { get; set; } // EMAIL. 이메일
+        public string MentorLoginId { get; set; } // Name. 멘토이름
         public string MentorName { get; set; } // Name. 이름
         public string MentorTelNo { get; set; } // TEL_NO. 전화번호
         public string MentorMbNo { get; set; } // MB_NO. 휴대폰
         public string MentorEmail { get; set; } // EMAIL. 이메일
     }
+
 }

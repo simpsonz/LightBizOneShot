@@ -14,7 +14,7 @@
 </script>
 
 <div id="sub_rightwrap">
-    <div class="sub_right_title approve01"><em>기업승인관리</em></div>
+    <div class="sub_right_title approve03"><em>기업상세보기</em></div>
 
     <form method="" action="" name="" id="">
         <div class="tablewrap">
@@ -131,7 +131,8 @@
 
 
         <div id="btnwrap_sub">
-            <button class="list2 right" value=""><em>출력</em></button><button class="approve right" value=""><em>승인</em></button>
+            <a href="@Url.Action("CompanyList", "CompanyMng")" class="list2 right"><em>목록</em></a>
+            <a href="@Url.Action("ModifyCompany", "CompanyMng", new {bizWorkSn= @Model.BizWorkSn, compSn= @Model.CompSn })" class="modify right"><em>수정</em></a>
         </div>
     </form>
 

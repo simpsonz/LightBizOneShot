@@ -11,9 +11,9 @@
             else if (ViewBag.LeftMenu == Global.Cs)//고객센터
             {
                 <li class="title biz_customcenter"><em>고객센터</em></li>
-                <li><a href="@Url.Action("Notice","Cs")" class="gnb gnb_notice">공지사항</a></li>
-                <li><a href="@Url.Action("Faq","Cs")" class="gnb gnb_faq">FAQ</a></li>
-                <li><a href="@Url.Action("Manual","Cs")" class="gnb gnb_menual">매뉴얼 및 서식</a></li>
+                <li><a href="@Url.Action("Notice","Cs",new { area= "" })" class="gnb gnb_notice">공지사항</a></li>
+                <li><a href="@Url.Action("Faq","Cs",new { area= "" })" class="gnb gnb_faq">FAQ</a></li>
+                <li><a href="@Url.Action("Manual","Cs",new { area= "" })" class="gnb gnb_menual">매뉴얼 및 서식</a></li>
             }
             else if (ViewBag.LeftMenu == Global.MentorMng) // 멘토 관리
             {
@@ -29,6 +29,12 @@
             {
                 <li class="title biz_company_manage"><em>기업관리</em></li>
                 <li><a href="@Url.Action("CompanyList","CompanyMng")" class="gnb gbn_CompanyList">기업승인관리</a></li>
+            }
+            else if (ViewBag.LeftMenu == Global.MyInfo)//내정보 관리
+            {
+                <li class="title biz_myinfo"><em>내정보 관리</em></li>
+                <li><a href="@Url.Action("MyInfo","Main",new { area= "BizManager" })" class="gnb gnb_MyInfo">내정보 관리</a></li>
+                <li><a href="@Url.Action("ChangePassword","Account",new { area= "" })" class="gnb gnb_ChangePw">비밀번호 변경</a></li>
             }
             else
             {

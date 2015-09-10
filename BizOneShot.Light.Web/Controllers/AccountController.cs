@@ -176,5 +176,74 @@ namespace BizOneShot.Light.Web.Controllers
 
             return View();
         }
+
+
+        public ActionResult ChangePassword()
+        {
+            ViewBag.LeftMenu = Global.MyInfo;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            ViewBag.LeftMenu = Global.MyInfo;
+
+            if (Session[Global.LoginID].ToString() != model.ID)
+            {
+                ModelState.AddModelError("", "로그인된 아이디가 아닙니다.");
+                return View();
+            }
+
+            ScUsr scUsr = await _scUsrService.SelectScUsr(model.ID);
+            if (scUsr != null)
+            {
+                //패스워드비교
+                SHACryptography sha2 = new SHACryptography();
+                if (scUsr.LoginPw == sha2.EncryptString(model.LoginPw))
+                {
+                    scUsr.LoginPw = sha2.EncryptString(model.NewLoginPw);
+                    await _scUsrService.SaveDbContextAsync();
+
+                    string usrArea;
+
+                    if (Session[Global.UserType].ToString().Equals(Global.Company))
+                    {// 기업회원
+                        usrArea = "Company";
+                    }
+                    else if (Session[Global.UserType].ToString().Equals(Global.Mentor))
+                    {// 멘토
+                        usrArea = "Mentor";
+                    }
+                    else if (Session[Global.UserType].ToString().Equals(Global.SysManager))
+                    {//SCP 관리자
+                        usrArea = "SysManager";
+                    }
+                    else if (Session[Global.UserType].ToString().Equals(Global.BizManager))
+                    {//사업 관리자
+                        usrArea = "BizManager";
+                    }
+                    else if (Session[Global.UserType].ToString().Equals(Global.Expert))
+                    {//사업 관리자
+                        usrArea = "Expert";
+                    }
+                    else
+                    {
+                        usrArea = "";
+                    }
+                    return RedirectToAction("MyInfo", "Main", new { area = usrArea });
+                }
+                else
+                {
+                    ModelState.AddModelError("", "비밀번호가 일치하지 않습니다.");
+                    return View();
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "아이디가 존재하지 않습니다.");
+                return View();
+            }
+        }
     }
 }

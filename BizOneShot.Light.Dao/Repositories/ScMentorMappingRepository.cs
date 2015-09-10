@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
@@ -10,7 +12,8 @@ namespace BizOneShot.Light.Dao.Repositories
 {
     public interface IScMentorMappingRepository : IRepository<ScMentorMappiing>
     {
-        //IList<ScCompInfo> GetScCompInfoByName(string compNm);
+        Task<IList<ScMentorMappiing>> GetMentorMappingsAsync(Expression<Func<ScMentorMappiing, bool>> where);
+        Task<ScMentorMappiing> GetMentorMappingAsync(Expression<Func<ScMentorMappiing, bool>> where);
     }
 
 
@@ -18,5 +21,15 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         public ScMentorMappingRepository(IDbFactory dbFactory) : base(dbFactory) { }
 
+
+        public async Task<IList<ScMentorMappiing>> GetMentorMappingsAsync(Expression<Func<ScMentorMappiing, bool>> where)
+        {
+            return await this.DbContext.ScMentorMappiings.Include("ScBizWork").Include("ScUsr").Include("ScUsr.ScUsrResume.ScFileInfo").Where(where).ToListAsync();
+        }
+
+        public async Task<ScMentorMappiing> GetMentorMappingAsync(Expression<Func<ScMentorMappiing, bool>> where)
+        {
+            return await this.DbContext.ScMentorMappiings.Include("ScBizWork").Include("ScUsr").Include("ScUsr.ScUsrResume.ScFileInfo").Where(where).SingleAsync();
+        }
     }
 }

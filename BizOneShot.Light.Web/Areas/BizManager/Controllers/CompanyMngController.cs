@@ -20,11 +20,15 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
     {
         private readonly IScBizWorkService _scBizWorkService;
         private readonly IScCompInfoService _scCompInfoService;
+        private readonly IScMentorMappingService _scMentorMappingService;
+        private readonly IScUsrService _scUsrService;
 
-        public CompanyMngController(IScBizWorkService _scBizWorkService, IScCompInfoService _scCompInfoService)
+        public CompanyMngController(IScBizWorkService _scBizWorkService, IScCompInfoService _scCompInfoService, IScMentorMappingService _scMentorMappingService, IScUsrService _scUsrService)
         {
             this._scBizWorkService = _scBizWorkService;
             this._scCompInfoService = _scCompInfoService;
+            this._scMentorMappingService = _scMentorMappingService;
+            this._scUsrService = _scUsrService;
         }
 
         // GET: BizManager/CompanyMng
@@ -157,15 +161,124 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         {
             ViewBag.LeftMenu = Global.ComMng;
 
-            var scCompMapping = await _scCompInfoService.GetCompMappingAsync(int.Parse(bizWorkSn), int.Parse(compSn) );
-
+            var scCompMapping = await _scCompInfoService.GetCompMappingAsync(int.Parse(bizWorkSn), int.Parse(compSn));
             var usrView =
                 Mapper.Map<CompanyMngViewModel>(scCompMapping);
 
-            if(scCompMapping.Status == "R")
-                return View("ModifyCompany", usrView);
-            else 
+            if (scCompMapping.Status == "R")
+            {
+                //해당 사업의 멘토 리스트 조회
+                var scMentorMappings = await _scMentorMappingService.GetMentorListAsync(int.Parse(Session[Global.CompSN].ToString()), int.Parse(bizWorkSn));
+
+                var mentorDropDown =
+                    Mapper.Map<List<MentorDropDownModel>>(scMentorMappings);
+
+                MentorDropDownModel title = new MentorDropDownModel();
+                title.LoginId = "";
+                title.Name = "멘토 선택";
+                mentorDropDown.Insert(0, title);
+
+                SelectList mentorList = new SelectList(mentorDropDown, "LoginId", "Name");
+
+                ViewBag.SelectMentorList = mentorList;
+
+                return View("ApproveCompany", usrView);
+            }
+            else
+            {
                 return View(usrView);
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetMentor(string MentorID)
+        {
+            ScUsr result = await _scUsrService.SelectScUsr(MentorID);
+
+            var mentor =
+                    Mapper.Map<JoinMentorViewModel>(result);
+
+            return Json(mentor);
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ApproveCompany(CompanyMngViewModel companyViewModel)
+        {
+            ViewBag.LeftMenu = Global.ComMng;
+
+            var scCompMapping = await _scCompInfoService.GetCompMappingAsync(companyViewModel.BizWorkSn, companyViewModel.CompSn);
+
+            scCompMapping.MentorId = companyViewModel.MentorLoginId;
+            scCompMapping.Status = "A";
+            scCompMapping.UpdId = Session[Global.LoginID].ToString();
+            scCompMapping.UpdDt = DateTime.Now;
+
+            int result = await _scCompInfoService.SaveDbContextAsync();
+
+            if (result != -1)
+                return RedirectToAction("CompanyList", "CompanyMng");
+            else
+            {
+                return RedirectToAction("CompanyDetail", "CompanyMng", new { bizWorkSn = companyViewModel.BizWorkSn, compSn = companyViewModel.CompSn });
+            }
+
+            
+        }
+
+        public async Task<ActionResult> ModifyCompany(string bizWorkSn, string compSn)
+        {
+            ViewBag.LeftMenu = Global.ComMng;
+
+            var scCompMapping = await _scCompInfoService.GetCompMappingAsync(int.Parse(bizWorkSn), int.Parse(compSn));
+            var usrView =
+                Mapper.Map<CompanyMngViewModel>(scCompMapping);
+
+            //해당 사업의 멘토 리스트 조회
+            var scMentorMappings = await _scMentorMappingService.GetMentorListAsync(int.Parse(Session[Global.CompSN].ToString()), int.Parse(bizWorkSn));
+
+            var mentorDropDown =
+                Mapper.Map<List<MentorDropDownModel>>(scMentorMappings);
+
+            MentorDropDownModel title = new MentorDropDownModel();
+            title.LoginId = "";
+            title.Name = "멘토 선택";
+            mentorDropDown.Insert(0, title);
+
+            SelectList mentorList = new SelectList(mentorDropDown, "LoginId", "Name");
+
+            ViewBag.SelectMentorList = mentorList;
+
+            return View(usrView);
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ModifyCompany(CompanyMngViewModel companyViewModel)
+        {
+            ViewBag.LeftMenu = Global.ComMng;
+            
+
+            if(string.IsNullOrEmpty(companyViewModel.MentorLoginId))
+            {
+                return RedirectToAction("ModifyCompany", "CompanyMng", new { bizWorkSn = companyViewModel.BizWorkSn, compSn = companyViewModel.CompSn });
+            }
+
+            var scCompMapping = await _scCompInfoService.GetCompMappingAsync(companyViewModel.BizWorkSn, companyViewModel.CompSn);
+
+            scCompMapping.MentorId = companyViewModel.MentorLoginId;
+            scCompMapping.UpdId = Session[Global.LoginID].ToString();
+            scCompMapping.UpdDt = DateTime.Now;
+
+            int result = await _scCompInfoService.SaveDbContextAsync();
+
+            if (result != -1)
+                return RedirectToAction("CompanyList", "CompanyMng");
+            else
+            {
+                return RedirectToAction("CompanyDetail", "CompanyMng", new { bizWorkSn = companyViewModel.BizWorkSn, compSn = companyViewModel.CompSn });
+            }
 
         }
     }

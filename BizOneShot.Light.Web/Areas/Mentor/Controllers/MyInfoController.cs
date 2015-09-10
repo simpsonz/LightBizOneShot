@@ -42,7 +42,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             var myInfo =
                Mapper.Map<MentorMyInfoViewModel>(scUsr);
 
-            myInfo.BizWorkNm = scUsr.ScUsrResume.ScFileInfo.FileNm;
+            myInfo.BizWorkNm = scUsr.ScMentorMappiings.FirstOrDefault().ScBizWork.BizWorkNm;
 
             return View(myInfo);
         }

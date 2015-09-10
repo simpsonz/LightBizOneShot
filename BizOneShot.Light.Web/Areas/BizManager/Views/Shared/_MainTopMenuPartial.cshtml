@@ -9,12 +9,12 @@
         </div><!--로그아웃 레이어 끝-->
         <div id="naviwrap_biz">
             <div class="navi_biz">
-                <a href="@Url.Action("BizWorkMng","BizWorkMng")" class="navi_business01"><em>보고서</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
-                <a href="@Url.Action("CompanyList","CompanyMng")" class="navi_business02"><em>기업관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
-                <a href="@Url.Action("MentorList","MentorMng")" class="navi_business03"><em>멘토관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
+                <a href="@Url.Action("BizWorkMng","BizWorkMng",new { area= "" })" class="navi_business01"><em>보고서</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
+                <a href="@Url.Action("CompanyList","CompanyMng", new { area= "BizManager" })" class="navi_business02"><em>기업관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
+                <a href="@Url.Action("MentorList","MentorMng", new { area= "BizManager" })" class="navi_business03"><em>멘토관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
                 @if (Session[Global.UserDetailType].Equals(Global.Admin))
                 { 
-                    <a href="@Url.Action("BizWorkList","BizWorkMng")" class="navi_business04"><em>사업관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
+                    <a href="@Url.Action("BizWorkList","BizWorkMng", new { area= "BizManager" })" class="navi_business04"><em>사업관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
                     <a href="@Url.Action("Notice","Cs",new { area= "" })" class="navi_business05"><em>고객센터관리</em></a>
                 }
                 
@@ -22,7 +22,7 @@
                 {
                     <a href="@Url.Action("Notice","Cs",new { area= "" })" class="navi_business05"><em>고객센터관리</em></a>
                     <img src="~/images/header_bar.png" class="navi_bizbar" />
-                    <a href="@Url.Action("MyInfo","Main")" class="navi_business06"><em>내정보관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
+                    <a href="@Url.Action("MyInfo","Main", new { area= "BizManager" })" class="navi_business06"><em>내정보관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
                 }
             </div>
         </div><!--naviwrap_biz//-->
