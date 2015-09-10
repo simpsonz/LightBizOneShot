@@ -80,7 +80,7 @@ namespace BizOneShot.Light.Services
 
         public async Task<ScCompMapping> GetCompMappingAsync(int bizWorkSn, int compSn)
         {
-            var scCompMapping = await scCompMappingRepository.GetAsync(scm => scm.BizWorkSn == bizWorkSn && scm.CompSn == compSn);
+            var scCompMapping = await scCompMappingRepository.GetCompMappingAsync(scm => scm.BizWorkSn == bizWorkSn && scm.CompSn == compSn);
 
             return scCompMapping;
         }
@@ -92,42 +92,42 @@ namespace BizOneShot.Light.Services
 
             if ((bizWorkSn == 0) && string.IsNullOrEmpty(status) && string.IsNullOrEmpty(compNm)) //000
             {
-                listScCompMappingTask = await scCompMappingRepository.GetManyAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status != "D");
+                listScCompMappingTask = await scCompMappingRepository.GetCompMappingsAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status != "D");
                 return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
             }
             else if ((bizWorkSn == 0) && string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(compNm)) //001
             {
-                listScCompMappingTask = await scCompMappingRepository.GetManyAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.ScCompInfo.CompNm.Contains(compNm) && scm.Status != "D");
+                listScCompMappingTask = await scCompMappingRepository.GetCompMappingsAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.ScCompInfo.CompNm.Contains(compNm) && scm.Status != "D");
                 return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
             }
             else if ((bizWorkSn == 0) && !string.IsNullOrEmpty(status) && string.IsNullOrEmpty(compNm)) //010
             {
-                listScCompMappingTask = await scCompMappingRepository.GetManyAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status == status);
+                listScCompMappingTask = await scCompMappingRepository.GetCompMappingsAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status == status);
                 return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
             }
             else if ((bizWorkSn == 0) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(compNm)) //011
             {
-                listScCompMappingTask = await scCompMappingRepository.GetManyAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status == status && scm.ScCompInfo.CompNm.Contains(compNm));
+                listScCompMappingTask = await scCompMappingRepository.GetCompMappingsAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status == status && scm.ScCompInfo.CompNm.Contains(compNm));
                 return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
             }
             else if ((bizWorkSn != 0) && string.IsNullOrEmpty(status) && string.IsNullOrEmpty(compNm)) //100
             {
-                listScCompMappingTask = await scCompMappingRepository.GetManyAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status != "D" && scm.BizWorkSn == bizWorkSn);
+                listScCompMappingTask = await scCompMappingRepository.GetCompMappingsAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status != "D" && scm.BizWorkSn == bizWorkSn);
                 return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
             }
             else if ((bizWorkSn != 0) && string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(compNm)) //101
             {
-                listScCompMappingTask = await scCompMappingRepository.GetManyAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status != "D" && scm.BizWorkSn == bizWorkSn && scm.ScCompInfo.CompNm.Contains(compNm));
+                listScCompMappingTask = await scCompMappingRepository.GetCompMappingsAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status != "D" && scm.BizWorkSn == bizWorkSn && scm.ScCompInfo.CompNm.Contains(compNm));
                 return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
             }
             else if ((bizWorkSn != 0) && !string.IsNullOrEmpty(status) && string.IsNullOrEmpty(compNm)) //110
             {
-                listScCompMappingTask = await scCompMappingRepository.GetManyAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status == status && scm.BizWorkSn == bizWorkSn);
+                listScCompMappingTask = await scCompMappingRepository.GetCompMappingsAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status == status && scm.BizWorkSn == bizWorkSn);
                 return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
             }
             else  //111
             {
-                listScCompMappingTask = await scCompMappingRepository.GetManyAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status == status && scm.BizWorkSn == bizWorkSn && scm.ScCompInfo.CompNm.Contains(compNm));
+                listScCompMappingTask = await scCompMappingRepository.GetCompMappingsAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status == status && scm.BizWorkSn == bizWorkSn && scm.ScCompInfo.CompNm.Contains(compNm));
                 return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
             }
         }

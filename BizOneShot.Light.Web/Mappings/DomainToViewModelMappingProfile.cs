@@ -132,14 +132,18 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.TelNo1, map => map.MapFrom(s => s.ScUsr.TelNo.Split('-').GetValue(0).ToString()))
                 .ForMember(d => d.TelNo2, map => map.MapFrom(s => s.ScUsr.TelNo.Split('-').GetValue(1).ToString()))
                 .ForMember(d => d.TelNo3, map => map.MapFrom(s => s.ScUsr.TelNo.Split('-').GetValue(2).ToString()))
+                .ForMember(d => d.TelNo, map => map.MapFrom(s => s.ScUsr.TelNo))
                 .ForMember(d => d.MbNo1, map => map.MapFrom(s => s.ScUsr.MbNo.Split('-').GetValue(0).ToString()))
                 .ForMember(d => d.MbNo2, map => map.MapFrom(s => s.ScUsr.MbNo.Split('-').GetValue(1).ToString()))
                 .ForMember(d => d.MbNo3, map => map.MapFrom(s => s.ScUsr.MbNo.Split('-').GetValue(2).ToString()))
+                .ForMember(d => d.MbNo, map => map.MapFrom(s => s.ScUsr.MbNo))
                 .ForMember(d => d.FaxNo1, map => map.MapFrom(s => s.ScUsr.FaxNo.Split('-').GetValue(0).ToString()))
                 .ForMember(d => d.FaxNo2, map => map.MapFrom(s => s.ScUsr.FaxNo.Split('-').GetValue(1).ToString()))
                 .ForMember(d => d.FaxNo3, map => map.MapFrom(s => s.ScUsr.FaxNo.Split('-').GetValue(2).ToString()))
+                .ForMember(d => d.FaxNo, map => map.MapFrom(s => s.ScUsr.FaxNo))
                 .ForMember(d => d.Email1, map => map.MapFrom(s => s.ScUsr.Email.Split('@').GetValue(0).ToString()))
                 .ForMember(d => d.Email2, map => map.MapFrom(s => s.ScUsr.Email.Split('@').GetValue(1).ToString()))
+                .ForMember(d => d.Email, map => map.MapFrom(s => s.ScUsr.Email))
                 .ForMember(d => d.LoginId, map => map.MapFrom(s => s.ScUsr.LoginId))
                 .ForMember(d => d.DeptNm, map => map.MapFrom(s => s.ScUsr.DeptNm));
 
@@ -197,8 +201,6 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<ScMentorMappiing, MentorDropDownModel>()
                 .ForMember(d => d.LoginId, map => map.MapFrom(s => s.ScUsr.LoginId))
                 .ForMember(d => d.Name , map => map.MapFrom(s => s.ScUsr.Name));
-
-
         }
     }
 }

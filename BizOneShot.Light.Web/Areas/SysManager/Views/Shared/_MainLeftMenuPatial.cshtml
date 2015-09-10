@@ -11,9 +11,9 @@
             else if (ViewBag.LeftMenu == Global.Cs)//고객센터
             {
                 <li class="title biz_customcenter"><em>고객센터</em></li>
-                <li><a href="@Url.Action("Notice","Cs")" class="gnb gnb_notice">공지사항</a></li>
-                <li><a href="@Url.Action("Faq","Cs")" class="gnb gnb_faq">FAQ</a></li>
-                <li><a href="@Url.Action("Manual","Cs")" class="gnb gnb_menual">매뉴얼 및 서식</a></li>
+                <li><a href="@Url.Action("Notice","Cs",new { area= "" })" class="gnb gnb_notice">공지사항</a></li>
+                <li><a href="@Url.Action("Faq","Cs",new { area= "" })" class="gnb gnb_faq">FAQ</a></li>
+                <li><a href="@Url.Action("Manual","Cs",new { area= "" })" class="gnb gnb_menual">매뉴얼 및 서식</a></li>
             }
             else if (ViewBag.LeftMenu == Global.ExpertMng)//전문가회원 관리
             {

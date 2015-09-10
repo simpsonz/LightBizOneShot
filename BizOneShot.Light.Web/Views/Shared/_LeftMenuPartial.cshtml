@@ -16,17 +16,26 @@
 }
 else
 {
-    if (Session[Global.UserType].Equals("C"))
-    {
-        @RenderPage("~/Areas/Company/Views/Shared/_MainLeftMenuPatial.cshtml")
+
+    if (Session[Global.UserType].Equals(Global.Company))
+    {// 기업회원
+       @RenderPage("~/Areas/Company/Views/Shared/_MainLeftMenuPatial.cshtml")
     }
-    if (Session[Global.UserType].Equals("B"))
-    {
+    if (Session[Global.UserType].Equals(Global.Mentor))
+    {// 멘토
+        @RenderPage("~/Areas/Mentor/Views/Shared/_MainLeftMenuPatial.cshtml")
+    }
+    if (Session[Global.UserType].Equals(Global.SysManager))
+    {//SCP 관리자
+        @RenderPage("~/Areas/SysManager/Views/Shared/_MainLeftMenuPatial.cshtml")
+    }
+    if (Session[Global.UserType].Equals(Global.BizManager))
+    {//사업 관리자
         @RenderPage("~/Areas/BizManager/Views/Shared/_MainLeftMenuPatial.cshtml")
     }
-    if (Session[Global.UserType].Equals("S"))
-    {
-        @RenderPage("~/Areas/SysManager/Views/Shared/_MainLeftMenuPatial.cshtml")
+    if (Session[Global.UserType].Equals(Global.Expert))
+    {//전문가
+        @RenderPage("~/Areas/Expert/Views/Shared/_MainLeftMenuPatial.cshtml")
     }
 }
 

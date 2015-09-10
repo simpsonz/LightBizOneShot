@@ -20,6 +20,7 @@ namespace BizOneShot.Light.Services
         ScBizWork Insert(ScBizWork scBizWork);
         Task<IList<ScCompInfo>> GetBizWorkComList(int bizWorkSn);
         Task<int> AddBizWorkAsync(ScBizWork scBizWork);
+        Task<ScBizWork> GetBizWorkByloginId(string loginId);
     }
 
 
@@ -40,31 +41,38 @@ namespace BizOneShot.Light.Services
         {
             if(string.IsNullOrEmpty(excutorId))
             { 
-                var scBizWorks = await scBizWorkRespository.GetManyAsync(bw => bw.CompSn == comSn);
+                var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.CompSn == comSn);
                 return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
             }
             else
             {
-                var scBizWorks = await scBizWorkRespository.GetManyAsync(bw => bw.CompSn == comSn && bw.ExecutorId == excutorId);
+                var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.CompSn == comSn && bw.ExecutorId == excutorId);
                 return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
             }
         }
 
         public async Task<IList<ScCompInfo>> GetBizWorkComList(int bizWorkSn)
         {
-            var scBizWorks = await scCompMappingRepository.GetManyAsync(bw => bw.BizWorkSn == bizWorkSn);
-            return  scBizWorks.Select(bw => bw.ScCompInfo).ToList();
+            var scBizWorks = await scCompMappingRepository.GetCompanysAsync(bw => bw.BizWorkSn == bizWorkSn);
+            return  scBizWorks.OrderByDescending(sc => sc.CompNm).ToList();
         }
 
         public async Task<IList<ScBizWork>> GetBizWorkListByBizWorkNm(int comSn, string query)
         {
-            var scBizWorks = await scBizWorkRespository.GetManyAsync(bw => bw.CompSn == comSn && bw.BizWorkNm.Contains(query));
+            var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.CompSn == comSn && bw.BizWorkNm.Contains(query));
             return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
         }
 
         public async Task<ScBizWork> GetBizWorkByBizWorkSn(int bizWorkSn)
         {
-            var scBizWork = await scBizWorkRespository.GetAsync(bw => bw.BizWorkSn == bizWorkSn);
+            var scBizWork = await scBizWorkRespository.GetBizWorkAsync(bw => bw.BizWorkSn == bizWorkSn);
+
+            return scBizWork;
+        }
+
+        public async Task<ScBizWork> GetBizWorkByloginId(string loginId)
+        {
+            var scBizWork = await scBizWorkRespository.GetBizWorkByLoginIdAsync(bw => bw.ExecutorId == loginId);
 
             return scBizWork;
         }

@@ -296,7 +296,7 @@
     <Content Include="Areas\Company\Views\Shared\_MainTopMenuPartial.cshtml" />
     <Content Include="Areas\Company\Views\Shared\_MainLeftMenuPatial.cshtml" />
     <Content Include="Areas\Company\Views\Shared\_MainLayout.cshtml" />
-    <Content Include="Areas\Company\Views\MyInfo\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Areas\Company\Views\ExpertService\TaxReceive.cshtml" />
     <Content Include="Areas\SysManager\Views\web.config" />
     <Content Include="Areas\BizManager\Views\web.config" />
@@ -323,6 +323,8 @@
     <Content Include="Areas\BizManager\Views\CompanyMng\CompanyDetail.cshtml" />
     <Content Include="Areas\BizManager\Views\CompanyMng\ModifyCompany.cshtml" />
     <Content Include="Areas\BizManager\Views\CompanyMng\ApproveCompany.cshtml" />
+    <Content Include="Areas\BizManager\Views\Main\MyInfo.cshtml" />
+    <Content Include="Areas\BizManager\Views\Main\ModifyMyInfo.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -36,26 +36,26 @@ namespace BizOneShot.Light.Services
 
             if (bizWorkSn == 0 && string.IsNullOrEmpty(usrTypeDetail))
             {
-                listMentorTask = await scMentorMappingRepository.GetManyAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.CompSn == mngCompSn);
+                listMentorTask = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.CompSn == mngCompSn);
             }
             else if (bizWorkSn != 0 && string.IsNullOrEmpty(usrTypeDetail))
             {
-                listMentorTask = await scMentorMappingRepository.GetManyAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.CompSn == mngCompSn && mmp.BizWorkSn == bizWorkSn);
+                listMentorTask = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.CompSn == mngCompSn && mmp.BizWorkSn == bizWorkSn);
             }
             else if (bizWorkSn == 0 && !string.IsNullOrEmpty(usrTypeDetail))
             {
-                listMentorTask = await scMentorMappingRepository.GetManyAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.CompSn == mngCompSn && mmp.ScUsr.UsrTypeDetail == usrTypeDetail);
+                listMentorTask = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.CompSn == mngCompSn && mmp.ScUsr.UsrTypeDetail == usrTypeDetail);
             }
             else
             {
-                listMentorTask = await scMentorMappingRepository.GetManyAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.CompSn == mngCompSn && mmp.BizWorkSn == bizWorkSn && mmp.ScUsr.UsrTypeDetail == usrTypeDetail);
+                listMentorTask = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.CompSn == mngCompSn && mmp.BizWorkSn == bizWorkSn && mmp.ScUsr.UsrTypeDetail == usrTypeDetail);
             }
             return listMentorTask.OrderByDescending(mmp => mmp.RegDt).ToList();
         }
 
         public async Task<ScMentorMappiing> GetMentor(int bizWorkSn, string mentorId)
         {
-            var scMentorMapping = await scMentorMappingRepository.GetAsync(smm => smm.BizWorkSn == bizWorkSn && smm.MentorId == mentorId);
+            var scMentorMapping = await scMentorMappingRepository.GetMentorMappingAsync(smm => smm.BizWorkSn == bizWorkSn && smm.MentorId == mentorId);
 
             return scMentorMapping;
         }
