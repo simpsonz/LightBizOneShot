@@ -67,7 +67,7 @@ namespace BizOneShot.Light.Models.ViewModels
         public string ResumePath { get; set; } //이력서 파일 경로
     }
 
-    public class MentorDropDownModel
+    public class MentorDropDownModel 
     {
         public string LoginId { get; set; } // LOGIN_ID (Primary key). 로그인식별자
         public string Name { get; set; } // Name. 이름
