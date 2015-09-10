@@ -239,6 +239,8 @@
     <Compile Include="Areas\Company\Controllers\MainController.cs" />
     <Compile Include="Areas\Company\Controllers\MyInfoController.cs" />
     <Compile Include="Areas\Expert\ExpertAreaRegistration.cs" />
+    <Compile Include="Areas\Mentor\Controllers\MainController.cs" />
+    <Compile Include="Areas\Mentor\Controllers\MyInfoController.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
     <Compile Include="Areas\SysManager\Controllers\BizManagerController.cs" />
     <Compile Include="Areas\SysManager\Controllers\ExpertManagerController.cs" />
@@ -325,6 +327,12 @@
     <Content Include="Areas\BizManager\Views\CompanyMng\ApproveCompany.cshtml" />
     <Content Include="Areas\BizManager\Views\Main\MyInfo.cshtml" />
     <Content Include="Areas\BizManager\Views\Main\ModifyMyInfo.cshtml" />
+    <Content Include="Areas\Mentor\Views\Main\Index.cshtml" />
+    <Content Include="Areas\Mentor\Views\MyInfo\ChangePassword.cshtml" />
+    <Content Include="Areas\Mentor\Views\MyInfo\MyInfo.cshtml" />
+    <Content Include="Areas\Mentor\Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Areas\Mentor\Views\Shared\_MainLeftMenuPatial.cshtml" />
+    <Content Include="Areas\Mentor\Views\Shared\_MainTopMenuPartial.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1292,8 +1300,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Expert\Controllers\" />
     <Folder Include="Areas\Expert\Views\Shared\" />
-    <Folder Include="Areas\Mentor\Controllers\" />
-    <Folder Include="Areas\Mentor\Views\Shared\" />
     <Folder Include="js\" />
   </ItemGroup>
   <ItemGroup>
