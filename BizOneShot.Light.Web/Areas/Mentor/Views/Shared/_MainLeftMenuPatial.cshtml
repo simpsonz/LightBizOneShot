@@ -7,7 +7,7 @@
             {
                 <li class="title biz_myinfo"><em>내정보 관리</em></li>
                 <li><a href="@Url.Action("MyInfo","MyInfo",new { area= "Mentor" })" class="gnb gnb1">내정보 관리</a></li>
-                <li><a href="@Url.Action("ChangePassword","MyInfo",new { area= "Mentor" })" class="gnb gnb2">비밀번호 변경</a></li>
+                <li><a href="@Url.Action("ChangePassword","Account",new { area= "" })" class="gnb gnb_ChangePw">비밀번호 변경</a></li>
             }
             else if (ViewBag.LeftMenu == Global.Cs)//고객센터
             {
