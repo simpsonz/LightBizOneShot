@@ -1,0 +1,99 @@
+﻿@model BizOneShot.Light.Models.ViewModels.MentorMyInfoViewModel
+
+@{
+    Layout = "~/Areas/Mentor/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_biz04').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb1').addClass('on');
+    });
+</script>
+
+<div id="sub_rightwrap">
+
+
+    <div class="sub_right_title biz050101"><em>내정보관리</em></div>
+
+    
+    <div class="tablewrap">
+        <table>
+            <!--아이디-->
+            <colgroup>
+                <col width="160px" />
+                <col width="587px" />
+            </colgroup>
+            <tr>
+                <th>아이디</th>
+                <td><span class="blue bold">@Model.LoginId</span></td>
+            </tr>
+        </table>
+
+    <div class="line_dot10"></div>
+        <table>
+            <!--사업명-->
+            <colgroup>
+                <col width="160px" />
+                <col width="590px" />
+            </colgroup>
+            <tr>
+                <th>사업명</th>
+                <td>@Model.BizWorkNm</td>
+            </tr>
+        </table>
+
+    <div class="line_dot10"></div>
+        <table>
+            <!--이름 외-->
+            <colgroup>
+                <col width="160px" />
+                <col width="590px" />
+            </colgroup>
+            <tr>
+                <th>이름</th>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <th>멘토링 분야</th>
+                <td>@Model.UsrTypeDetailName</td>
+            </tr>
+            <tr>
+                <th>전화번호</th>
+                <td>@Model.TelNo</td>
+            </tr>
+            <tr>
+                <th>휴대폰</th>
+                <td>@Model.MbNo</td>
+            </tr>
+            <tr>
+                <th>FAX</th>
+                <td>@Model.FaxNo</td>
+            </tr>
+            <tr>
+                <th>주소</th>
+                <td>@Model.Addr</td>
+            </tr>
+            <tr>
+                <th>이메일 주소</th>
+                <td>@Model.Email</td>
+            </tr>
+            <tr>
+                <th>이력서</th>
+                <td><a href="" class="file_open">@Model.ResumeName</a></td>
+            </tr>
+        </table>
+    </div><!--tablewrap//-->
+
+    <div id="btnwrap_sub">
+        <a href="" class="pw_modify left"><em>비밀번호변경</em></a>
+        <a href="" class="bt_myinfo_modify right" title="수정"><em>수정</em></a>
+    </div>
+
+</div><!--sub_rightwrap//-->
+		
+
+
+

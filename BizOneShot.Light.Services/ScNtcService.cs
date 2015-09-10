@@ -100,9 +100,7 @@ namespace BizOneShot.Light.Services
 
         public async Task<IList<ScNtc>> GetNoticesForMainAsync()
         {
-            IEnumerable<ScNtc> listScNtcTask = null;
-
-            listScNtcTask = await scNtcRepository.GetManyAsync(ntc => ntc.Status == "N");
+            var listScNtcTask = await scNtcRepository.GetManyAsync(ntc => ntc.Status == "N");
             return listScNtcTask.OrderByDescending(ntc => ntc.NoticeSn).Take(5)
                 .ToList();
         }

@@ -239,6 +239,8 @@
     <Compile Include="Areas\Company\Controllers\MainController.cs" />
     <Compile Include="Areas\Company\Controllers\MyInfoController.cs" />
     <Compile Include="Areas\Expert\ExpertAreaRegistration.cs" />
+    <Compile Include="Areas\Mentor\Controllers\MainController.cs" />
+    <Compile Include="Areas\Mentor\Controllers\MyInfoController.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
     <Compile Include="Areas\SysManager\Controllers\BizManagerController.cs" />
     <Compile Include="Areas\SysManager\Controllers\ExpertManagerController.cs" />
@@ -319,9 +321,12 @@
     <Content Include="Areas\BizManager\Views\MentorMng\MentorList.cshtml" />
     <Content Include="Areas\BizManager\Views\MentorMng\RegMentor.cshtml" />
     <Content Include="Areas\BizManager\Views\MentorMng\MentorDetail.cshtml" />
-    <Content Include="Areas\BizManager\Views\CompanyMng\CompanyList.cshtml" />
-    <Content Include="Areas\BizManager\Views\CompanyMng\CompanyDetail.cshtml" />
-    <Content Include="Areas\BizManager\Views\CompanyMng\ModifyCompany.cshtml" />
+    <Content Include="Areas\Mentor\Views\Main\Index.cshtml" />
+    <Content Include="Areas\Mentor\Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Areas\Mentor\Views\Shared\_MainLeftMenuPatial.cshtml" />
+    <Content Include="Areas\Mentor\Views\Shared\_MainTopMenuPartial.cshtml" />
+    <Content Include="Areas\Mentor\Views\MyInfo\ChangePassword.cshtml" />
+    <Content Include="Areas\Mentor\Views\MyInfo\MyInfo.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1287,10 +1292,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\BizManager\Views\CompanyMng\" />
     <Folder Include="Areas\Expert\Controllers\" />
     <Folder Include="Areas\Expert\Views\Shared\" />
-    <Folder Include="Areas\Mentor\Controllers\" />
-    <Folder Include="Areas\Mentor\Views\Shared\" />
     <Folder Include="js\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,37 @@
+﻿
+<div id="sub_leftwrap">
+    <div class="sub_gnbwrap">
+        <ul>
+
+            @if (ViewBag.LeftMenu == Global.MyInfo)//내정보
+            {
+                <li class="title biz_myinfo"><em>내정보 관리</em></li>
+                <li><a href="@Url.Action("MyInfo","MyInfo",new { area= "Mentor" })" class="gnb gnb1">내정보 관리</a></li>
+                <li><a href="@Url.Action("ChangePassword","MyInfo",new { area= "Mentor" })" class="gnb gnb2">비밀번호 변경</a></li>
+            }
+            else if (ViewBag.LeftMenu == Global.Cs)//고객센터
+            {
+                <li class="title biz_customcenter"><em>고객센터</em></li>
+                <li><a href="@Url.Action("Notice","Cs")" class="gnb gnb_notice">공지사항</a></li>
+                <li><a href="@Url.Action("Faq","Cs")" class="gnb gnb_faq">FAQ</a></li>
+                <li><a href="@Url.Action("Manual","Cs")" class="gnb gnb_menual">매뉴얼 및 서식</a></li>
+            }
+            else if (ViewBag.LeftMenu == Global.MentoringReport)//맨토링 보고서
+            {
+                <li class="title mentor_report"><em>멘토링 보고서</em></li>
+                <li><a href="@Url.Action("RegMentoringReport","MentoringReport",new { area= "Mentor" })" class="gnb on">멘토링 일지 등록</a></li>
+                <li><a href="@Url.Action("SchMentoringReport","MentoringReport",new { area= "Mentor" })" class="gnb">멘토링 일지 조회</a></li>
+                <li><a href="@Url.Action("RegMentoringTotalReport","MentoringReport",new { area= "Mentor" })" class="gnb">멘토링 종합보고서 등록</a></li>
+                <li><a href="@Url.Action("SchMentoringTotalReport","MentoringReport",new { area= "Mentor" })" class="gnb">멘토링 종합보고서 조회</a></li>
+            }
+            else if (ViewBag.LeftMenu == Global.CapabilityReport) //기초역량 보고서
+            {
+
+            }
+            
+
+        </ul>
+    </div><!--sub_gnbwrap//-->
+</div><!--sub_leftwrap//-->
+
+

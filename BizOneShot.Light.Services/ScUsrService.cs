@@ -72,7 +72,7 @@ namespace BizOneShot.Light.Services
 
         public async Task<ScUsr> SelectScUsr(string loginId)
         {
-            var scUsr = await scUsrRespository.GetAsync(sc => sc.LoginId == loginId);
+            var scUsr = await scUsrRespository.GetAsync(sc => sc.LoginId == loginId && sc.Status == "N");
 
             return scUsr;
         }
