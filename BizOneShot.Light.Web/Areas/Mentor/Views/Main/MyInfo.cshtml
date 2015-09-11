@@ -1,4 +1,5 @@
 ﻿@model BizOneShot.Light.Models.ViewModels.MentorMyInfoViewModel
+@using BizOneShot.Light.Models.ViewModels
 
 @{
     Layout = "~/Areas/Mentor/Views/Shared/_MainLayout.cshtml";
@@ -82,14 +83,14 @@
             </tr>
             <tr>
                 <th>이력서</th>
-                <td><a href="" class="file_open">@Model.ResumeName</a></td>
+                <td><a href="@Url.Action("DownloadResumeFile", new FileInfoViewModel { FileNm=Model.ResumeName, FilePath=Model.ResumePath })" class="file_open">@Model.ResumeName</a></td>
             </tr>
         </table>
     </div><!--tablewrap//-->
 
     <div id="btnwrap_sub">
-        <a href="" class="pw_modify left"><em>비밀번호변경</em></a>
-        <a href="" class="bt_myinfo_modify right" title="수정"><em>수정</em></a>
+        @*<a href="" class="pw_modify left"><em>비밀번호변경</em></a>*@
+        <a href="@Url.Action("ModifyMyInfo","Main", Model)" class="bt_myinfo_modify right" title="수정"><em>수정</em></a>
     </div>
 
 </div><!--sub_rightwrap//-->

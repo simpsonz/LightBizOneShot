@@ -242,7 +242,6 @@
     <Compile Include="Areas\Expert\Controllers\MainController.cs" />
     <Compile Include="Areas\Expert\ExpertAreaRegistration.cs" />
     <Compile Include="Areas\Mentor\Controllers\MainController.cs" />
-    <Compile Include="Areas\Mentor\Controllers\MyInfoController.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
     <Compile Include="Areas\SysManager\Controllers\BizManagerController.cs" />
     <Compile Include="Areas\SysManager\Controllers\ExpertManagerController.cs" />
@@ -277,6 +276,7 @@
     <Content Include="Areas\BizManager\Views\BizWorkMng\ModifyBizWork.cshtml" />
     <Content Include="Areas\BizManager\Views\BizWorkMng\RegBizWork.cshtml" />
     <Content Include="Areas\Company\Views\MyInfo\MyInfo.cshtml" />
+    <Content Include="Areas\Mentor\Views\Main\ModifyMyInfo.cshtml" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
@@ -330,8 +330,7 @@
     <Content Include="Areas\BizManager\Views\Main\MyInfo.cshtml" />
     <Content Include="Areas\BizManager\Views\Main\ModifyMyInfo.cshtml" />
     <Content Include="Areas\Mentor\Views\Main\Index.cshtml" />
-    <Content Include="Areas\Mentor\Views\MyInfo\ChangePassword.cshtml" />
-    <Content Include="Areas\Mentor\Views\MyInfo\MyInfo.cshtml" />
+    <Content Include="Areas\Mentor\Views\Main\MyInfo.cshtml" />
     <Content Include="Areas\Mentor\Views\Shared\_MainLayout.cshtml" />
     <Content Include="Areas\Mentor\Views\Shared\_MainLeftMenuPatial.cshtml" />
     <Content Include="Areas\Mentor\Views\Shared\_MainTopMenuPartial.cshtml" />
