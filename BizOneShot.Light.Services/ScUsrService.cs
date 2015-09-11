@@ -20,6 +20,8 @@ namespace BizOneShot.Light.Services
         Task<bool> ChkLoginId(string loginId);
         Task<ScUsr> SelectScUsr(string loginId);
 
+        Task<ScUsr> SelectMentorInfo(string loginId);
+
         Task<int> AddCompanyUserAsync(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser);
         Task<int> AddBizManagerAsync(ScCompInfo scCompInfo);
         Task<int> AddBizManagerMemberAsync(ScUsr scUsr);
@@ -73,6 +75,18 @@ namespace BizOneShot.Light.Services
         public async Task<ScUsr> SelectScUsr(string loginId)
         {
             var scUsr = await scUsrRespository.GetAsync(sc => sc.LoginId == loginId && sc.Status == "N");
+
+            return scUsr;
+        }
+
+        /// <summary>
+        /// 맨토정보 가져오기
+        /// </summary>
+        /// <param name="loginId"></param>
+        /// <returns></returns>
+        public async Task<ScUsr> SelectMentorInfo(string loginId)
+        {
+            var scUsr = await scUsrRespository.GetMentorInfoById(sc => sc.LoginId == loginId && sc.Status == "N");
 
             return scUsr;
         }

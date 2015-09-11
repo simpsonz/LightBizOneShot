@@ -179,8 +179,8 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<ScUsr, MentorMyInfoViewModel>()
                 .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FileNm))
                 .ForMember(d => d.ResumePath, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FilePath))
-                .ForMember(d => d.Addr, map => map.MapFrom(s => s.ScCompInfo.PostNo + " " + s.ScCompInfo.Addr1 + " " + s.ScCompInfo.Addr2))
-                .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScMentorMappiings.FirstOrDefault().ScBizWork.BizWorkNm));
+                .ForMember(d => d.Addr, map => map.MapFrom(s => s.PostNo + " " + s.Addr1 + " " + s.Addr2))
+                .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScMentorMappiings.FirstOrDefault().ScBizWork.BizWorkNm ?? ""));
 
             //기업 회원 관리(사업관리자) 뷰 매핑
             Mapper.CreateMap<ScCompMapping, CompanyMngViewModel>()

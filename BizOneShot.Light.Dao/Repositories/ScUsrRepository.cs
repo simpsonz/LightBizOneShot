@@ -12,8 +12,9 @@ namespace BizOneShot.Light.Dao.Repositories
 {
     public interface IScUsrRepository : IRepository<ScUsr>
     {
-        IList<ScUsr> GetScUsrById(string loginId);
+        Task<IList<ScUsr>> GetScUsrById(string loginId);
         ScUsr Insert(ScUsr scUsr);
+        Task<ScUsr> GetMentorInfoById(Expression<Func<ScUsr, bool>> where);
     }
 
 
@@ -21,9 +22,9 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         public ScUsrRepository(IDbFactory dbFactory) : base(dbFactory) { }
 
-        public IList<ScUsr> GetScUsrById(string loginId)
+        public async Task<IList<ScUsr>> GetScUsrById(string loginId)
         {
-            var usrInfo = this.DbContext.ScUsrs.Where(ci => ci.LoginId == loginId).ToList();
+            var usrInfo = await this.DbContext.ScUsrs.Where(ci => ci.LoginId == loginId).ToListAsync();
             return usrInfo;
         }
 
@@ -32,10 +33,29 @@ namespace BizOneShot.Light.Dao.Repositories
             return this.DbContext.ScUsrs.Add(scUsr);
         }
 
-        //public override async Task<IEnumerable<ScUsr>> GetManyAsync(Expression<Func<ScUsr, bool>> where)
+        //public async Task<ScUsr> GetMentorInfoById(string loginId)
         //{
-        //    return await this.DbContext.ScUsrs.Include("ScCompInfo").Include("ScUsrResume").Include("ScExpertMappings").Where(where).ToListAsync();
-
+        //    var scusr = await this.DbContext.ScUsrs
+        //        .Include(i => i.ScUsrResume)
+        //        //.Include(i => i.ScUsrResume.ScFileInfo)
+        //        .Include(i => i.ScMentorMappiings.Select(s => s.ScBizWork))
+        //        .Where(ci => ci.LoginId == loginId && ci.Status == "N").FirstOrDefaultAsync();
+        //    return scusr;
         //}
+
+        /// <summary>
+        /// 맨토정보 가져오기(Eager 로딩, include ScUsrResume, ScMentorMappiings.Select(s => s.ScBizWork)
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public async Task<ScUsr> GetMentorInfoById(Expression<Func<ScUsr, bool>> where)
+        {
+            var scusr = await this.DbContext.ScUsrs
+                .Include(i => i.ScUsrResume)
+                //.Include(i => i.ScUsrResume.ScFileInfo)
+                .Include(i => i.ScMentorMappiings.Select(s => s.ScBizWork))
+                .Where(where).FirstOrDefaultAsync();
+            return scusr;
+        }
     }
 }

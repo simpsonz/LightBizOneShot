@@ -50,7 +50,7 @@ namespace BizOneShot.Light.Web.ComLib
 
         //Mentor
         public const string MentoringReport = "MentoringReport";    //멘토링 보고서
-        public const string CapabilityReport = "CapabilityReport";              //기초역량 보고서
+        public const string CapabilityReport = "CapabilityReport";  //기초역량 보고서
 
     }
 }
