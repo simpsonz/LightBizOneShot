@@ -1,0 +1,157 @@
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.CompanyMyInfoViewModel>
+
+@{
+    Layout = "~/Areas/Expert/Views/Shared/_MainLayout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_expert01').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_CompanyList').addClass('on');
+    });
+
+    function goPage(page) {
+        $('#curPage').val(page);
+        $('#searchForm').submit();
+    }
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title specialist_01_01"><em>관리기업 현황</em></div>
+    <p>&nbsp;</p>
+    @using (Html.BeginForm("CompanyList", "CompanyMng", FormMethod.Post, new { area = "Expert", id = "searchForm" }))
+    {
+        <div class="tablewrap">
+            <table>
+                <!--사업명-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th>사업명</th>
+                    <td class="form">
+                        @Html.DropDownList("BizWorkList", ViewBag.SelectBizWorkList as SelectList, new { @class = "w130" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>기업명</th>
+                    <td class="form">
+                        @Html.TextBox("QUERY", null, new { @class = "w150", @placeholder = "기업명을 입력하세요", @id = "QUERY" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>전문분야</th>
+                    @if (Session[Global.UserDetailType].Equals("T"))
+                    {
+                        <td>세무회계</td>
+                    }
+                    else if (Session[Global.UserDetailType].Equals("L"))
+                    {
+                        <td>법무</td>
+                    }
+                    else if (Session[Global.UserDetailType].Equals("W"))
+                    {
+                        <td>노무</td>
+                    }
+                    else if (Session[Global.UserDetailType].Equals("P"))
+                    {
+                        <td>특허</td>
+                    }
+                    else if (Session[Global.UserDetailType].Equals("M"))
+                    {
+                        <td>마케팅</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+
+                </tr>
+            </table>
+        </div>
+        <div class="btnwrap center"><button type="submit" class="search2" value="검색">검색</button></div>
+        @Html.Hidden("curPage", "1")
+    }
+    <div class="line_dot20"></div>
+    <div class="tablewrap">
+        <!--목록-->
+        <table class="admin_list">
+            <colgroup>
+                <col width="6%">
+                <col width="15%">
+                <col width="15%">
+                <col width="12%">
+                <col width="12%">
+                <col width="16%">
+                <col width="23%">
+            </colgroup>
+            <tr>
+                <th class="topcen">번호</th>
+                <th class="topcen">기업명</th>
+                <th class="topcen">사업자번호</th>
+                <th class="topcen">소속그룹</th>
+                <th class="topcen">담당자</th>
+                <th class="topcen">전화번호</th>
+                <th class="topcen">보고서확인</th>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>비지니스온</td>
+                <td>112-123-1325</td>
+                <td>세무회계사</td>
+                <td>나전문</td>
+                <td>010-6589-7854</td>
+                <td class="form">
+                    <select class="w100">
+                        <option value="">재무</option>
+                        <option value="">...</option>
+                        <option value="">...</option>
+                    </select><button class="bt_td_confirm2" title="확인"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="form"></td>
+            </tr>
+            <tr>
+                <td class="center">3</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="center">2</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="center">1</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div><!--tablewrap//-->
+    @if (Model != null && Model.TotalItemCount != 0)
+    {
+        @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+    }
+
+</div><!--sub_rightwrap//-->

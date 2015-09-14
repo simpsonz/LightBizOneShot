@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
@@ -11,7 +13,8 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public interface IExpertMappingRepository : IRepository<ScExpertMapping>
     {
-        //IList<ScCompInfo> GetScCompInfoByName(string compNm);
+        Task<IList<ScExpertMapping>> GetExperetMappingsAsync(Expression<Func<ScExpertMapping, bool>> where);
+        Task<ScExpertMapping> GetExpertMappingAsync(Expression<Func<ScExpertMapping, bool>> where);
     }
 
 
@@ -19,5 +22,14 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         public ScExpertMappingRepository(IDbFactory dbFactory) : base(dbFactory) { }
 
+        public async Task<IList<ScExpertMapping>> GetExperetMappingsAsync(Expression<Func<ScExpertMapping, bool>> where)
+        {
+            return await this.DbContext.ScExpertMappings.Include("ScBizWork").Include("ScUsr").Include("ScUsr.ScUsrResume.ScFileInfo").Where(where).ToListAsync();
+        }
+
+        public async Task<ScExpertMapping> GetExpertMappingAsync(Expression<Func<ScExpertMapping, bool>> where)
+        {
+            return await this.DbContext.ScExpertMappings.Include("ScBizWork").Include("ScBizWork.ScCompInfo").Include("ScUsr").Include("ScUsr.ScCompInfo").Include("ScUsr.ScUsrResume.ScFileInfo").Where(where).SingleAsync();
+        }
     }
 }

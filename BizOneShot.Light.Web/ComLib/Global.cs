@@ -49,8 +49,10 @@ namespace BizOneShot.Light.Web.ComLib
         public const string ComMng = "ComMng";                  //기업 관리
 
         //Mentor
-        public const string MentoringReport = "MentoringReport";    //멘토링 보고서
-        public const string CapabilityReport = "CapabilityReport";  //기초역량 보고서
+        public const string MentoringReport = "MentoringReport";                //멘토링 보고서
+        public const string CapabilityReport = "CapabilityReport";              //기초역량 보고서
 
+        //Expert
+        public const string CompanyMng = "CompanyMng";                  //관리기업
     }
 }

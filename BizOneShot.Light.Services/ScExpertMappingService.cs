@@ -12,9 +12,9 @@ namespace BizOneShot.Light.Services
 
     public interface IScExpertMappingService : IBaseService
     {
-
-        //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
         Task<IList<ScExpertMapping>> GetExpertManagerAsync(string bizMngSn = null, string expertType = null);
+        Task<ScExpertMapping> GetExpertAsync(string ExpertId);
+        Task<IList<ScExpertMapping>> GetExpertsAsync(string ExpertId);
     }
 
 
@@ -44,6 +44,20 @@ namespace BizOneShot.Light.Services
                 listScUsrTask = await scExpertMappingRespository.GetManyAsync(em => em.ScBizWork.ScCompInfo.CompSn.ToString() == bizMngSn && em.ScUsr.UsrTypeDetail == expertType);
                 return listScUsrTask.OrderByDescending(usr => usr.RegDt).ToList();
             }
+        }
+
+        public async Task<ScExpertMapping> GetExpertAsync(string ExpertId)
+        {
+            var scExpertMapping = await scExpertMappingRespository.GetExpertMappingAsync(sem => sem.ExpertId == ExpertId);
+
+            return scExpertMapping;
+        }
+
+        public async Task<IList<ScExpertMapping>> GetExpertsAsync(string ExpertId)
+        {
+            var scExpertsMapping = await scExpertMappingRespository.GetExperetMappingsAsync(sem => sem.ExpertId == ExpertId);
+
+            return scExpertsMapping;
         }
 
 

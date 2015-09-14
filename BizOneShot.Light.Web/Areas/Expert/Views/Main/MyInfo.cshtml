@@ -1,0 +1,148 @@
+﻿@model BizOneShot.Light.Models.ViewModels.JoinExpertViewModel
+
+@{
+    Layout = "~/Areas/Expert/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_expert04').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_MyInfo').addClass('on');
+    });
+</script>
+<div id="sub_rightwrap">
+    <div class="sub_right_title biz050101"><em>내정보관리</em></div>
+
+    <div class="tablewrap">
+        <table>
+            <!--사업명-->
+            <colgroup>
+                <col width="160px" />
+                <col width="590px" />
+            </colgroup>
+            <tr>
+                <th>아아디</th>
+                <td>@Model.LoginId</td>
+            </tr>
+        </table>
+        <div class="line_dot10"></div>
+        <table>
+            <!--사업명-->
+            <colgroup>
+                <col width="160px" />
+                <col width="590px" />
+            </colgroup>
+            <tr>
+                <th>사업관리기관</th>
+                <td>@Model.BizMagComName</td>
+            </tr>
+            <tr>
+                <th>사업명</th>
+                <td>@Model.BizWorkNm</td>
+            </tr>
+        </table>
+        <div class="line_dot10"></div>
+        <table>
+            <!--이름 외-->
+            <colgroup>
+                <col width="160px" />
+                <col width="590px" />
+            </colgroup>
+            <tr>
+                <th>구분</th>
+                @if (@Model.UsrTypeDetail == "T")
+                {
+                    <td>세무회계</td>
+                }
+                else if (@Model.UsrTypeDetail == "L")
+                {
+                    <td>법무</td>
+                }
+                else if (@Model.UsrTypeDetail == "W")
+                {
+                    <td>노무</td>
+                }
+                else if (@Model.UsrTypeDetail == "P")
+                {
+                    <td>특허</td>
+                }
+                else if (@Model.UsrTypeDetail == "M")
+                {
+                    <td>마케팅</td>
+                }
+                else
+                {
+                    <td></td>
+                }
+            </tr>
+            <tr>
+                <th>이름</th>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <th>전화번호</th>
+                <td>@Model.TelNo</td>
+            </tr>
+            <tr>
+                <th>휴대폰</th>
+                <td>@Model.MbNo</td>
+            </tr>
+            <tr>
+                <th>이메일 주소</th>
+                <td>@Model.Email</td>
+            </tr>
+        </table>
+
+        <div class="line_dot10"></div>
+        <table>
+            <!--담당자 외-->
+            <colgroup>
+                <col width="160px" />
+                <col width="590px" />
+            </colgroup>
+            <tr>
+                <th>회사명</th>
+                <td>@Model.CompNm</td>
+            </tr>
+            <tr>
+                <th>대표자명</th>
+                <td>@Model.ComOwnNm</td>
+            </tr>
+            <tr>
+                <th>사업자등록번호</th>
+                <td>@Model.ComRegistrationNo</td>
+            </tr>
+            <tr>
+                <th>업종 / 업태</th>
+                <td>@Model.ComBizClass / @Model.ComBizType</td>
+            </tr>
+            <tr>
+                <th>전화번호</th>
+                <td>@Model.ComTelNo</td>
+            </tr>
+            <tr>
+                <th>주소</th>
+                <td>(@Model.ComPostNo) @Model.ComAddr1 @Model.ComAddr2</td>
+            </tr>
+            <tr>
+                <!--첨부파일1개일때-->
+                <th>첨부파일</th>
+                <td colspan="4" class="nopad">
+                    <div id="file_downwrap">
+                        <ul>
+                            <li><span>@Model.ResumeName</span><button type="button" class="file_down" value="다운로드"></button></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr><!--첨부파일1개일때 끝-->
+        </table>
+
+
+    </div><!--tablewrap//-->
+    <div id="btnwrap_sub">
+        <a href="@Url.Action("ModifyMyInfo","Main")" class="modify right"><em>수정</em></a>
+    </div><!--btnwrap//-->
+
+</div><!--sub_rightwrap//-->
