@@ -16,10 +16,58 @@ namespace BizOneShot.Light.Util.Helper
     {
         #region 업로드
 
-        public async Task<IList<FileContent>> UploadFile(IEnumerable<HttpPostedFileBase> files, FileType fileType, string subPath)
+        public string  GetUploadFileName(HttpPostedFileBase file)
+        {
+          
+            FileContent savedFiles = new FileContent();
+            string newFileName = string.Empty;
+            try
+            {
+                string fileName, fileExtension;
+
+             
+                if (file != null && file.ContentLength > 0 && !string.IsNullOrEmpty(file.FileName))
+                {
+                    fileName = Path.GetFileName(file.FileName);
+                    fileExtension = Path.GetExtension(fileName);
+                    newFileName = string.Format("{0}-{1}{2}", Path.GetFileNameWithoutExtension(fileName), Guid.NewGuid().ToString(), fileExtension);
+                }
+
+                return newFileName;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task UploadFile(HttpPostedFileBase file, string subDirectoryPath, string savedFileName)
         {
             string rootFilePath = ConfigurationManager.AppSettings["RootFilePath"];
-            string newSubPath = Path.Combine(fileType.ToString(), subPath ?? "");
+            string directoryPath = Path.Combine(rootFilePath, subDirectoryPath);
+
+            try
+            {
+                if (!Directory.Exists(directoryPath))
+                    Directory.CreateDirectory(directoryPath);
+
+                if (file != null && file.ContentLength > 0 && !string.IsNullOrEmpty(file.FileName))
+                { 
+                    await Task.Run(() => file.SaveAs(Path.Combine(directoryPath, savedFileName)));
+                }
+     
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public async Task<IList<FileContent>> UploadFile(IEnumerable<HttpPostedFileBase> files, FileType fileType)
+        {
+            string rootFilePath = ConfigurationManager.AppSettings["RootFilePath"];
+            string newSubPath = Path.Combine(fileType.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
             string directoryPath = Path.Combine(rootFilePath, newSubPath);
 
             IList<FileContent> savedFiles = new List<FileContent>();
@@ -36,7 +84,7 @@ namespace BizOneShot.Light.Util.Helper
                     {
                         fileName = Path.GetFileName(file.FileName);
                         fileExtension = Path.GetExtension(fileName);
-                        newFileName = string.Format("{0}-{1}{2}", Path.GetFileNameWithoutExtension(fileName), Guid.NewGuid().ToByteArray(), fileExtension);
+                        newFileName = string.Format("{0}-{1}{2}", Path.GetFileNameWithoutExtension(fileName), Guid.NewGuid().ToString(), fileExtension);
 
                         savedFiles.Add(new FileContent { FileNm = fileName, FilePath = Path.Combine(newSubPath, newFileName) });
 
@@ -178,7 +226,9 @@ namespace BizOneShot.Light.Util.Helper
     {
         Document,   //자료(요청)
         Resume,     //이력서
-        Manual      //매뉴얼
+        Manual,     //매뉴얼
+        Mentoring,  //맨토링 일지
+        Mentoring_Total //맨토링 종합일지
     }
 
 }

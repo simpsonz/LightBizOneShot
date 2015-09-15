@@ -83,9 +83,29 @@
             </tr>
             <tr>
                 <th>이력서</th>
-                <td><a href="@Url.Action("DownloadResumeFile", new FileInfoViewModel { FileNm=Model.ResumeName, FilePath=Model.ResumePath })" class="file_open">@Model.ResumeName</a></td>
+                @if (string.IsNullOrEmpty(Model.ResumeName))
+                {
+                    <td>이력서 없음</td>
+                }
+                else
+                {
+                    <td><a href="@Url.Action("DownloadResumeFile", new FileInfoViewModel { FileNm = Model.ResumeName, FilePath = Model.ResumePath })" class="file_open">@Model.ResumeName</a></td>
+                }
             </tr>
         </table>
+
+        <div class="line_dot10"></div>
+        <table>
+            <colgroup>
+                <col width="160px" />
+                <col width="590px" />
+            </colgroup>
+            <tr>
+                <th>계좌정보</th>
+                <td>@Model.BankNm   @Model.AccountNo</td>
+            </tr>
+        </table>
+
     </div><!--tablewrap//-->
 
     <div id="btnwrap_sub">

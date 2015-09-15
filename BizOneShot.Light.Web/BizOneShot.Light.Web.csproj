@@ -292,6 +292,7 @@
     <Content Include="images\main_partner06.jpg" />
     <Content Include="images\main_partner07.jpg" />
     <Content Include="images\main_partner08.jpg" />
+    <Content Include="js\files.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Company\Views\web.config" />
@@ -1305,7 +1306,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="js\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
