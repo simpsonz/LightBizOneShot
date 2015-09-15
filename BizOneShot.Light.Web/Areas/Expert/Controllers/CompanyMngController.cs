@@ -94,5 +94,36 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
 
             return View(new StaticPagedList<ExpertCompanyViewModel>(companyList.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, companyList.Count));
         }
+
+        public async Task<ActionResult> ReceiveLsit()
+        {
+            ViewBag.LeftMenu = Global.CompanyMng;
+
+            //사업 DropDown List Data
+            var scExpertsMapping = await _scExpertMappingService.GetExpertsAsync(Session[Global.LoginID].ToString());
+
+
+            var bizWorkDropDown =
+                Mapper.Map<List<BizWorkDropDownModel>>(scExpertsMapping);
+
+            //사업담당자 일 경우 담당 사업만 조회
+            BizWorkDropDownModel title = new BizWorkDropDownModel();
+            title.BizWorkSn = 0;
+            title.BizWorkNm = "사업명 선택";
+            bizWorkDropDown.Insert(0, title);
+
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+
+            ViewBag.SelectBizWorkList = bizList;
+
+            var scCompMappings = await _scCompInfoService.GetExpertCompMappingsAsync(Session[Global.LoginID].ToString());
+
+            var companyList =
+                Mapper.Map<List<ExpertCompanyViewModel>>(scCompMappings);
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            return View(new StaticPagedList<ExpertCompanyViewModel>(companyList.ToPagedList(1, pagingSize), 1, pagingSize, companyList.Count));
+        }
     }
 }
