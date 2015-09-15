@@ -216,6 +216,18 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<ScMentorMappiing, MentorDropDownModel>()
                 .ForMember(d => d.LoginId, map => map.MapFrom(s => s.ScUsr.LoginId))
                 .ForMember(d => d.Name , map => map.MapFrom(s => s.ScUsr.Name));
+
+
+            //기업 회원 관리(사업관리자) 뷰 매핑
+            Mapper.CreateMap<ScCompMapping, ExpertCompanyViewModel>()
+                .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
+                .ForMember(d => d.ComRegistrationNo, map => map.MapFrom(s => s.ScCompInfo.RegistrationNo))
+                .ForMember(d => d.ComOwnNm, map => map.MapFrom(s => s.ScCompInfo.OwnNm))
+                .ForMember(d => d.CompSn, map => map.MapFrom(s => s.ScCompInfo.CompSn))
+                .ForMember(d => d.Name, map => map.MapFrom(s => s.ScCompInfo.ScUsrs.ElementAt(0).Name))
+                .ForMember(d => d.TelNo, map => map.MapFrom(s => s.ScCompInfo.ScUsrs.ElementAt(0).TelNo))
+                .ForMember(d => d.Email, map => map.MapFrom(s => s.ScCompInfo.ScUsrs.ElementAt(0).Email))
+                .ForMember(d => d.LoginId, map => map.MapFrom(s => s.ScCompInfo.ScUsrs.ElementAt(0).LoginId));
         }
     }
 }

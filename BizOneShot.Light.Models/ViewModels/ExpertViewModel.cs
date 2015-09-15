@@ -96,4 +96,16 @@ namespace BizOneShot.Light.Models.ViewModels
         [Required]
         public int BizMngCompSn { get; set; } // COMP_SN. 기업식별자
     }
+
+    public class ExpertCompanyViewModel
+    {
+        public int CompSn { get; set; } // COMP_SN (Primary key). 기업식별자
+        public string CompNm { get; set; } // COMP_NM. 회사명
+        public string ComRegistrationNo { get; set; } // REGISTRATION_NO. 사업자등록번호
+        public string ComOwnNm { get; set; } // OWN_NM. 대표자명
+        public string LoginId { get; set; } // LOGIN_ID (Primary key). 로그인식별자
+        public string Name { get; set; } // Name. 이름
+        public string TelNo { get; set; } // TEL_NO. 전화번호
+        public string Email { get; set; } // EMAIL. 이메일
+    }
 }

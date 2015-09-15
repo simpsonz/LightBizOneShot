@@ -1,4 +1,4 @@
-﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.CompanyMyInfoViewModel>
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.ExpertCompanyViewModel>
 
 @{
     Layout = "~/Areas/Expert/Views/Shared/_MainLayout.cshtml";
@@ -79,8 +79,7 @@
         <!--목록-->
         <table class="admin_list">
             <colgroup>
-                <col width="6%">
-                <col width="15%">
+                <col width="21%">
                 <col width="15%">
                 <col width="12%">
                 <col width="12%">
@@ -88,65 +87,36 @@
                 <col width="23%">
             </colgroup>
             <tr>
-                <th class="topcen">번호</th>
                 <th class="topcen">기업명</th>
+                <th class="topcen">대표자명</th>
                 <th class="topcen">사업자번호</th>
-                <th class="topcen">소속그룹</th>
                 <th class="topcen">담당자</th>
                 <th class="topcen">전화번호</th>
-                <th class="topcen">보고서확인</th>
+                <th class="topcen">이메일</th>
             </tr>
-            <tr>
-                <td>5</td>
-                <td>비지니스온</td>
-                <td>112-123-1325</td>
-                <td>세무회계사</td>
-                <td>나전문</td>
-                <td>010-6589-7854</td>
-                <td class="form">
-                    <select class="w100">
-                        <option value="">재무</option>
-                        <option value="">...</option>
-                        <option value="">...</option>
-                    </select><button class="bt_td_confirm2" title="확인"></button>
-                </td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td class="form"></td>
-            </tr>
-            <tr>
-                <td class="center">3</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="center">2</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="center">1</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            @if (Model == null || Model.TotalItemCount == 0)
+            {
+                <tr>
+                    <td colspan="6" style="text-align:center;">검색 결과가 없습니다.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @*<span class="full_line">@Html.ActionLink(item.CompNm, "ComInfoDetail", new { compSn = item.CompSn })</span>*@
+                            @item.CompNm
+                        </td>
+                        <td>@item.ComOwnNm</td>
+                        <td>@item.ComRegistrationNo</td>
+                        <td>@item.Name</td>
+                        <td>@item.TelNo</td>
+                        <td>@item.Email</td>
+                    </tr>
+                }
+            }
         </table>
     </div><!--tablewrap//-->
     @if (Model != null && Model.TotalItemCount != 0)
