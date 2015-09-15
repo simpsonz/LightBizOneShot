@@ -21,6 +21,7 @@ namespace BizOneShot.Light.Services
         void CreateScCompInfo(ScCompInfo scCompInfo);
         Task<IList<ScCompMapping>> GetCompMappingsAsync(int compSn, int bizWorkSn = 0, string status = null, string compNm = null);
         Task<ScCompMapping> GetCompMappingAsync(int bizWorkSn, int compSn);
+        Task<IList<ScCompMapping>> GetExpertCompMappingsAsync(string expertId, int bizWorkSn = 0, string comName = null);
 
     }
 
@@ -130,6 +131,41 @@ namespace BizOneShot.Light.Services
                 listScCompMappingTask = await scCompMappingRepository.GetCompMappingsAsync(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status == status && scm.BizWorkSn == bizWorkSn && scm.ScCompInfo.CompNm.Contains(compNm));
                 return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
             }
+        }
+
+
+        public async Task<IList<ScCompMapping>> GetExpertCompMappingsAsync(string expertId, int bizWorkSn = 0, string comName = null)
+        {
+            IEnumerable<ScCompMapping> listScCompMappingTask = null;
+
+
+            if (!string.IsNullOrEmpty(expertId) && bizWorkSn == 0  && string.IsNullOrEmpty(comName)) //100
+            {
+                listScCompMappingTask = await scCompMappingRepository.GetExpertCompanysAsync(expertId);
+                return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
+            }
+            else if (!string.IsNullOrEmpty(expertId) && (bizWorkSn == 0) && !string.IsNullOrEmpty(comName)) //001
+            {
+                listScCompMappingTask = await scCompMappingRepository.GetExpertCompanysAsync(expertId, comName);
+                return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
+            }
+            else if ((bizWorkSn != 0) && string.IsNullOrEmpty(comName)) //010
+            {
+                listScCompMappingTask = await scCompMappingRepository.GetExpertCompanysAsync(scm => scm.Status == "A" && scm.ScBizWork.BizWorkSn == bizWorkSn);
+                return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
+            }
+            else if ((bizWorkSn != 0) && !string.IsNullOrEmpty(comName)) //010
+            {
+                listScCompMappingTask = await scCompMappingRepository.GetExpertCompanysAsync(scm => scm.Status == "A" && scm.ScBizWork.BizWorkSn == bizWorkSn && scm.ScCompInfo.CompNm.Contains(comName));
+                return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
+            }
+            else  //111
+            {
+                listScCompMappingTask = await scCompMappingRepository.GetExpertCompanysAsync(expertId);
+                return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
+            }
+
+                
         }
 
     }

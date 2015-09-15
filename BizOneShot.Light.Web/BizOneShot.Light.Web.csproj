@@ -239,6 +239,7 @@
     <Compile Include="Areas\Company\Controllers\MainController.cs" />
     <Compile Include="Areas\Company\Controllers\MyInfoController.cs" />
     <Compile Include="Areas\Expert\Controllers\CompanyMngController.cs" />
+    <Compile Include="Areas\Expert\Controllers\MainController.cs" />
     <Compile Include="Areas\Expert\ExpertAreaRegistration.cs" />
     <Compile Include="Areas\Mentor\Controllers\MainController.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
@@ -341,6 +342,7 @@
     <Content Include="Areas\Expert\Views\Main\MyInfo.cshtml" />
     <Content Include="Areas\Expert\Views\Main\ModifyMyInfo.cshtml" />
     <Content Include="Areas\Expert\Views\CompanyMng\CompanyList.cshtml" />
+    <Content Include="Areas\Expert\Views\CompanyMng\ReceiveList.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

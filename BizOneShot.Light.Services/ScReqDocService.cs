@@ -14,6 +14,8 @@ namespace BizOneShot.Light.Services
     public interface IScReqDocService : IBaseService
     {
         Task<IList<ScReqDoc>> GetReqDocsAsync(string searchType = null, string keyword = null);
+        Task<IList<ScReqDoc>> GetReceiveDocs(string receiverId, string checkYN, DateTime startDate, DateTime endDate);
+        Task<ScReqDoc> GetBizWorkByBizWorkSn(int reqDocSn);
     }
     public class ScReqDocService : IScReqDocService
     {
@@ -31,6 +33,20 @@ namespace BizOneShot.Light.Services
             IEnumerable<ScReqDoc> listScReqDocTask = null;
             listScReqDocTask = await scReqDocRepository.GetManyAsync(reqDoc => reqDoc.ReceiverId == receiverId && reqDoc.SenderId == receiverId && reqDoc.Status == "N");
             return listScReqDocTask.OrderByDescending(reqDoc => reqDoc.ReqDocSn).ToList();
+        }
+
+
+        public async Task<IList<ScReqDoc>> GetReceiveDocs(string receiverId, string checkYN, DateTime startDate, DateTime endDate)
+        {
+            var scReqDocs = await scReqDocRepository.GetReqDocsAsync(rd => rd.ReceiverId == receiverId && rd.Status == "N" && rd.ChkYn.Contains(checkYN) && (rd.ReqDt >= startDate && rd.ReqDt <= endDate));
+            return scReqDocs.OrderByDescending(rd => rd.ReqDt).ToList();
+        }
+
+        public async Task<ScReqDoc> GetBizWorkByBizWorkSn(int reqDocSn)
+        {
+            var scReqDoc = await scReqDocRepository.GetReqDocAsync(rd => rd.ReqDocSn == reqDocSn);
+
+            return scReqDoc;
         }
 
         #region SaveDbContext
