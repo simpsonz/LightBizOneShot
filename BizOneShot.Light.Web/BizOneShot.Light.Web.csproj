@@ -239,7 +239,6 @@
     <Compile Include="Areas\Company\Controllers\MainController.cs" />
     <Compile Include="Areas\Company\Controllers\MyInfoController.cs" />
     <Compile Include="Areas\Expert\Controllers\CompanyMngController.cs" />
-    <Compile Include="Areas\Expert\Controllers\MainController.cs" />
     <Compile Include="Areas\Expert\ExpertAreaRegistration.cs" />
     <Compile Include="Areas\Mentor\Controllers\MainController.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />

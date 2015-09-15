@@ -187,9 +187,20 @@ namespace BizOneShot.Light.Web.Mappings
 
             //맨토 회원 뷰 매핑
             Mapper.CreateMap<ScUsr, MentorMyInfoViewModel>()
+                .ForMember(d => d.TelNo1, map => map.MapFrom(s => s.TelNo.Split('-').GetValue(0).ToString()))
+                .ForMember(d => d.TelNo2, map => map.MapFrom(s => s.TelNo.Split('-').GetValue(1).ToString()))
+                .ForMember(d => d.TelNo3, map => map.MapFrom(s => s.TelNo.Split('-').GetValue(2).ToString()))
+                .ForMember(d => d.FaxNo1, map => map.MapFrom(s => s.FaxNo.Split('-').GetValue(0).ToString()))
+                .ForMember(d => d.FaxNo2, map => map.MapFrom(s => s.FaxNo.Split('-').GetValue(1).ToString()))
+                .ForMember(d => d.FaxNo3, map => map.MapFrom(s => s.MbNo.Split('-').GetValue(2).ToString()))
+                .ForMember(d => d.MbNo1, map => map.MapFrom(s => s.MbNo.Split('-').GetValue(0).ToString()))
+                .ForMember(d => d.MbNo2, map => map.MapFrom(s => s.MbNo.Split('-').GetValue(1).ToString()))
+                .ForMember(d => d.MbNo3, map => map.MapFrom(s => s.MbNo.Split('-').GetValue(2).ToString()))
+                .ForMember(d => d.Email1, map => map.MapFrom(s => s.Email.Split('@').GetValue(0).ToString()))
+                .ForMember(d => d.Email2, map => map.MapFrom(s => s.Email.Split('@').GetValue(1).ToString()))
                 .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FileNm))
                 .ForMember(d => d.ResumePath, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FilePath))
-                .ForMember(d => d.Addr, map => map.MapFrom(s => s.PostNo + " " + s.Addr1 + " " + s.Addr2))
+                .ForMember(d => d.Addr, map => map.MapFrom(s => "(" + s.PostNo + ") " + s.Addr1 + " " + s.Addr2))
                 .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScMentorMappiings.FirstOrDefault().ScBizWork.BizWorkNm ?? ""));
 
             //기업 회원 관리(사업관리자) 뷰 매핑
