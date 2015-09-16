@@ -204,6 +204,9 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.Addr, map => map.MapFrom(s => "(" + s.PostNo + ") " + s.Addr1 + " " + s.Addr2))
                 .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScMentorMappiings.FirstOrDefault().ScBizWork.BizWorkNm ?? ""));
 
+            //기업 뷰 매핑
+            Mapper.CreateMap<ScCompInfo, CompInfoDropDownModel>();
+
             //기업 회원 관리(사업관리자) 뷰 매핑
             Mapper.CreateMap<ScCompMapping, CompanyMngViewModel>()
                 .ForMember(d => d.ApproveRequestDate, map => map.MapFrom(s => s.RegDt))

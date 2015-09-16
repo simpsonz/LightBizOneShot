@@ -11,7 +11,7 @@ namespace BizOneShot.Light.Services
 {
     public interface IScCompMappingService : IBaseService
     {
-        //Task<IList<ScCompMapping>> GetCompMappingsAsync(string mentorId = null, string status = null);
+        Task<IList<ScCompMapping>> GetCompMappingListByMentorId(string mentorId = null, string status = null);
     }
 
 
@@ -27,9 +27,26 @@ namespace BizOneShot.Light.Services
         }
 
 
-        //public async Task<IList<ScCompMapping>> GetCompMappingsAsync(string mentorId = null, string status = null)
-        //{
-        //}
+        public async Task<IList<ScCompMapping>> GetCompMappingListByMentorId(string mentorId = null, string status = null)
+        {
+
+            if (!string.IsNullOrEmpty(mentorId) && !string.IsNullOrEmpty(status))
+            {
+                return await scCompMappingRepository.GetCompMappingsAsync(cmp => cmp.MentorId == mentorId && cmp.Status == status);
+            }
+            else if(!string.IsNullOrEmpty(mentorId) && string.IsNullOrEmpty(status))
+            {
+                return await scCompMappingRepository.GetCompMappingsAsync(cmp => cmp.MentorId == mentorId);
+            }
+            else if (string.IsNullOrEmpty(mentorId) && !string.IsNullOrEmpty(status))
+            {
+                return await scCompMappingRepository.GetCompMappingsAsync(cmp => cmp.Status == status);
+            }
+            else
+            {
+                return await scCompMappingRepository.GetCompMappingsAsync(cmp => cmp.BizWorkSn > 0);
+            }
+        }
 
         #region SaveContext
         public void SaveDbContext()
