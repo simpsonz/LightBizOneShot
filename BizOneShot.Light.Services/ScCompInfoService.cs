@@ -164,7 +164,6 @@ namespace BizOneShot.Light.Services
                 listScCompMappingTask = await scCompMappingRepository.GetExpertCompanysAsync(expertId);
                 return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
             }
-
                 
         }
 

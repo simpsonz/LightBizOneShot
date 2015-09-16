@@ -1,0 +1,88 @@
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.ExpertCompanyViewModel>
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <title>로그인전_회원가입 팝업</title>
+        <link rel="stylesheet" href="~/css/pop.css" />
+        <script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+
+    </head>
+
+    <body>
+        <div id="popup_wrapper">
+            <div id="popup_headerwrap">
+                <div class="header">
+                    <span class="title">지정고객 검색</span>
+
+                </div>
+            </div><!--popup_headerwrap//-->
+
+            <div id="popup_contwrap">
+                <p>기업명이나 사업자번호를 입력하고 검색해 주세요.</p>
+                <div class="inputwrap">
+                    <input type="text" class="w360" />&nbsp;<button type="submit" class="bt_search"><em>검색</em></button>
+                </div><!--inputwrap//-->
+                @using (Html.BeginForm("BizWorkList", "BizWorkMng", FormMethod.Post, new { area = "BizManager", id = "searchForm" }))
+                {
+                    <div id="sub_inquiry_box">
+                        사업명 : @Html.TextBox("QUERY", null, new { @class = "search", @placeholder = "검색어를 입력하세요", @id = "QUERY" })
+                        <button type="submit" class="bt_td_search" value="검색">검색</button>
+                    </div><!--sub_inquiry_box//-->
+                    @Html.Hidden("curPage", "1")
+                }
+                <div class="line_dot10"></div>
+                <div class="tablewrap">
+                    <table>
+                        <colgroup>
+                            <col width="15%">
+                            <col width="48%">
+                            <col width="36%">
+                        </colgroup>
+                        <tr>
+                            <th class="topcen">선택</th>
+                            <th class="topcen">기업명</th>
+                            <th class="topcen">사업자번호</th>
+                        </tr>
+                        <tr>
+                            <td class="center"><input type="radio" name="client_check"></td>
+                            <td class="center">비지니스짱</td>
+                            <td class="center">110-41-98765</td>
+                        </tr>
+                        <tr>
+                            <td class="center"><input type="radio" name="client_check"></td>
+                            <td class="center">비즈니스온</td>
+                            <td class="center">123-45-67891</td>
+                        </tr>
+                        <tr>
+                            <td class="center"><input type="radio" name="client_check"></td>
+                            <td class="center">성공비즈니스컨설팅</td>
+                            <td class="center">535-23-11111</td>
+                        </tr>
+                    </table>
+                </div><!--tablewrap//-->
+
+                <div id="popup_btnwrap">
+                    <button type="submit" class="pop_choice"><em>선택</em></button>
+                    <button type="reset" class="pop_cancel" onClick="self.close()"><em>취소</em></button>
+                </div><!--popup_btnwrap//-->
+
+            </div><!--popup_contwrap//-->
+
+        </div><!--popup_wrapper//-->
+
+
+        <div id="popup_footwrap"></div>
+
+    </body>
+</html>

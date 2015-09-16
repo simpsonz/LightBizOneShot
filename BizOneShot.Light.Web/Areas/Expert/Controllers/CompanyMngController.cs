@@ -261,5 +261,19 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             ViewBag.LeftMenu = Global.CompanyMng;
             return View();
         }
+
+        public async Task<ActionResult> SearchCompanyPopup(string QUERY)
+        {
+            var scCompMappings = await _scCompInfoService.GetExpertCompMappingsAsync(Session[Global.LoginID].ToString(), int.Parse(BizWorkList), QUERY);
+
+            var companyList =
+                Mapper.Map<List<ExpertCompanyViewModel>>(scCompMappings);
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            return View(new StaticPagedList<ExpertCompanyViewModel>(companyList.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, companyList.Count));
+            ViewBag.QUERY = QUERY;
+            return View();
+        }
     }
 }

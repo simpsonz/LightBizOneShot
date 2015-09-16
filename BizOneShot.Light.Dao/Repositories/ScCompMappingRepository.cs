@@ -69,5 +69,16 @@ namespace BizOneShot.Light.Dao.Repositories
             }
 
         }
+
+        public async Task<IList<ScCompMapping>> GetExpertCompanysForPopupAsync(string expertId, string query)
+        {
+            var joinList = from a in this.DbContext.ScCompMappings
+                           join c in this.DbContext.ScExpertMappings on a.BizWorkSn equals c.BizWorkSn
+                           where (c.ExpertId == expertId && a.Status == "A" && (a.ScCompInfo.CompNm.Contains(query) || a.ScCompInfo.RegistrationNo.Contains(query)))
+                           select a;
+
+            return await joinList.Include("ScCompInfo").Include("ScCompInfo.ScUsrs").ToListAsync();
+
+        }
     }
 }

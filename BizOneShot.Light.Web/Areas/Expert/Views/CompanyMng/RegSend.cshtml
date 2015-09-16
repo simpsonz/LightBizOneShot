@@ -13,13 +13,16 @@
 
     });
 
-    function approveRegisterListOpen(compUsrSn) {
+    function searchCompanyOpen()
+    {
+        var query = $('#QUERY').val();
+        alert(query);
         w = 725;    //팝업창의 너비
         h = 460;    //팝업창의 높이
         //중앙위치 구해오기
         LeftPosition = (screen.width - w) / 2;
         TopPosition = (screen.height - h) / 2;
-        var popUp = window.open('/Manager/TaxAccountant/ApproveRegisterList?COMP_USR_SN=' + compUsrSn, 'ApproveRegisterList', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=no, resizable=no");
+        var popUp = window.open('/Expert/CompanyMng/SearchCompanyPopup?QUERY=' + query, 'SearchCompany', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=no, resizable=no");
         popUp.focus();
     }
 
@@ -42,8 +45,8 @@
                 <tr>
                     <th>수신자</th>
                     <td class="form">
-                        @Html.TextBoxFor(model => model.ReceiverName, new { @class = "w240", @placeholder = "기업명 또는 사업자번호로 검색하세요." })
-                        <button type="button" class="bt_td_search2" value="찾아보기"></button>
+                        @Html.TextBoxFor(model => model.ReceiverName, new { @class = "w240", @placeholder = "기업명 또는 사업자번호로 검색하세요.", @id = "QUERY" })
+                        <button type="button" class="bt_td_search2" value="찾아보기" onClick="javascript: searchCompanyOpen();"></button>
                     </td>
                 </tr>
                 <tr>
