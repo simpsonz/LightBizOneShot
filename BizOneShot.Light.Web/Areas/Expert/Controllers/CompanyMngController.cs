@@ -114,7 +114,8 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             ViewBag.SelectCheckYNList = checkYNList;
 
             //수신함 조회
-            var scReqDocs = await _scReqDocService.GetReceiveDocs(Session[Global.LoginID].ToString(), "N", DateTime.Parse(ViewBag.StartDate), DateTime.Parse(ViewBag.EndDate));
+            var scReqDocs = await _scReqDocService.GetReceiveDocs(Session[Global.LoginID].ToString(), "N", DateTime.Parse(DateTime.Now.AddMonths(-1).ToShortDateString()), DateTime.Parse(DateTime.Now.ToShortDateString()), "", "");
+
 
             var dataRequestList =
                 Mapper.Map<List<DataRequstViewModels>>(scReqDocs);
@@ -151,7 +152,7 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             ViewBag.SelectCheckYNList = checkYNList;
 
             //수신함 조회
-            var scReqDocs = await _scReqDocService.GetReceiveDocs(Session[Global.LoginID].ToString(), CheckYNList, DateTime.Parse(START_DATE), DateTime.Parse(END_DATE));
+            var scReqDocs = await _scReqDocService.GetReceiveDocs(Session[Global.LoginID].ToString(), CheckYNList, DateTime.Parse(START_DATE), DateTime.Parse(END_DATE), ComName, RegistrationNo);
 
             var dataRequestList =
                 Mapper.Map<List<DataRequstViewModels>>(scReqDocs);
@@ -160,6 +161,47 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
             return View(new StaticPagedList<DataRequstViewModels>(dataRequestList.ToPagedList(1, pagingSize), 1, pagingSize, dataRequestList.Count));
+        }
+
+
+        public async Task<ActionResult> ReceiveDetail(string reqDocSn)
+        {
+            ViewBag.LeftMenu = Global.CompanyMng;
+
+            var scReqDoc = await _scReqDocService.GetReceiveDoc(int.Parse(reqDocSn));
+
+
+            var dataRequest =
+                Mapper.Map<DataRequstViewModels>(scReqDoc);
+
+            return View(dataRequest);
+        }
+
+        public async Task<ActionResult> ModifyReceive(string reqDocSn)
+        {
+            ViewBag.LeftMenu = Global.CompanyMng;
+
+            var scReqDoc = await _scReqDocService.GetReceiveDoc(int.Parse(reqDocSn));
+
+
+            var dataRequest =
+                Mapper.Map<DataRequstViewModels>(scReqDoc);
+
+            return View(dataRequest);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ModifyReceive(DataRequstViewModels dataRequestViewModel)
+        {
+            ViewBag.LeftMenu = Global.CompanyMng;
+
+            var scReqDoc = await _scReqDocService.GetReceiveDoc(dataRequestViewModel.ReqDocSn);
+
+
+            var dataRequest =
+                Mapper.Map<DataRequstViewModels>(scReqDoc);
+
+            return View(dataRequest);
         }
     }
 }
