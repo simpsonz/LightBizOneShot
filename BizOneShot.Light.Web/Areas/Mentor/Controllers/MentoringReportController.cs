@@ -24,6 +24,13 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
         {
             ViewBag.LeftMenu = Global.MentoringReport;
 
+            var mentorId = Session[Global.LoginID].ToString();
+
+            //사업 DropDown List Data
+
+
+            //기업 DropDwon List Data
+
             return View();
         }
     }
