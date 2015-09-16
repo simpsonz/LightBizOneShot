@@ -144,7 +144,14 @@
                         <td>@item.SenderComNm</td>
                         <td>@item.SenderRegistrationNo</td>
                         <td>@item.ReqDt.GetValueOrDefault().ToShortDateString()</td>
-                        <td>@item.ResDt.GetValueOrDefault().ToShortDateString()</td>
+                        @if (item.ResDt == null)
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>@item.ResDt.GetValueOrDefault().ToShortDateString()</td>
+                        }
                     </tr>
                 }
             }

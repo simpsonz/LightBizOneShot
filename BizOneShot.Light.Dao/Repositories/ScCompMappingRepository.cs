@@ -19,6 +19,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
         Task<IList<ScCompMapping>> GetExpertCompanysAsync(string loginId, string comName = null);
         Task<IList<ScCompMapping>> GetExpertCompanysAsync(Expression<Func<ScCompMapping, bool>> where);
+        Task<IList<ScCompMapping>> GetExpertCompanysForPopupAsync(string expertId, string query);
     }
 
 
@@ -80,5 +81,6 @@ namespace BizOneShot.Light.Dao.Repositories
             return await joinList.Include("ScCompInfo").Include("ScCompInfo.ScUsrs").ToListAsync();
 
         }
+
     }
 }

@@ -56,6 +56,9 @@
         $('#searchForm').submit();
     }
 </script>
+@* 캘린더 처리를위해 추가한 JS 및 SCC *@
+@Styles.Render("~/css/jquery-ui")
+@Scripts.Render("~/bundles/jquery-ui")
 
 <div id="sub_rightwrap">
 
@@ -140,7 +143,14 @@
                         <td>@item.ReceiverComNm</td>
                         <td>@item.ReceiverRegistrationNo</td>
                         <td>@item.ReqDt.GetValueOrDefault().ToShortDateString()</td>
-                        <td>@item.ResDt.GetValueOrDefault().ToShortDateString()</td>
+                        @if (item.ResDt == null)
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>@item.ResDt.GetValueOrDefault().ToShortDateString()</td>
+                        }
                     </tr>
                 }
             }

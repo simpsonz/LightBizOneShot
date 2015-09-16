@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using BizOneShot.Light.Models.ViewModels;
+using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Services;
 using BizOneShot.Light.Web.ComLib;
 using PagedList;
@@ -16,14 +17,14 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
     public class CompanyMngController : BaseController
     {
         private readonly IScExpertMappingService _scExpertMappingService;
-        private readonly IScCompInfoService _scCompInfoService;
         private readonly IScReqDocService _scReqDocService;
+        private readonly IScCompMappingService _scCompMappingService;
 
-        public CompanyMngController(IScExpertMappingService _scExpertMappingService, IScCompInfoService _scCompInfoService, IScReqDocService _scReqDocService)
+        public CompanyMngController(IScExpertMappingService _scExpertMappingService, IScReqDocService _scReqDocService, IScCompMappingService _scCompMappingService)
         {
             this._scExpertMappingService = _scExpertMappingService;
-            this._scCompInfoService = _scCompInfoService;
             this._scReqDocService = _scReqDocService;
+            this._scCompMappingService = _scCompMappingService;
         }
 
         // GET: Expert/CompanyMng
@@ -53,7 +54,7 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
 
             ViewBag.SelectBizWorkList = bizList;
 
-            var scCompMappings = await _scCompInfoService.GetExpertCompMappingsAsync(Session[Global.LoginID].ToString());
+            var scCompMappings = await _scCompMappingService.GetExpertCompMappingsAsync(Session[Global.LoginID].ToString());
 
             var companyList =
                 Mapper.Map<List<ExpertCompanyViewModel>>(scCompMappings);
@@ -85,7 +86,7 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
 
             ViewBag.SelectBizWorkList = bizList;
 
-            var scCompMappings = await _scCompInfoService.GetExpertCompMappingsAsync(Session[Global.LoginID].ToString(), int.Parse(BizWorkList), QUERY);
+            var scCompMappings = await _scCompMappingService.GetExpertCompMappingsAsync(Session[Global.LoginID].ToString(), int.Parse(BizWorkList), QUERY);
 
             var companyList =
                 Mapper.Map<List<ExpertCompanyViewModel>>(scCompMappings);
@@ -113,8 +114,11 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
 
             ViewBag.SelectCheckYNList = checkYNList;
 
+            DateTime startDate = DateTime.Parse(DateTime.Now.AddMonths(-1).ToShortDateString() + " 00:00:00");
+            DateTime endDate = DateTime.Parse(DateTime.Now.ToShortDateString() + " 23:59:59");
+
             //수신함 조회
-            var scReqDocs = await _scReqDocService.GetReceiveDocs(Session[Global.LoginID].ToString(), "N", DateTime.Parse(DateTime.Now.AddMonths(-1).ToShortDateString()), DateTime.Parse(DateTime.Now.ToShortDateString()), "", "");
+            var scReqDocs = await _scReqDocService.GetReceiveDocs(Session[Global.LoginID].ToString(), "N", startDate, endDate, "", "");
 
 
             var dataRequestList =
@@ -127,7 +131,7 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ReceiveList(string ComName, string RegistrationNo, string START_DATE, string END_DATE, string CheckYNList)
+        public async Task<ActionResult> ReceiveList(string ComName, string RegistrationNo, string START_DATE, string END_DATE, string CheckYNList, string curPage)
         {
             ViewBag.LeftMenu = Global.CompanyMng;
 
@@ -151,8 +155,11 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
 
             ViewBag.SelectCheckYNList = checkYNList;
 
+            DateTime startDate = DateTime.Parse(START_DATE + " 00:00:00");
+            DateTime endDate = DateTime.Parse(END_DATE + " 23:59:59");
+
             //수신함 조회
-            var scReqDocs = await _scReqDocService.GetReceiveDocs(Session[Global.LoginID].ToString(), CheckYNList, DateTime.Parse(START_DATE), DateTime.Parse(END_DATE), ComName, RegistrationNo);
+            var scReqDocs = await _scReqDocService.GetReceiveDocs(Session[Global.LoginID].ToString(), CheckYNList, startDate, endDate, ComName, RegistrationNo);
 
             var dataRequestList =
                 Mapper.Map<List<DataRequstViewModels>>(scReqDocs);
@@ -160,7 +167,7 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
 
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            return View(new StaticPagedList<DataRequstViewModels>(dataRequestList.ToPagedList(1, pagingSize), 1, pagingSize, dataRequestList.Count));
+            return View(new StaticPagedList<DataRequstViewModels>(dataRequestList.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, dataRequestList.Count));
         }
 
 
@@ -230,8 +237,12 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
 
             ViewBag.SelectCheckYNList = checkYNList;
 
+            DateTime startDate = DateTime.Parse(DateTime.Now.AddMonths(-1).ToShortDateString() + " 00:00:00");
+            DateTime endDate = DateTime.Parse(DateTime.Now.ToShortDateString() + " 23:59:59");
+
             //수신함 조회
-            var scReqDocs = await _scReqDocService.GetSendDocs(Session[Global.LoginID].ToString(), "N", DateTime.Parse(DateTime.Now.AddMonths(-1).ToShortDateString()), DateTime.Parse(DateTime.Now.ToShortDateString()), "", "");
+            //var scReqDocs = await _scReqDocService.GetSendDocs(Session[Global.LoginID].ToString(), "N", DateTime.Parse(DateTime.Now.AddMonths(-1).ToShortDateString()), DateTime.Parse(DateTime.Now.ToShortDateString()), "", "");
+            var scReqDocs = await _scReqDocService.GetSendDocs(Session[Global.LoginID].ToString(), "N", startDate, endDate, "", "");
 
 
             var dataRequestList =
@@ -241,6 +252,50 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
             return View(new StaticPagedList<DataRequstViewModels>(dataRequestList.ToPagedList(1, pagingSize), 1, pagingSize, dataRequestList.Count));
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> SendList(string ComName, string RegistrationNo, string START_DATE, string END_DATE, string CheckYNList, string curPage)
+        {
+            ViewBag.LeftMenu = Global.CompanyMng;
+
+            //답변여부 DropDown List  생성
+            var checkYN = new List<SelectListItem>(){
+                new SelectListItem { Value = "N", Text = "미답변", Selected = true },
+                new SelectListItem { Value = "Y", Text = "답변" },
+                new SelectListItem { Value = "", Text = "전체" }
+            };
+
+            SelectList checkYNList = new SelectList(checkYN, "Value", "Text");
+
+            foreach (var item in checkYNList)
+            {
+                if (item.Value == CheckYNList)
+                {
+                    item.Selected = true;
+                    break;
+                }
+            }
+
+            ViewBag.SelectCheckYNList = checkYNList;
+
+            DateTime startDate = DateTime.Parse(START_DATE + " 00:00:00");
+            DateTime endDate = DateTime.Parse(END_DATE + " 23:59:59");
+
+            //수신함 조회
+            //var scReqDocs = await _scReqDocService.GetSendDocs(Session[Global.LoginID].ToString(), CheckYNList, DateTime.Parse(START_DATE), DateTime.Parse(END_DATE), ComName, RegistrationNo);
+            var scReqDocs = await _scReqDocService.GetSendDocs(Session[Global.LoginID].ToString(), CheckYNList, startDate, endDate, ComName, RegistrationNo);
+
+            var dataRequestList =
+                Mapper.Map<List<DataRequstViewModels>>(scReqDocs);
+
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            return View(new StaticPagedList<DataRequstViewModels>(dataRequestList.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, dataRequestList.Count));
+
+
         }
 
         public async Task<ActionResult> SendDetail(string reqDocSn)
@@ -262,18 +317,49 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<ActionResult> RegSend(DataRequstViewModels dataRequestViewModel)
+        {
+            ViewBag.LeftMenu = Global.CompanyMng;
+
+            if (ModelState.IsValid)
+            {
+                var scReqDoc = Mapper.Map<ScReqDoc>(dataRequestViewModel);
+
+                //회원정보 추가 정보 설정
+                scReqDoc.ChkYn = "N";
+                scReqDoc.ReqDt = DateTime.Now;
+                scReqDoc.SenderId = Session[Global.LoginID].ToString();
+                scReqDoc.Status = "N";
+
+                //저장
+                int result = await _scReqDocService.AddReqDocAsync(scReqDoc);
+
+                if (result != -1)
+                    return RedirectToAction("SendList", "CompanyMng");
+                else
+                {
+                    ModelState.AddModelError("", "자료요청 등록 실패.");
+                    return View(dataRequestViewModel);
+                }
+            }
+            ModelState.AddModelError("", "입력값 검증 실패.");
+            return View(dataRequestViewModel);
+        }
+
         public async Task<ActionResult> SearchCompanyPopup(string QUERY)
         {
-            var scCompMappings = await _scCompInfoService.GetExpertCompMappingsAsync(Session[Global.LoginID].ToString(), int.Parse(BizWorkList), QUERY);
+            ViewBag.QUERY = QUERY;
+
+            var scCompMappings = await _scCompMappingService.GetExpertCompMappingsForPopupAsync(Session[Global.LoginID].ToString(), QUERY);
 
             var companyList =
                 Mapper.Map<List<ExpertCompanyViewModel>>(scCompMappings);
 
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            return View(new StaticPagedList<ExpertCompanyViewModel>(companyList.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, companyList.Count));
-            ViewBag.QUERY = QUERY;
-            return View();
+            return View(new StaticPagedList<ExpertCompanyViewModel>(companyList.ToPagedList(1, pagingSize), 1, pagingSize, companyList.Count));
+            
         }
     }
 }
