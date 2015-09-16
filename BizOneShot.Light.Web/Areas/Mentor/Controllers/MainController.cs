@@ -31,7 +31,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             this._scFileInfoService = scFileInfoService;
 
         }
-        // GET: Company/Main
+
         [MenuAuthorize(Roles = UserType.Mentor, Order = 2)]
         public async Task<ActionResult> Index()
         {
@@ -90,11 +90,6 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
         {
             ViewBag.LeftMenu = Global.MyInfo;
 
-            //ScUsr scUsr = await _scUsrService.SelectMentorInfo(Session[Global.LoginID].ToString());
-
-            //var myInfo =
-            //   Mapper.Map<MentorMyInfoViewModel>(scUsr);
-
             return View(myInfo);
         }
 
@@ -103,20 +98,18 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
         {
             ViewBag.LeftMenu = Global.MyInfo;
 
-            //if (Session[Global.LoginID].ToString() != param.LoginIdChk)
-            //{
-            //    ScUsr scUsr = await _scUsrService.SelectMentorInfo(Session[Global.LoginID].ToString());
-            //    model =
-            //       Mapper.Map<MentorMyInfoViewModel>(scUsr);
-            //    ModelState.AddModelError("", "로그인된 아이디가 아닙니다.");
-            //    return View(model);
-            //}
+            ScUsr scUsr = await _scUsrService.SelectMentorInfo(Session[Global.LoginID].ToString());
+
+            if (Session[Global.LoginID].ToString() != param.LoginIdChk)
+            {
+                mentorViewModel =
+                   Mapper.Map<MentorMyInfoViewModel>(scUsr);
+                ModelState.AddModelError("", "로그인된 아이디가 아닙니다.");
+                return View(mentorViewModel);
+            }
 
             //실제패스워드와 입력패스워드 비교
             SHACryptography sha2 = new SHACryptography();
-
-            ScUsr scUsr = await _scUsrService.SelectMentorInfo(Session[Global.LoginID].ToString());
-            
             if (param.LoginPwChk != sha2.EncryptString(mentorViewModel.LoginPw))
             {
                 mentorViewModel =

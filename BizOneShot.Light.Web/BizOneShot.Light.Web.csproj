@@ -242,6 +242,7 @@
     <Compile Include="Areas\Expert\Controllers\MainController.cs" />
     <Compile Include="Areas\Expert\ExpertAreaRegistration.cs" />
     <Compile Include="Areas\Mentor\Controllers\MainController.cs" />
+    <Compile Include="Areas\Mentor\Controllers\MentoringReportController.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
     <Compile Include="Areas\SysManager\Controllers\BizManagerController.cs" />
     <Compile Include="Areas\SysManager\Controllers\ExpertManagerController.cs" />
@@ -343,6 +344,13 @@
     <Content Include="Areas\Expert\Views\Main\ModifyMyInfo.cshtml" />
     <Content Include="Areas\Expert\Views\CompanyMng\CompanyList.cshtml" />
     <Content Include="Areas\Expert\Views\CompanyMng\ReceiveList.cshtml" />
+    <Content Include="Areas\Mentor\Views\MentoringReport\RegMentoringReport.cshtml" />
+    <Content Include="Areas\Mentor\Views\MentoringReport\MentoringReportList.cshtml" />
+    <Content Include="Areas\Mentor\Views\MentoringReport\MentoringReportDetail.cshtml" />
+    <Content Include="Areas\Mentor\Views\MentoringReport\ModifyMentoringReport.cshtml" />
+    <Content Include="Areas\Mentor\Views\MentoringReport\RegMentoringTotalReport.cshtml" />
+    <Content Include="Areas\Mentor\Views\MentoringReport\MentoringTotalReportList.cshtml" />
+    <Content Include="Areas\Mentor\Views\MentoringReport\MentoringTotalReportDetail.cshtml" />
     <Content Include="Areas\Expert\Views\CompanyMng\ReceiveDetail.cshtml" />
     <Content Include="Areas\Expert\Views\CompanyMng\ModifyReceive.cshtml" />
     <Content Include="Areas\Expert\Views\CompanyMng\SendList.cshtml" />
