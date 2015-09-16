@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
@@ -19,12 +20,14 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
         private readonly IScExpertMappingService _scExpertMappingService;
         private readonly IScReqDocService _scReqDocService;
         private readonly IScCompMappingService _scCompMappingService;
+        private readonly IScQaService _scQaService;
 
-        public CompanyMngController(IScExpertMappingService _scExpertMappingService, IScReqDocService _scReqDocService, IScCompMappingService _scCompMappingService)
+        public CompanyMngController(IScExpertMappingService _scExpertMappingService, IScReqDocService _scReqDocService, IScCompMappingService _scCompMappingService, IScQaService _scQaService)
         {
             this._scExpertMappingService = _scExpertMappingService;
             this._scReqDocService = _scReqDocService;
             this._scCompMappingService = _scCompMappingService;
+            this._scQaService = _scQaService;
         }
 
         // GET: Expert/CompanyMng
@@ -367,14 +370,18 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             ViewBag.LeftMenu = Global.CompanyMng;
 
 
-            var scCompMappings = await _scCompMappingService.GetExpertCompMappingsAsync(Session[Global.LoginID].ToString());
+            var scQas = await _scQaService.GetReceiveQAsAsync(Session[Global.LoginID].ToString());
 
-            var companyList =
-                Mapper.Map<List<ExpertCompanyViewModel>>(scCompMappings);
+            int cnt = scQas.Where(sq => sq.AnsYn == "N").Count();
+
+            ViewBag.NotAnswerCnt = cnt;
+
+            var qaList =
+                Mapper.Map<List<QaRequstViewModels>>(scQas);
 
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            return View(new StaticPagedList<ExpertCompanyViewModel>(companyList.ToPagedList(1, pagingSize), 1, pagingSize, companyList.Count));
+            return View(new StaticPagedList<QaRequstViewModels>(qaList.ToPagedList(1, pagingSize), 1, pagingSize, qaList.Count));
         }
 
     }

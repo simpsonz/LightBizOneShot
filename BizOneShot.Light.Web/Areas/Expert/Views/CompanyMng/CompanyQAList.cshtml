@@ -1,4 +1,4 @@
-﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.ExpertCompanyViewModel>
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.QaRequstViewModels>
 
 @{
     Layout = "~/Areas/Expert/Views/Shared/_MainLayout.cshtml";
@@ -17,132 +17,63 @@
     }
 </script>
 
+@Html.Hidden("curPage", "1")
 <div id="sub_rightwrap">
     <div class="sub_right_title specialist_01_02"><em>관리기업 문의 답변</em></div>
     <p>관리기업에서 문의한 1:1 문의 목록 입니다</p>
-    <div class="text_boxwrap">미답변 문의가 <span class="bold">3건</span> 있습니다.</div>
+    <div class="text_boxwrap">미답변 문의가 <span class="bold">@ViewBag.NotAnswerCnt 건</span> 있습니다.</div>
     <div class="line_dot20"></div>
 
     <div class="tablewrap">
         <!--목록-->
         <table>
             <colgroup>
-                <col width="8%">
-                <col width="26%">
+                <col width="34%">
                 <col width="18%">
                 <col width="17%">
                 <col width="15%">
                 <col width="15%">
             </colgroup>
             <tr>
-                <th class="topcen">번호</th>
-                <th class="topcen">문의내용</th>
+                <th class="topcen">제목</th>
                 <th class="topcen">문의기업명</th>
                 <th class="topcen">사업자번호</th>
                 <th class="topcen">등록일자</th>
                 <th class="topcen">답변일자</th>
             </tr>
-            <tr>
-                <td class="center">10</td>
-                <td>부가세신고 관련서류</td>
-                <td class="center">주식회사 갑을</td>
-                <td class="center">106-82-986543</td>
-                <td class="center">2014-01-01<br />10:10:10</td>
-                <td class="center"><button type="button" class="bt_td_write" value="작성하기"></button></td>
-            </tr>
-            <tr>
-                <td class="center">9</td>
-                <td>문의</td>
-                <td class="center">부자산업</td>
-                <td class="center">120-81-24565</td>
-                <td class="center">2014-01-01<br />10:10:10</td>
-                <td class="center">2014-01-01<br />10:10:10</td>
-            </tr>
-            <tr>
-                <td class="center">8</td>
-                <td></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-            </tr>
-            <tr>
-                <td class="center">7</td>
-                <td></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-            </tr>
-            <tr>
-                <td class="center">6</td>
-                <td></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-            </tr>
-            <tr>
-                <td class="center">5</td>
-                <td></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-            </tr>
-            <tr>
-                <td class="center">4</td>
-                <td></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-            </tr>
-            <tr>
-                <td class="center">3</td>
-                <td></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-            </tr>
-            <tr>
-                <td class="center">2</td>
-                <td></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-            </tr>
-            <tr>
-                <td class="center">1</td>
-                <td></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-                <td class="center"></td>
-            </tr>
+            @if (Model == null || Model.TotalItemCount == 0)
+            {
+                <tr>
+                    <td colspan="5" style="text-align:center;">검색 결과가 없습니다.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="center">
+                            <span class="full_line">@Html.ActionLink(item.Subject, "QaDetail", new { usrQaSn = item.UsrQaSn })</span>
+                        </td>
+                        <td class="center">@item.QuestionComNm</td>
+                        <td class="center">@item.QuestionRegistrationNo</td>
+                        <td class="center">@item.AskDt.GetValueOrDefault().ToShortDateString()</td>
+                        @if (item.AnsYn == "Y")
+                        {
+                            <td class="center">@item.AnsDt.GetValueOrDefault().ToShortDateString()</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    </tr>
+                }
+            }
         </table>
     </div><!--tablewrap//--><!--목록 끝-->
-    <div class="page_num_wrap">
-        <div class="page_num">
-            <ul>
-                <li><input type="button" class="first" value="첫페이지"></li>
-                <li><input type="button" class="pre" value="이전 페이지"></li>
-                <li class="on">1<span>l</span></li>
-                <li><a href="">2</a><span>l</span></li>
-                <li><a href="">3</a><span>l</span></li>
-                <li><a href="">4</a><span>l</span></li>
-                <li><a href="">5</a><span>l</span></li>
-                <li><a href="">6</a><span>l</span></li>
-                <li><a href="">7</a><span>l</span></li>
-                <li><a href="">8</a><span>l</span></li>
-                <li><a href="">9</a><span>l</span></li>
-                <li><a href="">10</a></li>
-                <li><input type="button" class="next" value="다음 페이지"></li>
-                <li><input type="button" class="last" value="끝 페이지" /></li>
-            </ul>
-        </div>
-    </div><!-- page_num_wrap//-->
+    @if (Model != null && Model.TotalItemCount != 0)
+    {
+        @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+    }
 
 </div><!--sub_rightwrap//-->

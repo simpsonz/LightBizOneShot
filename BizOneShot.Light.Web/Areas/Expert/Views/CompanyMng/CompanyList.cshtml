@@ -105,15 +105,15 @@
                 foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        <td class="center">
                             @*<span class="full_line">@Html.ActionLink(item.CompNm, "ComInfoDetail", new { compSn = item.CompSn })</span>*@
                             @item.CompNm
                         </td>
-                        <td>@item.ComOwnNm</td>
-                        <td>@item.ComRegistrationNo</td>
-                        <td>@item.Name</td>
-                        <td>@item.TelNo</td>
-                        <td>@item.Email</td>
+                        <td class="center">@item.ComOwnNm</td>
+                        <td class="center">@item.ComRegistrationNo</td>
+                        <td class="center">@item.Name</td>
+                        <td class="center">@item.TelNo</td>
+                        <td class="center">@item.Email</td>
                     </tr>
                 }
             }
