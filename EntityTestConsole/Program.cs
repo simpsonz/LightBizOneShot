@@ -24,7 +24,7 @@ namespace EntityTestConsole
             //insertScCompInfoAsync();
             //UpdateScCompInfo();
             //UpdateScCompInfoAsync();
-            //UpdateScCompInfoWithoutSelect();
+            // UpdateScCompInfoWithoutSelect();
             //UpdateScCompInfoWithQuery();
             //UpdateScCompInfoWithQuery1();
             //UpdateCompInfoMulti();
@@ -58,35 +58,35 @@ namespace EntityTestConsole
             using (var db = new WebDbContext())
             {
 
-                //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).Take(1).FirstOrDefault();
+                //    //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).Take(1).FirstOrDefault();
 
-                //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).FirstOrDefault();
-                //Console.WriteLine(scNtc.NoticeSn);
+                //    //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).FirstOrDefault();
+                //    //Console.WriteLine(scNtc.NoticeSn);
 
-                db.Configuration.LazyLoadingEnabled = false;
+                //    db.Configuration.LazyLoadingEnabled = false;
 
 
 
                 var usr = new ScUsr
-                {
-                    LoginId = "shinkoooooo",
+            {
+                LoginId = "shinkoooooo",
 
 
-                    RegId = "shinkoooooo",
+                RegId = "shinkoooooo",
 
 
-                };
+            };
 
-                usr.ScCompInfo = new ScCompInfo
-                {
-                    CompNm = "테스트"
-                };
+            usr.ScCompInfo = new ScCompInfo
+            {
+                CompNm = "테스트"
+            };
 
-                db.ScUsrs.Add(usr);
+            db.ScUsrs.Add(usr);
 
-                db.SaveChanges();
-            }
+            //db.SaveChanges();
         }
+    }
 
 
 
@@ -194,14 +194,14 @@ namespace EntityTestConsole
         {
             var comp = new ScCompInfo
             {
-                CompSn = 6
+                CompSn = 85
             };
 
             using (var db = new WebDbContext())
             {
                 db.ScCompInfoes.Attach(comp);
 
-                comp.CompNm = "test112";
+                comp.CompNm = "bizon188";
 
                 db.SaveChanges();
 

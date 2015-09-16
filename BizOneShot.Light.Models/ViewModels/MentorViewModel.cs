@@ -136,6 +136,7 @@ namespace BizOneShot.Light.Models.ViewModels
         public string AccountNo { get; set; } //계좌번호
 
         //이력서정보
+        public string FileSn { get; set; }
         public string ResumeName { get; set; }  //이력서 파일명
         public string ResumePath { get; set; }  //이력서 경로
 
@@ -144,6 +145,13 @@ namespace BizOneShot.Light.Models.ViewModels
         public string MngCompName { get; set; } // COMP_NM. 기업명
         public int BizWorkSn { get; set; }      // BIZ_WORK_SN (Primary key). 사업식별자
         public string BizWorkNm { get; set; } // BIZ_WORK_NM 사업명
+    }
+
+    public class ModifyMentorParamModel
+    {
+        public string LoginIdChk { get; set; }
+        public string LoginPwChk { get; set; }
+        public string DeleteFileSn { get; set; }
     }
 
 
