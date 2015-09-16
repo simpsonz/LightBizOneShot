@@ -1,0 +1,78 @@
+﻿@model BizOneShot.Light.Models.ViewModels.DataRequstViewModels
+
+@{
+    Layout = "~/Areas/Expert/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_expert01').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_SndData').addClass('on');
+
+    });
+
+</script>
+
+<div id="sub_rightwrap">
+
+    <div class="sub_right_title biz030303"><em>새 자료요청 보내기</em></div>
+
+    @using (Html.BeginForm("RegSend", "CompanyMng", FormMethod.Post, new { area = "Expert", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.HiddenFor(model => model.ReceiverId, new { @id = "receiverId" })
+        <div class="tablewrap">
+            <!--답변-->
+            <table>
+                <colgroup>
+                    <col width="105px">
+                    <col width="645px">
+                </colgroup>
+                <tr>
+                    <th>수신자</th>
+                    <td class="form">
+                        @Html.TextBoxFor(model => model.ReceiverName, new { @class = "w240", @placeholder = "기업명 또는 사업자번호로 검색하세요." })
+                        <button type="button" class="bt_td_search2" value="찾아보기"></button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>제목</th>
+                    <td class="form">@Html.TextBoxFor(model => model.ReqSubject, new { @class = "w630" })</td>
+                </tr>
+                <tr>
+                    <th>내용</th>
+                    <td class="reply">
+                        @Html.TextAreaFor(model => model.ReqContents)
+                    </td>
+                </tr>
+                <tr>
+                    <th>첨부파일</th>
+                    <td class="nopad">
+                        <div id="file_upwrap">
+                            <ul>
+                                <li>
+                                    <!--파일1-->
+                                    <input type="" class="file" /><button type="button" class="file_search" value="찾아보기"></button><button type="button" class="file_add" value="파일추가"></button><button type="button" class="file_del" value="파일삭제"></button>
+                                </li>
+                                <li>
+                                    <!--파일2-->
+                                    <input type="" class="file" />
+                                    <button type="button" class="file_search" value="찾아보기"></button>
+                                    <button type="button" class="file_add" value="파일추가"></button>
+                                    <button type="button" class="file_del" value="파일삭제"></button>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div><!--tablewrap//--><!--답변 끝-->
+        <div id="btnwrap_sub">
+            <div class="rightwrap">
+                <button type="submit" class="newdata_require2 rightmargin" value="새 자료요청 보내기" ></button><a href="@Url.Action("SendList","CompanyMng")" class="cancel2 right"><em>취소</em></a>
+
+            </div>
+        </div>
+    }
+</div><!--sub_rightwrap//-->

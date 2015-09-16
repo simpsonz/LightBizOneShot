@@ -244,6 +244,7 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<ScReqDoc, DataRequstViewModels>()
                 .ForMember(d => d.SenderComNm, map => map.MapFrom(s => s.ScUsr_SenderId.ScCompInfo.CompNm))
                 .ForMember(d => d.SenderRegistrationNo, map => map.MapFrom(s => s.ScUsr_SenderId.ScCompInfo.RegistrationNo))
+                .ForMember(d => d.ReceiverName, map => map.MapFrom(s => s.ScUsr_ReceiverId.Name))
                 .ForMember(d => d.ReceiverComNm, map => map.MapFrom(s => s.ScUsr_ReceiverId.ScCompInfo.CompNm))
                 .ForMember(d => d.ReceiverRegistrationNo, map => map.MapFrom(s => s.ScUsr_ReceiverId.ScCompInfo.RegistrationNo));
 
