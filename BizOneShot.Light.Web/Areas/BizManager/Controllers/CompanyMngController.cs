@@ -19,16 +19,16 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
     public class CompanyMngController : BaseController
     {
         private readonly IScBizWorkService _scBizWorkService;
-        private readonly IScCompInfoService _scCompInfoService;
         private readonly IScMentorMappingService _scMentorMappingService;
         private readonly IScUsrService _scUsrService;
+        private readonly IScCompMappingService _scCompMappingService;
 
-        public CompanyMngController(IScBizWorkService _scBizWorkService, IScCompInfoService _scCompInfoService, IScMentorMappingService _scMentorMappingService, IScUsrService _scUsrService)
+        public CompanyMngController(IScBizWorkService _scBizWorkService, IScMentorMappingService _scMentorMappingService, IScUsrService _scUsrService, IScCompMappingService _scCompMappingService)
         {
             this._scBizWorkService = _scBizWorkService;
-            this._scCompInfoService = _scCompInfoService;
             this._scMentorMappingService = _scMentorMappingService;
             this._scUsrService = _scUsrService;
+            this._scCompMappingService = _scCompMappingService;
         }
 
         // GET: BizManager/CompanyMng
@@ -89,7 +89,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
 
             //사업참여기업 리스트 조회
-            var listCompany = await _scCompInfoService.GetCompMappingsAsync(int.Parse(Session[Global.CompSN].ToString()), bizWorkSn);
+            var listCompany = await _scCompMappingService.GetCompMappingsAsync(int.Parse(Session[Global.CompSN].ToString()), bizWorkSn);
 
             var usrViews =
                 Mapper.Map<List<CompanyMngViewModel>>(listCompany);
@@ -148,7 +148,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             ViewBag.SelectStatusList = statusList;
 
             //사업참여기업 리스트 조회
-            var listCompany = await _scCompInfoService.GetCompMappingsAsync(int.Parse(Session[Global.CompSN].ToString()), int.Parse(BizWorkList), StatusList, QUERY);
+            var listCompany = await _scCompMappingService.GetCompMappingsAsync(int.Parse(Session[Global.CompSN].ToString()), int.Parse(BizWorkList), StatusList, QUERY);
 
             var usrViews =
                 Mapper.Map<List<CompanyMngViewModel>>(listCompany);
@@ -161,7 +161,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         {
             ViewBag.LeftMenu = Global.ComMng;
 
-            var scCompMapping = await _scCompInfoService.GetCompMappingAsync(int.Parse(bizWorkSn), int.Parse(compSn));
+            var scCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(bizWorkSn), int.Parse(compSn));
             var usrView =
                 Mapper.Map<CompanyMngViewModel>(scCompMapping);
 
@@ -208,14 +208,14 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         {
             ViewBag.LeftMenu = Global.ComMng;
 
-            var scCompMapping = await _scCompInfoService.GetCompMappingAsync(companyViewModel.BizWorkSn, companyViewModel.CompSn);
+            var scCompMapping = await _scCompMappingService.GetCompMappingAsync(companyViewModel.BizWorkSn, companyViewModel.CompSn);
 
             scCompMapping.MentorId = companyViewModel.MentorLoginId;
             scCompMapping.Status = "A";
             scCompMapping.UpdId = Session[Global.LoginID].ToString();
             scCompMapping.UpdDt = DateTime.Now;
 
-            int result = await _scCompInfoService.SaveDbContextAsync();
+            int result = await _scCompMappingService.SaveDbContextAsync();
 
             if (result != -1)
                 return RedirectToAction("CompanyList", "CompanyMng");
@@ -231,7 +231,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         {
             ViewBag.LeftMenu = Global.ComMng;
 
-            var scCompMapping = await _scCompInfoService.GetCompMappingAsync(int.Parse(bizWorkSn), int.Parse(compSn));
+            var scCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(bizWorkSn), int.Parse(compSn));
             var usrView =
                 Mapper.Map<CompanyMngViewModel>(scCompMapping);
 
@@ -265,13 +265,13 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
                 return RedirectToAction("ModifyCompany", "CompanyMng", new { bizWorkSn = companyViewModel.BizWorkSn, compSn = companyViewModel.CompSn });
             }
 
-            var scCompMapping = await _scCompInfoService.GetCompMappingAsync(companyViewModel.BizWorkSn, companyViewModel.CompSn);
+            var scCompMapping = await _scCompMappingService.GetCompMappingAsync(companyViewModel.BizWorkSn, companyViewModel.CompSn);
 
             scCompMapping.MentorId = companyViewModel.MentorLoginId;
             scCompMapping.UpdId = Session[Global.LoginID].ToString();
             scCompMapping.UpdDt = DateTime.Now;
 
-            int result = await _scCompInfoService.SaveDbContextAsync();
+            int result = await _scCompMappingService.SaveDbContextAsync();
 
             if (result != -1)
                 return RedirectToAction("CompanyList", "CompanyMng");

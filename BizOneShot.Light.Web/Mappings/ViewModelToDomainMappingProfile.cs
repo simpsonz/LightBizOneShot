@@ -92,6 +92,8 @@ namespace BizOneShot.Light.Web.Mappings
             //사업관리 담당자 to 사업
             Mapper.CreateMap<BizWorkViewModel, ScBizWork>()
                 .ForMember(d => d.ExecutorId, map => map.MapFrom(s => s.LoginId));
+
+            Mapper.CreateMap<DataRequstViewModels, ScReqDoc>();
         }
     }
 }

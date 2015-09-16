@@ -18,6 +18,7 @@ namespace BizOneShot.Light.Services
 
         Task<IList<ScReqDoc>> GetSendDocs(string senderId, string checkYN, DateTime startDate, DateTime endDate, string comName = null, string registrationNo = null);
         Task<ScReqDoc> GetReqDoc(int reqDocSn);
+        Task<int> AddReqDocAsync(ScReqDoc scReqDoc);
     }
     public class ScReqDocService : IScReqDocService
     {
@@ -55,6 +56,21 @@ namespace BizOneShot.Light.Services
         {
             var scReqDocs = await scReqDocRepository.GetReqDocsAsync(rd => rd.SenderId == senderId && rd.Status == "N" && rd.ChkYn.Contains(checkYN) && (rd.ReqDt >= startDate && rd.ReqDt <= endDate && rd.ScUsr_ReceiverId.ScCompInfo.CompNm.Contains(comName) && rd.ScUsr_ReceiverId.ScCompInfo.RegistrationNo.Contains(registrationNo)));
             return scReqDocs.OrderByDescending(rd => rd.ReqDt).ToList();
+        }
+
+        public async Task<int> AddReqDocAsync(ScReqDoc scReqDoc)
+        {
+            var rstScReqDoc = scReqDocRepository.Insert(scReqDoc);
+
+            if (rstScReqDoc == null)
+            {
+                return -1;
+            }
+            else
+            {
+                return await SaveDbContextAsync();
+            }
+
         }
 
         #region SaveDbContext

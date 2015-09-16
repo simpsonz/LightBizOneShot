@@ -1,0 +1,79 @@
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.QaRequstViewModels>
+
+@{
+    Layout = "~/Areas/Expert/Views/Shared/_MainLayout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_expert01').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_QnA').addClass('on');
+    });
+
+    function goPage(page) {
+        $('#curPage').val(page);
+        $('#searchForm').submit();
+    }
+</script>
+
+@Html.Hidden("curPage", "1")
+<div id="sub_rightwrap">
+    <div class="sub_right_title specialist_01_02"><em>관리기업 문의 답변</em></div>
+    <p>관리기업에서 문의한 1:1 문의 목록 입니다</p>
+    <div class="text_boxwrap">미답변 문의가 <span class="bold">@ViewBag.NotAnswerCnt 건</span> 있습니다.</div>
+    <div class="line_dot20"></div>
+
+    <div class="tablewrap">
+        <!--목록-->
+        <table>
+            <colgroup>
+                <col width="34%">
+                <col width="18%">
+                <col width="17%">
+                <col width="15%">
+                <col width="15%">
+            </colgroup>
+            <tr>
+                <th class="topcen">제목</th>
+                <th class="topcen">문의기업명</th>
+                <th class="topcen">사업자번호</th>
+                <th class="topcen">등록일자</th>
+                <th class="topcen">답변일자</th>
+            </tr>
+            @if (Model == null || Model.TotalItemCount == 0)
+            {
+                <tr>
+                    <td colspan="5" style="text-align:center;">검색 결과가 없습니다.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="center">
+                            <span class="full_line">@Html.ActionLink(item.Subject, "QaDetail", new { usrQaSn = item.UsrQaSn })</span>
+                        </td>
+                        <td class="center">@item.QuestionComNm</td>
+                        <td class="center">@item.QuestionRegistrationNo</td>
+                        <td class="center">@item.AskDt.GetValueOrDefault().ToShortDateString()</td>
+                        @if (item.AnsYn == "Y")
+                        {
+                            <td class="center">@item.AnsDt.GetValueOrDefault().ToShortDateString()</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    </tr>
+                }
+            }
+        </table>
+    </div><!--tablewrap//--><!--목록 끝-->
+    @if (Model != null && Model.TotalItemCount != 0)
+    {
+        @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+    }
+
+</div><!--sub_rightwrap//-->

@@ -356,6 +356,8 @@
     <Content Include="Areas\Expert\Views\CompanyMng\SendList.cshtml" />
     <Content Include="Areas\Expert\Views\CompanyMng\SendDetail.cshtml" />
     <Content Include="Areas\Expert\Views\CompanyMng\RegSend.cshtml" />
+    <Content Include="Areas\Expert\Views\CompanyMng\SearchCompanyPopup.cshtml" />
+    <Content Include="Areas\Expert\Views\CompanyMng\CompanyQAList.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

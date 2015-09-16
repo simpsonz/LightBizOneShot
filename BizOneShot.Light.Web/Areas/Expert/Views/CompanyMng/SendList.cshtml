@@ -56,6 +56,9 @@
         $('#searchForm').submit();
     }
 </script>
+@* 캘린더 처리를위해 추가한 JS 및 SCC *@
+@Styles.Render("~/css/jquery-ui")
+@Scripts.Render("~/bundles/jquery-ui")
 
 <div id="sub_rightwrap">
 
@@ -134,13 +137,20 @@
                 foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        <td class="center">
                             <span class="full_line">@Html.ActionLink(item.ReqSubject, "SendDetail", new { reqDocSn = item.ReqDocSn })</span>
                         </td>
-                        <td>@item.ReceiverComNm</td>
-                        <td>@item.ReceiverRegistrationNo</td>
-                        <td>@item.ReqDt.GetValueOrDefault().ToShortDateString()</td>
-                        <td>@item.ResDt.GetValueOrDefault().ToShortDateString()</td>
+                        <td class="center">@item.ReceiverComNm</td>
+                        <td class="center">@item.ReceiverRegistrationNo</td>
+                        <td class="center">@item.ReqDt.GetValueOrDefault().ToShortDateString()</td>
+                        @if (item.ResDt == null)
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td class="center">@item.ResDt.GetValueOrDefault().ToShortDateString()</td>
+                        }
                     </tr>
                 }
             }

@@ -1,0 +1,110 @@
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.ExpertCompanyViewModel>
+
+@{
+    Layout = null;
+}
+
+<script>
+    function fnReturn() {
+        var checkCnt = $(':radio[name="SelectCompany"]:checked').size();
+        if (checkCnt == 0)
+        {
+            alert("고객을 선택하지 않았습니다.");
+            return false;
+        }
+        
+        var comName = $(':radio[name="SelectCompany"]:checked').val();
+        var loginId = $(':radio[name="SelectCompany"]:checked').attr("loginid");
+        $(opener.location).attr("href", "javascript:resultReceive('" + loginId + "', '" + comName + "')");
+        self.close();
+    }
+</script>
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <title>지정고객 검색</title>
+        <link rel="stylesheet" href="~/css/pop.css" />
+        <script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+
+    </head>
+
+    <body>
+        <div id="popup_wrapper">
+            <div id="popup_headerwrap">
+                <div class="header">
+                    <span class="title">지정고객 검색</span>
+
+                </div>
+            </div><!--popup_headerwrap//-->
+
+            <div id="popup_contwrap">
+                <p>기업명이나 사업자번호를 입력하고 검색해 주세요.</p>
+                @using (Html.BeginForm("BizWorkList", "BizWorkMng", FormMethod.Post, new { area = "BizManager", id = "searchForm" }))
+                {
+                    <div class="inputwrap">
+                        @Html.TextBox("QUERY", (object)ViewBag.QUERY, new { @class = "w360", @id = "QUERY" })
+                        <button type="submit" class="bt_search"><em>검색</em></button>
+                    </div><!--inputwrap//-->
+                    @Html.Hidden("curPage", "1")
+                }
+                <div class="line_dot10"></div>
+                <div class="tablewrap">
+                    <table>
+                        <colgroup>
+                            <col width="15%">
+                            <col width="48%">
+                            <col width="36%">
+                        </colgroup>
+                        <tr>
+                            <th class="topcen">선택</th>
+                            <th class="topcen">기업명</th>
+                            <th class="topcen">사업자번호</th>
+                        </tr>
+                        @if (Model == null || Model.TotalItemCount == 0)
+                        {
+                            <tr>
+                                
+                                <td colspan="3" style="text-align:center;"><p><span>죄송합니다.<br />일치하는 고객 정보가 없습니다.</span><br />다시 한번 확인하고 검색해 주세요.</p></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.RadioButton("SelectCompany", item.CompNm, new {@loginId = item.LoginId })
+                                    </td>
+                                    <td>@item.CompNm</td>
+                                    <td>@item.ComRegistrationNo</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div><!--tablewrap//-->
+                @if (Model != null && Model.TotalItemCount != 0)
+                {
+                    @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+                }
+
+                <div id="popup_btnwrap">
+                    <button type="button" class="pop_choice" onClick="javascript: fnReturn();"><em>선택</em></button>
+                    <button type="reset" class="pop_cancel" onClick="self.close()"><em>취소</em></button>
+                </div><!--popup_btnwrap//-->
+
+            </div><!--popup_contwrap//-->
+
+        </div><!--popup_wrapper//-->
+
+
+        <div id="popup_footwrap"></div>
+
+    </body>
+</html>

@@ -251,8 +251,12 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.ReceiverComNm, map => map.MapFrom(s => s.ScUsr_ReceiverId.ScCompInfo.CompNm))
                 .ForMember(d => d.ReceiverRegistrationNo, map => map.MapFrom(s => s.ScUsr_ReceiverId.ScCompInfo.RegistrationNo));
 
+            Mapper.CreateMap<ScQa, QaRequstViewModels>()
+                .ForMember(d => d.QuestionComNm, map => map.MapFrom(s => s.ScUsr_QuestionId.ScCompInfo.CompNm))
+                .ForMember(d => d.QuestionRegistrationNo, map => map.MapFrom(s => s.ScUsr_QuestionId.ScCompInfo.RegistrationNo))
+                .ForMember(d => d.AnswerComNm, map => map.MapFrom(s => s.ScUsr_AnswerId.ScCompInfo.CompNm))
+                .ForMember(d => d.AnswerRegistrationNo, map => map.MapFrom(s => s.ScUsr_AnswerId.ScCompInfo.RegistrationNo));
 
-            
         }
     }
 }
