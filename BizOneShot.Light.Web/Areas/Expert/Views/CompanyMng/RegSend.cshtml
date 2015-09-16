@@ -13,6 +13,16 @@
 
     });
 
+    function approveRegisterListOpen(compUsrSn) {
+        w = 725;    //팝업창의 너비
+        h = 460;    //팝업창의 높이
+        //중앙위치 구해오기
+        LeftPosition = (screen.width - w) / 2;
+        TopPosition = (screen.height - h) / 2;
+        var popUp = window.open('/Manager/TaxAccountant/ApproveRegisterList?COMP_USR_SN=' + compUsrSn, 'ApproveRegisterList', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=no, resizable=no");
+        popUp.focus();
+    }
+
 </script>
 
 <div id="sub_rightwrap">
