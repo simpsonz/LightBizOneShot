@@ -38,7 +38,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
 
             Property(x => x.TotalReportSn).HasColumnName("TOTAL_REPORT_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.BizWorkSn).HasColumnName("BIZ_WORK_SN").IsRequired().HasColumnType("int");
-            Property(x => x.LoginId).HasColumnName("LOGIN_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
+            Property(x => x.MentorId).HasColumnName("MENTOR_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.CompSn).HasColumnName("COMP_SN").IsOptional().HasColumnType("int");
             Property(x => x.SubmitDt).HasColumnName("SUBMIT_DT").IsOptional().HasColumnType("datetime");
             Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
@@ -48,7 +48,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
 
             // Foreign keys
             HasOptional(a => a.ScCompInfo).WithMany(b => b.ScMentoringTotalReports).HasForeignKey(c => c.CompSn); // FK_SC_COMP_INFO_TO_MENTORING_TOTAL_REPORT
-            HasOptional(a => a.ScUsr).WithMany(b => b.ScMentoringTotalReports).HasForeignKey(c => c.LoginId); // FK_SC_USR_TO_MENTORING_TOTAL_REPORT
+            HasOptional(a => a.ScUsr).WithMany(b => b.ScMentoringTotalReports).HasForeignKey(c => c.MentorId); // FK_SC_USR_TO_MENTORING_TOTAL_REPORT
             HasRequired(a => a.ScBizWork).WithMany(b => b.ScMentoringTotalReports).HasForeignKey(c => c.BizWorkSn); // FK_SC_BIZ_WORK_TO_MENTORING_TOTAL_REPORT
             InitializePartial();
         }
