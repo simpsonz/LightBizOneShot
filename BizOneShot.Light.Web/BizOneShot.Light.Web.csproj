@@ -345,6 +345,9 @@
     <Content Include="Areas\Expert\Views\CompanyMng\ReceiveList.cshtml" />
     <Content Include="Areas\Expert\Views\CompanyMng\ReceiveDetail.cshtml" />
     <Content Include="Areas\Expert\Views\CompanyMng\ModifyReceive.cshtml" />
+    <Content Include="Areas\Expert\Views\CompanyMng\SendList.cshtml" />
+    <Content Include="Areas\Expert\Views\CompanyMng\SendDetail.cshtml" />
+    <Content Include="Areas\Expert\Views\CompanyMng\RegSend.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

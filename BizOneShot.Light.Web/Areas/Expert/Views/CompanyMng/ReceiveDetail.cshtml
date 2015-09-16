@@ -45,7 +45,9 @@
             </tr>
             <tr>
                 <th>내용</th>
-                <td colspan="4" class="read">@Model.ResContents</td>
+                <td colspan="4" class="read">@Html.RepladeHtmlText(Model.ReqContents)</td>
+
+                
             </tr>
             <tr>
                 <!--첨부파일1개일때-->
@@ -81,7 +83,12 @@
         <table>
             <tr>
                 <th width="75px">답변</th>
-                <td class="read" width="650px">등록된 답변이 없습니다.<br /><a href="@Url.Action("ModifyReceive","CompanyMng", new { reqDocSn = @Model.ReqDocSn })" class="bt_reply"><em>답변등록</em></a></td>
+                <td class="read" width="650px">@Html.RepladeHtmlText(Model.ResContents)<br />
+                @if(Model.ChkYn != "Y")
+                { 
+                    <a href="@Url.Action("ModifyReceive","CompanyMng", new { reqDocSn = @Model.ReqDocSn })" class="bt_reply"><em>답변등록</em></a>
+                }
+                </td>
             </tr>
         </table>
     </div><!--tablewrap//-->

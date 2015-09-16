@@ -8,7 +8,7 @@
                 <li class="title expert_business"><em>관리기업</em></li>
                 <li><a href="@Url.Action("CompanyList","CompanyMng", new { area= "Expert" })" class="gnb gnb_CompanyList">관리기업 현황</a></li>
                 <li><a href="@Url.Action("ReceiveList","CompanyMng", new { area= "Expert" })" class="gnb gnb_RcvData">자료요청 수신함</a></li>
-                <li><a href="" class="gnb gnb_SndData">자료요청 발신함</a></li>
+                <li><a href="@Url.Action("SendList","CompanyMng", new { area= "Expert" })" class="gnb gnb_SndData">자료요청 발신함</a></li>
                 <li><a href="" class="gnb gnb_QnA">관리기업 문의 답변</a></li>
             }
             else if (ViewBag.LeftMenu == Global.Cs)//고객센터
