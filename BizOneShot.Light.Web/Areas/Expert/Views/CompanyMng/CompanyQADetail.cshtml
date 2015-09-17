@@ -1,0 +1,74 @@
+﻿@model BizOneShot.Light.Models.ViewModels.QaRequstViewModels
+
+@{
+    Layout = "~/Areas/Expert/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_expert01').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_QnA').addClass('on');
+    });
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title specialist_01_02_02"><em>답변 작성하기</em></div>
+
+    <div class="tablewrap">
+        <table>
+            <colgroup>
+                <col width="100px" />
+                <col width="260px" />
+                <col width="100px" />
+                <col width="150px" />
+                <col width="140px" />
+            </colgroup>
+            <tr>
+                <th>문의기업명</th>
+                <td>@Model.QuestionComNm</td>
+                <th>사업자번호</th>
+                <td colspan="2">@Model.QuestionRegistrationNo</td>
+            </tr>
+            <tr>
+                <th>등록일자</th>
+                <td colspan="4">@Model.AskDt.GetValueOrDefault().ToShortDateString()</td>
+            </tr>
+            <tr>
+                <th>문의제목</th>
+                <td colspan="4">@Model.Subject</td>
+            </tr>
+            <tr>
+                <th>문의 내용</th>
+                <td colspan="4" class="read">@Html.RepladeHtmlText(Model.Question)</td>
+            </tr>
+        </table>
+    </div><!--tablewrap//-->
+    <div class="line_dot20"></div>
+
+    <div class="tablewrap">
+        <!--답변등록-->
+        <table>
+            <colgroup>
+                <col width="105px">
+                <col width="645px">
+            </colgroup>
+            <tr>
+                <th rowspan="2">답변</th>
+                <td colspan="4" class="read">@Html.RepladeHtmlText(Model.Answer)</td>
+            </tr>
+        </table>
+    </div><!--tablewrap//--><!--답변등록 끝-->
+    <div id="btnwrap_sub">
+        <div class="rightwrap">
+            <a href="@Url.Action("CompanyQAList","CompanyMng")" class="list2 right"><em>목록</em></a>
+            @if(Model.AnsYn != "Y")
+            { 
+                <a href="@Url.Action("ModifyCompanyQA","CompanyMng", new { usrQaSn = @Model.UsrQaSn })" class="modify right rightmargin"><em>수정</em></a>
+            }
+        </div>
+    </div>
+
+</div><!--sub_rightwrap//-->

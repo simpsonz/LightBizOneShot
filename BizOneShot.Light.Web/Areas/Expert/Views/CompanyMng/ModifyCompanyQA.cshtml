@@ -1,0 +1,88 @@
+﻿@model BizOneShot.Light.Models.ViewModels.QaRequstViewModels
+@{
+    Layout = "~/Areas/Expert/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_expert01').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_QnA').addClass('on');
+    });
+
+    function goSubmit() {
+        if ($('#answer').val() == null || $('#answer').val().trim() == "")
+        {
+            alert("답변을 작성하지 않았습니다.");
+            return false;
+        }
+
+        if (confirm('답변을 저장 하시겠습니까?')) {
+            $('#mainForm').submit();
+        }
+    }
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title specialist_01_02_02"><em>답변 작성하기</em></div>
+    @using (Html.BeginForm("ModifyCompanyQA", "CompanyMng", FormMethod.Post, new { area = "Expert", @class = "form-horizontal", role = "form", @id = "mainForm" }))
+    {
+        @Html.HiddenFor(model => model.UsrQaSn)
+        <div class="tablewrap">
+            <table>
+                <colgroup>
+                    <col width="100px" />
+                    <col width="260px" />
+                    <col width="100px" />
+                    <col width="150px" />
+                    <col width="140px" />
+                </colgroup>
+                <tr>
+                    <th>문의기업명</th>
+                    <td>@Model.QuestionComNm</td>
+                    <th>사업자번호</th>
+                    <td colspan="2">@Model.QuestionRegistrationNo</td>
+                </tr>
+                <tr>
+                    <th>등록일자</th>
+                    <td colspan="4">@Model.AskDt.GetValueOrDefault().ToShortDateString()</td>
+                </tr>
+                <tr>
+                    <th>문의제목</th>
+                    <td colspan="4">@Model.Subject</td>
+                </tr>
+                <tr>
+                    <th>문의 내용</th>
+                    <td colspan="4" class="read">@Html.RepladeHtmlText(Model.Question)</td>
+                </tr>
+            </table>
+        </div><!--tablewrap//-->
+        <div class="line_dot20"></div>
+
+        <div class="tablewrap">
+            <!--답변등록-->
+            <table>
+                <colgroup>
+                    <col width="105px">
+                    <col width="645px">
+                </colgroup>
+                <tr>
+                    <th rowspan="2">답변</th>
+                    <td class="reply">
+                        @Html.TextAreaFor(model => model.Answer, new {@id = "answer" })
+                    </td>
+                </tr>
+            </table>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div><!--tablewrap//--><!--답변등록 끝-->
+        <div id="btnwrap_sub">
+            <div class="rightwrap">
+                <button type="button" onclick="goSubmit()" class="reply_submit" value="답변 전송"></button><a href="@Url.Action("CompanyQADetail", "CompanyMng", new { usrQaSn = @Model.UsrQaSn })" class="cancel2 right"><em>취소</em></a>
+            </div>
+        </div>
+    }
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+</div><!--sub_rightwrap//-->
