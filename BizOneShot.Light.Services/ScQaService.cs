@@ -43,7 +43,7 @@ namespace BizOneShot.Light.Services
         }
 
         #region SaveContext
-        public void SaveDbContext()
+        public void SaveDbContext() 
         {
             unitOfWork.Commit();
         }

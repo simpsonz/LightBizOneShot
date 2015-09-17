@@ -1293,6 +1293,7 @@
     <Content Include="Scripts\PIE.js" />
     <Content Include="Scripts\placeholders.min.js" />
     <Content Include="Views\Cs\NoticeDetail.cshtml" />
+    <Content Include="Views\Home\zipSearchPopup.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1382,7 +1383,7 @@
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>이 프로젝트는 이 컴퓨터에 없는 NuGet 패키지를 참조합니다. 해당 패키지를 다운로드하려면 NuGet 패키지 복원을 사용하십시오. 자세한 내용은 http://go.microsoft.com/fwlink/?LinkID=322105를 참조하십시오. 누락된 파일은 {0}입니다.</ErrorText>
+      <ErrorText>�� ������Ʈ�� �� ��ǻ�Ϳ� ���� NuGet ��Ű���� �����մϴ�. �ش� ��Ű���� �ٿ�ε��Ϸ��� NuGet ��Ű�� ������ ����Ͻʽÿ�. �ڼ��� ������ http://go.microsoft.com/fwlink/?LinkID=322105�� �����Ͻʽÿ�. ����� ������ {0}�Դϴ�.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
