@@ -262,6 +262,11 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.AnswerComNm, map => map.MapFrom(s => s.ScUsr_AnswerId.ScCompInfo.CompNm))
                 .ForMember(d => d.AnswerRegistrationNo, map => map.MapFrom(s => s.ScUsr_AnswerId.ScCompInfo.RegistrationNo));
 
+            Mapper.CreateMap<UspSelectSidoForWebListReturnModel, SelectAddressListViewModel>();
+
+
+            
+
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Services;
@@ -211,10 +212,13 @@ namespace BizOneShot.Light.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult zipSearchPopup()
+        public async Task<ActionResult> zipSearchPopup()
         {
-            var sidoList = _postService.GetSidosAsync();
-            return View(sidoList);
+            var sidoList = await _postService.GetSidosAsync();
+
+            var zipViews =
+              Mapper.Map<List<SelectAddressListViewModel>>(sidoList);
+            return View(zipViews);
         }
 
     }

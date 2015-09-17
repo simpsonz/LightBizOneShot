@@ -36,7 +36,7 @@ namespace BizOneShot.Light.Models.ViewModels
         public string BLD_NM { get; set; }
     }
 
-    public class SelectAddressListModel
+    public class SelectAddressListViewModel
     {
         public string SIDO { get; set; }
         public string ZIP_CD { get; set; }

@@ -131,6 +131,18 @@
     <Compile Include="WebModels\SyDareDbInfo.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="WebModels\UspSelectAddressByBuildingSearchForWebListReturnModel.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebModels\UspSelectAddressByDongSearchForWebListReturnModel.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebModels\UspSelectAddressByStreetSearchForWebListReturnModel.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebModels\UspSelectGunguForWebListReturnModel.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="WebModels\UspSelectSidoForWebListReturnModel.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>

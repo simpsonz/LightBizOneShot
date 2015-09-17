@@ -12,7 +12,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public interface IPostRepository : IRepository<UspSelectSidoForWebListReturnModel>
     {
-        //Task<IList<UspSelectSidoForWebListReturnModel>> GetSidosAsync(Expression<Func<UspSelectSidoForWebListReturnModel, bool>> where);
+        Task<IList<UspSelectSidoForWebListReturnModel>> GetSidosAsync();
         //Task<UspSelectSidoForWebListReturnModel> GetSidoAsync(Expression<Func<UspSelectSidoForWebListReturnModel, bool>> where);
     }
 
@@ -21,10 +21,10 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         public PostRepository(IDbFactory dbFactory) : base(dbFactory) { }
 
-        //public async Task<IList<UspSelectSidoForWebListReturnModel>> GetQAsAsync(Expression<Func<UspSelectSidoForWebListReturnModel, bool>> where)
-        //{
-        //    return await this.DbContext.UspSelectSidoForWebListReturnModel.Include("ScUsr_QuestionId").Include("ScUsr_QuestionId.ScCompInfo").Include("ScUsr_AnswerId").Include("ScUsr_AnswerId.ScCompInfo").Where(where).ToListAsync();
-        //}
+        public async Task<IList<UspSelectSidoForWebListReturnModel>> GetSidosAsync()
+        {
+            return await this.DbContext.Database.SqlQuery<UspSelectSidoForWebListReturnModel>("USP_SelectSidoForWebList").ToListAsync();
+        }
 
 
         //public async Task<ScQa> GetQAAsync(Expression<Func<ScQa, bool>> where)

@@ -29,8 +29,8 @@ namespace BizOneShot.Light.Services
 
         public async Task<IList<UspSelectSidoForWebListReturnModel>> GetSidosAsync()
         {
-            var listScQaTask = await _postRepository.GetAllAsync();
-            return listScQaTask.Distinct().OrderByDescending(sq => sq.SIDO).ToList();
+            var listSidoTask = await _postRepository.GetSidosAsync();
+            return listSidoTask.Distinct().OrderByDescending(sq => sq.SIDO).ToList();
         }
 
         #region SaveContext

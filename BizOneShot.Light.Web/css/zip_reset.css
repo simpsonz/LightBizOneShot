@@ -1,0 +1,30 @@
+@charset "utf-8";
+ 
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup,
+var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, 
+header, hgroup, menu, nav, section, summary, time, mark, audio, video 
+{margin:0; padding:0; border:0; outline:0; font-size:100%; vertical-align:baseline; background:transparent; font-family:dotum, arial; font-size:12px; color:#707070;}
+label, button {cursor:pointer;}
+ol,ul {list-style:none;}
+article,aside,details,figcaption,figure, footer,header,hgroup,menu,nav,section {display:block;}
+blockquote, q { quotes:none;}
+blockquote:before, blockquote:after, q:before, q:after { content:''; content:none;}
+a { margin:0; padding:0; font-size:100%; vertical-align:baseline; background:transparent; font-family:dotum, arial; font-size:12px; color:#707070; text-decoration:none;}
+ins { background-color:#ff9; color:#000; text-decoration:none;}
+mark { background-color:#ff9; color:#000; font-style:italic; font-weight:bold;}
+del { text-decoration: line-through;}
+abbr[title], dfn[title] { border-bottom:1px dotted; cursor:help;}
+table { border-collapse:collapse; border-spacing:0;}
+hr { display:none;}
+input, select, img { vertical-align:middle; font-family:dotum, arial; font-size:12px; color:#707070;}
+img { border:0 none; margin:0;}
+em { font-style:normal;}
+textarea { resize:none;}
+button { position:relative; background:none; border:0 none; cursor:pointer;}
+legend {position:absolute; top:0; left:0; width:0; height:0; overflow:hidden; padding:0; visibility:hidden; font-size:0; line-height:0;}
+select {font-size:12px; color:#959595;}
+
+caption {display:none;}
+.hidden-accessible {position:absolute;overflow:hidden;width:1px;height:1px;margin:-1px;padding:0;border:0;clip:rect(0 0 0 0);}
+.screen_hide {font-size:0; line-height:0; visibility:hidden;}
+.ir_pm {display:block; overflow:hidden; font-size:0px; line-height:0; text-indent:-9999px;}
