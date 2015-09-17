@@ -34,6 +34,16 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             this._scMentoringTotalReportService = scMentoringTotalReportService;
         }
 
+        [HttpPost]
+        public async Task DeleteMentoringTotalReport(string [] totalReportSns)
+        {
+            ViewBag.LeftMenu = Global.MentoringReport;
+
+            await _scMentoringTotalReportService.ModifyMentoringTRStatusDelete(totalReportSns);
+
+            await _scMentoringTotalReportService.SaveDbContextAsync();
+        }
+
         public async Task<ActionResult> MentoringTotalReportList(SelectedMentorTotalReportParmModel param, string curPage)
         {
             ViewBag.LeftMenu = Global.MentoringReport;

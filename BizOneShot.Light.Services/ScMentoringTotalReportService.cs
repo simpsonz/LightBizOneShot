@@ -17,7 +17,10 @@ namespace BizOneShot.Light.Services
     {
         //IList<int> GetMentoringTotalReportSubmitDt(string mentorId);
         Task<IList<int>> GetMentoringTotalReportSubmitDt(string mentorId);
-        Task<IList<ScMentoringTotalReport>> GetMentoringTotalReportAsync(string mentorId, int submitDt = 0, int bizWorkSn = 0, int CompSn = 0); 
+        Task<IList<ScMentoringTotalReport>> GetMentoringTotalReportAsync(string mentorId, int submitDt = 0, int bizWorkSn = 0, int CompSn = 0);
+
+        Task ModifyMentoringTRStatusDelete(IList<string> listTotalReportSn);
+        Task ModifyMentoringTRStatusDelete(string totalReportSn);
     }
 
 
@@ -47,7 +50,7 @@ namespace BizOneShot.Light.Services
             //IEnumerable<ScMentoringTotalReport> listTotalReport = null;
 
             return await scMentoringTotalReportRepository.GetMentoringTotalReport
-                (mtr => mtr.MentorId == mentorId 
+                (mtr => mtr.MentorId == mentorId && mtr.Status == "N"
                 && submitDt != 0 ? mtr.RegDt.Value.Year == submitDt : mtr.RegDt.Value.Year > submitDt
                 && bizWorkSn != 0 ? mtr.BizWorkSn == bizWorkSn : mtr.BizWorkSn > bizWorkSn
                 && compSn != 0 ? mtr.CompSn == compSn : mtr.CompSn > compSn
@@ -71,8 +74,30 @@ namespace BizOneShot.Light.Services
             //    return listTotalReport.ToList();
         }
 
+        public async Task ModifyMentoringTRStatusDelete(IList<string> listTotalReportSn)
+        {  
+            foreach(var totalReportSn in listTotalReportSn)
+            {
+                await Task.Run(() => ModifyMentoringTRStatusDelete(totalReportSn));
+            }
+        }
 
-        
+        public async Task ModifyMentoringTRStatusDelete(string totalReportSn)
+        {
+            var scMentoringTotalReport =  await Task.Run(() => scMentoringTotalReportRepository.GetById(int.Parse(totalReportSn)));
+
+            scMentoringTotalReport.Status = "N";
+
+            foreach (var scFileInfo in scMentoringTotalReport.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo))
+            {
+                await Task.Run(() => scFileInfo.Status = "N");
+            }
+
+            scMentoringTotalReportRepository.Update(scMentoringTotalReport);
+        }
+
+
+
 
         #region SaveDbContext
         public void SaveDbContext()

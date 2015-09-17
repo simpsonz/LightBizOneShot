@@ -14,7 +14,6 @@ using System.Data.SqlClient;
 
 namespace EntityTestConsole
 {
-    
 
     class Program
     {
@@ -55,38 +54,58 @@ namespace EntityTestConsole
             //Console.ReadLine();
 
 
-            using (var db = new WebDbContext())
+            //    using (var db = new WebDbContext())
+            //    {
+
+            //        //    //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).Take(1).FirstOrDefault();
+
+            //        //    //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).FirstOrDefault();
+            //        //    //Console.WriteLine(scNtc.NoticeSn);
+
+            //        //    db.Configuration.LazyLoadingEnabled = false;
+
+
+
+            //        var usr = new ScUsr
+            //    {
+            //        LoginId = "shinkoooooo",
+
+
+            //        RegId = "shinkoooooo",
+
+
+            //    };
+
+            //    usr.ScCompInfo = new ScCompInfo
+            //    {
+            //        CompNm = "테스트"
+            //    };
+
+            //    db.ScUsrs.Add(usr);
+
+            //    //db.SaveChanges();
+
+
+            //    }
+
+        
+
+            using (var context = new WebDbContext())
             {
+                //var clientIdParameter = new SqlParameter("@ClientId", 4);
 
-                //    //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).Take(1).FirstOrDefault();
+                var result = context.Database
+                    .SqlQuery<UspSelectSidoForWebListReturnModel>("USP_SelectSidoForWebList")
+                    .ToList();
 
-                //    //var scNtc = db.ScNtcs.Where(ntc => ntc.NoticeSn > 3).OrderBy(ntc => ntc.NoticeSn).FirstOrDefault();
-                //    //Console.WriteLine(scNtc.NoticeSn);
+                foreach(var sido in result)
+                {
+                    Console.WriteLine(sido.SIDO);
+                }
 
-                //    db.Configuration.LazyLoadingEnabled = false;
-
-
-
-                var usr = new ScUsr
-            {
-                LoginId = "shinkoooooo",
-
-
-                RegId = "shinkoooooo",
-
-
-            };
-
-            usr.ScCompInfo = new ScCompInfo
-            {
-                CompNm = "테스트"
-            };
-
-            db.ScUsrs.Add(usr);
-
-            //db.SaveChanges();
+                Console.ReadLine();
+            }
         }
-    }
 
 
 
