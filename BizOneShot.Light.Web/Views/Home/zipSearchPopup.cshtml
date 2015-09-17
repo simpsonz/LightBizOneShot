@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BizOneShot.Light.Models.ViewModels.SelectAddressListModel>
+﻿@model IList<BizOneShot.Light.Models.ViewModels.SelectAddressListViewModel>
 
 @{
     Layout = null;
@@ -10,6 +10,430 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>주소 검색 서비스</title>
+    <link rel="stylesheet" href="~/css/pop.css" />
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/css/zip_common")
+    <script>
+$(document).ready(function(){
+
+	$('#divDongNameSearch').hide();
+	$('#divBldgNameSearch').hide();
+	$('#divDongNameHelp').hide();
+	$('#divBldgNameHelp').hide();
+	$('#addressView').hide();
+
+	$('#sidoBox').change(function(){
+		var sido = $('#sidoBox').val();
+
+		if(sido.indexOf("세종") >= 0){
+			$('#gunguBox').html("<option value=''>전체</option>");
+			$('#gunguBox').attr("disabled", true);
+		}else {
+			$('#gunguBox').attr("disabled", false);
+			$('#gunguBox').html("<option value=''>전체</option>");
+
+			if (sido.length > 0) {
+
+				  $.ajax({
+				      url: '@Url.Action("getGunguList", "Main")',
+						type: "post",
+						dataType: "json",
+						data:{SIDO:sido},
+						async: false,
+						success: function (result) {
+						    for (var i = 0; i < result.length; i++) {
+						        $('#gunguBox').append("<option value='" + result[i].GUNGU + "'>" + result[i].GUNGU + "</option>");
+							}
+						}
+				});
+			}
+		}
+	});
+
+	// 도로명 체크
+	function roadChk(rdNm) {
+		var validChars = "길로";
+		var roadChk = true;
+
+		if(validChars.indexOf(rdNm) == -1){
+			roadChk = false;
+		}
+		return roadChk;
+	}
+
+	// 동 체크
+	function dongChk(dong) {
+		var validChars = "읍면동리";
+		var dongChk = true;
+
+		if(validChars.indexOf(dong) == -1){
+			dongChk = false;
+		}
+		return dongChk;
+	}
+
+	// - 체크
+	function splitChk(split) {
+		var validChars = "-";
+		var splitChk = true;
+
+		if(validChars.indexOf(split) == -1){
+			splitChk = false;
+		}
+		return splitChk;
+	}
+
+	// 숫자체크
+    function isNumeric(sText) {
+        var validChars = "0123456789";
+        var isNumber = true;
+        var Char;
+
+        for (var i = 0; i < sText.length && isNumber == true; i++) {
+            Char = sText.charAt(i);
+            if (validChars.indexOf(Char) == -1) {
+                isNumber = false;
+            }
+        }
+        return isNumber;
+    }
+
+	// 도로명 Validate
+	function roadValidate(){
+		var sido = $('#sidoBox').val();
+		var gungu = $('#gunguBox').val();
+		var rdNm = $('#rdNmBox').val();
+		var mnNo = $('#mnNoBox').val();
+
+		if(sido == "") {
+			alert("시/도를 선택해 주세요.");
+			return false;
+		}
+		if(sido.indexOf("세종") < 0){
+			if(gungu == ""){
+				alert("군/구를 선택해 주세요.");
+				return false;
+			}
+		}
+		if((rdNm.length < 2) || !roadChk(rdNm.charAt(rdNm.length-1))){
+			alert("도로명을 입력해 주세요.");
+			return false;
+		}
+		if(splitChk(mnNo.charAt(mnNo.length-1))){
+			alert("건물번호를 확인해주세요");
+			return false;
+		}
+		if(mnNo.length > 0){
+
+			var arr_mnNo = mnNo.split("-");
+			mnNo = arr_mnNo[0];
+			subNo = 0;
+	        for (var i = 1; i < arr_mnNo.length; i++) {
+	        	subNo = arr_mnNo[i];
+	            break;
+	        }
+			$("#mnNo").val(mnNo);
+			$("#subNo").val(subNo);
+
+			if(mnNo.length == 0 || !isNumeric(mnNo) || !isNumeric(subNo)){
+				alert("건물번호는 반드시 숫자만 입력하세요.");
+				return false;
+			}
+		}
+		$("#sido").val(sido);
+		$("#gungu").val(gungu);
+		$("#rdNm").val(rdNm);
+
+		return true;
+	}
+
+	// 동 Validate
+	function dongValidate(){
+		var sido = $('#sidoBox').val();
+		var gungu = $('#gunguBox').val();
+		var dong = $('#dongBox').val();
+		var jibunMnNo = $('#jibunBox').val();
+
+		if(sido == "") {
+			alert("시/도를 선택해 주세요.");
+			return false;
+		}
+		if(sido.indexOf("세종") < 0){
+			if(gungu == ""){
+				alert("군/구를 선택해 주세요.");
+				return false;
+			}
+		}
+		if((dong.length < 2) || !dongChk(dong.charAt(dong.length-1))){
+			alert("동을 입력해 주세요.");
+			return false;
+		}
+		if(splitChk(jibunMnNo.charAt(jibunMnNo.length-1))){
+			alert("지번을 확인해주세요");
+			return false;
+		}
+		if(jibunMnNo.length > 0){
+			var arr_jibunMnNo = jibunMnNo.split("-");
+			jibunMnNo = arr_jibunMnNo[0];
+			jibunSubNo = 0;
+	        for (var i = 1; i < arr_jibunMnNo.length; i++) {
+	        	jibunSubNo = arr_jibunMnNo[i];
+	            break;
+	        }
+			$("#jibunMnNo").val(jibunMnNo);
+			$("#jibunSubNo").val(jibunSubNo);
+
+			if(jibunMnNo.length == 0 || !isNumeric(jibunMnNo) || !isNumeric(jibunSubNo)){
+				alert("번지는 반드시 숫자만 입력하세요.");
+				return false;
+			}
+		}
+		$("#sido").val(sido);
+		$("#gungu").val(gungu);
+		$("#dong").val(dong);
+
+		return true;
+	}
+
+	// 건물 Validate
+	function bdnmValidate(){
+		var sido = $('#sidoBox').val();
+		var gungu = $('#gunguBox').val();
+		var bldNm = $('#bldNmBox').val();
+
+		if(sido == "") {
+			alert("시/도를 선택해 주세요.");
+			return false;
+		}
+		if(sido.indexOf("세종") < 0){
+			if(gungu == ""){
+				alert("군/구를 선택해 주세요.");
+				return false;
+			}
+		}
+		if(bldNm.length == 0){
+			alert("건물명을 입력해 주세요.");
+			return false;
+		}
+
+		$("#sido").val(sido);
+		$("#gungu").val(gungu);
+		$("#bldNm").val(bldNm);
+
+		return true;
+	}
+
+	// 주소 검색
+
+
+
+	$("#btn_search").click(function(){
+		fnSearch();
+    });
+
+	function fnSearch(){
+		var searchType = $("input[name='rdoSearchType']:checked").val();
+
+		if(searchType == "DONG"){
+			if(!dongValidate()) {
+				return false;
+			}
+
+				$.ajax({
+				    url: '@Url.Action("getAddressByDongSearchList", "Main")',
+					type: "post",
+					dataType: "html",
+					data:{SIDO:$('#sido').val(),
+						GUNGU:$('#gungu').val(),
+						DONG:$('#dong').val(),
+						MN_NO: $('#jibunMnNo').val(),
+						SUB_NO: $('#jibunSubNo').val()
+					},
+					success: function (result) {
+					    $('#searchTypeBox').hide();
+                        $('#searchBox1').hide();
+						$('#addressView').show();
+						$("#addressView").html(result).trigger("create");
+						var addressSize = $("#addressSize").val();
+						if(addressSize > 0){
+							$("#addressView").attr("class", "result_address");
+						}else{
+							$("#addressView").attr("class", "none_txt");
+						}
+					}
+				});
+
+			}else if(searchType == "ROAD"){
+			if(!roadValidate()) {
+				return false;
+			}
+
+				$.ajax({
+				    url: '@Url.Action("getAddressByStreetSearchList", "Main")',
+					type: "post",
+					dataType: "html",
+					data:{SIDO:$('#sido').val(),
+						GUNGU:$('#gungu').val(),
+						RD_NM: $('#rdNm').val(),
+						MN_NO: $('#mnNo').val(),
+						SUB_NO: $('#subNo').val()
+					},
+					success: function (result) {
+					    $('#searchTypeBox').hide();
+					    $('#searchBox1').hide();
+						$('#addressView').show();
+						$("#addressView").html(result).trigger("create");
+						var addressSize = $("#addressSize").val();
+						if(addressSize > 0){
+							$("#addressView").attr("class", "result_address");
+						}else{
+							$("#addressView").attr("class", "none_txt");
+						}
+					}
+				});
+
+			}else if(searchType == "BDNM"){
+				if(!bdnmValidate()) {
+					return false;
+				}
+
+					$.ajax({
+					    url: '@Url.Action("getAddressByBuildingSearchList", "Main")',
+						type: "post",
+						dataType: "html",
+						data: {
+						    SIDO: $('#sido').val(),
+						    GUNGU: $('#gungu').val(),
+						    BLD_NM: $('#bldNm').val()
+						},
+						success: function (result) {
+						    $('#searchTypeBox').hide();
+						    $('#searchBox1').hide();
+							$('#addressView').show();
+							$("#addressView").html(result).trigger("create");
+							var addressSize = $("#addressSize").val();
+							if(addressSize > 0){
+								$("#addressView").attr("class", "result_address");
+							}else{
+								$("#addressView").attr("class", "none_txt");
+							}
+						}
+					});
+				}
+	}
+
+	// 라디오 버튼 변경
+
+
+
+	$('#searchType').change(function(){
+		var searchType = $("input[name='rdoSearchType']:checked").val();
+		if(searchType == "DONG"){
+			$('#divRoadNameSearch').css("display","none");
+			$('#divBldgNameSearch').css("display","none");
+			$('#divDongNameSearch').css("display","inline");
+			$('#divRoadNameHelp').hide();
+			$('#divBldgNameHelp').hide();
+			$('#divDongNameHelp').show();
+			$('#addressView').hide();
+			$("#dongBox").val("동(읍/면)");
+			$("#jibunBox").val("지번");
+			$("#sidoBox").val("all");
+			$('#gunguBox').html("<option value=''>전체</option>");
+		}else if(searchType == "ROAD"){
+			$('#divDongNameSearch').css("display","none");
+			$('#divBldgNameSearch').css("display","none");
+			$('#divRoadNameSearch').css("display","inline");
+			$('#divDongNameHelp').hide();
+			$('#divBldgNameHelp').hide();
+			$('#divRoadNameHelp').show();
+			$('#addressView').hide();
+			$("#rdNmBox").val("도로명");
+			$("#mnNoBox").val("건물번호");
+			$("#sidoBox").val("all");
+			$('#gunguBox').html("<option value=''>전체</option>");
+		}else if(searchType == "BDNM"){
+			$('#divDongNameSearch').css("display","none");
+			$('#divRoadNameSearch').css("display","none");
+			$('#divBldgNameSearch').css("display","inline");
+			$('#divDongNameHelp').hide();
+			$('#divRoadNameHelp').hide();
+			$('#divBldgNameHelp').show();
+			$('#addressView').hide();
+			$("#bldNmBox").val("건물명(아파트명)");
+			$("#sidoBox").val("all");
+			$('#gunguBox').html("<option value=''>전체</option>");
+		}
+	});
+
+	// 엔터 이벤트
+
+
+
+	$("#dongBox").keypress(function(event) {
+		  if ( event.which == 13 ) {
+			  $("#jibunBox").focus();
+			  jibunRemove();
+		   }
+	});
+
+	$("#jibunBox").keypress(function(event) {
+		  if ( event.which == 13 ) {
+			  fnSearch();
+		   }
+	});
+
+	$("#rdNmBox").keypress(function(event) {
+		  if ( event.which == 13 ) {
+			  $("#mnNoBox").focus();
+			  mnNoRemove();
+		   }
+	});
+
+	$("#mnNoBox").keypress(function(event) {
+		  if ( event.which == 13 ) {
+			  fnSearch();
+		   }
+	});
+
+	$("#bldNmBox").keypress(function(event) {
+		  if ( event.which == 13 ) {
+			  fnSearch();
+		   }
+	});
+
+});
+
+	// box 기본 값 리셋
+	function boxRemove(){
+		if($("#dongBox").val() == '동(읍/면)'){
+			$("#dongBox").val("");
+		}
+		if($("#jibunBox").val() == '지번'){
+			$("#jibunBox").val("");
+		}
+		if($("#rdNmBox").val() == '도로명'){
+			$("#rdNmBox").val("");
+		}
+		if($("#mnNoBox").val() == '건물번호'){
+			$("#mnNoBox").val("");
+		}
+		if($("#bldNmBox").val() == '건물명(아파트명)'){
+			$("#bldNmBox").val("");
+		}
+	}
+
+	// 주소, 우편번호 값 넘기기
+
+
+
+	function fnReturnZip(zip,address){
+			$(opener.location).attr("href", "javascript:resultReceive('" + zip + "', '" + address + "')");
+		self.close();
+	}
+    </script>
+
 </head>
 <body>
 

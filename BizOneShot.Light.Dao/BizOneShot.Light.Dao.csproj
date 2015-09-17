@@ -59,6 +59,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\PostRepository.cs" />
     <Compile Include="Repositories\ScBizWorkRepository.cs" />
     <Compile Include="Repositories\ScCompMappingRepository.cs" />
     <Compile Include="Repositories\ScExpertMappingRepository.cs" />

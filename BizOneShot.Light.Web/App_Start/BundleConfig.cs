@@ -38,6 +38,9 @@ namespace BizOneShot.Light.Web
 
             bundles.Add(new StyleBundle("~/css/common").Include(
                       "~/css/common.css"));
+
+            bundles.Add(new StyleBundle("~/css/zip_common").Include(
+                      "~/css/zip_common.css"));
         }
     }
 }
