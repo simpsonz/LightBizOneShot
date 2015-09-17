@@ -18,10 +18,12 @@ namespace BizOneShot.Light.Web.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private readonly IScUsrService _scUsrService;
+        private readonly IPostService _postService;
 
-        public HomeController(IScUsrService scUsrService)
+        public HomeController(IScUsrService scUsrService, IPostService _postService)
         {
             this._scUsrService = scUsrService;
+            this._postService = _postService;
         }
 
         public ActionResult Index()
@@ -211,7 +213,8 @@ namespace BizOneShot.Light.Web.Controllers
 
         public ActionResult zipSearchPopup()
         {
-            return View();
+            var sidoList = _postService.GetSidosAsync();
+            return View(sidoList);
         }
 
     }
