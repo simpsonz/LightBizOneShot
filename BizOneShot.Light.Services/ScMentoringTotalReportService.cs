@@ -88,10 +88,12 @@ namespace BizOneShot.Light.Services
 
             scMentoringTotalReport.Status = "N";
 
-            foreach(var scFileInfo in scMentoringTotalReport.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo))
+            foreach (var scFileInfo in scMentoringTotalReport.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo))
             {
                 await Task.Run(() => scFileInfo.Status = "N");
             }
+
+            scMentoringTotalReportRepository.Update(scMentoringTotalReport);
         }
 
 

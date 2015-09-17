@@ -18,36 +18,42 @@
 
         //삭제버튼클릭
         $("#btn_delete").click(function () {
-            if ($(":checkbox[name='acc_choice']:checked").length < 1) {
-                alert("삭제하실 항목을 선택하여 주십시오.");
+            if (confirm('선택하신 멘토링 종합보고서를 삭제하시겠습니까?')) {
+                if ($(":checkbox[name='acc_choice']:checked").length < 1) {
+                    alert("삭제하실 항목을 선택하여 주십시오.");
+                    return false;
+                }
+
+                var array = [];
+                $("input:checkbox[name='acc_choice']").each(function () {
+                    if (this.checked) {
+                        array.push(this.value);
+                    }
+                });
+
+                $.ajaxSettings.traditional = true;
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("DeleteMentoringTotalReport", "MentoringReport")',
+                    dataType: "json",
+                    data: {
+                        TotalReportSns: array
+                    },
+                    success: function (data) {
+                        alert("삭제 하였습니다");
+                        window.location = '@Url.Action("MentoringTotalReportList", "MentoringReport")';
+                    },
+                    fail: function (error) {
+                        alert('error :' + error.responseText);
+                    }
+                });
+            } else {
                 return false;
             }
-
-            var array = [];
-            $("input:checkbox[name='acc_choice']").each(function () {
-                if (this.checked) {
-                    array.push(this.value);
-                }
-            });
-
-            $.ajaxSettings.traditional = true;
-            $.ajax({
-                type: "post",
-                url: '@Url.Action("DeleteMentoringTotalReport", "MentoringReport")',
-                dataType: "json",
-                data: {
-                    TotalReportSns: array
-                },
-                success: function (data) {
-                    alert("삭제 하였습니다");
-                    window.location = '@Url.Action("MentoringTotalReportList", "MentoringReport")';
-                },
-                fail: function (error) {
-                    alert('error :' + error.responseText);
-                }
-            });
-
         });
+
+
+
     });
 
     function goPage(page) {
@@ -123,12 +129,12 @@
             @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
         }
 
-        @*@if (Model.TotalItemCount != 0)
-        {*@
+        @if (Model.TotalItemCount != 0)
+        {
             <div id="btnwrap_sub">
-                <input type="button" id="btn_delete" class="delete right" onclick="confirm('선택하신 멘토링 종합보고서를 삭제하시겠습니까?');return false;" />
+                <input type="button" id="btn_delete" class="delete right" />
             </div>
-        @*}*@
+        }
 
     </form>
 
