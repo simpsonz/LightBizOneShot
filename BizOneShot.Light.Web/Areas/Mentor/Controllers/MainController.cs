@@ -18,6 +18,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 {
 
     [UserAuthorize(Order = 1)]
+    [MenuAuthorize(Roles = UserType.Mentor, Order = 2)]
     public class MainController : BaseController
     {
         private readonly IScNtcService _scNtcService;
@@ -32,7 +33,6 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
         }
 
-        [MenuAuthorize(Roles = UserType.Mentor, Order = 2)]
         public async Task<ActionResult> Index()
         {
             //var listScNtc = _scNtcService.GetNotices();
@@ -43,7 +43,6 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             return View(noticeViews);
         }
 
-        [MenuAuthorize(Roles = UserType.Mentor, Order = 2)]
         public async Task<ActionResult> MyInfo()
         {
             ViewBag.LeftMenu = Global.MyInfo;
@@ -84,8 +83,6 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             return View(myInfo);
         }
 
-
-        [MenuAuthorize(Roles = UserType.Mentor, Order = 2)]
         public ActionResult ModifyMyInfo(MentorMyInfoViewModel myInfo)
         {
             ViewBag.LeftMenu = Global.MyInfo;

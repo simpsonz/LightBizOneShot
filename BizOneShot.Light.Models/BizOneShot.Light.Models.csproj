@@ -52,6 +52,7 @@
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BizViewModels.cs" />
+    <Compile Include="ViewModels\CompInfoViewModels.cs" />
     <Compile Include="ViewModels\DataRequstViewModels.cs" />
     <Compile Include="ViewModels\ExpertViewModel.cs" />
     <Compile Include="ViewModels\MentorViewModel.cs" />
