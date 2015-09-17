@@ -87,6 +87,21 @@
 
     });
 
+    function open_post() {
+        w = 550;    //팝업창의 너비
+        h = 485;    //팝업창의 높이
+        //중앙위치 구해오기
+        LeftPosition = (screen.width - w) / 2;
+        TopPosition = (screen.height - h) / 2;
+        var popUp = window.open('/Home/zipSearchPopup', 'zipSearchPopup', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=no, resizable=no");
+        popUp.focus();
+    }
+
+    function resultReceive(zip, address) {
+        $('#POST_NO').val(zip);
+        $('#ADDR_1').val(address);
+    }
+
 </script>
 
 <div class="container">
@@ -190,10 +205,10 @@
             </ul>
             <ul>
                 <li class="mark rowspan">주소</li>
-                <li class="info"><input type="button" class="td_post" value="우편번호">@Html.TextBoxFor(model => model.ComPostNo, new { @class = "w146" })</li>
+                <li class="info"><input type="button" class="td_post" value="우편번호" onClick="javascript: open_post();">@Html.TextBoxFor(model => model.ComPostNo, new { @class = "w146", @readOnly = "readOnly", @id = "POST_NO" })</li>
             </ul>
             <ul>
-                <li class="mark"></li><li class="info">@Html.TextBoxFor(model => model.ComAddr1, new { @class = "w240" }) @Html.TextBoxFor(model => model.ComAddr2, new { @class = "w240", @placeholder= "나머지주소입력란" })</li>
+                <li class="mark"></li><li class="info">@Html.TextBoxFor(model => model.ComAddr1, new { @class = "w240", @id = "ADDR_1", @readOnly = "readOnly" }) @Html.TextBoxFor(model => model.ComAddr2, new { @class = "w240", @placeholder= "나머지주소입력란" })</li>
             </ul>
         </div><!--join_infoinput_wrap//-->
         <div class="line_dot10"></div>

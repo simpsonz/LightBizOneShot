@@ -10,429 +10,125 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>주소 검색 서비스</title>
-    <script>
-    $(document).ready(function(){
-
-	    $('#divDongNameSearch').hide();
-	    $('#divBldgNameSearch').hide();
-	    $('#divDongNameHelp').hide();
-	    $('#divBldgNameHelp').hide();
-	    $('#addressView').hide();
-
-	    $('#sidoBox').change(function(){
-		    var sido = $('#sidoBox').val();
-
-		    if(sido.indexOf("세종") >= 0){
-			    $('#gunguBox').html("<option value=''>전체</option>");
-			    $('#gunguBox').attr("disabled", true);
-		    }else {
-			    $('#gunguBox').attr("disabled", false);
-			    $('#gunguBox').html("<option value=''>전체</option>");
-
-			    if (sido.length > 0) {
-
-				      $.ajax({
-				          url: '@Url.Action("getGunguList", "Main")',
-						    type: "post",
-						    dataType: "json",
-						    data:{SIDO:sido},
-						    async: false,
-						    success: function (result) {
-						        for (var i = 0; i < result.length; i++) {
-						            $('#gunguBox').append("<option value='" + result[i].GUNGU + "'>" + result[i].GUNGU + "</option>");
-							    }
-						    }
-				    });
-			    }
-		    }
-	    });
-
-	    // 도로명 체크
-	    function roadChk(rdNm) {
-		    var validChars = "길로";
-		    var roadChk = true;
-
-		    if(validChars.indexOf(rdNm) == -1){
-			    roadChk = false;
-		    }
-		    return roadChk;
-	    }
-
-	    // 동 체크
-	    function dongChk(dong) {
-		    var validChars = "읍면동리";
-		    var dongChk = true;
-
-		    if(validChars.indexOf(dong) == -1){
-			    dongChk = false;
-		    }
-		    return dongChk;
-	    }
-
-	    // - 체크
-	    function splitChk(split) {
-		    var validChars = "-";
-		    var splitChk = true;
-
-		    if(validChars.indexOf(split) == -1){
-			    splitChk = false;
-		    }
-		    return splitChk;
-	    }
-
-	    // 숫자체크
-        function isNumeric(sText) {
-            var validChars = "0123456789";
-            var isNumber = true;
-            var Char;
-
-            for (var i = 0; i < sText.length && isNumber == true; i++) {
-                Char = sText.charAt(i);
-                if (validChars.indexOf(Char) == -1) {
-                    isNumber = false;
-                }
-            }
-            return isNumber;
-        }
-
-	    // 도로명 Validate
-	    function roadValidate(){
-		    var sido = $('#sidoBox').val();
-		    var gungu = $('#gunguBox').val();
-		    var rdNm = $('#rdNmBox').val();
-		    var mnNo = $('#mnNoBox').val();
-
-		    if(sido == "") {
-			    alert("시/도를 선택해 주세요.");
-			    return false;
-		    }
-		    if(sido.indexOf("세종") < 0){
-			    if(gungu == ""){
-				    alert("군/구를 선택해 주세요.");
-				    return false;
-			    }
-		    }
-		    if((rdNm.length < 2) || !roadChk(rdNm.charAt(rdNm.length-1))){
-			    alert("도로명을 입력해 주세요.");
-			    return false;
-		    }
-		    if(splitChk(mnNo.charAt(mnNo.length-1))){
-			    alert("건물번호를 확인해주세요");
-			    return false;
-		    }
-		    if(mnNo.length > 0){
-
-			    var arr_mnNo = mnNo.split("-");
-			    mnNo = arr_mnNo[0];
-			    subNo = 0;
-	            for (var i = 1; i < arr_mnNo.length; i++) {
-	        	    subNo = arr_mnNo[i];
-	                break;
-	            }
-			    $("#mnNo").val(mnNo);
-			    $("#subNo").val(subNo);
-
-			    if(mnNo.length == 0 || !isNumeric(mnNo) || !isNumeric(subNo)){
-				    alert("건물번호는 반드시 숫자만 입력하세요.");
-				    return false;
-			    }
-		    }
-		    $("#sido").val(sido);
-		    $("#gungu").val(gungu);
-		    $("#rdNm").val(rdNm);
-
-		    return true;
-	    }
-
-	    // 동 Validate
-	    function dongValidate(){
-		    var sido = $('#sidoBox').val();
-		    var gungu = $('#gunguBox').val();
-		    var dong = $('#dongBox').val();
-		    var jibunMnNo = $('#jibunBox').val();
-
-		    if(sido == "") {
-			    alert("시/도를 선택해 주세요.");
-			    return false;
-		    }
-		    if(sido.indexOf("세종") < 0){
-			    if(gungu == ""){
-				    alert("군/구를 선택해 주세요.");
-				    return false;
-			    }
-		    }
-		    if((dong.length < 2) || !dongChk(dong.charAt(dong.length-1))){
-			    alert("동을 입력해 주세요.");
-			    return false;
-		    }
-		    if(splitChk(jibunMnNo.charAt(jibunMnNo.length-1))){
-			    alert("지번을 확인해주세요");
-			    return false;
-		    }
-		    if(jibunMnNo.length > 0){
-			    var arr_jibunMnNo = jibunMnNo.split("-");
-			    jibunMnNo = arr_jibunMnNo[0];
-			    jibunSubNo = 0;
-	            for (var i = 1; i < arr_jibunMnNo.length; i++) {
-	        	    jibunSubNo = arr_jibunMnNo[i];
-	                break;
-	            }
-			    $("#jibunMnNo").val(jibunMnNo);
-			    $("#jibunSubNo").val(jibunSubNo);
-
-			    if(jibunMnNo.length == 0 || !isNumeric(jibunMnNo) || !isNumeric(jibunSubNo)){
-				    alert("번지는 반드시 숫자만 입력하세요.");
-				    return false;
-			    }
-		    }
-		    $("#sido").val(sido);
-		    $("#gungu").val(gungu);
-		    $("#dong").val(dong);
-
-		    return true;
-	    }
-
-	    // 건물 Validate
-	    function bdnmValidate(){
-		    var sido = $('#sidoBox').val();
-		    var gungu = $('#gunguBox').val();
-		    var bldNm = $('#bldNmBox').val();
-
-		    if(sido == "") {
-			    alert("시/도를 선택해 주세요.");
-			    return false;
-		    }
-		    if(sido.indexOf("세종") < 0){
-			    if(gungu == ""){
-				    alert("군/구를 선택해 주세요.");
-				    return false;
-			    }
-		    }
-		    if(bldNm.length == 0){
-			    alert("건물명을 입력해 주세요.");
-			    return false;
-		    }
-
-		    $("#sido").val(sido);
-		    $("#gungu").val(gungu);
-		    $("#bldNm").val(bldNm);
-
-		    return true;
-	    }
-
-	    // 주소 검색
-
-
-
-	    $("#btn_search").click(function(){
-		    fnSearch();
-        });
-
-	    function fnSearch(){
-		    var searchType = $("input[name='rdoSearchType']:checked").val();
-
-		    if(searchType == "DONG"){
-			    if(!dongValidate()) {
-				    return false;
-			    }
-
-				    $.ajax({
-				        url: '@Url.Action("getAddressByDongSearchList", "Main")',
-					    type: "post",
-					    dataType: "html",
-					    data:{SIDO:$('#sido').val(),
-						    GUNGU:$('#gungu').val(),
-						    DONG:$('#dong').val(),
-						    MN_NO: $('#jibunMnNo').val(),
-						    SUB_NO: $('#jibunSubNo').val()
-					    },
-					    success: function (result) {
-					        $('#searchTypeBox').hide();
-                            $('#searchBox1').hide();
-						    $('#addressView').show();
-						    $("#addressView").html(result).trigger("create");
-						    var addressSize = $("#addressSize").val();
-						    if(addressSize > 0){
-							    $("#addressView").attr("class", "result_address");
-						    }else{
-							    $("#addressView").attr("class", "none_txt");
-						    }
-					    }
-				    });
-
-			    }else if(searchType == "ROAD"){
-			    if(!roadValidate()) {
-				    return false;
-			    }
-
-				    $.ajax({
-				        url: '@Url.Action("getAddressByStreetSearchList", "Main")',
-					    type: "post",
-					    dataType: "html",
-					    data:{SIDO:$('#sido').val(),
-						    GUNGU:$('#gungu').val(),
-						    RD_NM: $('#rdNm').val(),
-						    MN_NO: $('#mnNo').val(),
-						    SUB_NO: $('#subNo').val()
-					    },
-					    success: function (result) {
-					        $('#searchTypeBox').hide();
-					        $('#searchBox1').hide();
-						    $('#addressView').show();
-						    $("#addressView").html(result).trigger("create");
-						    var addressSize = $("#addressSize").val();
-						    if(addressSize > 0){
-							    $("#addressView").attr("class", "result_address");
-						    }else{
-							    $("#addressView").attr("class", "none_txt");
-						    }
-					    }
-				    });
-
-			    }else if(searchType == "BDNM"){
-				    if(!bdnmValidate()) {
-					    return false;
-				    }
-
-					    $.ajax({
-					        url: '@Url.Action("getAddressByBuildingSearchList", "Main")',
-						    type: "post",
-						    dataType: "html",
-						    data: {
-						        SIDO: $('#sido').val(),
-						        GUNGU: $('#gungu').val(),
-						        BLD_NM: $('#bldNm').val()
-						    },
-						    success: function (result) {
-						        $('#searchTypeBox').hide();
-						        $('#searchBox1').hide();
-							    $('#addressView').show();
-							    $("#addressView").html(result).trigger("create");
-							    var addressSize = $("#addressSize").val();
-							    if(addressSize > 0){
-								    $("#addressView").attr("class", "result_address");
-							    }else{
-								    $("#addressView").attr("class", "none_txt");
-							    }
-						    }
-					    });
-				    }
-	    }
-
-	    // 라디오 버튼 변경
-
-
-
-	    $('#searchType').change(function(){
-		    var searchType = $("input[name='rdoSearchType']:checked").val();
-		    if(searchType == "DONG"){
-			    $('#divRoadNameSearch').css("display","none");
-			    $('#divBldgNameSearch').css("display","none");
-			    $('#divDongNameSearch').css("display","inline");
-			    $('#divRoadNameHelp').hide();
-			    $('#divBldgNameHelp').hide();
-			    $('#divDongNameHelp').show();
-			    $('#addressView').hide();
-			    $("#dongBox").val("동(읍/면)");
-			    $("#jibunBox").val("지번");
-			    $("#sidoBox").val("all");
-			    $('#gunguBox').html("<option value=''>전체</option>");
-		    }else if(searchType == "ROAD"){
-			    $('#divDongNameSearch').css("display","none");
-			    $('#divBldgNameSearch').css("display","none");
-			    $('#divRoadNameSearch').css("display","inline");
-			    $('#divDongNameHelp').hide();
-			    $('#divBldgNameHelp').hide();
-			    $('#divRoadNameHelp').show();
-			    $('#addressView').hide();
-			    $("#rdNmBox").val("도로명");
-			    $("#mnNoBox").val("건물번호");
-			    $("#sidoBox").val("all");
-			    $('#gunguBox').html("<option value=''>전체</option>");
-		    }else if(searchType == "BDNM"){
-			    $('#divDongNameSearch').css("display","none");
-			    $('#divRoadNameSearch').css("display","none");
-			    $('#divBldgNameSearch').css("display","inline");
-			    $('#divDongNameHelp').hide();
-			    $('#divRoadNameHelp').hide();
-			    $('#divBldgNameHelp').show();
-			    $('#addressView').hide();
-			    $("#bldNmBox").val("건물명(아파트명)");
-			    $("#sidoBox").val("all");
-			    $('#gunguBox').html("<option value=''>전체</option>");
-		    }
-	    });
-
-	    // 엔터 이벤트
-
-
-
-	    $("#dongBox").keypress(function(event) {
-		      if ( event.which == 13 ) {
-			      $("#jibunBox").focus();
-			      jibunRemove();
-		       }
-	    });
-
-	    $("#jibunBox").keypress(function(event) {
-		      if ( event.which == 13 ) {
-			      fnSearch();
-		       }
-	    });
-
-	    $("#rdNmBox").keypress(function(event) {
-		      if ( event.which == 13 ) {
-			      $("#mnNoBox").focus();
-			      mnNoRemove();
-		       }
-	    });
-
-	    $("#mnNoBox").keypress(function(event) {
-		      if ( event.which == 13 ) {
-			      fnSearch();
-		       }
-	    });
-
-	    $("#bldNmBox").keypress(function(event) {
-		      if ( event.which == 13 ) {
-			      fnSearch();
-		       }
-	    });
-
-    });
-
-	// box 기본 값 리셋
-	function boxRemove(){
-		if($("#dongBox").val() == '동(읍/면)'){
-			$("#dongBox").val("");
-		}
-		if($("#jibunBox").val() == '지번'){
-			$("#jibunBox").val("");
-		}
-		if($("#rdNmBox").val() == '도로명'){
-			$("#rdNmBox").val("");
-		}
-		if($("#mnNoBox").val() == '건물번호'){
-			$("#mnNoBox").val("");
-		}
-		if($("#bldNmBox").val() == '건물명(아파트명)'){
-			$("#bldNmBox").val("");
-		}
-	}
-
-	// 주소, 우편번호 값 넘기기
-
-
-
-	function fnReturnZip(zip,address){
-			$(opener.location).attr("href", "javascript:resultReceive('" + zip + "', '" + address + "')");
-		self.close();
-	}
-    </script>
 </head>
 <body>
-    <div>
-    
+
+    <div class="wrap" />
+
+    <!-- header -->
+    <div class="headerWrap">
+        <h1><img src="~/Images/bizpost_title.gif" alt="우편번호 검색 서비스" /></h1>
+        <div class="rightTop"><a href=""><img src="~/Images/btn_close01.gif" alt="우편번호 검색 서비스 창닫기" onClick="self.close();" /></a></div>
     </div>
+    <!-- //header -->
+    <!-- body -->
+    <div class="bodyWrap">
+
+        <form name="frmRoadAddr" id="frmRoadAddr" method="post">
+            <input type="hidden" name="sido" id="sido" />
+            <input type="hidden" name="gungu" id="gungu" />
+            <input type="hidden" name="rdNm" id="rdNm" />
+            <input type="hidden" name="mnNo" id="mnNo" />
+            <input type="hidden" name="subNo" id="subNo" />
+            <input type="hidden" name="dong" id="dong" />
+            <input type="hidden" name="jibunMnNo" id="jibunMnNo" />
+            <input type="hidden" name="jibunSubNo" id="jibunSubNo" />
+            <input type="hidden" name="bldNm" id="bldNm" />
+        </form>
+
+        <div class="layer_box1" id="searchTypeBox">
+            <ul class="input_list" id="searchType">
+                <li>
+                    <label><input type="radio" class="rdo" id="DONG" name="rdoSearchType" value="DONG">동(읍/면) + 지번</label>
+                </li>
+                <li>
+                    <label><input type="radio" class="rdo" id="ROAD" name="rdoSearchType" value="ROAD" checked="checked">도로명 주소 + 건물번호</label>
+                </li>
+                <li>
+                    <label><input type="radio" class="rdo" id="BDNM" name="rdoSearchType" value="BDNM">건물명(아파트명)</label>
+                </li>
+            </ul>
+        </div>
+
+        <div id="divDongNameHelp" class="layer_box2">
+            <strong class="how_txt">검색방법 : 시/도 및 시/군/구 선택 후 동(읍/면)+지번 입력</strong><br />
+            <p class="how_txt">예) 논현동 142-12 → 서울특별시 강남구 선택 후 논현동(동명) + 142-12(지번)</p>
+        </div>
+
+        <div id="divRoadNameHelp" class="layer_box2">
+            <strong class="how_txt">검색방법 : 시/도 및 시/군/구 선택 후 도로명과 건물번호 입력</strong><br />
+            <p class="how_txt">예) 강남대로 542 → 서울특별시 강남구 선택 후 강남대로(도로명) + 542(건물번호)</p>
+        </div>
+
+        <div id="divBldgNameHelp" class="layer_box2">
+            <strong class="how_txt">검색방법 : 시/도 및 시/군/구 선택 후 건물명 입력</strong><br />
+            <p class="how_txt">예) 영풍빌딩  → 서울특별시 강남구 선택 후 영풍빌딩(건물명)</p>
+        </div>
+
+        <div id="searchBox1" class="layer_box3">
+            <table>
+                <colgroup>
+                    <col width="13%">
+                    <col width="30%">
+                    <col width="13%">
+                    <col>
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th>시도</th>
+                        <td>
+                            <select id="sidoBox" name="sidoBox" class="selbox">
+                                <option value="all">전체</option>
+                                @foreach (var item in Model)
+                                {
+                                    <option value="@item.SIDO">@item.SIDO</option>
+                                }
+                            </select>
+                        </td>
+                        <th>시군구</th>
+                        <td>
+                            <select id="gunguBox" name="gunguBox" class="selbox"><option value="">전체</option></select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>검색어</th>
+                        <td colspan="3">
+                            <div id="divDongNameSearch" style="display:inline;">
+                                <input type="text" name="dongBox" id="dongBox" class="input_txt" value="동(읍/면)" onClick="javascript:boxRemove();">
+                                <span class="main_icons plus">+</span>
+                                <input type="text" name="jibunBox" id="jibunBox" class="input_txt" value="지번" onClick="javascript:boxRemove();">
+                            </div>
+
+                            <div id="divRoadNameSearch" style="display:inline;">
+                                <input type="text" name="rdNmBox" id="rdNmBox" class="input_txt" value="도로명" onClick="javascript:boxRemove();">
+                                <span class="box3_icons plus">+</span>
+                                <input type="text" name="mnNoBox" id="mnNoBox" class="input_txt" value="건물번호" onClick="javascript:boxRemove();">
+                            </div>
+
+                            <div id="divBldgNameSearch" style="display:inline;">
+                                <input type="text" name="bldNmBox" id="bldNmBox" class="input_txt w151" value="건물명(아파트명)" onClick="javascript:boxRemove();">
+                            </div>
+
+                            <div style="display:inline" class="btnSearch">
+                                <a href="#" id="btn_search"><img src="~/Images/btn_search.gif" alt="검색"></a>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div id="addressView">@Html.Partial("getZipListPartial", Model)</div>
+        <!-- //body -->
+        <!-- footer -->
+        <div class="footerWrap">
+        </div>
+        <!-- //footer -->
+
+    </div>
+
 </body>
+
 </html>

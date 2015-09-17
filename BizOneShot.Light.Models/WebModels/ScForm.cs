@@ -10,8 +10,12 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data;
+using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Threading;
 
 namespace BizOneShot.Light.Models.WebModels

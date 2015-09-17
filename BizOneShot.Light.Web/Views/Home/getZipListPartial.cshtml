@@ -1,0 +1,52 @@
+﻿@model IEnumerable<BizOneShot.Light.Models.ViewModels.SelectAddressListModel>
+
+<input type="hidden" id="addressSize" value="@ViewBag.SIZE" />
+
+@if (@ViewBag.SIZE > 0)
+{
+    <div class="bg_tbl_head">
+        <div class="scroll_g">
+            <table class="tbl_comm" summary="해당 도로명주소와 지번주소의 우편번호 정보를 제공합니다">
+                <caption class="screen_hide">우편번호찾기 검색결과 표</caption>
+                <colgroup>
+                    <col width="420">
+                    <col width="70">
+                </colgroup>
+                <thead>
+                    <tr class="ir_pm">
+                        <th scope="col" class="ir_pm">도로명/지번 주소</th>
+                        <th scope="col" class="ir_pm">우편번호</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="on">
+                            <td class="cont_address">
+                                <div class="info_road">
+                                    <em class="img_address">도로명</em>
+                                    <a href="javascript:fnReturnZip('@item.ZIP_CD','@item.ROAD_NM_ADDR')" class="link_g">@item.ROAD_NM_ADDR</a>
+                                </div>
+                                <div class="info_num">
+                                    <em class="img_address">지번</em>
+                                    @item.JIBUN_ADDR
+                                </div>
+                            </td>
+                            <td class="cont_code">@item.ZIP_CD.Substring(0, 3)-@item.ZIP_CD.Substring(2, 3)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="footerWrap_back"><a href="#"><img src="~/Images/btn_back.gif" id="btn_back"></a></div>
+}
+@if (@ViewBag.SIZE == 0)
+{
+    <img src="~/Images/ico_none.gif" alt="주소를 찾을 수 없습니다" />
+    <p class="result">
+        검색결과가 없습니다.<br />
+        다시 입력 해주세요.
+    </p>
+    <div class="footerWrap_back2"><a href="#"><img src="~/Images/btn_back.gif" id="btn_back"></a></div>
+}

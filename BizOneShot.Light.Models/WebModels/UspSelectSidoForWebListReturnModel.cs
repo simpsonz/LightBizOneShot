@@ -20,15 +20,9 @@ using System.Threading;
 
 namespace BizOneShot.Light.Models.WebModels
 {
-    // SC_BIZ_TYPE
-    public class ScBizType
+    public class UspSelectSidoForWebListReturnModel
     {
-        public int CompSn { get; set; } // COMP_SN. 기업식별자
-        public string BizTypeCd { get; set; } // BIZ_TYPE_CD. 업종코드
-        public string BizCondCd { get; set; } // BIZ_COND_CD. 업태코드
-
-        // Foreign keys
-        public virtual ScCompInfo ScCompInfo { get; set; } // FK_SC_COMP_INFO_TO_SC_BIZ_TYPE
+        public String SIDO { get; set; }
     }
 
 }

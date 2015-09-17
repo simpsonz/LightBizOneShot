@@ -1323,6 +1323,7 @@
     <Content Include="Views\Cs\ExpertGuide.cshtml" />
     <Content Include="Views\Cs\Manual.cshtml" />
     <Content Include="Views\Cs\ManualDetail.cshtml" />
+    <Content Include="Views\Home\getZipListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -131,6 +131,9 @@
     <Compile Include="WebModels\SyDareDbInfo.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="WebModels\UspSelectSidoForWebListReturnModel.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="DareModels\Models.tt">
