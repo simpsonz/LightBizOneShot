@@ -41,6 +41,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.MentorId).HasColumnName("MENTOR_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.CompSn).HasColumnName("COMP_SN").IsOptional().HasColumnType("int");
             Property(x => x.SubmitDt).HasColumnName("SUBMIT_DT").IsOptional().HasColumnType("datetime");
+            Property(x => x.Status).HasColumnName("STATUS").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
             Property(x => x.UpdId).HasColumnName("UPD_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);

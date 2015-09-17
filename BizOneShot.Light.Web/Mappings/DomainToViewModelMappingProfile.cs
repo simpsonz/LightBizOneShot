@@ -204,6 +204,11 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.Addr, map => map.MapFrom(s => "(" + s.PostNo + ") " + s.Addr1 + " " + s.Addr2))
                 .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScMentorMappiings.FirstOrDefault().ScBizWork.BizWorkNm ?? ""));
 
+            //맨토 토탈 레포트 뷰
+            Mapper.CreateMap<ScMentoringTotalReport, MentoringTotalReportViewModel>()
+                .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
+                .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm));
+
             //기업 뷰 매핑
             Mapper.CreateMap<ScCompInfo, CompInfoDropDownModel>();
 

@@ -34,7 +34,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             this._scMentoringTotalReportService = scMentoringTotalReportService;
         }
 
-        public async Task<ActionResult> MentoringTotalReportList(SelectedMentorTotalReportParmModel param)
+        public async Task<ActionResult> MentoringTotalReportList(SelectedMentorTotalReportParmModel param, string curPage)
         {
             ViewBag.LeftMenu = Global.MentoringReport;
 
@@ -56,7 +56,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             
             bizWorkDropDown.Insert(0, titleBizWork);
           
-            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm", param.BizWorkSn);
 
             ViewBag.SelectBizWorkList = bizList;
 
@@ -77,9 +77,10 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
             compInfoDropDown.Insert(0, titleCompInfo);
 
-            SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
+            SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm", param.CompSn);
 
             ViewBag.SelectCompInfoList = compInfoList;
+
 
             //제출년도 DownDown List Data
             var listSubmitDt = await _scMentoringTotalReportService.GetMentoringTotalReportSubmitDt(mentorId);
@@ -102,7 +103,6 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
                     });
             }
 
-
             SubmitDtDropDownModel titleSubmitDt = new SubmitDtDropDownModel
             {
                 SubmitDt = 0,
@@ -111,22 +111,25 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
             submitDtDropDown.Insert(0, titleSubmitDt);
 
-            SelectList submitDtList = new SelectList(submitDtDropDown, "SubmitDt", "SubmitYear");
+            SelectList submitDtList = new SelectList(submitDtDropDown, "SubmitDt", "SubmitYear", param.SubmitDt);
 
             ViewBag.SelectSubmitList = submitDtList;
 
+     
+            //검색조건을 유지하기 위한
+            ViewBag.SelectParam = param;
 
             //실제 쿼리
             var listTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportAsync(mentorId, param.SubmitDt, param.BizWorkSn, param.CompSn);
 
+            //여기부터 해야함 (매핑하고 페이지리스트로 뷰로 보내기)
+            var totalReportView =
+               Mapper.Map<List<MentoringTotalReportViewModel >>(listTotalReport);
 
-            //var usrViews =
-            //   Mapper.Map<List<CompanyMngViewModel>>(listCompany);
-
-            //int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
-            //return View(new StaticPagedList<CompanyMngViewModel>(listTotalReport.ToPagedList(1, pagingSize), 1, pagingSize, usrViews.Count));
-
-            return View(listTotalReport);
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            return View(new StaticPagedList<MentoringTotalReportViewModel>(totalReportView.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, totalReportView.Count));
         }
+
+        
     }
 }

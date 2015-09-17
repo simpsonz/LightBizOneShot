@@ -32,6 +32,7 @@ namespace BizOneShot.Light.Models.WebModels
         public string MentorAreaCd { get; set; } // MENTOR_AREA_CD. 코드정의해야 함함
         public string MentoringSubject { get; set; } // MENTORING_SUBJECT. 맨토링주제
         public string MentoringContents { get; set; } // MENTORING_CONTENTS. 맨토링내용
+        public string Status { get; set; } // STATUS. 상태
         public string RegId { get; set; } // REG_ID. 등록자
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시
         public string UpdId { get; set; } // UPD_ID. 수정자

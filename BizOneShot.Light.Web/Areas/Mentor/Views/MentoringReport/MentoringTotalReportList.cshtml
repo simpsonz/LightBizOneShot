@@ -1,4 +1,4 @@
-﻿
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.MentoringTotalReportViewModel>
 
 @{
     Layout = "~/Areas/Mentor/Views/Shared/_MainLayout.cshtml";
@@ -11,31 +11,34 @@
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb1').addClass('on');
     });
+
+    function goPage(page) {
+        $('#curPage').val(page);
+        $('#searchForm').submit();
+    }
 </script>
 
 <div id="sub_rightwrap">
     <div class="sub_right_title mentor_01_04"><em>멘토링 종합보고서 조회</em></div>
 
-    <div id="sub_inquiry_box">
-        <select class="w130">
-            <option value="">2015년</option>
-            <option value="">2014년</option>
-            <option value="">그룹2</option>
-        </select><select class="w150">
-            <option value="">사업</option>
-            <option value="">사업1</option>
-        </select><select class="w150">
-            <option value="">기업</option>
-            <option value="">기업1</option>
-        </select><input type="button" class="inquire" title="조회" />
-    </div><!--sub_inquiry_box//-->
+    @using (Html.BeginForm("MentoringTotalReportList", "MentoringReport", FormMethod.Post, new { area = "Mentor", id = "searchForm" }))
+    {
+        <div id="sub_inquiry_box">
+
+            @Html.DropDownList("SubmitDt", ViewBag.SelectSubmitList as SelectList, new { @class = "w130" })
+            @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150" })
+            @Html.DropDownList("CompSn", ViewBag.SelectCompInfoList as SelectList, new { @class = "w150" })
+            <button type="submit" class="inquire" value="종합보고서조회">조회</button>
+        </div><!--sub_inquiry_box//-->
+        @Html.Hidden("curPage", "1")
+    }
     <div class="line_dot20"></div>
 
     <form method="" action="" name="" id="">
         <div class="tablewrap">
             <!--목록-->
             <table class="admin_list">
-                <caption>멘토링 일지 조회 목록</caption>
+                <caption>멘토링 종합보고서 조회</caption>
                 <colgroup>
                     <col width="5%">
                     <col width="30%">
@@ -50,46 +53,45 @@
                     <th class="topcen">제출일</th>
                     <th class="topcen">보고서 보기</th>
                 </tr>
-                <tr>
-                    <td><input type="checkbox" /></td>
-                    <td>창업맞춤형</td>
-                    <td>(주)대한</td>
-                    <td>2015.07.11</td>
-                    <td><a href="" class="bt_attachment_view" onclick="openWin('#','500','600')"><em>첨부보기</em></a></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" /></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                
+
+                @if (Model == null || Model.TotalItemCount == 0)
+                {
+                    <tr>
+                        <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><input type="checkbox" value="@item.TotalReportSn" /></td>
+                            <td>@item.CompNm</td>
+                            <td>@item.CompNm</td>
+                            <td>@item.SubmitDt.Value.Year</td>
+                          
+                            <td>
+                                @*<span class="full_line">@Html.ActionLink("첨부보기", "MentoringTotalReportDetail", item)</span>*@
+                                <span class="full_line">@Html.ActionLink("첨부보기", "MentoringTotalReportDetail", new { totalReportViewModel = item, selectParam = ViewBag.SelectParam })</span>
+                            </td>
+                        </tr>
+                    }
+                }
             </table>
         </div><!--tablewrap//-->
-        <div class="page_num_wrap">
-            <div class="page_num">
-                <ul>
-                    <li><input type="button" class="first" value="첫페이지"></li>
-                    <li><input type="button" class="pre" value="이전 페이지"></li>
-                    <li class="on">1<span>l</span></li>
-                    <li><a href="">2</a><span>l</span></li>
-                    <li><a href="">3</a><span>l</span></li>
-                    <li><a href="">4</a><span>l</span></li>
-                    <li><a href="">5</a><span>l</span></li>
-                    <li><a href="">6</a><span>l</span></li>
-                    <li><a href="">7</a><span>l</span></li>
-                    <li><a href="">8</a><span>l</span></li>
-                    <li><a href="">9</a><span>l</span></li>
-                    <li><a href="">10</a></li>
-                    <li><input type="button" class="next" value="다음 페이지"></li>
-                    <li><input type="button" class="last" value="끝 페이지" /></li>
-                </ul>
+        
+        @if (Model != null && Model.TotalItemCount != 0)
+        {
+            @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+        }
+
+        @if (Model.TotalItemCount != 0)
+        {
+            <div id="btnwrap_sub">
+                <input type="button" class="delete right" onclick="confirm('선택하신 멘토링 종합보고서를 목록에서 삭제하시겠습니까?');return false;" title="삭제" />
             </div>
-        </div><!-- page_num_wrap//-->
-        <div id="btnwrap_sub">
-            <input type="button" class="delete right" onclick="confirm('선택하신 멘토링 종합보고서를 목록에서 삭제하시겠습니까?');return false;" title="삭제" />
-        </div>
+        }
+
     </form>
 
 </div><!--sub_rightwrap//-->

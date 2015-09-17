@@ -25,6 +25,7 @@ namespace BizOneShot.Light.Models.WebModels
         public string MentorId { get; set; } // MENTOR_ID. 맨토식별자
         public int? CompSn { get; set; } // COMP_SN. 기업식별자
         public DateTime? SubmitDt { get; set; } // SUBMIT_DT. 제출일
+        public string Status { get; set; } // STATUS. 상태
         public string RegId { get; set; } // REG_ID. 등록자
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시
         public string UpdId { get; set; } // UPD_ID. 수정자
