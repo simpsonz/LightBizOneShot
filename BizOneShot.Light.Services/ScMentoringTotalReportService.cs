@@ -19,7 +19,7 @@ namespace BizOneShot.Light.Services
         Task<IList<int>> GetMentoringTotalReportSubmitDt(string mentorId);
         Task<IList<ScMentoringTotalReport>> GetMentoringTotalReportAsync(string mentorId, int submitDt = 0, int bizWorkSn = 0, int CompSn = 0);
 
-        Task ModifyMentoringTRStatusDelete(IList<string> listTotalReportSn);
+        Task DeleteMentoringTotalReport(IList<string> listTotalReportSn);
         Task ModifyMentoringTRStatusDelete(string totalReportSn);
     }
 
@@ -43,6 +43,7 @@ namespace BizOneShot.Light.Services
         public Task<IList<int>> GetMentoringTotalReportSubmitDt(string mentorId)
         {
             return scMentoringTotalReportRepository.GetMentoringTotalReportSubmitDt(mentorId);
+
         }
 
         public async Task<IList<ScMentoringTotalReport>> GetMentoringTotalReportAsync(string mentorId, int submitDt = 0, int bizWorkSn = 0, int compSn = 0)
@@ -74,12 +75,14 @@ namespace BizOneShot.Light.Services
             //    return listTotalReport.ToList();
         }
 
-        public async Task ModifyMentoringTRStatusDelete(IList<string> listTotalReportSn)
+        public async Task DeleteMentoringTotalReport(IList<string> listTotalReportSn)
         {  
             foreach(var totalReportSn in listTotalReportSn)
             {
                 await Task.Run(() => ModifyMentoringTRStatusDelete(totalReportSn));
             }
+
+            await SaveDbContextAsync();
         }
 
         public async Task ModifyMentoringTRStatusDelete(string totalReportSn)

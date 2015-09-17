@@ -29,7 +29,8 @@ namespace BizOneShot.Light.Dao.Repositories
         public async Task<IList<ScMentoringTotalReport>> GetMentoringTotalReport(Expression<Func<ScMentoringTotalReport, bool>> where)
         {
             return await this.DbContext.ScMentoringTotalReports
-                .Include(mtr => mtr.ScBizWork).Include(mtr => mtr.ScCompInfo)
+                .Include(mtr => mtr.ScBizWork)
+                .Include(mtr => mtr.ScCompInfo)
                 .Include(mtr => mtr.ScMentoringTrFileInfoes)
                 .Include(mtr => mtr.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo))
                 .Where(where).ToListAsync();

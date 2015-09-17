@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace BizOneShot.Light.Models.ViewModels
 {
     class MentorViewModel
@@ -180,6 +181,8 @@ namespace BizOneShot.Light.Models.ViewModels
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시
         public string UpdId { get; set; } // UPD_ID. 수정자
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
+
+        public IList<FileContent> FileContents { get; set; }
     }
 }
 
