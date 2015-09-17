@@ -12,7 +12,7 @@ namespace BizOneShot.Light.Services
 
     public interface IScQaService : IBaseService
     {
-        Task<IList<ScQa>> GetReceiveQAsAsync(string loginId);
+        Task<IList<ScQa>> GetReceiveQAsAsync(string loginId, string checkYN, DateTime startDate, DateTime endDate, string comName = null, string registrationNo = null);
         Task<ScQa> GetQAAsync(int usrQaSn);
     }
 
@@ -36,15 +36,11 @@ namespace BizOneShot.Light.Services
             return scQa;
         }
 
-        public async Task<IList<ScQa>> GetReceiveQAsAsync(string loginId)
+        public async Task<IList<ScQa>> GetReceiveQAsAsync(string loginId, string checkYN, DateTime startDate, DateTime endDate, string comName = null, string registrationNo = null)
         {
-            IEnumerable<ScQa> listScQaTask = null;
-
-            listScQaTask = await _scQaRepository.GetQAsAsync(sq => sq.AnswerId == loginId);
-            return listScQaTask.OrderByDescending(sq => sq.AnsDt).ToList();
+            var listScQaTask = await _scQaRepository.GetQAsAsync(sq => sq.AnswerId == loginId && sq.AnsYn.Contains(checkYN) && sq.ScUsr_QuestionId.ScCompInfo.CompNm.Contains(comName) && sq.ScUsr_QuestionId.ScCompInfo.RegistrationNo.Contains(registrationNo) && (sq.AskDt >= startDate && sq.AskDt <= endDate));
+            return listScQaTask.OrderByDescending(sq => sq.AskDt).ToList();
         }
-
-
 
         #region SaveContext
         public void SaveDbContext()

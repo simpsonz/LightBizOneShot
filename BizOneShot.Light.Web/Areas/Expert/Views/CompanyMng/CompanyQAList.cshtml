@@ -9,6 +9,45 @@
         $('#naviwrap_biz > .navi_biz > a.navi_expert01').addClass('on');
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_QnA').addClass('on');
+
+        $("#START_DATE,  #END_DATE").datepicker({
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            dateFormat: 'yy-mm-dd'
+        });
+        $('#START_DATE').change(function () {
+            var sDate = $('#START_DATE').val().split('-');
+            var nsDate = new Date(sDate[0], sDate[1], sDate[2]).valueOf();
+
+            var eDate = $('#END_DATE').val().split('-');
+            var neDate = new Date(eDate[0], eDate[1], eDate[2]).valueOf();
+
+            if (nsDate > neDate) {
+                alert("시작날짜가 종료날짜 보다 큽니다.");
+                return false;
+            }
+        });
+
+        $('#END_DATE').change(function () {
+            var sDate = $('#START_DATE').val().split('-');
+            var nsDate = new Date(sDate[0], sDate[1], sDate[2]).valueOf();
+
+            var eDate = $('#END_DATE').val().split('-');
+            var neDate = new Date(eDate[0], eDate[1], eDate[2]).valueOf();
+
+            if (nsDate > neDate) {
+                alert("종료날짜가 시작날짜 보다 작습니다.");
+                //$('#START_DATE').val($('#END_DATE').val());
+                return false;
+            }
+        });
+        $('.bt_calendar').on('click', function () {
+            $(this).prev().focus();
+            return false;
+        });
     });
 
     function goPage(page) {
@@ -16,12 +55,57 @@
         $('#searchForm').submit();
     }
 </script>
+@* 캘린더 처리를위해 추가한 JS 및 SCC *@
+@Styles.Render("~/css/jquery-ui")
+@Scripts.Render("~/bundles/jquery-ui")
 
-@Html.Hidden("curPage", "1")
+
+
 <div id="sub_rightwrap">
     <div class="sub_right_title specialist_01_02"><em>관리기업 문의 답변</em></div>
-    <p>관리기업에서 문의한 1:1 문의 목록 입니다</p>
-    <div class="text_boxwrap">미답변 문의가 <span class="bold">@ViewBag.NotAnswerCnt 건</span> 있습니다.</div>
+    @using (Html.BeginForm("CompanyQAList", "CompanyMng", FormMethod.Post, new { area = "Expert", id = "searchForm" }))
+    {
+        <div class="tablewrap">
+            <!--분류항목 귀속년도-->
+            <table>
+                <colgroup>
+                    <col width="162px">
+                    <col width="585px">
+                </colgroup>
+                <tr>
+                    <th>기업명</th>
+                    <td class="form">
+                        @Html.TextBox("ComName", null, new { @class = "w326", @id = "ComName" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>사업자번호</th>
+                    <td class="form">
+                        @Html.TextBox("RegistrationNo", null, new { @class = "w326", @id = "RegistrationNo" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>요청일자</th>
+                    <td class="form">
+                        @Html.TextBox("START_DATE", (object)ViewBag.StartDate, new { @class = "w120", @id = "START_DATE", @readonly = "readonly" })
+                        <a href="" class="bt_calendar"><em>날짜선택</em></a> ~
+                        @Html.TextBox("END_DATE", (object)ViewBag.EndDate, new { @class = "w120", @id = "END_DATE", @readonly = "readonly" })
+                        <a href="" class="bt_calendar"><em>날짜선택</em></a>
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>답변여부</th>
+                    <td class="form">
+                        @Html.DropDownList("CheckYNList", ViewBag.SelectCheckYNList as SelectList, new { @class = "w130" })
+                    </td>
+                </tr>
+            </table>
+        </div><!--tablewrap//-->
+        <div class="btnwrap center"><button type="submit" class="search2" value="검색"></button>	</div>
+        @Html.Hidden("curPage", "1")
+    }
+
     <div class="line_dot20"></div>
 
     <div class="tablewrap">
@@ -53,7 +137,7 @@
                 {
                     <tr>
                         <td class="center">
-                            <span class="full_line">@Html.ActionLink(item.Subject, "QaDetail", new { usrQaSn = item.UsrQaSn })</span>
+                            <span class="full_line">@Html.ActionLink(item.Subject, "CompanyQaDetail", new { usrQaSn = item.UsrQaSn })</span>
                         </td>
                         <td class="center">@item.QuestionComNm</td>
                         <td class="center">@item.QuestionRegistrationNo</td>

@@ -30,7 +30,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<ScQa> GetQAAsync(Expression<Func<ScQa, bool>> where)
         {
-            return await this.DbContext.ScQas.Include("ScUsr_AnswerId").Include("ScUsr_AnswerId.ScCompInfo").Where(where).SingleAsync();
+            return await this.DbContext.ScQas.Include("ScUsr_QuestionId").Include("ScUsr_QuestionId.ScCompInfo").Include("ScUsr_AnswerId").Include("ScUsr_AnswerId.ScCompInfo").Where(where).SingleAsync();
         }
 
     }
