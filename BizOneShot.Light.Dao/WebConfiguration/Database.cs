@@ -5,7 +5,7 @@
 // 
 // The following connection settings were used to generate this file
 // 
-//     Configuration file:     "BizOneShot.Light.Dao\App.config"
+//     Configuration file:     "EntityTestConsole\App.config"
 //     Connection String Name: "WebDbContext"
 //     Connection String:      "Data Source=192.168.100.65;password=**zapped**;"
 

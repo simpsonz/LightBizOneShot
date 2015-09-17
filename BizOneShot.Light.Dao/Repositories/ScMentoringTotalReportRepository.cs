@@ -23,7 +23,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<IList<int>> GetMentoringTotalReportSubmitDt(string mentorId)
         {
-            return await this.DbContext.ScMentoringTotalReports.Where(mtr => mtr.MentorId == mentorId).Select(mtr => mtr.SubmitDt.Value.Year).Distinct().OrderByDescending(dt => dt).ToListAsync();
+            return await this.DbContext.ScMentoringTotalReports.Where(mtr => mtr.MentorId == mentorId && mtr.Status == "N").Select(mtr => mtr.SubmitDt.Value.Year).Distinct().OrderByDescending(dt => dt).ToListAsync();
         }
 
         public async Task<IList<ScMentoringTotalReport>> GetMentoringTotalReport(Expression<Func<ScMentoringTotalReport, bool>> where)
