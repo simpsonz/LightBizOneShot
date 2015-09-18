@@ -207,7 +207,8 @@ namespace BizOneShot.Light.Web.Mappings
             //맨토 토탈 레포트 뷰
             Mapper.CreateMap<ScMentoringTotalReport, MentoringTotalReportViewModel>()
                 .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
-                .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm));
+                .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
+                .ForMember(d => d.FileContents, map => map.MapFrom(s => s.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo)));
 
             //기업 뷰 매핑
             Mapper.CreateMap<ScCompInfo, CompInfoDropDownModel>();

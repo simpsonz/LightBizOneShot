@@ -13,6 +13,7 @@ namespace BizOneShot.Light.Dao.Repositories
     public interface IScMentoringTotalReportRepository : IRepository<ScMentoringTotalReport>
     {
         Task<IList<int>> GetMentoringTotalReportSubmitDt(string mentorId);
+        Task<ScMentoringTotalReport> GetMentoringTotalReportById(int totalReportSn);
         Task<IList<ScMentoringTotalReport>> GetMentoringTotalReport(Expression<Func<ScMentoringTotalReport, bool>> where); 
     }
 
@@ -26,12 +27,23 @@ namespace BizOneShot.Light.Dao.Repositories
             return await this.DbContext.ScMentoringTotalReports.Where(mtr => mtr.MentorId == mentorId && mtr.Status == "N").Select(mtr => mtr.SubmitDt.Value.Year).Distinct().OrderByDescending(dt => dt).ToListAsync();
         }
 
-        public async Task<IList<ScMentoringTotalReport>> GetMentoringTotalReport(Expression<Func<ScMentoringTotalReport, bool>> where)
+        public async Task<ScMentoringTotalReport> GetMentoringTotalReportById(int totalReportSn)
         {
-            return await this.DbContext.ScMentoringTotalReports
+            return await DbContext.ScMentoringTotalReports
                 .Include(mtr => mtr.ScBizWork)
                 .Include(mtr => mtr.ScCompInfo)
-                .Include(mtr => mtr.ScMentoringTrFileInfoes)
+                //.Include(mtr => mtr.ScMentoringTrFileInfoes)
+                .Include(mtr => mtr.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo))
+                .Where(mtr => mtr.TotalReportSn == totalReportSn)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<IList<ScMentoringTotalReport>> GetMentoringTotalReport(Expression<Func<ScMentoringTotalReport, bool>> where)
+        {
+            return await DbContext.ScMentoringTotalReports
+                .Include(mtr => mtr.ScBizWork)
+                .Include(mtr => mtr.ScCompInfo)
+                //.Include(mtr => mtr.ScMentoringTrFileInfoes)
                 .Include(mtr => mtr.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo))
                 .Where(where).ToListAsync();
         }

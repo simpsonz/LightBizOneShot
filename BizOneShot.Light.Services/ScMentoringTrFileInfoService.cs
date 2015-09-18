@@ -33,7 +33,7 @@ namespace BizOneShot.Light.Services
 
         public async Task<IList<ScMentoringTrFileInfo>> GetMentoringTrFileInfo(int totalReportSn)
         {
-            return await scMentoringTrFileInfoRepository.GetMentoringTrFileInfo(mtfi => mtfi.TotalReportSn == totalReportSn);
+            return await scMentoringTrFileInfoRepository.GetMentoringTrFileInfo(mtfi => mtfi.TotalReportSn == totalReportSn && mtfi.ScFileInfo.Status == "N");
         }
 
         

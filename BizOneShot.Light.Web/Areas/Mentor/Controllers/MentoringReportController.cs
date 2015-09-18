@@ -40,35 +40,60 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
         }
 
         [HttpPost]
-        public async Task DeleteMentoringTotalReport(string [] totalReportSns)
+        public async Task<JsonResult> DeleteMentoringTotalReport(string [] totalReportSns)
         {
             ViewBag.LeftMenu = Global.MentoringReport;
 
             await _scMentoringTotalReportService.DeleteMentoringTotalReport(totalReportSns);
+
+            return Json(new { result = true });
         }
 
-        [HttpPost]
-        public async Task<ActionResult> MentoringTotalReportDetail(MentoringTotalReportViewModel model, SelectedMentorTotalReportParmModel param)
+        //[HttpPost]
+        //public async Task<ActionResult> MentoringTotalReportDetail(MentoringTotalReportViewModel totalReportViewModel, SelectedMentorTotalReportParmModel selectParam)
+        //{
+        //    ViewBag.LeftMenu = Global.MentoringReport;
+
+        //    var listscMentoringFrFileInfo = await _scMentoringTrFileInfoService.GetMentoringTrFileInfo(totalReportViewModel.TotalReportSn);
+
+        //    var listscFileInfo = listscMentoringFrFileInfo.Select(mtfi => mtfi.ScFileInfo);
+
+        //    var listFileContent =
+        //       Mapper.Map<List<FileContent>>(listscFileInfo);
+
+        //    //파일정보 매핑
+        //    totalReportViewModel.FileContents = listFileContent;
+
+        //    //검색조건 유지를 위해
+        //    ViewBag.SelectParam = selectParam;
+
+        //    return View(totalReportViewModel);
+        //}
+
+        public async Task<ActionResult> MentoringTotalReportDetail(int totalReportSn, SelectedMentorTotalReportParmModel selectParam)
         {
             ViewBag.LeftMenu = Global.MentoringReport;
 
-            var listscMentoringFrFileInfo = await _scMentoringTrFileInfoService.GetMentoringTrFileInfo(model.TotalReportSn);
+            var scMentoringTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportById(totalReportSn);
 
-            var listscFileInfo = listscMentoringFrFileInfo.Select(mtfi => mtfi.ScFileInfo);
+            var listscFileInfo = scMentoringTotalReport.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo).Where(fi => fi.Status == "N");
 
             var listFileContent =
                Mapper.Map<List<FileContent>>(listscFileInfo);
-            
-            //파일정보 매핑
-            model.FileContents = listFileContent;
+
+
+            var totalReportViewModel =
+               Mapper.Map<MentoringTotalReportViewModel>(scMentoringTotalReport);
+
+            totalReportViewModel.FileContents = listFileContent;
 
             //검색조건 유지를 위해
-            ViewBag.SelectParam = param;
+            ViewBag.SelectParam = selectParam;
 
-            return View(model);
+            return View(totalReportViewModel);
         }
 
-        public async Task<ActionResult> MentoringTotalReportList(SelectedMentorTotalReportParmModel param, string curPage)
+        public async Task<ActionResult> MentoringTotalReportList(SelectedMentorTotalReportParmModel param, string curPage = "1")
         {
             ViewBag.LeftMenu = Global.MentoringReport;
 
@@ -155,6 +180,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
             //실제 쿼리
             var listscMentoringTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportAsync(mentorId, param.SubmitDt, param.BizWorkSn, param.CompSn);
+
 
             //맨토링 종합 레포트 정보 매핑
             var listTotalReportView =

@@ -17,6 +17,7 @@ namespace BizOneShot.Light.Services
     {
         //IList<int> GetMentoringTotalReportSubmitDt(string mentorId);
         Task<IList<int>> GetMentoringTotalReportSubmitDt(string mentorId);
+        Task<ScMentoringTotalReport> GetMentoringTotalReportById(int totalReportSn);
         Task<IList<ScMentoringTotalReport>> GetMentoringTotalReportAsync(string mentorId, int submitDt = 0, int bizWorkSn = 0, int CompSn = 0);
 
         Task DeleteMentoringTotalReport(IList<string> listTotalReportSn);
@@ -36,48 +37,38 @@ namespace BizOneShot.Light.Services
         }
 
 
-        //public IList<int> GetMentoringTotalReportSubmitDt(string mentorId)
-        //{
-        //    return scMentoringTotalReportRepository.GetMany(mtr => mtr.MentorId == mentorId).Select(mtr => mtr.SubmitDt.Value.Year).Distinct().ToList(); 
-        //}
-        public Task<IList<int>> GetMentoringTotalReportSubmitDt(string mentorId)
+ 
+        public async Task<IList<int>> GetMentoringTotalReportSubmitDt(string mentorId)
         {
-            return scMentoringTotalReportRepository.GetMentoringTotalReportSubmitDt(mentorId);
+            return await scMentoringTotalReportRepository.GetMentoringTotalReportSubmitDt(mentorId);
+        }
 
+        public async Task<ScMentoringTotalReport> GetMentoringTotalReportById(int totalReportSn)
+        {
+            return await scMentoringTotalReportRepository.GetMentoringTotalReportById(totalReportSn);
         }
 
         public async Task<IList<ScMentoringTotalReport>> GetMentoringTotalReportAsync(string mentorId, int submitDt = 0, int bizWorkSn = 0, int compSn = 0)
         {
-            //IEnumerable<ScMentoringTotalReport> listTotalReport = null;
+            //return await scMentoringTotalReportRepository.GetMentoringTotalReport
+            //    (mtr => mtr.MentorId == mentorId && mtr.Status == "N"
+            //    && submitDt != 0 ? mtr.RegDt.Value.Year == submitDt : mtr.RegDt.Value.Year > submitDt
+            //    && bizWorkSn != 0 ? mtr.BizWorkSn == bizWorkSn : mtr.BizWorkSn > bizWorkSn
+            //    && compSn != 0 ? mtr.CompSn == compSn : mtr.CompSn > compSn
+            //    );
 
-            return await scMentoringTotalReportRepository.GetMentoringTotalReport
-                (mtr => mtr.MentorId == mentorId && mtr.Status == "N"
-                && submitDt != 0 ? mtr.RegDt.Value.Year == submitDt : mtr.RegDt.Value.Year > submitDt
-                && bizWorkSn != 0 ? mtr.BizWorkSn == bizWorkSn : mtr.BizWorkSn > bizWorkSn
-                && compSn != 0 ? mtr.CompSn == compSn : mtr.CompSn > compSn
-                );
+            var listScMentoringTotalReport = await scMentoringTotalReportRepository.GetMentoringTotalReport
+                (mtr => mtr.MentorId == mentorId && mtr.Status == "N");
 
-            //if (submitYear == 0 && bizWorkSn == 0 && compSn == 0)
-            //{
-            //    return await scMentoringTotalReportRepository.GetMentoringTotalReport(mtr => mtr.MentorId == mentorId);
-            //}
-            //else if(submitYear != 0 && bizWorkSn == 0 && compSn == 0)
-            //{
-            //    return await scMentoringTotalReportRepository.GetMentoringTotalReport(mtr => mtr.MentorId == mentorId && mtr.RegDt.Value.Year == submitYear);
-            //}
-            //else if(submitYear != 0 && bizWorkSn == 0 && compSn == 0)
-            //{
-
-            //}
-
-
-
-            //    return listTotalReport.ToList();
+            return listScMentoringTotalReport.Where(mtr => submitDt != 0 ? mtr.RegDt.Value.Year == submitDt : mtr.RegDt.Value.Year > submitDt)
+                .Where(mtr => bizWorkSn != 0 ? mtr.BizWorkSn == bizWorkSn : mtr.BizWorkSn > bizWorkSn)
+                .Where(mtr => compSn != 0 ? mtr.CompSn == compSn : mtr.CompSn > compSn)
+                .ToList();
         }
 
         public async Task DeleteMentoringTotalReport(IList<string> listTotalReportSn)
-        {  
-            foreach(var totalReportSn in listTotalReportSn)
+        {
+            foreach (var totalReportSn in listTotalReportSn)
             {
                 await Task.Run(() => ModifyMentoringTRStatusDelete(totalReportSn));
             }
@@ -87,17 +78,41 @@ namespace BizOneShot.Light.Services
 
         public async Task ModifyMentoringTRStatusDelete(string totalReportSn)
         {
-            var scMentoringTotalReport =  await Task.Run(() => scMentoringTotalReportRepository.GetById(int.Parse(totalReportSn)));
+            var scMentoringTotalReport = await Task.Run(() => scMentoringTotalReportRepository.GetById(int.Parse(totalReportSn)));
 
-            scMentoringTotalReport.Status = "N";
+            scMentoringTotalReport.Status = "D";
 
             foreach (var scFileInfo in scMentoringTotalReport.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo))
             {
-                await Task.Run(() => scFileInfo.Status = "N");
+                await Task.Run(() => scFileInfo.Status = "D");
             }
 
             scMentoringTotalReportRepository.Update(scMentoringTotalReport);
         }
+
+        //public void DeleteMentoringTotalReport(IList<string> listTotalReportSn)
+        //{
+        //    foreach (var totalReportSn in listTotalReportSn)
+        //    {
+        //        ModifyMentoringTRStatusDelete(totalReportSn);
+        //    }
+
+        //    SaveDbContext();
+        //}
+
+        //public void ModifyMentoringTRStatusDelete(string totalReportSn)
+        //{
+        //    var scMentoringTotalReport = scMentoringTotalReportRepository.GetById(int.Parse(totalReportSn));
+
+        //    scMentoringTotalReport.Status = "D";
+
+        //    foreach (var scFileInfo in scMentoringTotalReport.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo))
+        //    {
+        //        scFileInfo.Status = "D";
+        //    }
+
+        //    scMentoringTotalReportRepository.Update(scMentoringTotalReport);
+        //}
 
 
 
