@@ -32,6 +32,11 @@ namespace BizOneShot.Light.Web
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/cert").Include(
+                      "~/js/cert.js",
+                      "~/cert/js/TSToolkitConfig.js",
+                      "~/cert/js/TSToolkitObject.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));

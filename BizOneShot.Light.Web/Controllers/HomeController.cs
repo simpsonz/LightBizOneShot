@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.Entity.Core.Objects;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -11,6 +14,7 @@ using BizOneShot.Light.Services;
 using BizOneShot.Light.Util.Security;
 using BizOneShot.Light.Web.ComLib;
 using Microsoft.AspNet.Identity.Owin;
+using PagedList;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -214,11 +218,109 @@ namespace BizOneShot.Light.Web.Controllers
 
         public async Task<ActionResult> zipSearchPopup()
         {
-            var sidoList = await _postService.GetSidosAsync();
+            var sidoList = await _postService.GetSidoListAsync();
 
-            var zipViews =
+            var sidoViews =
               Mapper.Map<List<SelectAddressListViewModel>>(sidoList);
-            return View(zipViews);
+            return View(sidoViews);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> getGunguList(string SIDO)
+        {
+            SqlParameter sidoParam = new SqlParameter("SIDO", SIDO);
+
+            object[] parameters = new object[] { sidoParam };
+
+            var gunguList = await _postService.GetGunguListAsync(parameters);
+
+            var gunguViews =
+              Mapper.Map<List<SelectGunguListViewModel>>(gunguList);
+
+            return Json(gunguViews);
+        }
+
+        /// <summary>
+        /// [기능] : 동(읍/면) + 지번 우편번호 검색 리스트 호출
+        /// [작성] : 2014-11-26 김가은
+        /// [수정] :  
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult> getAddressByDongSearchList(SelectAddressByDongSearchParamModel param)
+        {
+            SqlParameter sidoParam = new SqlParameter("SIDO", param.SIDO);
+            SqlParameter gunguParam = new SqlParameter("GUNGU", param.GUNGU);
+            SqlParameter dongParam = new SqlParameter("DONG", param.DONG);
+            SqlParameter mnNoParam = new SqlParameter("MN_NO", param.MN_NO);
+            SqlParameter subNoParam = new SqlParameter("SUB_NO", param.SUB_NO);
+
+            object[] parameters = new object[] { sidoParam, gunguParam, dongParam, mnNoParam, subNoParam };
+
+            var resultList = await _postService.GetAddressByDongSearchListAsync(parameters);
+
+            var resultViews =
+              Mapper.Map<List<SelectAddressListViewModel>>(resultList);
+
+            ViewBag.SIZE = resultViews.Count();
+
+            return PartialView("getZipListPartial", resultViews);
+        }
+
+        /// <summary>
+        /// [기능] : 도로명 주소 + 건물번호 우편번호 검색 리스트 호출
+        /// [작성] : 2014-11-26 김가은
+        /// [수정] :  
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult> getAddressByStreetSearchList(SelectAddressByStreetSearchParamModel param)
+        {
+            SqlParameter sidoParam = new SqlParameter("SIDO", param.SIDO);
+            SqlParameter gunguParam = new SqlParameter("GUNGU", param.GUNGU);
+            SqlParameter rdNmParam = new SqlParameter("RD_NM", param.RD_NM);
+            SqlParameter mnNoParam = new SqlParameter("MN_NO", param.MN_NO);
+            SqlParameter subNoParam = new SqlParameter("SUB_NO", param.SUB_NO);
+
+            object[] parameters = new object[] { sidoParam, gunguParam, rdNmParam, mnNoParam, subNoParam };
+
+            var resultList = await _postService.GetAddressByStreetSearchListAsync(parameters);
+
+            var resultViews =
+              Mapper.Map<List<SelectAddressListViewModel>>(resultList);
+
+            ViewBag.SIZE = resultViews.Count();
+
+            return PartialView("getZipListPartial", resultViews);
+        }
+
+        /// <summary>
+        /// [기능] : 건물명(아파트명) 우편번호 검색 리스트 호출
+        /// [작성] : 2014-11-26 김가은
+        /// [수정] :  
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult> getAddressByBuildingSearchList(SelectAddressByBuildingSearchParamModel param)
+        {
+            SqlParameter sidoParam = new SqlParameter("SIDO", param.SIDO);
+            SqlParameter gunguParam = new SqlParameter("GUNGU", param.GUNGU);
+            SqlParameter bldNmParam = new SqlParameter("BLD_NM", param.BLD_NM);
+
+            object[] parameters = new object[] { sidoParam, gunguParam, bldNmParam };
+
+            var resultList = await _postService.GetAddressByBuildingSearchListAsync(parameters);
+
+            var resultViews =
+              Mapper.Map<List<SelectAddressListViewModel>>(resultList);
+
+            ViewBag.SIZE = resultViews.Count();
+
+            return PartialView("getZipListPartial", resultViews);
+
         }
 
     }

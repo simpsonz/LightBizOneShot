@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BizOneShot.Light.Models.ViewModels
 {
-    public class SelectGunguListModel
+    public class SelectGunguListViewModel
     {
         public string GUNGU { get; set; }
     }

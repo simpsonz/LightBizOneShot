@@ -24,7 +24,7 @@ $(document).ready(function(){
 	$('#addressView').hide();
 
 	$('#sidoBox').change(function(){
-		var sido = $('#sidoBox').val();
+	    var sido = $('#sidoBox').val();
 
 		if(sido.indexOf("세종") >= 0){
 			$('#gunguBox').html("<option value=''>전체</option>");
@@ -36,7 +36,7 @@ $(document).ready(function(){
 			if (sido.length > 0) {
 
 				  $.ajax({
-				      url: '@Url.Action("getGunguList", "Main")',
+				      url: '@Url.Action("getGunguList", "Home")',
 						type: "post",
 						dataType: "json",
 						data:{SIDO:sido},
@@ -241,7 +241,7 @@ $(document).ready(function(){
 			}
 
 				$.ajax({
-				    url: '@Url.Action("getAddressByDongSearchList", "Main")',
+				    url: '@Url.Action("getAddressByDongSearchList", "Home")',
 					type: "post",
 					dataType: "html",
 					data:{SIDO:$('#sido').val(),
@@ -270,7 +270,7 @@ $(document).ready(function(){
 			}
 
 				$.ajax({
-				    url: '@Url.Action("getAddressByStreetSearchList", "Main")',
+				    url: '@Url.Action("getAddressByStreetSearchList", "Home")',
 					type: "post",
 					dataType: "html",
 					data:{SIDO:$('#sido').val(),
@@ -299,7 +299,7 @@ $(document).ready(function(){
 				}
 
 					$.ajax({
-					    url: '@Url.Action("getAddressByBuildingSearchList", "Main")',
+					    url: '@Url.Action("getAddressByBuildingSearchList", "Home")',
 						type: "post",
 						dataType: "html",
 						data: {
@@ -374,7 +374,7 @@ $(document).ready(function(){
 	$("#dongBox").keypress(function(event) {
 		  if ( event.which == 13 ) {
 			  $("#jibunBox").focus();
-			  jibunRemove();
+			  //jibunRemove();
 		   }
 	});
 
@@ -387,7 +387,7 @@ $(document).ready(function(){
 	$("#rdNmBox").keypress(function(event) {
 		  if ( event.which == 13 ) {
 			  $("#mnNoBox").focus();
-			  mnNoRemove();
+			  //mnNoRemove();
 		   }
 	});
 

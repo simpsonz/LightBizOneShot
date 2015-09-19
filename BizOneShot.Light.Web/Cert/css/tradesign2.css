@@ -1,0 +1,109 @@
+/* 기본 스타일 */
+
+td { 
+text-decoration:none; 
+font-family: "돋움","돋움체"; 
+font-size: 12px; 
+color: #4D4D4D; 
+line-height:14px;
+} 
+
+a { text-decoration:none; 
+font-family: "돋움","돋움체"; 
+font-size:12px; 
+color: #4D4D4D;
+line-height:14px; 
+} 
+
+a:hover { text-decoration:none; 
+font-family: "돋움", "돋움체"; 
+font-size: 12px; 
+color: #0070B8; 
+line-height:14px;
+text-decoration:underline;
+} 
+
+/* 폼 스타일 */
+.input01 { width:; height:21px; 
+font-family:돋움,arial; 
+font-size: 12px; 
+color:#000000; 
+background-color :#FFFFFF } 
+
+.input02 { width:; height:21px; 
+font-family:돋움,arial; 
+font-size: 12px; 
+color:#000000; 
+background-color :#FBF8E3 } 
+
+/* 포인트 */
+.green { color:#638521; 
+font-family:"돋움,verdana,arial"; 
+font-size:12px; 
+line-height:18px; 
+}
+
+.td { color:#00000; 
+font-family:"돋움,verdana,arial"; 
+font-size:12px; 
+line-height:18px; 
+} 
+
+/* 게시판 스타일 */
+.board1 { text-decoration: underline blink ; 
+font-family: "돋움", "돋움체"; 
+font-size: 12px; 
+color: #777777; 
+line-height:18px; 
+} 
+
+.board1
+a { text-decoration:none; 
+font-family: "돋움", "돋움체"; 
+font-size: 12px; 
+color: #777777; 
+line-height:18px; 
+} 
+
+.board1
+a:hover { text-decoration:none; 
+font-family: "돋움", "돋움체"; 
+font-size: 12px; 
+color: #0070B8; 
+line-height:18px; 
+}  
+
+	
+.history_table {  font-family: "돋움", "굴림"; font-size: 9pt; line-height: 180%; font-style: normal}
+
+/*검색*/
+.srh { color:#0070B8; 
+font-family:"돋움,verdana,arial"; 
+font-size:12px; 
+line-height:18px; 
+font-weight: bold;
+}
+
+/* 입출력 Table Style 정의 */
+.table11 {font-family:"돋음", "Arial"; font-size:11px; background:#f2f2f2; color: #000000; text-decoration:none; line-height:14pt}
+.table11 a {font-family:"돋음","Arial"; font-size:11px; background:#f2f2f2; color:#0066CC; line-height:14pt}
+.table11 a:hover {font-family:"돋음","Arial"; font-size:11px; background:#f2f2f2; color:#0066CC; line-height:14pt; text-decoration:underline; }
+.table12 {font-family:"돋음","Arial"; font-size:11px; background:#ffffff; color:#4D4D4D;  line-height:14pt}
+.table12 a {font-family:"돋음","Arial"; font-size:11px; background:#ffffff; color:#4D4D4D; line-height:14pt}
+.table12 a:hover {font-family:"돋음","Arial"; font-size:11px; background:#ffffff; color:#0066CC; line-height:14pt ;text-decoration:underline;}
+.table13 { font-family: 돋움,arial , "Arial"; font-size: 12px ; background: #CBEDFE; color: #4D4D4D; text-decoration:none;}
+.table13 a {font-family: 돋움,arial ,"Arial"; font-size:12px; background: #CBEDFE; color:#4D4D4D;}
+.table13 a:hover {font-family: 돋움,arial,"Arial"; font-size:12px; background:#CBEDFE; color:#000000; text-decoration:underline; }
+
+
+/* Layout */
+.container {
+     overflow:hidden;
+     width:100%;
+}
+
+.main{
+	float:left;
+}
+.applet{
+}

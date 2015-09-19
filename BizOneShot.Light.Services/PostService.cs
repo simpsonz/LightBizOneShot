@@ -11,7 +11,11 @@ namespace BizOneShot.Light.Services
 {
     public interface IPostService : IBaseService
     {
-        Task<IList<UspSelectSidoForWebListReturnModel>> GetSidosAsync();
+        Task<IList<UspSelectSidoForWebListReturnModel>> GetSidoListAsync();
+        Task<IList<UspSelectGunguForWebListReturnModel>> GetGunguListAsync(object[] parameters);
+        Task<IList<UspSelectAddressByStreetSearchForWebListReturnModel>> GetAddressByStreetSearchListAsync(object[] parameters);
+        Task<IList<UspSelectAddressByDongSearchForWebListReturnModel>> GetAddressByDongSearchListAsync(object[] parameters);
+        Task<IList<UspSelectAddressByBuildingSearchForWebListReturnModel>> GetAddressByBuildingSearchListAsync(object[] parameters);
     }
 
 
@@ -27,11 +31,36 @@ namespace BizOneShot.Light.Services
         }
 
 
-        public async Task<IList<UspSelectSidoForWebListReturnModel>> GetSidosAsync()
+        public async Task<IList<UspSelectSidoForWebListReturnModel>> GetSidoListAsync()
         {
-            var listSidoTask = await _postRepository.GetSidosAsync();
+            var listSidoTask = await _postRepository.GetSidoListAsync();
             return listSidoTask.Distinct().OrderByDescending(sq => sq.SIDO).ToList();
         }
+
+        public async Task<IList<UspSelectGunguForWebListReturnModel>> GetGunguListAsync(object[] parameters)
+        {
+            var listGunguTask = await _postRepository.GetGunguListAsync(parameters);
+            return listGunguTask.Distinct().OrderByDescending(sq => sq.GUNGU).ToList();
+        }
+
+        public async Task<IList<UspSelectAddressByStreetSearchForWebListReturnModel>> GetAddressByStreetSearchListAsync(object[] parameters)
+        {
+            var listGunguTask = await _postRepository.GetAddressByStreetSearchListAsync(parameters);
+            return listGunguTask.Distinct().OrderByDescending(sq => sq.ZIP_CD).ToList();
+        }
+
+        public async Task<IList<UspSelectAddressByDongSearchForWebListReturnModel>> GetAddressByDongSearchListAsync(object[] parameters)
+        {
+            var listGunguTask = await _postRepository.GetAddressByDongSearchListAsync(parameters);
+            return listGunguTask.Distinct().OrderByDescending(sq => sq.ZIP_CD).ToList();
+        }
+
+        public async Task<IList<UspSelectAddressByBuildingSearchForWebListReturnModel>> GetAddressByBuildingSearchListAsync(object[] parameters)
+        {
+            var listGunguTask = await _postRepository.GetAddressByBuildingSearchListAsync(parameters);
+            return listGunguTask.Distinct().OrderByDescending(sq => sq.ZIP_CD).ToList();
+        }
+            
 
         #region SaveContext
         public void SaveDbContext()

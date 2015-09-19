@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp href="ubikeytoolkit.jnlp" >
+        <information>
+                <title>UBIKey</title>
+                <vendor>infovine</vendor>
+                <homepage href="http://www.infovine.co.kr/"/>
+        </information>
+        <security>
+                <all-permissions/>
+        </security>
+        <resources>
+			<j2se version="1.6+" java-vm-args="-Dfile.encoding=UTF-8" />
+			<jar href="@URL@" download="lazy" />
+        </resources>
+
+        <component-desc />
+</jnlp>

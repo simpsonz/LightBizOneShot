@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp href="pkitoolkit.jnlp" >
+        <information>
+                <title>SCORE PKI For Java MultiBrowser </title>
+                <vendor>KTNET</vendor>
+                <homepage href="KTNET"/>
+                <description kind="default">SCORE PKI For Java MultiBrowser </description>
+        </information>
+        <security>
+                <all-permissions/>
+        </security>
+        <resources>
+			<j2se version="1.6+" java-vm-args="-Dfile.encoding=UTF-8"/>
+			<jar href="ScorePKIForMulti-3.2.6.jar" />
+			<jar href="ScorePKIOuterForMulti-3.2.6.jar"/>
+
+<!--			<extension name="UBIKey" href="ubikeytoolkit.jnlp">
+				<ext-download ext-part="UBIKey" download="lazy"/>
+			</extension>-->
+			
+			<property name="jnlp.packEnabled" value="true"/>
+        </resources>
+        <applet-desc height="200" main-class="com.ktnet.pki.multibrowser.pkitoolkit.applet.MainApplet" name="MainApplet" width="200" />
+
+</jnlp>

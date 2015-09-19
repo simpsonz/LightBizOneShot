@@ -54,7 +54,7 @@
                     if (data.result == true) {
                         //false값을 true로 바꾸고 운영반영해야함. false는 테스트용
                         if (checkCertificate($('#USR_NO').val()) == true) {
-                            $('#USR_NO_CHK').val(1);
+                            $('#ComRegistrationNoChk').val(1);
                             alert('사용 가능한 사업자번호입니다.');
                             $('#BTN_USR_NO_CHK').attr("disabled", "disabled");
                         }
@@ -102,7 +102,35 @@
         $('#ADDR_1').val(address);
     }
 
+
+    function goSubmit() {
+
+        if ($('#LoginIdChk').val() != 1)
+        {
+            alert("로그인 중복확인을 하지 않았습니다.");
+            return false;
+        }
+
+        if ($('#ComRegistrationNoChk').val() != 1) {
+            alert("사업자등록번호 확인을 하지 않았습니다.");
+            return false;
+        }
+
+        var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
+        var email = $("#EMAIL1").val() + "@@" + $("#EMAIL2").val();
+        if (!email.match(regExp)) {
+            alert("이메일이 유효하지 않습니다");
+            return false;
+        }
+
+        if (confirm('회원가입을 하시겠습니까?')) {
+            $('#mainForm').submit();
+        }
+    }
+
 </script>
+
+@Scripts.Render("~/bundles/cert")
 
 <div class="container">
     
@@ -112,7 +140,7 @@
     <div class="joinstep">
         <p class="accountant02"><em>정보입력</em></p>
     </div>
-    @using (Html.BeginForm("CompanyJoin", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("CompanyJoin", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id="mainForm"}))
     {
         @Html.AntiForgeryToken()
         @Html.Hidden("LoginIdChk")
@@ -153,7 +181,7 @@
             <ul><li class="mark">대표자명</li><li class="info">@Html.TextBoxFor(model => model.ComOwnNm, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComOwnNm, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
             <ul>
                 <li class="mark">사업자등록번호</li>
-                <li class="info">@Html.TextBoxFor(model => model.ComRegistrationNo, new {@maxlength="10", @class = "w240", @placeholder = "-표시없이 기입해 주세요" })<input type="button" class="td_confirm" value="확인">  @Html.ValidationMessageFor(model => model.ComRegistrationNo, "", new { @class = "text-danger", @color = "#b94a48" })</li>
+                <li class="info">@Html.TextBoxFor(model => model.ComRegistrationNo, new {@maxlength="10", @class = "w240", @placeholder = "-표시없이 기입해 주세요", @id= "USR_NO" })<input type="button" class="td_confirm" value="확인" id="BTN_USR_NO_CHK">  @Html.ValidationMessageFor(model => model.ComRegistrationNo, "", new { @class = "text-danger", @color = "#b94a48" })</li>
             </ul>
 
             <ul>
@@ -263,8 +291,8 @@
             <ul>
                 <li class="mark">이메일주소</li>
                 <li class="info">
-                    @Html.TextBoxFor(model => model.Email1, new { @class = "w115", @title = "이메일 아이디", @maxlength = "20" })&nbsp;@@&nbsp;
-                    @Html.TextBoxFor(model => model.Email2, new { @class = "w115", @title = "이메일 도메인", @maxlength = "19" })
+                    @Html.TextBoxFor(model => model.Email1, new { @class = "w115", @title = "이메일 아이디", @maxlength = "20", @id= "EMAIL1" })&nbsp;@@&nbsp;
+                    @Html.TextBoxFor(model => model.Email2, new { @class = "w115", @title = "이메일 도메인", @maxlength = "19", @id = "EMAIL2" })
                     <select id="EMAIL_DOMAIN">
                         <option value="">직접입력</option>
                         <option value="naver.com">naver.com</option>
@@ -287,13 +315,12 @@
                         <option value="yahoo.com">yahoo.com</option>
                     </select>
                       @Html.ValidationMessageFor(model => model.Email1, "", new { @class = "text-danger", @color = "#b94a48" })
-                      @Html.ValidationMessageFor(model => model.Email2, "", new { @class = "text-danger", @color = "#b94a48" })
                 </li>
             </ul>
         </div><!--join_infoinput_wrap//-->
 
         <div class="btnwrap center">
-            <input type="submit" class="confirm" value="확인"><input type="submit" class="cancel" value="취소">
+            <input type="button" class="confirm" value="확인" onclick="goSubmit();"><input type="submit" class="cancel" value="취소">
         </div>
     }
 

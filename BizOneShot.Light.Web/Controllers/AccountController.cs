@@ -16,10 +16,12 @@ namespace BizOneShot.Light.Web.Controllers
     public class AccountController : BaseController
     {
         private readonly IScUsrService _scUsrService;
+        private readonly IScCompInfoService _scCompInfoService;
 
-        public AccountController(IScUsrService scUsrService)
+        public AccountController(IScUsrService scUsrService, IScCompInfoService _scCompInfoService)
         {
             this._scUsrService = scUsrService;
+            this._scCompInfoService = _scCompInfoService;
         }
 
         [AllowAnonymous]
@@ -244,6 +246,30 @@ namespace BizOneShot.Light.Web.Controllers
                 ModelState.AddModelError("", "아이디가 존재하지 않습니다.");
                 return View();
             }
+        }
+
+        /// <summary>
+        /// [기능] : 회원가입 - 사업자번호 중복 확인 AJAX
+        /// [작성] : 2014-10-26 유연화
+        /// [수정] :  
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> DoCompanyUsrNoSelect(string USR_NO)
+        {
+            var scCompInfos = await _scCompInfoService.GetScCompInfoByRegistationNo(USR_NO);
+
+            if (scCompInfos.Count == 0)
+            {
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new { result = false });
+            }
+
         }
     }
 }
