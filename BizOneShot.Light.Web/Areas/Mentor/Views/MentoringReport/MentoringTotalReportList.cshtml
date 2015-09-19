@@ -40,6 +40,7 @@
                         TotalReportSns: array
                     },
                     success: function (data) {
+                        
                         alert("삭제 하였습니다");
                         window.location = '@Url.Action("MentoringTotalReportList", "MentoringReport")';
                     },
@@ -110,13 +111,12 @@
                     {
                         <tr>
                             <td><input type="checkbox" name="acc_choice" value="@item.TotalReportSn" /></td>
+                            <td>@item.BizWorkNm</td>
                             <td>@item.CompNm</td>
-                            <td>@item.CompNm</td>
-                            <td>@item.SubmitDt.Value.Year</td>
+                            <td>@item.SubmitDt.Value.ToString("yyyy-MM-dd")</td>
                           
                             <td>
-                                @*<span class="full_line">@Html.ActionLink("첨부보기", "MentoringTotalReportDetail", item)</span>*@
-                                <span class="full_line">@Html.ActionLink("첨부보기", "MentoringTotalReportDetail", new { totalReportViewModel = item, selectParam = ViewBag.SelectParam })</span>
+                                <span class="full_line">@Html.ActionLink("첨부보기", "MentoringTotalReportDetail", new {totalReportSn = item.TotalReportSn , SubmitDt = ViewBag.SelectParam.SubmitDt, BizWorkSn = ViewBag.SelectParam.BizWorkSn, CompSn = ViewBag.SelectParam.CompSn })</span>
                             </td>
                         </tr>
                     }

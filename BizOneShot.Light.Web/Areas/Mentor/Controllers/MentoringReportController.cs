@@ -26,25 +26,74 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
         private readonly IScCompMappingService _scCompMappingService;
         private readonly IScMentorMappingService _scMentorMappingService;
         private readonly IScMentoringTotalReportService _scMentoringTotalReportService;
+        private readonly IScMentoringTrFileInfoService _scMentoringTrFileInfoService;
 
-        public MentoringReportController(IScCompMappingService scCompMappingService, IScMentorMappingService scMentorMappingService, IScMentoringTotalReportService scMentoringTotalReportService)
+        public MentoringReportController(IScCompMappingService scCompMappingService
+            , IScMentorMappingService scMentorMappingService 
+            , IScMentoringTotalReportService scMentoringTotalReportService
+            , IScMentoringTrFileInfoService scMentoringTrFileInfoService)
         {
             this._scCompMappingService = scCompMappingService;
             this._scMentorMappingService = scMentorMappingService;
             this._scMentoringTotalReportService = scMentoringTotalReportService;
+            this._scMentoringTrFileInfoService = scMentoringTrFileInfoService;
         }
 
         [HttpPost]
-        public async Task DeleteMentoringTotalReport(string [] totalReportSns)
+        public async Task<JsonResult> DeleteMentoringTotalReport(string [] totalReportSns)
         {
             ViewBag.LeftMenu = Global.MentoringReport;
 
-            await _scMentoringTotalReportService.ModifyMentoringTRStatusDelete(totalReportSns);
+            await _scMentoringTotalReportService.DeleteMentoringTotalReport(totalReportSns);
 
-            await _scMentoringTotalReportService.SaveDbContextAsync();
+            return Json(new { result = true });
         }
 
-        public async Task<ActionResult> MentoringTotalReportList(SelectedMentorTotalReportParmModel param, string curPage)
+        //[HttpPost]
+        //public async Task<ActionResult> MentoringTotalReportDetail(MentoringTotalReportViewModel totalReportViewModel, SelectedMentorTotalReportParmModel selectParam)
+        //{
+        //    ViewBag.LeftMenu = Global.MentoringReport;
+
+        //    var listscMentoringFrFileInfo = await _scMentoringTrFileInfoService.GetMentoringTrFileInfo(totalReportViewModel.TotalReportSn);
+
+        //    var listscFileInfo = listscMentoringFrFileInfo.Select(mtfi => mtfi.ScFileInfo);
+
+        //    var listFileContent =
+        //       Mapper.Map<List<FileContent>>(listscFileInfo);
+
+        //    //파일정보 매핑
+        //    totalReportViewModel.FileContents = listFileContent;
+
+        //    //검색조건 유지를 위해
+        //    ViewBag.SelectParam = selectParam;
+
+        //    return View(totalReportViewModel);
+        //}
+
+        public async Task<ActionResult> MentoringTotalReportDetail(int totalReportSn, SelectedMentorTotalReportParmModel selectParam)
+        {
+            ViewBag.LeftMenu = Global.MentoringReport;
+
+            var scMentoringTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportById(totalReportSn);
+
+            var listscFileInfo = scMentoringTotalReport.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo).Where(fi => fi.Status == "N");
+
+            var listFileContent =
+               Mapper.Map<List<FileContent>>(listscFileInfo);
+
+
+            var totalReportViewModel =
+               Mapper.Map<MentoringTotalReportViewModel>(scMentoringTotalReport);
+
+            totalReportViewModel.FileContents = listFileContent;
+
+            //검색조건 유지를 위해
+            ViewBag.SelectParam = selectParam;
+
+            return View(totalReportViewModel);
+        }
+
+        public async Task<ActionResult> MentoringTotalReportList(SelectedMentorTotalReportParmModel param, string curPage = "1")
         {
             ViewBag.LeftMenu = Global.MentoringReport;
 
@@ -130,14 +179,15 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             ViewBag.SelectParam = param;
 
             //실제 쿼리
-            var listTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportAsync(mentorId, param.SubmitDt, param.BizWorkSn, param.CompSn);
+            var listscMentoringTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportAsync(mentorId, param.SubmitDt, param.BizWorkSn, param.CompSn);
 
-            //여기부터 해야함 (매핑하고 페이지리스트로 뷰로 보내기)
-            var totalReportView =
-               Mapper.Map<List<MentoringTotalReportViewModel >>(listTotalReport);
+
+            //맨토링 종합 레포트 정보 매핑
+            var listTotalReportView =
+               Mapper.Map<List<MentoringTotalReportViewModel >>(listscMentoringTotalReport);
 
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
-            return View(new StaticPagedList<MentoringTotalReportViewModel>(totalReportView.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, totalReportView.Count));
+            return View(new StaticPagedList<MentoringTotalReportViewModel>(listTotalReportView.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, listTotalReportView.Count));
         }
 
         

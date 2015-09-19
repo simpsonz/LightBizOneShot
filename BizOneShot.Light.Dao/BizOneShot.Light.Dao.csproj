@@ -66,6 +66,7 @@
     <Compile Include="Repositories\ScFileInfoRepository.cs" />
     <Compile Include="Repositories\ScFormFileRepository.cs" />
     <Compile Include="Repositories\ScFormRepository.cs" />
+    <Compile Include="Repositories\ScMentoringTrFileInfoRepository.cs" />
     <Compile Include="Repositories\ScMentoringTotalReportRepository.cs" />
     <Compile Include="Repositories\ScMentorMappingRepository.cs" />
     <Compile Include="Repositories\ScQaRepository.cs" />

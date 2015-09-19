@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace BizOneShot.Light.Models.ViewModels
 {
     class MentorViewModel
@@ -171,15 +172,17 @@ namespace BizOneShot.Light.Models.ViewModels
     {
         public int TotalReportSn { get; set; } // TOTAL_REPORT_SN (Primary key). 맨토링종합보고서식별자
         public int BizWorkSn { get; set; } // BIZ_WORK_SN. 사업식별자
-        public int BizWorkNm { get; set; }
+        public string BizWorkNm { get; set; }
         public string MentorId { get; set; } // MENTOR_ID. 맨토식별자
         public int? CompSn { get; set; } // COMP_SN. 기업식별자
-        public int? CompNm { get; set; } // 
+        public string CompNm { get; set; } // 
         public DateTime? SubmitDt { get; set; } // SUBMIT_DT. 제출일
         public string RegId { get; set; } // REG_ID. 등록자
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시
         public string UpdId { get; set; } // UPD_ID. 수정자
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
+
+        public IList<FileContent> FileContents { get; set; }
     }
 }
 
