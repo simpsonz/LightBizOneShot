@@ -17,11 +17,13 @@ namespace BizOneShot.Light.Web.Controllers
     {
         private readonly IScUsrService _scUsrService;
         private readonly IScCompInfoService _scCompInfoService;
+        private readonly IScBizWorkService _scBizWorkService;
 
-        public AccountController(IScUsrService scUsrService, IScCompInfoService _scCompInfoService)
+        public AccountController(IScUsrService scUsrService, IScCompInfoService _scCompInfoService, IScBizWorkService _scBizWorkService)
         {
             this._scUsrService = scUsrService;
             this._scCompInfoService = _scCompInfoService;
+            this._scBizWorkService = _scBizWorkService;
         }
 
         [AllowAnonymous]
@@ -31,15 +33,30 @@ namespace BizOneShot.Light.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult CompanyJoin()
+        public async Task<ActionResult> CompanyJoin()
         {
+            //사업관리자 DropDown List Data
+            var bizMngList = await _scUsrService.GetBizManagerAsync();
+
+            var bizMngDropDown =
+                Mapper.Map<List<BizMngDropDownModel>>(bizMngList);
+
+            BizMngDropDownModel title = new BizMngDropDownModel();
+            title.CompSn = 0;
+            title.CompNm = "사업관리자 선택";
+            bizMngDropDown.Insert(0, title);
+
+            SelectList bizManagerList = new SelectList(bizMngDropDown, "CompSn", "CompNm");
+
+            ViewBag.SelectBizMngList = bizManagerList;
+
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CompanyJoin(JoinCompanyViewModel joinCompanyViewModel)
+        public async Task<ActionResult> CompanyJoin(JoinCompanyViewModel joinCompanyViewModel, string BizList)
         {
             if (ModelState.IsValid)
             {
@@ -75,6 +92,15 @@ namespace BizOneShot.Light.Web.Controllers
                     scCompInfo.CompType = "C"; //법인
                 }
 
+                //사업관리 및 사업등록 요청 설절
+                ScCompMapping scm = new ScCompMapping();
+                scm.BizWorkSn = int.Parse(BizList);
+                scm.Status = "R";
+                scm.RegId = scUsr.LoginId;
+                scm.RegDt = DateTime.Now;
+
+
+
                 //다래 추가정보 설정
                 // 기업회원 : 1, 세무회계사 : 2
                 syUser.UsrGbn = "1";
@@ -85,9 +111,8 @@ namespace BizOneShot.Light.Web.Controllers
                 syUser.SmartPwd = scUsr.LoginPw;
 
                 //저장
-                IList<ScUsr> scUsrs = new List<ScUsr>();
-                scUsrs.Add(scUsr);
-                scCompInfo.ScUsrs = scUsrs;
+                scCompInfo.ScUsrs.Add(scUsr);
+                scCompInfo.ScCompMappings.Add(scm);
 
                 //bool result = _scUsrService.AddCompanyUser(scCompInfo, scUsr, syUser);
                 int result = await _scUsrService.AddCompanyUserAsync(scCompInfo, scUsr, syUser);
@@ -270,6 +295,19 @@ namespace BizOneShot.Light.Web.Controllers
                 return Json(new { result = false });
             }
 
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> GetBizList(string CompSn)
+        {
+            var bizWork = await _scBizWorkService.GetBizWorkList(int.Parse(CompSn));
+
+            var bizWorkDropDown =
+                Mapper.Map<List<BizWorkDropDownModel>>(bizWork);
+
+            return Json(bizWorkDropDown);
         }
     }
 }

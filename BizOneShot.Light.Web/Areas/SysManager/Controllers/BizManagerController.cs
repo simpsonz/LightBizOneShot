@@ -146,9 +146,9 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetBizList(string comSn)
+        public async Task<JsonResult> GetBizList(string comSn)
         {
-            var bizWork = _scBizWorkService.GetBizWorkList(int.Parse(comSn));
+            var bizWork = await _scBizWorkService.GetBizWorkList(int.Parse(comSn));
 
             var bizWorkDropDown =
                 Mapper.Map<List<BizWorkDropDownModel>>(bizWork);

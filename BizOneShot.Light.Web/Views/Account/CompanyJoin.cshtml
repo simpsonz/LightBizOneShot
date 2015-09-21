@@ -85,6 +85,34 @@
         });
 
 
+        $('#BizManager').change(function () {
+            var comSn = $('#BizManager').val();
+
+            alert(comSn);
+
+            if (comSn == 0) {
+                $('#BizList').html("<option value='0'>사업명</option>");
+                $('#BizList').attr("disabled", true);
+            } else {
+                $('#BizList').attr("disabled", false);
+                //$('#BizList').html("<option value='0'>사업명</option>");
+                $('#BizList').html("");
+                $.ajax({
+                    url: '@Url.Action("GetBizList", "Account")',
+                    type: "post",
+                    dataType: "json",
+                    data: { CompSn: comSn },
+                    async: false,
+                    success: function (result) {
+                        for (var i = 0; i < result.length; i++) {
+                            $('#BizList').append("<option value='" + result[i].BizWorkSn + "'>" + result[i].BizWorkNm + "</option>");
+                        }
+                    }
+                });
+            }
+        });
+
+
     });
 
     function open_post() {
@@ -161,20 +189,15 @@
                 <li class="mark">사업관리기관</li>
                 <li class="info_short">
                     @{
-                        if (ViewData["SelectMngCompList"] != null)
+                        if (ViewBag.SelectBizMngList != null)
                         {
-                            @Html.DropDownListFor(model => model.MngCompSn, ViewData["SelectMngCompList"] as SelectList, new { @class = "w242" });
+                            @Html.DropDownListFor(model => model.MngCompSn, ViewBag.SelectBizMngList as SelectList, new { @class = "w250", @id= "BizManager" });
                         }
                     }
                 </li>
                 <li class="mark">사업명</li>
                 <li class="info_selectshort">
-                    @{
-                        if (ViewData["SelectBizWorkList"] != null)
-                        {
-                            @Html.DropDownListFor(model => model.BizWorkSn, ViewData["SelectBizWorkList"] as SelectList, new { @class = "w242" });
-                        }
-                    }
+                    <select id="BizList" name="BizList" class="w250" disabled="true"><option value="0">사업명</option></select>
                 </li>
             </ul>
             <ul><li class="mark">회사명</li><li class="info">@Html.TextBoxFor(model => model.CompNm, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.CompNm, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
@@ -319,9 +342,11 @@
             </ul>
         </div><!--join_infoinput_wrap//-->
 
-        <div class="btnwrap center">
-            <input type="button" class="confirm" value="확인" onclick="goSubmit();"><input type="submit" class="cancel" value="취소">
-        </div>
+        <div id="btnwrap_sub">
+            <a href="@Url.Action("Index", "Home")" class="cancel2 right"><em>취소</em></a>
+            <input type="button" class="confirm right" value="확인" onclick="goSubmit();">
+            
+        </div><!--btnwrap//-->
     }
 
     @section Scripts {
