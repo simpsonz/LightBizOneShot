@@ -1,0 +1,161 @@
+﻿@{
+    Layout = "~/Views/Shared/_JoinLayout.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("input:text[numberOnly]").bind("keyup", function () {
+            $(this).val($(this).val().replace(/[^0-9]/gi, ""));
+        });
+
+        $("#idSearchOk").hide();
+        $("#idSearchFail").hide();
+
+        /* 인증 함수 */
+        //사업자번호 인증 확인
+        $('#btn_certify').bind('click', function () {
+            if ($('#USR_NO').val() == "") {
+                alert('사업자번호를 입력해주세요.');
+                return false;
+            }
+
+            if (checkCertificate($('#USR_NO').val()) == true) {
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("SearchId", "Home")',
+                    dataType: "json",
+                    data: { USR_NO: $('#USR_NO').val() },
+                    success: function (data) {
+                        //console.log(data);
+                        if (data.length > 0) {
+                        //alert("test");
+                        //alert(data);
+                        //if (data != null) {
+                            $("#idSearchFail").hide();
+                            $("#idSearchOk").show();
+                            $("#idSearch").hide();
+
+                            var divHtml = "";
+                            for (var i = 0; i < data.length; i++) {
+                                divHtml += "<input type='radio' name='searchId' value='" + data[i].ID + "' />" + data[i].ID + "<br />";
+                            }
+                            $("#list").html(divHtml);
+
+                        }
+                        else {
+                            $("#idSearchFail").show();
+                            $("#idSearchOk").hide();
+                            $("#idSearch").hide();
+                        }
+                    },
+                    fail: function (error) {
+                        alert('error :' + error.responseText);
+                    }
+                });
+            }
+            else {
+                return false;
+            }
+
+        });
+
+        //$("#btn_certify").click(function () {
+        //    $("#idSearch").hide();
+        //    $("#idSearchOk").show();
+        //});
+        /* 로그인 함수 */
+        $("#btn_loginUser").click(function () {
+            if (jQuery("input[name=searchId]:radio:checked").length == 0) {
+                alert("선택된 ID가 없습니다.");
+                return false;
+            }
+            var loginId = jQuery('input:radio[name="searchId"]:checked').val();
+            window.location = '@Url.Action("Login", "Home")' + "?loginId=" + loginId;
+        });
+
+        /* 비밀번호 찾기 함수 */
+        $("#btn_searchPw").click(function () {
+            if (jQuery("input[name=searchId]:radio:checked").length == 0) {
+                alert("선택된 ID가 없습니다.");
+                return false;
+            }
+
+            var loginId = jQuery('input:radio[name="searchId"]:checked').val();
+
+            window.location = '@Url.Action("SearchPassword","Home")' + "?loginId=" + loginId;
+        });
+
+
+});
+
+</script>
+
+@Scripts.Render("~/bundles/cert")
+
+<div id="idSearch">
+    <div class="container">
+        <div class="desc">
+            <p class="title idsearch"><em>아이디찾기</em></p>
+            <!--<p class="caption">아이디를 찾기 위해서는 회원 가입 시 입력한 휴대폰 번호로 본인인증이 필요합니다.</p>-->
+            <p class="caption">아이디를 찾기 위해서는 회원 가입 시 인증한 공인인증서가 필요합니다.</p>
+        </div><!--desc//-->
+        <div class="box_red">
+            <div class="box_red_top"></div>
+            <div class="box_red_mid">
+                <div class="desc_red">
+                    <!--<p class="title">휴대폰 인증으로 찾기</p>
+                    <p class="caption">휴대폰 인증 후에 휴대폰 명의 정보로 아이디를 찾습니다.</p>-->
+                    <p class="title">공인인증서 인증으로 찾기</p>
+                    <p class="caption">공인인증서 인증 후에 공인인증서 사업자번호 정보로 아이디를 찾습니다.</p>
+                    <ul>
+                        <li class="mark"><label for="">사업자등록번호</label></li>
+                        <li class="info_short"><input type="text" class="w240" id="USR_NO" value="" required="required" placeholder="-표시없이 기입해 주세요" numberOnly="true" maxlength="10" /></li>
+                    </ul>
+                    <br />
+                    <p><input type="button" class="login_cirtify" value="인증하기" id="btn_certify" name="btn_certify"></p>
+                </div>
+            </div>
+            <div class="box_red_bot"></div>
+        </div><!--box_red//-->
+    </div>
+</div>
+
+<div id="idSearchOk">
+    <div class="container">
+        <div class="desc">
+            <p class="title idsearch"><em>아이디찾기</em></p>
+            <p class="caption">고객님의 정보와 일치하는 아이디입니다.</p>
+        </div><!--desc//-->
+        <div class="box_red">
+            <div class="box_red_top"></div>
+            <div class="box_red_mid">
+                <div class="desc_red">
+                    <p class="black bold"><div id="list"></div></p>
+                    <p class="caption">비밀번호를 잊으신 경우, 선택된 아이디로 비밀번호를 변경할 수 있습니다.</p>
+                    <p><input type="button" class="login_login" value="로그인하기" id="btn_loginUser" name="btn_loginUser"><input type="button" class="login_pwsearch" value="비밀번호 찾기" id="btn_searchPw" name="btn_searchPw"></p>
+                </div>
+            </div>
+            <div class="box_red_bot"></div>
+        </div><!--box_red//-->
+    </div>
+</div>
+
+<div id="idSearchFail">
+    <div class="container">
+        <div class="desc">
+            <p class="title idsearch"><em>아이디찾기</em></p>
+        </div><!--desc//-->
+        <div class="box_red">
+            <div class="box_red_top"></div>
+            <div class="box_red_mid">
+                <div class="desc_red">
+                    <p class="title">입력하신 정보와 일치하는 아이디가 없습니다.</p>
+                    <p class="caption">정확한 정보로 확인 후 다시 입력 부탁드립니다.<br>내 정보가 기억나지 않는 경우 <span class="blue bold">고객센터</span>로 문의해 주세요</p>
+                    <p><a href="@Url.Action("CompanyAgreement","Account")"><input type="button" class="login_join" value="회원가입"></a>
+                        <a href="@Url.Action("Faq","Cs", new { area = "" })"><input type="button" class="login_customcenter" value="고객센터 가기"></a>
+                </div>
+            </div>
+            <div class="box_red_bot"></div>
+        </div><!--box_red//-->
+    </div>
+</div>

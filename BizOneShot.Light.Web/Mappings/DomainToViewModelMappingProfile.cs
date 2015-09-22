@@ -270,6 +270,10 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<UspSelectAddressByStreetSearchForWebListReturnModel, SelectAddressListViewModel>();
 
 
+            Mapper.CreateMap<ScUsr, LoginViewModel>()
+                .ForMember(d => d.ID, map => map.MapFrom(s => s.LoginId));
+
+
 
 
 

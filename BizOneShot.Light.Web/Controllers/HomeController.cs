@@ -23,12 +23,14 @@ namespace BizOneShot.Light.Web.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private readonly IScUsrService _scUsrService;
+        private readonly IScCompInfoService _scCompInfoService;
         private readonly IPostService _postService;
 
-        public HomeController(IScUsrService scUsrService, IPostService _postService)
+        public HomeController(IScUsrService scUsrService, IPostService _postService, IScCompInfoService _scCompInfoService)
         {
             this._scUsrService = scUsrService;
             this._postService = _postService;
+            this._scCompInfoService = _scCompInfoService;
         }
 
         public ActionResult Index()
@@ -40,13 +42,21 @@ namespace BizOneShot.Light.Web.Controllers
             return View();
         }
 
-        public ActionResult Login()
+        public ActionResult Login(string loginId = null)
         {
             if (Session[Global.UserLogo] == null)
             {
                 base.SetLogo("headerwrap_main");
             }
-            return View();
+
+            if(loginId == null)
+                return View();
+            else
+            {
+                LoginViewModel lvm = new LoginViewModel();
+                lvm.ID = loginId;
+                return View(lvm);
+            }
         }
 
 
@@ -323,5 +333,80 @@ namespace BizOneShot.Light.Web.Controllers
 
         }
 
+        public ActionResult SearchId()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> SearchId(string USR_NO)
+        {
+            var scUsers = await _scCompInfoService.GetScCompInfoForSearchId(USR_NO);
+
+            var resultViews =
+              Mapper.Map<List<LoginViewModel>>(scUsers);
+
+            return Json(resultViews);
+        }
+
+        public ActionResult SearchPassword(string loginId = null)
+        {
+            if (loginId == null)
+                return View();
+            else
+            {
+                LoginViewModel lvm = new LoginViewModel();
+                lvm.ID = loginId;
+                return View(lvm);
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> SearchPassword(string USR_NO, string LOGIN_ID)
+        {
+            var user = await _scUsrService.SelectScUsr(LOGIN_ID, USR_NO);
+
+            if (user != null)
+            {
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new { result = false });
+            }
+        }
+
+        public ActionResult ResetPassword(string loginId = null)
+        {
+            ChangePasswordViewModel cpv = new ChangePasswordViewModel();
+            cpv.ID = loginId;
+            return View(cpv);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdateLoginPassword(string ID, string LOGIN_PW)
+        {
+            ScUsr scUsr = await _scUsrService.SelectScUsr(ID);
+            if (scUsr != null)
+            {
+                //패스워드비교
+                SHACryptography sha2 = new SHACryptography();
+
+                scUsr.LoginPw = sha2.EncryptString(LOGIN_PW);
+                await _scUsrService.SaveDbContextAsync();
+
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new { result = false });
+            }
+        }
+
+        public ActionResult ResetPasswordComplete()
+        {
+            return View();
+        }
     }
 }

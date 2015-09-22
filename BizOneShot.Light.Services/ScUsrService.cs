@@ -31,7 +31,8 @@ namespace BizOneShot.Light.Services
         Task<IList<ScUsr>> GetExpertManagerAsync();
         Task<IList<ScUsr>> GetExpertManagerAsync(string bizMngSn = null, string expertType = null);
         //Task<IList<ScUsr>> GetMentorListAsync(int mngCompSn);
-        
+        Task<ScUsr> SelectScUsr(string loginId, string registrationNo);
+
     }
 
 
@@ -80,7 +81,14 @@ namespace BizOneShot.Light.Services
             return scUsr;
         }
 
-   
+        public async Task<ScUsr> SelectScUsr(string loginId, string registrationNo)
+        {
+            var scUsr = await scUsrRespository.GetAsync(sc => sc.LoginId == loginId && sc.Status == "N" && sc.ScCompInfo.RegistrationNo == registrationNo);
+
+            return scUsr;
+        }
+
+
         public async Task<ScUsr> SelectMentorInfo(string loginId)
         {
             var scUsr = await scUsrRespository.GetMentorInfoById(sc => sc.LoginId == loginId && sc.Status == "N");
