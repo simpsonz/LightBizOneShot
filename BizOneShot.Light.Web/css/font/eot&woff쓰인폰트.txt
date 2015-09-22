@@ -1,0 +1,12 @@
+폰트
+
+.eot:나눔바른고딕-Regular(ie최적화)
+.woff:나눔바른고딕-Regular(crome최적화는 나눔고딕bold임)
+
+
+
+
+
+nanum.eot
+nanum.woff
+NanumGothic.ttf

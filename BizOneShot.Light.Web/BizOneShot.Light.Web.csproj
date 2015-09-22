@@ -316,6 +316,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="css\font\eot&amp;woff쓰인폰트.txt" />
     <Content Include="css\zip_common.css" />
     <Content Include="css\zip_reset.css" />
     <Content Include="favicon.ico" />
@@ -342,6 +343,7 @@
     <Content Include="images\main_partner08.jpg" />
     <Content Include="js\cert.js" />
     <Content Include="js\files.js" />
+    <Content Include="js\localstorage.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Company\Views\web.config" />
@@ -410,6 +412,9 @@
     <Content Include="Cert\download\pkitoolkit.jnlp" />
     <Content Include="Cert\download\ubikeytoolkit.jnlp" />
     <Content Include="Cert\download\ubikeytoolkit.jnlp.template" />
+    <Content Include="css\font\nanum.eot" />
+    <Content Include="css\font\nanum.woff" />
+    <Content Include="css\font\NanumGothic.ttf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

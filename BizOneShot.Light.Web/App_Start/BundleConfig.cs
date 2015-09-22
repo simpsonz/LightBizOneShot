@@ -37,6 +37,9 @@ namespace BizOneShot.Light.Web
                       "~/cert/js/TSToolkitConfig.js",
                       "~/cert/js/TSToolkitObject.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/localstorage").Include(
+                      "~/js/localstorage.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));

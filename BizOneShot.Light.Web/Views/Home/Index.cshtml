@@ -3,10 +3,34 @@
 @{
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
+<script>
+    $(document).ready(function () {
+        /* local storage에서 로그인 정보 저장 여부 가져와서 설정 */
+        var rememberYn = doGetStorage("rememberYn");
+        var rememberId = doGetStorage("rememberId");
+        if (rememberYn == "Y") {
+            if (rememberId != null && rememberId != "" && rememberId != "undefined") {
+                $("#ID").val(rememberId);
+            }
+		    $("#remYn").attr("checked", true);
+	    }
+    });
 
+    function goSubmit() {
+        if ($("input[id='remYn']").is(":checked")) {
+            doSetStorage("rememberYn", "Y");
+            doSetStorage("rememberId", $("#ID").val());
+        } else {
+            doSetStorage("rememberYn", "N");
+            doSetStorage("rememberId", "");
+        }
+
+        $('#mainForm').submit();
+    }
+</script>
 <div id="main_cont1wrap">
     <div class="container">
-        @using (Html.BeginForm("index", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        @using (Html.BeginForm("index", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id="mainForm" }))
         {
             @Html.AntiForgeryToken()
             <div id="main_loginwrap">
@@ -22,11 +46,11 @@
                 <p>
                     @*<input type="checkbox"> <img src="../images/login_text_idsave.png"><em>아이디 저장</em>*@
                     <div class="checkbox">
-                        @Html.CheckBoxFor(m => m.RememberMe)
+                        @Html.CheckBoxFor(m => m.RememberMe, new { @id = "remYn" })
                         <img src="../images/login_text_idsave.png"><em>아이디 저장</em>
                     </div>
                 </p><br>
-                <p><input type="submit" class="login"><em>로그인</em></p>
+                <p><input type="button" class="login"  onclick="goSubmit();"><em>로그인</em></p>
                 <p class="login_left">
                     <a href="@Url.Action("SearchId","Home")"><input type="button" class="id_search" value="아이디 찾기"></a>
                     <img src="../images/login_text_bar.png">
