@@ -13,20 +13,19 @@
                 $("#ID").val(rememberId);
             }
 		    $("#remYn").attr("checked", true);
-	    }
-    });
-
-    function goSubmit() {
-        if ($("input[id='remYn']").is(":checked")) {
-            doSetStorage("rememberYn", "Y");
-            doSetStorage("rememberId", $("#ID").val());
-        } else {
-            doSetStorage("rememberYn", "N");
-            doSetStorage("rememberId", "");
         }
 
-        $('#mainForm').submit();
-    }
+
+        $('#mainForm').bind('submit', function () {
+            if ($("input[id='remYn']").is(":checked")) {
+                doSetStorage("rememberYn", "Y");
+                doSetStorage("rememberId", $("#ID").val());
+            } else {
+                doSetStorage("rememberYn", "N");
+                doSetStorage("rememberId", "");
+            }
+        });
+    });
 </script>
 <div id="main_cont1wrap">
     <div class="container">
@@ -50,7 +49,9 @@
                         <img src="../images/login_text_idsave.png"><em>아이디 저장</em>
                     </div>
                 </p><br>
-                <p><input type="button" class="login"  onclick="goSubmit();"><em>로그인</em></p>
+                <p>
+                    <input type="submit" class="login" ><em>로그인</em>
+                </p>
                 <p class="login_left">
                     <a href="@Url.Action("SearchId","Home")"><input type="button" class="id_search" value="아이디 찾기"></a>
                     <img src="../images/login_text_bar.png">

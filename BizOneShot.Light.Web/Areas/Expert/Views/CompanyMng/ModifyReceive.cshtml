@@ -3,7 +3,7 @@
 @{
     Layout = "~/Areas/Expert/Views/Shared/_MainLayout.cshtml";
 }
-
+<script src="~/Js/files.js" type="text/javascript"></script>
 <script>
     $(document).ready(function () {
         //top menu
@@ -18,7 +18,7 @@
 <div id="sub_rightwrap">
 
     <div class="sub_right_title specialist_01_02_02"><em>답변 작성하기</em></div>
-    @using (Html.BeginForm("ModifyReceive", "CompanyMng", FormMethod.Post, new { area = "Expert", @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("ModifyReceive", "CompanyMng", FormMethod.Post, new { area = "Expert", @class = "form-horizontal", role = "form", id = "submit_form", enctype = "multipart/form-data" }))
     {
         @Html.HiddenFor(model => model.ReqDocSn)
         <div class="tablewrap">
@@ -74,14 +74,11 @@
                             <ul>
                                 <li>
                                     <!--파일1-->
-                                    <input type="" class="file" /><button type="button" class="file_search" value="찾아보기"></button><button type="button" class="file_add" value="파일추가"></button><button type="button" class="file_del" value="파일삭제"></button>
-                                </li>
-                                <li>
-                                    <!--파일2-->
-                                    <input type="" class="file" />
-                                    <button type="button" class="file_search" value="찾아보기"></button>
-                                    <button type="button" class="file_add" value="파일추가"></button>
-                                    <button type="button" class="file_del" value="파일삭제"></button>
+                                    <input type="text" class="file" readonly="readonly" />
+                                    <button type="button" class="file_search" value="찾아보기" onclick="return file_add(this);"></button>
+                                    <button type="button" class="file_add" value="파일추가" onclick="return file_inpput_add(this);"></button>
+                                    <button type="button" class="file_del" value="파일삭제" onclick="return file_inpput_remove(this);"></button>
+                                    <em><input type="file" name="files" onchange="return get_filename(this)" /></em>
                                 </li>
                             </ul>
                         </div>
