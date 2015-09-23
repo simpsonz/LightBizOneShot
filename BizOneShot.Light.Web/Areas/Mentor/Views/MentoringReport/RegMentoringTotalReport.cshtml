@@ -93,12 +93,14 @@
 
     @using (Html.BeginForm("RegMentoringTotalReport", "MentoringReport", FormMethod.Post, new { area = "MentoringReport", id = "submit_form", role = "form", enctype = "multipart/form-data" }))
     {
-        <div calss="tablewrap">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+        <div calss="tablewrap">
             <table>
                 <colgroup>
-                    <col width="160px" />
-                    <col width="590px" />
+                    <col width="100px" />
+                    <col width="650px" />
                 </colgroup>
                 <tr>
                     <th>사업명</th>
@@ -119,30 +121,10 @@
                         <a href="" class="bt_calendar"><em>날짜선택</em></a>
                     </td>
                 </tr>
-
-                @*<tr>
-                    <th>첨부 파일</th>
-                    <td class="form">
-                        <div class="file_input">
-                            <input type="text" readonly="readonly" id="file_add01" title="첨부파일">
-                            <label><input type="file" onchange="javascript:document.getElementById('file_add01').value=this.value"></label>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>첨부 파일</th>
-                    <td class="form">
-                        <div class="file_input">
-                            <input type="text" readonly="readonly" id="file_add02" title="첨부파일">
-                            <label><input type="file" onchange="javascript:document.getElementById('file_add02').value=this.value"></label>
-                        </div>
-                    </td>
-                </tr>*@
-
                 <tr>
                     <th>첨부파일</th>
-                    <td colspan="4" class="nopad">
-                        <div id="file_upwrap" class="file_input">
+                    <td class="nopad">
+                        <div id="file_upwrap">
                             <ul>
                                 <li>
                                     <!--파일1-->
@@ -150,7 +132,7 @@
                                     <button type="button" class="file_search" value="찾아보기" onclick="return file_add(this);"></button>
                                     <button type="button" class="file_add" value="파일추가" onclick="return file_inpput_add(this);"></button>
                                     <button type="button" class="file_del" value="파일삭제" onclick="return file_inpput_remove(this);"></button>
-                                    <em><input type="file" name="file" if="file" onchange="return get_filename(this)" /></em>
+                                    <em><input type="file" name="files"  onchange="return get_filename(this)" /></em>
                                 </li>
                             </ul>
                         </div>

@@ -91,13 +91,61 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
         }
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> RegMentoringTotalReport()
-        //{
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegMentoringTotalReport(MentoringTotalReportViewModel dataRequestViewModel, IEnumerable<HttpPostedFileBase> files)
+        {
+            ViewBag.LeftMenu = Global.MentoringReport;
 
-        //    return View();
-        //}
+            var mentorId = Session[Global.LoginID].ToString();
+
+            if (ModelState.IsValid)
+            {
+                var scMentoringTotalReport = Mapper.Map<ScMentoringTotalReport>(dataRequestViewModel);
+
+                scMentoringTotalReport.MentorId = mentorId;
+                scMentoringTotalReport.RegId = mentorId;
+                scMentoringTotalReport.RegDt = DateTime.Now;
+                scMentoringTotalReport.Status = "N";
+
+                //신규파일정보저장 및 파일업로드
+                foreach (var file in files)
+                {
+                    if (file != null)
+                    {
+                        var fileHelper = new FileHelper();
+
+                        var savedFileName = fileHelper.GetUploadFileName(file);
+
+                        var subDirectoryPath = Path.Combine(FileType.Mentoring_Total.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
+
+                        var savedFilePath = Path.Combine(subDirectoryPath, savedFileName);
+
+                        var scFileInfo = new ScFileInfo { FileNm = Path.GetFileName(file.FileName), FilePath = savedFilePath, Status = "N", RegId = Session[Global.LoginID].ToString(), RegDt = DateTime.Now };
+
+                        var scMentoringTrFileInfo = new ScMentoringTrFileInfo { ScFileInfo = scFileInfo };
+                        scMentoringTrFileInfo.Classify  = "A";
+
+                        scMentoringTotalReport.ScMentoringTrFileInfoes.Add(scMentoringTrFileInfo);
+
+                        await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
+                    }
+                }
+
+                //저장
+                int result = await _scMentoringTotalReportService.AddScMentoringTotalReportAsync(scMentoringTotalReport);
+
+                if (result != -1)
+                    return RedirectToAction("MentoringTotalReportList", "MentoringReport");
+                else
+                {
+                    ModelState.AddModelError("", "자료요청 등록 실패.");
+                    return View(dataRequestViewModel);
+                }
+            }
+            ModelState.AddModelError("", "입력값 검증 실패.");
+            return View(dataRequestViewModel);
+        }
 
 
         [HttpPost]
@@ -230,6 +278,49 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             return View(new StaticPagedList<MentoringTotalReportViewModel>(listTotalReportView.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, listTotalReportView.Count));
         }
 
-        
+
+        public void DownloadTRReportFile()
+        {
+            //System.Collections.Specialized.NameValueCollection col = Request.QueryString;
+            string fileNm = Request.QueryString["FileNm"];
+            string filePath = Request.QueryString["FilePath"];
+
+            string archiveName = fileNm;
+
+            var files = new List<FileContent>();
+
+            var file = new FileContent
+            {
+                FileNm = fileNm,
+                FilePath = filePath
+            };
+            files.Add(file);
+
+            new FileHelper().DownloadFile(files, archiveName);
+        }
+
+
+        public async Task DownloadTRReportFileMulti()
+        {
+            string totalReportSn = Request.QueryString["TotalReportSn"];
+
+            string archiveName = "download.zip";
+
+            //Eager Loading 방식
+            var listscMentoringTrFileInfo = await _scMentoringTrFileInfoService.GetMentoringTrFileInfo(int.Parse(totalReportSn));
+
+            var listScFileInfo = new List<ScFileInfo>();
+            foreach (var scMentoringTrFileInfo in listscMentoringTrFileInfo)
+            {
+                listScFileInfo.Add(scMentoringTrFileInfo.ScFileInfo);
+            }
+
+            var files = Mapper.Map<IList<FileContent>>(listScFileInfo);
+
+            new FileHelper().DownloadFile(files, archiveName);
+
+        }
+
+
     }
 }

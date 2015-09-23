@@ -59,6 +59,9 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.FaxNo, map => map.MapFrom(s => s.FaxNo1 + "-" + s.FaxNo2 + "-" + s.FaxNo3))
                 .ForMember(d => d.Email, map => map.MapFrom(s => s.Email1 + "@" + s.Email2));
 
+            //멘토 종합 보고서 등록 to 멘토종합보고서
+            Mapper.CreateMap<MentoringTotalReportViewModel, ScMentoringTotalReport>();
+
             //회원가입모델 to 회원
             Mapper.CreateMap<JoinCompanyViewModel, ScUsr>()
                 .ForMember(d => d.TelNo, map => map.MapFrom(s => s.TelNo1 + "-" + s.TelNo2 + "-" + s.TelNo3))

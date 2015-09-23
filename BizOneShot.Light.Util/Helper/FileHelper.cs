@@ -147,7 +147,7 @@ namespace BizOneShot.Light.Util.Helper
 
             //response.ContentType = GetContentType(archiveName);
             response.ContentType = "application / octet - stream";
-            string encodedFileName = HttpContext.Current.Server.UrlDecode(archiveName).Replace("+", "%20");
+            string encodedFileName = HttpContext.Current.Server.UrlEncode(archiveName).Replace("+", "%20");
             response.AddHeader("Content-Disposition", "attachment; filename=" + encodedFileName);
 
             if (files.Count > 1)
@@ -160,7 +160,6 @@ namespace BizOneShot.Light.Util.Helper
                         {
                             byte[] temps = File.ReadAllBytes(Path.Combine(rootFilePath, file.FilePath));
                             // 시스템의 기본 인코딩 타입으로 읽어서
-
 
                             byte[] b = System.Text.Encoding.Default.GetBytes(file.FileNm);
                             // IBM437로 변환해 준다.
