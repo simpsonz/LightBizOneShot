@@ -34,6 +34,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             return View();
         }
 
+
         public async Task<ActionResult> BizWorkList()
         {
             ViewBag.LeftMenu = Global.BizWorkMng;

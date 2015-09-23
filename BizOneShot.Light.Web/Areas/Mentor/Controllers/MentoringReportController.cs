@@ -39,6 +39,67 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             this._scMentoringTrFileInfoService = scMentoringTrFileInfoService;
         }
 
+
+        public async Task<ActionResult> RegMentoringTotalReport()
+        {
+            ViewBag.LeftMenu = Global.MentoringReport;
+
+            var mentorId = Session[Global.LoginID].ToString();
+
+            //사업 DropDown List Data
+            var listScMentorMapping = await _scMentorMappingService.GetMentorMappingListByMentorId(mentorId);
+            var listScBizWork = listScMentorMapping.Select(mmp => mmp.ScBizWork);
+
+            var bizWorkDropDown =
+                Mapper.Map<List<BizWorkDropDownModel>>(listScBizWork);
+
+            //사업드롭다운 타이틀 추가
+            BizWorkDropDownModel titleBizWork = new BizWorkDropDownModel
+            {
+                BizWorkSn = 0,
+                BizWorkNm = "사업명 선택"
+            };
+
+            bizWorkDropDown.Insert(0, titleBizWork);
+
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+
+            ViewBag.SelectBizWorkList = bizList;
+
+
+            //기업 DropDwon List Data
+            var listScCompMapping = await _scCompMappingService.GetCompMappingListByMentorId(mentorId, "A");
+            var listScCompInfo = listScCompMapping.Select(cmp => cmp.ScCompInfo);//.ToList();
+
+            var compInfoDropDown =
+                Mapper.Map<List<CompInfoDropDownModel>>(listScCompInfo);
+
+            //기업 드롭다운 타이틀 추가
+            CompInfoDropDownModel titleCompInfo = new CompInfoDropDownModel
+            {
+                CompSn = 0,
+                CompNm = "기업명 선택"
+            };
+
+            compInfoDropDown.Insert(0, titleCompInfo);
+
+            SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
+
+            ViewBag.SelectCompInfoList = compInfoList;
+
+            return View();
+        }
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> RegMentoringTotalReport()
+        //{
+
+        //    return View();
+        //}
+
+
         [HttpPost]
         public async Task<JsonResult> DeleteMentoringTotalReport(string [] totalReportSns)
         {
@@ -48,27 +109,6 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
             return Json(new { result = true });
         }
-
-        //[HttpPost]
-        //public async Task<ActionResult> MentoringTotalReportDetail(MentoringTotalReportViewModel totalReportViewModel, SelectedMentorTotalReportParmModel selectParam)
-        //{
-        //    ViewBag.LeftMenu = Global.MentoringReport;
-
-        //    var listscMentoringFrFileInfo = await _scMentoringTrFileInfoService.GetMentoringTrFileInfo(totalReportViewModel.TotalReportSn);
-
-        //    var listscFileInfo = listscMentoringFrFileInfo.Select(mtfi => mtfi.ScFileInfo);
-
-        //    var listFileContent =
-        //       Mapper.Map<List<FileContent>>(listscFileInfo);
-
-        //    //파일정보 매핑
-        //    totalReportViewModel.FileContents = listFileContent;
-
-        //    //검색조건 유지를 위해
-        //    ViewBag.SelectParam = selectParam;
-
-        //    return View(totalReportViewModel);
-        //}
 
         public async Task<ActionResult> MentoringTotalReportDetail(int totalReportSn, SelectedMentorTotalReportParmModel selectParam)
         {

@@ -1,17 +1,130 @@
-﻿
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.MentoringTotalReportViewModel>
+
 @{
-    Layout = null;
+    Layout = "~/Areas/Mentor/Views/Shared/_MainLayout.cshtml";
 }
 
-<!DOCTYPE html>
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_biz04').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb1').addClass('on');
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>RegReport</title>
-</head>
-<body>
-    <div> 
-    </div>
-</body>
-</html>
+        //체크박스 전체선택
+        $("#checkAll").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+
+        //삭제버튼클릭
+        $("#btn_delete").click(function () {
+            if (confirm('선택하신 멘토링 종합보고서를 삭제하시겠습니까?')) {
+                if ($(":checkbox[name='acc_choice']:checked").length < 1) {
+                    alert("삭제하실 항목을 선택하여 주십시오.");
+                    return false;
+                }
+
+                var array = [];
+                $("input:checkbox[name='acc_choice']").each(function () {
+                    if (this.checked) {
+                        array.push(this.value);
+                    }
+                });
+
+                $.ajaxSettings.traditional = true;
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("DeleteMentoringTotalReport", "MentoringReport")',
+                    dataType: "json",
+                    data: {
+                        TotalReportSns: array
+                    },
+                    success: function (data) {
+
+                        alert("삭제 하였습니다");
+                        window.location = '@Url.Action("MentoringTotalReportList", "MentoringReport")';
+                    },
+                    fail: function (error) {
+                        alert('error :' + error.responseText);
+                    }
+                });
+            } else {
+                return false;
+            }
+        });
+
+
+
+    });
+
+    function goPage(page) {
+        $('#curPage').val(page);
+        $('#searchForm').submit();
+    }
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title mentor_01_03"><em>멘토링 종합보고서 등록</em></div>
+
+    <form method="" action="" name="" id="">
+        <div class="tablewrap">
+            <table>
+                <!--사업명-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th>사업명</th>
+                    <td class="form">
+                        <select class="w250" id="">
+                            <option value="">사업선택</option>
+                            <option value="">...</option>
+                            <option value="">...</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>기업명</th>
+                    <td class="form">
+                        <select class="w250" id="">
+                            <option value="">기업선택</option>
+                            <option value="">...</option>
+                            <option value="">...</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>제출일</th>
+                    <td class="form">
+                        <input type="text" class="w120" /><button type="button" class="bt_calendar" value="날짜선택" /></button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>첨부 파일</th>
+                    <td class="form">
+                        <div class="file_input">
+                            <input type="text" readonly="readonly" id="file_add01" title="첨부파일">
+                            <label><input type="file" onchange="javascript:document.getElementById('file_add01').value=this.value"></label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>첨부 파일</th>
+                    <td class="form">
+                        <div class="file_input">
+                            <input type="text" readonly="readonly" id="file_add02" title="첨부파일">
+                            <label><input type="file" onchange="javascript:document.getElementById('file_add02').value=this.value"></label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div><!--tablewrap//-->
+        <div id="btnwrap_sub">
+            <button type="submit" class="cancel2 right" value="취소" onclick="confirm('지금까지 작성된 내용을 취소하시겠습니까?');return false;"><em>저장</em></button>
+            <button type="submit" class="save right"><em>저장</em></button>
+        </div><!--btnwrap//-->
+    </form>
+
+</div><!--sub_rightwrap//-->
+
