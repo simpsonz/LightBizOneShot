@@ -94,25 +94,6 @@ namespace BizOneShot.Light.Util.Helper
                     }
                 }
 
-                //await Task.Run(
-                //    () =>
-                //    {
-                //        foreach (var file in files)
-                //        {
-                //            if (file != null && file.ContentLength > 0 && !string.IsNullOrEmpty(file.FileName))
-                //            {
-                //                fileName = Path.GetFileName(file.FileName);
-                //                fileExtension = Path.GetExtension(fileName);
-                //                newFileName = string.Format("{0}-{1}{2}", Path.GetFileNameWithoutExtension(fileName), Guid.NewGuid().ToByteArray(), fileExtension);
-
-                //                savedFiles.Add(new FileContent { FileNm = fileName, FilePath = Path.Combine(newSubPath, newFileName) });
-
-                //                file.SaveAs(Path.Combine(directoryPath, newFileName));
-                //            }
-                //        }
-                //    });
-
-
                 return savedFiles;
             }
             catch (Exception ex)
@@ -125,15 +106,6 @@ namespace BizOneShot.Light.Util.Helper
         #endregion
 
         #region 다운로드
-        //public async Task DownloadFileAsync(IList<FileContent> files, string archiveName)
-        //{
-        //    await new TaskFactory().StartNew(
-        //        () =>
-        //        {
-        //            DownloadFile(files, archiveName);
-        //        });
-        //}
-
         public void DownloadFile(IList<FileContent> files, string archiveName)
         {
             string rootFilePath = ConfigurationManager.AppSettings["RootFilePath"];

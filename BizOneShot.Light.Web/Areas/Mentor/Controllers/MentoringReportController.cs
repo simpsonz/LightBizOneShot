@@ -109,26 +109,29 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
                 scMentoringTotalReport.Status = "N";
 
                 //신규파일정보저장 및 파일업로드
-                foreach (var file in files)
+                if (files != null)
                 {
-                    if (file != null)
+                    foreach (var file in files)
                     {
-                        var fileHelper = new FileHelper();
+                        if (file != null)
+                        {
+                            var fileHelper = new FileHelper();
 
-                        var savedFileName = fileHelper.GetUploadFileName(file);
+                            var savedFileName = fileHelper.GetUploadFileName(file);
 
-                        var subDirectoryPath = Path.Combine(FileType.Mentoring_Total.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
+                            var subDirectoryPath = Path.Combine(FileType.Mentoring_Total.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
 
-                        var savedFilePath = Path.Combine(subDirectoryPath, savedFileName);
+                            var savedFilePath = Path.Combine(subDirectoryPath, savedFileName);
 
-                        var scFileInfo = new ScFileInfo { FileNm = Path.GetFileName(file.FileName), FilePath = savedFilePath, Status = "N", RegId = Session[Global.LoginID].ToString(), RegDt = DateTime.Now };
+                            var scFileInfo = new ScFileInfo { FileNm = Path.GetFileName(file.FileName), FilePath = savedFilePath, Status = "N", RegId = Session[Global.LoginID].ToString(), RegDt = DateTime.Now };
 
-                        var scMentoringTrFileInfo = new ScMentoringTrFileInfo { ScFileInfo = scFileInfo };
-                        scMentoringTrFileInfo.Classify  = "A";
+                            var scMentoringTrFileInfo = new ScMentoringTrFileInfo { ScFileInfo = scFileInfo };
+                            scMentoringTrFileInfo.Classify = "A";
 
-                        scMentoringTotalReport.ScMentoringTrFileInfoes.Add(scMentoringTrFileInfo);
+                            scMentoringTotalReport.ScMentoringTrFileInfoes.Add(scMentoringTrFileInfo);
 
-                        await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
+                            await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
+                        }
                     }
                 }
 

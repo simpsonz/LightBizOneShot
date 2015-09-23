@@ -32,9 +32,27 @@
             return false;
         });
 
-
-
         $('#submit_form').bind('submit', function () {
+            //필수값체크
+            //if($('#BizWorkSn').val() == 0) {
+            //    alert("사업명을 선택하세요");
+            //    $('#BizWorkSn').focus();
+            //    return false;
+            //}
+
+            //if($('#CompSn').val() == 0) {
+            //    alert("기업명을 선택하세요");
+            //    $('#CompSn').focus();
+            //    return false;
+            //}
+
+            //if($('#SUBMIT_DATE').val() == "") {
+            //    alert("제출일을 선택하세요");
+            //    $('#SUBMIT_DATE').focus();
+            //    return false;
+            //}
+
+            //파일체크
             var inputFileCount = 0;
             var totalSize = 0;
             var fileNames = new Array();
@@ -52,6 +70,11 @@
                 inputFileCount += 1;
 
             });
+
+            if (totalSize == 0) {
+                alert("첨부파일은 1개이상 등록해야 합니다.");
+                return false;
+            }
 
             if (inputFileCount > 5) {
                 alert("파일갯수는 5개를 초과할 수 없습니다.");
@@ -105,13 +128,17 @@
                 <tr>
                     <th>사업명</th>
                     <td class="form">
-                        @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w250" })
+                        @*@Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @id = "BizWorkSn", @class = "w250" })*@
+                        @Html.DropDownListFor(model => model.BizWorkSn, ViewBag.SelectBizWorkList as SelectList, new { @id = "BizWorkSn", @class = "w250" })
+                        @Html.ValidationMessageFor(model => model.BizWorkSn, "", new { @class = "text-danger", @color = "#b94a48" })
                     </td>
                 </tr>
                 <tr>
                     <th>기업명</th>
                     <td class="form">
-                        @Html.DropDownList("CompSn", ViewBag.SelectCompInfoList as SelectList, new { @class = "w250" })
+                        @*@Html.DropDownList("CompSn", ViewBag.SelectCompInfoList as SelectList, new { @id = "CompSn", @class = "w250" })*@
+                        @Html.DropDownListFor(model => model.CompSn, ViewBag.SelectCompInfoList as SelectList, new { @id = "CompSn", @class = "w250" })
+                        @Html.ValidationMessageFor(model => model.CompSn, "", new { @class = "text-danger", @color = "#b94a48" })
                     </td>
                 </tr>
                 <tr>
@@ -119,6 +146,7 @@
                     <td class="form">
                         @Html.TextBoxFor(model => model.SubmitDt, new { @class = "w120", @id = "SUBMIT_DATE", @name = "SUBMIT_DATE", @readonly = "readonly" })
                         <a href="" class="bt_calendar"><em>날짜선택</em></a>
+                        @Html.ValidationMessageFor(model => model.SubmitDt, "", new { @class = "text-danger", @color = "#b94a48" })
                     </td>
                 </tr>
                 <tr>
@@ -132,7 +160,7 @@
                                     <button type="button" class="file_search" value="찾아보기" onclick="return file_add(this);"></button>
                                     <button type="button" class="file_add" value="파일추가" onclick="return file_inpput_add(this);"></button>
                                     <button type="button" class="file_del" value="파일삭제" onclick="return file_inpput_remove(this);"></button>
-                                    <em><input type="file" name="files"  onchange="return get_filename(this)" /></em>
+                                    <em><input type="file" name="file" id="file" onchange="return get_filename(this);" /></em>
                                 </li>
                             </ul>
                         </div>
