@@ -27,7 +27,10 @@
             }
             else if (ViewBag.LeftMenu == Global.Report)//보고서
             {
-
+                <li class="title biz_report"><em>보고서</em></li>
+                <li><a href="" class="gnb">재무관리 보고서</a></li>
+                <li><a href="@Url.Action("BasicSurvey","Report",new { area= "Company" })" class="gnb on">기초경영역량 문진표</a></li>
+                <li><a href="" class="gnb">기초경영역량 보고서</a></li>
             }
             else
             {

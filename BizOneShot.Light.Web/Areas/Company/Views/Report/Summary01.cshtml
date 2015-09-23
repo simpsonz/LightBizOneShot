@@ -1,0 +1,106 @@
+﻿@{
+    Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_02"><em>기초경영역량 문진표</em></div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_step01 on"><em>STEP01.진단개요</em></li>
+            <li class="basic_step02"><a href="" class="ablock"><em>STEP02.기업정보</em></a></li>
+            <li class="basic_step03"><a href="" class="ablock"><em>STEP03.경영진단</em></a></li>
+            <li class="basic_step04"><a href="" class="ablock"><em>STEP04.재무진단</em></a></li>
+            <li class="basic_step05"><a href="" class="ablock"><em>STEP05.조직진단</em></a></li>
+            <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
+        </ul>
+    </div>
+
+    <div class="sub_report_checkbox">
+        <div class="report_main_top">
+            <div class="title big">기초경영역량 진단 문진표</div>
+        </div>
+        <div class="report_main_mid">
+            <p>
+                본 문진표에 응답한 내용은 기업의 기초 역량 점검, 점검 결과를 토대로 한 성장 로드맵 및 성장전략 제안을 위한<br><br> 목적으로만 사용되며 다른 목적으로는 사용되지 않습니다.
+                회사의 경영역량을 정확히 파악할 수 있도록 설문별<br><br> 안내 사항을 참고하여 가감없이 응답해주시면 감사하겠습니다.
+            </p>
+            <table class="list_table">
+                <colgroup>
+                    <col width="30%">
+                    <col width="70%">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td rowspan="5" class="left_memo">Contents</td>
+                        <td class="chapter">Ⅰ. 진단개요 _02</td>
+                    </tr>
+                    <tr>
+                        <td class="chapter">Ⅱ. 기업정보 _03</td>
+                    </tr>
+                    <tr>
+                        <td class="chapter">Ⅲ. 경영진단 _05</td>
+                    </tr>
+                    <tr>
+                        <td class="chapter">Ⅳ. 재무진단 _18</td>
+                    </tr>
+                    <tr>
+                        <td class="last_memo chapter">Ⅴ. 조직진단 _19</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="report_main_bottom">
+            <div class="bottom_left">
+                [작성자]
+            </div>
+            <div class="bottom_mid">
+                <div class="bottom_mid_box mid">
+                    <div class="label ">회사명_</div>
+                    <input type="text" class="long_text" />
+                </div>
+                <div class="bottom_mid_box short">
+                    <div class="label">성　명_</div>
+                    <input type="text" />
+                </div>
+                <div class="bottom_mid_box short">
+                    <div class="label">직　위_</div>
+                    <input type="text" />
+                </div>
+            </div>
+            <div class="bottom_mid">
+                <div class="bottom_mid_box mid">
+                    <div class="label">연락처_</div>
+                    <input type="text" class="long_text" />
+                </div>
+                <div class="bottom_mid_box long">
+                    <div class="label">이메일_</div>
+                    <input type="text" class="long_text" />
+                </div>
+            </div>
+        </div>
+
+
+
+    </div><!--custom_rightwrap//-->
+    <div id="btnwrap_sub">
+
+        <div class="rightwrap left">
+            <button type="submit" class="pre" value="이전" />
+            <!--맨 처음 페이지에선 이전 없음▶-->
+        </div>
+        <div class="rightwrap right">
+            <button type="submit" class="next" value="다음" />
+        </div>
+        <div class="rightwrap centerwrap">
+            <button type="submit" class="write_save" value="임시저장" />
+            <button type="submit" class="write_cencle" value="작성취소" />
+
+        </div>
+
+    </div>
+</div><!--container//-->
