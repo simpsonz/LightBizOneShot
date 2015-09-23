@@ -26,6 +26,15 @@ namespace BizOneShot.Light.Dao.WebConfiguration
     [GeneratedCodeAttribute("EF.Reverse.POCO.Generator", "2.15.1.0")]
     public class FakeWebDbContext : IWebDbContext
     {
+        public DbSet<QuesCheckList> QuesCheckLists { get; set; }
+        public DbSet<QuesCompHistory> QuesCompHistories { get; set; }
+        public DbSet<QuesCompInfo> QuesCompInfoes { get; set; }
+        public DbSet<QuesMaster> QuesMasters { get; set; }
+        public DbSet<QuesOgranAnalysis> QuesOgranAnalysis { get; set; }
+        public DbSet<QuesPresidentInfo> QuesPresidentInfoes { get; set; }
+        public DbSet<QuesResult1> QuesResult1 { get; set; }
+        public DbSet<QuesResult2> QuesResult2 { get; set; }
+        public DbSet<QuesWriter> QuesWriters { get; set; }
         public DbSet<ScBizType> ScBizTypes { get; set; }
         public DbSet<ScBizWork> ScBizWorks { get; set; }
         public DbSet<ScCompInfo> ScCompInfoes { get; set; }
@@ -34,7 +43,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public DbSet<ScFaq> ScFaqs { get; set; }
         public DbSet<ScFileInfo> ScFileInfoes { get; set; }
         public DbSet<ScForm> ScForms { get; set; }
-        public DbSet<ScFormFile> ScReqDocFile { get; set; }
+        public DbSet<ScFormFile> ScFormFiles { get; set; }
         public DbSet<ScMentoringFileInfo> ScMentoringFileInfoes { get; set; }
         public DbSet<ScMentoringReport> ScMentoringReports { get; set; }
         public DbSet<ScMentoringTotalReport> ScMentoringTotalReports { get; set; }
@@ -51,6 +60,15 @@ namespace BizOneShot.Light.Dao.WebConfiguration
 
         public FakeWebDbContext()
         {
+            QuesCheckLists = new FakeDbSet<QuesCheckList>();
+            QuesCompHistories = new FakeDbSet<QuesCompHistory>();
+            QuesCompInfoes = new FakeDbSet<QuesCompInfo>();
+            QuesMasters = new FakeDbSet<QuesMaster>();
+            QuesOgranAnalysis = new FakeDbSet<QuesOgranAnalysis>();
+            QuesPresidentInfoes = new FakeDbSet<QuesPresidentInfo>();
+            QuesResult1 = new FakeDbSet<QuesResult1>();
+            QuesResult2 = new FakeDbSet<QuesResult2>();
+            QuesWriters = new FakeDbSet<QuesWriter>();
             ScBizTypes = new FakeDbSet<ScBizType>();
             ScBizWorks = new FakeDbSet<ScBizWork>();
             ScCompInfoes = new FakeDbSet<ScCompInfo>();
@@ -59,7 +77,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             ScFaqs = new FakeDbSet<ScFaq>();
             ScFileInfoes = new FakeDbSet<ScFileInfo>();
             ScForms = new FakeDbSet<ScForm>();
-            ScReqDocFile = new FakeDbSet<ScFormFile>();
+            ScFormFiles = new FakeDbSet<ScFormFile>();
             ScMentoringFileInfoes = new FakeDbSet<ScMentoringFileInfo>();
             ScMentoringReports = new FakeDbSet<ScMentoringReport>();
             ScMentoringTotalReports = new FakeDbSet<ScMentoringTotalReport>();

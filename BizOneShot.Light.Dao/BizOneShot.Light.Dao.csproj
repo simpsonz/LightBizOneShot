@@ -87,6 +87,33 @@
     <Compile Include="WebConfiguration\IWebDbContext.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="WebConfiguration\QuesCheckListConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebConfiguration\QuesCompHistoryConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebConfiguration\QuesCompInfoConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebConfiguration\QuesMasterConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebConfiguration\QuesOgranAnalysisConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebConfiguration\QuesPresidentInfoConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebConfiguration\QuesResult1Configuration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebConfiguration\QuesResult2Configuration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebConfiguration\QuesWriterConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="WebConfiguration\ScBizTypeConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
