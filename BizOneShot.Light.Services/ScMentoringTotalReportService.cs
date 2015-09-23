@@ -60,6 +60,7 @@ namespace BizOneShot.Light.Services
             var listScMentoringTotalReport = await scMentoringTotalReportRepository.GetMentoringTotalReport
                 (mtr => mtr.MentorId == mentorId && mtr.Status == "N");
 
+            
             return listScMentoringTotalReport.Where(mtr => submitDt != 0 ? mtr.RegDt.Value.Year == submitDt : mtr.RegDt.Value.Year > submitDt)
                 .Where(mtr => bizWorkSn != 0 ? mtr.BizWorkSn == bizWorkSn : mtr.BizWorkSn > bizWorkSn)
                 .Where(mtr => compSn != 0 ? mtr.CompSn == compSn : mtr.CompSn > compSn)

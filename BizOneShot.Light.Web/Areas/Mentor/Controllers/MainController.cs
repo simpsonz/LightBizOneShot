@@ -165,7 +165,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             //_scUsrService.ModifyMentorInfo(scUsr);
 
             //다성공시 커밋
-            _scUsrService.SaveDbContext();
+            await _scUsrService.SaveDbContextAsync();
 
             return RedirectToAction("MyInfo", "Main");
         }
