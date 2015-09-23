@@ -34,7 +34,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public DbSet<ScFaq> ScFaqs { get; set; }
         public DbSet<ScFileInfo> ScFileInfoes { get; set; }
         public DbSet<ScForm> ScForms { get; set; }
-        public DbSet<ScFormFile> ScFormFiles { get; set; }
+        public DbSet<ScFormFile> ScReqDocFile { get; set; }
         public DbSet<ScMentoringFileInfo> ScMentoringFileInfoes { get; set; }
         public DbSet<ScMentoringReport> ScMentoringReports { get; set; }
         public DbSet<ScMentoringTotalReport> ScMentoringTotalReports { get; set; }
@@ -59,7 +59,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             ScFaqs = new FakeDbSet<ScFaq>();
             ScFileInfoes = new FakeDbSet<ScFileInfo>();
             ScForms = new FakeDbSet<ScForm>();
-            ScFormFiles = new FakeDbSet<ScFormFile>();
+            ScReqDocFile = new FakeDbSet<ScFormFile>();
             ScMentoringFileInfoes = new FakeDbSet<ScMentoringFileInfo>();
             ScMentoringReports = new FakeDbSet<ScMentoringReport>();
             ScMentoringTotalReports = new FakeDbSet<ScMentoringTotalReport>();

@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Services;
+using BizOneShot.Light.Util.Helper;
 using BizOneShot.Light.Web.ComLib;
 using PagedList;
 
@@ -21,13 +24,15 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
         private readonly IScReqDocService _scReqDocService;
         private readonly IScCompMappingService _scCompMappingService;
         private readonly IScQaService _scQaService;
+        private readonly IScReqDocFileService _scReqDocFileService;
 
-        public CompanyMngController(IScExpertMappingService _scExpertMappingService, IScReqDocService _scReqDocService, IScCompMappingService _scCompMappingService, IScQaService _scQaService)
+        public CompanyMngController(IScExpertMappingService _scExpertMappingService, IScReqDocService _scReqDocService, IScCompMappingService _scCompMappingService, IScQaService _scQaService, IScReqDocFileService _scReqDocFileService)
         {
             this._scExpertMappingService = _scExpertMappingService;
             this._scReqDocService = _scReqDocService;
             this._scCompMappingService = _scCompMappingService;
             this._scQaService = _scQaService;
+            this._scReqDocFileService = _scReqDocFileService;
         }
 
         // GET: Expert/CompanyMng
@@ -177,12 +182,35 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
         public async Task<ActionResult> ReceiveDetail(string reqDocSn)
         {
             ViewBag.LeftMenu = Global.CompanyMng;
-
             var scReqDoc = await _scReqDocService.GetReqDoc(int.Parse(reqDocSn));
-
-
             var dataRequest =
                 Mapper.Map<DataRequstViewModels>(scReqDoc);
+
+            //전송자 첨부파일 처리
+            var listSenderScReqDocFile = await _scReqDocFileService.GetReqFilesAsync(int.Parse(reqDocSn), "S");
+
+            var listSenderScFileInfo = new List<ScFileInfo>();
+            foreach (var scReqDocFile in listSenderScReqDocFile)
+            {
+                listSenderScFileInfo.Add(scReqDocFile.ScFileInfo);
+            }
+
+            var sndFileInfoViewModel = Mapper.Map<IList<FileInfoViewModel>>(listSenderScFileInfo);
+
+            dataRequest.SenderFiles = sndFileInfoViewModel;
+
+            //수신자 첨부파일 처리
+            var listReceivedrScReqDocFile = await _scReqDocFileService.GetReqFilesAsync(int.Parse(reqDocSn), "R");
+
+            var listReceiverScFileInfo = new List<ScFileInfo>();
+            foreach (var scReqDocFile in listReceivedrScReqDocFile)
+            {
+                listReceiverScFileInfo.Add(scReqDocFile.ScFileInfo);
+            }
+
+            var rcvFileInfoViewModel = Mapper.Map<IList<FileInfoViewModel>>(listReceiverScFileInfo);
+
+            dataRequest.ReceiverFiles = rcvFileInfoViewModel;
 
             return View(dataRequest);
         }
@@ -201,7 +229,7 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ModifyReceive(DataRequstViewModels dataRequestViewModel)
+        public async Task<ActionResult> ModifyReceive(DataRequstViewModels dataRequestViewModel, IEnumerable<HttpPostedFileBase> files)
         {
             ViewBag.LeftMenu = Global.CompanyMng;
 
@@ -209,6 +237,34 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             scReqDoc.ResContents = dataRequestViewModel.ResContents;
             scReqDoc.ChkYn = "Y";
             scReqDoc.ResDt = DateTime.Now;
+
+            
+
+
+            //신규파일정보저장 및 파일업로드
+            foreach (var file in files)
+            {
+                if (file != null)
+                {
+                    var fileHelper = new FileHelper();
+
+                    var savedFileName = fileHelper.GetUploadFileName(file);
+
+                    var subDirectoryPath = Path.Combine(FileType.Document.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
+
+                    var savedFilePath = Path.Combine(subDirectoryPath, savedFileName);
+
+                    var scFileInfo = new ScFileInfo { FileNm = Path.GetFileName(file.FileName), FilePath = savedFilePath, Status = "N", RegId = Session[Global.LoginID].ToString(), RegDt = DateTime.Now };
+
+                    var scReqDocFile = new ScReqDocFile { ScFileInfo = scFileInfo };
+                    scReqDocFile.RegType = "R";
+                    scReqDocFile.ReqDocSn = dataRequestViewModel.ReqDocSn;
+
+                    scReqDoc.ScReqDocFiles.Add(scReqDocFile);
+
+                    await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
+                }
+            }
 
             int result = await _scReqDocService.SaveDbContextAsync();
 
@@ -306,10 +362,34 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             ViewBag.LeftMenu = Global.CompanyMng;
 
             var scReqDoc = await _scReqDocService.GetReqDoc(int.Parse(reqDocSn));
-
-
             var dataRequest =
                 Mapper.Map<DataRequstViewModels>(scReqDoc);
+
+            //전송자 첨부파일 처리
+            var listSenderScReqDocFile = await _scReqDocFileService.GetReqFilesAsync(int.Parse(reqDocSn), "S");
+
+            var listSenderScFileInfo = new List<ScFileInfo>();
+            foreach (var scReqDocFile in listSenderScReqDocFile)
+            {
+                listSenderScFileInfo.Add(scReqDocFile.ScFileInfo);
+            }
+
+            var sndFileInfoViewModel = Mapper.Map<IList<FileInfoViewModel>>(listSenderScFileInfo);
+
+            dataRequest.SenderFiles = sndFileInfoViewModel;
+
+            //수신자 첨부파일 처리
+            var listReceivedrScReqDocFile = await _scReqDocFileService.GetReqFilesAsync(int.Parse(reqDocSn), "R");
+
+            var listReceiverScFileInfo = new List<ScFileInfo>();
+            foreach (var scReqDocFile in listReceivedrScReqDocFile)
+            {
+                listReceiverScFileInfo.Add(scReqDocFile.ScFileInfo);
+            }
+
+            var rcvFileInfoViewModel = Mapper.Map<IList<FileInfoViewModel>>(listReceiverScFileInfo);
+
+            dataRequest.ReceiverFiles = rcvFileInfoViewModel;
 
             return View(dataRequest);
         }
@@ -321,7 +401,7 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> RegSend(DataRequstViewModels dataRequestViewModel)
+        public async Task<ActionResult> RegSend(DataRequstViewModels dataRequestViewModel, IEnumerable<HttpPostedFileBase> files)
         {
             ViewBag.LeftMenu = Global.CompanyMng;
 
@@ -334,6 +414,30 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
                 scReqDoc.ReqDt = DateTime.Now;
                 scReqDoc.SenderId = Session[Global.LoginID].ToString();
                 scReqDoc.Status = "N";
+
+                //신규파일정보저장 및 파일업로드
+                foreach (var file in files)
+                {
+                    if (file != null)
+                    {
+                        var fileHelper = new FileHelper();
+
+                        var savedFileName = fileHelper.GetUploadFileName(file);
+
+                        var subDirectoryPath = Path.Combine(FileType.Document.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
+
+                        var savedFilePath = Path.Combine(subDirectoryPath, savedFileName);
+
+                        var scFileInfo = new ScFileInfo { FileNm = Path.GetFileName(file.FileName), FilePath = savedFilePath, Status = "N", RegId = Session[Global.LoginID].ToString(), RegDt = DateTime.Now };
+
+                        var scReqDocFile = new ScReqDocFile { ScFileInfo = scFileInfo };
+                        scReqDocFile.RegType = "S";
+
+                        scReqDoc.ScReqDocFiles.Add(scReqDocFile);
+
+                        await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
+                    }
+                }
 
                 //저장
                 int result = await _scReqDocService.AddReqDocAsync(scReqDoc);
@@ -488,6 +592,49 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
                 ModelState.AddModelError("", "답변 등록 실패.");
                 return View(qaRequestViewModel);
             }
+
+        }
+
+
+        public void DownloadReqDocFile()
+        {
+            //System.Collections.Specialized.NameValueCollection col = Request.QueryString;
+            string fileNm = Request.QueryString["FileNm"];
+            string filePath = Request.QueryString["FilePath"];
+
+            string archiveName = fileNm;
+
+            var files = new List<FileContent>();
+
+            var file = new FileContent
+            {
+                FileNm = fileNm,
+                FilePath = filePath
+            };
+            files.Add(file);
+
+            new FileHelper().DownloadFile(files, archiveName);
+        }
+
+        public async Task DownloadReqDocFileMulti()
+        {
+            string reqDocSn = Request.QueryString["reqDocSn"];
+            string regType = Request.QueryString["regType"];
+
+            string archiveName = "download.zip";
+
+            //Eager Loading 방식
+            var listScReqDocFile = await _scReqDocFileService.GetReqFilesAsync(int.Parse(reqDocSn), regType);
+
+            var listScFileInfo = new List<ScFileInfo>();
+            foreach (var scFormFile in listScReqDocFile)
+            {
+                listScFileInfo.Add(scFormFile.ScFileInfo);
+            }
+
+            var files = Mapper.Map<IList<FileContent>>(listScFileInfo);
+
+            new FileHelper().DownloadFile(files, archiveName);
 
         }
 

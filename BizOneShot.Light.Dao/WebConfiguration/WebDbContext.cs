@@ -33,7 +33,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public DbSet<ScFaq> ScFaqs { get; set; } // SC_FAQ
         public DbSet<ScFileInfo> ScFileInfoes { get; set; } // SC_FILE_INFO
         public DbSet<ScForm> ScForms { get; set; } // SC_FORM
-        public DbSet<ScFormFile> ScFormFiles { get; set; } // SC_FORM_FILE
+        public DbSet<ScFormFile> ScReqDocFile { get; set; } // SC_FORM_FILE
         public DbSet<ScMentoringFileInfo> ScMentoringFileInfoes { get; set; } // SC_MENTORING_FILE_INFO
         public DbSet<ScMentoringReport> ScMentoringReports { get; set; } // SC_MENTORING_REPORT
         public DbSet<ScMentoringTotalReport> ScMentoringTotalReports { get; set; } // SC_MENTORING_TOTAL_REPORT

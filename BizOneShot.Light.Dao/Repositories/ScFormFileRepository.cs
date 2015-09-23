@@ -21,7 +21,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public override async Task<IEnumerable<ScFormFile>> GetManyAsync(Expression<Func<ScFormFile, bool>> where)
         {
-            return await this.DbContext.ScFormFiles.Include(i => i.ScFileInfo).Where(where).ToListAsync();
+            return await this.DbContext.ScReqDocFile.Include(i => i.ScFileInfo).Where(where).ToListAsync();
 
         }
 

@@ -43,30 +43,42 @@
                 <th>내용</th>
                 <td colspan="4" class="read">@Model.ReqContents</td>
             </tr>
-            <tr>
-                <!--첨부파일1개일때-->
-                <th>첨부파일</th>
-                <td colspan="4" class="nopad">
-                    <div id="file_downwrap">
-                        <ul>
-                            <li><span>첨부파일1개.pdf</span><button type="button" class="file_down" value="다운로드"></button></li>
-                        </ul>
-                    </div>
-                </td>
-            </tr><!--첨부파일1개일때 끝-->
-            <tr>
-                <!--첨부파일2개이상일때-->
-                <th>첨부파일</th>
-                <td colspan="3" class="nopad">
-                    <div id="file_downwrap">
-                        <ul>
-                            <li><span>첨부파일2개이상.pdf</span><button type="button" class="file_down" value="다운로드"></button></li>
-                            <li><span>첨부파일2개이상.pdf</span><button type="button" class="file_down" value="다운로드"></button></li>
-                        </ul>
-                    </div>
-                </td>
-                <td class="all"><button type="button" class="file_all_down" value="전체 다운로드"></button></td>
-            </tr><!--첨부파일2개이상일때 끝-->
+            @if (Model.SenderFiles.Count == 1)
+            {
+                <tr>
+                    <!--첨부파일1개일때-->
+                    <th>첨부파일</th>
+                    <td colspan="4" class="nopad">
+                        <div id="file_downwrap">
+                            <ul>
+                                <li><span>@Model.SenderFiles[0].FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DownloadReqDocFile", @Model.SenderFiles[0])';" value="다운로드"></button></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr><!--첨부파일1개일때 끝-->
+            }
+            else if (Model.SenderFiles.Count > 1)
+            {
+                <tr>
+                    <!--첨부파일2개이상일때-->
+                    <th>첨부파일</th>
+                    <td colspan="3" class="nopad">
+                        <div id="file_downwrap">
+                            <ul>
+                                @foreach (var item in Model.SenderFiles)
+                                {
+                                    @*<li><span>@item.FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DocumentDownload", new { fileSn = @item.FileSn })';" value="다운로드"></button></li>*@
+
+                                    <li><span>@item.FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DownloadReqDocFile", item)';" value="다운로드"></button></li>
+
+                                }
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="all"><button type="button" class="file_all_down" onclick="location.href='@Url.Action("DownloadReqDocFileMulti", new { reqDocSn = Model.ReqDocSn, regType = "S" })';" value="전체 다운로드"></button></td>
+                    @*<td class="all"><button type="button" class="file_all_down" onclick="location.href='@Url.Action("DownloadManual", Model.ManualFiles)';" value="전체 다운로드"></button></td>*@
+                </tr><!--첨부파일2개이상일때 끝-->
+            }
         </table>
     </div><!--tablewrap//-->
 
@@ -83,36 +95,56 @@
             </colgroup>
             <tr>
                 <th>답변일자</th>
-                <td colspan="2">@Model.ResDt.GetValueOrDefault().ToShortDateString()</td>
+                @if (@Model.ChkYn == "Y")
+                {
+                    <td colspan="2">@Model.ResDt.GetValueOrDefault().ToShortDateString()</td>
+                }
+                else
+                {
+                    <td colspan="2"></td>
+                }
+                
             </tr>
             <tr>
                 <th>답변</th>
                 <td colspan="2" class="read">@Html.RepladeHtmlText(Model.ResContents)</td>
             </tr>
-            <tr>
-                <!--첨부파일1개일때-->
-                <th>첨부파일</th>
-                <td colspan="2" class="nopad">
-                    <div id="file_downwrap">
-                        <ul>
-                            <li><span>첨부파일1개.pdf</span><button type="button" class="file_down" value="다운로드"></button></li>
-                        </ul>
-                    </div>
-                </td>
-            </tr><!--첨부파일1개일때 끝-->
-            <tr>
-                <!--첨부파일2개이상일때-->
-                <th>첨부파일</th>
-                <td class="nopad">
-                    <div id="file_downwrap">
-                        <ul>
-                            <li><span>첨부파일2개이상.pdf</span><button type="button" class="file_down" value="다운로드"></button></li>
-                            <li><span>첨부파일2개이상.pdf</span><button type="button" class="file_down" value="다운로드"></button></li>
-                        </ul>
-                    </div>
-                </td>
-                <td class="all"><button type="button" class="file_all_down" value="전체 다운로드"></button></td>
-            </tr><!--첨부파일2개이상일때 끝-->
+            @if (Model.ReceiverFiles.Count == 1)
+            {
+                <tr>
+                    <!--첨부파일1개일때-->
+                    <th>첨부파일</th>
+                    <td colspan="2" class="nopad">
+                        <div id="file_downwrap">
+                            <ul>
+                                <li><span>@Model.ReceiverFiles[0].FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DownloadReqDocFile", @Model.ReceiverFiles[0])';" value="다운로드"></button></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr><!--첨부파일1개일때 끝-->
+            }
+            else if (Model.ReceiverFiles.Count > 1)
+            {
+                <tr>
+                    <!--첨부파일2개이상일때-->
+                    <th>첨부파일</th>
+                    <td  class="nopad">
+                        <div id="file_downwrap">
+                            <ul>
+                                @foreach (var item in Model.ReceiverFiles)
+                                {
+                                    @*<li><span>@item.FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DocumentDownload", new { fileSn = @item.FileSn })';" value="다운로드"></button></li>*@
+
+                                    <li><span>@item.FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DownloadReqDocFile", item)';" value="다운로드"></button></li>
+
+                                }
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="all"><button type="button" class="file_all_down" onclick="location.href='@Url.Action("DownloadReqDocFileMulti", new { reqDocSn = Model.ReqDocSn, regType = "R" })';" value="전체 다운로드"></button></td>
+                    @*<td class="all"><button type="button" class="file_all_down" onclick="location.href='@Url.Action("DownloadManual", Model.ManualFiles)';" value="전체 다운로드"></button></td>*@
+                </tr><!--첨부파일2개이상일때 끝-->
+            }
         </table>
     </div><!--tablewrap//-->
 

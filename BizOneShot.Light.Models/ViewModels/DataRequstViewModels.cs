@@ -23,6 +23,8 @@ namespace BizOneShot.Light.Models.ViewModels
         public string ReceiverComNm { get; set; } // 수신기업 사업자명
         public string ReceiverName { get; set; } // 수신담당자명
         public string ReceiverRegistrationNo { get; set; } // 수신기업 사업자번호
+        public IList<FileInfoViewModel> SenderFiles { get; set; }
+        public IList<FileInfoViewModel> ReceiverFiles { get; set; }
     }
 
     public class QaRequstViewModels

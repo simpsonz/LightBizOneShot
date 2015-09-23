@@ -70,6 +70,7 @@
     <Compile Include="Repositories\ScMentoringTotalReportRepository.cs" />
     <Compile Include="Repositories\ScMentorMappingRepository.cs" />
     <Compile Include="Repositories\ScQaRepository.cs" />
+    <Compile Include="Repositories\ScReqDocFileRepository.cs" />
     <Compile Include="Repositories\ScReqDocRepository.cs" />
     <Compile Include="Repositories\SyUserRepository.cs" />
     <Compile Include="WebConfiguration\Database.cs">
