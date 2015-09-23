@@ -299,8 +299,8 @@
     <Content Include="Cert\download\tradesign-client-cleanroom-3.5.11.jar" />
     <Content Include="Cert\download\tradesign-cmp-cleanroom-2.1.1.jar" />
     <Content Include="Cert\download\tradesign-tsa-1.5.1.jar" />
-    <Content Include="Cert\download\TSToolkit_2,0,6,0.cab" />
-    <Content Include="Cert\download\TSToolkit_2,0,6,0.exe" />
+    <Content Include="Cert\download\TSToolkit_2,0,6,4.cab" />
+    <Content Include="Cert\download\TSToolkit_2,0,6,4.exe" />
     <Content Include="Cert\download\ubikey-1.0.2.5.jar" />
     <Content Include="Cert\images\arrow_01.gif" />
     <Content Include="Cert\images\checkIcon.jpg" />
