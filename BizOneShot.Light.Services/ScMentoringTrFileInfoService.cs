@@ -49,11 +49,6 @@ namespace BizOneShot.Light.Services
             return await unitOfWork.CommitAsync();
         }
 
-        public Task<IList<ScMentoringTotalReport>> GetMentoringTotalReportAsync(string submitDate = null, int bizWorkSn = 0, int CompSn = 0)
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
     }
 }

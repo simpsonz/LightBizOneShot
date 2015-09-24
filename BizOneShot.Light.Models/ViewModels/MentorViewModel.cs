@@ -171,17 +171,24 @@ namespace BizOneShot.Light.Models.ViewModels
     public class MentoringTotalReportViewModel
     {
         public int TotalReportSn { get; set; } // TOTAL_REPORT_SN (Primary key). 맨토링종합보고서식별자
+        [Required]
+        [Range(1,double.MaxValue, ErrorMessage ="사업명을 선택하세요")]
+        [Display(Name = "사업명")]
         public int BizWorkSn { get; set; } // BIZ_WORK_SN. 사업식별자
         public string BizWorkNm { get; set; }
         public string MentorId { get; set; } // MENTOR_ID. 맨토식별자
+        [Required]
+        [Range(1, double.MaxValue, ErrorMessage = "기업명을 선택하세요")]
+        [Display(Name = "기업명")]
         public int? CompSn { get; set; } // COMP_SN. 기업식별자
         public string CompNm { get; set; } // 
+        [Required]
+        [Display(Name = "제출일")]
         public DateTime? SubmitDt { get; set; } // SUBMIT_DT. 제출일
         public string RegId { get; set; } // REG_ID. 등록자
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시
         public string UpdId { get; set; } // UPD_ID. 수정자
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
-
         public IList<FileContent> FileContents { get; set; }
     }
 }

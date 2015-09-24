@@ -14,7 +14,8 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         Task<IList<int>> GetMentoringTotalReportSubmitDt(string mentorId);
         Task<ScMentoringTotalReport> GetMentoringTotalReportById(int totalReportSn);
-        Task<IList<ScMentoringTotalReport>> GetMentoringTotalReport(Expression<Func<ScMentoringTotalReport, bool>> where); 
+        Task<IList<ScMentoringTotalReport>> GetMentoringTotalReport(Expression<Func<ScMentoringTotalReport, bool>> where);
+        Task<ScMentoringTotalReport> Insert(ScMentoringTotalReport scMentoringTotalReport);
     }
 
 
@@ -46,6 +47,11 @@ namespace BizOneShot.Light.Dao.Repositories
                 //.Include(mtr => mtr.ScMentoringTrFileInfoes)
                 .Include(mtr => mtr.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo))
                 .Where(where).ToListAsync();
+        }
+
+        public async Task<ScMentoringTotalReport> Insert(ScMentoringTotalReport scMentoringTotalReport)
+        {
+            return await Task.Run(() => DbContext.ScMentoringTotalReports.Add(scMentoringTotalReport));
         }
     }
 }

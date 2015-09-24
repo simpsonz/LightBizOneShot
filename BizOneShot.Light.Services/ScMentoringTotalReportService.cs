@@ -22,6 +22,8 @@ namespace BizOneShot.Light.Services
 
         Task DeleteMentoringTotalReport(IList<string> listTotalReportSn);
         Task ModifyMentoringTRStatusDelete(string totalReportSn);
+
+        Task<int> AddScMentoringTotalReportAsync(ScMentoringTotalReport scMentoringTotalReport);
     }
 
 
@@ -64,6 +66,7 @@ namespace BizOneShot.Light.Services
             return listScMentoringTotalReport.Where(mtr => submitDt != 0 ? mtr.RegDt.Value.Year == submitDt : mtr.RegDt.Value.Year > submitDt)
                 .Where(mtr => bizWorkSn != 0 ? mtr.BizWorkSn == bizWorkSn : mtr.BizWorkSn > bizWorkSn)
                 .Where(mtr => compSn != 0 ? mtr.CompSn == compSn : mtr.CompSn > compSn)
+                .OrderByDescending(mtr => mtr.TotalReportSn)
                 .ToList();
         }
 
@@ -91,30 +94,21 @@ namespace BizOneShot.Light.Services
             scMentoringTotalReportRepository.Update(scMentoringTotalReport);
         }
 
-        //public void DeleteMentoringTotalReport(IList<string> listTotalReportSn)
-        //{
-        //    foreach (var totalReportSn in listTotalReportSn)
-        //    {
-        //        ModifyMentoringTRStatusDelete(totalReportSn);
-        //    }
 
-        //    SaveDbContext();
-        //}
+        public async Task<int> AddScMentoringTotalReportAsync(ScMentoringTotalReport scMentoringTotalReport)
+        {
+            var rstScMentoringTotalReport = await scMentoringTotalReportRepository.Insert(scMentoringTotalReport);
 
-        //public void ModifyMentoringTRStatusDelete(string totalReportSn)
-        //{
-        //    var scMentoringTotalReport = scMentoringTotalReportRepository.GetById(int.Parse(totalReportSn));
+            if (rstScMentoringTotalReport == null)
+            {
+                return -1;
+            }
+            else
+            {
+                return await SaveDbContextAsync();
+            }
 
-        //    scMentoringTotalReport.Status = "D";
-
-        //    foreach (var scFileInfo in scMentoringTotalReport.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo))
-        //    {
-        //        scFileInfo.Status = "D";
-        //    }
-
-        //    scMentoringTotalReportRepository.Update(scMentoringTotalReport);
-        //}
-
+        }
 
 
 

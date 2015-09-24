@@ -294,8 +294,12 @@
                         <div id="file_upwrap" class="file_input">
                             <ul>
                                 <li>
-                                    <input type="text"  readonly="readonly" id="file_resume" title="첨부파일" />
-                                    <label><input type="file" name="files"  onchange="javascript:document.getElementById('file_resume').value=this.value" /></label>
+                                    @*<input type="text"  readonly="readonly" id="file_resume" title="첨부파일" />
+                                    <label><input type="file" name="files"  onchange="javascript:document.getElementById('file_resume').value=this.value" /></label>*@
+
+                                    <input type="text" readonly="readonly" />
+                                    <button type="button" class="file_search" value="찾아보기" onclick="return file_add(this);"></button>
+                                    <em><input type="file" name="files" onchange="return get_filename(this)" /></em>
                                 </li>
                             </ul>
                         </div>
