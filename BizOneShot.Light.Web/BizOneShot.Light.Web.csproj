@@ -448,6 +448,8 @@
     <Content Include="Areas\Company\Views\Report\BasicSurvey.cshtml" />
     <Content Include="Areas\Company\Views\Report\FinanceMng.cshtml" />
     <Content Include="Areas\Company\Views\Report\Summary02.cshtml" />
+    <Content Include="Areas\Company\Views\Report\CompanyInfo01.cshtml" />
+    <Content Include="Areas\Company\Views\Report\CompanyInfo02.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -27,11 +27,11 @@ namespace BizOneShot.Light.Dao.WebConfiguration
     public class FakeWebDbContext : IWebDbContext
     {
         public DbSet<QuesCheckList> QuesCheckLists { get; set; }
+        public DbSet<QuesCompExtention> QuesCompExtentions { get; set; }
         public DbSet<QuesCompHistory> QuesCompHistories { get; set; }
         public DbSet<QuesCompInfo> QuesCompInfoes { get; set; }
         public DbSet<QuesMaster> QuesMasters { get; set; }
         public DbSet<QuesOgranAnalysis> QuesOgranAnalysis { get; set; }
-        public DbSet<QuesPresidentInfo> QuesPresidentInfoes { get; set; }
         public DbSet<QuesResult1> QuesResult1 { get; set; }
         public DbSet<QuesResult2> QuesResult2 { get; set; }
         public DbSet<QuesWriter> QuesWriters { get; set; }
@@ -61,11 +61,11 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public FakeWebDbContext()
         {
             QuesCheckLists = new FakeDbSet<QuesCheckList>();
+            QuesCompExtentions = new FakeDbSet<QuesCompExtention>();
             QuesCompHistories = new FakeDbSet<QuesCompHistory>();
             QuesCompInfoes = new FakeDbSet<QuesCompInfo>();
             QuesMasters = new FakeDbSet<QuesMaster>();
             QuesOgranAnalysis = new FakeDbSet<QuesOgranAnalysis>();
-            QuesPresidentInfoes = new FakeDbSet<QuesPresidentInfo>();
             QuesResult1 = new FakeDbSet<QuesResult1>();
             QuesResult2 = new FakeDbSet<QuesResult2>();
             QuesWriters = new FakeDbSet<QuesWriter>();

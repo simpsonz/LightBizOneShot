@@ -33,10 +33,10 @@ namespace BizOneShot.Light.Models.WebModels
         // Reverse navigation
         public virtual ICollection<QuesResult1> QuesResult1 { get; set; } // Many to many mapping
         public virtual ICollection<QuesResult2> QuesResult2 { get; set; } // Many to many mapping
+        public virtual QuesCompExtention QuesCompExtention { get; set; } // QUES_COMP_EXTENTION.FK_QUES_MASTER_TO_QUES_PRESIDENT_INFO
         public virtual QuesCompHistory QuesCompHistory { get; set; } // QUES_COMP_HISTORY.FK_QUES_MASTER_TO_QUES_COMP_HISTORY
         public virtual QuesCompInfo QuesCompInfo { get; set; } // QUES_COMP_INFO.FK_QUES_MASTER_TO_QUES_COMP_INFO
         public virtual QuesOgranAnalysis QuesOgranAnalysis { get; set; } // QUES_OGRAN_ANALYSIS.FK_QUES_MASTER_TO_QUES_OGRAN_ANALYSIS
-        public virtual QuesPresidentInfo QuesPresidentInfo { get; set; } // QUES_PRESIDENT_INFO.FK_QUES_MASTER_TO_QUES_PRESIDENT_INFO
         public virtual QuesWriter QuesWriter { get; set; } // QUES_WRITER.FK_QUES_MASTER_TO_QUES_WRITER
         
         public QuesMaster()

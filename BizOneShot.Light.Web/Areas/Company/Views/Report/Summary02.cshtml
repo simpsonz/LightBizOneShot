@@ -148,14 +148,11 @@
     <div id="btnwrap_sub">
 
         <div class="rightwrap left">
-            <a href="@Url.Action("Summary01", "Report", new { area = "Company", @QuestionSn = Model.QuestionSn })" class="pre" value="이전"><em>이전</em></a>
+            <a href="@Url.Action("Summary01", "Report", new { area = "Company", @questionSn = Model.QuestionSn })" class="pre" value="이전"><em>이전</em></a>
         </div>
         <div class="rightwrap right">
             @*<button type="button" class="next" onclick="goSubmit('N');" value="다음" />*@
-            <a href="@Url.Action("Summary03", "Report", new { area = "Company" , @QuestionSn = Model.QuestionSn})" class="next" value="다음"><em>다음</em></a>
-        </div>
-        <div class="rightwrap centerwrap left auto_m">
-            <a href="@Url.Action("CancelBasicSurvey", "Report", new { area = "Company" })" class="write_cencle left" value="작성취소"></a>
+            <a href="@Url.Action("CompanyInfo01", "Report", new { area = "Company" , @QuestionSn = Model.QuestionSn})" class="next" value="다음"><em>다음</em></a>
         </div>
 
     </div>

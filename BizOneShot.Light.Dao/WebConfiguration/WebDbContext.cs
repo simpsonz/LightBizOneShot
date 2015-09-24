@@ -26,11 +26,11 @@ namespace BizOneShot.Light.Dao.WebConfiguration
     public partial class WebDbContext : DbContext, IWebDbContext
     {
         public DbSet<QuesCheckList> QuesCheckLists { get; set; } // QUES_CHECK_LIST
+        public DbSet<QuesCompExtention> QuesCompExtentions { get; set; } // QUES_COMP_EXTENTION
         public DbSet<QuesCompHistory> QuesCompHistories { get; set; } // QUES_COMP_HISTORY
         public DbSet<QuesCompInfo> QuesCompInfoes { get; set; } // QUES_COMP_INFO
         public DbSet<QuesMaster> QuesMasters { get; set; } // QUES_MASTER
         public DbSet<QuesOgranAnalysis> QuesOgranAnalysis { get; set; } // QUES_OGRAN_ANALYSIS
-        public DbSet<QuesPresidentInfo> QuesPresidentInfoes { get; set; } // QUES_PRESIDENT_INFO
         public DbSet<QuesResult1> QuesResult1 { get; set; } // QUES_RESULT1
         public DbSet<QuesResult2> QuesResult2 { get; set; } // QUES_RESULT2
         public DbSet<QuesWriter> QuesWriters { get; set; } // QUES_WRITER
@@ -88,11 +88,11 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Configurations.Add(new QuesCheckListConfiguration());
+            modelBuilder.Configurations.Add(new QuesCompExtentionConfiguration());
             modelBuilder.Configurations.Add(new QuesCompHistoryConfiguration());
             modelBuilder.Configurations.Add(new QuesCompInfoConfiguration());
             modelBuilder.Configurations.Add(new QuesMasterConfiguration());
             modelBuilder.Configurations.Add(new QuesOgranAnalysisConfiguration());
-            modelBuilder.Configurations.Add(new QuesPresidentInfoConfiguration());
             modelBuilder.Configurations.Add(new QuesResult1Configuration());
             modelBuilder.Configurations.Add(new QuesResult2Configuration());
             modelBuilder.Configurations.Add(new QuesWriterConfiguration());
@@ -125,11 +125,11 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)
         {
             modelBuilder.Configurations.Add(new QuesCheckListConfiguration(schema));
+            modelBuilder.Configurations.Add(new QuesCompExtentionConfiguration(schema));
             modelBuilder.Configurations.Add(new QuesCompHistoryConfiguration(schema));
             modelBuilder.Configurations.Add(new QuesCompInfoConfiguration(schema));
             modelBuilder.Configurations.Add(new QuesMasterConfiguration(schema));
             modelBuilder.Configurations.Add(new QuesOgranAnalysisConfiguration(schema));
-            modelBuilder.Configurations.Add(new QuesPresidentInfoConfiguration(schema));
             modelBuilder.Configurations.Add(new QuesResult1Configuration(schema));
             modelBuilder.Configurations.Add(new QuesResult2Configuration(schema));
             modelBuilder.Configurations.Add(new QuesWriterConfiguration(schema));

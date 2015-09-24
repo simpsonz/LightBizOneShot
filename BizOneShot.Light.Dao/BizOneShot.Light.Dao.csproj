@@ -60,6 +60,7 @@
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\PostRepository.cs" />
+    <Compile Include="Repositories\QuesCompInfoRepository.cs" />
     <Compile Include="Repositories\QuesMasterRepository.cs" />
     <Compile Include="Repositories\ScBizWorkRepository.cs" />
     <Compile Include="Repositories\ScCompMappingRepository.cs" />
@@ -91,6 +92,9 @@
     <Compile Include="WebConfiguration\QuesCheckListConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="WebConfiguration\QuesCompExtentionConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="WebConfiguration\QuesCompHistoryConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
@@ -101,9 +105,6 @@
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="WebConfiguration\QuesOgranAnalysisConfiguration.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="WebConfiguration\QuesPresidentInfoConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="WebConfiguration\QuesResult1Configuration.cs">

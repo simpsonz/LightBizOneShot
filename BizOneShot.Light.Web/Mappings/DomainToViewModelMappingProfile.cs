@@ -280,6 +280,9 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<QuesMaster, QuestionDropDownModel>()
                 .ForMember(d => d.SnStatus, map => map.MapFrom(s => s.QuestionSn.ToString() + "#" + s.Status));
 
+            Mapper.CreateMap<QuesCompInfo, QuesCompanyInfoViewModel>()
+                .ForMember(d => d.PublishDt, map => map.MapFrom(s => s.PublishDt.GetValueOrDefault().ToShortDateString()));
+
 
 
 

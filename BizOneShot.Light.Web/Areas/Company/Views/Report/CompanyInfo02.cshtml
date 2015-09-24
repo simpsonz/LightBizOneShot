@@ -1,0 +1,154 @@
+﻿@{
+    Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_02">
+        <em>기초경영역량 문진표</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_step01"><em>STEP01.진단개요</em></li>
+            <li class="basic_step02 on"><a href="" class="ablock"><em>STEP02.기업정보</em></a></li>
+            <li class="basic_step03"><a href="" class="ablock"><em>STEP03.경영진단</em></a></li>
+            <li class="basic_step04"><a href="" class="ablock"><em>STEP04.재무진단</em></a></li>
+            <li class="basic_step05"><a href="" class="ablock"><em>STEP05.조직진단</em></a></li>
+            <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
+        </ul>
+    </div>
+@using (Html.BeginForm("CompanyInfo01", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
+{
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2">
+            <div class="title_medium">Ⅱ. 기업정보</div>
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <p class="full_p">기업 확장정보</p>
+                <p>
+                    <span>∎</span>대표자 현황
+                </p>
+                <table class="join_info">
+                    <colgroup>
+                        <col width="15%">
+                        <col width="8%">
+                        <col width="31%">
+                        <col width="15%">
+                        <col width="31%">
+                    </colgroup>
+                    <tr>
+                        <td class="left_memo">성 명</td>
+                        <td colspan="2"><input type="text" /></td>
+                        <td class="left_memo">생년월일</td>
+                        <td><input type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td class="left_memo">최종학력</td>
+                        <td colspan="2"><input type="text" /></td>
+                        <td class="left_memo">전공</td>
+                        <td><input type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td class="left_memo" rowspan="4">경력사항</td>
+                        <td>경력 ①</td>
+                        <td>(근무처)<input type="text" /></td>
+                        <td colspan="2">(주요업무)<input type="text" /></td>
+
+                    </tr>
+                    <tr>
+                        <td>경력 ②</td>
+                        <td>(근무처)<input type="text" /></td>
+                        <td colspan="2">(주요업무)<input type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>경력 ③</td>
+                        <td>(근무처)<input type="text" /></td>
+                        <td colspan="2">(주요업무)<input type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            해당분야 총 경력기간 : <input type="text"
+                                                 class="text_samll" />년<input type="text" class="text_samll" />개월(<input type="text" class="text_samll" />년<input type="text"
+                                                                                                                                                                  class="text_samll" />월 기준)
+                        </td>
+                    </tr>
+
+                </table>
+
+                <p>
+                    <span>∎</span>기업 연혁
+                </p>
+                <table class="join_info table_long">
+                    <colgroup>
+                        <col width="15%">
+                        <col width="85%">
+                    </colgroup>
+                    <tr>
+                        <td class="left_memo">시기</td>
+                        <td class="left_memo">주요내용</td>
+
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="long_text2" /></td>
+                        <td><input type="text" class="long_text2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="long_text2" /></td>
+                        <td><input type="text" class="long_text2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="long_text2" /></td>
+                        <td><input type="text" class="long_text2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="long_text2" /></td>
+                        <td><input type="text" class="long_text2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="long_text2" /></td>
+                        <td><input type="text" class="long_text2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="long_text2" /></td>
+                        <td><input type="text" class="long_text2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="long_text2" /></td>
+                        <td><input type="text" class="long_text2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="long_text2" /></td>
+                        <td><input type="text" class="long_text2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="long_text2" /></td>
+                        <td><input type="text" class="long_text2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="long_text2" /></td>
+                        <td><input type="text" class="long_text2" /></td>
+                    </tr>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <!--container//-->
+    <div id="btnwrap_sub">
+        <div class="rightwrap left">
+            <a href="@Url.Action("CompnayInfo01", "Report", new { area = "Company", @questionSn = @Model.QuestionSn })" class="pre" value="이전"><em>이전</em></a>
+        </div>
+        <div class="rightwrap right">
+            <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+        </div>
+        <div class="rightwrap centerwrap left auto_m">
+            <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
+        </div>
+    </div>
+}
+</div>

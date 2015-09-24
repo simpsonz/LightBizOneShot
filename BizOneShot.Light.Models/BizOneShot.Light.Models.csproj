@@ -70,6 +70,9 @@
     <Compile Include="WebModels\QuesCheckList.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="WebModels\QuesCompExtention.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="WebModels\QuesCompHistory.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
@@ -80,9 +83,6 @@
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="WebModels\QuesOgranAnalysis.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="WebModels\QuesPresidentInfo.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="WebModels\QuesResult1.cs">

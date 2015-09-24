@@ -101,6 +101,7 @@ namespace BizOneShot.Light.Web.Mappings
             //문진표 맵퍼
             Mapper.CreateMap<QuesMasterViewModel, QuesMaster>();
             Mapper.CreateMap<QuesWriterViewModel, QuesWriter>();
+            Mapper.CreateMap<QuesCompanyInfoViewModel, QuesCompInfo>();
         }
     }
 }

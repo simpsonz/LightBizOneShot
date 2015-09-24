@@ -20,8 +20,8 @@ using System.Threading;
 
 namespace BizOneShot.Light.Models.WebModels
 {
-    // QUES_PRESIDENT_INFO
-    public class QuesPresidentInfo
+    // QUES_COMP_EXTENTION
+    public class QuesCompExtention
     {
         public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
         public string PresidentNm { get; set; } // PRESIDENT_NM
@@ -36,7 +36,28 @@ namespace BizOneShot.Light.Models.WebModels
         public string Job3 { get; set; } // JOB3
         public string CareerBasicYear { get; set; } // CAREER_BASIC_YEAR
         public string CareerBasicMonth { get; set; } // CAREER_BASIC_MONTH
-        public int? TotalCareerPeriod { get; set; } // TOTAL_CAREER_PERIOD
+        public int? TotalYear { get; set; } // TOTAL_YEAR
+        public int? TotalMonty { get; set; } // TOTAL_MONTY
+        public string HistotyDate10 { get; set; } // HISTOTY_DATE10
+        public string HistotyDate9 { get; set; } // HISTOTY_DATE9
+        public string HistotyDate8 { get; set; } // HISTOTY_DATE8
+        public string HistotyDate7 { get; set; } // HISTOTY_DATE7
+        public string HistotyDate6 { get; set; } // HISTOTY_DATE6
+        public string HistotyDate5 { get; set; } // HISTOTY_DATE5
+        public string HistotyDate4 { get; set; } // HISTOTY_DATE4
+        public string HistotyDate3 { get; set; } // HISTOTY_DATE3
+        public string HistotyDate2 { get; set; } // HISTOTY_DATE2
+        public string HistotyDate1 { get; set; } // HISTOTY_DATE1
+        public string HistoryContent10 { get; set; } // HISTORY_CONTENT10
+        public string HistoryContent9 { get; set; } // HISTORY_CONTENT9
+        public string HistoryContent8 { get; set; } // HISTORY_CONTENT8
+        public string HistoryContent7 { get; set; } // HISTORY_CONTENT7
+        public string HistoryContent6 { get; set; } // HISTORY_CONTENT6
+        public string HistoryContent5 { get; set; } // HISTORY_CONTENT5
+        public string HistoryContent4 { get; set; } // HISTORY_CONTENT4
+        public string HistoryContent3 { get; set; } // HISTORY_CONTENT3
+        public string HistoryContent2 { get; set; } // HISTORY_CONTENT2
+        public string HistoryContent1 { get; set; } // HISTORY_CONTENT1
         public string RegId { get; set; } // REG_ID
         public DateTime? RegDt { get; set; } // REG_DT
         public string UpdId { get; set; } // UPD_ID

@@ -42,10 +42,17 @@ namespace BizOneShot.Light.Models.WebModels
         public string ProductNm1 { get; set; } // PRODUCT_NM1
         public string ProductNm2 { get; set; } // PRODUCT_NM2
         public string ProductNm3 { get; set; } // PRODUCT_NM3
-        public string MarketList { get; set; } // MARKET_LIST
+        public bool? MarketPublic { get; set; } // MARKET_PUBLIC
+        public bool? MarketCivil { get; set; } // MARKET_CIVIL
+        public bool? MarketConsumer { get; set; } // MARKET_CONSUMER
+        public bool? MarketForeing { get; set; } // MARKET_FOREING
+        public bool? MarketEtc { get; set; } // MARKET_ETC
         public string CompType { get; set; } // COMP_TYPE
         public string ResidentType { get; set; } // RESIDENT_TYPE
-        public string CertiType { get; set; } // CERTI_TYPE
+        public bool? CertiVenture { get; set; } // CERTI_VENTURE
+        public bool? CertiRnd { get; set; } // CERTI_RND
+        public bool? CertiMainbiz { get; set; } // CERTI_MAINBIZ
+        public bool? CertiInnobiz { get; set; } // CERTI_INNOBIZ
         public string RegId { get; set; } // REG_ID
         public DateTime? RegDt { get; set; } // REG_DT
         public string UpdId { get; set; } // UPD_ID
