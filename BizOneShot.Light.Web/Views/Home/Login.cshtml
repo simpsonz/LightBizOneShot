@@ -14,20 +14,20 @@
                 $("#ID").val(rememberId);
             }
 		    $("#remYn").attr("checked", true);
-	    }
-    });
-
-    function goSubmit() {
-        if ($("input[id='remYn']").is(":checked")) {
-            doSetStorage("rememberYn", "Y");
-            doSetStorage("rememberId", $("#ID").val());
-        } else {
-            doSetStorage("rememberYn", "N");
-            doSetStorage("rememberId", "");
         }
 
-        $('#mainForm').submit();
-    }
+
+        $('#mainForm').bind('submit', function () {
+            if ($("input[id='remYn']").is(":checked")) {
+                doSetStorage("rememberYn", "Y");
+                doSetStorage("rememberId", $("#ID").val());
+            } else {
+                doSetStorage("rememberYn", "N");
+                doSetStorage("rememberId", "");
+            }
+        });
+    });
+
 </script>
 
 <div id="login_loginarea">
@@ -53,7 +53,7 @@
                         <img src="../images/login_text_idsave.png"><em>아이디 저장</em>
                     </div>
                 </p><br>
-                <p><input type="button" class="login_gray" id="btn_loginUser" name="btn_loginUser" onclick="goSubmit();"><em>로그인</em></p>
+                <p><input type="submit" class="login_gray" id="btn_loginUser" name="btn_loginUser" ><em>로그인</em></p>
             }
             <p class="login_left"><a href="@Url.Action("SearchId","Member")"><input type="button" class="id_search" value="아이디 찾기"></a><img src="~/Images/login_text_bar.png"><a href="@Url.Action("SearchPassword","Member")"><input type="button" class="pw_search" value="비밀번호 찾기"></a></p>
             <p class="login_right"><a href="@Url.Action("CompanyAgreement","Account")"><input type="button" class="join"></a></p>

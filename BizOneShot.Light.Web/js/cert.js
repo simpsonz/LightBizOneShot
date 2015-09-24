@@ -1,6 +1,6 @@
 ﻿function checkCertificate(userNo) {
     //alert("test01");
-    return true;
+    //return true;
     // 모든 Condition 설정.
     var nRet = TSToolkit.SetConfig("test", CA_LDAP_INFO, CTL_INFO, POLICIES,
                             INC_CERT_SIGN, INC_SIGN_TIME_SIGN, INC_CRL_SIGN, INC_CONTENT_SIGN,

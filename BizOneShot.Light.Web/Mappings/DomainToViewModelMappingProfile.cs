@@ -273,6 +273,13 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<ScUsr, LoginViewModel>()
                 .ForMember(d => d.ID, map => map.MapFrom(s => s.LoginId));
 
+            //문진표 맵퍼
+            Mapper.CreateMap<QuesMaster, QuesMasterViewModel>();
+            Mapper.CreateMap<QuesWriter, QuesWriterViewModel>();
+
+            Mapper.CreateMap<QuesMaster, QuestionDropDownModel>();
+            
+
 
 
 

@@ -108,6 +108,7 @@ namespace BizOneShot.Light.Web.ComLib
         {
             Session[Global.LoginID] = user.LoginId;
             Session[Global.CompSN] = user.CompSn;
+            Session[Global.CompRegistrationNo] = user.ScCompInfo.RegistrationNo;
             Session[Global.UserNM] = user.Name;
             Session[Global.UserType] = user.UsrType;
             Session[Global.UserDetailType] = user.UsrTypeDetail;

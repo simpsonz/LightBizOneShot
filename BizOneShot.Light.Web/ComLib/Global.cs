@@ -10,6 +10,7 @@ namespace BizOneShot.Light.Web.ComLib
         //세션상수
         public static readonly string LoginID = "LoginID";
         public static readonly string CompSN = "CompSN";
+        public static readonly string CompRegistrationNo = "CompRegistrationNo";
         public static readonly string UserNM = "UserNM";
         public static readonly string UserType = "UserType";
         public static readonly string UserTypeVal = "UserTypeEnum";
