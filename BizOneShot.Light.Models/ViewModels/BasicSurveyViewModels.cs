@@ -38,8 +38,7 @@ namespace BizOneShot.Light.Models.ViewModels
 
     public class QuestionDropDownModel
     {
-        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SnStatus { get; set; } // QUESTION_SN (Primary key)
         public int? BasicYear { get; set; } // BASIC_YEAR
-        public string Status { get; set; } // STATUS
     }
 }

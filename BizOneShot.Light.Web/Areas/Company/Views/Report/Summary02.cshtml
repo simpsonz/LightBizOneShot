@@ -1,5 +1,162 @@
-﻿@{
+﻿@model BizOneShot.Light.Models.ViewModels.QuesMasterViewModel
+
+@{
     Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
 }
 
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_report').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicsurvey').addClass('on');
 
+    });
+
+</script>
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_02">
+        <em>기초경영역량 문진표</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_step01 on"><em>STEP01.진단개요</em></li>
+            <li class="basic_step02"><a href="" class="ablock"><em>STEP02.기업정보</em></a></li>
+            <li class="basic_step03"><a href="" class="ablock"><em>STEP03.경영진단</em></a></li>
+            <li class="basic_step04"><a href="" class="ablock"><em>STEP04.재무진단</em></a></li>
+            <li class="basic_step05"><a href="" class="ablock"><em>STEP05.조직진단</em></a></li>
+            <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
+        </ul>
+    </div>
+
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2">
+            <div class="title_medium">
+                Ⅰ. 진단개요 _<span>기업진단 및 분석 1차 설문조사 주요내용</span>
+            </div>
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <p>
+                    <span>•</span>기업의 기본적인 현황을 파악하고 유사한 기업간의 비교를 통하여 경영상태를 추정하기 위한
+                    분류정보를 파악하기 위한 정보입니다.
+                </p>
+                <table>
+                    <colgroup>
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="60%">
+                    </colgroup>
+                    <tr>
+                        <td rowspan="2" class="left_memo">Ⅰ. 기업정보</td>
+                        <td>기업 기본정보</td>
+                        <td>기업 일반정보, 기업분류</td>
+                    </tr>
+                    <tr>
+                        <td>기업 확장정보</td>
+                        <td>대표자 현황, 연혁</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="main_mid_cont">
+                <p>
+                    <span>•</span>기업의 기초적인 경영역량을 기초역량, 기술경영, 마케팅, 인적자원과 재무적인 부분으로
+                    검토하여 이후 진행될 면담의 기초자료로 삼기 위한 부분입니다.
+                </p>
+                <table>
+                    <colgroup>
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="60%">
+                    </colgroup>
+                    <tr>
+                        <td rowspan="5" class="left_memo">Ⅱ. 경영현황</td>
+                        <td>1. 기초역량</td>
+                        <td>
+                            CEO 역량 - 비전, 경영자의 자질<br> 조직 역량 - 조직환경, 정보화 역량
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2. 기술경영</td>
+                        <td>연구개발 인프라, 기술의 제품화 능력, 기술의 생산화 능력</td>
+                    </tr>
+                    <tr>
+                        <td>3. 마케팅</td>
+                        <td>마케팅 관리</td>
+                    </tr>
+                    <tr>
+                        <td>4. 인적자원</td>
+                        <td>인적자원 관리</td>
+                    </tr>
+                    <tr>
+                        <td>5. 경영성과</td>
+                        <td>재무성과, 비재무적 성과</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="main_mid_cont">
+                <p>
+                    <span>•</span>기업의 재무적인 성과를 바탕으로 기업의 관리 역량을 검토하기 위한 부분입니다. 가급적
+                    국세청 홈택스의 자료를 제출해시면 보다 정확한 결과를 얻을 수 있습니다.
+                </p>
+                <table>
+                    <colgroup>
+                        <col width="20%">
+                        <col width="51%">
+                        <col width="29%">
+                    </colgroup>
+                    <tr>
+                        <td rowspan="2" class="left_memo">Ⅲ. 재무현황</td>
+                        <td>기업의 최근 2개년 재무제표를 기준으로 기초적인 재무진단 수행</td>
+                        <td rowspan="2">국세청 홈텍스의 최근 2개년도 재무제표(재무상태, 손익계산서)를 제출</td>
+                    <tr>
+                        <td>
+                            전년도 제무제표를 기준으로 6개의 재무지표 도출<br>(안정성, 성장성, 활동성,
+                            유동성, 수익성, 생산성)
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="main_mid_cont">
+                <p>
+                    <span>•</span>기업의 조직역량을 점검하고 해당 부문별 역량을 점검하기 위한 것입니다. 각 부서별
+                    투자현황이 적절한지 검토할 수 있는 기초자료를 얻을 수 있습니다.
+                </p>
+                <table>
+                    <colgroup>
+                        <col width="20%">
+                        <col width="80%">
+                    </colgroup>
+                    <tr>
+                        <td class="left_memo">Ⅳ. 조직현황</td>
+                        <td>
+                            현재의 귀사의 조직을 업무성격에 따라 4개 회사업무(기획/관리, 생산/생산지원, 연구개발,
+                            마케팅/영업)로 구분하여 해당하는 임직원수를 작성
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
+    <div id="btnwrap_sub">
+
+        <div class="rightwrap left">
+            <a href="@Url.Action("Summary01", "Report", new { area = "Company", @QuestionSn = Model.QuestionSn })" class="pre" value="이전"><em>이전</em></a>
+        </div>
+        <div class="rightwrap right">
+            @*<button type="button" class="next" onclick="goSubmit('N');" value="다음" />*@
+            <a href="@Url.Action("Summary03", "Report", new { area = "Company" , @QuestionSn = Model.QuestionSn})" class="next" value="다음"><em>다음</em></a>
+        </div>
+        <div class="rightwrap centerwrap left auto_m">
+            <a href="@Url.Action("CancelBasicSurvey", "Report", new { area = "Company" })" class="write_cencle left" value="작성취소"></a>
+        </div>
+
+    </div>
+</div>

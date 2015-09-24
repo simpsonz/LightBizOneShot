@@ -42,6 +42,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.TelNo).HasColumnName("TEL_NO").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(30);
             Property(x => x.FaxNo).HasColumnName("FAX_NO").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(20);
             Property(x => x.Name).HasColumnName("NAME").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(50);
+            Property(x => x.Email).HasColumnName("EMAIL").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(40);
             Property(x => x.RegistrationNo).HasColumnName("REGISTRATION_NO").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(10);
             Property(x => x.CoRegistrationNo).HasColumnName("CO_REGISTRATION_NO").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(13);
             Property(x => x.PublishDt).HasColumnName("PUBLISH_DT").IsOptional().HasColumnType("datetime");
@@ -50,6 +51,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.FactoryAddr).HasColumnName("FACTORY_ADDR").IsOptional().HasColumnType("nvarchar").HasMaxLength(255);
             Property(x => x.LabAddr).HasColumnName("LAB_ADDR").IsOptional().HasColumnType("nvarchar").HasMaxLength(255);
             Property(x => x.FacPossessYn).HasColumnName("FAC_POSSESS_YN").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
+            Property(x => x.RndYn).HasColumnName("RND_YN").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             Property(x => x.ProductNm1).HasColumnName("PRODUCT_NM1").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
             Property(x => x.ProductNm2).HasColumnName("PRODUCT_NM2").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
             Property(x => x.ProductNm3).HasColumnName("PRODUCT_NM3").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);

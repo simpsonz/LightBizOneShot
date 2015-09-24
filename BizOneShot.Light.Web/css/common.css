@@ -514,13 +514,14 @@ html,body{position:relative;height:100%;}
 #sub_term_box select.cont{width:60px;height:26px;border:1px solid #C8C8C8;color:#7b7b7b;float:left;}
 #sub_term_box select.company{width:170px;height:26px;border:1px solid #C8C8C8;color:#7b7b7b;float:left;}
 #sub_term_box select.quarter{width:90px;height:26px;border:1px solid #C8C8C8;color:#7b7b7b;}
-#sub_term_box > .report_view{width:123px;height:28px;background:url('../images/bt_report_view.png');}
-#sub_term_box > .right{float:right; display:inline-flex;}
+#sub_term_box > #view > .report_view{width:123px;height:28px;background:url('../images/bt_report_view.png');}
+#sub_term_box > #write > .right{float:right; display:inline-flex;}
+#sub_term_box > #view > .right{float:right; display:inline-flex;}
 #sub_term_box > .history_view{width:103px;height:28px;background:url('../images/bt_report_historyview.png');}
 #sub_term_box > .write_modify{width:123px;height:28px;background:url('../images/bt_report_write_modify.png');}
 #sub_term_box select, #sub_term_box button{vertical-align:middle;}
 #sub_term_box .label {float:left;padding:5px 0 6px 0;margin-right:10px;font-weight:bold;}
-#sub_term_box > .report_write{width:123px;height:28px;background:url('../images/report_write.png');}	/* 이미지 추가 LOy */ 
+#sub_term_box > #write > .report_write{width:123px;height:28px;background:url('../images/report_write.png');}	/* 이미지 추가 LOy */ 
 #sub_term_box > .start{width:300px;height:100px;background:url('../images/start.png');}	/* 이미지 추가 LOy */
 #sub_term_box > .end{width:100px;height:100px;background:url('../images/end.png');}	/* 이미지 추가 LOy */
 .sub_report_checkbox_min {width:688px;min-height:400px;border:1px solid #ddd;padding:30px 30px;} /* 미니 사이즈 Loy */

@@ -29,6 +29,7 @@ namespace BizOneShot.Light.Models.WebModels
         public string TelNo { get; set; } // TEL_NO
         public string FaxNo { get; set; } // FAX_NO
         public string Name { get; set; } // NAME
+        public string Email { get; set; } // EMAIL
         public string RegistrationNo { get; set; } // REGISTRATION_NO
         public string CoRegistrationNo { get; set; } // CO_REGISTRATION_NO
         public DateTime? PublishDt { get; set; } // PUBLISH_DT
@@ -37,6 +38,7 @@ namespace BizOneShot.Light.Models.WebModels
         public string FactoryAddr { get; set; } // FACTORY_ADDR
         public string LabAddr { get; set; } // LAB_ADDR
         public string FacPossessYn { get; set; } // FAC_POSSESS_YN
+        public string RndYn { get; set; } // RND_YN
         public string ProductNm1 { get; set; } // PRODUCT_NM1
         public string ProductNm2 { get; set; } // PRODUCT_NM2
         public string ProductNm3 { get; set; } // PRODUCT_NM3

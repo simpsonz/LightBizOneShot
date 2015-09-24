@@ -39,28 +39,28 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             var questionDropDown =
                 Mapper.Map<List<QuestionDropDownModel>>(listQuesMaster);
 
-            //사업담당자 일 경우 담당 사업만 조회
-            QuestionDropDownModel title = new QuestionDropDownModel();
-            title.QuestionSn = 0;
-            title.BasicYear = DateTime.Now.Year;
-            title.Status = "P";
-            questionDropDown.Insert(0, title);
+            if (questionDropDown.Count() == 0 || questionDropDown[0].BasicYear < DateTime.Now.Year)
+            {
+                //사업담당자 일 경우 담당 사업만 조회
+                QuestionDropDownModel title = new QuestionDropDownModel();
+                title.SnStatus = "#P";
+                title.BasicYear = DateTime.Now.Year;
+                questionDropDown.Insert(0, title);
+            }
 
-            SelectList questionList = new SelectList(questionDropDown, "Status", "BasicYear");
-
+            SelectList questionList = new SelectList(questionDropDown, "SnStatus", "BasicYear");
             ViewBag.SelectQuestionList = questionList;
-
 
             return View();
         }
 
-        public async Task<ActionResult> Summary01(string questionSn)
+        public async Task<ActionResult> Summary01(string QuestionSn, string QuestionList)
         {
             ViewBag.LeftMenu = Global.Report;
 
-            if(!string.IsNullOrEmpty(questionSn))
+            if(!string.IsNullOrEmpty(QuestionSn))
             { 
-                var quesMaster = await _quesMasterService.GetQuesMasterAsync(int.Parse(questionSn));
+                var quesMaster = await _quesMasterService.GetQuesMasterAsync(int.Parse(QuestionSn));
                 var quesWriter = quesMaster.QuesWriter;
                 var quesMasterView = Mapper.Map<QuesMasterViewModel>(quesMaster);
                 var quesWriterView = Mapper.Map<QuesWriterViewModel>(quesWriter);
@@ -131,7 +131,9 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         public ActionResult Summary02(string questionSn)
         {
             ViewBag.LeftMenu = Global.Report;
-            return View();
+            var quesMasterViewModel = new QuesMasterViewModel();
+            quesMasterViewModel.QuestionSn = int.Parse(questionSn);
+            return View(quesMasterViewModel);
         }
 
         public ActionResult FinanceMng()
