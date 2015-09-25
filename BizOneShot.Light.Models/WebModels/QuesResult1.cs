@@ -25,7 +25,7 @@ namespace BizOneShot.Light.Models.WebModels
     {
         public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
         public int CheckListSn { get; set; } // CHECK_LIST_SN (Primary key)
-        public string AnsVal { get; set; } // ANS_VAL
+        public bool? AnsVal { get; set; } // ANS_VAL
         public string RegId { get; set; } // REG_ID
         public DateTime? RegDt { get; set; } // REG_DT
         public string UpdId { get; set; } // UPD_ID

@@ -314,12 +314,31 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             }
         }
 
-        public ActionResult BizCheck01(string questionSn)
+        public async Task<ActionResult> BizCheck01(string questionSn)
         {
             ViewBag.LeftMenu = Global.Report;
-            var quesViewModel = new QuesViewModel();
-            quesViewModel.QuestionSn = int.Parse(questionSn);
-            return View(quesViewModel);
+
+            if (string.IsNullOrEmpty(questionSn))
+            {
+                // 오류 처리해야함.
+                return View();
+            }
+
+            var quesMaster = await _quesMasterService.GetQuesCompExtentionAsync(int.Parse(questionSn));
+
+            if (quesMaster.QuesCompExtention == null)
+            {
+                ScUsr scUsr = await _scUsrService.SelectScUsr(Session[Global.LoginID].ToString());
+                var quesCompExtentionViewModel = new QuesCompExtentionViewModel();
+                quesCompExtentionViewModel.QuestionSn = int.Parse(questionSn);
+                quesCompExtentionViewModel.PresidentNm = scUsr.ScCompInfo.OwnNm;
+                return View(quesCompExtentionViewModel);
+            }
+            else
+            {
+                var quesCompExtentionView = Mapper.Map<QuesCompExtentionViewModel>(quesMaster.QuesCompExtention);
+                return View(quesCompExtentionView);
+            }
         }
 
         public ActionResult BizCheck02()
