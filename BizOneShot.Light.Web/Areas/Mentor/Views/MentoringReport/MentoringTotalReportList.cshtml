@@ -1,5 +1,6 @@
 ﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.MentoringTotalReportViewModel>
 
+
 @{
     Layout = "~/Areas/Mentor/Views/Shared/_MainLayout.cshtml";
 }
@@ -127,10 +128,8 @@
         @if (Model != null && Model.TotalItemCount != 0)
         {
             @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
-        }
 
-        @if (Model.TotalItemCount != 0)
-        {
+            <!--삭제버튼-->
             <div id="btnwrap_sub">
                 <input type="button" id="btn_delete" class="delete right" />
             </div>

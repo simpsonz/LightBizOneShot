@@ -210,6 +210,13 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
                 .ForMember(d => d.FileContents, map => map.MapFrom(s => s.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo)));
 
+            //멘토 일지 뷰
+            Mapper.CreateMap<ScMentoringReport, MentoringReportViewModel>()
+                .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
+                .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
+                .ForMember(d => d.MentorAreaNm, map => map.MapFrom(s => s.MentorAreaCd == "" ? "" : new BizHelper().getMentorAreaNm(s.MentorAreaCd)))
+                .ForMember(d => d.FileContents, map => map.MapFrom(s => s.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo)));
+
             //기업 뷰 매핑
             Mapper.CreateMap<ScCompInfo, CompInfoDropDownModel>();
 
@@ -285,12 +292,7 @@ namespace BizOneShot.Light.Web.Mappings
 
 
 
-
-
-
-
-
-
         }
+
     }
 }

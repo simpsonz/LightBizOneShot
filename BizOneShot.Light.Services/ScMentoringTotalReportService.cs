@@ -63,7 +63,7 @@ namespace BizOneShot.Light.Services
                 (mtr => mtr.MentorId == mentorId && mtr.Status == "N");
 
             
-            return listScMentoringTotalReport.Where(mtr => submitDt != 0 ? mtr.RegDt.Value.Year == submitDt : mtr.RegDt.Value.Year > submitDt)
+            return listScMentoringTotalReport.Where(mtr => submitDt != 0 ? mtr.SubmitDt.Value.Year == submitDt : mtr.SubmitDt.Value.Year > submitDt)
                 .Where(mtr => bizWorkSn != 0 ? mtr.BizWorkSn == bizWorkSn : mtr.BizWorkSn > bizWorkSn)
                 .Where(mtr => compSn != 0 ? mtr.CompSn == compSn : mtr.CompSn > compSn)
                 .OrderByDescending(mtr => mtr.TotalReportSn)
@@ -82,7 +82,9 @@ namespace BizOneShot.Light.Services
 
         public async Task ModifyMentoringTRStatusDelete(string totalReportSn)
         {
-            var scMentoringTotalReport = await Task.Run(() => scMentoringTotalReportRepository.GetById(int.Parse(totalReportSn)));
+            //var scMentoringTotalReport = await Task.Run(() => scMentoringTotalReportRepository.GetById(int.Parse(totalReportSn)));
+
+            var scMentoringTotalReport = await scMentoringTotalReportRepository.GetMentoringTotalReportById(int.Parse(totalReportSn));
 
             scMentoringTotalReport.Status = "D";
 

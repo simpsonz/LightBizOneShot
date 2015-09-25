@@ -52,6 +52,7 @@
     <Compile Include="ScFormFileService.cs" />
     <Compile Include="ScFormService.cs" />
     <Compile Include="ScCompMappingService.cs" />
+    <Compile Include="ScMentoringReportService.cs" />
     <Compile Include="ScMentoringTrFileInfoService.cs" />
     <Compile Include="ScMentorMappingService.cs" />
     <Compile Include="ScNtcService.cs" />
