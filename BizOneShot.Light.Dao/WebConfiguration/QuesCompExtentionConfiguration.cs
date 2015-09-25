@@ -50,7 +50,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.CareerBasicYear).HasColumnName("CAREER_BASIC_YEAR").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(4);
             Property(x => x.CareerBasicMonth).HasColumnName("CAREER_BASIC_MONTH").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(2);
             Property(x => x.TotalYear).HasColumnName("TOTAL_YEAR").IsOptional().HasColumnType("int");
-            Property(x => x.TotalMonty).HasColumnName("TOTAL_MONTY").IsOptional().HasColumnType("int");
+            Property(x => x.TotalMonth).HasColumnName("TOTAL_MONTH").IsOptional().HasColumnType("int");
             Property(x => x.HistotyDate10).HasColumnName("HISTOTY_DATE10").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(20);
             Property(x => x.HistotyDate9).HasColumnName("HISTOTY_DATE9").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(20);
             Property(x => x.HistotyDate8).HasColumnName("HISTOTY_DATE8").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(20);

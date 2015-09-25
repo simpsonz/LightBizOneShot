@@ -1,0 +1,125 @@
+﻿@model BizOneShot.Light.Models.ViewModels.QuesViewModel
+
+@{
+    Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_report').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicsurvey').addClass('on');
+
+    });
+
+</script>
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_02">
+        <em>기초경영역량 문진표</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_step01"><em>STEP01.진단개요</em></li>
+            <li class="basic_step02"><a href="" class="ablock"><em>STEP02.기업정보</em></a></li>
+            <li class="basic_step03 on"><a href="" class="ablock"><em>STEP03.경영진단</em></a></li>
+            <li class="basic_step04"><a href="" class="ablock"><em>STEP04.재무진단</em></a></li>
+            <li class="basic_step05"><a href="" class="ablock"><em>STEP05.조직진단</em></a></li>
+            <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
+        </ul>
+    </div>
+
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2">
+            <div class="title_medium">Ⅲ. 경영진단</div>
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <p>
+                    본 조사는 기업의 경영현황을 객관적으로 판단하여 향후 경영에 도움이 되는 자료를 얻을 수 있도록 하는 것으로
+                    유사한 기업과의 비교를 통해 기업의 일반적힌 현황을 객관적이고 볼 수 있도록 하기 위한 자료입니다.<br>
+                    <br> 기초 경영현황은 일정정도의 체크리스트로 구성되어 있습니다. 각 항목은 기초역량(26건),
+                    기술경영(28건), 마케팅 관리(12건), 인적자원관리(11건)로 구성되어 있고 이외에 기업의 역량을 객관적으로
+                    보여주는 재무상태표를 통하여 종합적으로 점검을 하게 됩니다. 각 항목은 회사에서 추진여부를 체크하는 형태로
+                    구성되어 유사한 기업간 비교가 가능하도록 하고 있습니다. <br> <br>각 항목은 가장 여건이
+                    열악한 상태의 기업부터 사업조건과 경영환경이 우수한 중소기업이 할 수 있는 것을 단계적으로 제시하고 있습니다.
+                    이를 통해서 기업의 기초적인 역량을 검토할 수 있도록 하고 있습니다.
+                </p>
+            </div>
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox">
+                    <div class="listBox_tap">
+                        <span>1. 기초역량</span>
+                    </div>
+                    <div class="listBox_value">
+                        <p class="value_p">
+                            경영일반은 경영자의 리더십과 능력, 신뢰성을 측정하는 비전 부문과
+                            근로환경 및 조직만족도를 통해 측정되는 조직환경 부문, 정보시스템활용 정도를 측정하는 정보화 역량 부문으로
+                            구성되었다.
+                        </p>
+                    </div>
+                </div>
+                <div class="main_mid_listBox">
+                    <div class="listBox_tap">
+                        <span>2. 기술경영</span>
+                    </div>
+                    <div class="listBox_value">
+                        <p class="value_p">
+                            기술경영은 대상기업의 기술경영 수준을 측정하는 R&D인프라 구축정도,
+                            기술의 제품화 능력, 기술의 생산화 능력 부문으로 구성되있다.
+                        </p>
+                    </div>
+                </div>
+                <div class="main_mid_listBox">
+                    <div class="listBox_tap">
+                        <span>3. 마케팅</span>
+                    </div>
+                    <div class="listBox_value">
+                        <p class="value_p">
+                            마케팅관리 부분은 대상기업의 마케팅 역량을 측정하는 지표로서 마케팅
+                            전략의 수립 및 실행 정도와 고객관리 부문으로 구성되었다.
+                        </p>
+                    </div>
+                </div>
+                <div class="main_mid_listBox">
+                    <div class="listBox_tap">
+                        <span>4. 인적자원</span>
+                    </div>
+                    <div class="listBox_value">
+                        <p class="value_p">
+                            인적자원관리는 대상기업의 인적자원 확보와 개발, 유지 및 보상에 대한
+                            전반적인 수준을 측정토록 구성되었다.
+                        </p>
+                    </div>
+                </div>
+                <div class="main_mid_listBox">
+                    <div class="listBox_tap">
+                        <span>5. 경영성과</span>
+                    </div>
+                    <div class="listBox_value">
+                        <p class="value_p">
+                            경영성과는 재무상태와 영업성과의 종합적 평가를 나타내는 재무적 성과와
+                            산업재산권과 저작권 등의 지적재산권을 나타내는 비재무적성과로 구분하여 구성되었다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--container//-->
+    <div id="btnwrap_sub">
+
+        <div class="rightwrap left">
+            <a href="@Url.Action("Summary01", "Report", new { area = "Company", @questionSn = Model.QuestionSn })" class="pre" value="이전"><em>이전</em></a>
+        </div>
+        <div class="rightwrap right">
+            @*<button type="button" class="next" onclick="goSubmit('N');" value="다음" />*@
+            <a href="@Url.Action("CompanyInfo01", "Report", new { area = "Company" , @QuestionSn = Model.QuestionSn})" class="next" value="다음"><em>다음</em></a>
+        </div>
+
+    </div>
+</div>

@@ -38,7 +38,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
 
             Property(x => x.QuestionSn).HasColumnName("QUESTION_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.CheckListSn).HasColumnName("CHECK_LIST_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.AnsVal).HasColumnName("ANS_VAL").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(10);
+            Property(x => x.AnsVal).HasColumnName("ANS_VAL").IsOptional().HasColumnType("bit");
             Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
             Property(x => x.UpdId).HasColumnName("UPD_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);

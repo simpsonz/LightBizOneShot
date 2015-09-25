@@ -28,6 +28,8 @@ namespace BizOneShot.Light.Models.WebModels
         public string LagreClassCd { get; set; } // LAGRE_CLASS_CD
         public string MidiumClassCd { get; set; } // MIDIUM_CLASS_CD
         public string SmallClassCd { get; set; } // SMALL_CLASS_CD
+        public string DetailCd { get; set; } // DETAIL_CD
+        public string Title { get; set; } // TITLE
         public string Content { get; set; } // CONTENT
         public string CurrentUseYn { get; set; } // CURRENT_USE_YN
 

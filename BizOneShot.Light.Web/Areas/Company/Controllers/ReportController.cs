@@ -105,6 +105,15 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 quesMaster.QuesWriter.UpdDt = DateTime.Now;
                 quesMaster.QuesWriter.UpdId = Session[Global.LoginID].ToString();
 
+                if (quesMasterViewModel.SubmitType == "T")
+                {
+                    quesMaster.SaveStatus = "1";
+                }
+                else
+                {
+                    quesMaster.SaveStatus = "2";
+                }
+
                 await _quesMasterService.SaveDbContextAsync();
             }
             else
@@ -112,8 +121,15 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 var quesMaster = new QuesMaster();
                 quesMaster.BasicYear = DateTime.Now.Year;
                 quesMaster.RegistrationNo = Session[Global.CompRegistrationNo].ToString();
-                quesMaster.SaveStatus = "1";
                 quesMaster.Status = "P";
+                if (quesMasterViewModel.SubmitType == "T")
+                {
+                    quesMaster.SaveStatus = "1";
+                }
+                else
+                {
+                    quesMaster.SaveStatus = "2";
+                }
 
                 var quesWriter = Mapper.Map<QuesWriter>(quesMasterViewModel.QuesWriter);
                 quesWriter.RegDt = DateTime.Now;
@@ -137,9 +153,9 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         public ActionResult Summary02(string questionSn)
         {
             ViewBag.LeftMenu = Global.Report;
-            var quesMasterViewModel = new QuesMasterViewModel();
-            quesMasterViewModel.QuestionSn = int.Parse(questionSn);
-            return View(quesMasterViewModel);
+            var quesViewModel = new QuesViewModel();
+            quesViewModel.QuestionSn = int.Parse(questionSn);
+            return View(quesViewModel);
         }
 
         public async Task<ActionResult> CompanyInfo01(string questionSn)
@@ -186,7 +202,11 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             if (quesCompanyInfoViewModel.QuestionSn > 0)
             {
                 var quesMaster = await _quesMasterService.GetQuesCompInfoAsync(questionSn);
-                quesMaster.SaveStatus = "3";
+
+                if (quesCompanyInfoViewModel.SubmitType == "N")
+                {
+                    quesMaster.SaveStatus = "3";
+                }
 
                 var quesCompInfo = Mapper.Map<QuesCompInfo>(quesCompanyInfoViewModel);
                 if (quesMaster.QuesCompInfo == null)
@@ -196,6 +216,8 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 }
                 else
                 {
+                    quesCompInfo.RegDt = quesMaster.QuesCompInfo.RegDt;
+                    quesCompInfo.RegId = quesMaster.QuesCompInfo.RegId;
                     quesCompInfo.UpdDt = DateTime.Now;
                     quesCompInfo.UpdId = Session[Global.LoginID].ToString();
                 }
@@ -218,12 +240,117 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             }
         }
 
-        public ActionResult CompanyInfo02(string questionSn)
+        public async Task<ActionResult> CompanyInfo02(string questionSn)
         {
             ViewBag.LeftMenu = Global.Report;
-            var quesMasterViewModel = new QuesMasterViewModel();
-            quesMasterViewModel.QuestionSn = int.Parse(questionSn);
-            return View(quesMasterViewModel);
+
+            if (string.IsNullOrEmpty(questionSn))
+            {
+                // 오류 처리해야함.
+                return View();
+            }
+
+            var quesMaster = await _quesMasterService.GetQuesCompExtentionAsync(int.Parse(questionSn));
+
+            if (quesMaster.QuesCompExtention == null)
+            {
+                ScUsr scUsr = await _scUsrService.SelectScUsr(Session[Global.LoginID].ToString());
+                var quesCompExtentionViewModel = new QuesCompExtentionViewModel();
+                quesCompExtentionViewModel.QuestionSn = int.Parse(questionSn);
+                quesCompExtentionViewModel.PresidentNm = scUsr.ScCompInfo.OwnNm;
+                return View(quesCompExtentionViewModel);
+            }
+            else
+            {
+                var quesCompExtentionView = Mapper.Map<QuesCompExtentionViewModel>(quesMaster.QuesCompExtention);
+                return View(quesCompExtentionView);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CompanyInfo02(QuesCompExtentionViewModel quesCompExtentionViewModel)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            int questionSn = quesCompExtentionViewModel.QuestionSn;
+
+            if (quesCompExtentionViewModel.QuestionSn > 0)
+            {
+                var quesMaster = await _quesMasterService.GetQuesCompExtentionAsync(questionSn);
+
+                if (quesCompExtentionViewModel.SubmitType == "N")
+                {
+                    quesMaster.SaveStatus = "4";
+                }
+
+                var quesCompExtention = Mapper.Map<QuesCompExtention>(quesCompExtentionViewModel);
+                if (quesMaster.QuesCompExtention == null)
+                {
+                    quesCompExtention.RegDt = DateTime.Now;
+                    quesCompExtention.RegId = Session[Global.LoginID].ToString();
+                }
+                else
+                {
+                    quesCompExtention.RegDt = quesMaster.QuesCompExtention.RegDt;
+                    quesCompExtention.RegId = quesMaster.QuesCompExtention.RegId;
+                    quesCompExtention.UpdDt = DateTime.Now;
+                    quesCompExtention.UpdId = Session[Global.LoginID].ToString();
+                }
+                quesMaster.QuesCompExtention = quesCompExtention;
+                await _quesMasterService.SaveDbContextAsync();
+            }
+            else
+            {
+                //에러처리 필요
+                return View(quesCompExtentionViewModel);
+            }
+
+            if (quesCompExtentionViewModel.SubmitType == "T")
+            {
+                return RedirectToAction("CompanyInfo02", "Report", new { @questionSn = questionSn });
+            }
+            else
+            {
+                return RedirectToAction("BizCheck01", "Report", new { @questionSn = questionSn });
+            }
+        }
+
+        public async Task<ActionResult> BizCheck01(string questionSn)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            if (string.IsNullOrEmpty(questionSn))
+            {
+                // 오류 처리해야함.
+                return View();
+            }
+
+            var quesMaster = await _quesMasterService.GetQuesCompExtentionAsync(int.Parse(questionSn));
+
+            if (quesMaster.QuesCompExtention == null)
+            {
+                ScUsr scUsr = await _scUsrService.SelectScUsr(Session[Global.LoginID].ToString());
+                var quesCompExtentionViewModel = new QuesCompExtentionViewModel();
+                quesCompExtentionViewModel.QuestionSn = int.Parse(questionSn);
+                quesCompExtentionViewModel.PresidentNm = scUsr.ScCompInfo.OwnNm;
+                return View(quesCompExtentionViewModel);
+            }
+            else
+            {
+                var quesCompExtentionView = Mapper.Map<QuesCompExtentionViewModel>(quesMaster.QuesCompExtention);
+                return View(quesCompExtentionView);
+            }
+        }
+
+        public ActionResult BizCheck02()
+        {
+            ViewBag.LeftMenu = Global.Report;
+            return View();
+        }
+
+        public ActionResult BizCheck03()
+        {
+            ViewBag.LeftMenu = Global.Report;
+            return View();
         }
 
         public ActionResult FinanceMng()
