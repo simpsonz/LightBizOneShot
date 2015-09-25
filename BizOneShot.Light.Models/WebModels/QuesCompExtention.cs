@@ -37,7 +37,7 @@ namespace BizOneShot.Light.Models.WebModels
         public string CareerBasicYear { get; set; } // CAREER_BASIC_YEAR
         public string CareerBasicMonth { get; set; } // CAREER_BASIC_MONTH
         public int? TotalYear { get; set; } // TOTAL_YEAR
-        public int? TotalMonty { get; set; } // TOTAL_MONTY
+        public int? TotalMonth { get; set; } // TOTAL_MONTH
         public string HistotyDate10 { get; set; } // HISTOTY_DATE10
         public string HistotyDate9 { get; set; } // HISTOTY_DATE9
         public string HistotyDate8 { get; set; } // HISTOTY_DATE8

@@ -283,6 +283,13 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<QuesCompInfo, QuesCompanyInfoViewModel>()
                 .ForMember(d => d.PublishDt, map => map.MapFrom(s => s.PublishDt.GetValueOrDefault().ToShortDateString()));
 
+            Mapper.CreateMap<QuesCompExtention, QuesCompExtentionViewModel>();
+
+
+
+
+            
+
 
 
 

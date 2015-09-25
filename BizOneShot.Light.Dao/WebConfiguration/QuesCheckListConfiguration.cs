@@ -37,10 +37,11 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             HasKey(x => x.CheckListSn);
 
             Property(x => x.CheckListSn).HasColumnName("CHECK_LIST_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.LagreClassCd).HasColumnName("LAGRE_CLASS_CD").IsRequired().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(2);
-            Property(x => x.MidiumClassCd).HasColumnName("MIDIUM_CLASS_CD").IsRequired().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(2);
-            Property(x => x.SmallClassCd).HasColumnName("SMALL_CLASS_CD").IsRequired().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(2);
-            Property(x => x.Content).HasColumnName("CONTENT").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(200);
+            Property(x => x.LagreClassCd).HasColumnName("LAGRE_CLASS_CD").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(2);
+            Property(x => x.MidiumClassCd).HasColumnName("MIDIUM_CLASS_CD").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(4);
+            Property(x => x.SmallClassCd).HasColumnName("SMALL_CLASS_CD").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(6);
+            Property(x => x.DetailCd).HasColumnName("DETAIL_CD").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(8);
+            Property(x => x.Content).HasColumnName("CONTENT").IsOptional().HasColumnType("nvarchar").HasMaxLength(200);
             Property(x => x.CurrentUseYn).HasColumnName("CURRENT_USE_YN").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             InitializePartial();
         }

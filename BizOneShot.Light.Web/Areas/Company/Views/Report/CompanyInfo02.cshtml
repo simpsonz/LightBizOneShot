@@ -1,8 +1,108 @@
-﻿@{
+﻿@model BizOneShot.Light.Models.ViewModels.QuesCompExtentionViewModel
+
+@{
     Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
 }
 
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_report').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicsurvey').addClass('on');
+    });
 
+    function goSubmit(submitType) {
+        if (submitType == "N") {
+            if (!userValidate()) {
+                return false;
+            }
+        }
+        $('#submitType').val(submitType);
+        $('#mainForm').submit();
+
+
+    }
+
+    /* 작성자정보 파라미터 검증 함수 */
+    function userValidate() {
+        var presidentNm = $("#PresidentNm");
+        if ($.trim(presidentNm.val()).length == 0) {
+            alert("대표자 성명을 입력해주세요.");
+            presidentNm.focus();
+            return false;
+        }
+
+        var birthDate = $("#BirthDate");
+        if ($.trim(birthDate.val()).length == 0) {
+            alert("대표자 생녕월일을 입력해주세요.");
+            birthDate.focus();
+            return false;
+        }
+
+        var academicDegree = $("#AcademicDegree");
+        if ($.trim(academicDegree.val()).length == 0) {
+            alert("대표자 최종학력을 입력해주세요.");
+            academicDegree.focus();
+            return false;
+        }
+
+        var major = $("#Major");
+        if ($.trim(major.val()).length == 0) {
+            alert("대표자 전공을 입력해주세요.");
+            major.focus();
+            return false;
+        }
+
+        var careerComp1 = $("#CareerComp1");
+        if ($.trim(careerComp1.val()).length == 0) {
+            alert("경력을 최소 1개 입력해주세요.");
+            careerComp1.focus();
+            return false;
+        }
+
+        var job1 = $("#Job1");
+        if ($.trim(job1.val()).length == 0) {
+            alert("경력을 최소 1개 입력해주세요.");
+            job1.focus();
+            return false;
+        }
+        var totalYear = $("#TotalYear");
+        if ($.trim(totalYear.val()).length == 0) {
+            alert("총 경력기간 년을 입력해주세요.");
+            totalYear.focus();
+            return false;
+        }
+        var totalMonth = $("#TotalMonth");
+        if ($.trim(totalMonth.val()).length == 0) {
+            alert("총 경력기간 월을 입력해주세요.");
+            totalMonth.focus();
+            return false;
+        }
+        var careerBasicYear = $("#CareerBasicYear");
+        if ($.trim(careerBasicYear.val()).length == 0) {
+            alert("경력기간 기준 년을 입력해주세요.");
+            careerBasicYear.focus();
+            return false;
+        }
+
+        var careerBasicMonth = $("#CareerBasicMonth");
+        if ($.trim(careerBasicMonth.val()).length == 0) {
+            alert("경력기간 기준 월을 입력해주세요.");
+            careerBasicMonth.focus();
+            return false;
+        }
+
+        var historyContent1 = $("#HistoryContent1");
+        if ($.trim(historyContent1.val()).length == 0) {
+            alert("최소 기업연혁 1개를 입력해주세요.");
+            historyContent1.focus();
+            return false;
+        }
+
+        return true;
+    }
+</script>
 <div id="sub_rightwrap_report">
 
     <div class="sub_right_title specialist_02_02">
@@ -20,8 +120,10 @@
             <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
         </ul>
     </div>
-@using (Html.BeginForm("CompanyInfo01", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
+@using (Html.BeginForm("CompanyInfo02", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
 {
+    @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
+    @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
     <div class="sub_report_checkbox">
         <div class="report_main_top2">
             <div class="title_medium">Ⅱ. 기업정보</div>
@@ -42,38 +144,36 @@
                     </colgroup>
                     <tr>
                         <td class="left_memo">성 명</td>
-                        <td colspan="2"><input type="text" /></td>
+                        <td colspan="2">@Html.TextBoxFor(model => model.PresidentNm)</td>
                         <td class="left_memo">생년월일</td>
-                        <td><input type="text" /></td>
+                        <td>@Html.TextBoxFor(model => model.BirthDate)</td>
                     </tr>
                     <tr>
                         <td class="left_memo">최종학력</td>
-                        <td colspan="2"><input type="text" /></td>
+                        <td colspan="2">@Html.TextBoxFor(model => model.AcademicDegree)</td>
                         <td class="left_memo">전공</td>
-                        <td><input type="text" /></td>
+                        <td>@Html.TextBoxFor(model => model.Major)</td>
                     </tr>
                     <tr>
                         <td class="left_memo" rowspan="4">경력사항</td>
                         <td>경력 ①</td>
-                        <td>(근무처)<input type="text" /></td>
-                        <td colspan="2">(주요업무)<input type="text" /></td>
+                        <td>(근무처)@Html.TextBoxFor(model => model.CareerComp1)</td>
+                        <td colspan="2">(주요업무)@Html.TextBoxFor(model => model.Job1)</td>
 
                     </tr>
                     <tr>
                         <td>경력 ②</td>
-                        <td>(근무처)<input type="text" /></td>
-                        <td colspan="2">(주요업무)<input type="text" /></td>
+                        <td>(근무처)@Html.TextBoxFor(model => model.CareerComp2)</td>
+                        <td colspan="2">(주요업무)@Html.TextBoxFor(model => model.Job2)</td>
                     </tr>
                     <tr>
                         <td>경력 ③</td>
-                        <td>(근무처)<input type="text" /></td>
-                        <td colspan="2">(주요업무)<input type="text" /></td>
+                        <td>(근무처)@Html.TextBoxFor(model => model.CareerComp3)</td>
+                        <td colspan="2">(주요업무)@Html.TextBoxFor(model => model.Job3)</td>
                     </tr>
                     <tr>
                         <td colspan="4">
-                            해당분야 총 경력기간 : <input type="text"
-                                                 class="text_samll" />년<input type="text" class="text_samll" />개월(<input type="text" class="text_samll" />년<input type="text"
-                                                                                                                                                                  class="text_samll" />월 기준)
+                            해당분야 총 경력기간 : @Html.TextBoxFor(model => model.TotalYear, new { @class= "text_samll" })년 @Html.TextBoxFor(model => model.TotalMonth, new { @class= "text_samll" })개월(@Html.TextBoxFor(model => model.CareerBasicYear, new { @class = "text_samll" })년 @Html.TextBoxFor(model => model.CareerBasicMonth, new { @class= "text_samll" })월 기준)
                         </td>
                     </tr>
 
@@ -93,44 +193,44 @@
 
                     </tr>
                     <tr>
-                        <td><input type="text" class="long_text2" /></td>
-                        <td><input type="text" class="long_text2" /></td>
+                        <td>@Html.TextBoxFor(model => model.HistotyDate1, new { @class= "long_text2" })</td>
+                        <td>@Html.TextBoxFor(model => model.HistoryContent1, new { @class = "long_text2" })</td>
                     </tr>
                     <tr>
-                        <td><input type="text" class="long_text2" /></td>
-                        <td><input type="text" class="long_text2" /></td>
+                        <td>@Html.TextBoxFor(model => model.HistotyDate2, new { @class = "long_text2" })</td>
+                        <td>@Html.TextBoxFor(model => model.HistoryContent2, new { @class = "long_text2" })</td>
                     </tr>
                     <tr>
-                        <td><input type="text" class="long_text2" /></td>
-                        <td><input type="text" class="long_text2" /></td>
+                        <td>@Html.TextBoxFor(model => model.HistotyDate3, new { @class = "long_text2" })</td>
+                        <td>@Html.TextBoxFor(model => model.HistoryContent3, new { @class = "long_text2" })</td>
                     </tr>
                     <tr>
-                        <td><input type="text" class="long_text2" /></td>
-                        <td><input type="text" class="long_text2" /></td>
+                        <td>@Html.TextBoxFor(model => model.HistotyDate4, new { @class = "long_text2" })</td>
+                        <td>@Html.TextBoxFor(model => model.HistoryContent4, new { @class = "long_text2" })</td>
                     </tr>
                     <tr>
-                        <td><input type="text" class="long_text2" /></td>
-                        <td><input type="text" class="long_text2" /></td>
+                        <td>@Html.TextBoxFor(model => model.HistotyDate5, new { @class = "long_text2" })</td>
+                        <td>@Html.TextBoxFor(model => model.HistoryContent5, new { @class = "long_text2" })</td>
                     </tr>
                     <tr>
-                        <td><input type="text" class="long_text2" /></td>
-                        <td><input type="text" class="long_text2" /></td>
+                        <td>@Html.TextBoxFor(model => model.HistotyDate6, new { @class = "long_text2" })</td>
+                        <td>@Html.TextBoxFor(model => model.HistoryContent6, new { @class = "long_text2" })</td>
                     </tr>
                     <tr>
-                        <td><input type="text" class="long_text2" /></td>
-                        <td><input type="text" class="long_text2" /></td>
+                        <td>@Html.TextBoxFor(model => model.HistotyDate7, new { @class = "long_text2" })</td>
+                        <td>@Html.TextBoxFor(model => model.HistoryContent7, new { @class = "long_text2" })</td>
                     </tr>
                     <tr>
-                        <td><input type="text" class="long_text2" /></td>
-                        <td><input type="text" class="long_text2" /></td>
+                        <td>@Html.TextBoxFor(model => model.HistotyDate8, new { @class = "long_text2" })</td>
+                        <td>@Html.TextBoxFor(model => model.HistoryContent8, new { @class = "long_text2" })</td>
                     </tr>
                     <tr>
-                        <td><input type="text" class="long_text2" /></td>
-                        <td><input type="text" class="long_text2" /></td>
+                        <td>@Html.TextBoxFor(model => model.HistotyDate9, new { @class = "long_text2" })</td>
+                        <td>@Html.TextBoxFor(model => model.HistoryContent9, new { @class = "long_text2" })</td>
                     </tr>
                     <tr>
-                        <td><input type="text" class="long_text2" /></td>
-                        <td><input type="text" class="long_text2" /></td>
+                        <td>@Html.TextBoxFor(model => model.HistotyDate10, new { @class = "long_text2" })</td>
+                        <td>@Html.TextBoxFor(model => model.HistoryContent10, new { @class = "long_text2" })</td>
                     </tr>
 
                 </table>
