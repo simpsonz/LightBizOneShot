@@ -16,13 +16,13 @@ namespace BizOneShot.Light.Services
     public interface IScMentoringReportService : IBaseService
     {
         Task<IList<int>> GetMentoringReportMentoringDt(string mentorId);
-        //Task<ScMentoringTotalReport> GetMentoringTotalReportById(int totalReportSn);
+        Task<ScMentoringReport> GetMentoringReportById(int reportSn);
         Task<IList<ScMentoringReport>> GetMentoringReportAsync(string mentorId, int submitDt = 0, int bizWorkSn = 0, int CompSn = 0);
 
         Task DeleteMentoringReport(IList<string> listReportSn);
         //Task ModifyMentoringTRStatusDelete(string totalReportSn);
 
-        //Task<int> AddScMentoringTotalReportAsync(ScMentoringTotalReport scMentoringTotalReport);
+        Task<int> AddScMentoringReportAsync(ScMentoringReport scMentoringReport);
     }
 
 
@@ -44,10 +44,10 @@ namespace BizOneShot.Light.Services
             return await scMentoringReportRepository.GetMentoringReportMentoringDt(mentorId);
         }
 
-        //public async Task<ScMentoringTotalReport> GetMentoringTotalReportById(int totalReportSn)
-        //{
-        //    return await scMentoringTotalReportRepository.GetMentoringTotalReportById(totalReportSn);
-        //}
+        public async Task<ScMentoringReport> GetMentoringReportById(int reportSn)
+        {
+            return await scMentoringReportRepository.GetMentoringReportById(reportSn);
+        }
 
         public async Task<IList<ScMentoringReport>> GetMentoringReportAsync(string mentorId, int submitDt = 0, int bizWorkSn = 0, int compSn = 0)
         {
@@ -89,20 +89,20 @@ namespace BizOneShot.Light.Services
         }
 
 
-        //public async Task<int> AddScMentoringTotalReportAsync(ScMentoringTotalReport scMentoringTotalReport)
-        //{
-        //    var rstScMentoringTotalReport = await scMentoringTotalReportRepository.Insert(scMentoringTotalReport);
+        public async Task<int> AddScMentoringReportAsync(ScMentoringReport scMentoringReport)
+        {
+            var rstScMentoringReport = await scMentoringReportRepository.Insert(scMentoringReport);
 
-        //    if (rstScMentoringTotalReport == null)
-        //    {
-        //        return -1;
-        //    }
-        //    else
-        //    {
-        //        return await SaveDbContextAsync();
-        //    }
+            if (rstScMentoringReport == null)
+            {
+                return -1;
+            }
+            else
+            {
+                return await SaveDbContextAsync();
+            }
 
-        //}
+        }
 
 
 

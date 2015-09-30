@@ -687,7 +687,7 @@ select.w242{width:242px;height:28px;border:1px solid #dbdbdb;}
 #file_upwrap ul li{display:block;height:30px;border-top:1px solid #ddd;padding:5px 5px;}
 #file_upwrap ul li:first-child{border-top:none;}
 #file_upwrap ul li > input{height:24px;border:1px solid #c8c8c8;}
-#file_upwrap ul li > input.file{width:480px;}
+#file_upwrap ul li > input.file{width:420px;}
 #file_upwrap ul li > button.file_search{width:70px;height:28px;background:url('../images/bt_file_search.png');margin:0 5px;}
 #file_upwrap ul li > button.file_add{width:26px;height:28px;background:url('../images/bt_file_add.png');margin-left:5px;}
 #file_upwrap ul li > button.file_del{width:26px;height:28px;background:url('../images/bt_file_del.png');margin-left:5px;}

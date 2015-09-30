@@ -42,7 +42,8 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.SmallClassCd).HasColumnName("SMALL_CLASS_CD").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(6);
             Property(x => x.DetailCd).HasColumnName("DETAIL_CD").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(8);
             Property(x => x.Title).HasColumnName("TITLE").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
-            Property(x => x.Content).HasColumnName("CONTENT").IsOptional().HasColumnType("nvarchar").HasMaxLength(200);
+            Property(x => x.Content1).HasColumnName("CONTENT1").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
+            Property(x => x.Content2).HasColumnName("CONTENT2").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
             Property(x => x.CurrentUseYn).HasColumnName("CURRENT_USE_YN").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             InitializePartial();
         }

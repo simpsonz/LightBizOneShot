@@ -58,6 +58,24 @@ function get_filename(e) {
     }
     return false;
 }
+
+// 이미지 파일명 추출
+function get_imagename(e) {
+    var temp = $(e).val();
+
+    if (temp != "") {
+        var ext = temp.substring(temp.lastIndexOf(".") + 1).toLowerCase();
+        var exts = ['jpg', 'jpeg', 'gif', 'bmp', 'png'];
+        if (exts.indexOf(ext) < 0) {
+            alert('이미지 파일만 첨부가 가능합니다');
+            return false;
+        }
+        $(e).parent().parent().find('input.file').val(temp.substring(temp.lastIndexOf("\\") + 1));
+        $(e).parent().parent().find('.file_search').attr('class', 'bt_td_delete');
+    }
+    return false;
+}
+
 // 첨부파일 입력칸추가
 function file_inpput_add(e) {
     var temp = $(e).parent().parent().find('li');
