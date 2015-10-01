@@ -17,10 +17,18 @@ namespace BizOneShot.Light.Util.Helper
     {
         #region 업로드
 
+        public bool hasImageFile(HttpPostedFileBase file)
+        {
+            string fileExtension = Path.GetExtension(file.FileName);
+
+            return fileExtension.EndsWith("jpg") || fileExtension.EndsWith("jpeg") || fileExtension.EndsWith("gif")
+                || fileExtension.EndsWith("png") || fileExtension.EndsWith("bmp");
+        }
+
         public string  GetUploadFileName(HttpPostedFileBase file)
         {
           
-            FileContent savedFiles = new FileContent();
+            //FileContent savedFiles = new FileContent();
             string newFileName = string.Empty;
             try
             {

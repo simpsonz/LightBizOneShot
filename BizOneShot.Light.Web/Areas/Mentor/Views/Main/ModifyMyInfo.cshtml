@@ -133,7 +133,9 @@
                     </colgroup>
                     <tr>
                         <th>이름</th>
-                        <td>@Html.TextBoxFor(model => model.Name, new { @class = "w235", @placeholder = "이름은필수값입니다." })  @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @color = "#b94a48" })</td>
+                        <td>@Html.TextBoxFor(model => model.Name, new { @class = "w235", @placeholder = "이름은필수값입니다." })  
+                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @color = "#b94a48" })
+                        </td>
                     </tr>
 
                     <tr>
@@ -297,7 +299,7 @@
                                     @*<input type="text"  readonly="readonly" id="file_resume" title="첨부파일" />
                                     <label><input type="file" name="files"  onchange="javascript:document.getElementById('file_resume').value=this.value" /></label>*@
 
-                                    <input type="text" readonly="readonly" />
+                                    <input type="text" class="file" readonly="readonly" />
                                     <button type="button" class="file_search" value="찾아보기" onclick="return file_add(this);"></button>
                                     <em><input type="file" name="files" onchange="return get_filename(this)" /></em>
                                 </li>

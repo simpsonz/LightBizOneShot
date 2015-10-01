@@ -28,7 +28,7 @@ namespace BizOneShot.Light.Models.ViewModels
         Document,   //자료(요청)
         Resume,     //이력서
         Manual,     //매뉴얼
-        Mentoring,  //맨토링 일지
+        Mentoring_Report,  //맨토링 일지
         Mentoring_Total //맨토링 종합일지
     }
 }
