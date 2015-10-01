@@ -52,7 +52,7 @@
                     <td colspan="4" class="nopad">
                         <div id="file_downwrap">
                             <ul>
-                                <li><span>@Model.FileContents[0].FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DownloadTRReportFile", Model.FileContents[0])';" value="다운로드"></button></li>
+                                <li><span>@Model.FileContents[0].FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DownloadReportFile", Model.FileContents[0])';" value="다운로드"></button></li>
                             </ul>
                         </div>
                     </td>
@@ -70,7 +70,7 @@
                                 {
                                     @*<li><span>@item.FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DocumentDownload", new { fileSn = @item.FileSn })';" value="다운로드"></button></li>*@
 
-                                    <li><span>@item.FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DownloadTRReportFile", item)';" value="다운로드"></button></li>
+                                    <li><span>@item.FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DownloadReportFile", item)';" value="다운로드"></button></li>
 
                                 }
                             </ul>

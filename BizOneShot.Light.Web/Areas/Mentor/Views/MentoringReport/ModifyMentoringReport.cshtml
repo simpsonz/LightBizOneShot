@@ -1,17 +1,392 @@
-﻿
+﻿@model BizOneShot.Light.Models.ViewModels.MentoringReportViewModel
+
 @{
-    Layout = null;
+    Layout = "~/Areas/Mentor/Views/Shared/_MainLayout.cshtml";
 }
 
-<!DOCTYPE html>
+@* 캘린더 처리를위해 추가한 JS 및 SCC *@
+@Styles.Render("~/css/jquery-ui")
+@Scripts.Render("~/bundles/jquery-ui")
+@Scripts.Render("~/Js/files.js")
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ModifyMentoringReport</title>
-</head>
-<body>
-    <div> 
-    </div>
-</body>
-</html>
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_biz04').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb1').addClass('on');
+
+
+        $("#SUBMIT_DT, #MENTORING_DT").datepicker({
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            dateFormat: 'yy-mm-dd'
+        });
+
+        $('.bt_calendar').on('click', function () {
+            $(this).prev().focus();
+            return false;
+        });
+
+        $('#submit_form').bind('submit', function () {
+            //필수값체크
+            if ($('#file_photo01').val() == 0) {
+                alert("멘토링사진1은 필수값입니다.");
+                $('#file_photo01').focus();
+                return false;
+            }
+            if ($('#file_photo02').val() == 0) {
+                alert("멘토링사진2는 필수값입니다.");
+                $('#file_photo02').focus();
+                return false;
+            }
+
+
+            //파일체크
+            var inputFileCount = 0;
+            var totalSize = 0;
+            var fileNames = new Array();
+            $('input[type="file"]').each(function () {
+                if ($(this).val() != '') {
+                    //input에서 파일이름만 추출해서 담음
+                    fileNames.push($(this).val().replace(/^.*[\\\/]/, ''));
+
+                    fileSize = $('input[type="file"]').get(inputFileCount).files[0].size;
+                    totalSize = totalSize + fileSize;
+
+                    //inputFileCount += 1;
+                }
+
+                inputFileCount += 1;
+
+            });
+
+            //if (totalSize == 0) {
+            //    alert("첨부파일은 1개이상 등록해야 합니다.");
+            //    return false;
+            //}
+
+            if (inputFileCount > 5) {
+                alert("파일갯수는 5개를 초과할 수 없습니다.");
+                return false;
+            }
+
+            if (totalSize > 100000000) {
+                alert("전체 파일 사이즈는 100MB 를 초과할 수 없습니다.");
+                return false;
+            }
+
+            var hasDups = !fileNames.every(function (v, i) {
+                return fileNames.indexOf(v) == i;
+            });
+            if (hasDups) {
+                // having duplicate values
+                alert("업로드할 파일에 같은 파일이 있습니다.");
+                return false;
+            }
+
+            //빈란 삭제
+            $('input[type="file"]').each(function () {
+                if ($(this).val() == '') {
+                    $(this).remove();
+                }
+            });
+
+
+        });
+
+
+    });
+
+
+    var array = [];
+    function delete_file(value) {
+        array.push(value);
+        $("#deleteFileSns").val(array);
+    };
+
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title mentor_01_02_02"><em>멘토링 일지 수정</em></div>
+
+    @using (Html.BeginForm("ModifyMentoringReport", "MentoringReport", FormMethod.Post, new { area = "MentoringReport", id = "submit_form", role = "form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @*<input type="hidden" id="FileSns" name="FileSns" />*@
+        @Html.Hidden("deleteFileSns","", new { @id = "deleteFileSns", @name = "deleteFileSns" })
+
+        <div calss="tablewrap">
+
+            <table>
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th>사업명</th>
+                    <td class="form">
+                        @Html.DropDownListFor(model => model.BizWorkSn, ViewBag.SelectBizWorkList as SelectList ,new { @id = "BizWorkSn", @class = "w250" })
+                        @Html.ValidationMessageFor(model => model.BizWorkSn, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>기업명</th>
+                    <td class="form">
+                        @Html.DropDownListFor(model => model.CompSn, ViewBag.SelectCompInfoList as SelectList, new { @id = "CompSn", @class = "w250" })
+                        @Html.ValidationMessageFor(model => model.CompSn, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+                </tr>
+            </table>
+
+            <div class="line_dot10"></div>
+
+            <table>
+                <!--멘토링일시 외-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th>멘토링 일시</th>
+                    <td class="form">
+                        @*@Html.TextBoxFor(model => model.MentoringDt.Value,  new { @class = "w120", @id = "MENTORING_DT", @name = "MENTORING_DT", @readonly = "readonly" })*@
+                        @Html.TextBox("MentoringDt", Model.MentoringDt.Value.ToString("yyyy-MM-dd"), new { @class = "w120", @id = "MENTORING_DT", @name = "MENTORING_DT", @readonly = "readonly" })
+                        <a href="" class="bt_calendar"><em>날짜선택</em></a>&nbsp;&nbsp;
+                        @Html.DropDownListFor(model => model.MentoringStHr, new SelectList(
+                            new List<Object>{
+                                new { value = "" , text = "시작시간"  },
+                                new { value = "00:00" , text = "00:00"  },
+                                new { value = "01:00" , text = "01:00" },
+                                new { value = "02:00" , text = "02:00" },
+                                new { value = "03:00" , text = "03:00" },
+                                new { value = "04:00" , text = "04:00" },
+                                new { value = "05:00" , text = "05:00" },
+                                new { value = "06:00" , text = "06:00" },
+                                new { value = "07:00" , text = "07:00" },
+                                new { value = "08:00" , text = "08:00" },
+                                new { value = "09:00" , text = "09:00" },
+                                new { value = "10:00" , text = "10:00" },
+                                new { value = "11:00" , text = "11:00" },
+                                new { value = "12:00" , text = "12:00" },
+                                new { value = "13:00" , text = "13:00" },
+                                new { value = "14:00" , text = "14:00" },
+                                new { value = "15:00" , text = "15:00" },
+                                new { value = "16:00" , text = "16:00" },
+                                new { value = "17:00" , text = "17:00" },
+                                new { value = "18:00" , text = "18:00" },
+                                new { value = "19:00" , text = "19:00" },
+                                new { value = "20:00" , text = "20:00" },
+                                new { value = "21:00" , text = "21:00" },
+                                new { value = "22:00" , text = "22:00" },
+                                new { value = "23:00" , text = "23:00" }
+                            },
+                            "value",
+                            "text",
+                            2), new { @class = "w90", @id = "MentoringStHr" })
+                        @Html.DropDownListFor(model => model.MentoringEdHr, new SelectList(
+                            new List<Object>{
+                                new { value = "" , text = "종료시간"  },
+                                new { value = "00:00" , text = "00:00"  },
+                                new { value = "01:00" , text = "01:00" },
+                                new { value = "02:00" , text = "02:00" },
+                                new { value = "03:00" , text = "03:00" },
+                                new { value = "04:00" , text = "04:00" },
+                                new { value = "05:00" , text = "05:00" },
+                                new { value = "06:00" , text = "06:00" },
+                                new { value = "07:00" , text = "07:00" },
+                                new { value = "08:00" , text = "08:00" },
+                                new { value = "09:00" , text = "09:00" },
+                                new { value = "10:00" , text = "10:00" },
+                                new { value = "11:00" , text = "11:00" },
+                                new { value = "12:00" , text = "12:00" },
+                                new { value = "13:00" , text = "13:00" },
+                                new { value = "14:00" , text = "14:00" },
+                                new { value = "15:00" , text = "15:00" },
+                                new { value = "16:00" , text = "16:00" },
+                                new { value = "17:00" , text = "17:00" },
+                                new { value = "18:00" , text = "18:00" },
+                                new { value = "19:00" , text = "19:00" },
+                                new { value = "20:00" , text = "20:00" },
+                                new { value = "21:00" , text = "21:00" },
+                                new { value = "22:00" , text = "22:00" },
+                                new { value = "23:00" , text = "23:00" }
+                            },
+                            "value",
+                            "text",
+                            2), new { @class = "w90", @id = "MentoringEdHr" })
+
+                        @Html.ValidationMessageFor(model => model.MentoringDt, "", new { @class = "text-danger", @color = "#b94a48" })
+                        @*@Html.ValidationMessageFor(model => model.MentoringStHr, "", new { @class = "text-danger", @color = "#b94a48" })
+                            @Html.ValidationMessageFor(model => model.MentoringEdHr, "", new { @class = "text-danger", @color = "#b94a48" })*@
+                    </td>
+                </tr>
+                <tr>
+                    <th>멘토링 장소</th>
+                    <td class="form">
+                        @Html.TextBoxFor(model => model.MentoringPlace, new { @class = "w235", @title = "멘토링장소" })
+                        @Html.ValidationMessageFor(model => model.MentoringPlace, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>참석자</th>
+                    <td class="form">
+                        @Html.TextBoxFor(model => model.Attendee, new { @class = "w235", @title = "참석자" })
+                        @Html.ValidationMessageFor(model => model.Attendee, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>멘토링 분야</th>
+                    <td class="form">
+                        @Html.DropDownListFor(model => model.MentorAreaCd, new SelectList(
+                            new List<Object>{
+                                new { value = "" , text = "멘토링 분야 선택"  },
+                                new { value = "F" , text = "자금"  },
+                                new { value = "D" , text = "기술개발" },
+                                new { value = "P" , text = "특허" },
+                                new { value = "M" , text = "마케팅" },
+                                new { value = "L" , text = "법무" },
+                                new { value = "T" , text = "세무회계" },
+                                new { value = "W" , text = "노무" },
+                                new { value = "E" , text = "기타" }
+                            },
+                            "value",
+                            "text",
+                            2), new { @class = "w250" })
+                        @Html.ValidationMessageFor(model => model.MentorAreaCd, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>멘토링 주제</th>
+                    <td class="form">
+                        @Html.TextBoxFor(model => model.MentoringSubject, new { @class = "w235", @title = "멘토링주제" })
+                        @Html.ValidationMessageFor(model => model.MentoringSubject, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>멘토링 내용</th>
+                    <td class="form">
+                        @Html.TextAreaFor(model => model.MentoringContents)
+                        @Html.ValidationMessageFor(model => model.MentoringContents, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+
+                </tr>
+               
+                <tr>
+                    <th>멘토링 사진</th>
+                    <td class="form">
+                        <div id="file_upwrap" class="file_input">
+                            <ul>
+                                <li>
+                                    <input type="text" readonly="readonly" class="file" id="file_photo01" title="멘토링 사진 1" />
+                                    <button type="button" class="file_search" value="찾아보기" onclick="return file_add(this);"></button>
+                                    <em><input type="file" name="files" onchange="return get_imagename(this)" /></em>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div id="file_upwrap" class="file_input">
+                            <ul>
+                                <li>
+                                    <input type="text" readonly="readonly" class="file" id="file_photo02" title="멘토링 사진 2" />
+                                    <button type="button" class="file_search" value="찾아보기" onclick="return file_add(this);"></button>
+                                    <em><input type="file" name="files" onchange="return get_imagename(this)" /></em>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div id="file_downwrap">
+                            <ul id="ulExitFiles">
+                                @foreach (var item in Model.MentoringPhoto)
+                                {
+
+                                    <li>
+                                        <span>@item.FileNm</span>
+                                        <button type="button" class="bt_td_delete" value="@item.FileSn" onclick="delete_file(@item.FileSn); return file_inpput_remove2(this);"></button>
+                                    </li>
+
+                                }
+                            </ul>
+                        </div>
+
+                    </td>
+
+                </tr>
+            </table>
+
+            <div class="line_dot20"></div>
+
+            <table>
+                <!--자문실시일-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th colspan="2" class="topcen">상기와 같이 자문을 실시 하였습니다</th>
+                </tr>
+                <tr>
+                    <th>작성일</th>
+                    <td class="form">
+                        @*@Html.TextBoxFor(model => model.SubmitDt.Value , new { @class = "w120", @id = "SUBMIT_DT", @name = "SUNMIT_DT", @readonly = "readonly" })*@
+                        @Html.TextBox("SubmitDt", Model.SubmitDt.Value.ToString("yyyy-MM-dd"), new { @class = "w120", @id = "SUBMIT_DT", @name = "SUNMIT_DT", @readonly = "readonly" })
+                        <a href="" class="bt_calendar"><em>날짜선택</em></a>
+                        @Html.ValidationMessageFor(model => model.SubmitDt, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>첨부파일</th>
+                    <td class="nopad">
+                        <div id="file_upwrap">
+                            <ul>
+                                <li>
+                                    <input type="text" class="file" readonly="readonly" />
+                                    <button type="button" class="file_search" value="찾아보기" onclick="return file_add(this);"></button>
+                                    <button type="button" class="file_add" value="파일추가" onclick="return file_inpput_add(this);"></button>
+                                    <button type="button" class="file_del" value="파일삭제" onclick="return file_inpput_remove(this);"></button>
+                                    <em><input type="file" name="files" id="files" onchange="return get_filename(this);" /></em>
+                                </li>
+                            </ul>
+                        </div>
+
+                        @if (Model.FileContents.Count > 0)
+                        {
+                            <div id="file_downwrap">
+                                <ul id="ulExitFiles">
+                                    @foreach (var item in Model.FileContents)
+                                    {
+
+                                        <li>
+                                            <span>@item.FileNm</span>
+                                            <button type="button" class="bt_td_delete" value="@item.FileSn" onclick="delete_file(@item.FileSn); return file_inpput_remove2(this);"></button>
+                                        </li>
+
+                                    }
+                                </ul>
+                            </div>
+                        }
+
+                    </td>
+                </tr>
+            </table>
+        </div><!--tablewrap//-->
+
+
+        <div id="btnwrap_sub">
+            <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('지금까지 작성된 내용을 취소하시겠습니까?')) location.href='@Url.Action("MentoringReportList", "MentoringReport")'" />
+            <button type="submit" class="save right"><em>저장</em></button>
+        </div><!--btnwrap//-->
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
+    }
+
+</div><!--sub_rightwrap//-->

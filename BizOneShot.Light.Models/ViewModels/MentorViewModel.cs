@@ -227,7 +227,7 @@ namespace BizOneShot.Light.Models.ViewModels
         public string UpdId { get; set; } // UPD_ID. 수정자
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
 
-        public IList<FileContent> ImageContents { get; set; } //멘토링 사진
+        public IList<FileContent> MentoringPhoto { get; set; } //사진
         public IList<FileContent> FileContents { get; set; } //첨부파일
     }
 

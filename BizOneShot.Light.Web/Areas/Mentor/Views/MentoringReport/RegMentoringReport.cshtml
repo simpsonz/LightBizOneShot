@@ -147,7 +147,7 @@
                 <tr>
                     <th>멘토링 일시</th>
                     <td class="form">
-                        @Html.TextBoxFor(model => model.MentoringDt, new { @class = "w120", @id = "MENTORING_DT", @name = "MENTORING_DT", @readonly = "readonly" })
+                        @Html.TextBoxFor(model => model.MentoringDt.Value, new { @class = "w120", @id = "MENTORING_DT", @name = "MENTORING_DT", @readonly = "readonly" })
                         <a href="" class="bt_calendar"><em>날짜선택</em></a>&nbsp;&nbsp;
                         @Html.DropDownListFor(model => model.MentoringStHr, new SelectList(
                             new List<Object>{
@@ -245,7 +245,7 @@
                                 new { value = "L" , text = "법무" },
                                 new { value = "T" , text = "세무회계" },
                                 new { value = "W" , text = "노무" },
-                                new { value = "Z" , text = "기타" }
+                                new { value = "E" , text = "기타" }
                             },
                             "value",
                             "text",
@@ -313,7 +313,7 @@
                 <tr>
                     <th>작성일</th>
                     <td class="form">
-                        @Html.TextBoxFor(model => model.SubmitDt, new { @class = "w120", @id = "SUBMIT_DT", @name = "SUNMIT_DT", @readonly = "readonly" })
+                        @Html.TextBoxFor(model => model.SubmitDt.Value, new { @class = "w120", @id = "SUBMIT_DT", @name = "SUNMIT_DT", @readonly = "readonly" })
                         <a href="" class="bt_calendar"><em>날짜선택</em></a>
                         @Html.ValidationMessageFor(model => model.SubmitDt, "", new { @class = "text-danger", @color = "#b94a48" })
                     </td>
