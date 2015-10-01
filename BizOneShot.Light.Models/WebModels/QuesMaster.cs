@@ -27,7 +27,7 @@ namespace BizOneShot.Light.Models.WebModels
         public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
         public string RegistrationNo { get; set; } // REGISTRATION_NO
         public int? BasicYear { get; set; } // BASIC_YEAR
-        public string SaveStatus { get; set; } // SAVE_STATUS
+        public int? SaveStatus { get; set; } // SAVE_STATUS
         public string Status { get; set; } // STATUS
 
         // Reverse navigation

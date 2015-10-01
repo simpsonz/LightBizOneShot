@@ -129,4 +129,88 @@ namespace BizOneShot.Light.Models.ViewModels
     {
         public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
     }
+
+    public class BizCheck02ViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SubmitType { get; set; } // Submit 방식
+        public IList<QuesCheckListViewModel> BizPurpose { get; set; }
+        public IList<QuesCheckListViewModel> Leadership { get; set; }
+    }
+
+    public class BizCheck03ViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SubmitType { get; set; } // Submit 방식
+        public IList<QuesCheckListViewModel> LeaderReliability { get; set; }
+    }
+
+    public class BizCheck04ViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SubmitType { get; set; } // Submit 방식
+        public IList<QuesCheckListViewModel> WorkEnv { get; set; }
+        public QuesYearListViewModel TotalEmp { get; set; }
+        public QuesYearListViewModel MoveEmp { get; set; }
+        public QuesYearListViewModel NewEmp { get; set; }
+    }
+
+    public class QuesCheckListViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public int CheckListSn { get; set; } // CHECK_LIST_SN (Primary key)
+        public string Title { get; set; } // TITLE
+        public string Content1 { get; set; } // CONTENT
+        public string Content2 { get; set; } // CONTENT
+        public bool AnsVal { get; set; } // ANS_VAL
+    }
+
+    public class QuesYearListViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public int CheckListSn { get; set; } // CHECK_LIST_SN (Primary key)
+        public int? BasicYear { get; set; } // BASIC_YEAR
+        public string D { get; set; } // D
+        public string D451 { get; set; } // D-1
+        public string D452 { get; set; } // D-2
+        public string D453 { get; set; } // D-3
+        public string SmallClassCd { get; set; } // SMALL_CLASS_CD
+        public string DetailCd { get; set; } // DETAIL_CD
+        public string RegId { get; set; } // REG_ID
+        public DateTime? RegDt { get; set; } // REG_DT
+        public string UpdId { get; set; } // UPD_ID
+        public DateTime? UpdDt { get; set; } // UPD_DT
+    }
+
+
+    public class BizCheck05ViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SubmitType { get; set; } // Submit 방식
+        public IList<QuesCheckListViewModel> InfoSystem { get; set; }
+    }
+
+
+    public class BizCheck06ViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SubmitType { get; set; } // Submit 방식
+        public QuesYearListViewModel TotalEmp { get; set; } //전체 임직원
+        public QuesYearListViewModel RndEmp { get; set; } // 연구개발 인력
+        public QuesYearListViewModel DoctorEmp { get; set; } //박사급
+        public QuesYearListViewModel MasterEmp { get; set; } //석사급
+        public QuesYearListViewModel CollegeEmp { get; set; } //학사급
+        public QuesYearListViewModel TechEmp { get; set; } //기능사급
+        public QuesYearListViewModel HighEmp { get; set; } //고졸이하
+    }
+
+    public class BizCheck07ViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SubmitType { get; set; } // Submit 방식
+        public IList<QuesCheckListViewModel> BizCapa { get; set; }
+        public QuesYearListViewModel BizResult { get; set; }
+        public QuesYearListViewModel BizResultCnt { get; set; }
+    }
+
 }

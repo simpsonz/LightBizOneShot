@@ -30,7 +30,8 @@ namespace BizOneShot.Light.Models.WebModels
         public string SmallClassCd { get; set; } // SMALL_CLASS_CD
         public string DetailCd { get; set; } // DETAIL_CD
         public string Title { get; set; } // TITLE
-        public string Content { get; set; } // CONTENT
+        public string Content1 { get; set; } // CONTENT1
+        public string Content2 { get; set; } // CONTENT2
         public string CurrentUseYn { get; set; } // CURRENT_USE_YN
 
         // Reverse navigation
