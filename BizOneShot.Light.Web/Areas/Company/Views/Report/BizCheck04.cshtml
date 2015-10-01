@@ -1,0 +1,207 @@
+﻿@model BizOneShot.Light.Models.ViewModels.BizCheck04ViewModel
+
+@{
+    Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_report').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicsurvey').addClass('on');
+
+    });
+
+    function goSubmit(submitType) {
+        $('#submitType').val(submitType);
+        $('#mainForm').submit();
+    }
+
+</script>
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_02">
+        <em>기초경영역량 문진표</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_step01"><em>STEP01.진단개요</em></li>
+            <li class="basic_step02"><a href="" class="ablock"><em>STEP02.기업정보</em></a></li>
+            <li class="basic_step03 on"><a href="" class="ablock"><em>STEP03.경영진단</em></a></li>
+            <li class="basic_step04"><a href="" class="ablock"><em>STEP04.재무진단</em></a></li>
+            <li class="basic_step05"><a href="" class="ablock"><em>STEP05.조직진단</em></a></li>
+            <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
+        </ul>
+    </div>
+@using (Html.BeginForm("BizCheck04", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
+{
+    @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
+    @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2">
+            <div class="title_medium">Ⅲ. 경영진단</div>
+            <div class="title_small">
+                경영진단 설문지입니다. 귀사에 해당하는 항목 모두에
+                체크해주요.
+            </div>
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <p class="title_mid">01. 기초 역량 _ 조직 역량</p>
+            </div>
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox">
+                    <div class="listBox_title">
+                        <span class="big_span">근로환경 _</span><span class="small_span">
+                            종업원의
+                            생산성 극대화를 위해 꼭 필요한 근무 환경 및 복리후생 수준
+                        </span>
+                    </div>
+                    <div class="listBox_tap bg_on">
+                        <span>체크리스트</span>
+                    </div>
+                    <table class="join_info">
+                        <colgroup>
+                            <col width="90%">
+                            <col width="10%">
+                        </colgroup>
+                        @if (Model == null || Model.WorkEnv == null)
+                        {
+                            <tr>
+                                <td colspan="2" style="text-align:center;">검색 결과가 없습니다.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            for (int i = 0; i < Model.WorkEnv.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <span class="full_span">@Model.WorkEnv[i].Title</span>
+                                        <span class="min_span">@Model.WorkEnv[i].Content1</span>
+                                        @if (@Model.WorkEnv[i].Content2 != null)
+                                        {
+                                            <span class="min_span">@Model.WorkEnv[i].Content2</span>
+                                        }
+                                    </td>
+                                    <td>@Html.CheckBoxFor(m => @Model.WorkEnv[i].AnsVal) @Html.HiddenFor(m => @Model.WorkEnv[i].CheckListSn)</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+                <div class="main_mid_listBox">
+                    <div class="listBox_title">
+                        <span class="big_span">조직 만족도 _</span><span class="small_span">
+                            종업원이
+                            조직에 만족하는 정도
+                        </span>
+                    </div>
+                    <div class="listBox_tap bg_on">
+                        <span>체크리스트</span>
+                    </div>
+                    <div class="listBox_mid_cont">
+                        <p style="padding-top: 10px">
+                            조직 만족도는 이직률을 기초로 점검됩니다. (이직률
+                            = 이직임직원수/총임직원수)
+                        </p>
+                        <p>
+                            최근 3개년간의 평균값을 사용하는 것이 권장됩니다. 최근연도를 기점으로 조사된 연도까지 최대 3년간
+                            평균하
+                        </p>
+                        <p style="padding-bottom: 10px">
+                            여 점검합니다. (각 칸에 해당하는 인원이 없는
+                            경우는 0을 입력하면 됩니다.)
+                        </p>
+                        <table class="join_info">
+                            <colgroup>
+                                <col width="25%">
+                                <col width="25%">
+                                <col width="25%">
+                                <col width="25%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo">조사연도</td>
+                                <td class="left_memo">총직원</td>
+                                <td class="left_memo">이직직원</td>
+                                <td class="left_memo">
+                                    신규채용<br>(신입/경력 포함)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo">@Html.Label((Model.TotalEmp.BasicYear).ToString())</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.TotalEmp.D, new { @class = "w25_text" })명
+                                    @Html.HiddenFor(model => model.TotalEmp.CheckListSn)
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.MoveEmp.D, new { @class = "w25_text" })명
+                                    @Html.HiddenFor(model => model.MoveEmp.CheckListSn)
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.NewEmp.D, new { @class = "w25_text" })명
+                                    @Html.HiddenFor(model => model.NewEmp.CheckListSn)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo">@Html.Label((Model.TotalEmp.BasicYear-1).ToString())</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.TotalEmp.D451, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.MoveEmp.D451, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.NewEmp.D451, new { @class = "w25_text" })명
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo">@Html.Label((Model.TotalEmp.BasicYear - 2).ToString())</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.TotalEmp.D452, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.MoveEmp.D452, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.NewEmp.D452, new { @class = "w25_text" })명
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo">@Html.Label((Model.TotalEmp.BasicYear - 3).ToString())</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.TotalEmp.D453, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.MoveEmp.D453, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.NewEmp.D453, new { @class = "w25_text" })명
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--container//-->
+    <div id="btnwrap_sub">
+        <div class="rightwrap left">
+            <a href="@Url.Action("BizCheck03", "Report", new { area = "Company", @questionSn = @Model.QuestionSn })" class="pre" value="이전"><em>이전</em></a>
+        </div>
+        <div class="rightwrap right">
+            <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+        </div>
+        <div class="rightwrap centerwrap left auto_m">
+            <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
+        </div>
+    </div>
+    }
+</div>

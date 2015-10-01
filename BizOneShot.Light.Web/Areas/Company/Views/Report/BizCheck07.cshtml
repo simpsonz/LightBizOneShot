@@ -1,0 +1,169 @@
+﻿@model BizOneShot.Light.Models.ViewModels.BizCheck07ViewModel
+
+@{
+    Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_report').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicsurvey').addClass('on');
+
+    });
+
+    function goSubmit(submitType) {
+        $('#submitType').val(submitType);
+        $('#mainForm').submit();
+    }
+
+</script>
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_02">
+        <em>기초경영역량 문진표</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_step01"><em>STEP01.진단개요</em></li>
+            <li class="basic_step02"><a href="" class="ablock"><em>STEP02.기업정보</em></a></li>
+            <li class="basic_step03 on"><a href="" class="ablock"><em>STEP03.경영진단</em></a></li>
+            <li class="basic_step04"><a href="" class="ablock"><em>STEP04.재무진단</em></a></li>
+            <li class="basic_step05"><a href="" class="ablock"><em>STEP05.조직진단</em></a></li>
+            <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
+        </ul>
+    </div>
+@using (Html.BeginForm("BizCheck07", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
+{
+    @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
+    @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2 noline">
+            <div class="title_medium">Ⅲ. 경영진단</div>
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox">
+                    <div class="listBox_title">
+                        <span class="big_span">사업화 역량 _</span><span class="small_span">
+                            기술개발의
+                            결과를 사업화로 연결시킬 수 있는 역량을 갖추고 있는지의 여부
+                        </span>
+                    </div>
+                    <div class="listBox_tap bg_on">
+                        <span>체크리스트</span>
+                    </div>
+                    <table class="join_info">
+                        <colgroup>
+                            <col width="90%">
+                            <col width="10%">
+                        </colgroup>
+                        @if (Model == null || Model.BizCapa == null)
+                        {
+                            <tr>
+                                <td colspan="2" style="text-align:center;">검색 결과가 없습니다.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            for (int i = 0; i < Model.BizCapa.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <span class="full_span">@Model.BizCapa[i].Title</span>
+                                        <span class="min_span">@Model.BizCapa[i].Content1</span>
+                                        @if (@Model.BizCapa[i].Content2 != null)
+                                        {
+                                            <span class="min_span">@Model.BizCapa[i].Content2</span>
+                                        }
+                                    </td>
+                                    <td>@Html.CheckBoxFor(m => @Model.BizCapa[i].AnsVal) @Html.HiddenFor(m => @Model.BizCapa[i].CheckListSn)</td>
+                                </tr>
+                            }
+                        }
+
+                    </table>
+                </div>
+                <div class="main_mid_listBox ">
+                    <div class="listBox_title">
+                        <span class="big_span">사업화 실적 _</span><span class="small_span">
+                            기술개발의
+                            사업화 및 상용화 건수
+                        </span>
+                    </div>
+                    <div class="listBox_tap bg_on">
+                        <span>체크리스트</span>
+                    </div>
+                    <div class="listBox_mid_cont">
+                        @Html.HiddenFor(model => model.BizResult.CheckListSn)
+                        @Html.HiddenFor(model => model.BizResultCnt.CheckListSn)
+                        <p style="padding-top: 10px">사업화 실적 또는 상용화 사업 실적</p>
+                        <p style="padding-bottom: 10px">
+                            (각 년도별로 해당하는 내용이 있을 경우
+                            작성하면 됩니다.)
+                        </p>
+                        <table class="join_info">
+                            <colgroup>
+                                <col width="20%">
+                                <col width="60%">
+                                <col width="20%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo">조사연도</td>
+                                <td class="left_memo">사업화 실적</td>
+                                <td class="left_memo">총 건수</td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo">@Html.Label((Model.BizResult.BasicYear).ToString())</td>
+                                <td>@Html.TextBoxFor(model => model.BizResult.D, new { @class = "long_text2" })</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.BizResultCnt.D, new { @class = "w25_text" })건
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo">@Html.Label((Model.BizResult.BasicYear - 1).ToString())</td>
+                                <td>@Html.TextBoxFor(model => model.BizResult.D451, new { @class = "long_text2" })</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.BizResultCnt.D451, new { @class = "w25_text" })건
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo">@Html.Label((Model.BizResult.BasicYear - 2).ToString())</td>
+                                <td>@Html.TextBoxFor(model => model.BizResult.D452, new { @class = "long_text2" })</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.BizResultCnt.D452, new { @class = "w25_text" })건
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo">@Html.Label((Model.BizResult.BasicYear - 3).ToString())</td>
+                                <td>@Html.TextBoxFor(model => model.BizResult.D453, new { @class = "long_text2" })</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.BizResultCnt.D453, new { @class = "w25_text" })건
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--container//-->
+    <div id="btnwrap_sub">
+        <div class="rightwrap left">
+            <a href="@Url.Action("BizCheck06", "Report", new { area = "Company", @questionSn = @Model.QuestionSn })" class="pre" value="이전"><em>이전</em></a>
+        </div>
+        <div class="rightwrap right">
+            <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+        </div>
+        <div class="rightwrap centerwrap left auto_m">
+            <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
+        </div>
+    </div>
+    }
+</div>

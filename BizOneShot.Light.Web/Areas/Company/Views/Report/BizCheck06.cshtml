@@ -1,0 +1,210 @@
+﻿@model BizOneShot.Light.Models.ViewModels.BizCheck06ViewModel
+
+@{
+    Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_report').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicsurvey').addClass('on');
+
+    });
+
+    function goSubmit(submitType) {
+        $('#submitType').val(submitType);
+        $('#mainForm').submit();
+    }
+
+</script>
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_02">
+        <em>기초경영역량 문진표</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_step01"><em>STEP01.진단개요</em></li>
+            <li class="basic_step02"><a href="" class="ablock"><em>STEP02.기업정보</em></a></li>
+            <li class="basic_step03 on"><a href="" class="ablock"><em>STEP03.경영진단</em></a></li>
+            <li class="basic_step04"><a href="" class="ablock"><em>STEP04.재무진단</em></a></li>
+            <li class="basic_step05"><a href="" class="ablock"><em>STEP05.조직진단</em></a></li>
+            <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
+        </ul>
+    </div>
+@using (Html.BeginForm("BizCheck06", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
+{
+    @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
+    @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2 noline">
+            <div class="title_medium">Ⅲ. 경영진단</div>
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox">
+                    <div class="listBox_title">
+                        <span class="big_span">인력의 비율 _</span><span class="small_span">
+                            연구개발인력
+                            구성비율
+                        </span>
+                    </div>
+                    <div class="listBox_tap bg_on">
+                        <span>체크리스트</span>
+                    </div>
+                    <div class="listBox_mid_cont">
+                        <p style="padding-top: 10px">연구개발 인력</p>
+                        <p style="padding-bottom: 10px">
+                            (각 칸에 해당하는 인원이 없는 경우는 0을
+                            입력하면 됩니다.)
+                        </p>
+                        <table class="join_info">
+                            <colgroup>
+                                <col width="10%">
+                                <col width="18%">
+                                <col width="18%">
+                                <col width="18%">
+                                <col width="18%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo" colspan="2">구분</td>
+                                <td class="left_memo">@Html.Label((Model.TotalEmp.BasicYear).ToString())</td>
+                                <td class="left_memo">@Html.Label((Model.TotalEmp.BasicYear - 1).ToString())</td>
+                                <td class="left_memo">@Html.Label((Model.TotalEmp.BasicYear - 2).ToString())</td>
+                                <td class="left_memo">@Html.Label((Model.TotalEmp.BasicYear - 3).ToString())</td>
+                            </tr>
+                            <tr>
+                                @Html.HiddenFor(model => model.RndEmp.CheckListSn)
+                                <td class="center_td" rowspan="2">임직원수</td>
+                                <td class="center_td">연구개발 인력수</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.RndEmp.D, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.RndEmp.D451, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.RndEmp.D452, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.RndEmp.D453, new { @class = "w25_text" })명
+                                </td>
+                            </tr>
+                            <tr>
+                                @Html.HiddenFor(model => model.TotalEmp.CheckListSn)
+                                <td class="center_td">전체 임직원수</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.TotalEmp.D, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.TotalEmp.D451, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.TotalEmp.D452, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.TotalEmp.D453, new { @class = "w25_text" })명
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="main_mid_listBox last_line">
+                    <div class="listBox_title">
+                        <span class="big_span">연구개발 인력의 능력 _</span><span class="small_span">연구개발인력의 학력, 경력, 기술자격</span>
+                    </div>
+                    <div class="listBox_tap bg_on">
+                        <span>체크리스트</span>
+                    </div>
+                    <div class="listBox_mid_cont">
+                        <p style="padding: 10px 0">(연구개발 인력만 해당) 학력별 임직원수</p>
+                        <table class="join_info">
+                            <colgroup>
+                                <col width="20%">
+                                <col width="40%">
+                                <col width="40%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo">학 력</td>
+                                <td class="left_memo">인원수</td>
+                                <td class="left_memo">동업계종사기간</td>
+                            </tr>
+                            <tr>
+                                @Html.HiddenFor(model => model.DoctorEmp.CheckListSn)
+                                <td class="center_td">박사급</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.DoctorEmp.D, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    관련분야 박사 혹은 <br>동종업계종사기간 8년
+                                    이상
+                                </td>
+                            </tr>
+                            <tr>
+                                @Html.HiddenFor(model => model.MasterEmp.CheckListSn)
+                                <td class="center_td">석사급</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.MasterEmp.D, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    관련분야 석사 혹은 <br>동종업계종사기간 6년
+                                    이상
+                                </td>
+                            </tr>
+                            <tr>
+                                @Html.HiddenFor(model => model.CollegeEmp.CheckListSn)
+                                <td class="center_td">학사급</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.CollegeEmp.D, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    관련분야 학사 혹은 <br>동종업계종사기간 4년
+                                    이상
+                                </td>
+                            </tr>
+                            <tr>
+                                @Html.HiddenFor(model => model.TechEmp.CheckListSn)
+                                <td class="center_td">기능사급</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.TechEmp.D, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    관련분야 전문학사 혹은 <br>동종업계종사기간 2년
+                                    이상
+                                </td>
+                            </tr>
+                            <tr>
+                                @Html.HiddenFor(model => model.HighEmp.CheckListSn)
+                                <td class="center_td">고졸이하</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.HighEmp.D, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">2년 미만</td>
+                            </tr>
+                        </table>
+                        <span class="comment">*박사급 : 박사 및 기술사 포함</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--container//-->
+    <div id="btnwrap_sub">
+        <div class="rightwrap left">
+            <a href="@Url.Action("BizCheck05", "Report", new { area = "Company", @questionSn = @Model.QuestionSn })" class="pre" value="이전"><em>이전</em></a>
+        </div>
+        <div class="rightwrap right">
+            <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+        </div>
+        <div class="rightwrap centerwrap left auto_m">
+            <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
+        </div>
+    </div>
+    }
+</div>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.WebConfiguration;
 using BizOneShot.Light.Dao.DareConfiguration;
+using System.Data.Entity.Validation;
 
 namespace BizOneShot.Light.Dao.Infrastructure
 {
@@ -30,7 +31,21 @@ namespace BizOneShot.Light.Dao.Infrastructure
 
         public async Task<int> CommitAsync()
         {
+            try { 
             return await DbContext.SaveChangesAsync();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var errors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in errors.ValidationErrors)
+                    {
+                        // get the error message 
+                        string errorMessage = validationError.ErrorMessage;
+                    }
+                }
+                throw ex;
+            }
         }
     }
 

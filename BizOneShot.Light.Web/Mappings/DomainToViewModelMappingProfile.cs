@@ -291,11 +291,23 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.PublishDt, map => map.MapFrom(s => s.PublishDt.GetValueOrDefault().ToShortDateString()));
 
             Mapper.CreateMap<QuesCompExtention, QuesCompExtentionViewModel>();
+            Mapper.CreateMap<QuesCheckList, QuesCheckListViewModel>();
+            Mapper.CreateMap<QuesResult1, QuesCheckListViewModel>()
+                .ForMember(d => d.Title, map => map.MapFrom(s => s.QuesCheckList.Title))
+                .ForMember(d => d.Content1, map => map.MapFrom(s => s.QuesCheckList.Content1))
+                .ForMember(d => d.Content2, map => map.MapFrom(s => s.QuesCheckList.Content2));
+
+            Mapper.CreateMap<QuesCheckList, QuesYearListViewModel>();
+            Mapper.CreateMap<QuesResult2, QuesYearListViewModel>()
+                .ForMember(d => d.DetailCd, map => map.MapFrom(s => s.QuesCheckList.DetailCd))
+                .ForMember(d => d.SmallClassCd, map => map.MapFrom(s => s.QuesCheckList.SmallClassCd));
 
 
 
 
-            
+
+
+
 
 
 

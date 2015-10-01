@@ -453,6 +453,12 @@
     <Content Include="Areas\Company\Views\Report\CompanyInfo01.cshtml" />
     <Content Include="Areas\Company\Views\Report\CompanyInfo02.cshtml" />
     <Content Include="Areas\Company\Views\Report\BizCheck01.cshtml" />
+    <Content Include="Areas\Company\Views\Report\BizCheck02.cshtml" />
+    <Content Include="Areas\Company\Views\Report\BizCheck03.cshtml" />
+    <Content Include="Areas\Company\Views\Report\BizCheck04.cshtml" />
+    <Content Include="Areas\Company\Views\Report\BizCheck05.cshtml" />
+    <Content Include="Areas\Company\Views\Report\BizCheck06.cshtml" />
+    <Content Include="Areas\Company\Views\Report\BizCheck07.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

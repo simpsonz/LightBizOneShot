@@ -106,6 +106,11 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<QuesWriterViewModel, QuesWriter>();
             Mapper.CreateMap<QuesCompanyInfoViewModel, QuesCompInfo>();
             Mapper.CreateMap<QuesCompExtentionViewModel, QuesCompExtention>();
+            Mapper.CreateMap<QuesYearListViewModel, QuesResult2>();
+
+
+
+            
         }
     }
 }
