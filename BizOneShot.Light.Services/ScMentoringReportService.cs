@@ -23,6 +23,7 @@ namespace BizOneShot.Light.Services
         //Task ModifyMentoringTRStatusDelete(string totalReportSn);
 
         Task<int> AddScMentoringReportAsync(ScMentoringReport scMentoringReport);
+        Task ModifyScMentoringReportAsync(ScMentoringReport scMentoringReport);
     }
 
 
@@ -102,6 +103,14 @@ namespace BizOneShot.Light.Services
                 return await SaveDbContextAsync();
             }
 
+        }
+
+        public async Task ModifyScMentoringReportAsync(ScMentoringReport scMentoringReport)
+        {
+            await Task.Run(() => scMentoringReportRepository.Update(scMentoringReport));
+
+          
+            await SaveDbContextAsync();
         }
 
 

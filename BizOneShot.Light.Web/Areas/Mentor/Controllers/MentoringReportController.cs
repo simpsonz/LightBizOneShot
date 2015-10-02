@@ -627,58 +627,72 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
             var mentorId = Session[Global.LoginID].ToString();
 
-            //if (ModelState.IsValid)
-            //{
-            //    var scMentoringReport = Mapper.Map<ScMentoringReport>(dataRequestViewModel);
+            if (ModelState.IsValid)
+            {
+                var scMentoringReport = await _scMentoringReportService.GetMentoringReportById(dataRequestViewModel.ReportSn);
 
-            //    scMentoringReport.MentorId = mentorId;
-            //    scMentoringReport.RegId = mentorId;
-            //    scMentoringReport.RegDt = DateTime.Now;
-            //    scMentoringReport.Status = "N";
+                scMentoringReport.Attendee = dataRequestViewModel.Attendee;
+                scMentoringReport.BizWorkSn = dataRequestViewModel.BizWorkSn;
+                scMentoringReport.CompSn = dataRequestViewModel.CompSn;
+                scMentoringReport.MentorAreaCd = dataRequestViewModel.MentorAreaCd;
+                scMentoringReport.MentoringContents = dataRequestViewModel.MentoringContents;
+                scMentoringReport.MentoringDt = dataRequestViewModel.MentoringDt;
+                scMentoringReport.MentoringEdHr = dataRequestViewModel.MentoringEdHr;
+                scMentoringReport.MentoringPlace = dataRequestViewModel.MentoringPlace;
+                scMentoringReport.MentoringStHr = dataRequestViewModel.MentoringStHr;
+                scMentoringReport.MentoringSubject = dataRequestViewModel.MentoringSubject;
 
-            //    //첨부파일
-            //    if (files != null)
-            //    {
-            //        var fileHelper = new FileHelper();
-            //        foreach (var file in files)
-            //        {
-            //            if (file != null)
-            //            {
-            //                var savedFileName = fileHelper.GetUploadFileName(file);
+                scMentoringReport.UpdId = mentorId;
+                scMentoringReport.UpdDt = DateTime.Now; 
+               
 
-            //                var subDirectoryPath = Path.Combine(FileType.Mentoring_Report.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
+                //삭제파일 상태 업데이트
 
-            //                var savedFilePath = Path.Combine(subDirectoryPath, savedFileName);
+                if (!string.IsNullOrEmpty(deleteFileSns.Trim()))
+                {
+                    foreach (var deleteFileSn in deleteFileSns.Split(',').AsEnumerable())
+                    {
+                        scMentoringReport.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo).Where(fi => fi.FileSn == int.Parse(deleteFileSn)).FirstOrDefault().Status = "D";
+                    }
+                }
 
-            //                var scFileInfo = new ScFileInfo { FileNm = Path.GetFileName(file.FileName), FilePath = savedFilePath, Status = "N", RegId = Session[Global.LoginID].ToString(), RegDt = DateTime.Now };
 
-            //                var scMentoringFileInfo = new ScMentoringFileInfo { ScFileInfo = scFileInfo };
+                //첨부파일
+                if (files != null)
+                {
+                    var fileHelper = new FileHelper();
+                    foreach (var file in files)
+                    {
+                        if (file != null)
+                        {
+                            var savedFileName = fileHelper.GetUploadFileName(file);
 
-            //                //파일타입에 따라 재정의해서 넣어야 함(첨부파일, 사진)
-            //                scMentoringFileInfo.Classify = fileHelper.hasImageFile(file) ? "P" : "A";
+                            var subDirectoryPath = Path.Combine(FileType.Mentoring_Report.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
 
-            //                scMentoringReport.ScMentoringFileInfoes.Add(scMentoringFileInfo);
+                            var savedFilePath = Path.Combine(subDirectoryPath, savedFileName);
 
-            //                await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
-            //            }
-            //        }
-            //    }
+                            var scFileInfo = new ScFileInfo { FileNm = Path.GetFileName(file.FileName), FilePath = savedFilePath, Status = "N", RegId = Session[Global.LoginID].ToString(), RegDt = DateTime.Now };
 
-            //    //저장
-            //    int result = await _scMentoringReportService.AddScMentoringReportAsync(scMentoringReport);
+                            var scMentoringFileInfo = new ScMentoringFileInfo { ScFileInfo = scFileInfo };
 
-            //    if (result != -1)
-            //        return RedirectToAction("MentoringReportList", "MentoringReport");
-            //    else
-            //    {
-            //        ModelState.AddModelError("", "자료요청 등록 실패.");
-            //        return View(dataRequestViewModel);
-            //    }
-            //}
-            //ModelState.AddModelError("", "입력값 검증 실패.");
-            //return View(dataRequestViewModel);
+                            //파일타입에 따라 재정의해서 넣어야 함(첨부파일, 사진)
+                            scMentoringFileInfo.Classify = fileHelper.hasImageFile(file) ? "P" : "A";
 
-            return View();
+                            scMentoringReport.ScMentoringFileInfoes.Add(scMentoringFileInfo);
+
+                            await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
+                        }
+                    }
+                }
+
+                //수정
+                await _scMentoringReportService.ModifyScMentoringReportAsync(scMentoringReport);
+
+                return RedirectToAction("MentoringReportList", "MentoringReport");
+              
+            }
+            ModelState.AddModelError("", "입력값 검증 실패.");
+            return View(dataRequestViewModel);
         }
 
         #endregion

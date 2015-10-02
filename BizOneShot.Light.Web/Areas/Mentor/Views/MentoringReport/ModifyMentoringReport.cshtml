@@ -34,49 +34,75 @@
 
         $('#submit_form').bind('submit', function () {
             //필수값체크
-            if ($('#file_photo01').val() == 0) {
-                alert("멘토링사진1은 필수값입니다.");
-                $('#file_photo01').focus();
+
+            //멘토링사진 체크
+            var inputPhotoCount = 0;
+            var photoNames = new Array();
+            if ($('#file_photo01').val() != '') {
+                photoNames.push($('#file_photo01').val().replace(/^.*[\\\/]/, '').trim());
+                inputPhotoCount += 1;
+            }
+            if ($('#file_photo02').val() != '') {
+                photoNames.push($('#file_photo02').val().replace(/^.*[\\\/]/, '').trim());
+                inputPhotoCount += 1;
+            }
+
+            //이미등록된 사진명 가져오기
+            var existPhotoCount = 0;
+            $('#ulExitPhotos li').each(function () {
+                photoNames.push($(this).text().trim());
+
+                existPhotoCount += 1;
+            });
+
+            //기존사진과 등록할 사진의 갯수
+            if (existPhotoCount + inputPhotoCount > 2) {
+                alert("멘토링사진 갯수는 2개를 초과할 수 없습니다.");
                 return false;
             }
-            if ($('#file_photo02').val() == 0) {
-                alert("멘토링사진2는 필수값입니다.");
-                $('#file_photo02').focus();
+
+            var hasPhotoDups = !photoNames.every(function (v, i) {
+                return photoNames.indexOf(v) == i;
+            });
+            if (hasPhotoDups) {
+                // having duplicate values
+                alert("업로드할 멘토링사진에 같은 파일이 있습니다.");
                 return false;
             }
 
 
-            //파일체크
+            //첨부파일체크
             var inputFileCount = 0;
+            var fileSize =0;
             var totalSize = 0;
             var fileNames = new Array();
-            $('input[type="file"]').each(function () {
+            $('input[id="inputFile"]').each(function () {
                 if ($(this).val() != '') {
                     //input에서 파일이름만 추출해서 담음
                     fileNames.push($(this).val().replace(/^.*[\\\/]/, ''));
-
-                    fileSize = $('input[type="file"]').get(inputFileCount).files[0].size;
+                    fileSize = $('input[id="inputFile"]').get(inputFileCount).files[0].size;
                     totalSize = totalSize + fileSize;
 
                     //inputFileCount += 1;
                 }
-
-                inputFileCount += 1;
-
+                inputFileCount += 1;    
             });
 
-            //if (totalSize == 0) {
-            //    alert("첨부파일은 1개이상 등록해야 합니다.");
-            //    return false;
-            //}
+            //이미등록된 파일명 가져오기
+            var existFileCount = 0;
+            $('#ulExitFiles li').each(function () {
+                fileNames.push($(this).text().trim());
+
+                existFileCount += 1;
+            });
 
             if (inputFileCount > 5) {
                 alert("파일갯수는 5개를 초과할 수 없습니다.");
                 return false;
             }
 
-            if (totalSize > 100000000) {
-                alert("전체 파일 사이즈는 100MB 를 초과할 수 없습니다.");
+            if (totalSize > 10000000) {
+                alert("전체 파일 사이즈는 10MB 를 초과할 수 없습니다.");
                 return false;
             }
 
@@ -89,12 +115,12 @@
                 return false;
             }
 
-            //빈란 삭제
-            $('input[type="file"]').each(function () {
-                if ($(this).val() == '') {
-                    $(this).remove();
-                }
-            });
+            ////빈란 삭제
+            //$('input[type="file"]').each(function () {
+            //    if ($(this).val() == '') {
+            //        $(this).remove();
+            //    }
+            //});
 
 
         });
@@ -121,6 +147,8 @@
 
         @*<input type="hidden" id="FileSns" name="FileSns" />*@
         @Html.Hidden("deleteFileSns","", new { @id = "deleteFileSns", @name = "deleteFileSns" })
+
+        @Html.Hidden("ReportSn", Model.ReportSn)
 
         <div calss="tablewrap">
 
@@ -297,13 +325,13 @@
                                 <li>
                                     <input type="text" readonly="readonly" class="file" id="file_photo02" title="멘토링 사진 2" />
                                     <button type="button" class="file_search" value="찾아보기" onclick="return file_add(this);"></button>
-                                    <em><input type="file" name="files" onchange="return get_imagename(this)" /></em>
+                                    <em><input type="file"  name="files" onchange="return get_imagename(this)" /></em>
                                 </li>
                             </ul>
                         </div>
 
                         <div id="file_downwrap">
-                            <ul id="ulExitFiles">
+                            <ul id="ulExitPhotos">
                                 @foreach (var item in Model.MentoringPhoto)
                                 {
 
@@ -351,7 +379,7 @@
                                     <button type="button" class="file_search" value="찾아보기" onclick="return file_add(this);"></button>
                                     <button type="button" class="file_add" value="파일추가" onclick="return file_inpput_add(this);"></button>
                                     <button type="button" class="file_del" value="파일삭제" onclick="return file_inpput_remove(this);"></button>
-                                    <em><input type="file" name="files" id="files" onchange="return get_filename(this);" /></em>
+                                    <em><input type="file" name="files" id ="inputFile" onchange="return get_filename(this)"  /></em>
                                 </li>
                             </ul>
                         </div>
