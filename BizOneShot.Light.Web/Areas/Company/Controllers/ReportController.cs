@@ -1280,6 +1280,813 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             }
         }
 
+
+        public async Task<ActionResult> BizCheck08(string questionSn)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            if (string.IsNullOrEmpty(questionSn))
+            {
+                // 오류 처리해야함.
+                return View();
+            }
+
+            var bizCheck08 = new BizCheck08ViewModel();
+
+            // A1B106 : 생산설비의 운영체제 및 관리
+            var quesResult1s = await _quesResult1Service.GetQuesResult1sAsync(int.Parse(questionSn), "A1B106");
+
+            if (quesResult1s.Count() != 5)
+            {
+                var quesCheckList = await _quesCheckListService.GetQuesCheckListAsync("A1B106");
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesCheckList);
+
+                foreach (var item in quesCheckListView)
+                {
+                    item.QuestionSn = int.Parse(questionSn);
+                    item.AnsVal = false;
+                }
+
+                bizCheck08.ProducEquip = quesCheckListView;
+            }
+            else
+            {
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesResult1s);
+                bizCheck08.ProducEquip = quesCheckListView;
+            }
+
+            // A1B107 : 공정관리
+            var quesResult1sProcess = await _quesResult1Service.GetQuesResult1sAsync(int.Parse(questionSn), "A1B107");
+
+            if (quesResult1sProcess.Count() != 5)
+            {
+                var quesCheckList = await _quesCheckListService.GetQuesCheckListAsync("A1B107");
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesCheckList);
+
+                foreach (var item in quesCheckListView)
+                {
+                    item.QuestionSn = int.Parse(questionSn);
+                    item.AnsVal = false;
+                }
+
+                bizCheck08.ProcessControl = quesCheckListView;
+            }
+            else
+            {
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesResult1sProcess);
+                bizCheck08.ProcessControl = quesCheckListView;
+            }
+
+            bizCheck08.QuestionSn = int.Parse(questionSn);
+            return View(bizCheck08);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BizCheck08(BizCheck08ViewModel bizCheck08ViewModel)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            int questionSn = bizCheck08ViewModel.QuestionSn;
+
+            if (bizCheck08ViewModel.QuestionSn > 0)
+            {
+                var quesMaster = await _quesMasterService.GetQuesResult1Async(questionSn);
+
+                if (bizCheck08ViewModel.SubmitType == "N")
+                {
+                    quesMaster.SaveStatus = 11;
+                }
+
+                // A1B106 : 생산설비의 운영체제 및 관리
+                foreach (var item in bizCheck08ViewModel.ProducEquip)
+                {
+                    var checkItem = quesMaster.QuesResult1.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == item.CheckListSn);
+                    if (checkItem == null)
+                    {
+                        var result1 = new QuesResult1();
+                        result1.QuestionSn = questionSn;
+                        result1.CheckListSn = item.CheckListSn;
+                        result1.AnsVal = item.AnsVal;
+                        result1.RegDt = DateTime.Now;
+                        result1.RegId = Session[Global.LoginID].ToString();
+                        quesMaster.QuesResult1.Add(result1);
+                    }
+                    else
+                    {
+                        checkItem.AnsVal = item.AnsVal;
+                        checkItem.UpdDt = DateTime.Now;
+                        checkItem.UpdId = Session[Global.LoginID].ToString();
+                    }
+                }
+
+                // A1B107 : 공정관리
+                foreach (var item in bizCheck08ViewModel.ProcessControl)
+                {
+                    var checkItem = quesMaster.QuesResult1.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == item.CheckListSn);
+                    if (checkItem == null)
+                    {
+                        var result1 = new QuesResult1();
+                        result1.QuestionSn = questionSn;
+                        result1.CheckListSn = item.CheckListSn;
+                        result1.AnsVal = item.AnsVal;
+                        result1.RegDt = DateTime.Now;
+                        result1.RegId = Session[Global.LoginID].ToString();
+                        quesMaster.QuesResult1.Add(result1);
+                    }
+                    else
+                    {
+                        checkItem.AnsVal = item.AnsVal;
+                        checkItem.UpdDt = DateTime.Now;
+                        checkItem.UpdId = Session[Global.LoginID].ToString();
+                    }
+                }
+
+                await _quesMasterService.SaveDbContextAsync();
+            }
+            else
+            {
+                //에러처리 필요
+                return View(bizCheck08ViewModel);
+            }
+
+            if (bizCheck08ViewModel.SubmitType == "T")
+            {
+                return RedirectToAction("BizCheck08", "Report", new { @questionSn = questionSn });
+            }
+            else
+            {
+                return RedirectToAction("BizCheck09", "Report", new { @questionSn = questionSn });
+            }
+        }
+
+
+        public async Task<ActionResult> BizCheck09(string questionSn)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            if (string.IsNullOrEmpty(questionSn))
+            {
+                // 오류 처리해야함.
+                return View();
+            }
+
+            var bizCheck09 = new BizCheck09ViewModel();
+
+            // A1B108 : 품질관리
+            var quesResult1s = await _quesResult1Service.GetQuesResult1sAsync(int.Parse(questionSn), "A1B108");
+
+            if (quesResult1s.Count() != 6)
+            {
+                var quesCheckList = await _quesCheckListService.GetQuesCheckListAsync("A1B108");
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesCheckList);
+
+                foreach (var item in quesCheckListView)
+                {
+                    item.QuestionSn = int.Parse(questionSn);
+                    item.AnsVal = false;
+                }
+
+                bizCheck09.QualityControl = quesCheckListView;
+            }
+            else
+            {
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesResult1s);
+                bizCheck09.QualityControl = quesCheckListView;
+            }
+
+
+            bizCheck09.QuestionSn = int.Parse(questionSn);
+            return View(bizCheck09);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BizCheck09(BizCheck09ViewModel bizCheck09ViewModel)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            int questionSn = bizCheck09ViewModel.QuestionSn;
+
+            if (bizCheck09ViewModel.QuestionSn > 0)
+            {
+                var quesMaster = await _quesMasterService.GetQuesResult1Async(questionSn);
+
+                if (bizCheck09ViewModel.SubmitType == "N")
+                {
+                    quesMaster.SaveStatus = 12;
+                }
+
+                // A1B108 : 품질관리
+                foreach (var item in bizCheck09ViewModel.QualityControl)
+                {
+                    var checkItem = quesMaster.QuesResult1.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == item.CheckListSn);
+                    if (checkItem == null)
+                    {
+                        var result1 = new QuesResult1();
+                        result1.QuestionSn = questionSn;
+                        result1.CheckListSn = item.CheckListSn;
+                        result1.AnsVal = item.AnsVal;
+                        result1.RegDt = DateTime.Now;
+                        result1.RegId = Session[Global.LoginID].ToString();
+                        quesMaster.QuesResult1.Add(result1);
+                    }
+                    else
+                    {
+                        checkItem.AnsVal = item.AnsVal;
+                        checkItem.UpdDt = DateTime.Now;
+                        checkItem.UpdId = Session[Global.LoginID].ToString();
+                    }
+                }
+
+                await _quesMasterService.SaveDbContextAsync();
+            }
+            else
+            {
+                //에러처리 필요
+                return View(bizCheck09ViewModel);
+            }
+
+            if (bizCheck09ViewModel.SubmitType == "T")
+            {
+                return RedirectToAction("BizCheck09", "Report", new { @questionSn = questionSn });
+            }
+            else
+            {
+                return RedirectToAction("BizCheck10", "Report", new { @questionSn = questionSn });
+            }
+        }
+
+
+        public async Task<ActionResult> BizCheck10(string questionSn)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            if (string.IsNullOrEmpty(questionSn))
+            {
+                // 오류 처리해야함.
+                return View();
+            }
+
+            var bizCheck10 = new BizCheck10ViewModel();
+
+            // A1C101 : 마케팅 전략의 수립 및 실행
+            var quesResult1s = await _quesResult1Service.GetQuesResult1sAsync(int.Parse(questionSn), "A1C101");
+
+            if (quesResult1s.Count() != 7)
+            {
+                var quesCheckList = await _quesCheckListService.GetQuesCheckListAsync("A1C101");
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesCheckList);
+
+                foreach (var item in quesCheckListView)
+                {
+                    item.QuestionSn = int.Parse(questionSn);
+                    item.AnsVal = false;
+                }
+
+                bizCheck10.MarketingPlan = quesCheckListView;
+            }
+            else
+            {
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesResult1s);
+                bizCheck10.MarketingPlan = quesCheckListView;
+            }
+
+
+            bizCheck10.QuestionSn = int.Parse(questionSn);
+            return View(bizCheck10);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BizCheck10(BizCheck10ViewModel bizCheck10ViewModel)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            int questionSn = bizCheck10ViewModel.QuestionSn;
+
+            if (bizCheck10ViewModel.QuestionSn > 0)
+            {
+                var quesMaster = await _quesMasterService.GetQuesResult1Async(questionSn);
+
+                if (bizCheck10ViewModel.SubmitType == "N")
+                {
+                    quesMaster.SaveStatus = 13;
+                }
+
+                // A1B108 : 품질관리
+                foreach (var item in bizCheck10ViewModel.MarketingPlan)
+                {
+                    var checkItem = quesMaster.QuesResult1.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == item.CheckListSn);
+                    if (checkItem == null)
+                    {
+                        var result1 = new QuesResult1();
+                        result1.QuestionSn = questionSn;
+                        result1.CheckListSn = item.CheckListSn;
+                        result1.AnsVal = item.AnsVal;
+                        result1.RegDt = DateTime.Now;
+                        result1.RegId = Session[Global.LoginID].ToString();
+                        quesMaster.QuesResult1.Add(result1);
+                    }
+                    else
+                    {
+                        checkItem.AnsVal = item.AnsVal;
+                        checkItem.UpdDt = DateTime.Now;
+                        checkItem.UpdId = Session[Global.LoginID].ToString();
+                    }
+                }
+
+                await _quesMasterService.SaveDbContextAsync();
+            }
+            else
+            {
+                //에러처리 필요
+                return View(bizCheck10ViewModel);
+            }
+
+            if (bizCheck10ViewModel.SubmitType == "T")
+            {
+                return RedirectToAction("BizCheck10", "Report", new { @questionSn = questionSn });
+            }
+            else
+            {
+                return RedirectToAction("BizCheck11", "Report", new { @questionSn = questionSn });
+            }
+        }
+
+        public async Task<ActionResult> BizCheck11(string questionSn)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            if (string.IsNullOrEmpty(questionSn))
+            {
+                // 오류 처리해야함.
+                return View();
+            }
+
+            var bizCheck11 = new BizCheck11ViewModel();
+
+            // A1C102 : 고객관리
+            var quesResult1s = await _quesResult1Service.GetQuesResult1sAsync(int.Parse(questionSn), "A1C102");
+
+            if (quesResult1s.Count() != 5)
+            {
+                var quesCheckList = await _quesCheckListService.GetQuesCheckListAsync("A1C102");
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesCheckList);
+
+                foreach (var item in quesCheckListView)
+                {
+                    item.QuestionSn = int.Parse(questionSn);
+                    item.AnsVal = false;
+                }
+
+                bizCheck11.CustomerMng = quesCheckListView;
+            }
+            else
+            {
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesResult1s);
+                bizCheck11.CustomerMng = quesCheckListView;
+            }
+
+
+            bizCheck11.QuestionSn = int.Parse(questionSn);
+            return View(bizCheck11);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BizCheck11(BizCheck11ViewModel bizCheck11ViewModel)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            int questionSn = bizCheck11ViewModel.QuestionSn;
+
+            if (bizCheck11ViewModel.QuestionSn > 0)
+            {
+                var quesMaster = await _quesMasterService.GetQuesResult1Async(questionSn);
+
+                if (bizCheck11ViewModel.SubmitType == "N")
+                {
+                    quesMaster.SaveStatus = 14;
+                }
+
+                // A1B108 : 품질관리
+                foreach (var item in bizCheck11ViewModel.CustomerMng)
+                {
+                    var checkItem = quesMaster.QuesResult1.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == item.CheckListSn);
+                    if (checkItem == null)
+                    {
+                        var result1 = new QuesResult1();
+                        result1.QuestionSn = questionSn;
+                        result1.CheckListSn = item.CheckListSn;
+                        result1.AnsVal = item.AnsVal;
+                        result1.RegDt = DateTime.Now;
+                        result1.RegId = Session[Global.LoginID].ToString();
+                        quesMaster.QuesResult1.Add(result1);
+                    }
+                    else
+                    {
+                        checkItem.AnsVal = item.AnsVal;
+                        checkItem.UpdDt = DateTime.Now;
+                        checkItem.UpdId = Session[Global.LoginID].ToString();
+                    }
+                }
+
+                await _quesMasterService.SaveDbContextAsync();
+            }
+            else
+            {
+                //에러처리 필요
+                return View(bizCheck11ViewModel);
+            }
+
+            if (bizCheck11ViewModel.SubmitType == "T")
+            {
+                return RedirectToAction("BizCheck11", "Report", new { @questionSn = questionSn });
+            }
+            else
+            {
+                return RedirectToAction("BizCheck12", "Report", new { @questionSn = questionSn });
+            }
+        }
+
+
+
+        public async Task<ActionResult> BizCheck12(string questionSn)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            if (string.IsNullOrEmpty(questionSn))
+            {
+                // 오류 처리해야함.
+                return View();
+            }
+
+            var bizCheck12 = new BizCheck12ViewModel();
+
+            // A1D101 : 인적자윈의 확보와 개발관리
+            var quesResult1s = await _quesResult1Service.GetQuesResult1sAsync(int.Parse(questionSn), "A1D101");
+
+            if (quesResult1s.Count() != 5)
+            {
+                var quesCheckList = await _quesCheckListService.GetQuesCheckListAsync("A1D101");
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesCheckList);
+
+                foreach (var item in quesCheckListView)
+                {
+                    item.QuestionSn = int.Parse(questionSn);
+                    item.AnsVal = false;
+                }
+
+                bizCheck12.HRMng = quesCheckListView;
+            }
+            else
+            {
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesResult1s);
+                bizCheck12.HRMng = quesCheckListView;
+            }
+
+            // A1D102 : 이적자원의 보상 및 유지관리
+            var quesResult1sMaintenance = await _quesResult1Service.GetQuesResult1sAsync(int.Parse(questionSn), "A1D102");
+
+            if (quesResult1sMaintenance.Count() != 6)
+            {
+                var quesCheckList = await _quesCheckListService.GetQuesCheckListAsync("A1D102");
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesCheckList);
+
+                foreach (var item in quesCheckListView)
+                {
+                    item.QuestionSn = int.Parse(questionSn);
+                    item.AnsVal = false;
+                }
+
+                bizCheck12.HRMaintenance = quesCheckListView;
+            }
+            else
+            {
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesResult1s);
+                bizCheck12.HRMaintenance = quesCheckListView;
+            }
+
+
+            bizCheck12.QuestionSn = int.Parse(questionSn);
+            return View(bizCheck12);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BizCheck12(BizCheck12ViewModel bizCheck12ViewModel)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            int questionSn = bizCheck12ViewModel.QuestionSn;
+
+            if (bizCheck12ViewModel.QuestionSn > 0)
+            {
+                var quesMaster = await _quesMasterService.GetQuesResult1Async(questionSn);
+
+                if (bizCheck12ViewModel.SubmitType == "N")
+                {
+                    quesMaster.SaveStatus = 15;
+                }
+
+                // A1D101 : 인적자윈의 확보와 개발관리
+                foreach (var item in bizCheck12ViewModel.HRMng)
+                {
+                    var checkItem = quesMaster.QuesResult1.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == item.CheckListSn);
+                    if (checkItem == null)
+                    {
+                        var result1 = new QuesResult1();
+                        result1.QuestionSn = questionSn;
+                        result1.CheckListSn = item.CheckListSn;
+                        result1.AnsVal = item.AnsVal;
+                        result1.RegDt = DateTime.Now;
+                        result1.RegId = Session[Global.LoginID].ToString();
+                        quesMaster.QuesResult1.Add(result1);
+                    }
+                    else
+                    {
+                        checkItem.AnsVal = item.AnsVal;
+                        checkItem.UpdDt = DateTime.Now;
+                        checkItem.UpdId = Session[Global.LoginID].ToString();
+                    }
+                }
+
+
+                // A1D102 : 이적자원의 보상 및 유지관리
+                foreach (var item in bizCheck12ViewModel.HRMaintenance)
+                {
+                    var checkItem = quesMaster.QuesResult1.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == item.CheckListSn);
+                    if (checkItem == null)
+                    {
+                        var result1 = new QuesResult1();
+                        result1.QuestionSn = questionSn;
+                        result1.CheckListSn = item.CheckListSn;
+                        result1.AnsVal = item.AnsVal;
+                        result1.RegDt = DateTime.Now;
+                        result1.RegId = Session[Global.LoginID].ToString();
+                        quesMaster.QuesResult1.Add(result1);
+                    }
+                    else
+                    {
+                        checkItem.AnsVal = item.AnsVal;
+                        checkItem.UpdDt = DateTime.Now;
+                        checkItem.UpdId = Session[Global.LoginID].ToString();
+                    }
+                }
+
+                await _quesMasterService.SaveDbContextAsync();
+            }
+            else
+            {
+                //에러처리 필요
+                return View(bizCheck12ViewModel);
+            }
+
+            if (bizCheck12ViewModel.SubmitType == "T")
+            {
+                return RedirectToAction("BizCheck12", "Report", new { @questionSn = questionSn });
+            }
+            else
+            {
+                return RedirectToAction("BizCheck13", "Report", new { @questionSn = questionSn });
+            }
+        }
+
+
+        public async Task<ActionResult> BizCheck13(string questionSn)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            if (string.IsNullOrEmpty(questionSn))
+            {
+                // 오류 처리해야함.
+                return View();
+            }
+
+            var bizCheck13 = new BizCheck13ViewModel();
+
+            // A1E102 : 지적재산권성과
+            var quesResult2s = await _quesResult2Service.GetQuesResult2sAsync(int.Parse(questionSn), "A1E102");
+
+            if (quesResult2s.Count() != 5)
+            {
+                var quesCheckList = await _quesCheckListService.GetQuesCheckListAsync("A1E102");
+                var quesYearListView = Mapper.Map<List<QuesYearListViewModel>>(quesCheckList);
+
+                foreach (var item in quesYearListView)
+                {
+                    item.QuestionSn = int.Parse(questionSn);
+                    item.BasicYear = DateTime.Now.Year;
+                    item.D = "0";
+                    item.D451 = "0";
+                    item.D452 = "0";
+                    item.D453 = "0";
+                }
+
+                //등록 특허
+                bizCheck13.RegPatent = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10201");
+                //등록 실용신안
+                bizCheck13.RegUtilityModel = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10202");
+                //출원 특허
+                bizCheck13.ApplyPatent = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10203");
+                //출원 실용신안
+                bizCheck13.ApplyUtilityModel = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10204");
+                //기타
+                bizCheck13.Etc = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10205");
+            }
+            else
+            {
+                var quesYearListView = Mapper.Map<List<QuesYearListViewModel>>(quesResult2s);
+                //등록 특허
+                bizCheck13.RegPatent = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10201");
+                //등록 실용신안
+                bizCheck13.RegUtilityModel = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10202");
+                //출원 특허
+                bizCheck13.ApplyPatent = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10203");
+                //출원 실용신안
+                bizCheck13.ApplyUtilityModel = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10204");
+                //기타
+                bizCheck13.Etc = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10205");
+            }
+
+
+            // A1E103 : 임직원 수
+            var quesResult2sTotalEmp = await _quesResult2Service.GetQuesResult2sAsync(int.Parse(questionSn), "A1E103");
+
+            if (quesResult2sTotalEmp.Count() != 1)
+            {
+                var quesCheckList = await _quesCheckListService.GetQuesCheckListAsync("A1E103");
+                var quesYearListView = Mapper.Map<List<QuesYearListViewModel>>(quesCheckList);
+
+                foreach (var item in quesYearListView)
+                {
+                    item.QuestionSn = int.Parse(questionSn);
+                    item.BasicYear = DateTime.Now.Year;
+                    item.D = "0";
+                    item.D451 = "0";
+                    item.D452 = "0";
+                    item.D453 = "0";
+                }
+
+                //전체 임직원
+                bizCheck13.TotalEmp = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10301");
+            }
+            else
+            {
+                var quesYearListView = Mapper.Map<List<QuesYearListViewModel>>(quesResult2sTotalEmp);
+                //전체 임직원
+                bizCheck13.TotalEmp = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10301");
+            }
+
+            bizCheck13.QuestionSn = int.Parse(questionSn);
+            return View(bizCheck13);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BizCheck13(BizCheck13ViewModel bizCheck13ViewModel)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            int questionSn = bizCheck13ViewModel.QuestionSn;
+
+            if (bizCheck13ViewModel.QuestionSn > 0)
+            {
+                var quesYearMaster = await _quesMasterService.GetQuesResult2Async(questionSn);
+
+                if (bizCheck13ViewModel.SubmitType == "N")
+                {
+                    quesYearMaster.SaveStatus = 16;
+                }
+
+                //등록특허
+                var yearRegPatentItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.RegPatent.CheckListSn);
+                if (yearRegPatentItem == null)
+                {
+                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.RegPatent);
+                    quesYear.QuestionSn = questionSn;
+                    quesYear.RegDt = DateTime.Now;
+                    quesYear.RegId = Session[Global.LoginID].ToString();
+                    quesYear.BasicYear = quesYearMaster.BasicYear;
+                    quesYearMaster.QuesResult2.Add(quesYear);
+                }
+                else
+                {
+                    yearRegPatentItem.D = bizCheck13ViewModel.RegPatent.D;
+                    yearRegPatentItem.UpdDt = DateTime.Now;
+                    yearRegPatentItem.UpdId = Session[Global.LoginID].ToString();
+                }
+
+                //등록실용신안
+                var yearRegUtilityModelItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.RegUtilityModel.CheckListSn);
+                if (yearRegUtilityModelItem == null)
+                {
+                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.RegUtilityModel);
+                    quesYear.QuestionSn = questionSn;
+                    quesYear.RegDt = DateTime.Now;
+                    quesYear.RegId = Session[Global.LoginID].ToString();
+                    quesYear.BasicYear = quesYearMaster.BasicYear;
+                    quesYearMaster.QuesResult2.Add(quesYear);
+                }
+                else
+                {
+                    yearRegUtilityModelItem.D = bizCheck13ViewModel.RegUtilityModel.D;
+                    yearRegUtilityModelItem.UpdDt = DateTime.Now;
+                    yearRegUtilityModelItem.UpdId = Session[Global.LoginID].ToString();
+                }
+
+                //출원특허
+                var yearApplyPatentItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.ApplyPatent.CheckListSn);
+                if (yearApplyPatentItem == null)
+                {
+                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.ApplyPatent);
+                    quesYear.QuestionSn = questionSn;
+                    quesYear.RegDt = DateTime.Now;
+                    quesYear.RegId = Session[Global.LoginID].ToString();
+                    quesYear.BasicYear = quesYearMaster.BasicYear;
+                    quesYearMaster.QuesResult2.Add(quesYear);
+                }
+                else
+                {
+                    yearApplyPatentItem.D = bizCheck13ViewModel.ApplyPatent.D;
+                    yearApplyPatentItem.UpdDt = DateTime.Now;
+                    yearApplyPatentItem.UpdId = Session[Global.LoginID].ToString();
+                }
+
+                //출원실용신안
+                var yearApplyUtilityModelItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.ApplyUtilityModel.CheckListSn);
+                if (yearApplyUtilityModelItem == null)
+                {
+                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.ApplyUtilityModel);
+                    quesYear.QuestionSn = questionSn;
+                    quesYear.RegDt = DateTime.Now;
+                    quesYear.RegId = Session[Global.LoginID].ToString();
+                    quesYear.BasicYear = quesYearMaster.BasicYear;
+                    quesYearMaster.QuesResult2.Add(quesYear);
+                }
+                else
+                {
+                    yearApplyUtilityModelItem.D = bizCheck13ViewModel.ApplyUtilityModel.D;
+                    yearApplyUtilityModelItem.UpdDt = DateTime.Now;
+                    yearApplyUtilityModelItem.UpdId = Session[Global.LoginID].ToString();
+                }
+
+                //기타
+                var yearEtcItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.Etc.CheckListSn);
+                if (yearEtcItem == null)
+                {
+                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.Etc);
+                    quesYear.QuestionSn = questionSn;
+                    quesYear.RegDt = DateTime.Now;
+                    quesYear.RegId = Session[Global.LoginID].ToString();
+                    quesYear.BasicYear = quesYearMaster.BasicYear;
+                    quesYearMaster.QuesResult2.Add(quesYear);
+                }
+                else
+                {
+                    yearEtcItem.D = bizCheck13ViewModel.Etc.D;
+                    yearEtcItem.UpdDt = DateTime.Now;
+                    yearEtcItem.UpdId = Session[Global.LoginID].ToString();
+                }
+
+
+                //전체 임직원
+                var yearTotalEmpItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.TotalEmp.CheckListSn);
+                if (yearTotalEmpItem == null)
+                {
+                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.TotalEmp);
+                    quesYear.QuestionSn = questionSn;
+                    quesYear.RegDt = DateTime.Now;
+                    quesYear.RegId = Session[Global.LoginID].ToString();
+                    quesYear.BasicYear = quesYearMaster.BasicYear;
+                    quesYearMaster.QuesResult2.Add(quesYear);
+                }
+                else
+                {
+                    yearTotalEmpItem.D = bizCheck13ViewModel.TotalEmp.D;
+                    yearTotalEmpItem.D451 = bizCheck13ViewModel.TotalEmp.D451;
+                    yearTotalEmpItem.D452 = bizCheck13ViewModel.TotalEmp.D452;
+                    yearTotalEmpItem.D453 = bizCheck13ViewModel.TotalEmp.D453;
+                    yearTotalEmpItem.UpdDt = DateTime.Now;
+                    yearTotalEmpItem.UpdId = Session[Global.LoginID].ToString();
+                }
+
+                await _quesMasterService.SaveDbContextAsync();
+            }
+            else
+            {
+                //에러처리 필요
+                return View(bizCheck13ViewModel);
+            }
+
+            if (bizCheck13ViewModel.SubmitType == "T")
+            {
+                return RedirectToAction("BizCheck13", "Report", new { @questionSn = questionSn });
+            }
+            else
+            {
+                return RedirectToAction("FinanceCheck01", "Report", new { @questionSn = questionSn });
+            }
+        }
+
+        public ActionResult FinanceCheck01(string questionSn)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            var viewModel = new QuesViewModel();
+            viewModel.QuestionSn = int.Parse(questionSn);
+            return View(viewModel);
+        }
+
         public ActionResult FinanceMng()
         {
             ViewBag.LeftMenu = Global.Report;

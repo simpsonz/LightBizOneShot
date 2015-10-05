@@ -213,4 +213,54 @@ namespace BizOneShot.Light.Models.ViewModels
         public QuesYearListViewModel BizResultCnt { get; set; }
     }
 
+    public class BizCheck08ViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SubmitType { get; set; } // Submit 방식
+        public IList<QuesCheckListViewModel> ProducEquip { get; set; }
+        public IList<QuesCheckListViewModel> ProcessControl { get; set; }
+    }
+
+    public class BizCheck09ViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SubmitType { get; set; } // Submit 방식
+        public IList<QuesCheckListViewModel> QualityControl { get; set; }
+    }
+
+    public class BizCheck10ViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SubmitType { get; set; } // Submit 방식
+        public IList<QuesCheckListViewModel> MarketingPlan { get; set; }
+    }
+
+    public class BizCheck11ViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SubmitType { get; set; } // Submit 방식
+        public IList<QuesCheckListViewModel> CustomerMng { get; set; }
+    }
+
+    public class BizCheck12ViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SubmitType { get; set; } // Submit 방식
+        public IList<QuesCheckListViewModel> HRMng { get; set; }
+        public IList<QuesCheckListViewModel> HRMaintenance { get; set; }
+    }
+
+
+    public class BizCheck13ViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SubmitType { get; set; } // Submit 방식
+        public QuesYearListViewModel RegPatent{ get; set; } //등록된 특허
+        public QuesYearListViewModel RegUtilityModel { get; set; } // 등록된 실용신안
+        public QuesYearListViewModel ApplyPatent { get; set; } //출원중인 특허
+        public QuesYearListViewModel ApplyUtilityModel { get; set; } //출원중인 실용신안
+        public QuesYearListViewModel Etc { get; set; } //기타
+        public QuesYearListViewModel TotalEmp { get; set; } //전체임직원
+    }
+
 }

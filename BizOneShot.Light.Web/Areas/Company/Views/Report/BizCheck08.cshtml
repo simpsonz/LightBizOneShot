@@ -1,0 +1,144 @@
+﻿@model BizOneShot.Light.Models.ViewModels.BizCheck08ViewModel
+
+@{
+    Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_report').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicsurvey').addClass('on');
+
+    });
+
+    function goSubmit(submitType) {
+        $('#submitType').val(submitType);
+        $('#mainForm').submit();
+    }
+
+</script>
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_02">
+        <em>기초경영역량 문진표</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_step01"><em>STEP01.진단개요</em></li>
+            <li class="basic_step02"><a href="" class="ablock"><em>STEP02.기업정보</em></a></li>
+            <li class="basic_step03 on"><a href="" class="ablock"><em>STEP03.경영진단</em></a></li>
+            <li class="basic_step04"><a href="" class="ablock"><em>STEP04.재무진단</em></a></li>
+            <li class="basic_step05"><a href="" class="ablock"><em>STEP05.조직진단</em></a></li>
+            <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
+        </ul>
+    </div>
+@using (Html.BeginForm("BizCheck08", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
+{
+    @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
+    @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2 noline">
+            <div class="title_medium">Ⅲ. 경영진단</div>
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox">
+                    <div class="listBox_title">
+                        <span class="big_span">생산설비의 운영체계 및 관리 _</span><span class="small_span">생산설비의 효율적인 운영 관리 수준</span>
+                    </div>
+                    <div class="listBox_tap bg_on">
+                        <span>체크리스트</span>
+                    </div>
+                    <table class="join_info">
+                        <colgroup>
+                            <col width="90%">
+                            <col width="10%">
+                        </colgroup>
+                        @if (Model == null || Model.ProducEquip == null)
+                        {
+                            <tr>
+                                <td colspan="2" style="text-align:center;">검색 결과가 없습니다.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            for (int i = 0; i < Model.ProducEquip.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <span class="full_span">@Model.ProducEquip[i].Title</span>
+                                        <span class="min_span">@Model.ProducEquip[i].Content1</span>
+                                        @if (@Model.ProducEquip[i].Content2 != null)
+                                        {
+                                            <span class="min_span">@Model.ProducEquip[i].Content2</span>
+                                        }
+                                    </td>
+                                    <td>@Html.CheckBoxFor(m => @Model.ProducEquip[i].AnsVal) @Html.HiddenFor(m => @Model.ProducEquip[i].CheckListSn)</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+                <div class="main_mid_listBox">
+                    <div class="listBox_title">
+                        <span class="big_span">공정관리 _</span><span class="small_span">
+                            공정관리
+                            적절성 수준
+                        </span>
+                    </div>
+                    <div class="listBox_tap bg_on">
+                        <span>체크리스트</span>
+                    </div>
+                    <table class="join_info">
+                        <colgroup>
+                            <col width="90%">
+                            <col width="10%">
+                        </colgroup>
+                        @if (Model == null || Model.ProcessControl == null)
+                        {
+                            <tr>
+                                <td colspan="2" style="text-align:center;">검색 결과가 없습니다.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            for (int i = 0; i < Model.ProcessControl.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <span class="full_span">@Model.ProcessControl[i].Title</span>
+                                        <span class="min_span">@Model.ProcessControl[i].Content1</span>
+                                        @if (@Model.ProcessControl[i].Content2 != null)
+                                        {
+                                            <span class="min_span">@Model.ProcessControl[i].Content2</span>
+                                        }
+                                    </td>
+                                    <td>@Html.CheckBoxFor(m => @Model.ProcessControl[i].AnsVal) @Html.HiddenFor(m => @Model.ProcessControl[i].CheckListSn)</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--container//-->
+    <div id="btnwrap_sub">
+        <div class="rightwrap left">
+            <a href="@Url.Action("BizCheck07", "Report", new { area = "Company", @questionSn = @Model.QuestionSn })" class="pre" value="이전"><em>이전</em></a>
+        </div>
+        <div class="rightwrap right">
+            <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+        </div>
+        <div class="rightwrap centerwrap left auto_m">
+            <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
+        </div>
+    </div>
+}
+</div>
