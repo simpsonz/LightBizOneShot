@@ -156,13 +156,13 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
                     var scUsrResume = new ScUsrResume { ScFileInfo = scFileInfo };
                     scUsr.ScUsrResume = scUsrResume;
 
-                    _scUsrService.ModifyMentorInfo(scUsr);
+                    //_scUsrService.ModifyMentorInfo(scUsr);
 
                     await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
                 }
             }
 
-            //_scUsrService.ModifyMentorInfo(scUsr);
+            _scUsrService.ModifyMentorInfo(scUsr);
 
             //다성공시 커밋
             await _scUsrService.SaveDbContextAsync();

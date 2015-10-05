@@ -17,6 +17,7 @@ namespace BizOneShot.Light.Models.ViewModels
         public string FileNm { get; set; }
         public string FilePath { get; set; }
         public string FileUrl { get; set; }
+        public string FileBase64String { get; set; }
         public string FileType { get; set; }
         public string FileExtension { get; set; }
         public long FileSizeInbytes { get; set; }

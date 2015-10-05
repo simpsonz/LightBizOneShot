@@ -1,17 +1,165 @@
-﻿
+﻿@model BizOneShot.Light.Models.ViewModels.MentoringReportViewModel
+
 @{
-    Layout = null;
+    Layout = "~/Areas/Mentor/Views/Shared/_MainLayout.cshtml";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>MentoringReportDetail</title>
-</head>
-<body>
-    <div> 
-    </div>
-</body>
-</html>
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_biz04').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb1').addClass('on');
+    });
+</script>
+
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title mentor_01_02_02"><em>멘토링 일지 상세보기</em></div>
+
+    <form method="" action="" name="" id="">
+        <div class="tablewrap">
+            <table>
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+
+                <tr>
+                    <th>사업명</th>
+                    <td>@Model.BizWorkNm</td>
+                </tr>
+                <tr>
+                    <th>기업명</th>
+                    <td>@Model.CompNm</td>
+                </tr>
+            </table>
+            <div class="line_dot10"></div>
+
+            <table>
+                <!--멘토링일시 외-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="215px" />
+                    <col width="375px" />
+                </colgroup>
+                <tr>
+                    <th>멘토링 일시</th>
+                    <td colspan="2">@Model.MentoringDt.Value.ToString("yyyy-MM-dd")<span class="blank10 bold">/</span>@Model.MentoringStHr ~ @Model.MentoringEdHr</td>
+                </tr>
+                <tr>
+                    <th>멘토링 장소</th>
+                    <td colspan="2">@Model.MentoringPlace</td>
+                </tr>
+                <tr>
+                    <th>참석자</th>
+                    <td colspan="2">@Model.Attendee</td>
+                </tr>
+                <tr>
+                    <th>멘토링 분야</th>
+                    <td colspan="2">@Model.MentorAreaNm</td>
+                </tr>
+                <tr>
+                    <th>멘토링 주제</th>
+                    <td colspan="2">@Model.MentoringSubject</td>
+                </tr>
+                <tr>
+                    <th>멘토링 내용</th>
+                    <td colspan="2" width="580px">
+                        <p>@Html.RepladeHtmlText(Model.MentoringContents)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="topcen" colspan="2">멘토링 사진 1</th>
+                    <th class="topcen">멘토링 사진 2</th>
+                </tr>
+                <tr>
+                    <td class="center file_photo" colspan="2"><img src="@Model.MentoringPhoto[0].FileBase64String"></td>
+                    <td class="center file_photo"><img src="@Model.MentoringPhoto[1].FileBase64String"></td>
+                </tr>
+            </table>
+
+            <div class="line_dot20"></div>
+
+            <table>
+                <!--자문실시일-->
+                <colgroup>
+                    <col width="160px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th colspan="2" class="topcen">상기와 같이 자문을 실시 하였습니다</th>
+                </tr>
+                <tr>
+                    <th>작성일</th>
+                    <td class="bold">@Model.SubmitDt.Value.ToString("yyyy-MM-dd")</td>
+                </tr>
+            </table>
+
+            <div class="line_dot10"></div>
+
+            <table>
+
+                @if (Model.FileContents.Count == 1)
+                {
+                    <colgroup>
+                        <col width="160px" />
+                        <col width="590px" />
+                    </colgroup>
+
+                    <tr>
+                        <!--첨부파일1개일때-->
+                        <th>첨부파일</th>
+                        <td colspan="4" class="nopad">
+                            <div id="file_downwrap">
+                                <ul>
+                                    <li><span>@Model.FileContents[0].FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DownloadReportFile", Model.FileContents[0])';" value="다운로드"></button></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr><!--첨부파일1개일때 끝-->
+                }
+                else if (Model.FileContents.Count > 1)
+                {
+                    <colgroup>
+                        <col width="160px" />
+                        <col width="340px" />
+                        <col width="150px" />
+                    </colgroup>
+
+                    <tr>
+                        <!--첨부파일2개이상일때-->
+                        <th>첨부파일</th>
+                        <td colspan="3" class="nopad">
+                            <div id="file_downwrap">
+                                <ul>
+                                    @foreach (var item in Model.FileContents)
+                                    {
+                                        @*<li><span>@item.FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DocumentDownload", new { fileSn = @item.FileSn })';" value="다운로드"></button></li>*@
+
+                                        <li><span>@item.FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DownloadReportFile", item)';" value="다운로드"></button></li>
+
+                                    }
+                                </ul>
+                            </div>
+                        </td>
+                        <td class="all"><button type="button" class="file_all_down" onclick="location.href='@Url.Action("DownloadReportFileMulti", new { reportSn = Model.ReportSn })';" value="전체 다운로드"></button></td>
+
+                    </tr><!--첨부파일2개이상일때 끝-->
+                }
+
+            </table> 
+        </div><!--tablewrap//-->
+
+        <div id="btnwrap_sub">
+            <div class="rightwrap">
+                <button type="submit" class="print" value="출력"><em>출력</em></button>
+                <a href="@Url.Action("ModifyMentoringReport","MentoringReport", new { reportSn = Model.ReportSn })" class="modify" title="수정"><em>수정</em></a>
+                <a href="@Url.Action("MentoringReportList","MentoringReport", new {MentoringDt= @ViewBag.SelectParam.MentoringDt, BizWorkSn = @ViewBag.SelectParam.BizWorkSn, CompSn = @ViewBag.SelectParam.CompSn })" class="list2"><em>목록</em></a>
+            </div>
+        </div><!--btnwrap_sub//-->
+
+    </form>
+
+</div><!--sub_rightwrap//-->

@@ -7,8 +7,10 @@ using System.Configuration;
 using System.IO;
 using Microsoft.Win32;
 using System.Web;
+using System.Web.Helpers;
 using Ionic.Zip;
 using BizOneShot.Light.Models.ViewModels;
+
 
 
 namespace BizOneShot.Light.Util.Helper
@@ -19,10 +21,10 @@ namespace BizOneShot.Light.Util.Helper
 
         public bool hasImageFile(HttpPostedFileBase file)
         {
-            string fileExtension = Path.GetExtension(file.FileName);
+            string fileExtension = Path.GetExtension(file.FileName).ToUpper();
 
-            return fileExtension.EndsWith("jpg") || fileExtension.EndsWith("jpeg") || fileExtension.EndsWith("gif")
-                || fileExtension.EndsWith("png") || fileExtension.EndsWith("bmp");
+            return fileExtension.EndsWith("JPG") || fileExtension.EndsWith("JPEG") || fileExtension.EndsWith("GIF")
+                || fileExtension.EndsWith("PNG") || fileExtension.EndsWith("BMP");
         }
 
         public string  GetUploadFileName(HttpPostedFileBase file)
@@ -187,6 +189,29 @@ namespace BizOneShot.Light.Util.Helper
 
             return String.IsNullOrWhiteSpace(value) ? null : value;
         }
+
+
+        public async Task<string> GetPhoteString(string filePath)
+        {
+            string rootFilePath = ConfigurationManager.AppSettings["RootFilePath"];
+
+            string fileFullPath = Path.Combine(rootFilePath, filePath);
+
+            WebImage img = new WebImage(File.ReadAllBytes(fileFullPath));
+            if (img.Width > 500)
+                img.Resize(500, 500);
+            return await Task.Run(() => "data:image/png;base64," + Convert.ToBase64String(img.GetBytes()));
+            //return await Task.Run(() => "data:image/png;base64," + Convert.ToBase64String(File.ReadAllBytes(fileFullPath)));
+        }
+
+        //public string GetPhoteString(string filePath)
+        //{
+        //    string rootFilePath = ConfigurationManager.AppSettings["RootFilePath"];
+
+        //    string fileFullPath = Path.Combine(rootFilePath, filePath);
+
+        //    return "data:image/png;base64," + Convert.ToBase64String(File.ReadAllBytes(fileFullPath));
+        //}
 
     }
 }
