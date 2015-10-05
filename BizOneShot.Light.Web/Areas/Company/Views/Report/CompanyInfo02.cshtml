@@ -10,6 +10,10 @@
         $('#naviwrap_biz > .navi_biz > a.navi_report').addClass('on');
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicsurvey').addClass('on');
+
+        if ($('#status').val() == "C") {
+            $('#mainForm input').attr('disabled', true);
+        }
     });
 
     function goSubmit(submitType) {
@@ -124,6 +128,7 @@
 {
     @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
     @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
+    @Html.HiddenFor(model => model.Status, new { @id = "status" })
     <div class="sub_report_checkbox">
         <div class="report_main_top2">
             <div class="title_medium">Ⅱ. 기업정보</div>
@@ -241,14 +246,24 @@
     <!--container//-->
     <div id="btnwrap_sub">
         <div class="rightwrap left">
-            <a href="@Url.Action("CompnayInfo01", "Report", new { area = "Company", @questionSn = @Model.QuestionSn })" class="pre" value="이전"><em>이전</em></a>
+            <a href="@Url.Action("CompanyInfo01", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="pre" value="이전"><em>이전</em></a>
         </div>
         <div class="rightwrap right">
-            <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+            @if (Model.Status != "C")
+                {
+                <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+            }
+            else
+            {
+                <a href="@Url.Action("BizCheck01", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="next" value="다음"><em>다음</em></a>
+            }
         </div>
-        <div class="rightwrap centerwrap left auto_m">
-            <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
-        </div>
+        @if (Model.Status != "C")
+        {
+            <div class="rightwrap centerwrap left auto_m">
+                <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
+            </div>
+        }
     </div>
 }
 </div>

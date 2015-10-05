@@ -302,6 +302,12 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.DetailCd, map => map.MapFrom(s => s.QuesCheckList.DetailCd))
                 .ForMember(d => d.SmallClassCd, map => map.MapFrom(s => s.QuesCheckList.SmallClassCd));
 
+            Mapper.CreateMap<QuesOgranAnalysis, OrgCompositionViewModel>()
+               .ForMember(d => d.PartialSum, map => map.MapFrom(s => s.ChiefCount + s.OfficerCount + s.BeginnerCount + s.StaffCount));
+
+
+            
+
 
 
 

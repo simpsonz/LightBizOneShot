@@ -10,6 +10,10 @@
         $('#naviwrap_biz > .navi_biz > a.navi_report').addClass('on');
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicsurvey').addClass('on');
+
+        if ($('#status').val() == "C") {
+            $('#mainForm input').attr('disabled', true);
+        }
     });
 
     function goSubmit(submitType) {
@@ -178,6 +182,7 @@
 {
     @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
     @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
+    @Html.HiddenFor(model => model.Status, new { @id = "status" })
     <div class="sub_report_checkbox">
         <div class="report_main_top2">
             <div class="title_medium">Ⅱ. 기업정보</div>
@@ -278,30 +283,37 @@
                 <table class="join_info">
                     <colgroup>
                         <col width="15%">
-                        <col width="85%">
+                        <col width="42%">
+                        <col width="43%">
                     </colgroup>
                     <tr>
                         <td class="left_memo" rowspan="2">기업유형</td>
                         <td>
-                            @Html.RadioButtonFor(model => model.CompType, "P", new { @checked = "checked" })영세기업 (상시근로자 5인 미만) @Html.RadioButtonFor(model => model.CompType, "S")소기업 (상시근로자 49인 이하)
+                            @Html.RadioButtonFor(model => model.CompType, "P", new { @checked = "checked" }) 영세기업 (상시 근로자 5인 미만) 
+                        </td>
+                        <td>
+                            @Html.RadioButtonFor(model => model.CompType, "S") 소기업 (상시 근로자 49인 이하)
                         </td>
 
                     </tr>
                     <tr>
                         <td>
-                            @Html.RadioButtonFor(model => model.CompType, "M")중기업 (상시근로자 299인 이하) @Html.RadioButtonFor(model => model.CompType, "B")중견기업 (상시근로자 300인 이상)
+                            @Html.RadioButtonFor(model => model.CompType, "M")중기업 (상시 근로자 299인 이하)
+                        </td>
+                        <td>
+                            @Html.RadioButtonFor(model => model.CompType, "B")중견기업 (상시 근로자 300인 이상)
                         </td>
                     </tr>
                     <tr>
                         <td class="left_memo">입주유무</td>
-                        <td>
+                        <td colspan="2">
                             @Html.RadioButtonFor(model => model.ResidentType, "R", new { @checked = "checked" })예비입주 @Html.RadioButtonFor(model => model.ResidentType, "U")입주기업
                             @Html.RadioButtonFor(model => model.ResidentType, "C")졸업기업
                         </td>
                     </tr>
                     <tr>
                         <td class="last_bottom left_memo">인증유무</td>
-                        <td>
+                        <td colspan="2">
                             @Html.CheckBoxFor(model => model.CertiVenture)벤처 @Html.CheckBoxFor(model => model.CertiInnobiz)이노비즈
                             @Html.CheckBoxFor(model => model.CertiMainbiz)메인비즈 @Html.CheckBoxFor(model => model.CertiRnd)부설연구소
                         </td>
@@ -315,14 +327,24 @@
     
     <div id="btnwrap_sub">
         <div class="rightwrap left">
-            <a href="@Url.Action("Summary02", "Report", new { area = "Company", @questionSn = @Model.QuestionSn })" class="pre" value="이전"><em>이전</em></a>
+            <a href="@Url.Action("Summary02", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="pre" value="이전"><em>이전</em></a>
         </div>
         <div class="rightwrap right">
-            <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+            @if (Model.Status != "C")
+                {
+                <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+            }
+            else
+            {
+                <a href="@Url.Action("CompanyInfo02", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="next" value="다음"><em>다음</em></a>
+            }
         </div>
-        <div class="rightwrap centerwrap left auto_m">
-            <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
-        </div>
+        @if (Model.Status != "C")
+        {
+            <div class="rightwrap centerwrap left auto_m">
+                <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
+            </div>
+        }
     </div>
 }
 </div>

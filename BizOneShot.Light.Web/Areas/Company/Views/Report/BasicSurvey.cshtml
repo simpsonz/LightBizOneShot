@@ -32,6 +32,7 @@
         $('#btView').attr("QuestionSn", arrValue[0]);
 
         $('#questionSn').val(arrValue[0]);
+        $('#status').val(arrValue[1]);
 
         if (arrValue[1] == "P")
             $('#write').show();
@@ -50,6 +51,7 @@
 @using (Html.BeginForm("Summary01", "Report", FormMethod.Get, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
 {
     @Html.Hidden("questionSn")
+    @Html.Hidden("status")
     <div id="sub_term_box">
         @Html.DropDownList("QuestionList", ViewBag.SelectQuestionList as SelectList, new { @class = "year", id = "SelectQuestion" })
         

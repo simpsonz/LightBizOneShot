@@ -64,7 +64,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Summary01(string questionSn)
+        public async Task<ActionResult> Summary01(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -89,6 +89,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 quesWriterViewModel.Email = scUsr.Email;
                 quesWriterViewModel.Name = scUsr.Name;
                 quesMasterViewModel.QuesWriter = quesWriterViewModel;
+                quesMasterViewModel.Status = status;
                 return View(quesMasterViewModel);
             }
         }
@@ -156,15 +157,16 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             }
         }
 
-        public ActionResult Summary02(string questionSn)
+        public ActionResult Summary02(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
             var quesViewModel = new QuesViewModel();
             quesViewModel.QuestionSn = int.Parse(questionSn);
+            quesViewModel.Status = status;
             return View(quesViewModel);
         }
 
-        public async Task<ActionResult> CompanyInfo01(string questionSn)
+        public async Task<ActionResult> CompanyInfo01(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -187,6 +189,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 quesCompInfoViewModel.Name = scUsr.ScCompInfo.OwnNm;
                 quesCompInfoViewModel.Email = scUsr.ScCompInfo.Email;
                 quesCompInfoViewModel.RegistrationNo = scUsr.ScCompInfo.RegistrationNo;
+                quesCompInfoViewModel.Status = status;
                 return View(quesCompInfoViewModel);
             }
             else
@@ -194,6 +197,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 var quesCompInfoView = Mapper.Map<QuesCompanyInfoViewModel>(quesCompInfo);
                 if (quesCompInfoView.PublishDt == "0001-01-01")
                     quesCompInfoView.PublishDt = null;
+                quesCompInfoView.Status = status;
                 return View(quesCompInfoView);
             }
 
@@ -246,7 +250,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             }
         }
 
-        public async Task<ActionResult> CompanyInfo02(string questionSn)
+        public async Task<ActionResult> CompanyInfo02(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -264,11 +268,13 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 var quesCompExtentionViewModel = new QuesCompExtentionViewModel();
                 quesCompExtentionViewModel.QuestionSn = int.Parse(questionSn);
                 quesCompExtentionViewModel.PresidentNm = scUsr.ScCompInfo.OwnNm;
+                quesCompExtentionViewModel.Status = status;
                 return View(quesCompExtentionViewModel);
             }
             else
             {
                 var quesCompExtentionView = Mapper.Map<QuesCompExtentionViewModel>(quesMaster.QuesCompExtention);
+                quesCompExtentionView.Status = status;
                 return View(quesCompExtentionView);
             }
         }
@@ -320,16 +326,17 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             }
         }
 
-        public ActionResult BizCheck01(string questionSn)
+        public ActionResult BizCheck01(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
             var viewModel = new QuesViewModel();
             viewModel.QuestionSn = int.Parse(questionSn);
+            viewModel.Status = status;
             return View(viewModel);
         }
 
-        public async Task<ActionResult> BizCheck02(string questionSn)
+        public async Task<ActionResult> BizCheck02(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -385,6 +392,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 bizCheck02.Leadership = quesCheckListView;
             }
 
+            bizCheck02.Status = status;
             bizCheck02.QuestionSn = int.Parse(questionSn);
             return View(bizCheck02);
         }
@@ -465,7 +473,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         }
 
 
-        public async Task<ActionResult> BizCheck03(string questionSn)
+        public async Task<ActionResult> BizCheck03(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -499,6 +507,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 bizCheck03.LeaderReliability = quesCheckListView;
             }
 
+            bizCheck03.Status = status;
             bizCheck03.QuestionSn = int.Parse(questionSn);
             return View(bizCheck03);
         }
@@ -558,7 +567,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         }
 
 
-        public async Task<ActionResult> BizCheck04(string questionSn)
+        public async Task<ActionResult> BizCheck04(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -626,6 +635,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 bizCheck04.NewEmp = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1A20203");
             }
 
+            bizCheck04.Status = status;
             bizCheck04.QuestionSn = int.Parse(questionSn);
             return View(bizCheck04);
         }
@@ -753,7 +763,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         }
 
 
-        public async Task<ActionResult> BizCheck05(string questionSn)
+        public async Task<ActionResult> BizCheck05(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -787,6 +797,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 bizCheck05.InfoSystem = quesCheckListView;
             }
 
+            bizCheck05.Status = status;
             bizCheck05.QuestionSn = int.Parse(questionSn);
             return View(bizCheck05);
         }
@@ -846,7 +857,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         }
 
 
-        public async Task<ActionResult> BizCheck06(string questionSn)
+        public async Task<ActionResult> BizCheck06(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -932,6 +943,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 bizCheck06.HighEmp = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1B10305");
             }
 
+            bizCheck06.Status = status;
             bizCheck06.QuestionSn = int.Parse(questionSn);
             return View(bizCheck06);
         }
@@ -1105,7 +1117,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
 
 
 
-        public async Task<ActionResult> BizCheck07(string questionSn)
+        public async Task<ActionResult> BizCheck07(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -1175,6 +1187,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 bizCheck07.BizResultCnt = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1B10502");
             }
 
+            bizCheck07.Status = status;
             bizCheck07.QuestionSn = int.Parse(questionSn);
             return View(bizCheck07);
         }
@@ -1281,7 +1294,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         }
 
 
-        public async Task<ActionResult> BizCheck08(string questionSn)
+        public async Task<ActionResult> BizCheck08(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -1337,6 +1350,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 bizCheck08.ProcessControl = quesCheckListView;
             }
 
+            bizCheck08.Status = status;
             bizCheck08.QuestionSn = int.Parse(questionSn);
             return View(bizCheck08);
         }
@@ -1419,7 +1433,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         }
 
 
-        public async Task<ActionResult> BizCheck09(string questionSn)
+        public async Task<ActionResult> BizCheck09(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -1453,7 +1467,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 bizCheck09.QualityControl = quesCheckListView;
             }
 
-
+            bizCheck09.Status = status;
             bizCheck09.QuestionSn = int.Parse(questionSn);
             return View(bizCheck09);
         }
@@ -1514,7 +1528,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         }
 
 
-        public async Task<ActionResult> BizCheck10(string questionSn)
+        public async Task<ActionResult> BizCheck10(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -1548,7 +1562,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 bizCheck10.MarketingPlan = quesCheckListView;
             }
 
-
+            bizCheck10.Status = status;
             bizCheck10.QuestionSn = int.Parse(questionSn);
             return View(bizCheck10);
         }
@@ -1608,7 +1622,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             }
         }
 
-        public async Task<ActionResult> BizCheck11(string questionSn)
+        public async Task<ActionResult> BizCheck11(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -1642,7 +1656,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 bizCheck11.CustomerMng = quesCheckListView;
             }
 
-
+            bizCheck11.Status = status;
             bizCheck11.QuestionSn = int.Parse(questionSn);
             return View(bizCheck11);
         }
@@ -1704,7 +1718,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
 
 
 
-        public async Task<ActionResult> BizCheck12(string questionSn)
+        public async Task<ActionResult> BizCheck12(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -1760,7 +1774,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 bizCheck12.HRMaintenance = quesCheckListView;
             }
 
-
+            bizCheck12.Status = status;
             bizCheck12.QuestionSn = int.Parse(questionSn);
             return View(bizCheck12);
         }
@@ -1844,7 +1858,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         }
 
 
-        public async Task<ActionResult> BizCheck13(string questionSn)
+        public async Task<ActionResult> BizCheck13(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -1929,6 +1943,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 bizCheck13.TotalEmp = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10301");
             }
 
+            bizCheck13.Status = status;
             bizCheck13.QuestionSn = int.Parse(questionSn);
             return View(bizCheck13);
         }
@@ -2080,7 +2095,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
 
 
 
-        public async Task<ActionResult> OrgCheck01(string questionSn)
+        public async Task<ActionResult> OrgCheck01(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
@@ -2092,208 +2107,181 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
 
             var orgCheck01 = new OrgCheck01ViewModel();
 
-            // A1E102 : 지적재산권성과
+            // 조직구성 조회
             var quesMaster = await _quesMasterService.GetQuesOgranAnalysisAsync(int.Parse(questionSn));
 
-            if (quesMaster.QuesOgranAnalysis.Count() != 4)
+            //기획관리
+            var management = quesMaster.QuesOgranAnalysis.SingleOrDefault(i => i.DeptCd == "M");
+
+            if (management == null)
             {
-                var quesCheckList = await _quesCheckListService.GetQuesCheckListAsync("A1E102");
-                var quesYearListView = Mapper.Map<List<QuesYearListViewModel>>(quesCheckList);
-
-                foreach (var item in quesYearListView)
-                {
-                    item.QuestionSn = int.Parse(questionSn);
-                    item.BasicYear = DateTime.Now.Year;
-                    item.D = "0";
-                    item.D451 = "0";
-                    item.D452 = "0";
-                    item.D453 = "0";
-                }
-
-                //등록 특허
-                bizCheck13.RegPatent = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10201");
-                //등록 실용신안
-                bizCheck13.RegUtilityModel = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10202");
-                //출원 특허
-                bizCheck13.ApplyPatent = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10203");
-                //출원 실용신안
-                bizCheck13.ApplyUtilityModel = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10204");
-                //기타
-                bizCheck13.Etc = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10205");
+                orgCheck01.Management = new OrgCompositionViewModel();
             }
             else
             {
-                var quesYearListView = Mapper.Map<List<QuesYearListViewModel>>(quesResult2s);
-                //등록 특허
-                bizCheck13.RegPatent = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10201");
-                //등록 실용신안
-                bizCheck13.RegUtilityModel = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10202");
-                //출원 특허
-                bizCheck13.ApplyPatent = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10203");
-                //출원 실용신안
-                bizCheck13.ApplyUtilityModel = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10204");
-                //기타
-                bizCheck13.Etc = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10205");
+                orgCheck01.Management = Mapper.Map<OrgCompositionViewModel>(management);
             }
 
+            //생산관리
+            var produce = quesMaster.QuesOgranAnalysis.SingleOrDefault(i => i.DeptCd == "P");
 
-            // A1E103 : 임직원 수
-            var quesResult2sTotalEmp = await _quesResult2Service.GetQuesResult2sAsync(int.Parse(questionSn), "A1E103");
-
-            if (quesResult2sTotalEmp.Count() != 1)
+            if (produce == null)
             {
-                var quesCheckList = await _quesCheckListService.GetQuesCheckListAsync("A1E103");
-                var quesYearListView = Mapper.Map<List<QuesYearListViewModel>>(quesCheckList);
-
-                foreach (var item in quesYearListView)
-                {
-                    item.QuestionSn = int.Parse(questionSn);
-                    item.BasicYear = DateTime.Now.Year;
-                    item.D = "0";
-                    item.D451 = "0";
-                    item.D452 = "0";
-                    item.D453 = "0";
-                }
-
-                //전체 임직원
-                bizCheck13.TotalEmp = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10301");
+                orgCheck01.Produce = new OrgCompositionViewModel();
             }
             else
             {
-                var quesYearListView = Mapper.Map<List<QuesYearListViewModel>>(quesResult2sTotalEmp);
-                //전체 임직원
-                bizCheck13.TotalEmp = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10301");
+                orgCheck01.Produce = Mapper.Map<OrgCompositionViewModel>(produce);
             }
 
-            bizCheck13.QuestionSn = int.Parse(questionSn);
-            return View(bizCheck13);
+            //연구개발
+            var rnd = quesMaster.QuesOgranAnalysis.SingleOrDefault(i => i.DeptCd == "R");
+
+            if (rnd == null)
+            {
+                orgCheck01.RND = new OrgCompositionViewModel();
+            }
+            else
+            {
+                orgCheck01.RND = Mapper.Map<OrgCompositionViewModel>(rnd);
+            }
+
+            //마케팅
+            var salse = quesMaster.QuesOgranAnalysis.SingleOrDefault(i => i.DeptCd == "S");
+
+            if (salse == null)
+            {
+                orgCheck01.Salse = new OrgCompositionViewModel();
+            }
+            else
+            {
+                orgCheck01.Salse = Mapper.Map<OrgCompositionViewModel>(salse);
+            }
+
+            orgCheck01.StaffSumCount = orgCheck01.Management.StaffCount + orgCheck01.Produce.StaffCount + orgCheck01.RND.StaffCount + orgCheck01.Salse.StaffCount;
+
+            orgCheck01.ChiefSumCount = orgCheck01.Management.ChiefCount + orgCheck01.Produce.ChiefCount + orgCheck01.RND.ChiefCount + orgCheck01.Salse.ChiefCount;
+
+            orgCheck01.OfficerSumCount = orgCheck01.Management.OfficerCount + orgCheck01.Produce.OfficerCount + orgCheck01.RND.OfficerCount + orgCheck01.Salse.OfficerCount;
+
+            orgCheck01.BeginnerSumCount = orgCheck01.Management.BeginnerCount + orgCheck01.Produce.BeginnerCount + orgCheck01.RND.BeginnerCount + orgCheck01.Salse.BeginnerCount;
+
+            orgCheck01.TotalSumCount = orgCheck01.StaffSumCount + orgCheck01.ChiefSumCount + orgCheck01.OfficerSumCount + orgCheck01.BeginnerSumCount;
+
+            orgCheck01.Status = status;
+            orgCheck01.QuestionSn = int.Parse(questionSn);
+            return View(orgCheck01);
         }
 
         [HttpPost]
-        public async Task<ActionResult> OrgCheck01(BizCheck13ViewModel bizCheck13ViewModel)
+        public async Task<ActionResult> OrgCheck01(OrgCheck01ViewModel orgCheck01ViewModel)
         {
             ViewBag.LeftMenu = Global.Report;
-            int questionSn = bizCheck13ViewModel.QuestionSn;
+            int questionSn = orgCheck01ViewModel.QuestionSn;
 
-            if (bizCheck13ViewModel.QuestionSn > 0)
+            if (orgCheck01ViewModel.QuestionSn > 0)
             {
-                var quesYearMaster = await _quesMasterService.GetQuesResult2Async(questionSn);
+                var quesMaster = await _quesMasterService.GetQuesOgranAnalysisAsync(questionSn);
 
-                if (bizCheck13ViewModel.SubmitType == "N")
+                if (orgCheck01ViewModel.SubmitType == "N")
                 {
-                    quesYearMaster.SaveStatus = 16;
+                    quesMaster.SaveStatus = 17;
                 }
 
-                //등록특허
-                var yearRegPatentItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.RegPatent.CheckListSn);
-                if (yearRegPatentItem == null)
+                //기획관리
+                var management = quesMaster.QuesOgranAnalysis.SingleOrDefault(i => i.DeptCd == "M");
+
+                if (management == null)
                 {
-                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.RegPatent);
-                    quesYear.QuestionSn = questionSn;
-                    quesYear.RegDt = DateTime.Now;
-                    quesYear.RegId = Session[Global.LoginID].ToString();
-                    quesYear.BasicYear = quesYearMaster.BasicYear;
-                    quesYearMaster.QuesResult2.Add(quesYear);
+                    var QuesOgranAnalMgmt = Mapper.Map<QuesOgranAnalysis>(orgCheck01ViewModel.Management);
+                    QuesOgranAnalMgmt.QuestionSn = questionSn;
+                    QuesOgranAnalMgmt.DeptCd = "M";
+                    QuesOgranAnalMgmt.RegDt = DateTime.Now;
+                    QuesOgranAnalMgmt.RegId = Session[Global.LoginID].ToString();
+                    quesMaster.QuesOgranAnalysis.Add(QuesOgranAnalMgmt);
                 }
                 else
                 {
-                    yearRegPatentItem.D = bizCheck13ViewModel.RegPatent.D;
-                    yearRegPatentItem.UpdDt = DateTime.Now;
-                    yearRegPatentItem.UpdId = Session[Global.LoginID].ToString();
+                    management.Dept1 = orgCheck01ViewModel.Management.Dept1;
+                    management.Dept2 = orgCheck01ViewModel.Management.Dept2;
+                    management.OfficerCount = orgCheck01ViewModel.Management.OfficerCount;
+                    management.ChiefCount = orgCheck01ViewModel.Management.ChiefCount;
+                    management.StaffCount = orgCheck01ViewModel.Management.StaffCount;
+                    management.BeginnerCount = orgCheck01ViewModel.Management.BeginnerCount;
+                    management.UpdDt = DateTime.Now;
+                    management.UpdId = Session[Global.LoginID].ToString();
                 }
 
-                //등록실용신안
-                var yearRegUtilityModelItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.RegUtilityModel.CheckListSn);
-                if (yearRegUtilityModelItem == null)
+                //생산관리
+                var produce = quesMaster.QuesOgranAnalysis.SingleOrDefault(i => i.DeptCd == "P");
+
+                if (produce == null)
                 {
-                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.RegUtilityModel);
-                    quesYear.QuestionSn = questionSn;
-                    quesYear.RegDt = DateTime.Now;
-                    quesYear.RegId = Session[Global.LoginID].ToString();
-                    quesYear.BasicYear = quesYearMaster.BasicYear;
-                    quesYearMaster.QuesResult2.Add(quesYear);
+                    var QuesOgranAnalProd = Mapper.Map<QuesOgranAnalysis>(orgCheck01ViewModel.Produce);
+                    QuesOgranAnalProd.QuestionSn = questionSn;
+                    QuesOgranAnalProd.DeptCd = "P";
+                    QuesOgranAnalProd.RegDt = DateTime.Now;
+                    QuesOgranAnalProd.RegId = Session[Global.LoginID].ToString();
+                    quesMaster.QuesOgranAnalysis.Add(QuesOgranAnalProd);
                 }
                 else
                 {
-                    yearRegUtilityModelItem.D = bizCheck13ViewModel.RegUtilityModel.D;
-                    yearRegUtilityModelItem.UpdDt = DateTime.Now;
-                    yearRegUtilityModelItem.UpdId = Session[Global.LoginID].ToString();
+                    produce.Dept1 = orgCheck01ViewModel.Produce.Dept1;
+                    produce.Dept2 = orgCheck01ViewModel.Produce.Dept2;
+                    produce.OfficerCount = orgCheck01ViewModel.Produce.OfficerCount;
+                    produce.ChiefCount = orgCheck01ViewModel.Produce.ChiefCount;
+                    produce.StaffCount = orgCheck01ViewModel.Produce.StaffCount;
+                    produce.BeginnerCount = orgCheck01ViewModel.Produce.BeginnerCount;
+                    produce.UpdDt = DateTime.Now;
+                    produce.UpdId = Session[Global.LoginID].ToString();
                 }
 
-                //출원특허
-                var yearApplyPatentItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.ApplyPatent.CheckListSn);
-                if (yearApplyPatentItem == null)
+                //연구개발
+                var rnd = quesMaster.QuesOgranAnalysis.SingleOrDefault(i => i.DeptCd == "R");
+
+                if (rnd == null)
                 {
-                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.ApplyPatent);
-                    quesYear.QuestionSn = questionSn;
-                    quesYear.RegDt = DateTime.Now;
-                    quesYear.RegId = Session[Global.LoginID].ToString();
-                    quesYear.BasicYear = quesYearMaster.BasicYear;
-                    quesYearMaster.QuesResult2.Add(quesYear);
+                    var QuesOgranAnalRnd = Mapper.Map<QuesOgranAnalysis>(orgCheck01ViewModel.RND);
+                    QuesOgranAnalRnd.QuestionSn = questionSn;
+                    QuesOgranAnalRnd.DeptCd = "R";
+                    QuesOgranAnalRnd.RegDt = DateTime.Now;
+                    QuesOgranAnalRnd.RegId = Session[Global.LoginID].ToString();
+                    quesMaster.QuesOgranAnalysis.Add(QuesOgranAnalRnd);
                 }
                 else
                 {
-                    yearApplyPatentItem.D = bizCheck13ViewModel.ApplyPatent.D;
-                    yearApplyPatentItem.UpdDt = DateTime.Now;
-                    yearApplyPatentItem.UpdId = Session[Global.LoginID].ToString();
+                    rnd.Dept1 = orgCheck01ViewModel.RND.Dept1;
+                    rnd.Dept2 = orgCheck01ViewModel.RND.Dept2;
+                    rnd.OfficerCount = orgCheck01ViewModel.RND.OfficerCount;
+                    rnd.ChiefCount = orgCheck01ViewModel.RND.ChiefCount;
+                    rnd.StaffCount = orgCheck01ViewModel.RND.StaffCount;
+                    rnd.BeginnerCount = orgCheck01ViewModel.RND.BeginnerCount;
+                    rnd.UpdDt = DateTime.Now;
+                    rnd.UpdId = Session[Global.LoginID].ToString();
                 }
 
-                //출원실용신안
-                var yearApplyUtilityModelItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.ApplyUtilityModel.CheckListSn);
-                if (yearApplyUtilityModelItem == null)
+                //마케팅
+                var salse = quesMaster.QuesOgranAnalysis.SingleOrDefault(i => i.DeptCd == "S");
+
+                if (salse == null)
                 {
-                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.ApplyUtilityModel);
-                    quesYear.QuestionSn = questionSn;
-                    quesYear.RegDt = DateTime.Now;
-                    quesYear.RegId = Session[Global.LoginID].ToString();
-                    quesYear.BasicYear = quesYearMaster.BasicYear;
-                    quesYearMaster.QuesResult2.Add(quesYear);
+                    var QuesOgranAnalSalse = Mapper.Map<QuesOgranAnalysis>(orgCheck01ViewModel.Salse);
+                    QuesOgranAnalSalse.QuestionSn = questionSn;
+                    QuesOgranAnalSalse.DeptCd = "S";
+                    QuesOgranAnalSalse.RegDt = DateTime.Now;
+                    QuesOgranAnalSalse.RegId = Session[Global.LoginID].ToString();
+                    quesMaster.QuesOgranAnalysis.Add(QuesOgranAnalSalse);
                 }
                 else
                 {
-                    yearApplyUtilityModelItem.D = bizCheck13ViewModel.ApplyUtilityModel.D;
-                    yearApplyUtilityModelItem.UpdDt = DateTime.Now;
-                    yearApplyUtilityModelItem.UpdId = Session[Global.LoginID].ToString();
-                }
-
-                //기타
-                var yearEtcItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.Etc.CheckListSn);
-                if (yearEtcItem == null)
-                {
-                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.Etc);
-                    quesYear.QuestionSn = questionSn;
-                    quesYear.RegDt = DateTime.Now;
-                    quesYear.RegId = Session[Global.LoginID].ToString();
-                    quesYear.BasicYear = quesYearMaster.BasicYear;
-                    quesYearMaster.QuesResult2.Add(quesYear);
-                }
-                else
-                {
-                    yearEtcItem.D = bizCheck13ViewModel.Etc.D;
-                    yearEtcItem.UpdDt = DateTime.Now;
-                    yearEtcItem.UpdId = Session[Global.LoginID].ToString();
-                }
-
-
-                //전체 임직원
-                var yearTotalEmpItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.TotalEmp.CheckListSn);
-                if (yearTotalEmpItem == null)
-                {
-                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.TotalEmp);
-                    quesYear.QuestionSn = questionSn;
-                    quesYear.RegDt = DateTime.Now;
-                    quesYear.RegId = Session[Global.LoginID].ToString();
-                    quesYear.BasicYear = quesYearMaster.BasicYear;
-                    quesYearMaster.QuesResult2.Add(quesYear);
-                }
-                else
-                {
-                    yearTotalEmpItem.D = bizCheck13ViewModel.TotalEmp.D;
-                    yearTotalEmpItem.D451 = bizCheck13ViewModel.TotalEmp.D451;
-                    yearTotalEmpItem.D452 = bizCheck13ViewModel.TotalEmp.D452;
-                    yearTotalEmpItem.D453 = bizCheck13ViewModel.TotalEmp.D453;
-                    yearTotalEmpItem.UpdDt = DateTime.Now;
-                    yearTotalEmpItem.UpdId = Session[Global.LoginID].ToString();
+                    salse.Dept1 = orgCheck01ViewModel.Salse.Dept1;
+                    salse.Dept2 = orgCheck01ViewModel.Salse.Dept2;
+                    salse.OfficerCount = orgCheck01ViewModel.Salse.OfficerCount;
+                    salse.ChiefCount = orgCheck01ViewModel.Salse.ChiefCount;
+                    salse.StaffCount = orgCheck01ViewModel.Salse.StaffCount;
+                    salse.BeginnerCount = orgCheck01ViewModel.Salse.BeginnerCount;
+                    salse.UpdDt = DateTime.Now;
+                    salse.UpdId = Session[Global.LoginID].ToString();
                 }
 
                 await _quesMasterService.SaveDbContextAsync();
@@ -2301,26 +2289,27 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             else
             {
                 //에러처리 필요
-                return View(bizCheck13ViewModel);
+                return View(orgCheck01ViewModel);
             }
 
-            if (bizCheck13ViewModel.SubmitType == "T")
+            if (orgCheck01ViewModel.SubmitType == "T")
             {
-                return RedirectToAction("BizCheck13", "Report", new { @questionSn = questionSn });
+                return RedirectToAction("OrgCheck01", "Report", new { @questionSn = questionSn });
             }
             else
             {
-                return RedirectToAction("FinanceCheck01", "Report", new { @questionSn = questionSn });
+                return RedirectToAction("BasicSurveyComplete", "Report", new { @questionSn = questionSn });
             }
         }
 
 
-        public ActionResult BasicSurveyComplete(string questionSn)
+        public ActionResult BasicSurveyComplete(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
             var viewModel = new QuesViewModel();
             viewModel.QuestionSn = int.Parse(questionSn);
+            viewModel.Status = status;
             return View(viewModel);
         }
 
@@ -2345,12 +2334,13 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             return RedirectToAction("BasicSurvey", "Report", new { area = "Company" });
         }
 
-        public ActionResult FinanceCheck01(string questionSn)
+        public ActionResult FinanceCheck01(string questionSn, string status)
         {
             ViewBag.LeftMenu = Global.Report;
 
             var viewModel = new QuesViewModel();
             viewModel.QuestionSn = int.Parse(questionSn);
+            viewModel.Status = status;
             return View(viewModel);
         }
 
