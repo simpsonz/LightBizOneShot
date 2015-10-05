@@ -15,12 +15,12 @@
                 @if (Session[Global.UserDetailType].Equals(Global.Admin))
                 { 
                     <a href="@Url.Action("BizWorkList","BizWorkMng", new { area= "BizManager" })" class="navi_business04"><em>사업관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
-                    <a href="@Url.Action("Notice","Cs",new { area= "" })" class="navi_business05"><em>고객센터관리</em></a>
+                    <a href="@Url.Action("Notice","Cs",new { area= "" })" class="navi_business05 navi_CS"><em>고객센터관리</em></a>
                 }
                 
                 @if (Session[Global.UserDetailType].Equals(Global.Member))
                 {
-                    <a href="@Url.Action("Notice","Cs",new { area= "" })" class="navi_business05"><em>고객센터관리</em></a>
+                    <a href="@Url.Action("Notice","Cs",new { area= "" })" class="navi_business05 navi_CS"><em>고객센터관리</em></a>
                     <img src="~/images/header_bar.png" class="navi_bizbar" />
                     <a href="@Url.Action("MyInfo","Main", new { area= "BizManager" })" class="navi_business06 navi_MyInfo"><em>내정보관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
                 }
