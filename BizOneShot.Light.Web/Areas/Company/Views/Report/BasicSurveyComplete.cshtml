@@ -1,0 +1,69 @@
+﻿@model BizOneShot.Light.Models.ViewModels.QuesViewModel
+
+@{
+    Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_report').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicsurvey').addClass('on');
+
+    });
+
+</script>
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_02">
+        <em>기초경영역량 문진표</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_step01"><em>STEP01.진단개요</em></li>
+            <li class="basic_step02"><a href="" class="ablock"><em>STEP02.기업정보</em></a></li>
+            <li class="basic_step03"><a href="" class="ablock"><em>STEP03.경영진단</em></a></li>
+            <li class="basic_step04"><a href="" class="ablock"><em>STEP04.재무진단</em></a></li>
+            <li class="basic_step05"><a href="" class="ablock"><em>STEP05.조직진단</em></a></li>
+            <li class="basic_step06 on"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
+        </ul>
+    </div>
+
+    <div class="sub_report_checkbox_min">
+
+        <div class="report_main_mid">
+            <div class="main_mid bold center margin_t60">
+                <a href="" class="end"><em>시작 이미지</em></a><img src="../images/end.png">
+                <p>
+                    <br>
+                    수고하셨습니다. <br> 회사의 기초경영역량 문진표 작성을 모두 완료하였습니다.<br> <br> 작성완료 버튼을 누르면 최종 작성 완료되며, 더이상 수정이 불가능 합니다.<br>
+                </p>
+            </div>
+
+
+        </div>
+
+    </div>
+@using (Html.BeginForm("BasicSurveyComplete", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
+{
+    @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
+    <div id="btnwrap_sub">
+
+        <div class="rightwrap left">
+            <a href="@Url.Action("OrgCheck01", "Report", new { area = "Company", @questionSn = Model.QuestionSn })" class="pre" value="이전"><em>이전</em></a>
+
+        </div>
+        <div class="rightwrap right">
+            <button type="submit" class="write_end" value="작성완료"></button>
+            <!--STEP06 에서 다음 숨김-->
+        </div>
+    </div>
+}
+
+
+
+</div>

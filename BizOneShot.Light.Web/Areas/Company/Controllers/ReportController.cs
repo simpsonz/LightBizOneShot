@@ -2078,6 +2078,273 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             }
         }
 
+
+
+        public async Task<ActionResult> OrgCheck01(string questionSn)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            if (string.IsNullOrEmpty(questionSn))
+            {
+                // 오류 처리해야함.
+                return View();
+            }
+
+            var orgCheck01 = new OrgCheck01ViewModel();
+
+            // A1E102 : 지적재산권성과
+            var quesMaster = await _quesMasterService.GetQuesOgranAnalysisAsync(int.Parse(questionSn));
+
+            if (quesMaster.QuesOgranAnalysis.Count() != 4)
+            {
+                var quesCheckList = await _quesCheckListService.GetQuesCheckListAsync("A1E102");
+                var quesYearListView = Mapper.Map<List<QuesYearListViewModel>>(quesCheckList);
+
+                foreach (var item in quesYearListView)
+                {
+                    item.QuestionSn = int.Parse(questionSn);
+                    item.BasicYear = DateTime.Now.Year;
+                    item.D = "0";
+                    item.D451 = "0";
+                    item.D452 = "0";
+                    item.D453 = "0";
+                }
+
+                //등록 특허
+                bizCheck13.RegPatent = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10201");
+                //등록 실용신안
+                bizCheck13.RegUtilityModel = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10202");
+                //출원 특허
+                bizCheck13.ApplyPatent = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10203");
+                //출원 실용신안
+                bizCheck13.ApplyUtilityModel = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10204");
+                //기타
+                bizCheck13.Etc = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10205");
+            }
+            else
+            {
+                var quesYearListView = Mapper.Map<List<QuesYearListViewModel>>(quesResult2s);
+                //등록 특허
+                bizCheck13.RegPatent = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10201");
+                //등록 실용신안
+                bizCheck13.RegUtilityModel = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10202");
+                //출원 특허
+                bizCheck13.ApplyPatent = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10203");
+                //출원 실용신안
+                bizCheck13.ApplyUtilityModel = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10204");
+                //기타
+                bizCheck13.Etc = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10205");
+            }
+
+
+            // A1E103 : 임직원 수
+            var quesResult2sTotalEmp = await _quesResult2Service.GetQuesResult2sAsync(int.Parse(questionSn), "A1E103");
+
+            if (quesResult2sTotalEmp.Count() != 1)
+            {
+                var quesCheckList = await _quesCheckListService.GetQuesCheckListAsync("A1E103");
+                var quesYearListView = Mapper.Map<List<QuesYearListViewModel>>(quesCheckList);
+
+                foreach (var item in quesYearListView)
+                {
+                    item.QuestionSn = int.Parse(questionSn);
+                    item.BasicYear = DateTime.Now.Year;
+                    item.D = "0";
+                    item.D451 = "0";
+                    item.D452 = "0";
+                    item.D453 = "0";
+                }
+
+                //전체 임직원
+                bizCheck13.TotalEmp = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10301");
+            }
+            else
+            {
+                var quesYearListView = Mapper.Map<List<QuesYearListViewModel>>(quesResult2sTotalEmp);
+                //전체 임직원
+                bizCheck13.TotalEmp = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1E10301");
+            }
+
+            bizCheck13.QuestionSn = int.Parse(questionSn);
+            return View(bizCheck13);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> OrgCheck01(BizCheck13ViewModel bizCheck13ViewModel)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            int questionSn = bizCheck13ViewModel.QuestionSn;
+
+            if (bizCheck13ViewModel.QuestionSn > 0)
+            {
+                var quesYearMaster = await _quesMasterService.GetQuesResult2Async(questionSn);
+
+                if (bizCheck13ViewModel.SubmitType == "N")
+                {
+                    quesYearMaster.SaveStatus = 16;
+                }
+
+                //등록특허
+                var yearRegPatentItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.RegPatent.CheckListSn);
+                if (yearRegPatentItem == null)
+                {
+                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.RegPatent);
+                    quesYear.QuestionSn = questionSn;
+                    quesYear.RegDt = DateTime.Now;
+                    quesYear.RegId = Session[Global.LoginID].ToString();
+                    quesYear.BasicYear = quesYearMaster.BasicYear;
+                    quesYearMaster.QuesResult2.Add(quesYear);
+                }
+                else
+                {
+                    yearRegPatentItem.D = bizCheck13ViewModel.RegPatent.D;
+                    yearRegPatentItem.UpdDt = DateTime.Now;
+                    yearRegPatentItem.UpdId = Session[Global.LoginID].ToString();
+                }
+
+                //등록실용신안
+                var yearRegUtilityModelItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.RegUtilityModel.CheckListSn);
+                if (yearRegUtilityModelItem == null)
+                {
+                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.RegUtilityModel);
+                    quesYear.QuestionSn = questionSn;
+                    quesYear.RegDt = DateTime.Now;
+                    quesYear.RegId = Session[Global.LoginID].ToString();
+                    quesYear.BasicYear = quesYearMaster.BasicYear;
+                    quesYearMaster.QuesResult2.Add(quesYear);
+                }
+                else
+                {
+                    yearRegUtilityModelItem.D = bizCheck13ViewModel.RegUtilityModel.D;
+                    yearRegUtilityModelItem.UpdDt = DateTime.Now;
+                    yearRegUtilityModelItem.UpdId = Session[Global.LoginID].ToString();
+                }
+
+                //출원특허
+                var yearApplyPatentItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.ApplyPatent.CheckListSn);
+                if (yearApplyPatentItem == null)
+                {
+                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.ApplyPatent);
+                    quesYear.QuestionSn = questionSn;
+                    quesYear.RegDt = DateTime.Now;
+                    quesYear.RegId = Session[Global.LoginID].ToString();
+                    quesYear.BasicYear = quesYearMaster.BasicYear;
+                    quesYearMaster.QuesResult2.Add(quesYear);
+                }
+                else
+                {
+                    yearApplyPatentItem.D = bizCheck13ViewModel.ApplyPatent.D;
+                    yearApplyPatentItem.UpdDt = DateTime.Now;
+                    yearApplyPatentItem.UpdId = Session[Global.LoginID].ToString();
+                }
+
+                //출원실용신안
+                var yearApplyUtilityModelItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.ApplyUtilityModel.CheckListSn);
+                if (yearApplyUtilityModelItem == null)
+                {
+                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.ApplyUtilityModel);
+                    quesYear.QuestionSn = questionSn;
+                    quesYear.RegDt = DateTime.Now;
+                    quesYear.RegId = Session[Global.LoginID].ToString();
+                    quesYear.BasicYear = quesYearMaster.BasicYear;
+                    quesYearMaster.QuesResult2.Add(quesYear);
+                }
+                else
+                {
+                    yearApplyUtilityModelItem.D = bizCheck13ViewModel.ApplyUtilityModel.D;
+                    yearApplyUtilityModelItem.UpdDt = DateTime.Now;
+                    yearApplyUtilityModelItem.UpdId = Session[Global.LoginID].ToString();
+                }
+
+                //기타
+                var yearEtcItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.Etc.CheckListSn);
+                if (yearEtcItem == null)
+                {
+                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.Etc);
+                    quesYear.QuestionSn = questionSn;
+                    quesYear.RegDt = DateTime.Now;
+                    quesYear.RegId = Session[Global.LoginID].ToString();
+                    quesYear.BasicYear = quesYearMaster.BasicYear;
+                    quesYearMaster.QuesResult2.Add(quesYear);
+                }
+                else
+                {
+                    yearEtcItem.D = bizCheck13ViewModel.Etc.D;
+                    yearEtcItem.UpdDt = DateTime.Now;
+                    yearEtcItem.UpdId = Session[Global.LoginID].ToString();
+                }
+
+
+                //전체 임직원
+                var yearTotalEmpItem = quesYearMaster.QuesResult2.SingleOrDefault(m => m.QuestionSn == questionSn && m.CheckListSn == bizCheck13ViewModel.TotalEmp.CheckListSn);
+                if (yearTotalEmpItem == null)
+                {
+                    var quesYear = Mapper.Map<QuesResult2>(bizCheck13ViewModel.TotalEmp);
+                    quesYear.QuestionSn = questionSn;
+                    quesYear.RegDt = DateTime.Now;
+                    quesYear.RegId = Session[Global.LoginID].ToString();
+                    quesYear.BasicYear = quesYearMaster.BasicYear;
+                    quesYearMaster.QuesResult2.Add(quesYear);
+                }
+                else
+                {
+                    yearTotalEmpItem.D = bizCheck13ViewModel.TotalEmp.D;
+                    yearTotalEmpItem.D451 = bizCheck13ViewModel.TotalEmp.D451;
+                    yearTotalEmpItem.D452 = bizCheck13ViewModel.TotalEmp.D452;
+                    yearTotalEmpItem.D453 = bizCheck13ViewModel.TotalEmp.D453;
+                    yearTotalEmpItem.UpdDt = DateTime.Now;
+                    yearTotalEmpItem.UpdId = Session[Global.LoginID].ToString();
+                }
+
+                await _quesMasterService.SaveDbContextAsync();
+            }
+            else
+            {
+                //에러처리 필요
+                return View(bizCheck13ViewModel);
+            }
+
+            if (bizCheck13ViewModel.SubmitType == "T")
+            {
+                return RedirectToAction("BizCheck13", "Report", new { @questionSn = questionSn });
+            }
+            else
+            {
+                return RedirectToAction("FinanceCheck01", "Report", new { @questionSn = questionSn });
+            }
+        }
+
+
+        public ActionResult BasicSurveyComplete(string questionSn)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            var viewModel = new QuesViewModel();
+            viewModel.QuestionSn = int.Parse(questionSn);
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BasicSurveyComplete(QuesViewModel quesViewModel)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            int questionSn = quesViewModel.QuestionSn;
+
+            if (quesViewModel.QuestionSn > 0)
+            {
+                var quesMaster = await _quesMasterService.GetQuesMasterAsync(questionSn);
+                quesMaster.Status = "C";
+                await _quesMasterService.SaveDbContextAsync();
+            }
+            else
+            {
+                //에러처리 필요
+                return View(quesViewModel);
+            }
+
+            return RedirectToAction("BasicSurvey", "Report", new { area = "Company" });
+        }
+
         public ActionResult FinanceCheck01(string questionSn)
         {
             ViewBag.LeftMenu = Global.Report;

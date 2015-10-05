@@ -18,8 +18,10 @@ namespace BizOneShot.Light.Dao.Repositories
         QuesMaster Insert(QuesMaster quesMaster);
         Task<QuesMaster> GetQuesCompInfoAsync(Expression<Func<QuesMaster, bool>> where);
         Task<QuesMaster> GetQuesCompExtentionAsync(Expression<Func<QuesMaster, bool>> where);
-        Task<QuesMaster> GetQuesCompResult1Async(Expression<Func<QuesMaster, bool>> where);
-        Task<QuesMaster> GetQuesCompResult2Async(Expression<Func<QuesMaster, bool>> where);
+        Task<QuesMaster> GetQuesResult1Async(Expression<Func<QuesMaster, bool>> where);
+        Task<QuesMaster> GetQuesResult2Async(Expression<Func<QuesMaster, bool>> where);
+
+        Task<QuesMaster> GetQuesOgranAnalysisAsync(Expression<Func<QuesMaster, bool>> where);
 
     }
 
@@ -49,14 +51,19 @@ namespace BizOneShot.Light.Dao.Repositories
             return await this.DbContext.QuesMasters.Include("QuesCompExtention").Where(where).SingleOrDefaultAsync();
         }
 
-        public async Task<QuesMaster> GetQuesCompResult1Async(Expression<Func<QuesMaster, bool>> where)
+        public async Task<QuesMaster> GetQuesResult1Async(Expression<Func<QuesMaster, bool>> where)
         {
             return await this.DbContext.QuesMasters.Include("QuesResult1").Where(where).SingleOrDefaultAsync();
         }
 
-        public async Task<QuesMaster> GetQuesCompResult2Async(Expression<Func<QuesMaster, bool>> where)
+        public async Task<QuesMaster> GetQuesResult2Async(Expression<Func<QuesMaster, bool>> where)
         {
             return await this.DbContext.QuesMasters.Include("QuesResult2").Where(where).SingleOrDefaultAsync();
+        }
+
+        public async Task<QuesMaster> GetQuesOgranAnalysisAsync(Expression<Func<QuesMaster, bool>> where)
+        {
+            return await this.DbContext.QuesMasters.Include("QuesOgranAnalysis").Where(where).SingleOrDefaultAsync();
         }
 
         public QuesMaster Insert(QuesMaster quesMaster)
