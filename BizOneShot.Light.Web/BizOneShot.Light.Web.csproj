@@ -383,7 +383,7 @@
     <Content Include="Areas\Company\Views\Shared\_MainLeftMenuPatial.cshtml" />
     <Content Include="Areas\Company\Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
-    <Content Include="Areas\Company\Views\ExpertService\ReqReceiveList.cshtml" />
+    <Content Include="Areas\Company\Views\ExpertService\ReceiveList.cshtml" />
     <Content Include="Areas\SysManager\Views\web.config" />
     <Content Include="Areas\BizManager\Views\web.config" />
     <Content Include="Areas\Mentor\Views\web.config" />
@@ -460,6 +460,7 @@
     <Content Include="Areas\Company\Views\Report\BizCheck06.cshtml" />
     <Content Include="Areas\Company\Views\Report\BizCheck07.cshtml" />
     <Content Include="Areas\Company\Views\MyInfo\ModifyMyInfo.cshtml" />
+    <Content Include="Areas\Company\Views\ExpertService\ReceiveDetail.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

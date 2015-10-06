@@ -19,10 +19,10 @@
             else if (ViewBag.LeftMenu == Global.MentoringReport)//맨토링 보고서
             {
                 <li class="title mentor_report"><em>멘토링 보고서</em></li>
-                <li><a href="@Url.Action("RegMentoringReport","MentoringReport",new { area= "Mentor" })" class="gnb on">멘토링 일지 등록</a></li>
-                <li><a href="@Url.Action("MentoringReportList","MentoringReport",new { area= "Mentor" })" class="gnb">멘토링 일지 조회</a></li>
-                <li><a href="@Url.Action("RegMentoringTotalReport","MentoringReport",new { area= "Mentor" })" class="gnb">멘토링 종합보고서 등록</a></li>
-                <li><a href="@Url.Action("MentoringTotalReportList","MentoringReport",new { area= "Mentor" })" class="gnb">멘토링 종합보고서 조회</a></li>
+                <li><a href="@Url.Action("RegMentoringReport","MentoringReport",new { area= "Mentor" })" class="gnb gnb_regMentoringReport">멘토링 일지 등록</a></li>
+                <li><a href="@Url.Action("MentoringReportList","MentoringReport",new { area= "Mentor" })" class="gnb gnb_mentoringReportList">멘토링 일지 조회</a></li>
+                <li><a href="@Url.Action("RegMentoringTotalReport","MentoringReport",new { area= "Mentor" })" class="gnb gnb_regMentoringTr">멘토링 종합보고서 등록</a></li>
+                <li><a href="@Url.Action("MentoringTotalReportList","MentoringReport",new { area= "Mentor" })" class="gnb gnb_mentoringTrList">멘토링 종합보고서 조회</a></li>
             }
             else if (ViewBag.LeftMenu == Global.CapabilityReport) //기초역량 보고서
             {

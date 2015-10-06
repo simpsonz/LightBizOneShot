@@ -19,7 +19,7 @@
             else if (ViewBag.LeftMenu == Global.ExpertService)//전문가 서비스
             {
                 <li class="title biz_expert"><em>전문가서비스</em></li>
-                <li><a href="@Url.Action("ReqReceiveList","ExpertService",new { area= "Company", expertType="T" })" class="gnb gnb_tax">세무회계</a></li>
+                <li><a href="@Url.Action("ReceiveList","ExpertService",new { area= "Company", expertType="T" })" class="gnb gnb_tax">세무회계</a></li>
                 <li><a href="javascript:alert('차후 오픈예정입니다.');" class="gnb gnb_law">법무</a></li>
                 <li><a href="javascript:alert('차후 오픈예정입니다.');" class="gnb gnb_work">노무</a></li>
                 <li><a href="javascript:alert('차후 오픈예정입니다.');" class="gnb gnb_patent">특허</a></li>
