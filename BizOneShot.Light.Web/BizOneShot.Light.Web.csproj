@@ -1433,6 +1433,8 @@
     <Content Include="Views\Cs\ModifyNotice.cshtml" />
     <Content Include="Views\Cs\RegFaq.cshtml" />
     <Content Include="Views\Cs\RegNotice.cshtml" />
+    <Content Include="Views\Cs\RegManual.cshtml" />
+    <Content Include="Views\Cs\ModifyManual.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

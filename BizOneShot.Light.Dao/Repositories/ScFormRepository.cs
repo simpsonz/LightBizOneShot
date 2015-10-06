@@ -12,11 +12,15 @@ namespace BizOneShot.Light.Dao.Repositories
 {
     public interface IScFormRepository : IRepository<ScForm>
     {
+        Task<ScForm> Insert(ScForm scForm);
     }
 
     public class ScFormRepository : RepositoryBase<ScForm>, IScFormRepository
     {
         public ScFormRepository(IDbFactory dbFactory) : base(dbFactory) { }
-
+        public async Task<ScForm> Insert(ScForm scForm)
+        {
+            return await Task.Run(() => DbContext.ScForms.Add(scForm));
+        }
     }
 }

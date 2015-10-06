@@ -31,6 +31,9 @@ namespace BizOneShot.Light.Web.Mappings
                    .ForMember(d => d.QstTxt, map => map.MapFrom(s => s.QstTxt));
             //Notice
             Mapper.CreateMap<NoticeViewModel, ScNtc>();
+            //Manual
+            Mapper.CreateMap<ManualViewModel, ScForm>();
+            
 
 
             //전문가 회원가입 to 회원
