@@ -1428,6 +1428,11 @@
     <Content Include="Views\Home\SearchPassword.cshtml" />
     <Content Include="Views\Home\ResetPassword.cshtml" />
     <Content Include="Views\Home\ResetPasswordComplete.cshtml" />
+    <Content Include="Views\Cs\FaqDetail.cshtml" />
+    <Content Include="Views\Cs\ModifyFaq.cshtml" />
+    <Content Include="Views\Cs\ModifyNotice.cshtml" />
+    <Content Include="Views\Cs\RegFaq.cshtml" />
+    <Content Include="Views\Cs\RegNotice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
