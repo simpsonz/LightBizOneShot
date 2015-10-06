@@ -22,7 +22,7 @@ namespace BizOneShot.Light.Web.Controllers
         private readonly IScQclService _scQclService;
 
         public CsController(
-            IScFaqService scFaqService, IScNtcService scNtcServcie, 
+            IScFaqService scFaqService, IScNtcService scNtcServcie,
             IScFormService scFormService, IScFormFileService scFormFileService,
             IScQclService _scQclService)
         {
@@ -260,7 +260,7 @@ namespace BizOneShot.Light.Web.Controllers
             return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, noticeViews.Count));
         }
 
-        public  async Task<ActionResult> NoticeDetail(int noticeSn)
+        public async Task<ActionResult> NoticeDetail(int noticeSn)
         {
             ViewBag.LeftMenu = Global.Cs;
 
@@ -285,7 +285,7 @@ namespace BizOneShot.Light.Web.Controllers
                 }
             }
 
-            return  View(noticeDetailView);
+            return View(noticeDetailView);
         }
 
         public async Task<ActionResult> DeleteNotice(int noticeSn)
@@ -313,15 +313,15 @@ namespace BizOneShot.Light.Web.Controllers
         {
             ViewBag.LeftMenu = Global.Cs;
 
-            var scNts =
+            var scNtc =
                 Mapper.Map<ScNtc>(noticeViewModel);
 
-            scNts.Status = "N";
-            scNts.RegDt = DateTime.Now;
-            scNts.RegId = Session[Global.LoginID].ToString();
+            scNtc.Status = "N";
+            scNtc.RegDt = DateTime.Now;
+            scNtc.RegId = Session[Global.LoginID].ToString();
 
             //Faq 등록
-            int result = await _scNtcService.AddNoticeAsync(scNts);
+            int result = await _scNtcService.AddNoticeAsync(scNtc);
 
             if (result != -1)
                 return RedirectToAction("Notice", "Cs");
@@ -330,6 +330,35 @@ namespace BizOneShot.Light.Web.Controllers
                 ModelState.AddModelError("", "공지 등록 실패.");
                 return View(noticeViewModel);
             }
+        }
+
+
+        public async Task<ActionResult> ModifyNotice(int noticeSn)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+            var scNtc = await _scNtcService.GetNoticeAsync(noticeSn);
+
+            var scNtcViewModel =
+                Mapper.Map<NoticeViewModel>(scNtc);
+
+            return View(scNtcViewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ModifyNotice(NoticeViewModel noticeViewModel)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+
+            var scNtc = await _scNtcService.GetNoticeAsync(noticeViewModel.NoticeSn);
+
+            scNtc.Subject = noticeViewModel.Subject;
+            scNtc.RmkTxt = noticeViewModel.RmkTxt;
+            scNtc.UpdDt = DateTime.Now;
+            scNtc.UpdId = Session[Global.LoginID].ToString();
+
+            await _scNtcService.SaveDbContextAsync();
+
+            return RedirectToAction("Notice", "Cs");
         }
         #endregion
 

@@ -17,10 +17,12 @@
 
 </script>
 
+
 <div id="sub_rightwrap">
     <div class="sub_right_title admin0503"><em>공지사항 관리</em></div>
-    @using (Html.BeginForm("RegNotice", "Cs", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "mainForm" }))
+    @using (Html.BeginForm("ModifyNotice", "Cs", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "mainForm" }))
     {
+        @Html.HiddenFor(model => model.NoticeSn)
         <div class="tablewrap">
             <table>
                 <caption>공지사항 등록하기</caption>
@@ -46,7 +48,7 @@
         </div><!--tablewrap//-->
         <div id="btnwrap_sub">
             <div class="rightwrap">
-                <button type="submit" class="regi" id="btn_insert" name="btn_insert"><em>등록</em></button>
+                <button type="submit" class="save2" id="btn_save" name="btn_save"><em>저장</em></button>
                 <a href="@Url.Action("Notice", "Cs")" class="cancel2 right"><em>취소</em></a>
             </div>
         </div><!--btnwrap//-->

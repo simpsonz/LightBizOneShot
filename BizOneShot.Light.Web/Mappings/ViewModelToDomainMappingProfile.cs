@@ -23,13 +23,16 @@ namespace BizOneShot.Light.Web.Mappings
         protected override void Configure()
         {
             //여기에 Object-To-Object 매핑정의를 생성(필요할때 계속 추가)
-            Mapper.CreateMap<FaqViewModel,ScFaq>()
+
+            //FAQ
+            Mapper.CreateMap<FaqViewModel, ScFaq>()
                    .ForMember(d => d.FaqSn, map => map.MapFrom(s => s.FaqSn))
                    .ForMember(d => d.AnsTxt, map => map.MapFrom(s => s.AnsTxt))
                    .ForMember(d => d.QstTxt, map => map.MapFrom(s => s.QstTxt));
+            //Notice
+            Mapper.CreateMap<NoticeViewModel, ScNtc>();
 
-           
-            
+
             //전문가 회원가입 to 회원
             Mapper.CreateMap<JoinExpertViewModel, ScUsr>()
                 .ForMember(d => d.TelNo, map => map.MapFrom(s => s.TelNo1 + "-" + s.TelNo2 + "-" + s.TelNo3))

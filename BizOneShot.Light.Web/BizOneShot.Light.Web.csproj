@@ -1440,6 +1440,7 @@
     <Content Include="Views\Cs\ModifyFaq.cshtml" />
     <Content Include="Views\Cs\FaqDetail.cshtml" />
     <Content Include="Views\Cs\RegNotice.cshtml" />
+    <Content Include="Views\Cs\ModifyNotice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
