@@ -10,6 +10,9 @@ using AutoMapper;
 using System.Threading.Tasks;
 using BizOneShot.Light.Util.Helper;
 using System;
+using System.Web;
+using System.IO;
+using System.Linq;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -463,6 +466,173 @@ namespace BizOneShot.Light.Web.Controllers
             manualDetailView.ManualFiles = fileInfoViewModel;
 
             return View(manualDetailView);
+        }
+
+
+        public ActionResult RegManual()
+        {
+            ViewBag.LeftMenu = Global.Cs;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RegManual(ManualViewModel manualViewModel, IEnumerable<HttpPostedFileBase> files)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+
+            var scForm =
+                Mapper.Map<ScForm>(manualViewModel);
+
+            scForm.Status = "N";
+            scForm.RegDt = DateTime.Now;
+            scForm.RegId = Session[Global.LoginID].ToString();
+
+
+            //첨부파일
+            if (files != null)
+            {
+                var fileHelper = new FileHelper();
+                foreach (var file in files)
+                {
+                    if (file != null)
+                    {
+                        var savedFileName = fileHelper.GetUploadFileName(file);
+
+                        var subDirectoryPath = Path.Combine(FileType.Manual.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
+
+                        var savedFilePath = Path.Combine(subDirectoryPath, savedFileName);
+
+                        var scFileInfo = new ScFileInfo { FileNm = Path.GetFileName(file.FileName), FilePath = savedFilePath, Status = "N", RegId = Session[Global.LoginID].ToString(), RegDt = DateTime.Now };
+
+                        var scFormFile = new ScFormFile { ScFileInfo = scFileInfo };
+                        scForm.ScFormFiles.Add(scFormFile);
+
+                        await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
+                    }
+                }
+            }
+
+            //저장
+            int result = await _scFormService.AddScFormAsync(scForm);
+
+            if (result != -1)
+                return RedirectToAction("Manual", "Cs");
+            else
+            {
+                ModelState.AddModelError("", "메뉴얼 등록 실패.");
+                return View(manualViewModel);
+            }
+
+        }
+
+        public async Task<ActionResult> DeleteManual(int formSn)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+
+            var dicScForm = await _scFormService.GetScFormAsync(formSn);
+            dicScForm.Status = "D";
+            dicScForm.UpdDt = DateTime.Now;
+            dicScForm.UpdId = Session[Global.LoginID].ToString();
+
+            await _scFormService.SaveDbContextAsync();
+
+            return RedirectToAction("Manual", "Cs");
+        }
+
+        public async Task<ActionResult> ModifyManual(int formSn)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+
+            var dicScForm = await _scFormService.GetManualDetailByIdAsync(formSn);
+
+            var curScForm = dicScForm["curForm"];
+
+            var manualDetailView =
+                Mapper.Map<ManualDetailViewModel>(curScForm);
+
+            foreach (var key in dicScForm.Keys)
+            {
+                var value = dicScForm[key];
+
+                if (key == "preForm" && value != null)
+                {
+                    manualDetailView.PreFormSn = value.FormSn;
+                    manualDetailView.PreSubject = value.Subject;
+                }
+                else if (key == "nextForm" && value != null)
+                {
+                    manualDetailView.NextFormSn = value.FormSn;
+                    manualDetailView.NextSubject = value.Subject;
+                }
+            }
+
+
+            //Eager Loading 방식
+            var listScFormFile = await _scFormFileService.GetFormFilesByIdAsync(formSn);
+
+            var listScFileInfo = new List<ScFileInfo>();
+            foreach (var scFormFile in listScFormFile)
+            {
+                listScFileInfo.Add(scFormFile.ScFileInfo);
+            }
+
+            var fileInfoViewModel = Mapper.Map<IList<FileInfoViewModel>>(listScFileInfo);
+
+            manualDetailView.ManualFiles = fileInfoViewModel;
+
+            return View(manualDetailView);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ModifyManual(ManualDetailViewModel manualDetailViewModel, string deleteFileSns, IEnumerable<HttpPostedFileBase> files)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+
+            var scForm = await _scFormService.GetScFormAsync(manualDetailViewModel.Manual.FormSn);
+            scForm.FormType = manualDetailViewModel.Manual.FormType;
+            scForm.Subject = manualDetailViewModel.Manual.Subject;
+            scForm.Contents = manualDetailViewModel.Manual.Contents;
+            scForm.UpdDt = DateTime.Now;
+            scForm.UpdId = Session[Global.LoginID].ToString();
+
+            //삭제파일 상태 업데이트
+
+            if (!string.IsNullOrEmpty(deleteFileSns.Trim()))
+            {
+                foreach (var deleteFileSn in deleteFileSns.Split(',').AsEnumerable())
+                {
+                    scForm.ScFormFiles.Select(fi => fi.ScFileInfo).Where(fi => fi.FileSn == int.Parse(deleteFileSn)).FirstOrDefault().Status = "D";
+                }
+            }
+
+            //첨부파일
+            if (files != null)
+            {
+                var fileHelper = new FileHelper();
+                foreach (var file in files)
+                {
+                    if (file != null)
+                    {
+                        var savedFileName = fileHelper.GetUploadFileName(file);
+
+                        var subDirectoryPath = Path.Combine(FileType.Manual.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
+
+                        var savedFilePath = Path.Combine(subDirectoryPath, savedFileName);
+
+                        var scFileInfo = new ScFileInfo { FileNm = Path.GetFileName(file.FileName), FilePath = savedFilePath, Status = "N", RegId = Session[Global.LoginID].ToString(), RegDt = DateTime.Now };
+
+                        var scFormFile = new ScFormFile { ScFileInfo = scFileInfo };
+                        scForm.ScFormFiles.Add(scFormFile);
+
+                        await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
+                    }
+                }
+            }
+
+            //저장
+            await _scFormService.ModifyScFormAsync(scForm);
+
+            return RedirectToAction("Manual", "Cs");
         }
         #endregion
 

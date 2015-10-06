@@ -1,0 +1,144 @@
+﻿@model BizOneShot.Light.Models.ViewModels.ManualViewModel
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@Scripts.Render("~/Js/files.js")
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz >  a.navi_CS').addClass('on');
+        //Cs menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_menual').addClass('on');
+
+        $('#submit_form').bind('submit', function () {
+            //필수값체크
+            if ($('#FormType').val() == "") {
+                alert("구분은 필수값입니다.");
+                $('#FormType').focus();
+                return false;
+            }
+            if ($('#subject').val() == "") {
+                alert("제목은 필수값입니다.");
+                $('#subject').focus();
+                return false;
+            }
+            if ($('#contents').val() == "") {
+                alert("내용은 필수값입니다.");
+                $('#contents').focus();
+                return false;
+            }
+
+
+            //파일체크
+            var inputFileCount = 0;
+            var totalSize = 0;
+            var fileNames = new Array();
+            $('input[type="file"]').each(function () {
+                if ($(this).val() != '') {
+                    //input에서 파일이름만 추출해서 담음
+                    fileNames.push($(this).val().replace(/^.*[\\\/]/, ''));
+
+                    fileSize = $('input[type="file"]').get(inputFileCount).files[0].size;
+                    totalSize = totalSize + fileSize;
+
+                    //inputFileCount += 1;
+                }
+
+                inputFileCount += 1;
+
+            });
+
+            if (inputFileCount > 5) {
+                alert("파일갯수는 5개를 초과할 수 없습니다.");
+                return false;
+            }
+
+            if (totalSize > 100000000) {
+                alert("전체 파일 사이즈는 100MB 를 초과할 수 없습니다.");
+                return false;
+            }
+
+            var hasDups = !fileNames.every(function (v, i) {
+                return fileNames.indexOf(v) == i;
+            });
+            if (hasDups) {
+                // having duplicate values
+                alert("업로드할 파일에 같은 파일이 있습니다.");
+                return false;
+            }
+
+        });
+    });
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title admin0505"><em>매뉴얼 및 서식 관리</em></div>
+@using (Html.BeginForm("RegManual", "Cs", FormMethod.Post, new { area = "", id = "submit_form", role = "form", enctype = "multipart/form-data" }))
+{
+    <div class="tablewrap">
+        <table>
+            <caption>매뉴얼 및 서식 관리 등록하기</caption>
+            <colgroup>
+                <col width="100px" />
+                <col width="260px" />
+                <col width="100px" />
+                <col width="150px" />
+                <col width="140px" />
+            </colgroup>
+            <tr>
+                <th><label for="">구분</label></th>
+                <td class="form" colspan="4">
+                    @Html.DropDownListFor(model => model.FormType, new SelectList(
+                           new List<Object>{
+                                           new { value = "" , text = "구분선택"  },
+                                           new { value = "M" , text = "매뉴얼" },
+                                           new { value = "N" , text = "일반서식" },
+                                           new { value = "S" , text = "SCP 표준서식" },
+                                           new { value = "P" , text = "프로그램" }
+                             },
+                           "value",
+                           "text",
+                            2), new { @class = "w160", @id = "FormType" })
+                </td>
+            </tr>
+            <tr>
+                <th><label for="">제목</label></th>
+                <td colspan="4" class="form">
+                    @Html.TextBoxFor(model => model.Subject, new { @class = "w630", @id = "subject" })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" class="modify">
+                    @Html.TextAreaFor(model => model.Contents, new { @placeholder = "메뉴얼을 등록할 수 있습니다", @id = "contents" })
+                </td>
+            </tr>
+            <tr>
+                <th>첨부파일</th>
+                <td colspan="4" class="nopad">
+                    <div id="file_upwrap">
+                        <ul>
+                            <li>
+                                <!--파일1-->
+                                <input type="text" class="file" readonly="readonly" />
+                                <button type="button" class="file_search" value="찾아보기" onclick="return file_add(this);"></button>
+                                <button type="button" class="file_add" value="파일추가" onclick="return file_inpput_add(this);"></button>
+                                <button type="button" class="file_del" value="파일삭제" onclick="return file_inpput_remove(this);"></button>
+                                <em><input type="file" name="files" id="files" onchange="return get_filename(this)" /></em>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div><!--tablewrap//-->
+
+    <div id="btnwrap_sub">
+        <div class="rightwrap">
+            <button type="submit" class="regi" id="btn_Insert" name="btn_Insert"><em>등록</em></button>
+            <a href="@Url.Action("Manual", "Cs")" class="cancel2 right"><em>취소</em></a>
+        </div>
+    </div><!--btnwrap_sub//-->
+}
+</div><!--sub_rightwrap//-->

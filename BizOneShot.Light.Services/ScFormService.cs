@@ -17,6 +17,10 @@ namespace BizOneShot.Light.Services
         Task<IList<ScForm>> GetManualsAsync(string searchType = null, string keyword = null);
 
         Task<IDictionary<string, ScForm>> GetManualDetailByIdAsync(int formSn);
+
+        Task<ScForm> GetScFormAsync(int formSn);
+        Task<int> AddScFormAsync(ScForm scForm);
+        Task ModifyScFormAsync(ScForm scForm);
     }
 
 
@@ -72,7 +76,7 @@ namespace BizOneShot.Light.Services
             var curForm = await scFormRepository.GetAsync(manual => manual.FormSn == formSn);
 
             var nextFormTask = await scFormRepository.GetManyAsync(manual => manual.FormSn > formSn && manual.Status == "N");
-            var nextForm = preFormTask.OrderBy(manual => manual.FormSn).FirstOrDefault();
+            var nextForm = nextFormTask.OrderBy(manual => manual.FormSn).FirstOrDefault();
 
             var dicScForms = new Dictionary<string, ScForm>();
 
@@ -81,6 +85,34 @@ namespace BizOneShot.Light.Services
             dicScForms.Add("nextForm", nextForm);
 
             return dicScForms;
+        }
+
+        public async Task<ScForm> GetScFormAsync(int formSn)
+        {
+            return await scFormRepository.GetAsync(manual => manual.FormSn == formSn && manual.Status == "N");
+        }
+
+        public async Task<int> AddScFormAsync(ScForm scForm)
+        {
+            var rstScForm = await scFormRepository.Insert(scForm);
+
+            if (rstScForm == null)
+            {
+                return -1;
+            }
+            else
+            {
+                return await SaveDbContextAsync();
+            }
+
+        }
+
+        public async Task ModifyScFormAsync(ScForm scForm)
+        {
+            await Task.Run(() => scFormRepository.Update(scForm));
+
+
+            await SaveDbContextAsync();
         }
 
         #region SaveDbContext
