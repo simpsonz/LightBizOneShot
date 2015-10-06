@@ -52,12 +52,6 @@ namespace BizOneShot.Light.Web.Mappings
             //멘토 회원가입모델 to 회사
             Mapper.CreateMap<JoinMentorViewModel, ScCompInfo>();
 
-            //멘토 정보수정 to 회원
-            Mapper.CreateMap<MentorMyInfoViewModel, ScUsr>()
-                .ForMember(d => d.TelNo, map => map.MapFrom(s => s.TelNo1 + "-" + s.TelNo2 + "-" + s.TelNo3))
-                .ForMember(d => d.MbNo, map => map.MapFrom(s => s.MbNo1 + "-" + s.MbNo2 + "-" + s.MbNo3))
-                .ForMember(d => d.FaxNo, map => map.MapFrom(s => s.FaxNo1 + "-" + s.FaxNo2 + "-" + s.FaxNo3))
-                .ForMember(d => d.Email, map => map.MapFrom(s => s.Email1 + "@" + s.Email2));
 
             //멘토 종합 보고서 등록 to 멘토종합보고서
             Mapper.CreateMap<MentoringTotalReportViewModel, ScMentoringTotalReport>();

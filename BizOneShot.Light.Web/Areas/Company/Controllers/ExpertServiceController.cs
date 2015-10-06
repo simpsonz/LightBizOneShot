@@ -10,6 +10,7 @@ using BizOneShot.Light.Services;
 namespace BizOneShot.Light.Web.Areas.Company.Controllers
 {
     [UserAuthorize(Order = 1)]
+    [MenuAuthorize(Roles = UserType.Company, Order = 2)]
     public class ExpertServiceController : Controller
     {
         private readonly IScReqDocService _scReqDocService;
@@ -25,8 +26,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             return View();
         }
 
-        [MenuAuthorize(Roles = UserType.Company, Order = 2)]
-        public ActionResult TaxReceive()
+        public ActionResult ReqReceiveList(string expertType)
         {
             ViewBag.LeftMenu = Global.ExpertService;
             string receiverId = Session[Global.LoginID].ToString();

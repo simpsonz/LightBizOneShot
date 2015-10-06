@@ -71,14 +71,14 @@
                     </div>
                 </td>
             </tr>
-            <tr>
+            @*<tr>
                 <th>사업관리기관</th>
                 <td>@Model.MngCompName</td>
             </tr>
             <tr>
                 <th>사업명</th>
                 <td>@Model.BizWorkName</td>
-            </tr>
+            </tr>*@
             <tr>
                 <th>전화번호</th>
                 <td>@Model.ComTelNo</td>
@@ -113,8 +113,7 @@
             </tr>
         </table>
         <div class="line_dot10"></div>
-        <table>
-            <!--담당자명 외-->
+        @*<table>
             <colgroup>
                 <col width="160px" />
                 <col width="590px" />
@@ -135,11 +134,12 @@
                 <th>이메일 주소</th>
                 <td>@Model.MentorEmail</td>
             </tr>
-        </table>
+        </table>*@
     </div><!--tablewrap//-->
 
     <div id="btnwrap_sub">
-        <a href="" class="modify right"><em>수정</em></a>
+        @*<a href="" class="modify right"><em>수정</em></a>*@
+        <a href="@Url.Action("ModifyMyInfo","MyInfo", Model)" class="bt_myinfo_modify right" title="수정"><em>수정</em></a>
     </div><!--btnwrap//-->
 
 </div><!--sub_rightwrap//-->

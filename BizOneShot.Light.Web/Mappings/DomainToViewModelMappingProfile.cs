@@ -50,14 +50,30 @@ namespace BizOneShot.Light.Web.Mappings
 
             //Company MyInfo 매핑;
             Mapper.CreateMap<ScUsr, CompanyMyInfoViewModel>()
-                .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FileNm))
-                .ForMember(d => d.ResumePath, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FilePath))
-                .ForMember(d => d.ComAddr, map => map.MapFrom(s => s.ScCompInfo.PostNo + " " + s.ScCompInfo.Addr1 + " " + s.ScCompInfo.Addr2))
+                //.ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FileNm))
+                //.ForMember(d => d.ResumePath, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FilePath))
+                .ForMember(d => d.TelNo1, map => map.MapFrom(s => s.TelNo.Split('-').GetValue(0).ToString()))
+                .ForMember(d => d.TelNo2, map => map.MapFrom(s => s.TelNo.Split('-').GetValue(1).ToString()))
+                .ForMember(d => d.TelNo3, map => map.MapFrom(s => s.TelNo.Split('-').GetValue(2).ToString()))
+                .ForMember(d => d.MbNo1, map => map.MapFrom(s => s.MbNo.Split('-').GetValue(0).ToString()))
+                .ForMember(d => d.MbNo2, map => map.MapFrom(s => s.MbNo.Split('-').GetValue(1).ToString()))
+                .ForMember(d => d.MbNo3, map => map.MapFrom(s => s.MbNo.Split('-').GetValue(2).ToString()))
+                .ForMember(d => d.Email1, map => map.MapFrom(s => s.Email.Split('@').GetValue(0).ToString()))
+                .ForMember(d => d.Email2, map => map.MapFrom(s => s.Email.Split('@').GetValue(1).ToString()))
+
+                .ForMember(d => d.ComTelNo1, map => map.MapFrom(s => s.ScCompInfo.TelNo.Split('-').GetValue(0).ToString()))
+                .ForMember(d => d.ComTelNo2, map => map.MapFrom(s => s.ScCompInfo.TelNo.Split('-').GetValue(1).ToString()))
+                .ForMember(d => d.ComTelNo3, map => map.MapFrom(s => s.ScCompInfo.TelNo.Split('-').GetValue(2).ToString()))
+                .ForMember(d => d.ComAddr, map => map.MapFrom(s => "(" + s.ScCompInfo.PostNo + ") " + s.ScCompInfo.Addr1 + " " + s.ScCompInfo.Addr2))
+                .ForMember(d => d.ComPostNo, map => map.MapFrom(s => s.ScCompInfo.PostNo))
+                .ForMember(d => d.ComAddr1, map => map.MapFrom(s => s.ScCompInfo.Addr1))
+                .ForMember(d => d.ComAddr2, map => map.MapFrom(s => s.ScCompInfo.Addr2))
                 .ForMember(d => d.ComOwnNm, map => map.MapFrom(s => s.ScCompInfo.OwnNm))
                 .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
                 .ForMember(d => d.ComRegistrationNo, map => map.MapFrom(s => s.ScCompInfo.RegistrationNo))
                 .ForMember(d => d.ComTelNo, map => map.MapFrom(s => s.ScCompInfo.TelNo));
 
+          
             //회원가입 매핑
             Mapper.CreateMap<ScUsr, JoinCompanyViewModel>()
                 .ForMember(d => d.TelNo1, map => map.MapFrom(s => s.TelNo.Split('-').GetValue(0).ToString()))

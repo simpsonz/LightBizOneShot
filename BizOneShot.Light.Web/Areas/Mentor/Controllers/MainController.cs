@@ -116,22 +116,19 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
                 return View(mentorViewModel);
             }
 
-            //맨토정보 업데이트
-            var modifyScUsr = Mapper.Map<ScUsr>(mentorViewModel);
+            scUsr.AccountNo = mentorViewModel.AccountNo;
+            scUsr.Addr1 = mentorViewModel.Addr1;
+            scUsr.Addr2 = mentorViewModel.Addr2;
+            scUsr.BankNm = mentorViewModel.BankNm;
+            scUsr.Email = mentorViewModel.Email1 + "@" + mentorViewModel.Email2;
+            scUsr.FaxNo = mentorViewModel.FaxNo1 + "-" + mentorViewModel.FaxNo2 + "-" + mentorViewModel.FaxNo3;
+            scUsr.MbNo = mentorViewModel.MbNo1 + "-" + mentorViewModel.MbNo2 + "-" + mentorViewModel.MbNo3;
+            scUsr.Name = mentorViewModel.Name;
+            scUsr.PostNo = mentorViewModel.PostNo;
+            scUsr.TelNo = mentorViewModel.TelNo1 + "-" + mentorViewModel.TelNo2 + "-" + mentorViewModel.TelNo3;
+            scUsr.UsrTypeDetail = mentorViewModel.UsrTypeDetail;
 
-            scUsr.AccountNo = modifyScUsr.AccountNo;
-            scUsr.Addr1 = modifyScUsr.Addr1;
-            scUsr.Addr2 = modifyScUsr.Addr2;
-            scUsr.BankNm = modifyScUsr.BankNm;
-            scUsr.Email = modifyScUsr.Email;
-            scUsr.FaxNo = modifyScUsr.FaxNo;
-            scUsr.MbNo = modifyScUsr.MbNo;
-            scUsr.Name = modifyScUsr.Name;
-            scUsr.PostNo = modifyScUsr.PostNo;
-            scUsr.TelNo = modifyScUsr.TelNo;
-            scUsr.UsrTypeDetail = modifyScUsr.UsrTypeDetail;
-
-            _scUsrService.ModifyMentorInfo(scUsr);
+            //_scUsrService.ModifyScUsr(scUsr);
 
             //파일정보 업데이트
             if (!string.IsNullOrEmpty(param.DeleteFileSn))
@@ -162,7 +159,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
                 }
             }
 
-            _scUsrService.ModifyMentorInfo(scUsr);
+            _scUsrService.ModifyScUsr(scUsr);
 
             //다성공시 커밋
             await _scUsrService.SaveDbContextAsync();

@@ -21,7 +21,7 @@ namespace BizOneShot.Light.Services
         Task<ScUsr> SelectScUsr(string loginId);
 
         Task<ScUsr> SelectMentorInfo(string loginId);
-        void ModifyMentorInfo(ScUsr scUsr);
+        void ModifyScUsr(ScUsr scUsr);
 
         Task<int> AddCompanyUserAsync(ScCompInfo scCompInfo, ScUsr scUsr, SHUSER_SyUser syUser);
         Task<int> AddBizManagerAsync(ScCompInfo scCompInfo);
@@ -96,7 +96,7 @@ namespace BizOneShot.Light.Services
             return scUsr;
         }
 
-        public void ModifyMentorInfo(ScUsr scUsr)
+        public void ModifyScUsr(ScUsr scUsr)
         {
             scUsrRespository.Update(scUsr);
         }

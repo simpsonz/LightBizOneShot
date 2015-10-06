@@ -641,6 +641,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
                 scMentoringReport.MentoringPlace = dataRequestViewModel.MentoringPlace;
                 scMentoringReport.MentoringStHr = dataRequestViewModel.MentoringStHr;
                 scMentoringReport.MentoringSubject = dataRequestViewModel.MentoringSubject;
+                scMentoringReport.SubmitDt = dataRequestViewModel.SubmitDt;
 
                 scMentoringReport.UpdId = mentorId;
                 scMentoringReport.UpdDt = DateTime.Now; 
@@ -655,7 +656,6 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
                         scMentoringReport.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo).Where(fi => fi.FileSn == int.Parse(deleteFileSn)).FirstOrDefault().Status = "D";
                     }
                 }
-
 
                 //첨부파일
                 if (files != null)

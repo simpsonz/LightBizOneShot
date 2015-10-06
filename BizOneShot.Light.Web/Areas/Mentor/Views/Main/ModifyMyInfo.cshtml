@@ -68,6 +68,21 @@
 
     });
 
+    function open_post() {
+        w = 550;    //팝업창의 너비
+        h = 485;    //팝업창의 높이
+        //중앙위치 구해오기
+        LeftPosition = (screen.width - w) / 2;
+        TopPosition = (screen.height - h) / 2;
+        var popUp = window.open('/Home/zipSearchPopup', 'zipSearchPopup', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=no, resizable=no");
+        popUp.focus();
+    }
+
+    function resultReceive(zip, address) {
+        $('#POST_NO').val(zip);
+        $('#ADDR_1').val(address);
+    }
+
 
     function delete_file(value) {
         $("#DeleteFileSn").val(value);
@@ -251,8 +266,8 @@
                     <th>주소</th>
                     <td class="form nopad">
                         <ul>
-                            <li><button type="button" class="bt_post" value="우편번호"></button>&nbsp;&nbsp;<input type="text" class="w65"> - <input type="text" class="w65"></li>
-                            <li class="nobd"><input type="text" class="w240" id="Addr1" value="@Model.Addr1"> <input type="text" id="Addr2" class="w240" value="@Model.Addr2" placeholder="나머지주소입력란"></li>
+                            <li class="info"><input type="button" class="td_post" value="우편번호" onClick="javascript: open_post();">@Html.TextBoxFor(model => model.PostNo, new { @class = "w146", @readOnly = "readOnly", @id = "POST_NO" })</li>
+                            <li class="info">@Html.TextBoxFor(model => model.Addr1, new { @class = "w240", @id = "ADDR_1", @readOnly = "readOnly" }) @Html.TextBoxFor(model => model.Addr2, new { @class = "w240", @placeholder = "나머지주소입력란" })</li>
                         </ul>
                     </td>
                 </tr>
@@ -332,7 +347,9 @@
                     </tr>
                 </table>
 
-        </div><!--tablewrap//-->
+
+            </div><!--tablewrap//-->
+
 
             <div id="btnwrap_sub">
                 @*<button class="cancel2 right" onclick="confirm('지금까지 작성된 내용을 취소하시겠습니까?');return false;" value="reset" title="취소"></button>*@
