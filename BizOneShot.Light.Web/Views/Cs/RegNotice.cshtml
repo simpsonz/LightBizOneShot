@@ -1,0 +1,54 @@
+﻿@model BizOneShot.Light.Models.ViewModels.NoticeViewModel
+
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+
+        //top menu
+        $('#naviwrap_biz > .navi_biz >  a.navi_CS').addClass('on');
+
+        //Cs menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_notice').addClass('on');
+    });
+
+
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title admin0503"><em>공지사항 관리</em></div>
+@using (Html.BeginForm("RegNotice", "Cs", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "mainForm" }))
+{
+    <div class="tablewrap">
+        <table>
+            <caption>공지사항 등록하기</caption>
+            <colgroup>
+                <col width="120px" />
+                <col width="630px" />
+            </colgroup>
+
+            <tr>
+                <th><label for="">제목</label></th>
+                <td class="form">@Html.TextBoxFor(model => model.Subject, new { @class = "w590" })</td>
+            </tr>
+            @*								<tr>
+                    <th><label for="">등록일자</label></th>
+                    <td class="form"><input type="text" class="w80" id="REG_DT" name="REG_DT" value="2014-12-08"/><a href="" class="bt_calendar"><em>날짜선택</em></a></td>
+                </tr>							*@
+            <tr>
+                <td colspan="4" class="modify">
+                    @Html.TextAreaFor(model => model.RmkTxt)
+                </td>
+            </tr>
+        </table>
+    </div><!--tablewrap//-->
+    <div id="btnwrap_sub">
+        <div class="rightwrap">
+            <button type="submit" class="regi" id="btn_insert" name="btn_insert"><em>등록</em></button>
+            <a href="@Url.Action("Notice", "Cs")" class="cancel2 right"><em>취소</em></a>
+        </div>
+    </div><!--btnwrap//-->
+}
+</div><!--sub_rightwrap//-->

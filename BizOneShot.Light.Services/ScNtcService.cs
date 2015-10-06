@@ -19,6 +19,8 @@ namespace BizOneShot.Light.Services
         IDictionary<string, ScNtc> GetNoticeDetailById(int noticeSn);
         Task<IDictionary<string, ScNtc>> GetNoticeDetailByIdAsync(int noticeSn);
         Task<IList<ScNtc>> GetNoticesForMainAsync();
+        Task<ScNtc> GetNoticeAsync(int noticeSn);
+        Task<int> AddNoticeAsync(ScNtc scNtc);
     }
 
 
@@ -148,6 +150,27 @@ namespace BizOneShot.Light.Services
 
 
             return  dicScNtcs;
+        }
+
+
+        public async Task<ScNtc> GetNoticeAsync(int noticeSn)
+        {
+            return await scNtcRepository.GetAsync(ntc => ntc.Status == "N" && ntc.NoticeSn == noticeSn);
+        }
+
+        public async Task<int> AddNoticeAsync(ScNtc scNtc)
+        {
+            var rstScNts = await scNtcRepository.Insert(scNtc);
+
+            if (rstScNts == null)
+            {
+                return -1;
+            }
+            else
+            {
+                return await SaveDbContextAsync();
+            }
+
         }
 
         #region SaveDbContext

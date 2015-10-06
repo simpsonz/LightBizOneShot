@@ -18,6 +18,8 @@ namespace BizOneShot.Light.Services
         //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
 
         Task<IList<ScFaq>> GetFaqsAsync(string searchType = null, string keyword = null);
+        Task<ScFaq> GetFaqAsync(int faqSn);
+        Task<int> AddFaqAsync(ScFaq scFaq);
     }
 
 
@@ -59,6 +61,27 @@ namespace BizOneShot.Light.Services
 
             listScFaqTask = await scFaqRespository.GetManyAsync(faq => faq.Stat == "N");
             return listScFaqTask.OrderByDescending(faq => faq.FaqSn).ToList();
+        }
+
+
+        public async Task<ScFaq> GetFaqAsync(int faqSn)
+        {
+            return await scFaqRespository.GetAsync(faq => faq.Stat == "N" && faq.FaqSn == faqSn);
+        }
+
+        public async Task<int> AddFaqAsync(ScFaq scFaq)
+        {
+            var rstScFaq = await scFaqRespository.Insert(scFaq);
+
+            if (rstScFaq == null)
+            {
+                return -1;
+            }
+            else
+            {
+                return await SaveDbContextAsync();
+            }
+
         }
 
 

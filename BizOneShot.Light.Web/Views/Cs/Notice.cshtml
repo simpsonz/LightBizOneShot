@@ -71,4 +71,12 @@
             @Html.Hidden("curPage", "1")
         }
     </div><!--custom_search_box//-->
+
+    @if (Session[Global.UserType].Equals(Global.SysManager) || Session[Global.UserType].Equals(Global.BizManager))
+    {
+        <div id="btnwrap_sub">
+            <a href="@Url.Action("RegNotice", "Cs")" class =" bt_notice_write right"><em>공지등록</em></a>
+        </div><!--btnwrap//-->
+    }
+
 </div><!--custom_rightwrap//-->

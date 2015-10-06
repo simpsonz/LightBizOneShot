@@ -16,6 +16,7 @@ namespace BizOneShot.Light.Dao.Repositories
 {
     public interface IScFaqRepository : IRepository<ScFaq>
     {
+        Task<ScFaq> Insert(ScFaq scFaq);
     }
 
 
@@ -29,6 +30,11 @@ namespace BizOneShot.Light.Dao.Repositories
         {
             return await this.DbContext.ScFaqs.Include("ScQcl").Where(where).ToListAsync();
 
+        }
+
+        public async Task<ScFaq> Insert(ScFaq scFaq)
+        {
+            return await Task.Run(() => DbContext.ScFaqs.Add(scFaq));
         }
 
     }

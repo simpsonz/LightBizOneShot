@@ -26,6 +26,10 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<ScFaq, FaqViewModel>()
                    .ForMember(d => d.QclNm, map => map.MapFrom(s => s.ScQcl.QclNm));
 
+            Mapper.CreateMap<ScQcl, QclDropDownModel>();
+
+            
+
             //공지사항 Notice 매핑
             Mapper.CreateMap<ScNtc, NoticeViewModel>();
 

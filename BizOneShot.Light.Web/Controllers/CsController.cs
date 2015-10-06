@@ -9,6 +9,7 @@ using PagedList;
 using AutoMapper;
 using System.Threading.Tasks;
 using BizOneShot.Light.Util.Helper;
+using System;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -18,15 +19,18 @@ namespace BizOneShot.Light.Web.Controllers
         private readonly IScNtcService _scNtcService;
         private readonly IScFormService _scFormService;
         private readonly IScFormFileService _scFormFileService;
+        private readonly IScQclService _scQclService;
 
         public CsController(
             IScFaqService scFaqService, IScNtcService scNtcServcie, 
-            IScFormService scFormService, IScFormFileService scFormFileService)
+            IScFormService scFormService, IScFormFileService scFormFileService,
+            IScQclService _scQclService)
         {
             this._scFaqService = scFaqService;
             this._scNtcService = scNtcServcie;
             this._scFormService = scFormService;
             this._scFormFileService = scFormFileService;
+            this._scQclService = _scQclService;
         }
 
         public CsController()
@@ -98,6 +102,113 @@ namespace BizOneShot.Light.Web.Controllers
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
             return View(new StaticPagedList<FaqViewModel>(faqViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, faqViews.Count));
+        }
+
+
+        public async Task<ActionResult> RegFaq()
+        {
+            ViewBag.LeftMenu = Global.Cs;
+
+            //Faq 분류 조회
+            var qclList = await _scQclService.GetScQclsAsync();
+            var qclDropDown =
+                Mapper.Map<List<QclDropDownModel>>(qclList);
+
+            SelectList qclSelcetList = new SelectList(qclDropDown, "QclSn", "QclNm");
+
+            ViewBag.SelectQclList = qclSelcetList;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RegFaq(FaqViewModel faqViewModel)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+
+            var scFaq =
+                Mapper.Map<ScFaq>(faqViewModel);
+
+            scFaq.Stat = "N";
+            scFaq.RegDt = DateTime.Now;
+            scFaq.RegId = Session[Global.LoginID].ToString();
+
+            //Faq 등록
+            int result = await _scFaqService.AddFaqAsync(scFaq);
+
+            if (result != -1)
+                return RedirectToAction("Faq", "Cs");
+            else
+            {
+                ModelState.AddModelError("", "FAQ 등록 실패.");
+                return View(faqViewModel);
+            }
+        }
+
+
+        public async Task<ActionResult> FaqDetail(string faqSn)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+
+            //Faq 조회
+            var scFaq = await _scFaqService.GetFaqAsync(int.Parse(faqSn));
+            var scFaqViewModel =
+                Mapper.Map<FaqViewModel>(scFaq);
+
+            return View(scFaqViewModel);
+        }
+
+        public async Task<ActionResult> ModifyFaq(string faqSn)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+            //Faq 분류 조회
+            var qclList = await _scQclService.GetScQclsAsync();
+            var qclDropDown =
+                Mapper.Map<List<QclDropDownModel>>(qclList);
+
+            SelectList qclSelcetList = new SelectList(qclDropDown, "QclSn", "QclNm");
+
+            ViewBag.SelectQclList = qclSelcetList;
+            //Faq 조회
+            var scFaq = await _scFaqService.GetFaqAsync(int.Parse(faqSn));
+            var scFaqViewModel =
+                Mapper.Map<FaqViewModel>(scFaq);
+
+            return View(scFaqViewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ModifyFaq(FaqViewModel faqViewModel)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+
+            //Faq 조회
+            var scFaq = await _scFaqService.GetFaqAsync(faqViewModel.FaqSn);
+
+            scFaq.QstTxt = faqViewModel.QstTxt;
+            scFaq.AnsTxt = faqViewModel.AnsTxt;
+            scFaq.QclSn = faqViewModel.QclSn;
+            scFaq.UpdDt = DateTime.Now;
+            scFaq.UpdId = Session[Global.LoginID].ToString();
+
+            await _scFaqService.SaveDbContextAsync();
+
+            return RedirectToAction("Faq", "Cs");
+        }
+
+
+        public async Task<ActionResult> DeleteFaq(string faqSn)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+            //Faq 조회
+            var scFaq = await _scFaqService.GetFaqAsync(int.Parse(faqSn));
+            scFaq.Stat = "D";
+            scFaq.UpdDt = DateTime.Now;
+            scFaq.UpdId = Session[Global.LoginID].ToString();
+
+            await _scFaqService.SaveDbContextAsync();
+
+            return RedirectToAction("Faq", "Cs");
         }
 
         #endregion
@@ -175,6 +286,50 @@ namespace BizOneShot.Light.Web.Controllers
             }
 
             return  View(noticeDetailView);
+        }
+
+        public async Task<ActionResult> DeleteNotice(int noticeSn)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+
+            var dicScNtc = await _scNtcService.GetNoticeAsync(noticeSn);
+            dicScNtc.Status = "D";
+            dicScNtc.UpdDt = DateTime.Now;
+            dicScNtc.UpdId = Session[Global.LoginID].ToString();
+
+            await _scNtcService.SaveDbContextAsync();
+
+            return RedirectToAction("Notice", "Cs");
+        }
+
+        public ActionResult RegNotice()
+        {
+            ViewBag.LeftMenu = Global.Cs;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RegNotice(NoticeViewModel noticeViewModel)
+        {
+            ViewBag.LeftMenu = Global.Cs;
+
+            var scNts =
+                Mapper.Map<ScNtc>(noticeViewModel);
+
+            scNts.Status = "N";
+            scNts.RegDt = DateTime.Now;
+            scNts.RegId = Session[Global.LoginID].ToString();
+
+            //Faq 등록
+            int result = await _scNtcService.AddNoticeAsync(scNts);
+
+            if (result != -1)
+                return RedirectToAction("Notice", "Cs");
+            else
+            {
+                ModelState.AddModelError("", "공지 등록 실패.");
+                return View(noticeViewModel);
+            }
         }
         #endregion
 

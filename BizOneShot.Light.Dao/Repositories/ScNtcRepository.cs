@@ -12,12 +12,18 @@ namespace BizOneShot.Light.Dao.Repositories
 {
     public interface IScNtcRepository : IRepository<ScNtc>
     {
+        Task<ScNtc> Insert(ScNtc scNtc);
     }
 
     public class ScNtcRepository : RepositoryBase<ScNtc>, IScNtcRepository
     {
         public ScNtcRepository(IDbFactory dbFactory) : base(dbFactory)
         {
+        }
+
+        public async Task<ScNtc> Insert(ScNtc scNtc)
+        {
+            return await Task.Run(() => DbContext.ScNtcs.Add(scNtc));
         }
 
     }

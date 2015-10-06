@@ -43,6 +43,12 @@ namespace BizOneShot.Light.Models.ViewModels
 
     }
 
+    public class QclDropDownModel
+    {
+        public int QclSn { get; set; } // QCL_SN (Primary key). 질문분류코드(순번)
+        public string QclNm { get; set; } // QCL_NM. 질문분류명
+    }
+
     #endregion
 
     #region Notice(공지사항) 뷰모델

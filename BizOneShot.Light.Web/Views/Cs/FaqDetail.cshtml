@@ -1,0 +1,53 @@
+﻿@model BizOneShot.Light.Models.ViewModels.FaqViewModel
+
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $('#naviwrap_biz > .navi_biz >  a.navi_CS').addClass('on');
+
+        //Cs menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_faq').addClass('on');
+
+    });
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title admin0504"><em>FAQ 관리</em></div>
+
+    <div class="tablewrap">
+        <table>
+            <caption>faq 상세보기</caption>
+            <colgroup>
+                <col width="120px" />
+                <col width="255px" />
+                <col width="120px" />
+                <col width="255px" />
+            </colgroup>
+            <tr>
+                <th>분류</th>
+                <td>@Model.QclNm</td>
+                <th>등록일자</th>
+                <td>@Model.RegDt.GetValueOrDefault().ToShortDateString()</td>
+            </tr>
+            <tr>
+                <th>질문</th>
+                <td colspan="3" rowspan="" class="que">@Html.Raw(Model.QstTxt)</td>
+            </tr>
+            <tr>
+                <th>답변</th>
+                <td colspan="3" class="read">@Html.Raw(Model.AnsTxt)</td>
+            </tr>
+        </table>
+    </div><!--tablewrap//-->
+    <div id="btnwrap_sub">
+        <a href="@Url.Action("ModifyFaq", "Cs", new { @faqSn=Model.FaqSn })" class="modify left"><em>수정</em></a>
+        <a href="@Url.Action("DeleteFaq", "Cs", new { @faqSn=Model.FaqSn })" class="delete left" id="btn_delete"><em>삭제</em></a>
+        <a href="@Url.Action("Faq","Cs")" class="list2 right"><em>목록</em></a>
+    </div><!--btnwrap//-->
+
+</div><!--sub_rightwrap//-->
+
+
