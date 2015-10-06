@@ -1,4 +1,4 @@
-﻿@model BizOneShot.Light.Models.ViewModels.BizCheck02ViewModel
+﻿@model BizOneShot.Light.Models.ViewModels.BizCheck08ViewModel
 
 @{
     Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
@@ -22,6 +22,7 @@
     }
 
 </script>
+
 <div id="sub_rightwrap_report">
 
     <div class="sub_right_title specialist_02_02">
@@ -39,27 +40,20 @@
             <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
         </ul>
     </div>
-@using (Html.BeginForm("BizCheck02", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
+@using (Html.BeginForm("BizCheck08", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
 {
     @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
     @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
     @Html.HiddenFor(model => model.Status, new { @id = "status" })
     <div class="sub_report_checkbox">
-        <div class="report_main_top2">
+        <div class="report_main_top2 noline">
             <div class="title_medium">Ⅲ. 경영진단</div>
-            <div class="title_small">
-                경영진단 설문지입니다. 귀사에 해당하는 항목 모두에
-                체크해주요.
-            </div>
         </div>
         <div class="report_main_mid">
             <div class="main_mid_cont">
-                <p class="title_mid">01. 기초 역량 _ CEO 역량</p>
-            </div>
-            <div class="main_mid_cont">
                 <div class="main_mid_listBox">
                     <div class="listBox_title">
-                        <span class="big_span">경영목표 및 전략 _</span><span class="small_span">기업의 경영목표 및 경영전략이 적절하게 설정되어 있는지의 여부</span>
+                        <span class="big_span">생산설비의 운영체계 및 관리 _</span><span class="small_span">생산설비의 효율적인 운영 관리 수준</span>
                     </div>
                     <div class="listBox_tap bg_on">
                         <span>체크리스트</span>
@@ -69,7 +63,7 @@
                             <col width="90%">
                             <col width="10%">
                         </colgroup>
-                        @if (Model == null || Model.BizPurpose == null)
+                        @if (Model == null || Model.ProducEquip == null)
                         {
                             <tr>
                                 <td colspan="2" style="text-align:center;">검색 결과가 없습니다.</td>
@@ -77,18 +71,18 @@
                         }
                         else
                         {
-                            for (int i = 0; i < Model.BizPurpose.Count; i++)
+                            for (int i = 0; i < Model.ProducEquip.Count; i++)
                             {
                                 <tr>
                                     <td>
-                                        <span class="full_span">@Model.BizPurpose[i].Title</span>
-                                        <span class="min_span">@Model.BizPurpose[i].Content1</span>
-                                        @if (@Model.BizPurpose[i].Content2 != null)
+                                        <span class="full_span">@Model.ProducEquip[i].Title</span>
+                                        <span class="min_span">@Model.ProducEquip[i].Content1</span>
+                                        @if (@Model.ProducEquip[i].Content2 != null)
                                         {
-                                            <span class="min_span">@Model.BizPurpose[i].Content2</span>
+                                            <span class="min_span">@Model.ProducEquip[i].Content2</span>
                                         }
                                     </td>
-                                    <td>@Html.CheckBoxFor(m => @Model.BizPurpose[i].AnsVal) @Html.HiddenFor(m => @Model.BizPurpose[i].CheckListSn)</td>
+                                    <td>@Html.CheckBoxFor(m => @Model.ProducEquip[i].AnsVal) @Html.HiddenFor(m => @Model.ProducEquip[i].CheckListSn)</td>
                                 </tr>
                             }
                         }
@@ -96,9 +90,9 @@
                 </div>
                 <div class="main_mid_listBox">
                     <div class="listBox_title">
-                        <span class="big_span">경영자의 리더십 _</span><span class="small_span">
-                            최고경영자가 성공적인 리더십을 발휘할 수 있도록 하는데 필요한
-                            요건
+                        <span class="big_span">공정관리 _</span><span class="small_span">
+                            공정관리
+                            적절성 수준
                         </span>
                     </div>
                     <div class="listBox_tap bg_on">
@@ -109,7 +103,7 @@
                             <col width="90%">
                             <col width="10%">
                         </colgroup>
-                        @if (Model == null || Model.Leadership == null)
+                        @if (Model == null || Model.ProcessControl == null)
                         {
                             <tr>
                                 <td colspan="2" style="text-align:center;">검색 결과가 없습니다.</td>
@@ -117,18 +111,18 @@
                         }
                         else
                         {
-                            for (int i = 0; i < Model.Leadership.Count; i++)
+                            for (int i = 0; i < Model.ProcessControl.Count; i++)
                             {
                                 <tr>
                                     <td>
-                                        <span class="full_span">@Model.Leadership[i].Title</span>
-                                        <span class="min_span">@Model.Leadership[i].Content1</span>
-                                        @if (@Model.Leadership[i].Content2 != null)
+                                        <span class="full_span">@Model.ProcessControl[i].Title</span>
+                                        <span class="min_span">@Model.ProcessControl[i].Content1</span>
+                                        @if (@Model.ProcessControl[i].Content2 != null)
                                         {
-                                            <span class="min_span">@Model.Leadership[i].Content2</span>
+                                            <span class="min_span">@Model.ProcessControl[i].Content2</span>
                                         }
                                     </td>
-                                    <td>@Html.CheckBoxFor(m => @Model.Leadership[i].AnsVal) @Html.HiddenFor(m => @Model.Leadership[i].CheckListSn)</td>
+                                    <td>@Html.CheckBoxFor(m => @Model.ProcessControl[i].AnsVal) @Html.HiddenFor(m => @Model.ProcessControl[i].CheckListSn)</td>
                                 </tr>
                             }
                         }
@@ -139,10 +133,9 @@
         </div>
     </div>
     <!--container//-->
-    <!--container//-->
-    <div id="btnwrap_sub" class="bottom_left2">
+    <div id="btnwrap_sub">
         <div class="rightwrap left">
-            <a href="@Url.Action("BizCheck01", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="pre" value="이전"><em>이전</em></a>
+            <a href="@Url.Action("BizCheck07", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="pre" value="이전"><em>이전</em></a>
         </div>
         <div class="rightwrap right">
             @if (Model.Status != "C")
@@ -151,13 +144,12 @@
             }
             else
             {
-                <a href="@Url.Action("BizCheck03", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="next" value="다음"><em>다음</em></a>
+                <a href="@Url.Action("BizCheck09", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="next" value="다음"><em>다음</em></a>
             }
         </div>
-
         @if (Model.Status != "C")
         {
-            <div class="rightwrap centerwrap">
+            <div class="rightwrap centerwrap left auto_m">
                 <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
             </div>
         }

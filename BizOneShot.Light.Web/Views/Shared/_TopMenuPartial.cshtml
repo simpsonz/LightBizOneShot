@@ -2,16 +2,16 @@
 
 @if (Session[Global.UserType] == null)//비회원
 {
-    <div id="headerwrap">
+    <div id="headerwrap_biz">
         <div class="container">
             <h1><a href="@Url.Action("Index","Home", new { area = "" })"><img src="/images/bi_main.png" /></a></h1>
-            <div id="naviwrap">
-                <div class="navi navi_all">
-                    <a href="@Url.Action("Login","Home", new { area = "" })" class="navi01 navi_login"><em>로그인</em></a><img src="~/Images/header_bar.png" class="navibar">
-                    <a href="@Url.Action("CompanyAgreement","Account", new { area = "" })" class="navi02 navi_join"><em>회원가입</em></a><img src="~/Images/header_bar.png" class="navibar">
-                    <a href="@Url.Action("Faq","Cs", new { area = "" })" class="navi03 navi_cs"><em>고객센터</em></a>
-                </div>
-            </div><!--naviwrap//-->
+                <div id="naviwrap_biz">
+                    <div class="navi navi_all navi_biz">
+                        <a href="@Url.Action("Login","Home", new { area = "" })" class="navi01 navi_login"><em>로그인</em></a><img src="~/Images/header_bar.png" class="navibar">
+                        <a href="@Url.Action("CompanyAgreement","Account", new { area = "" })" class="navi02 navi_join"><em>회원가입</em></a><img src="~/Images/header_bar.png" class="navibar">
+                        <a href="@Url.Action("Faq","Cs", new { area = "" })" class="navi03 navi_CS"><em>고객센터</em></a>
+                    </div>
+                </div><!--naviwrap//-->
         </div>
     </div><!--headerwrap//-->
 }

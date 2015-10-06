@@ -1,27 +1,9 @@
 ﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.ManualViewModel>
 
-@{
-    if (Session[Global.UserType] == null)
-    {
-        Layout = "~/Views/Shared/_MainLayout.cshtml";
-    }
-    else if (Session[Global.UserType].Equals(Global.Company))
-    {
-        Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
-    }
-    else if (Session[Global.UserType].Equals(Global.Expert))
-    {
-    }
-    else if (Session[Global.UserType].Equals(Global.Mentor))
-    {
-        Layout = "~/Areas/mentor/Views/Shared/_MainLayout.cshtml";
-    }
-}
-
 <script>
     $(document).ready(function () {
         //top menu
-        $('#naviwrap_biz > .navi_biz >  a.navi_biz03').addClass('on');
+        $('#naviwrap_biz > .navi_biz >  a.navi_CS').addClass('on');
 
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_menual').addClass('on');
@@ -107,5 +89,12 @@
             @Html.Hidden("curPage", "1")
         }
     </div>
+
+    @if (Session[Global.UserType].Equals(Global.SysManager) || Session[Global.UserType].Equals(Global.BizManager))
+    {
+        <div id="btnwrap_sub">
+            <a href="@Url.Action("MenualForm","Cs")" class="manual_form_regi right"><em>매뉴얼 및 서식 등록</em></a>
+        </div><!--btnwrap//-->
+    }
 
 </div><!--sub_rightwrap//-->

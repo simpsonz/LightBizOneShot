@@ -307,7 +307,7 @@ html,body{position:relative;height:100%;}
 
 /*custom center*/
 .custom_gnbwrap{position:relative;width:200px;height:auto;}
-.custom_gnbwrap ul li.title{display:block;height:58px;border-bottom:3px solid #545151;background:url('../images/title_customcenter.png') no-repeat 10px top;}
+.sub_gnbwrap ul li.title{display:block;height:58px;border-bottom:3px solid #545151;background:url('../images/title_customcenter.png') no-repeat 10px top;}
 .custom_gnbwrap ul li a.gnb{display:block;height:50px;line-height:50px;border-bottom:1px solid #ddd;padding-left:10px;font-weight:bold;font-size:14px;}
 .custom_gnbwrap ul li a.gnb:hover, .custom_gnbwrap ul li a.gnb.on{color:#e60021;}
 

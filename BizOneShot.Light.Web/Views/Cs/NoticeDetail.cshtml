@@ -1,28 +1,10 @@
 ﻿@model BizOneShot.Light.Models.ViewModels.NoticeDetailViewModel
 
-@{
-    if (Session[Global.UserType] == null)
-    {
-        Layout = "~/Views/Shared/_MainLayout.cshtml";
-    }
-    else if (Session[Global.UserType].Equals(Global.Company))
-    {
-        Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
-    }
-    else if (Session[Global.UserType].Equals(Global.Expert))
-    {
-    }
-    else if (Session[Global.UserType].Equals(Global.Mentor))
-    {
-        Layout = "~/Areas/Mentor/Views/Shared/_MainLayout.cshtml";
-    }
-}
-
 <script>
     $(document).ready(function () {
 
         //top menu
-        $('#naviwrap_biz > .navi_biz >  a.navi_biz03').addClass('on');
+        $('#naviwrap_biz > .navi_biz >  a.navi_CS').addClass('on');
 
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_notice').addClass('on');
@@ -89,6 +71,11 @@
     </div>*@
     <div id="btnwrap_sub">
         <div class="rightwrap">
+            @if (Session[Global.UserType].Equals(Global.SysManager) || Session[Global.UserType].Equals(Global.BizManager))
+            {
+                <a href="@Url.Action("ModifyNotice", "Cs", new { @faqSn = Model.NoticeSn })" class="modify left"><em>수정</em></a>
+                <a href="@Url.Action("DeleteNotice", "Cs", new { @faqSn = Model.NoticeSn })" class="delete left" id="btn_delete"><em>삭제</em></a>
+            }
             <a href="@Url.Action("Notice","Cs")" class="list2 right"><em>목록</em></a>
         </div>
     </div><!--btnwrap_sub//-->

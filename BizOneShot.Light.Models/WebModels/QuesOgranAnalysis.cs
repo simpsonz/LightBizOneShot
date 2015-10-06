@@ -24,7 +24,7 @@ namespace BizOneShot.Light.Models.WebModels
     public class QuesOgranAnalysis
     {
         public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
-        public string DeptCd { get; set; } // DEPT_CD
+        public string DeptCd { get; set; } // DEPT_CD (Primary key)
         public string Dept1 { get; set; } // DEPT1
         public string Dept2 { get; set; } // DEPT2
         public int? OfficerCount { get; set; } // OFFICER_COUNT

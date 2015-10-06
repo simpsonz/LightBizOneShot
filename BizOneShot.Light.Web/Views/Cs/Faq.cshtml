@@ -1,29 +1,10 @@
 ﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.FaqViewModel>
 
-@{
-    if (Session[Global.UserType] == null)
-    {
-        Layout = "~/Views/Shared/_MainLayout.cshtml";
-    }
-    else if (Session[Global.UserType].Equals(Global.Company))
-    {
-        Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
-    }
-    else if (Session[Global.UserType].Equals(Global.Expert))
-    {
-    }
-    else if (Session[Global.UserType].Equals(Global.Mentor))
-    {
-        Layout = "~/Areas/Mentor/Views/Shared/_MainLayout.cshtml";
-    }
-
-}
-
 <script>
     $(document).ready(function () {
 
 
-        $('#naviwrap_biz > .navi_biz >  a.navi_biz03').addClass('on');
+        $('#naviwrap_biz > .navi_biz >  a.navi_CS').addClass('on');
 
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_faq').addClass('on');
@@ -73,15 +54,23 @@
                         foreach (var item in Model)
                         {
                             <li class="board">
-                                <span class="sep">@item.QclNm</span><span class="que"><a href="" class="on">@item.QstTxt</a></span>
+                                @if (Session[Global.UserType].Equals(Global.SysManager) || Session[Global.UserType].Equals(Global.BizManager))
+                                {
+                                    <span class="sep">@item.QclNm</span><span class="que"><a href="@Url.Action("FaqDetail","Cs", new {@faqSn = item.FaqSn })" class="on">@item.QstTxt</a></span>
+                                }
+                                else
+                                {
+                                    <span class="sep">@item.QclNm</span><span class="que"><a href="" class="on">@item.QstTxt</a></span>
                                 <!--슬라이드시작-->
-                                <ul style="display:none;">
-                                    <li class="read">
-                                        <div class="apply_wrap">
-                                            <p>@Html.Raw(item.AnsTxt)</p>
-                                        </div>
-                                    </li>
-                                </ul>
+                                    <ul style="display:none;">
+                                        <li class="read">
+                                            <div class="apply_wrap">
+                                                <p>@Html.Raw(item.AnsTxt)</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                }
+
                                 <!--슬라이드끝-->
                             </li>
                         }
@@ -116,5 +105,13 @@
 
             @Html.Hidden("curPage", "1")
         }
-</div><!--custom_search_box//-->
+    </div><!--custom_search_box//-->
+
+    @if (Session[Global.UserType].Equals(Global.SysManager) || Session[Global.UserType].Equals(Global.BizManager))
+    {
+        <div id="btnwrap_sub">
+            <a href="@Url.Action("RegFaq","Cs")" class="faq_regi right"><em>공지등록</em></a>
+        </div><!--btnwrap//-->
+    }
+    
 </div><!--custom_rightwrap//-->

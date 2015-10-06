@@ -18,6 +18,7 @@ namespace BizOneShot.Light.Services
         Task<QuesMaster> GetQuesCompExtentionAsync(int questionSn);
         Task<QuesMaster> GetQuesResult1Async(int questionSn);
         Task<QuesMaster> GetQuesResult2Async(int questionSn);
+        Task<QuesMaster> GetQuesOgranAnalysisAsync(int questionSn);
     }
 
 
@@ -58,13 +59,19 @@ namespace BizOneShot.Light.Services
 
         public async Task<QuesMaster> GetQuesResult1Async(int questionSn)
         {
-            var quesMaster = await _quesMasterRepository.GetQuesCompResult1Async(qm => qm.QuestionSn == questionSn && qm.Status != "D");
+            var quesMaster = await _quesMasterRepository.GetQuesResult1Async(qm => qm.QuestionSn == questionSn && qm.Status != "D");
             return quesMaster;
         }
 
         public async Task<QuesMaster> GetQuesResult2Async(int questionSn)
         {
-            var quesMaster = await _quesMasterRepository.GetQuesCompResult2Async(qm => qm.QuestionSn == questionSn && qm.Status != "D");
+            var quesMaster = await _quesMasterRepository.GetQuesResult2Async(qm => qm.QuestionSn == questionSn && qm.Status != "D");
+            return quesMaster;
+        }
+
+        public async Task<QuesMaster> GetQuesOgranAnalysisAsync(int questionSn)
+        {
+            var quesMaster = await _quesMasterRepository.GetQuesOgranAnalysisAsync(qm => qm.QuestionSn == questionSn && qm.Status != "D");
             return quesMaster;
         }
 

@@ -1,0 +1,218 @@
+﻿@model BizOneShot.Light.Models.ViewModels.BizCheck13ViewModel
+
+@{
+    Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_report').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicsurvey').addClass('on');
+
+        if ($('#status').val() == "C") {
+            $('#mainForm input').attr('disabled', true);
+        }
+    });
+
+    function goSubmit(submitType) {
+        $('#submitType').val(submitType);
+        $('#mainForm').submit();
+    }
+</script>
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_02">
+        <em>기초경영역량 문진표</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_step01"><em>STEP01.진단개요</em></li>
+            <li class="basic_step02"><a href="" class="ablock"><em>STEP02.기업정보</em></a></li>
+            <li class="basic_step03 on"><a href="" class="ablock"><em>STEP03.경영진단</em></a></li>
+            <li class="basic_step04"><a href="" class="ablock"><em>STEP04.재무진단</em></a></li>
+            <li class="basic_step05"><a href="" class="ablock"><em>STEP05.조직진단</em></a></li>
+            <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
+        </ul>
+    </div>
+@using (Html.BeginForm("BizCheck13", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
+{
+    @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
+    @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
+    @Html.HiddenFor(model => model.Status, new { @id = "status" })
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2">
+            <div class="title_medium">Ⅲ. 경영진단</div>
+
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <p class="title_mid">05. 경영성과</p>
+            </div>
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox">
+                    <div class="listBox_title">
+                        <span class="big_span">재무적 성과 _</span><span class="small_span">
+                            재무상태와
+                            영업성과의 종합적 평가
+                        </span>
+                    </div>
+                    <div class="listBox_tap bg_on">
+                        <span>체크리스트</span>
+                    </div>
+                    <table class="join_info">
+                        <colgroup>
+                            <col width="60%">
+                            <col width="40%">
+                        </colgroup>
+                        <tr>
+                            <td>평가대상 재무비율 및 평점 계산</td>
+                            <td class="center_td">
+                                재무제표의 자료를 통하여 관련 지표<br>(2개년
+                                평균)를 자동으로 산출하게 됩니다.
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="main_mid_listBox">
+                    <div class="listBox_title">
+                        <span class="big_span">지적재산권 성과 _</span><span class="small_span">산업재산권과 저작권 등과 같은 지적 재산권의 성과 평가</span>
+                    </div>
+                    <div class="listBox_tap bg_on">
+                        <span>체크리스트</span>
+                    </div>
+                    <div class="listBox_mid_cont">
+                        <p style="padding: 10px 0">(최근 2개년 이내 건수만 기재)</p>
+                        <table class="join_info">
+                            <colgroup>
+                                <col width="60%">
+                                <col width="40%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo">구분</td>
+                                <td class="left_memo">건수</td>
+                            </tr>
+                            <tr>
+                                <td class="center_td">등록 특허 (공개특허 포함)</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.RegPatent.D, new { @class = "w25_text" })건
+                                    @Html.HiddenFor(model => model.RegPatent.CheckListSn)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td">등록 실용신안 (공개 실용신안 포함)</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.RegUtilityModel.D, new { @class = "w25_text" })건
+                                    @Html.HiddenFor(model => model.RegUtilityModel.CheckListSn)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td">출장 중인 특허</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.ApplyPatent.D, new { @class = "w25_text" })건
+                                    @Html.HiddenFor(model => model.ApplyPatent.CheckListSn)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td">출장 중인 실용신안</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.ApplyUtilityModel.D, new { @class = "w25_text" })건
+                                    @Html.HiddenFor(model => model.ApplyUtilityModel.CheckListSn)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td">기타</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.Etc.D, new { @class = "w25_text" })건
+                                    @Html.HiddenFor(model => model.Etc.CheckListSn)
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="main_mid_listBox">
+                    <div class="listBox_title">
+                        <span class="big_span">고용효과 _</span><span class="small_span">
+                            임직원
+                            증가율
+                        </span>
+                    </div>
+                    <div class="listBox_tap bg_on">
+                        <span>체크리스트</span>
+                    </div>
+                    <div class="listBox_mid_cont">
+                        @Html.HiddenFor(model => model.TotalEmp.CheckListSn)
+                        <p style="padding-top: 10px">임직원 인원수 증가율</p>
+                        <p style="padding-bottom: 10px">
+                            (점검연도인 D년은 추세를 검토하기 위해서만
+                            사용됩니다.)
+                        </p>
+                        <table class="join_info">
+                            <colgroup>
+                                <col width="20%">
+                                <col width="20%">
+                                <col width="20%">
+                                <col width="20%">
+                                <col width="20%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo">구분</td>
+                                <td class="left_memo">@Html.Label((Model.TotalEmp.BasicYear).ToString())</td>
+                                <td class="left_memo">@Html.Label((Model.TotalEmp.BasicYear - 1).ToString())</td>
+                                <td class="left_memo">@Html.Label((Model.TotalEmp.BasicYear - 2).ToString())</td>
+                                <td class="left_memo">@Html.Label((Model.TotalEmp.BasicYear - 3).ToString())</td>
+                            </tr>
+                            <tr>
+                                <td class="center_td">임직원 수</td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.TotalEmp.D, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.TotalEmp.D451, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.TotalEmp.D452, new { @class = "w25_text" })명
+                                </td>
+                                <td class="center_td">
+                                    @Html.TextBoxFor(model => model.TotalEmp.D453, new { @class = "w25_text" })명
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--container//-->
+    <div id="btnwrap_sub">
+        <div class="rightwrap left">
+            <a href="@Url.Action("BizCheck12", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="pre" value="이전"><em>이전</em></a>
+        </div>
+        <div class="rightwrap right">
+            @if (Model.Status != "C")
+                {
+                <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+            }
+            else
+            {
+                <a href="@Url.Action("FinanceCheck01", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="next" value="다음"><em>다음</em></a>
+            }
+        </div>
+        @if (Model.Status != "C")
+        {
+            <div class="rightwrap centerwrap left auto_m">
+                <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
+            </div>
+        }
+    </div>
+}
+</div>

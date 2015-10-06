@@ -29,8 +29,13 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         public ActionResult ReqReceiveList(string expertType)
         {
             ViewBag.LeftMenu = Global.ExpertService;
+
             string receiverId = Session[Global.LoginID].ToString();
+
+            
             return View();
+
+            //동기화
         }
     }
 }

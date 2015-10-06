@@ -1,0 +1,260 @@
+﻿@model BizOneShot.Light.Models.ViewModels.OrgCheck01ViewModel
+
+@{
+    Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_report').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicsurvey').addClass('on');
+
+        if ($('#status').val() == "C") {
+            $('#mainForm input').attr('disabled', true);
+        }
+    });
+
+    function goSubmit(submitType) {
+        $('#submitType').val(submitType);
+        $('#mainForm').submit();
+    }
+</script>
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_02">
+        <em>기초경영역량 문진표</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_step01"><em>STEP01.진단개요</em></li>
+            <li class="basic_step02"><a href="" class="ablock"><em>STEP02.기업정보</em></a></li>
+            <li class="basic_step03"><a href="" class="ablock"><em>STEP03.경영진단</em></a></li>
+            <li class="basic_step04"><a href="" class="ablock"><em>STEP04.재무진단</em></a></li>
+            <li class="basic_step05 on"><a href="" class="ablock"><em>STEP05.조직진단</em></a></li>
+            <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
+        </ul>
+    </div>
+@using (Html.BeginForm("OrgCheck01", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
+{
+    @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
+    @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
+    @Html.HiddenFor(model => model.Status, new { @id = "status" })
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2">
+            <div class="title_medium">Ⅴ. 조직 진단</div>
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <p>
+                    본 간이 조직진단은 회사가 어떤 부문에 가장 많은 투자를 하고 있는지를 확인하고, 어떤 부분에서 투자가 적은지를
+                    <br>확인하기 위해서 설계되었습니다. 회사가 일정수준이상 성장하기 위해서는 대표의 업무를 위임받는
+                    직원들이 어떻게 조직되어 있는지가 가장 중요하며 이는 산업별로 많은 차이가 있게 됩니다.<br>
+                    <br> 본 진단에서는 회사의 현 부서가 주로 어떤 성격의 업무를 하는지를 검토하고, 이를 토대로 얼마나
+                    많은 인원이 해당 부문의 업무를 추진하는지 확인하게 됩니다.<br>
+                    <br> 회사의 업무를 크게 4부문으로 구분하고 실제 업무를 추진하는 실무자(과장 이하 6개월 이상
+                    근무), 실무책임자(팀장 혹은 부장급)과 실제 업무는 담당하지 않고 방향만 결정하는 임원급 및 회사 입사 6개월
+                    미만의 초급자를 각 부문별로 표시하면 됩니다. 이를 토대로 분석에서는 유사한 업종과 비교하여, 회사가 어떤 부분에
+                    과소 혹은 과다 투자하고 있는지를 확인할 수 있습니다.
+                </p>
+            </div>
+            <div class="main_mid_cont">
+                <table class="join_info">
+                    <colgroup>
+                        <col width="12%">
+                        <col width="19%">
+                        <col width="19%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+
+                    </colgroup>
+                    <tr>
+                        <td class="left_memo diagonal_line" rowspan="2">
+                            <div class="label_right">임직원수</div>
+                            <div class="label_blank"></div>
+                            <div class="label_bottom">부서</div>
+                        </td>
+                        <td class="left_memo" colspan="2">현재 부서명</td>
+                        <td class="left_memo" colspan="5">임직원수</td>
+
+                    </tr>
+                    <tr>
+                        <td class="center_td left_memo">대분류</td>
+                        <td class="center_td left_memo">소분류</td>
+                        <td class="center_td left_memo">임원</td>
+                        <td class="center_td left_memo">
+                            실무<br>책임자
+                        </td>
+                        <td class="center_td left_memo">실무자</td>
+                        <td class="center_td left_memo">초급</td>
+                        <td class="center_td left_memo">
+                            부분별<br>합계
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center_td">기획/관리</td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Management.Dept1, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Management.Dept2, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Management.OfficerCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Management.ChiefCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Management.StaffCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Management.BeginnerCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Management.PartialSum, new { @class = "long_text2" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center_td">
+                            생산/<br>생산관리
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Produce.Dept1, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Produce.Dept2, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Produce.OfficerCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Produce.ChiefCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Produce.StaffCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Produce.BeginnerCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Produce.PartialSum, new { @class = "long_text2" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center_td">
+                            연구개발/<br>연구지원
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.RND.Dept1, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.RND.Dept2, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.RND.OfficerCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.RND.ChiefCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.RND.StaffCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.RND.BeginnerCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.RND.PartialSum, new { @class = "long_text2" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center_td">
+                            마케팅기획/<br>판매영업
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Salse.Dept1, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Salse.Dept2, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Salse.OfficerCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Salse.ChiefCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Salse.StaffCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Salse.BeginnerCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.Salse.PartialSum, new { @class = "long_text2" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center_td left_memo" colspan="3">총계</td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.OfficerSumCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.ChiefSumCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.StaffSumCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.BeginnerSumCount, new { @class = "long_text2" })
+                        </td>
+                        <td class="center_td">
+                            @Html.TextBoxFor(model => model.TotalSumCount, new { @class = "long_text2" })
+                        </td>
+
+                    </tr>
+                </table>
+                <p style="padding: 10px 0 5px 0; font-size: 9.5pt">
+                    <span> * </span>현재 귀사의 부서를 기능에 맞게 크게 4개(기획/관리, 생산/생산지원, 연구개발,
+                    마케팅/영업)의 부서로 재구성하여 인원수를 작성하여 주십시오.
+                </p>
+                <p style="padding: 5px 0;; font-size: 9.5pt">
+                    <span style="margin-left: 0">** </span>현재 명확하게 부서의 명칭이 일치하지
+                    않더라도 업무의 성격에 비추어서 표시해주시고, 현재 부서명을 대분류 및 세부 분류에 표시해주시면 됩니다. 해당
+                    부분에 속하는 인원을 전원 합산하여 표시하되 1개월 미만의 단순 업무에 대한 계약직은 제외하여
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;주시기 바랍니다.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+    <div id="btnwrap_sub">
+        <div class="rightwrap left">
+            <a href="@Url.Action("FinanceCheck01", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="pre" value="이전"><em>이전</em></a>
+        </div>
+        <div class="rightwrap right">
+            @if (Model.Status != "C")
+                {
+                <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+            }
+            else
+            {
+                <a href="@Url.Action("BasicSurveyComplete", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="next" value="다음"><em>다음</em></a>
+            }
+        </div>
+        @if (Model.Status != "C")
+        {
+            <div class="rightwrap centerwrap left auto_m">
+                <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
+            </div>
+        }
+    </div>
+}
+</div>

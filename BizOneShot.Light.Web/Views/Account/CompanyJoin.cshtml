@@ -168,7 +168,7 @@
     <div class="joinstep">
         <p class="accountant02"><em>정보입력</em></p>
     </div>
-    @using (Html.BeginForm("CompanyJoin", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id="mainForm"}))
+    @using (Html.BeginForm("CompanyJoin", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "mainForm" }))
     {
         @Html.AntiForgeryToken()
         @Html.Hidden("LoginIdChk")

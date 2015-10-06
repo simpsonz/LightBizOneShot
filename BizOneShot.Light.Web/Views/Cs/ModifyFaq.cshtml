@@ -1,0 +1,63 @@
+﻿@model BizOneShot.Light.Models.ViewModels.FaqViewModel
+
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $('#naviwrap_biz > .navi_biz >  a.navi_CS').addClass('on');
+
+        //Cs menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_faq').addClass('on');
+
+    });
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title admin0504"><em>FAQ 관리</em></div>
+
+    @using (Html.BeginForm("ModifyFaq", "Cs", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "mainForm" }))
+    {
+        @Html.HiddenFor(model => model.FaqSn)
+        <div class="tablewrap">
+            <table>
+                <caption>faq 등록하기</caption>
+                <colgroup>
+                    <col width="120px" />
+                    <col width="255px" />
+                    <col width="120px" />
+                    <col width="255px" />
+                </colgroup>
+                <tr>
+                    <th><label for="">분류</label></th>
+                    <td class="form" colspan="3">
+                        @{
+                            if (ViewBag.SelectQclList != null)
+                            {
+                                @Html.DropDownListFor(model => model.QclSn, ViewBag.SelectQclList as SelectList, new { @class = "w250" });
+                            }
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="">질문</label></th>
+                    <td colspan="3" class="form">@Html.TextBoxFor(model => model.QstTxt, new { @class = "w590" })</td>
+                </tr>
+                <tr>
+                    <th><label for="">답변</label></th>
+                    <td colspan="3" class="modify">
+                        @Html.TextAreaFor(model => model.AnsTxt, new { @placeholder = "자주하는 질문에 대한 답변내용을 등록할 수 있습니다" })
+                    </td>
+                </tr>
+            </table>
+        </div><!--tablewrap//-->
+                            <div id="btnwrap_sub">
+                                <div class="rightwrap">
+                                    <button type="submit" class="save2" id="btn_save" name="btn_save"><em>저장</em></button>
+                                    <a href="@Url.Action("Faq", "Cs")" class="cancel2 right"><em>취소</em></a>
+                                </div>
+                            </div><!--btnwrap//-->
+                            }
+
+</div><!--sub_rightwrap//-->

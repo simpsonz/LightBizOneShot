@@ -27,7 +27,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<IList<ScReqDoc>> GetReqDocsAsync(Expression<Func<ScReqDoc, bool>> where)
         {
-            return await this.DbContext.ScReqDocs.Include("ScUsr_SenderId.ScCompInfo").Include("ScUsr_ReceiverId.ScCompInfo").Where(where).ToListAsync();
+            return await this.DbContext.ScReqDocs.Include("ScUsr_ReceiverId").Include("ScUsr_SenderId").Include("ScUsr_SenderId.ScCompInfo").Include("ScUsr_ReceiverId.ScCompInfo").Where(where).ToListAsync();
         }
 
 

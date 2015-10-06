@@ -114,11 +114,11 @@
     <div id="btnwrap_sub">
 
         <div class="rightwrap left">
-            <a href="@Url.Action("CompanyInfo02", "Report", new { area = "Company", @questionSn = Model.QuestionSn })" class="pre" value="이전"><em>이전</em></a>
+            <a href="@Url.Action("CompanyInfo02", "Report", new { area = "Company", @questionSn = Model.QuestionSn, @status = Model.Status })" class="pre" value="이전"><em>이전</em></a>
         </div>
         <div class="rightwrap right">
             @*<button type="button" class="next" onclick="goSubmit('N');" value="다음" />*@
-            <a href="@Url.Action("BizCheck02", "Report", new { area = "Company" , @QuestionSn = Model.QuestionSn})" class="next" value="다음"><em>다음</em></a>
+            <a href="@Url.Action("BizCheck02", "Report", new { area = "Company" , @QuestionSn = Model.QuestionSn, @status = Model.Status})" class="next" value="다음"><em>다음</em></a>
         </div>
 
     </div>

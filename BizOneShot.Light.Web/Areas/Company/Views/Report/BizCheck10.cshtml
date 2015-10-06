@@ -1,8 +1,9 @@
-﻿@model BizOneShot.Light.Models.ViewModels.BizCheck03ViewModel
+﻿@model BizOneShot.Light.Models.ViewModels.BizCheck10ViewModel
 
 @{
     Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
 }
+
 
 <script>
     $(document).ready(function () {
@@ -14,7 +15,6 @@
         if ($('#status').val() == "C") {
             $('#mainForm input').attr('disabled', true);
         }
-
     });
 
     function goSubmit(submitType) {
@@ -41,20 +41,27 @@
             <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
         </ul>
     </div>
-@using (Html.BeginForm("BizCheck03", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
+@using (Html.BeginForm("BizCheck10", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
 {
     @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
     @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
     @Html.HiddenFor(model => model.Status, new { @id = "status" })
     <div class="sub_report_checkbox">
-        <div class="report_main_top2 noline">
+        <div class="report_main_top2">
             <div class="title_medium">Ⅲ. 경영진단</div>
+
         </div>
         <div class="report_main_mid">
             <div class="main_mid_cont">
+                <p class="title_mid">03. 마케팅</p>
+            </div>
+            <div class="main_mid_cont">
                 <div class="main_mid_listBox">
                     <div class="listBox_title">
-                        <span class="big_span">경영자의 신뢰성 _</span><span class="small_span">최고경영자(기업)의 대내외적인 신뢰도 정도</span>
+                        <span class="big_span">마케팅 전략의 수립 및 실행 _</span><span class="small_span">
+                            개발 제품의 목표시장을 분석하고 가격결정, 판매예측 등 마케팅
+                            전략이 수립, 실행되고 있는지의 여부
+                        </span>
                     </div>
                     <div class="listBox_tap bg_on">
                         <span>체크리스트</span>
@@ -64,7 +71,7 @@
                             <col width="90%">
                             <col width="10%">
                         </colgroup>
-                        @if (Model == null || Model.LeaderReliability == null)
+                        @if (Model == null || Model.MarketingPlan == null)
                         {
                             <tr>
                                 <td colspan="2" style="text-align:center;">검색 결과가 없습니다.</td>
@@ -72,23 +79,24 @@
                         }
                         else
                         {
-                            for (int i = 0; i < Model.LeaderReliability.Count; i++)
+                            for (int i = 0; i < Model.MarketingPlan.Count; i++)
                             {
                                 <tr>
                                     <td>
-                                        <span class="full_span">@Model.LeaderReliability[i].Title</span>
-                                        <span class="min_span">@Model.LeaderReliability[i].Content1</span>
-                                        @if (@Model.LeaderReliability[i].Content2 != null)
+                                        <span class="full_span">@Model.MarketingPlan[i].Title</span>
+                                        <span class="min_span">@Model.MarketingPlan[i].Content1</span>
+                                        @if (@Model.MarketingPlan[i].Content2 != null)
                                         {
-                                            <span class="min_span">@Model.LeaderReliability[i].Content2</span>
+                                            <span class="min_span">@Model.MarketingPlan[i].Content2</span>
                                         }
                                     </td>
-                                    <td>@Html.CheckBoxFor(m => @Model.LeaderReliability[i].AnsVal) @Html.HiddenFor(m => @Model.LeaderReliability[i].CheckListSn)</td>
+                                    <td>@Html.CheckBoxFor(m => @Model.MarketingPlan[i].AnsVal) @Html.HiddenFor(m => @Model.MarketingPlan[i].CheckListSn)</td>
                                 </tr>
                             }
                         }
                     </table>
                 </div>
+
             </div>
 
         </div>
@@ -96,7 +104,7 @@
     <!--container//-->
     <div id="btnwrap_sub">
         <div class="rightwrap left">
-            <a href="@Url.Action("BizCheck02", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="pre" value="이전"><em>이전</em></a>
+            <a href="@Url.Action("BizCheck09", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="pre" value="이전"><em>이전</em></a>
         </div>
         <div class="rightwrap right">
             @if (Model.Status != "C")
@@ -105,12 +113,12 @@
             }
             else
             {
-                <a href="@Url.Action("BizCheck04", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="next" value="다음"><em>다음</em></a>
+                <a href="@Url.Action("BizCheck11", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="next" value="다음"><em>다음</em></a>
             }
         </div>
         @if (Model.Status != "C")
         {
-            <div class="rightwrap centerwrap">
+            <div class="rightwrap centerwrap left auto_m">
                 <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
             </div>
         }

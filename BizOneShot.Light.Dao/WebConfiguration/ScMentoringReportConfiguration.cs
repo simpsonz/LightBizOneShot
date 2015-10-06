@@ -45,7 +45,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.MentoringEdHr).HasColumnName("MENTORING_ED_HR").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(5);
             Property(x => x.MentoringPlace).HasColumnName("MENTORING_PLACE").IsOptional().HasColumnType("nvarchar").HasMaxLength(200);
             Property(x => x.Attendee).HasColumnName("ATTENDEE").IsOptional().HasColumnType("nvarchar").HasMaxLength(200);
-            Property(x => x.MentorAreaCd).HasColumnName("MENTOR_AREA_CD").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(2);
+            Property(x => x.MentorAreaCd).HasColumnName("MENTOR_AREA_CD").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             Property(x => x.MentoringSubject).HasColumnName("MENTORING_SUBJECT").IsOptional().HasColumnType("nvarchar").HasMaxLength(1000);
             Property(x => x.MentoringContents).HasColumnName("MENTORING_CONTENTS").IsOptional().HasColumnType("nvarchar").HasMaxLength(2000);
             Property(x => x.SubmitDt).HasColumnName("SUBMIT_DT").IsOptional().HasColumnType("datetime");

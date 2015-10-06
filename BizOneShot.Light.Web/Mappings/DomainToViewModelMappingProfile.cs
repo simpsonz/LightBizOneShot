@@ -26,6 +26,10 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<ScFaq, FaqViewModel>()
                    .ForMember(d => d.QclNm, map => map.MapFrom(s => s.ScQcl.QclNm));
 
+            Mapper.CreateMap<ScQcl, QclDropDownModel>();
+
+            
+
             //공지사항 Notice 매핑
             Mapper.CreateMap<ScNtc, NoticeViewModel>();
 
@@ -317,6 +321,12 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<QuesResult2, QuesYearListViewModel>()
                 .ForMember(d => d.DetailCd, map => map.MapFrom(s => s.QuesCheckList.DetailCd))
                 .ForMember(d => d.SmallClassCd, map => map.MapFrom(s => s.QuesCheckList.SmallClassCd));
+
+            Mapper.CreateMap<QuesOgranAnalysis, OrgCompositionViewModel>()
+               .ForMember(d => d.PartialSum, map => map.MapFrom(s => s.ChiefCount + s.OfficerCount + s.BeginnerCount + s.StaffCount));
+
+
+            
 
 
 
