@@ -52,10 +52,10 @@ namespace BizOneShot.Light.Models.ViewModels
         public string MbNo2 { get; set; } // MB_NO. 휴대폰
         public string MbNo3 { get; set; } // MB_NO. 휴대폰
         [Required]
-        [Display(Name = "이메일")]
+        [Display(Name = "이메일 아이디")]
         public string Email1 { get; set; } // EMAIL. 이메일
         [Required]
-        [Display(Name = "이메일")]
+        [Display(Name = "이메일 도메인")]
         [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
         public string Email2 { get; set; } // EMAIL. 이메일
         public string PostNo { get; set; } // POST_NO. 우편번호
