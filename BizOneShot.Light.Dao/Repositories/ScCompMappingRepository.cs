@@ -35,7 +35,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<ScCompMapping> GetCompMappingAsync(Expression<Func<ScCompMapping, bool>> where)
         {
-            return await this.DbContext.ScCompMappings.Include("ScCompInfo").Include("ScBizWork").Include("ScUsr").Include("ScBizWork.ScCompInfo").Include("ScBizWork.ScUsr").Where(where).SingleAsync();
+            return await this.DbContext.ScCompMappings.Include("ScCompInfo").Include("ScBizWork").Include("ScUsr").Include("ScBizWork.ScCompInfo").Include("ScBizWork.ScUsr").Where(where).SingleOrDefaultAsync();
         }
 
         public async Task<IList<ScCompInfo>> GetCompanysAsync(Expression<Func<ScCompMapping, bool>> where)

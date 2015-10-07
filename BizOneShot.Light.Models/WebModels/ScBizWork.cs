@@ -26,7 +26,7 @@ namespace BizOneShot.Light.Models.WebModels
     {
         public int BizWorkSn { get; set; } // BIZ_WORK_SN (Primary key). 사업식별자
         public string ExecutorId { get; set; } // EXECUTOR_ID. 담당자식별자
-        public int CompSn { get; set; } // COMP_SN. 주관기관식별자
+        public int MngCompSn { get; set; } // MNG_COMP_SN. 주관기관식별자
         public string BizWorkNm { get; set; } // BIZ_WORK_NM. 사업명
         public string BizWorkSummary { get; set; } // BIZ_WORK_SUMMARY. 사업개요
         public DateTime? BizWorkStDt { get; set; } // BIZ_WORK_ST_DT. 사업시작일

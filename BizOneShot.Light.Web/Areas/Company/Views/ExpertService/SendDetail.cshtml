@@ -29,15 +29,16 @@
 
 </script>
 
+
 <div id="sub_rightwrap">
 
-    <div class="sub_right_title expert_receive02"><em>자료요청 수신함 상세보기</em></div>
+    <div class="sub_right_title biz030302"><em>자료요청 발신함 상세보기</em></div>
 
-    <div id="tabswrap_three" class="tab01">
+    <div id="tabswrap_three" class="tab02">
         <!--기업별 조회 목록 탭-->
         <ul>
-            <li><a href="@Url.Action("ReceiveList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})" class="on">수신함</a></li>
-            <li><a href="@Url.Action("SendList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">발신함</a></li>
+            <li><a href="@Url.Action("ReceiveList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">수신함</a></li>
+            <li><a href="@Url.Action("SendList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})" class="on">발신함</a></li>
             <li><a href="@Url.Action("CompanyQAList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">문의등록</a></li>
         </ul>
     </div>
@@ -45,17 +46,18 @@
     @Html.Hidden("expertType", ViewBag.ExpertType as string)
 
     <div class="tablewrap">
+        <p class="cap_title">발신요청</p>
         <table>
             <colgroup>
-                <col width="100px">
-                <col width="260px">
-                <col width="100px">
-                <col width="150px">
-                <col width="140px">
+                <col width="100px" />
+                <col width="260px" />
+                <col width="100px" />
+                <col width="150px" />
+                <col width="140px" />
             </colgroup>
             <tr>
-                <th>발송자</th>
-                <td>@Model.SenderName</td>
+                <th>수신자</th>
+                <td>@Model.ReceiverName</td>
                 <th>요청일자</th>
                 <td colspan="2">@Model.ReqDt.GetValueOrDefault().ToShortDateString()</td>
             </tr>
@@ -67,7 +69,6 @@
                 <th>내용</th>
                 <td colspan="4" class="read">@Html.RepladeHtmlText(Model.ReqContents)</td>
             </tr>
-
             @if (Model.SenderFiles.Count == 1)
             {
                 <tr>
@@ -104,7 +105,6 @@
                     @*<td class="all"><button type="button" class="file_all_down" onclick="location.href='@Url.Action("DownloadManual", Model.ManualFiles)';" value="전체 다운로드"></button></td>*@
                 </tr><!--첨부파일2개이상일때 끝-->
             }
-            
         </table>
     </div><!--tablewrap//-->
 
@@ -112,29 +112,35 @@
 
     <div class="tablewrap">
         <!--답변-->
+        <p class="cap_title">답변</p>
         <table>
             <colgroup>
-                <col width="100px">
-                <col width="260px">
-                <col width="100px">
-                <col width="150px">
-                <col width="140px">
+                <col width="100px" />
+                <col width="510px" />
+                <col width="140px" />
             </colgroup>
             <tr>
-                <th width="100px">답변</th>
-                <td colspan="4" class="read" width="650px">@Html.RepladeHtmlText(Model.ResContents)<br />
-                @if(Model.ChkYn != "Y")
-                { 
-                    <a href="@Url.Action("ModifyReceive","ExpertService", new { reqDocSn = @Model.ReqDocSn, expertType = ViewBag.ExpertType })" class="bt_reply"><em>답변등록</em></a>
+                <th>답변일자</th>
+                @if (@Model.ChkYn == "Y")
+                {
+                    <td colspan="2">@Model.ResDt.GetValueOrDefault().ToShortDateString()</td>
                 }
-                </td>
+                else
+                {
+                    <td colspan="2"></td>
+                }
+                
+            </tr>
+            <tr>
+                <th>답변</th>
+                <td colspan="2" class="read">@Html.RepladeHtmlText(Model.ResContents)</td>
             </tr>
             @if (Model.ReceiverFiles.Count == 1)
             {
                 <tr>
                     <!--첨부파일1개일때-->
                     <th>첨부파일</th>
-                    <td colspan="4" class="nopad">
+                    <td colspan="2" class="nopad">
                         <div id="file_downwrap">
                             <ul>
                                 <li><span>@Model.ReceiverFiles[0].FileNm</span><button type="button" class="file_down" onclick="location.href='@Url.Action("DownloadReqDocFile", @Model.ReceiverFiles[0])';" value="다운로드"></button></li>
@@ -148,7 +154,7 @@
                 <tr>
                     <!--첨부파일2개이상일때-->
                     <th>첨부파일</th>
-                    <td colspan="3" class="nopad">
+                    <td  class="nopad">
                         <div id="file_downwrap">
                             <ul>
                                 @foreach (var item in Model.ReceiverFiles)
@@ -170,7 +176,7 @@
 
     <div id="btnwrap_sub">
         <div class="rightwrap">
-            <a href="@Url.Action("ReceiveList","ExpertService",new { expertType = ViewBag.ExpertType })" class="list2 right"><em>목록</em></a>
+            <a href="@Url.Action("SendList","ExpertService" ,new { expertType = ViewBag.ExpertType })" class="list2 right"><em>목록</em></a>
         </div>
     </div>
 

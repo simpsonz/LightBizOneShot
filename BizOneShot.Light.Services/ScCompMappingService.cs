@@ -14,6 +14,7 @@ namespace BizOneShot.Light.Services
         Task<IList<ScCompMapping>> GetCompMappingListByMentorId(string mentorId = null, string status = null);
         Task<IList<ScCompMapping>> GetCompMappingsAsync(int compSn, int bizWorkSn = 0, string status = null, string compNm = null);
         Task<ScCompMapping> GetCompMappingAsync(int bizWorkSn, int compSn);
+        Task<ScCompMapping> GetCompMappingAsync(int compSn, string status = null);
         Task<IList<ScCompMapping>> GetExpertCompMappingsAsync(string expertId, int bizWorkSn = 0, string comName = null);
         Task<IList<ScCompMapping>> GetExpertCompMappingsForPopupAsync(string expertId, string query);
     }
@@ -46,6 +47,24 @@ namespace BizOneShot.Light.Services
             var scCompMapping = await scCompMappingRepository.GetCompMappingAsync(scm => scm.BizWorkSn == bizWorkSn && scm.CompSn == compSn);
 
             return scCompMapping;
+        }
+
+
+        //사업참여기업의 매핑정보를 가져옴
+        public async Task<ScCompMapping> GetCompMappingAsync(int compSn, string status = null)
+        {
+            if(string.IsNullOrEmpty(status))
+            {
+                var scCompMapping = await scCompMappingRepository.GetCompMappingAsync(scm => scm.CompSn == compSn);
+
+                return scCompMapping;
+            }
+            else
+            {
+                var scCompMapping = await scCompMappingRepository.GetCompMappingAsync(scm => scm.CompSn == compSn && scm.Status == status);
+
+                return scCompMapping;
+            }
         }
 
         public async Task<IList<ScCompMapping>> GetCompMappingsAsync(int compSn, int bizWorkSn = 0, string status = null, string compNm = null)

@@ -24,7 +24,7 @@
         else if ($('#expertType').val() == "M") {
             $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_marketing').addClass('on'); //마케팅
         }
-        
+
     });
 
     function goPage(page) {
@@ -34,27 +34,29 @@
 </script>
 
 
+
 <div id="sub_rightwrap">
-    <div class="sub_right_title expert_receive"><em>자료요청 수신함</em></div>
 
-    @using (Html.BeginForm("ReceiveList", "ExpertService", FormMethod.Post, new { area = "Company", id = "searchForm" }))
-    {
-        @Html.Hidden("expertType", ViewBag.ExpertType as string)
-        @Html.Hidden("curPage", "1")
-    }
+    <div class="sub_right_title biz030301"><em>자료요청발신함</em></div>
 
-    <div id="tabswrap_three" class="tab01">
+    <div id="tabswrap_three" class="tab02">
         <!--기업별 조회 목록 탭-->
         <ul>
-            <li><a href="@Url.Action("ReceiveList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})" class="on">수신함</a></li>
-            <li><a href="@Url.Action("SendList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">발신함</a></li>
+            <li><a href="@Url.Action("ReceiveList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})" >수신함</a></li>
+            <li><a href="@Url.Action("SendList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})" class="on">발신함</a></li>
             <li><a href="@Url.Action("CompanyQAList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">문의등록</a></li>
         </ul>
     </div>
 
+    @using (Html.BeginForm("SendList", "ExpertService", FormMethod.Post, new { area = "Company", id = "searchForm" }))
+    {
+        @Html.Hidden("expertType", ViewBag.ExpertType as string)
+        @Html.Hidden("curPage", "1")
+    }
+    @*<div class="line_dot20"></div>*@
 
     <div class="tablewrap">
-        <!--검색결과-->
+        <p><a href="@Url.Action("RegSend","ExpertService", new { expertType = ViewBag.ExpertType } )" class="bt_newdata_require"><em>새 자료요청 보내기</em></a></p>
         <table>
             <colgroup>
                 <col width="45%">
@@ -64,13 +66,12 @@
             </colgroup>
             <tr>
                 <th class="topcen">제목</th>
-                <th class="topcen">발송자</th>
+                <th class="topcen">수신자</th>
                 <th class="topcen">요청일자</th>
                 <th class="topcen">답변일자</th>
             </tr>
-
             @if (Model == null || Model.TotalItemCount == 0)
-                        {
+            {
                 <tr>
                     <td colspan="5" style="text-align:center;">검색 결과가 없습니다.</td>
                 </tr>
@@ -81,9 +82,9 @@
                 {
                     <tr>
                         <td class="center">
-                            <span class="full_line">@Html.ActionLink(item.ReqSubject, "ReceiveDetail", new { reqDocSn = item.ReqDocSn , expertType = ViewBag.ExpertType })</span>
+                            <span class="full_line">@Html.ActionLink(item.ReqSubject, "SendDetail", new { reqDocSn = item.ReqDocSn,  expertType = ViewBag.ExpertType })</span>
                         </td>
-                        <td class="center">@item.SenderName</td>
+                        <td class="center">@item.ReceiverName</td>
                         <td class="center">@item.ReqDt.GetValueOrDefault().ToShortDateString()</td>
                         @if (item.ResDt == null)
                         {
@@ -95,9 +96,7 @@
                         }
                     </tr>
                 }
-                
             }
-            
         </table>
     </div><!--tablewrap//-->
     @if (Model != null && Model.TotalItemCount != 0)
@@ -106,5 +105,4 @@
     }
     <!--검색결과 끝-->
 
-
-</div><!--sub_rightwrap//-->
+</div><!--custom_rightwrap//-->
