@@ -25,15 +25,17 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
 
         private readonly IScExpertMappingService _scExpertMappingService;
         private readonly IScCompMappingService _scCompMappingService;
-        //private readonly IScQaService _scQaService;
+        private readonly IScQaService _scQaService;
 
-        public ExpertServiceController(IScReqDocService scReqDocService, IScReqDocFileService scReqDocFileService, 
-            IScExpertMappingService scExpertMappingService, IScCompMappingService scCompMappingService)
+        public ExpertServiceController(IScReqDocService scReqDocService, IScReqDocFileService scReqDocFileService 
+            , IScExpertMappingService scExpertMappingService, IScCompMappingService scCompMappingService
+            , IScQaService scQaService)
         {
-            this._scReqDocService = scReqDocService;
-            this._scReqDocFileService = scReqDocFileService;
-            this._scExpertMappingService = scExpertMappingService;
-            this._scCompMappingService = scCompMappingService;
+            _scReqDocService = scReqDocService;
+            _scReqDocFileService = scReqDocFileService;
+            _scExpertMappingService = scExpertMappingService;
+            _scCompMappingService = scCompMappingService;
+            _scQaService = scQaService;
         }
 
 
@@ -202,6 +204,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
 
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
+            //전문가 타입 뷰로 전달
             ViewBag.ExpertType = expertType;
 
             return View(new StaticPagedList<DataRequstViewModels>(dataRequestList.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, dataRequestList.Count));
@@ -322,6 +325,65 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             }
             ModelState.AddModelError("", "입력값 검증 실패.");
             return View(dataRequestViewModel);
+        }
+
+
+        public async Task<ActionResult> CompanyQAList(string expertType, string curPage = null)
+        {
+            ViewBag.LeftMenu = Global.ExpertService;
+
+            string questionId = Session[Global.LoginID].ToString();
+
+            //수신함 조회
+            var scQas = await _scQaService.GetReceiveQAsByQuestionId(questionId, expertType);
+
+            var qaList =
+                Mapper.Map<List<QaRequstViewModels>>(scQas);
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            //전문가 타입 뷰로 전달
+            ViewBag.ExpertType = expertType;
+
+            return View(new StaticPagedList<QaRequstViewModels>(qaList.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, qaList.Count));
+        }
+
+        public async Task<ActionResult> CompanyQADetail(string usrQaSn, string expertType)
+        {
+            ViewBag.LeftMenu = Global.ExpertService;
+
+            var scQa = await _scQaService.GetQAAsync(int.Parse(usrQaSn));
+
+            var dataQa =
+                Mapper.Map<QaRequstViewModels>(scQa);
+
+            //전문가 타입 리턴
+            ViewBag.ExpertType = expertType;
+
+            return View(dataQa);
+        }
+
+        public async Task<ActionResult> RegCompanyQA(string expertType)
+        {
+            ViewBag.LeftMenu = Global.ExpertService;
+            string questionId = Session[Global.LoginID].ToString();
+            string compSn = Session[Global.CompSN].ToString();
+
+            var scCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(compSn), "A");
+
+            var scExpertMapping = await _scExpertMappingService.GetExpertAsync(scCompMapping.BizWorkSn, expertType);
+
+            var dataQa = new QaRequstViewModels
+            {
+                AnswerId = scExpertMapping.ScUsr.LoginId,
+                QuestionId = questionId,
+                QuestionComNm = scCompMapping.ScCompInfo.CompNm
+            };
+
+            //전문가 타입 리턴
+            ViewBag.ExpertType = expertType;
+
+            return View(dataQa);
         }
 
         #region 파일 다운로드

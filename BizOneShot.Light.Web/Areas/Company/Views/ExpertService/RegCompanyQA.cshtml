@@ -1,0 +1,87 @@
+﻿@model BizOneShot.Light.Models.ViewModels.QaRequstViewModels
+
+@{
+    Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+}
+
+@Scripts.Render("~/Js/files.js")
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_biz05').addClass('on');
+        //left menu
+        if ($('#expertType').val() == "T") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_tax').addClass('on'); //회계-세무
+        }
+        else if ($('#expertType').val() == "L") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_law').addClass('on'); // 법무
+        }
+        else if ($('#expertType').val() == "W") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_work').addClass('on'); //노무
+        }
+        else if ($('#expertType').val() == "P") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_patent').addClass('on'); //특허
+        }
+        else if ($('#expertType').val() == "M") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_marketing').addClass('on'); //마케팅
+        }
+
+    });
+
+
+</script>
+
+<div id="sub_rightwrap">
+
+    <div class="sub_right_title biz030303"><em>새 자료요청 보내기</em></div>
+
+    <div id="tabswrap_three" class="tab02">
+        <!--기업별 조회 목록 탭-->
+        <ul>
+            <li><a href="@Url.Action("ReceiveList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">수신함</a></li>
+            <li><a href="@Url.Action("SendList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">발신함</a></li>
+            <li><a href="@Url.Action("CompanyQAList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})" class="on">문의등록</a></li>
+        </ul>
+    </div>
+
+    @*@using (Html.BeginForm("RegCompanyQA", "ExpertService", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "submit_form", enctype = "multipart/form-data" }))*@
+    @using (Html.BeginForm("RegCompanyQA", "ExpertService", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", @id = "mainForm" }))
+    {
+        @Html.HiddenFor(model => model.AnswerId, new { @id = "answerId" })
+        @Html.HiddenFor(model => model.QuestionId, new { @id = "questionId" })
+        @Html.HiddenFor(model => model.QuestionComNm, new { @id = "questionComNm" })
+        @Html.Hidden("expertType", ViewBag.ExpertType as string)
+
+        <div class="tablewrap">
+            <!--답변-->
+            <table>
+                <colgroup>
+                    <col width="105px">
+                    <col width="645px">
+                </colgroup>
+                <tr>
+                    <th>기업명</th>
+                    <td>@Model.QuestionComNm</td>
+                </tr>
+                <tr>
+                    <th>문의제목</th>
+                    <td class="form">@Html.TextBoxFor(model => model.Subject, new { @class = "w630" })</td>
+                </tr>
+                <tr>
+                    <th>문의내용</th>
+                    <td class="reply">
+                        @Html.TextAreaFor(model => model.Question)
+                    </td>
+                </tr>
+                
+            </table>
+        </div><!--tablewrap//--><!--답변 끝-->
+
+        <div id="btnwrap_sub">
+            <div class="rightwrap">
+                <button type="submit" class="save rightmargin" value="저장"></button><a href="@Url.Action("CompanyQAList", "ExpertService", new { expertType = ViewBag.ExpertType })" class="cancel2 right"><em>취소</em></a>
+            </div>
+        </div><!--btnwrap//-->
+    }
+</div><!--sub_rightwrap//-->

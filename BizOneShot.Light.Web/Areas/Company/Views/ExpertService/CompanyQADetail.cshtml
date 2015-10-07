@@ -1,0 +1,106 @@
+﻿@model BizOneShot.Light.Models.ViewModels.QaRequstViewModels
+
+@{
+    Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_biz05').addClass('on');
+        //left menu
+        if ($('#expertType').val() == "T") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_tax').addClass('on'); //회계-세무
+        }
+        else if ($('#expertType').val() == "L") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_law').addClass('on'); // 법무
+        }
+        else if ($('#expertType').val() == "W") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_work').addClass('on'); //노무
+        }
+        else if ($('#expertType').val() == "P") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_patent').addClass('on'); //특허
+        }
+        else if ($('#expertType').val() == "M") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_marketing').addClass('on'); //마케팅
+        }
+
+    });
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title inquiry02"><em>세무회계 문의</em></div>
+
+    <div id="tabswrap_three" class="tab03">
+        <!--기업별 조회 목록 탭-->
+        <ul>
+            <li><a href="@Url.Action("ReceiveList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">수신함</a></li>
+            <li><a href="@Url.Action("SendList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">발신함</a></li>
+            <li><a href="@Url.Action("CompanyQAList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})" class="on">문의등록</a></li>
+        </ul>
+    </div>
+
+    @Html.Hidden("expertType", ViewBag.ExpertType as string)
+
+    <div class="tablewrap">
+        <table>
+            <colgroup>
+                <col width="110px" />
+                <col width="265px" />
+                <col width="110px" />
+                <col width="265px" />
+            </colgroup>
+            <tr>
+                <th>문의제목</th>
+                <td colspan="3">@Model.Subject</td>
+            </tr>
+            <tr>
+                <th>등록일자</th>
+                <td>@Model.AskDt.GetValueOrDefault().ToShortDateString()</td>
+         
+                <th>답변일자</th>
+                @if (@Model.AnsYn == "Y")
+                {
+                    <td>@Model.AnsDt.GetValueOrDefault().ToShortDateString()</td>
+                }
+                else
+                {
+                    <td></td>
+                }
+            </tr>
+            <tr>
+                <td colspan="4" class="read_long">
+                    <p>@Html.RepladeHtmlText(Model.Question)</p>
+                    <div id="reply_view">
+                        <p class="title">답변내용 :</p>
+                        @if (@Model.AnsYn == "Y")
+                        {
+                            <p>@Html.RepladeHtmlText(@Model.Answer)</p>
+                        }
+                        else
+                        {
+                            <p></p>
+                        }
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <th>이전글</th>
+                <td colspan="3"><span class="right">[답변완료]</span>가입회원은 어떤 절차를 밟아야 하나요?</td>
+            </tr>
+            <tr>
+                <th>다음글</th>
+                <td colspan="3"><span class="right">[답변대기]</span>질문있어요</td>
+            </tr>
+
+        </table>
+    </div><!--tablewrap//-->
+
+    <div id="btnwrap_sub">
+        <div class="rightwrap">
+            <a href="@Url.Action("CompanyQAList","ExpertService" ,new { expertType = ViewBag.ExpertType })" class="list2 right"><em>목록</em></a><a href="@Url.Action("RegCompanyQA","ExpertService" ,new { expertType = ViewBag.ExpertType })" class="bt_newdata_question right rightmargin"><em> 문의 등록하기</em></a>
+        </div>
+    </div><!--btnwrap//-->
+
+</div><!--sub_rightwrap//-->

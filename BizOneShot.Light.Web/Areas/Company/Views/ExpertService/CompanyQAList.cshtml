@@ -1,0 +1,110 @@
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.QaRequstViewModels>
+
+@{
+    Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_biz05').addClass('on');
+        //left menu
+        if ($('#expertType').val() == "T") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_tax').addClass('on'); //회계-세무
+        }
+        else if ($('#expertType').val() == "L") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_law').addClass('on'); // 법무
+        }
+        else if ($('#expertType').val() == "W") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_work').addClass('on'); //노무
+        }
+        else if ($('#expertType').val() == "P") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_patent').addClass('on'); //특허
+        }
+        else if ($('#expertType').val() == "M") {
+            $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_marketing').addClass('on'); //마케팅
+        }
+
+    });
+
+    function goPage(page) {
+        $('#curPage').val(page);
+        $('#searchForm').submit();
+    }
+</script>
+
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title inquiry01"><em>전문가 문의</em></div>
+
+    <div id="tabswrap_three" class="tab03">
+        <!--기업별 조회 목록 탭-->
+        <ul>
+            <li><a href="@Url.Action("ReceiveList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">수신함</a></li>
+            <li><a href="@Url.Action("SendList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">발신함</a></li>
+            <li><a href="@Url.Action("CompanyQAList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})" class="on">문의등록</a></li>
+        </ul>
+    </div>
+
+    @using (Html.BeginForm("CompanyQAList", "ExpertService", FormMethod.Post, new { area = "Company", id = "searchForm" }))
+    {
+        @Html.Hidden("expertType", ViewBag.ExpertType as string)
+        @Html.Hidden("curPage", "1")
+    }
+
+    <div class="line_dot20"></div>
+
+    <div class="tablewrap">
+        <p><a href="@Url.Action("RegCompanyQA","ExpertService" ,new { expertType = ViewBag.ExpertType })" class="bt_newdata_question02"><em>문의하기</em></a></p>
+
+        <!--목록-->
+        <table>
+            <colgroup>
+                <col width="45%">
+                <col width="20%">
+                <col width="20%">
+                <col width="15%">
+            </colgroup>
+            <tr>
+                <th class="topcen">문의제목</th>
+                <th class="topcen">요청일자</th>
+                <th class="topcen">답변일자</th>
+                <th class="topcen">처리현황</th>
+            </tr>
+            @if (Model == null || Model.TotalItemCount == 0)
+            {
+                <tr>
+                    <td colspan="5" style="text-align:center;">검색 결과가 없습니다.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="center">
+                            <span class="full_line">@Html.ActionLink(item.Subject, "CompanyQaDetail", new { usrQaSn = item.UsrQaSn, expertType = ViewBag.ExpertType })</span>
+                        </td>
+                        <td class="center">@item.AskDt.GetValueOrDefault().ToShortDateString()</td>
+                        @if (item.AnsYn == "Y")
+                        {
+                            <td class="center">@item.AnsDt.GetValueOrDefault().ToShortDateString()</td>
+                            <td class="center">답변완료</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td class="center">답변대기</td>
+                        }
+                      
+                    </tr>
+                }
+            }
+        </table>
+    </div><!--tablewrap//--><!--목록 끝-->
+    @if (Model != null && Model.TotalItemCount != 0)
+    {
+        @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+    }
+
+</div><!--sub_rightwrap//-->
