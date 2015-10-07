@@ -199,7 +199,14 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
                     ModelState.AddModelError("", "사업명을 선택하지 않았습니다.");
                     return View(joinExpertViewModel);
                 }
-                   
+
+                var expert = _scExpertMappingService.GetSameDetailTypeExpertAsync(int.Parse(BizList), joinExpertViewModel.UsrTypeDetail);
+                if(expert != null)
+                {
+                    ModelState.AddModelError("", "동일한 분야의 전문가가 이미 사업에 맵핑되어 있습니다.");
+                    return View(joinExpertViewModel);
+                }
+
                 var scUsr = Mapper.Map<ScUsr>(joinExpertViewModel);
                 var scCompInfo = Mapper.Map<ScCompInfo>(joinExpertViewModel);
 

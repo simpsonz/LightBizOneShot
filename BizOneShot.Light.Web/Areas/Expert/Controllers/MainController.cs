@@ -17,16 +17,23 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
     {
         private readonly IScExpertMappingService _scExpertMappingService;
         private readonly IScUsrService _scUsrService;
+        private readonly IScNtcService _scNtcService;
 
-        public MainController(IScExpertMappingService _scExpertMappingService, IScUsrService _scUsrService)
+        public MainController(IScNtcService scNtcServcie, IScExpertMappingService _scExpertMappingService, IScUsrService _scUsrService)
         {
+            this._scNtcService = scNtcServcie;
             this._scExpertMappingService = _scExpertMappingService;
             this._scUsrService = _scUsrService;
         }
         // GET: Expert/Main
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            //var listScNtc = _scNtcService.GetNotices();
+            var listScNtc = await _scNtcService.GetNoticesForMainAsync();
+
+            var noticeViews =
+                Mapper.Map<List<NoticeViewModel>>(listScNtc);
+            return View(noticeViews);
         }
 
         public async Task<ActionResult> MyInfo()
