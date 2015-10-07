@@ -193,7 +193,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             return View(totalReportViewModel);
         }
 
-        public async Task<ActionResult> MentoringTotalReportList(SelectedMentorTotalReportParmModel param, string curPage = "1")
+        public async Task<ActionResult> MentoringTotalReportList(SelectedMentorTotalReportParmModel param, string curPage)
         {
             ViewBag.LeftMenu = Global.MentoringReport;
 
@@ -293,7 +293,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
         #region 멘토 일지
 
-        public async Task<ActionResult> MentoringReportList(SelectedMentorReportParmModel param, string curPage = "1")
+        public async Task<ActionResult> MentoringReportList(SelectedMentorReportParmModel param, string curPage)
         {
             ViewBag.LeftMenu = Global.MentoringReport;
 
