@@ -37,16 +37,16 @@ namespace BizOneShot.Light.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<IList<ScBizWork>> GetBizWorkList(int comSn, string excutorId = null)
+        public async Task<IList<ScBizWork>> GetBizWorkList(int mngComSn, string excutorId = null)
         {
             if(string.IsNullOrEmpty(excutorId))
             { 
-                var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.CompSn == comSn);
+                var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.MngCompSn == mngComSn);
                 return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
             }
             else
             {
-                var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.CompSn == comSn && bw.ExecutorId == excutorId);
+                var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.ExecutorId == excutorId);
                 return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
             }
         }
@@ -57,9 +57,9 @@ namespace BizOneShot.Light.Services
             return  scBizWorks.OrderByDescending(sc => sc.CompNm).ToList();
         }
 
-        public async Task<IList<ScBizWork>> GetBizWorkListByBizWorkNm(int comSn, string query)
+        public async Task<IList<ScBizWork>> GetBizWorkListByBizWorkNm(int mngComSn, string query)
         {
-            var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.CompSn == comSn && bw.BizWorkNm.Contains(query));
+            var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.BizWorkNm.Contains(query));
             return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
         }
 

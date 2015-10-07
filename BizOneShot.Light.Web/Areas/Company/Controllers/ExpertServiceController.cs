@@ -23,14 +23,17 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         private readonly IScReqDocService _scReqDocService;
         private readonly IScReqDocFileService _scReqDocFileService;
 
-        //private readonly IScExpertMappingService _scExpertMappingService;
-        //private readonly IScCompMappingService _scCompMappingService;
+        private readonly IScExpertMappingService _scExpertMappingService;
+        private readonly IScCompMappingService _scCompMappingService;
         //private readonly IScQaService _scQaService;
 
-        public ExpertServiceController(IScReqDocService scReqDocService, IScReqDocFileService scReqDocFileService)
+        public ExpertServiceController(IScReqDocService scReqDocService, IScReqDocFileService scReqDocFileService, 
+            IScExpertMappingService scExpertMappingService, IScCompMappingService scCompMappingService)
         {
             this._scReqDocService = scReqDocService;
             this._scReqDocFileService = scReqDocFileService;
+            this._scExpertMappingService = scExpertMappingService;
+            this._scCompMappingService = scCompMappingService;
         }
 
 
@@ -40,11 +43,21 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             return View();
         }
 
-        public async Task<ActionResult> ReceiveList(string expertType, string curPage)
+        public async Task<ActionResult> ReceiveList(string expertType, string curPage = null)
         {
             ViewBag.LeftMenu = Global.ExpertService;
 
             string receiverId = Session[Global.LoginID].ToString();
+            string compSn = Session[Global.CompSN].ToString();
+
+            //승인된 사업이 없으면 리다이렉트 함
+            var scCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(compSn), "A");
+            if(scCompMapping == null)
+            {
+                TempData["alert"] = "승인된 사업이 없습니다.";
+
+                return RedirectToAction("Index", "Main");
+            }
 
             var listScReqDoc = await _scReqDocService.GetReceiveDocs(receiverId, expertType);
 
@@ -173,6 +186,142 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 ModelState.AddModelError("", "답변 등록 실패.");
                 return View(dataRequestViewModel);
             }
+        }
+
+
+        public async Task<ActionResult> SendList(string expertType, string curPage = null)
+        {
+            ViewBag.LeftMenu = Global.ExpertService;
+
+            string senderId = Session[Global.LoginID].ToString();
+
+            var listScReqDoc = await _scReqDocService.GetSendDocs(senderId, expertType);
+
+            var dataRequestList =
+                Mapper.Map<List<DataRequstViewModels>>(listScReqDoc);
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            ViewBag.ExpertType = expertType;
+
+            return View(new StaticPagedList<DataRequstViewModels>(dataRequestList.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, dataRequestList.Count));
+
+        }
+
+        public async Task<ActionResult> SendDetail(string reqDocSn, string expertType)
+        {
+            ViewBag.LeftMenu = Global.ExpertService;
+
+            var scReqDoc = await _scReqDocService.GetReqDoc(int.Parse(reqDocSn));
+            var dataRequest =
+                Mapper.Map<DataRequstViewModels>(scReqDoc);
+
+            //전송자 첨부파일 처리
+            var listSenderScReqDocFile = await _scReqDocFileService.GetReqFilesAsync(int.Parse(reqDocSn), "S");
+
+            var listSenderScFileInfo = new List<ScFileInfo>();
+            foreach (var scReqDocFile in listSenderScReqDocFile)
+            {
+                listSenderScFileInfo.Add(scReqDocFile.ScFileInfo);
+            }
+
+            var sndFileInfoViewModel = Mapper.Map<IList<FileInfoViewModel>>(listSenderScFileInfo);
+
+            dataRequest.SenderFiles = sndFileInfoViewModel;
+
+            //수신자 첨부파일 처리
+            var listReceivedrScReqDocFile = await _scReqDocFileService.GetReqFilesAsync(int.Parse(reqDocSn), "R");
+
+            var listReceiverScFileInfo = new List<ScFileInfo>();
+            foreach (var scReqDocFile in listReceivedrScReqDocFile)
+            {
+                listReceiverScFileInfo.Add(scReqDocFile.ScFileInfo);
+            }
+
+            var rcvFileInfoViewModel = Mapper.Map<IList<FileInfoViewModel>>(listReceiverScFileInfo);
+
+            dataRequest.ReceiverFiles = rcvFileInfoViewModel;
+
+            //전문가 타입 리턴
+            ViewBag.ExpertType = expertType;
+
+            return View(dataRequest);
+        }
+
+        public async Task<ActionResult> RegSend(string expertType)
+        {
+            ViewBag.LeftMenu = Global.ExpertService;
+            string senderId = Session[Global.LoginID].ToString();
+            string compSn = Session[Global.CompSN].ToString();
+
+            var scCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(compSn), "A");
+
+            var scExpertMapping =  await _scExpertMappingService.GetExpertAsync(scCompMapping.BizWorkSn, expertType);
+
+            var dataRequest = new DataRequstViewModels
+            {
+                 ReceiverName = scExpertMapping.ScUsr.Name,
+                  ReceiverId = scExpertMapping.ScUsr.LoginId
+            };
+                 
+            //전문가 타입 리턴
+            ViewBag.ExpertType = expertType;
+
+            return View(dataRequest);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RegSend(DataRequstViewModels dataRequestViewModel, string expertType, IEnumerable<HttpPostedFileBase> files)
+        {
+            ViewBag.LeftMenu = Global.ExpertService;
+
+            if (ModelState.IsValid)
+            {
+                var scReqDoc = Mapper.Map<ScReqDoc>(dataRequestViewModel);
+
+                //회원정보 추가 정보 설정
+                scReqDoc.ChkYn = "N";
+                scReqDoc.ReqDt = DateTime.Now;
+                scReqDoc.SenderId = Session[Global.LoginID].ToString();
+                scReqDoc.Status = "N";
+
+                //신규파일정보저장 및 파일업로드
+                foreach (var file in files)
+                {
+                    if (file != null)
+                    {
+                        var fileHelper = new FileHelper();
+
+                        var savedFileName = fileHelper.GetUploadFileName(file);
+
+                        var subDirectoryPath = Path.Combine(FileType.Document.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
+
+                        var savedFilePath = Path.Combine(subDirectoryPath, savedFileName);
+
+                        var scFileInfo = new ScFileInfo { FileNm = Path.GetFileName(file.FileName), FilePath = savedFilePath, Status = "N", RegId = Session[Global.LoginID].ToString(), RegDt = DateTime.Now };
+
+                        var scReqDocFile = new ScReqDocFile { ScFileInfo = scFileInfo };
+                        scReqDocFile.RegType = "S";
+
+                        scReqDoc.ScReqDocFiles.Add(scReqDocFile);
+
+                        await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
+                    }
+                }
+
+                //저장
+                int result = await _scReqDocService.AddReqDocAsync(scReqDoc);
+
+                if (result != -1)
+                    return RedirectToAction("SendList", "ExpertService", new {expertType = expertType });
+                else
+                {
+                    ModelState.AddModelError("", "자료요청 등록 실패.");
+                    return View(dataRequestViewModel);
+                }
+            }
+            ModelState.AddModelError("", "입력값 검증 실패.");
+            return View(dataRequestViewModel);
         }
 
         #region 파일 다운로드

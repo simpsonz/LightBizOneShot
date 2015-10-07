@@ -4,6 +4,13 @@
     Layout = "~/Views/Shared/_JoinLayout.cshtml";
 }
 
+@if (TempData["alert"] != null)
+{
+    <script type="text/javascript">
+        var message = @Html.Raw(Json.Encode(TempData["alert"]));
+        alert(message);
+    </script>
+}
 
 <div class="company_main">
     <div class="container">

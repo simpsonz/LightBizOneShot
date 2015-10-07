@@ -161,7 +161,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
                 //사업정보 추가 정보 설정
                 scBizWork.Status = "N";
-                scBizWork.CompSn = int.Parse(Session[Global.CompSN].ToString());
+                scBizWork.MngCompSn = int.Parse(Session[Global.CompSN].ToString());
                 scBizWork.RegId = Session[Global.LoginID].ToString();
                 scBizWork.RegDt = DateTime.Now;
 

@@ -14,6 +14,7 @@ namespace BizOneShot.Light.Services
     {
         Task<IList<ScExpertMapping>> GetExpertManagerAsync(string bizMngSn = null, string expertType = null);
         Task<ScExpertMapping> GetExpertAsync(string ExpertId);
+        Task<ScExpertMapping> GetExpertAsync(int bizWorkSn, string expertType);
         Task<IList<ScExpertMapping>> GetExpertsAsync(string ExpertId);
     }
 
@@ -59,6 +60,15 @@ namespace BizOneShot.Light.Services
 
             return scExpertsMapping;
         }
+
+
+        public async Task<ScExpertMapping> GetExpertAsync(int bizWorkSn, string expertType)
+        {
+            var scExpertMapping = await scExpertMappingRespository.GetExpertMappingAsync(sem => sem.BizWorkSn == bizWorkSn && sem.ScUsr.UsrType == "P" && sem.ScUsr.UsrTypeDetail == expertType);
+
+            return scExpertMapping;
+        }
+
 
 
         public void SaveDbContext()

@@ -4,6 +4,10 @@
     Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
 }
 
+@Styles.Render("~/css/jquery-ui")
+@Scripts.Render("~/bundles/jquery-ui")
+@Scripts.Render("~/Js/files.js")
+
 <script>
     $(document).ready(function () {
         //top menu
@@ -27,19 +31,7 @@
 
 
         $('#submit_form').bind('submit', function () {
-            //필수값체크
-            if ($('#file_photo01').val() == 0) {
-                alert("멘토링사진1은 필수값입니다.");
-                $('#file_photo01').focus();
-                return false;
-            }
-            if ($('#file_photo02').val() == 0) {
-                alert("멘토링사진2는 필수값입니다.");
-                $('#file_photo02').focus();
-                return false;
-            }
-
-
+          
             //파일체크
             var inputFileCount = 0;
             var totalSize = 0;
@@ -86,9 +78,7 @@
 
 </script>
 
-@Styles.Render("~/css/jquery-ui")
-@Scripts.Render("~/bundles/jquery-ui")
-@Scripts.Render("~/Js/files.js")
+
 
 
 <div id="sub_rightwrap">
@@ -97,9 +87,9 @@
     <div id="tabswrap_three" class="tab01">
         <!--기업별 조회 목록 탭-->
         <ul>
-            <li><a href="" class="on">수신함</a></li>
-            <li><a href="">발신함</a></li>
-            <li><a href="">문의등록</a></li>
+            <li><a href="@Url.Action("ReceiveList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})" class="on">수신함</a></li>
+            <li><a href="@Url.Action("SendList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">발신함</a></li>
+            <li><a href="@Url.Action("CompanyQAList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">문의등록</a></li>
         </ul>
     </div>
     @using (Html.BeginForm("ModifyReceive", "ExpertService", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "submit_form", enctype = "multipart/form-data" }))
