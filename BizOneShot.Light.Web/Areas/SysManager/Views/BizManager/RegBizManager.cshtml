@@ -15,7 +15,11 @@
         $('#BTN_LOGIN_ID_CHK').bind('click', function () {
             if ($('#LoginId').val() == "") {
                 alert('아이디를 입력해주세요.');
-                $('#BTN_LOGIN_ID_CHK').attr("disabled", "disabled");
+                return false;
+            }
+
+            if ($('#LoginId').val().length < 6) {
+                alert('아이디는 6자 이상입니다.');
                 return false;
             }
             $.ajax({
@@ -28,6 +32,7 @@
                         $('#LoginIdChk').val(1);
                         alert('사용 가능한 아이디입니다.');
                         $('#BTN_LOGIN_ID_CHK').attr("disabled", "disabled");
+                        $('#LoginId').attr("readonly", "readonly");
                     }
                     else {
                         $('#LoginId').focus();
@@ -51,6 +56,13 @@
             }
             return false;
         });
+
+        $('#submit_form').bind('submit', function () {
+            if ($('#LoginIdChk').val() != 1) {
+                alert("로그인 중복확인을 하지 않았습니다.");
+                return false;
+            }
+        });
     });
 </script>
 
@@ -60,7 +72,7 @@
     <p>소속그룹(사업관리 기관)을 등록하고 담당자 아이디와 비밀번호를 부여합니다.</p>
     <p>&nbsp;</p>
 
-    @using (Html.BeginForm("RegBizManager", "BizManager", FormMethod.Post, new { area = "SysManager", @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("RegBizManager", "BizManager", FormMethod.Post, new { area = "SysManager", @class = "form-horizontal", role = "form", id = "submit_form" }))
     {
         @Html.AntiForgeryToken()
         @Html.Hidden("LoginIdChk")
@@ -73,8 +85,8 @@
                 </colgroup>
                 <tr>
                     <th>그룹(기관)명</th>
-                    <td class="form">@Html.TextBoxFor(model => model.CompNm, new { @class = "w235" })</td>
-                    @Html.ValidationMessageFor(model => model.CompNm, "", new { @class = "text-danger", @color = "#b94a48" })
+                    <td class="form">@Html.TextBoxFor(model => model.CompNm, new { @class = "w235" }) @Html.ValidationMessageFor(model => model.CompNm, "", new { @class = "text-danger", @color = "#b94a48" })</td>
+                    
                 </tr>
             </table>
             <div class="line_dot20"></div>
@@ -87,8 +99,8 @@
                 </colgroup>
                 <tr>
                     <th class="">담당자명</th>
-                    <td class="form">@Html.TextBoxFor(model => model.Name, new { @class = "w235" })  </td>
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @color = "#b94a48" })
+                    <td class="form">@Html.TextBoxFor(model => model.Name, new { @class = "w235" })  @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @color = "#b94a48" })</td>
+                    
                 </tr>
                 <tr>
                     <th>전화번호</th>
@@ -167,7 +179,7 @@
                 <tr>
                     <th>이메일</th>
                     <td class="form">
-                        @Html.TextBoxFor(model => model.Email1, new { @class = "w120", @title = "이메일 아이디", @maxlength = "20" })&nbsp;@@&nbsp;
+                        @Html.TextBoxFor(model => model.Email1, new { @class = "w120", @title = "이메일 아이디", @maxlength = "20" }) &nbsp;@@&nbsp;
                         @Html.TextBoxFor(model => model.Email2, new { @class = "w120", @title = "이메일 도메인", @maxlength = "19" })
                         <select id="EMAIL_DOMAIN">
                             <option value="">직접입력</option>
@@ -190,6 +202,8 @@
                             <option value="paran.com">paran.com</option>
                             <option value="yahoo.com">yahoo.com</option>
                         </select>
+                        @Html.ValidationMessageFor(model => model.Email1, "", new { @class = "text-danger", @color = "#b94a48" })
+                        @Html.ValidationMessageFor(model => model.Email2, "", new { @class = "text-danger", @color = "#b94a48" })
                     </td>
                 </tr>
             </table>
