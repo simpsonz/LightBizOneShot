@@ -112,11 +112,11 @@
                 <col width="140px">
             </colgroup>
             <tr>
-                <th width="75px">답변</th>
+                <th width="100px">답변</th>
                 <td colspan="4" class="read" width="650px">@Html.RepladeHtmlText(Model.ResContents)<br />
                 @if(Model.ChkYn != "Y")
                 { 
-                    <a href="@Url.Action("ModifyReceive","ExpertService", new { reqDocSn = @Model.ReqDocSn })" class="bt_reply"><em>답변등록</em></a>
+                    <a href="@Url.Action("ModifyReceive","ExpertService", new { reqDocSn = @Model.ReqDocSn, expertType = ViewBag.ExpertType })" class="bt_reply"><em>답변등록</em></a>
                 }
                 </td>
             </tr>
