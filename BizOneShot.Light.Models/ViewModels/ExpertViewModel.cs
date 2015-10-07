@@ -90,6 +90,7 @@ namespace BizOneShot.Light.Models.ViewModels
         //이력서 정보
         public string ResumeName { get; set; } //이력서 파일명
         public string ResumePath { get; set; } //이력서 파일 경로
+        public string FileSn { get; set; } //이력서 식별자
 
         //사업관리기관 
         public string BizMagComName { get; set; } //담당 사업관리기관

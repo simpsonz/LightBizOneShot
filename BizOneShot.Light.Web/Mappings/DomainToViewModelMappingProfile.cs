@@ -110,8 +110,9 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<ScUsr, JoinExpertViewModel>()
                 .ForMember(d => d.BizMagComName, map => map.MapFrom(s => s.ScExpertMappings.ElementAt(0).ScBizWork.ScCompInfo.CompNm))
                 .ForMember(d => d.BizMngCompSn, map => map.MapFrom(s => s.ScExpertMappings.ElementAt(0).ScBizWork.ScCompInfo.CompSn))
-                .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FileNm))
-                .ForMember(d => d.ResumePath, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FilePath))
+                .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.Status == "N" ? s.ScUsrResume.ScFileInfo.FileNm : ""))
+                .ForMember(d => d.ResumePath, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.Status == "N" ? s.ScUsrResume.ScFileInfo.FilePath : ""))
+                .ForMember(d => d.FileSn, map => map.MapFrom(s => s.ScUsrResume.ScFileInfo.FileSn))
                 .ForMember(d => d.ComPostNo, map => map.MapFrom(s => s.ScCompInfo.PostNo))
                 .ForMember(d => d.ComAddr1, map => map.MapFrom(s => s.ScCompInfo.Addr1))
                 .ForMember(d => d.ComAddr2, map => map.MapFrom(s => s.ScCompInfo.Addr2))
@@ -131,8 +132,12 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.BizMagComName, map => map.MapFrom(s => s.ScBizWork.ScCompInfo.CompNm))
                 .ForMember(d => d.BizMngCompSn, map => map.MapFrom(s => s.ScBizWork.ScCompInfo.CompSn))
                 .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
-                .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsr.ScUsrResume.ScFileInfo.FileNm))
-                .ForMember(d => d.ResumePath, map => map.MapFrom(s => s.ScUsr.ScUsrResume.ScFileInfo.FilePath))
+
+
+                .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsr.ScUsrResume.ScFileInfo.Status == "N" ? s.ScUsr.ScUsrResume.ScFileInfo.FileNm : ""))
+                .ForMember(d => d.ResumePath, map => map.MapFrom(s => s.ScUsr.ScUsrResume.ScFileInfo.Status == "N" ? s.ScUsr.ScUsrResume.ScFileInfo.FilePath : ""))
+
+                .ForMember(d => d.FileSn, map => map.MapFrom(s => s.ScUsr.ScUsrResume.ScFileInfo.FileSn))
                 .ForMember(d => d.ComPostNo, map => map.MapFrom(s => s.ScUsr.ScCompInfo.PostNo))
                 .ForMember(d => d.ComAddr1, map => map.MapFrom(s => s.ScUsr.ScCompInfo.Addr1))
                 .ForMember(d => d.ComAddr2, map => map.MapFrom(s => s.ScUsr.ScCompInfo.Addr2))

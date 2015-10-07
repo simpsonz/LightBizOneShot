@@ -1,9 +1,10 @@
 ﻿@model BizOneShot.Light.Models.ViewModels.JoinExpertViewModel
+@using BizOneShot.Light.Models.ViewModels
 
 @{
     Layout = "~/Areas/Expert/Views/Shared/_MainLayout.cshtml";
 }
-
+@Scripts.Render("~/Js/files.js")
 
 <script>
     $(document).ready(function () {
@@ -23,22 +24,83 @@
             }
             return false;
         });
+
+        $('#submit_form').bind('submit', function () {
+            var inputFileCount = 0;
+            var fileIndex = 0;
+            var totalSize = 0;
+            var fileNames = new Array();
+            $('input[type="file"]').each(function () {
+                if ($(this).val() != '') {
+                    //input에서 파일이름만 추출해서 담음
+                    fileNames.push($(this).val().replace(/^.*[\\\/]/, ''));
+                    fileSize = $('input[type="file"]').get(fileIndex).files[0].size;
+                    totalSize = totalSize + fileSize;
+
+                    inputFileCount += 1;
+                }
+
+                fileIndex += 1;
+
+            });
+
+            //이미등록된 파일명 가져오기
+            var existFileCount = 0;
+            $('#ulExitFiles li').each(function () {
+                fileNames.push($(this).text());
+
+                existFileCount += 1;
+            });
+
+            //기존파일과 등록할 파일의 갯수
+            if (existFileCount + inputFileCount > 1) {
+                alert("이력서는 1개만 등록할 수 있습니다.");
+                return false;
+            }
+
+
+            if (totalSize > 4096000) {
+                alert("등록할 파일 사이즈는 4MB 를 초과할 수 없습니다.");
+                return false;
+            }
+        });
     });
+
+    function open_post() {
+        w = 550;    //팝업창의 너비
+        h = 485;    //팝업창의 높이
+        //중앙위치 구해오기
+        LeftPosition = (screen.width - w) / 2;
+        TopPosition = (screen.height - h) / 2;
+        var popUp = window.open('/Home/zipSearchPopup', 'zipSearchPopup', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=no, resizable=no");
+        popUp.focus();
+    }
+
+    function resultReceive(zip, address) {
+        $('#POST_NO').val(zip);
+        $('#ADDR_1').val(address);
+    }
+
+
+    function delete_file(value) {
+        $("#DeleteFileSn").val(value);
+    };
 </script>
 
 
 <div id="sub_rightwrap">
     <div class="sub_right_title biz050103"><em>내정보 수정</em></div>
 
-    @using (Html.BeginForm("ModifyMyInfo", "Main", FormMethod.Post, new { area = "Expert", @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("ModifyMyInfo", "Main", FormMethod.Post, new { area = "Expert", id = "submit_form", @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
     {
+        @Html.Hidden("DeleteFileSn")
         @Html.AntiForgeryToken()
         <div class="tablewrap">
             <table>
                 <!--사업명-->
                 <colgroup>
-                    <col width="160px" />
-                    <col width="590px" />
+                    <col width="140" />
+                    <col width="610" />
                 </colgroup>
                 <tr>
                     <th>아아디</th>
@@ -49,8 +111,8 @@
             <table>
                 <!--사업명-->
                 <colgroup>
-                    <col width="160px" />
-                    <col width="590px" />
+                    <col width="140" />
+                    <col width="610" />
                 </colgroup>
                 <tr>
                     <th>사업관리기관</th>
@@ -65,8 +127,8 @@
             <table>
                 <!--구분 외-->
                 <colgroup>
-                    <col width="160px" />
-                    <col width="590px" />
+                    <col width="140" />
+                    <col width="610" />
                 </colgroup>
                 <tr>
                     <th>구분</th>
@@ -210,13 +272,51 @@
                             </ul>
                             <ul>
                                 <li class="mark rowspan">주소</li>
-                                <li class="info"><input type="button" class="td_post" value="우편번호">@Html.TextBoxFor(model => model.ComPostNo, new { @class = "w146" })</li>
+                                <li class="info"><input type="button" class="td_post" value="우편번호" onClick="javascript: open_post();">@Html.TextBoxFor(model => model.ComPostNo, new { @class = "w146", @readOnly = "readOnly", @id = "POST_NO" })</li>
                             </ul>
                             <ul>
                                 <li class="mark"></li>
-                                <li class="info">@Html.TextBoxFor(model => model.ComAddr1, new { @class = "w240" }) @Html.TextBoxFor(model => model.ComAddr2, new { @class = "w240", @placeholder = "나머지주소입력란" })</li>
+                                <li class="info">@Html.TextBoxFor(model => model.ComAddr1, new { @class = "w240", @id = "ADDR_1", @readOnly = "readOnly" }) @Html.TextBoxFor(model => model.ComAddr2, new { @class = "w240", @placeholder = "나머지주소입력란" })</li>
                             </ul>
                         </div><!--join_infoinput_wrap//-->
+
+            <div class="line_dot10"></div>
+            <table>
+                <!--사업명-->
+                <colgroup>
+                    <col width="140px" />
+                    <col width="610px" />
+                </colgroup>
+                <tr>
+                    <th>이력서</th>
+                    <td class="form">
+                        @*<a href="@Url.Action("DownloadResumeFile", new FileInfoViewModel { FileNm=Model.ResumeName, FilePath=Model.ResumePath })" class="file_open">@Model.ResumeName</a>*@
+                        <div id="file_upwrap" class="file_input">
+                            <ul>
+                                <li>
+                                    @*<input type="text"  readonly="readonly" id="file_resume" title="첨부파일" />
+                        <label><input type="file" name="files"  onchange="javascript:document.getElementById('file_resume').value=this.value" /></label>*@
+
+                                    <input type="text" class="file" readonly="readonly" />
+                                    <button type="button" class="file_search" value="찾아보기" onclick="return file_add(this);"></button>
+                                    <em><input type="file" name="files" onchange="return get_filename(this)" /></em>
+                                </li>
+                            </ul>
+                        </div>
+
+                        @if (Model.ResumeName != null && Model.ResumeName.Length > 0)
+                        {
+                            <br />
+                            <div id="file_downwrap">
+                                <ul id="ulExitFiles">
+                                    <li><span>@Model.ResumeName</span><button type="button" class="bt_td_delete" onclick="delete_file(@Model.FileSn); return file_inpput_remove2(this);"></button></li>
+                                </ul>
+                            </div>
+                        }
+
+                    </td>
+                </tr>
+            </table>
 
 
 
