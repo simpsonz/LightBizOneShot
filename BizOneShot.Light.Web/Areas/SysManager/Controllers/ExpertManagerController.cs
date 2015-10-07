@@ -9,6 +9,7 @@ using AutoMapper;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Services;
+using BizOneShot.Light.Util.Helper;
 using BizOneShot.Light.Util.Security;
 using BizOneShot.Light.Web.ComLib;
 using PagedList;
@@ -283,6 +284,40 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
               Mapper.Map<JoinExpertViewModel>(scUsr);
 
             return View(myInfo);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteExpert(string[] loginIds)
+        {
+            ViewBag.LeftMenu = Global.ExpertMng;
+
+            foreach (var loginId in loginIds)
+            {
+                ScUsr scUsr = await _scUsrService.SelectScUsr(loginId);
+                scUsr.Status = "D";
+                await _scUsrService.SaveDbContextAsync();
+            }
+            return Json(new { result = true });
+        }
+
+        public void DownloadResumeFile()
+        {
+            //System.Collections.Specialized.NameValueCollection col = Request.QueryString;
+            string fileNm = Request.QueryString["FileNm"];
+            string filePath = Request.QueryString["FilePath"];
+
+            string archiveName = fileNm;
+
+            var files = new List<FileContent>();
+
+            var file = new FileContent
+            {
+                FileNm = fileNm,
+                FilePath = filePath
+            };
+            files.Add(file);
+
+            new FileHelper().DownloadFile(files, archiveName);
         }
     }
 }

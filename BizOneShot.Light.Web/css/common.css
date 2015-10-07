@@ -1,7 +1,6 @@
 ﻿@charset "utf-8";
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 @import url("reset.css");
-
 html {overflow-y:scroll;}
 html,body{position:relative;height:100%;}
 
@@ -307,7 +306,7 @@ html,body{position:relative;height:100%;}
 
 /*custom center*/
 .custom_gnbwrap{position:relative;width:200px;height:auto;}
-.sub_gnbwrap ul li.title{display:block;height:58px;border-bottom:3px solid #545151;background:url('../images/title_customcenter.png') no-repeat 10px top;}
+.custom_gnbwrap ul li.title{display:block;height:58px;border-bottom:3px solid #545151;background:url('../images/title_customcenter.png') no-repeat 10px top;}
 .custom_gnbwrap ul li a.gnb{display:block;height:50px;line-height:50px;border-bottom:1px solid #ddd;padding-left:10px;font-weight:bold;font-size:14px;}
 .custom_gnbwrap ul li a.gnb:hover, .custom_gnbwrap ul li a.gnb.on{color:#e60021;}
 
@@ -506,11 +505,11 @@ html,body{position:relative;height:100%;}
 .sub_right_title.inquiry03{background:url('../images/title_inquiry03.png') no-repeat left top;}
 
 
-#sub_term_box{width:auto;background-color:#fafafa;border:1px solid #ddd;padding:12px 15px;margin-bottom:10px;height:26px}
+#sub_term_box{width:auto;background-color:#fafafa;border:1px solid #ddd;padding:12px 15px;margin-bottom:10px;}
 #sub_term_box select{margin-right:10px;}
-#sub_term_box select.year{width:80px;height:26px;border:1px solid #C8C8C8;color:#7b7b7b;float:left;}
-#sub_term_box select.month{width:80px;height:26px;border:1px solid #C8C8C8;color:#7b7b7b;float:left;}
-#sub_term_box select.week{width:80px;height:26px;border:1px solid #C8C8C8;color:#7b7b7b;float:left;}
+#sub_term_box select.year{width:110px;height:26px;border:1px solid #C8C8C8;color:#7b7b7b;}
+#sub_term_box select.month{width:90px;height:26px;border:1px solid #C8C8C8;color:#7b7b7b;}
+#sub_term_box select.week{width:90px;height:26px;border:1px solid #C8C8C8;color:#7b7b7b;}
 #sub_term_box select.cont{width:60px;height:26px;border:1px solid #C8C8C8;color:#7b7b7b;float:left;}
 #sub_term_box select.company{width:170px;height:26px;border:1px solid #C8C8C8;color:#7b7b7b;float:left;}
 #sub_term_box select.quarter{width:90px;height:26px;border:1px solid #C8C8C8;color:#7b7b7b;}
@@ -687,7 +686,7 @@ select.w242{width:242px;height:28px;border:1px solid #dbdbdb;}
 #file_upwrap ul li{display:block;height:30px;border-top:1px solid #ddd;padding:5px 5px;}
 #file_upwrap ul li:first-child{border-top:none;}
 #file_upwrap ul li > input{height:24px;border:1px solid #c8c8c8;}
-#file_upwrap ul li > input.file{width:420px;}
+#file_upwrap ul li > input.file{width:480px;}
 #file_upwrap ul li > button.file_search{width:70px;height:28px;background:url('../images/bt_file_search.png');margin:0 5px;}
 #file_upwrap ul li > button.file_add{width:26px;height:28px;background:url('../images/bt_file_add.png');margin-left:5px;}
 #file_upwrap ul li > button.file_del{width:26px;height:28px;background:url('../images/bt_file_del.png');margin-left:5px;}
@@ -1060,19 +1059,7 @@ input.list{width:114px;height:42px;background:url('../images/bt_list.png');color
 /*======================================== 201508 추가 START===========================================================/*
 
 /* ------------ SCP관리자, 멘토, 사업관리자, 전문회원 header ---------- */
-#headerwrap_SCPadmin{height:65px;background:url('../images/main_bg_top.png') repeat-x;padding-top:35px;border-bottom:5px solid #545151;}
-#headerwrap_SCPadmin h1{display:block;float:left;width:306px;height:41px;background:url('../images/bi_scpadmin.png') no-repeat;cursor:hand;}
-#headerwrap_SCPadmin a.name{float:left;text-decoration:underline;color:#0069d4;font-weight:bold;margin-left:20px;margin-top:13px;}
-#headerwrap_SCPadmin a.down{float:left;width:17px;height:16px;background:url('../images/header_bullet_down.png') no-repeat;margin-left:5px;margin-top:15px;}
 
-.navi_scpadmin01{display:block;width:103px;height:32px;overflow:hidden;background:url('../images/header_scpadmin_master.png');} /*전문회원관리*/
-.navi_scpadmin01:hover, .navi_scpadmin01.on{background-position:0 32px;}
-.navi_scpadmin02{display:block;width:95px;height:32px;overflow:hidden;background:url('../images/header_scpadmin_report.png');}	/*보고서관리*/
-.navi_scpadmin02:hover, .navi_scpadmin02.on{background-position:0 32px;}
-.navi_scpadmin03{display:block;width:104px;height:32px;overflow:hidden;background:url('../images/header_scpadmin_customcenter.png');}	/*고객센터관리*/
-.navi_scpadmin03:hover, .navi_scpadmin03.on{background-position:0 32px;}
-.navi_scpadmin04{display:block;width:85px;height:32px;overflow:hidden;background:url('../images/header_scpadmin_work.png');}	/*그룹관리*/
-.navi_scpadmin04:hover, .navi_scpadmin04.on{background-position:0 32px;}
 
 #headerwrap_Mentor{height:65px;background:url('../images/main_bg_top.png') repeat-x;padding-top:35px;border-bottom:5px solid #545151;}
 #headerwrap_Mentor h1{display:block;float:left;width:255px;height:41px;background:url('../images/bi_mentor.png') no-repeat;cursor:hand;}

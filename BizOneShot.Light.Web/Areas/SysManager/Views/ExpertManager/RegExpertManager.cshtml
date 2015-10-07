@@ -15,9 +15,14 @@
         $('#BTN_LOGIN_ID_CHK').bind('click', function () {
             if ($('#LoginId').val() == "") {
                 alert('아이디를 입력해주세요.');
-                $('#BTN_LOGIN_ID_CHK').attr("disabled", "disabled");
                 return false;
             }
+
+            if ($('#LoginId').val().length < 6) {
+                alert('아이디는 6자 이상입니다.');
+                return false;
+            }
+
             $.ajax({
                 type: "post",
                 url: '@Url.Action("DoLoginIdSelect", "BizManager")',
@@ -28,6 +33,7 @@
                         $('#LoginIdChk').val(1);
                         alert('사용 가능한 아이디입니다.');
                         $('#BTN_LOGIN_ID_CHK').attr("disabled", "disabled");
+                        $('#LoginId').attr("readonly", "readonly");
                     }
                     else {
                         $('#LoginId').focus();
@@ -77,13 +83,21 @@
                 });
             }
         });
+
+
+        $('#submit_form').bind('submit', function () {
+            if ($('#LoginIdChk').val() != 1) {
+                alert("로그인 중복확인을 하지 않았습니다.");
+                return false;
+            }
+        });
     });
 </script>
 
 <div id="sub_rightwrap">
     <div class="sub_right_title scpadmin_01_01"><em>전문회원 등록</em></div>
 
-    @using (Html.BeginForm("RegExpertManager", "ExpertManager", FormMethod.Post, new { area = "SysManager", @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("RegExpertManager", "ExpertManager", FormMethod.Post, new { area = "SysManager", @class = "form-horizontal", role = "form", id = "submit_form" }))
     {
         @Html.AntiForgeryToken()
         @Html.Hidden("LoginIdChk")

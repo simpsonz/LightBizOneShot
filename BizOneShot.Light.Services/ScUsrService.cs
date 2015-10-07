@@ -221,11 +221,7 @@ namespace BizOneShot.Light.Services
         //    listScUsrTask = await scMentorMappingRepository.GetManyAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.ScCompInfo.CompSn == mngCompSn);
         //    return listScUsrTask.Select(mmp => mmp.ScUsr).OrderByDescending(usr => usr.RegDt).ToList();
         //}
-
         
-
-
-
         public void SaveDbContext()
         {
             unitOfWork.Commit();
