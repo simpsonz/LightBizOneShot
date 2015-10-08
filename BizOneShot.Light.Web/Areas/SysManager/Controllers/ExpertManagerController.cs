@@ -189,6 +189,7 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
             title.CompSn = 0;
             title.CompNm = "사업관리자 선택";
             bizMngDropDown.Insert(0, title);
+            
             SelectList bizList = new SelectList(bizMngDropDown, "CompSn", "CompNm");
             ViewBag.SelectBizMngList = bizList;
 
@@ -200,7 +201,7 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
                     return View(joinExpertViewModel);
                 }
 
-                var expert = _scExpertMappingService.GetSameDetailTypeExpertAsync(int.Parse(BizList), joinExpertViewModel.UsrTypeDetail);
+                var expert = await _scExpertMappingService.GetSameDetailTypeExpertAsync(int.Parse(BizList), joinExpertViewModel.UsrTypeDetail);
                 if(expert != null)
                 {
                     ModelState.AddModelError("", "동일한 분야의 전문가가 이미 사업에 맵핑되어 있습니다.");
