@@ -16,6 +16,7 @@ namespace BizOneShot.Light.Web.ComLib
         public static readonly string UserTypeVal = "UserTypeEnum";
         public static readonly string UserDetailType = "UserDetailType";
         public static readonly string UserLogo = "UserLogo";
+        public static readonly string AgreeYn = "AgreeYn";
 
         //쿠키상수
         public static readonly string ScpSearch = "ScpSearch";

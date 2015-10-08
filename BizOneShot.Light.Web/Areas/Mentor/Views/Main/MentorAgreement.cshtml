@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_JoinLayout.cshtml";
+}
+
+@if (TempData["alert"] != null)
+{
+    <script type="text/javascript">
+        var message = @Html.Raw(Json.Encode(TempData["alert"]));
+        alert(message);
+    </script>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //top menu 기능 막기
+        $('#naviwrap_biz > .navi_biz >  a.navi_mentor01').removeAttr('href');
+        $('#naviwrap_biz > .navi_biz >  a.navi_mentor02').removeAttr('href');
+        $('#naviwrap_biz > .navi_biz >  a.navi_CS').removeAttr('href');
+        $('#naviwrap_biz > .navi_biz >  a.navi_mentor04').removeAttr('href');
+
+
+        $('#agreeForm').bind('submit', function () {
+            if ($('input[name=article02]:checked').val() * 1 != 1) {
+                alert('개인정보 수집 및 이용을 동의하셔야 회원 가입이 가능합니다');
+                return false;
+            }
+            return true;
+        });
+    });
+</script>
+
+<form name="agreeForm" id="agreeForm" action="@Url.Action("AgreeMentorAgreement", "Main")" method="get">
+    <div class="container">
+        <div class="desc">
+            <p class="title person_agree"><em>개인정보 수집 및 이용에 관한 동의</em></p>
+            <p class="caption">회원가입을 원하시면 아래의 서비스 이용약관 및 개인정보 취급방침을 반드시 읽으시고 "동의"버튼을 선택해 주세요.</p>
+        </div><!--desc//-->
+
+        <div class="join_useinfo_box">
+            <p class="title">개인정보 수집 및 이용에 관한 안내</p>
+            <div class="textbox">
+                <p>개인정보 수집 및 이용에 관한 안내</p>
+            </div>
+            <p class="agree"><input type="radio" name="article02" value="1" />동의합니다<span class="blank"></span><input type="radio" name="article02" checked value="0">동의하지 않습니다</p>
+        </div><!--join_useinfo_box//-->
+
+    </div><!--container//-->
+
+    <div class="btnwrap center">
+        <input type="submit" class="agree" value="동의" /><input type="button" class="disagree" value="동의 안함" onclick="location.href='/';" />
+    </div>
+</form>
+

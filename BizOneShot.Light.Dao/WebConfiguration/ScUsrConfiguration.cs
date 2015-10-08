@@ -40,6 +40,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.CompSn).HasColumnName("COMP_SN").IsRequired().HasColumnType("int");
             Property(x => x.LoginPw).HasColumnName("LOGIN_PW").IsOptional().HasColumnType("nvarchar").HasMaxLength(255);
             Property(x => x.Status).HasColumnName("STATUS").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
+            Property(x => x.AgreeYn).HasColumnName("AGREE_YN").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             Property(x => x.UsrType).HasColumnName("USR_TYPE").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             Property(x => x.UsrTypeDetail).HasColumnName("USR_TYPE_DETAIL").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             Property(x => x.DbType).HasColumnName("DB_TYPE").IsOptional().HasColumnType("nvarchar").HasMaxLength(10);

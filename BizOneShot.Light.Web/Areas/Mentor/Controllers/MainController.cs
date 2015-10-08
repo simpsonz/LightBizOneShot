@@ -35,12 +35,44 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
         public async Task<ActionResult> Index()
         {
+            string agreeYn = Session[Global.AgreeYn].ToString();
+
+            //개인정보 수집 및 이용에 대한 동의가 안되어 있으면 리다이렉트 함
+            if (agreeYn != "A")
+            {
+                TempData["alert"] = "개인정보 수집 및 이용을 동의하셔야 사용이 가능합니다";
+
+                return RedirectToAction("MentorAgreement", "Main");
+            }
+
+
             //var listScNtc = _scNtcService.GetNotices();
             var listScNtc = await _scNtcService.GetNoticesForMainAsync();
 
             var noticeViews =
                 Mapper.Map<List<NoticeViewModel>>(listScNtc);
             return View(noticeViews);
+        }
+
+        public ActionResult MentorAgreement()
+        {
+            
+            return View();
+        }
+
+        public async Task<ActionResult> AgreeMentorAgreement()
+        {
+            ScUsr scUsr = await _scUsrService.SelectMentorInfo(Session[Global.LoginID].ToString());
+
+            scUsr.AgreeYn = "A";
+
+            _scUsrService.ModifyScUsr(scUsr);
+
+            await _scUsrService.SaveDbContextAsync();
+
+            Session[Global.AgreeYn] = "A";
+
+            return RedirectToAction("Index", "Main");
         }
 
         public async Task<ActionResult> MyInfo()

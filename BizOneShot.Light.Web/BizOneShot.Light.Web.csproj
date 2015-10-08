@@ -468,6 +468,7 @@
     <Content Include="Areas\Company\Views\ExpertService\CompanyQAList.cshtml" />
     <Content Include="Areas\Company\Views\ExpertService\CompanyQADetail.cshtml" />
     <Content Include="Areas\Company\Views\ExpertService\RegCompanyQA.cshtml" />
+    <Content Include="Areas\Mentor\Views\Main\MentorAgreement.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

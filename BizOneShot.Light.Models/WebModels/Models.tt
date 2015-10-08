@@ -30,7 +30,6 @@
         ""  //  example: "void SetAutoDetectChangesEnabled(bool flag);"
     };
 
-
     // Migrations *************************************************************************************************************************
     MigrationConfigurationFileName = ""; // null or empty to not create migrations
     MigrationStrategy = "MigrateDatabaseToLatestVersion"; // MigrateDatabaseToLatestVersion, CreateDatabaseIfNotExists or DropCreateDatabaseIfModelChanges

@@ -28,6 +28,7 @@ namespace BizOneShot.Light.Models.WebModels
         public int CompSn { get; set; } // COMP_SN. 기업식별자
         public string LoginPw { get; set; } // LOGIN_PW. 로그인비밀번호
         public string Status { get; set; } // STATUS. 상태  N: 정상(Normal)  R: 탈퇴 요청(Retired)  D: 탈퇴 완료(Deleted)
+        public string AgreeYn { get; set; } // AGREE_YN. 동의여부  R: 거부(Refuse)  A: 동의(Agree)
         public string UsrType { get; set; } // USR_TYPE. 회원유형  C: 기업회원(Company)  M:멘토(Mentor)  B: 사업회원(Business)  P:전문가회원(Professonal)  S: SCP (SCP)
         public string UsrTypeDetail { get; set; } // USR_TYPE_DETAIL. A :  관리자(Admi)  O: 담당자(Operator)    T: 세무/회계사(Tax Accountant)  W: 노무  L:법무  P:특허  M:마케팅  F:자금  D:기술개발  Z:기타
         public string DbType { get; set; } // DB_TYPE. DB유형
@@ -66,6 +67,7 @@ namespace BizOneShot.Light.Models.WebModels
         
         public ScUsr()
         {
+            AgreeYn = "R";
             ScBizWorks = new List<ScBizWork>();
             ScCompMappings = new List<ScCompMapping>();
             ScExpertMappings = new List<ScExpertMapping>();

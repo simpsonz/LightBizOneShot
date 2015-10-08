@@ -113,6 +113,7 @@ namespace BizOneShot.Light.Web.ComLib
             Session[Global.UserType] = user.UsrType;
             Session[Global.UserDetailType] = user.UsrTypeDetail;
             Session[Global.UserTypeVal] = GetUserTypeVal(user.UsrType);    //권한체크용
+            Session[Global.AgreeYn] = user.AgreeYn;
         }
 
         protected void SetLogo(string logo)
