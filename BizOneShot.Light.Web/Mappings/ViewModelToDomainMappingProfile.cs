@@ -100,6 +100,10 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.ExecutorId, map => map.MapFrom(s => s.LoginId));
 
             Mapper.CreateMap<DataRequstViewModels, ScReqDoc>();
+            Mapper.CreateMap<RegSendViewModels, ScReqDoc>();
+
+            //문의등록
+            Mapper.CreateMap<RegQaRequestViewModels, ScQa>();
 
             //문진표 맵퍼
             Mapper.CreateMap<QuesMasterViewModel, QuesMaster>();

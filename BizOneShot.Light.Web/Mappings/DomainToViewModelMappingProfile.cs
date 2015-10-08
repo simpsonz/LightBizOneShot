@@ -309,6 +309,14 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.AnswerComNm, map => map.MapFrom(s => s.ScUsr_AnswerId.ScCompInfo.CompNm))
                 .ForMember(d => d.AnswerRegistrationNo, map => map.MapFrom(s => s.ScUsr_AnswerId.ScCompInfo.RegistrationNo));
 
+            Mapper.CreateMap<ScQa, QaRequstDetailViewModel>()
+               .ForMember(d => d.QuestionComNm, map => map.MapFrom(s => s.ScUsr_QuestionId.ScCompInfo.CompNm))
+               .ForMember(d => d.QuestionRegistrationNo, map => map.MapFrom(s => s.ScUsr_QuestionId.ScCompInfo.RegistrationNo))
+               .ForMember(d => d.AnswerComNm, map => map.MapFrom(s => s.ScUsr_AnswerId.ScCompInfo.CompNm))
+               .ForMember(d => d.AnswerRegistrationNo, map => map.MapFrom(s => s.ScUsr_AnswerId.ScCompInfo.RegistrationNo))
+               .ForMember(d => d.PreUsrQaSn, map => map.UseValue(0))
+               .ForMember(d => d.NextUsrQaSn, map => map.UseValue(0));
+
             Mapper.CreateMap<UspSelectSidoForWebListReturnModel, SelectAddressListViewModel>();
             Mapper.CreateMap<UspSelectGunguForWebListReturnModel, SelectGunguListViewModel>();
             Mapper.CreateMap<UspSelectAddressByBuildingSearchForWebListReturnModel, SelectAddressListViewModel>();

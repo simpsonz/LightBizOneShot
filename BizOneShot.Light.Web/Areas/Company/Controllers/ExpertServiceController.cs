@@ -144,6 +144,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ModifyReceive(DataRequstViewModels dataRequestViewModel, string expertType, IEnumerable<HttpPostedFileBase> files)
         {
             ViewBag.LeftMenu = Global.ExpertService;
@@ -261,7 +262,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
 
             var scExpertMapping =  await _scExpertMappingService.GetExpertAsync(scCompMapping.BizWorkSn, expertType);
 
-            var dataRequest = new DataRequstViewModels
+            var dataRequest = new RegSendViewModels
             {
                  ReceiverName = scExpertMapping.ScUsr.Name,
                   ReceiverId = scExpertMapping.ScUsr.LoginId
@@ -274,7 +275,8 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> RegSend(DataRequstViewModels dataRequestViewModel, string expertType, IEnumerable<HttpPostedFileBase> files)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegSend(RegSendViewModels dataRequestViewModel, string expertType, IEnumerable<HttpPostedFileBase> files)
         {
             ViewBag.LeftMenu = Global.ExpertService;
 
@@ -352,15 +354,52 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         {
             ViewBag.LeftMenu = Global.ExpertService;
 
-            var scQa = await _scQaService.GetQAAsync(int.Parse(usrQaSn));
+            string questionId = Session[Global.LoginID].ToString();
+
+            var dicScQa = await _scQaService.GetQADetailAsync(int.Parse(usrQaSn), questionId, expertType);
+
+            var curScQa = dicScQa["curScQa"];
 
             var dataQa =
-                Mapper.Map<QaRequstViewModels>(scQa);
+                Mapper.Map<QaRequstDetailViewModel>(curScQa);
+
+            foreach (var key in dicScQa.Keys)
+            {
+                var value = dicScQa[key];
+
+                if (key == "preScQa" && value != null)
+                {
+                    dataQa.PreUsrQaSn = value.UsrQaSn;
+                    dataQa.PreSubject = value.Subject;
+                    dataQa.PreAnsYn = value.AnsYn;
+                }
+                else if (key == "nextScQa" && value != null)
+                {
+                    dataQa.NextUsrQaSn = value.UsrQaSn;
+                    dataQa.NextSubject = value.Subject;
+                    dataQa.NextAnsYn = value.AnsYn;
+                }
+            }
 
             //전문가 타입 리턴
             ViewBag.ExpertType = expertType;
 
             return View(dataQa);
+
+
+
+
+            //ViewBag.LeftMenu = Global.ExpertService;
+
+            //var scQa = await _scQaService.GetQAAsync(int.Parse(usrQaSn));
+
+            //var dataQa =
+            //    Mapper.Map<QaRequstDetailViewModel>(scQa);
+
+            ////전문가 타입 리턴
+            //ViewBag.ExpertType = expertType;
+
+            //return View(dataQa);
         }
 
         public async Task<ActionResult> RegCompanyQA(string expertType)
@@ -373,7 +412,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
 
             var scExpertMapping = await _scExpertMappingService.GetExpertAsync(scCompMapping.BizWorkSn, expertType);
 
-            var dataQa = new QaRequstViewModels
+            var dataQa = new RegQaRequestViewModels
             {
                 AnswerId = scExpertMapping.ScUsr.LoginId,
                 QuestionId = questionId,
@@ -384,6 +423,34 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             ViewBag.ExpertType = expertType;
 
             return View(dataQa);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegCompanyQA(RegQaRequestViewModels qaRequestViewModel, string expertType)
+        {
+            ViewBag.LeftMenu = Global.ExpertService;
+
+            if (ModelState.IsValid)
+            {
+                var scQa = Mapper.Map<ScQa>(qaRequestViewModel);
+
+                scQa.AskDt = DateTime.Now;
+                scQa.AnsYn = "N";
+
+                //저장
+                int result = await _scQaService.AddQaAsync(scQa);
+
+                if (result != -1)
+                    return RedirectToAction("CompanyQAList", "ExpertService", new { expertType = expertType });
+                else
+                {
+                    ModelState.AddModelError("", "자료요청 등록 실패.");
+                    return View(qaRequestViewModel);
+                }
+            }
+            ModelState.AddModelError("", "입력값 검증 실패.");
+            return View(qaRequestViewModel);
         }
 
         #region 파일 다운로드

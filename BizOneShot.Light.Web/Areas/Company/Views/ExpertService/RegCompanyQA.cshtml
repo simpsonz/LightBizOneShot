@@ -1,4 +1,4 @@
-﻿@model BizOneShot.Light.Models.ViewModels.QaRequstViewModels
+﻿@model BizOneShot.Light.Models.ViewModels.RegQaRequestViewModels
 
 @{
     Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
@@ -36,7 +36,7 @@
 
     <div class="sub_right_title biz030303"><em>새 자료요청 보내기</em></div>
 
-    <div id="tabswrap_three" class="tab02">
+    <div id="tabswrap_three" class="tab03">
         <!--기업별 조회 목록 탭-->
         <ul>
             <li><a href="@Url.Action("ReceiveList","ExpertService",new { area= "Company", expertType=ViewBag.ExpertType})">수신함</a></li>
@@ -48,6 +48,9 @@
     @*@using (Html.BeginForm("RegCompanyQA", "ExpertService", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "submit_form", enctype = "multipart/form-data" }))*@
     @using (Html.BeginForm("RegCompanyQA", "ExpertService", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", @id = "mainForm" }))
     {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         @Html.HiddenFor(model => model.AnswerId, new { @id = "answerId" })
         @Html.HiddenFor(model => model.QuestionId, new { @id = "questionId" })
         @Html.HiddenFor(model => model.QuestionComNm, new { @id = "questionComNm" })
@@ -66,12 +69,17 @@
                 </tr>
                 <tr>
                     <th>문의제목</th>
-                    <td class="form">@Html.TextBoxFor(model => model.Subject, new { @class = "w630" })</td>
+                    <td class="form">
+                        @Html.TextBoxFor(model => model.Subject, new { @class = "w590" })&nbsp;&nbsp;
+                        @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+                   
                 </tr>
                 <tr>
                     <th>문의내용</th>
                     <td class="reply">
                         @Html.TextAreaFor(model => model.Question)
+                        @Html.ValidationMessageFor(model => model.Question, "", new { @class = "text-danger", @color = "#b94a48" })
                     </td>
                 </tr>
                 
@@ -83,5 +91,9 @@
                 <button type="submit" class="save rightmargin" value="저장"></button><a href="@Url.Action("CompanyQAList", "ExpertService", new { expertType = ViewBag.ExpertType })" class="cancel2 right"><em>취소</em></a>
             </div>
         </div><!--btnwrap//-->
-    }
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
+}
 </div><!--sub_rightwrap//-->
