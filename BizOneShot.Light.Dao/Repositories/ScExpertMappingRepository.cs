@@ -29,7 +29,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<ScExpertMapping> GetExpertMappingAsync(Expression<Func<ScExpertMapping, bool>> where)
         {
-            return await this.DbContext.ScExpertMappings.Include("ScBizWork").Include("ScBizWork.ScCompInfo").Include("ScUsr").Include("ScUsr.ScCompInfo").Include("ScUsr.ScUsrResume.ScFileInfo").Where(where).SingleAsync();
+            return await this.DbContext.ScExpertMappings.Include("ScBizWork").Include("ScBizWork.ScCompInfo").Include("ScUsr").Include("ScUsr.ScCompInfo").Include("ScUsr.ScUsrResume.ScFileInfo").Where(where).SingleOrDefaultAsync();
         }
     }
 }

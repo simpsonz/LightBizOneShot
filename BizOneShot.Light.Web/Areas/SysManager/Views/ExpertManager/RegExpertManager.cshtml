@@ -59,8 +59,13 @@
         });
 
 
+        $('#CompSn').ready(function () {
+            SelectBizManager();
+        });
+
         $('#CompSn').change(function () {
-            var comSn = $('#CompSn').val();
+            SelectBizManager();
+            @*var comSn = $('#CompSn').val();
 
             if (comSn == 0) {
                 $('#BizList').html("<option value='0'>사업명</option>");
@@ -81,7 +86,7 @@
                         }
                     }
                 });
-            }
+            }*@
         });
 
 
@@ -92,6 +97,32 @@
             }
         });
     });
+
+    function SelectBizManager()
+    {
+        var comSn = $('#CompSn').val();
+
+        if (comSn == 0) {
+            $('#BizList').html("<option value='0'>사업명</option>");
+            $('#BizList').attr("disabled", true);
+        } else {
+            $('#BizList').attr("disabled", false);
+            //$('#BizList').html("<option value='0'>사업명</option>");
+            $('#BizList').html("");
+            $.ajax({
+                url: '@Url.Action("GetBizList", "ExpertManager")',
+                type: "post",
+                dataType: "json",
+                data: { CompSn: comSn },
+                async: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#BizList').append("<option value='" + result[i].BizWorkSn + "'>" + result[i].BizWorkNm + "</option>");
+                    }
+                }
+            });
+        }
+    }
 </script>
 
 <div id="sub_rightwrap">

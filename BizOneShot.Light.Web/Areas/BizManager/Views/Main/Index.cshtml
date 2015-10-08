@@ -5,18 +5,18 @@
 <div class="business_main">
     <div class="container">
         <div id="main_cont4wrap">
-            <a href="" class="m8"><img src="../images/business_admin_01.png"></a><a href="" class="m8"><img src="../images/business_admin_02.png"></a><a href="" class="m8"><img src="../images/business_admin_03.png"></a>
+            <a href="" class="m8"><img src="../images/business_admin_01.png"></a><a href="@Url.Action("CompanyList","CompanyMng", new { area= "BizManager" })" class="m8"><img src="../images/business_admin_02.png"></a><a href="@Url.Action("MentorList","MentorMng", new { area= "BizManager" })" class="m8"><img src="../images/business_admin_03.png"></a>
         </div><!--main_cont2wrap//-->
         <div id="main_cont4wrap">
             @if (Session[Global.UserDetailType].Equals(Global.Admin))
             {
-                <a href="" class="m8"><img src="../images/business_admin_04.png"></a>
-                <a href=""><img src="../images/business_admin_05.png"></a>
+                <a href="@Url.Action("BizWorkList","BizWorkMng", new { area= "BizManager" })" class="m8"><img src="../images/business_admin_04.png"></a>
+                <a href="@Url.Action("Notice","Cs",new { area= "" })"><img src="../images/business_admin_05.png"></a>
             }
             else
             {
-                <a href="" class="m8"><img src="../images/business_admin_05.png"></a>
-                <a href=""><img src="../images/business_admin_06.png"></a>
+                <a href="@Url.Action("Notice","Cs",new { area= "" })" class="m8"><img src="../images/business_admin_05.png"></a>
+                <a href="@Url.Action("MyInfo","Main", new { area= "BizManager" })"><img src="../images/business_admin_06.png"></a>
             }
         </div><!--main_cont2wrap//-->
     </div>
