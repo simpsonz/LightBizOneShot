@@ -72,7 +72,8 @@
 
         });
 
-        //이메일 도베인
+        //이메일 도베인
+
         $('#EMAIL_DOMAIN').bind('change', function () {
             if ($(this).val() == "") {
                 $('#Email2').show("slow");
@@ -84,36 +85,42 @@
             return false;
         });
 
+        $('#BizManager').ready(function () {
+            SelectBizManager();
+        });
 
         $('#BizManager').change(function () {
-            var comSn = $('#BizManager').val();
-
-            alert(comSn);
-
-            if (comSn == 0) {
-                $('#BizList').html("<option value='0'>사업명</option>");
-                $('#BizList').attr("disabled", true);
-            } else {
-                $('#BizList').attr("disabled", false);
-                //$('#BizList').html("<option value='0'>사업명</option>");
-                $('#BizList').html("");
-                $.ajax({
-                    url: '@Url.Action("GetBizList", "Account")',
-                    type: "post",
-                    dataType: "json",
-                    data: { CompSn: comSn },
-                    async: false,
-                    success: function (result) {
-                        for (var i = 0; i < result.length; i++) {
-                            $('#BizList').append("<option value='" + result[i].BizWorkSn + "'>" + result[i].BizWorkNm + "</option>");
-                        }
-                    }
-                });
-            }
+            SelectBizManager();
         });
 
 
     });
+
+    function SelectBizManager()
+    {
+        var comSn = $('#CompSn').val();
+
+        if (comSn == 0) {
+            $('#BizList').html("<option value='0'>사업명</option>");
+            $('#BizList').attr("disabled", true);
+        } else {
+            $('#BizList').attr("disabled", false);
+            //$('#BizList').html("<option value='0'>사업명</option>");
+            $('#BizList').html("");
+            $.ajax({
+                url: '@Url.Action("GetBizList", "ExpertManager")',
+                type: "post",
+                dataType: "json",
+                data: { CompSn: comSn },
+                async: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#BizList').append("<option value='" + result[i].BizWorkSn + "'>" + result[i].BizWorkNm + "</option>");
+                    }
+                }
+            });
+        }
+    }
 
     function open_post() {
         w = 550;    //팝업창의 너비
@@ -341,6 +348,7 @@
                 </li>
             </ul>
         </div><!--join_infoinput_wrap//-->
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div id="btnwrap_sub">
             <a href="@Url.Action("Index", "Home")" class="cancel2 right"><em>취소</em></a>
