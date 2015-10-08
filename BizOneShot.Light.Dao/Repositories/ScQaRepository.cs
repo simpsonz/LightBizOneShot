@@ -15,6 +15,7 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         Task<IList<ScQa>> GetQAsAsync(Expression<Func<ScQa, bool>> where);
         Task<ScQa> GetQAAsync(Expression<Func<ScQa, bool>> where);
+        ScQa Insert(ScQa scQa);
     }
 
 
@@ -31,6 +32,11 @@ namespace BizOneShot.Light.Dao.Repositories
         public async Task<ScQa> GetQAAsync(Expression<Func<ScQa, bool>> where)
         {
             return await this.DbContext.ScQas.Include("ScUsr_QuestionId").Include("ScUsr_QuestionId.ScCompInfo").Include("ScUsr_AnswerId").Include("ScUsr_AnswerId.ScCompInfo").Where(where).SingleAsync();
+        }
+
+        public ScQa Insert(ScQa scQa)
+        {
+            return this.DbContext.ScQas.Add(scQa);
         }
 
     }

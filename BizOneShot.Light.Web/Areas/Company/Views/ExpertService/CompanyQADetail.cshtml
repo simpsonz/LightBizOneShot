@@ -1,4 +1,4 @@
-﻿@model BizOneShot.Light.Models.ViewModels.QaRequstViewModels
+﻿@model BizOneShot.Light.Models.ViewModels.QaRequstDetailViewModel
 
 @{
     Layout = "~/Areas/Company/Views/Shared/_MainLayout.cshtml";
@@ -73,9 +73,9 @@
                     <p>@Html.RepladeHtmlText(Model.Question)</p>
                     <div id="reply_view">
                         <p class="title">답변내용 :</p>
-                        @if (@Model.AnsYn == "Y")
+                        @if (Model.AnsYn == "Y")
                         {
-                            <p>@Html.RepladeHtmlText(@Model.Answer)</p>
+                            <p>@Html.RepladeHtmlText(Model.Answer)</p>
                         }
                         else
                         {
@@ -87,11 +87,29 @@
 
             <tr>
                 <th>이전글</th>
-                <td colspan="3"><span class="right">[답변완료]</span>가입회원은 어떤 절차를 밟아야 하나요?</td>
+                <td colspan="3">
+                    @if (Model.PreUsrQaSn == 0)
+                    {
+                        @:없음
+                                }
+                    else
+                    {
+                        <span class="right">@(Model.PreAnsYn == "Y" ? "답변완료" : "답변대기")</span>@Html.ActionLink(Model.PreSubject, "CompanyQADetail", new { usrQaSn = Model.PreUsrQaSn, expertType = ViewBag.ExpertType })
+                    }
+                </td>
             </tr>
             <tr>
                 <th>다음글</th>
-                <td colspan="3"><span class="right">[답변대기]</span>질문있어요</td>
+                <td colspan="3">
+                    @if (Model.NextUsrQaSn == 0)
+                    {
+                        @:없음
+                            }
+                    else
+                    {
+                        <span class="right">@(Model.NextAnsYn == "Y" ? "답변완료" : "답변대기")</span>@Html.ActionLink(Model.NextSubject, "CompanyQADetail", new { usrQaSn = Model.NextUsrQaSn, expertType = ViewBag.ExpertType })
+                    }
+                </td>
             </tr>
 
         </table>
