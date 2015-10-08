@@ -1,4 +1,5 @@
 ﻿@model BizOneShot.Light.Models.ViewModels.JoinMentorViewModel
+@using BizOneShot.Light.Models.ViewModels
 
 @{
     Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
@@ -113,7 +114,23 @@
                 </tr>
                 <tr>
                     <th>이력서</th>
-                    <td><span class="vita">@Model.ResumeName</span></td>
+                    <td colspan="4" class="nopad">
+                        <div id="file_downwrap">
+                            <ul>
+                                <li>
+                                    @if (string.IsNullOrEmpty(Model.ResumeName))
+                                    {
+                                        <span>이력서 없음</span>
+                                    }
+                                    else
+                                    {
+                                        <span><a href="@Url.Action("DownloadResumeFile", new FileInfoViewModel { FileNm = Model.ResumeName, FilePath = Model.ResumePath })" class="file_open">@Model.ResumeName</a></span>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    @*<td><span class="vita">@Model.ResumeName</span></td>*@
                 </tr>
             </table>
             <div class="line_dot10"></div>

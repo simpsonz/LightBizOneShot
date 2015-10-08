@@ -468,6 +468,15 @@
     <Content Include="Areas\Company\Views\ExpertService\CompanyQAList.cshtml" />
     <Content Include="Areas\Company\Views\ExpertService\CompanyQADetail.cshtml" />
     <Content Include="Areas\Company\Views\ExpertService\RegCompanyQA.cshtml" />
+    <Content Include="Areas\Company\Views\Report\BasicSurveyComplete.cshtml" />
+    <Content Include="Areas\Company\Views\Report\BizCheck08.cshtml" />
+    <Content Include="Areas\Company\Views\Report\BizCheck09.cshtml" />
+    <Content Include="Areas\Company\Views\Report\BizCheck10.cshtml" />
+    <Content Include="Areas\Company\Views\Report\BizCheck11.cshtml" />
+    <Content Include="Areas\Company\Views\Report\BizCheck12.cshtml" />
+    <Content Include="Areas\Company\Views\Report\BizCheck13.cshtml" />
+    <Content Include="Areas\Company\Views\Report\FinanceCheck01.cshtml" />
+    <Content Include="Areas\Company\Views\Report\OrgCheck01.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

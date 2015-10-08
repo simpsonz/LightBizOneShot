@@ -60,6 +60,11 @@ namespace BizOneShot.Light.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(string.IsNullOrEmpty(BizList))
+                {
+                    ModelState.AddModelError("", "사업명을 선택하지 않았습니다.");
+                    return View(joinCompanyViewModel);
+                }
                 var scUsr = Mapper.Map<ScUsr>(joinCompanyViewModel);
                 var syUser = Mapper.Map<SHUSER_SyUser>(joinCompanyViewModel);
                 var scCompInfo = Mapper.Map<ScCompInfo>(joinCompanyViewModel);

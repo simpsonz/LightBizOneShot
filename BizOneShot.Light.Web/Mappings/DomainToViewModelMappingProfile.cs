@@ -206,9 +206,21 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.LoginId, map => map.MapFrom(s => s.ScUsr.LoginId))
                 .ForMember(d => d.Email, map => map.MapFrom(s => s.ScUsr.Email))
                 .ForMember(d => d.TelNo, map => map.MapFrom(s => s.ScUsr.TelNo))
+
+                .ForMember(d => d.MbNo, map => map.MapFrom(s => s.ScUsr.MbNo))
+                .ForMember(d => d.FaxNo, map => map.MapFrom(s => s.ScUsr.FaxNo))
+                .ForMember(d => d.PostNo, map => map.MapFrom(s => s.ScUsr.PostNo))
+                .ForMember(d => d.Addr1, map => map.MapFrom(s => s.ScUsr.Addr1))
+                .ForMember(d => d.Addr2, map => map.MapFrom(s => s.ScUsr.Addr2))
+
                 .ForMember(d => d.Name, map => map.MapFrom(s => s.ScUsr.Name))
                 .ForMember(d => d.UsrTypeDetail, map => map.MapFrom(s => s.ScUsr.UsrTypeDetail))
-                .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsr.ScUsrResume.ScFileInfo.FileNm));
+                .ForMember(d => d.BankNm, map => map.MapFrom(s => s.ScUsr.BankNm))
+                .ForMember(d => d.AccountNo, map => map.MapFrom(s => s.ScUsr.AccountNo))
+                .ForMember(d => d.ResumeName, map => map.MapFrom(s => s.ScUsr.ScUsrResume.ScFileInfo.Status == "N" ? s.ScUsr.ScUsrResume.ScFileInfo.FileNm : ""))
+                .ForMember(d => d.ResumePath, map => map.MapFrom(s => s.ScUsr.ScUsrResume.ScFileInfo.Status == "N" ? s.ScUsr.ScUsrResume.ScFileInfo.FilePath : ""));
+
+            Mapper.CreateMap<ScUsr, JoinMentorViewModel>();
 
             //맨토 회원 뷰 매핑
             Mapper.CreateMap<ScUsr, MentorMyInfoViewModel>()
@@ -247,7 +259,7 @@ namespace BizOneShot.Light.Web.Mappings
 
             //기업 회원 관리(사업관리자) 뷰 매핑
             Mapper.CreateMap<ScCompMapping, CompanyMngViewModel>()
-                .ForMember(d => d.ApproveRequestDate, map => map.MapFrom(s => s.RegDt))
+                .ForMember(d => d.ApproveRequestDate, map => map.MapFrom(s => s.RegDt.GetValueOrDefault().ToShortDateString()))
                 .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
                 .ForMember(d => d.RegistrationNo, map => map.MapFrom(s => s.ScCompInfo.RegistrationNo))
                 .ForMember(d => d.OwnNm, map => map.MapFrom(s => s.ScCompInfo.OwnNm))
@@ -261,6 +273,7 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.TelNo, map => map.MapFrom(s => s.ScBizWork.ScUsr.TelNo))
                 .ForMember(d => d.MbNo, map => map.MapFrom(s => s.ScBizWork.ScUsr.MbNo))
                 .ForMember(d => d.Email, map => map.MapFrom(s => s.ScBizWork.ScUsr.Email))
+                .ForMember(d => d.MentorLoginId, map => map.MapFrom(s => s.MentorId))
                 .ForMember(d => d.MentorName, map => map.MapFrom(s => s.ScUsr.Name))
                 .ForMember(d => d.MentorTelNo, map => map.MapFrom(s => s.ScUsr.TelNo))
                 .ForMember(d => d.MentorMbNo, map => map.MapFrom(s => s.ScUsr.MbNo))

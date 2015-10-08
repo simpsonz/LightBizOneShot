@@ -182,6 +182,13 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
                 ViewBag.SelectMentorList = mentorList;
 
+                usrView.MentorEmail = "";
+                usrView.MentorLoginId = "";
+                usrView.MentorMbNo = "";
+                usrView.MentorName = "";
+                usrView.MentorTelNo = "";
+                usrView.MngCompSn = 0;
+
                 return View("ApproveCompany", usrView);
             }
             else
@@ -280,6 +287,22 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
                 return RedirectToAction("CompanyDetail", "CompanyMng", new { bizWorkSn = companyViewModel.BizWorkSn, compSn = companyViewModel.CompSn });
             }
 
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> CancelApprove(string[] compSns)
+        {
+            ViewBag.LeftMenu = Global.ComMng;
+
+            foreach (var compSn in compSns)
+            {
+                var array = compSn.Split('#');
+                var scCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(array[1]), int.Parse(array[0]));
+                scCompMapping.Status = "R";
+                await _scCompMappingService.SaveDbContextAsync();
+            }
+            return Json(new { result = true });
         }
     }
 }
