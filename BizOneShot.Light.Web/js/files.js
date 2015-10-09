@@ -13,24 +13,19 @@
 // 첨부파일 추가
 function file_add(e) {
     
-    //alert("test");
     if ($(e).parent().find('em').find('input[type="file"]').val() == "") {
-        //alert("1");
         $(e).parent().find('em').find('input[type="file"]').trigger('click');
     } else {
-       // alert("2");
         $(e).parent().find('input.file').val('');
         $(e).parent().find('em').find('input[type="file"]').val('');
         //$(e).parent().find('.bt_td_delete').attr('class', 'file_search');
 
         var temp = $(e).parent().parent().find('li');
         if (temp.length < 2) {
-            //alert("3");
             $(e).parent().parent().find('.bt_td_delete').attr('class', 'file_search');
             return false;
         }
         else {
-            //alert("4");
             var $cloneADD = $('.file_add').clone();
             var $cloneDEL = $('.file_del').clone();
             $($cloneADD).insertAfter($(temp[temp.length - 2]).find('button.file_search'));
