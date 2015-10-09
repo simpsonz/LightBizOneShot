@@ -102,7 +102,7 @@
 
     <div id="btnwrap_sub">
         <div class="rightwrap">
-            @if (Session[Global.UserType].Equals(Global.SysManager) || Session[Global.UserType].Equals(Global.BizManager))
+            @if (Session[Global.UserType] != null && (Session[Global.UserType].Equals(Global.SysManager) || Session[Global.UserType].Equals(Global.BizManager)))
             {
                 <a href="@Url.Action("ModifyManual", "Cs", new { @formSn = Model.Manual.FormSn })" class="modify left"><em>수정</em></a>
                 <a href="@Url.Action("DeleteManual", "Cs", new { @formSn = Model.Manual.FormSn })" class="delete left" id="btn_delete"><em>삭제</em></a>

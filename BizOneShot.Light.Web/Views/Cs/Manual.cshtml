@@ -90,8 +90,8 @@
         }
     </div>
 
-    @if (Session[Global.UserType].Equals(Global.SysManager) || Session[Global.UserType].Equals(Global.BizManager))
-    {
+   @if (Session[Global.UserType] != null && (Session[Global.UserType].Equals(Global.SysManager) || Session[Global.UserType].Equals(Global.BizManager)))
+   {
         <div id="btnwrap_sub">
             <a href="@Url.Action("RegManual","Cs")" class="manual_form_regi right"><em>매뉴얼 및 서식 등록</em></a>
         </div><!--btnwrap//-->
