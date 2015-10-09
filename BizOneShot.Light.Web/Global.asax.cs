@@ -20,6 +20,10 @@ namespace BizOneShot.Light.Web
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
+            //Razor 엔진만 로딩함
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new RazorViewEngine());
+
             // Autofac and Automapper configurations
             AutofacModuleConfig.Run();
         }
