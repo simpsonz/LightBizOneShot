@@ -54,7 +54,7 @@
                         foreach (var item in Model)
                         {
                             <li class="board">
-                                @if (Session[Global.UserType].Equals(Global.SysManager) || Session[Global.UserType].Equals(Global.BizManager))
+                                @if (Session[Global.UserType] != null && (Session[Global.UserType].Equals(Global.SysManager) || Session[Global.UserType].Equals(Global.BizManager)))
                                 {
                                     <span class="sep">@item.QclNm</span><span class="que"><a href="@Url.Action("FaqDetail","Cs", new {@faqSn = item.FaqSn })" class="on">@item.QstTxt</a></span>
                                 }
@@ -107,8 +107,8 @@
         }
     </div><!--custom_search_box//-->
 
-    @if (Session[Global.UserType].Equals(Global.SysManager) || Session[Global.UserType].Equals(Global.BizManager))
-    {
+   @if (Session[Global.UserType] != null && (Session[Global.UserType].Equals(Global.SysManager) || Session[Global.UserType].Equals(Global.BizManager)))
+   {
         <div id="btnwrap_sub">
             <a href="@Url.Action("RegFaq","Cs")" class="faq_regi right"><em>공지등록</em></a>
         </div><!--btnwrap//-->

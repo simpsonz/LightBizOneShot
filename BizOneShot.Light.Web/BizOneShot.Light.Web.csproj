@@ -370,8 +370,6 @@
     <Content Include="images\title_special_02_04.png" />
     <Content Include="images\title_special_02_05.png" />
     <Content Include="images\title_special_02_06.png" />
-    <Content Include="images\캡처.PNG" />
-    <Content Include="images\테스트.JPG" />
     <Content Include="js\cert.js" />
     <Content Include="js\files.js" />
     <Content Include="js\localstorage.js" />
@@ -478,6 +476,7 @@
     <Content Include="Areas\Company\Views\Report\BizCheck13.cshtml" />
     <Content Include="Areas\Company\Views\Report\FinanceCheck01.cshtml" />
     <Content Include="Areas\Company\Views\Report\OrgCheck01.cshtml" />
+    <None Include="Properties\PublishProfiles\Demo BizOneShot Lite.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
