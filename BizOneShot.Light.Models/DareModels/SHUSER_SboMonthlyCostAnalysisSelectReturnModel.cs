@@ -1,17 +1,3 @@
-﻿
-
-// This file was automatically generated.
-// Do not make changes directly to this file - edit the template instead.
-// 
-// The following connection settings were used to generate this file
-// 
-//     Configuration file:     "BizOneShot.Light.Dao\App.config"
-//     Connection String Name: "DareDbContext"
-//     Connection String:      "Data Source=219.252.53.127;password=**zapped**;"
-
-// Database Edition: Enterprise Edition (64-bit)
-// Database Engine Edition: Enterprise
-
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
 // ReSharper disable InconsistentNaming
@@ -34,5 +20,16 @@ using System.Threading;
 
 namespace BizOneShot.Light.Models.DareModels
 {
-}
+    public class SHUSER_SboMonthlyCostAnalysisSelectReturnModel
+    {
+        public String SET_YEAR { get; set; }
+        public String SET_MONTH { get; set; }
+        public Decimal? MATERIALS_AMT { get; set; }
+        public Decimal? MANUFACTURING_AMT { get; set; }
+        public Decimal? OPERATING_AMT { get; set; }
+        public Decimal? ALL_OTHER_AMT { get; set; }
+        public Decimal? SALES_AMT { get; set; }
+        public Decimal? PROFIT_AMT { get; set; }
+    }
 
+}

@@ -60,7 +60,7 @@
     // Add the elements that should be generated when the template is executed.
     // Multiple projects can now be used that separate the different concerns.
     //ElementsToGenerate = Elements.Poco | Elements.Context | Elements.UnitOfWork | Elements.PocoConfiguration | Elements.StoredProcedures;
-	ElementsToGenerate = Elements.Poco;
+	ElementsToGenerate = Elements.Poco | Elements.StoredProcedures;
 
     // Use these namespaces to specify where the different elements now live. These may even be in different assemblies.
     // Please note this does not create the files in these locations, it only adds a using statement to say where they are.
@@ -108,8 +108,8 @@
 
     // Stored Procedures ******************************************************************************************************************
     // Use the following regex filters to include or exclude stored procedures
-    StoredProcedureFilterExclude = null;
-    StoredProcedureFilterInclude = null;
+    StoredProcedureFilterExclude = new Regex("WEEKLY | ANNUAL | QUARTERLY");
+    StoredProcedureFilterInclude = new Regex("SBO_MONTHLY");
 
 
     // Table renaming *********************************************************************************************************************
