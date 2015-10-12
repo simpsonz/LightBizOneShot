@@ -44,13 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DareModels\Models.cs">
-      <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Models.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="DareModels\SHUSER_SyUser.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
+    <Compile Include="DareModels\SHUSER_SyUser.cs" />
     <Compile Include="ViewModels\BasicSurveyViewModels.cs" />
     <Compile Include="ViewModels\BizViewModels.cs" />
     <Compile Include="ViewModels\CommonViewModel.cs" />
@@ -179,10 +176,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DareModels\Models.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Models.cs</LastGenOutput>
-    </Content>
     <Content Include="WebModels\Models.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Models.cs</LastGenOutput>
