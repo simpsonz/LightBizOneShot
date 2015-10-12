@@ -253,6 +253,7 @@
     <Compile Include="ComLib\Global.cs" />
     <Compile Include="ComLib\MenuAuthorizeAttribute.cs" />
     <Compile Include="ComLib\MvcHtmlStringHelper.cs" />
+    <Compile Include="ComLib\ReportHelper.cs" />
     <Compile Include="ComLib\TransactionAttribute.cs" />
     <Compile Include="ComLib\UserAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
