@@ -1,0 +1,319 @@
+﻿@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_report').addClass('on');
+        //Accounting menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_financeMng').addClass('on');
+
+    });
+
+</script>
+
+
+<div id="sub_rightwrap_report">
+    <div class="sub_right_title specialist_02_01">
+        <em>재무관리 보고서</em>
+    </div>
+    <div id="sub_term_box">
+        <select class="year">
+            <option value="">2012년</option>
+            <option value="">2013년</option>
+            <option value="">2014년</option>
+            <option value="" selected="">2015년</option>
+        </select>
+        <button type="submit" class="report_view" value="보고서 보기">보고서 보기</button>
+    </div>
+
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2 noline nomargin2">
+            <div class="title_medium center top_padding bot_padding">재무관리보고서</div>
+            <div class="right">2015.8월</div>
+            <div class="right bold">(주)기업명기업명</div>
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox nomargin2 bot_padding">
+                    <div class="listBox_tap longbg_on noline_a">
+                        <span>현금시제</span>
+                    </div>
+                    <table class="join_info">
+                        <colgroup>
+                            <col width="16%">
+                            <col width="16%">
+                            <col width="16%">
+                            <col width="16%">
+                            <col width="16%">
+                            <col width="20%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td class="left_memo">이월액</td>
+                                <td class="left_memo">입금액</td>
+                                <td class="left_memo">출금액</td>
+                                <td class="left_memo">현재잔고</td>
+                                <td class="left_memo">전&nbsp;&nbsp;&nbsp;월</td>
+                                <td class="left_memo">전 분기 월평균</td>
+                            </tr>
+                            <tr>
+                                <td class="center_td small_padding">
+                                    XXX,XXX<text style="font-size:9px">천원</text>
+                                </td>
+                                <td class="center_td small_padding">
+                                    XXX,XXX<text style="font-size:9px">천원</text>
+                                </td>
+                                <td class="center_td small_padding">
+                                    XXX,XXX<text style="font-size:9px">천원</text>
+                                </td>
+                                <td class="center_td small_padding">
+                                    XXX,XXX<text style="font-size:9px">천원</text>
+                                </td>
+                                <td class="center_td small_padding">
+                                    XXX,XXX<text style="font-size:9px">천원</text>
+                                </td>
+                                <td class="center_td small_padding">
+                                    XXX,XXX<text style="font-size:9px">천원</text>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="main_mid_listBox nomargin2 bot_padding">
+                    <div class="listBox_tap longbg_on noline_a">
+                        <span>매&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;출</span>
+                    </div>
+                    <table class="join_info">
+                        <colgroup>
+                            <col width="25%">
+                            <col width="25%">
+                            <col width="25%">
+                            <col width="25%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td class="left_memo">당&nbsp;&nbsp;&nbsp;월</td>
+                                <td class="left_memo">금년누적</td>
+                                <td class="left_memo">전&nbsp;&nbsp;&nbsp;월</td>
+                            </tr>
+                            <tr>
+                                <td class="center_td small_padding">
+                                    XXX,XXX<text style="font-size:9px">천원</text>
+                                </td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="main_mid_listBox nomargin2 bot_padding">
+                    <div class="listBox_tap longbg_on noline_a">
+                        <span>이익분석</span>
+                    </div>
+                    <table class="join_info">
+                        <colgroup>
+                            <col width="14%">
+                            <col width="14%">
+                            <col width="14%">
+                            <col width="14%">
+                            <col width="14%">
+                            <col width="16%">
+                            <col width="14%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td class="left_memo center" colspan="7" style="height: 200px;">그래프 삽입</td>
+                            </tr>
+                            <tr>
+                                <td class="center_td">&nbsp;&nbsp;&nbsp;</td>
+                                <td class="center_td">매출액</td>
+                                <td class="center_td">자재비</td>
+                                <td class="center_td">제조비</td>
+                                <td class="center_td">판관비</td>
+                                <td class="center_td">영업외비용</td>
+                                <td class="center_td">이익</td>
+                            </tr>
+                            <tr>
+                                <td class="center_td small_padding">당&nbsp;&nbsp;&nbsp;월</td>
+                                <td class="center_td small_padding">
+                                    XXX,XXX<text style="font-size:9px">천원</text>
+                                </td>
+                                <td class="center_td small_padding">
+                                    XXX,XXX<text style="font-size:9px">천원</text>
+                                </td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                            </tr>
+                            <tr>
+                                <td class="center_td small_padding">당&nbsp;&nbsp;&nbsp;월</td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="main_mid_listBox nomargin2 bot_padding noline_a">
+                    <div class="listBox_tap longbg_on noline_a">
+                        <span>비용분석</span>
+                    </div>
+                    <table class="join_info width_70">
+                        <colgroup>
+                            <col width="10%">
+                            <col width="12%">
+                            <col width="12%">
+                            <col width="12%">
+                            <col width="12%">
+                            <col width="12%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td class="left_memo" rowspan="2">고정년도</td>
+                                <td class="left_memo">총&nbsp;&nbsp;&nbsp;액</td>
+                                <td class="left_memo">인건비</td>
+                                <td class="left_memo">지급인차료</td>
+                                <td class="left_memo">이자비용</td>
+                            </tr>
+                            <tr>
+                                <td class="center_td small_padding">
+                                    XXX,XXX<text style="font-size:9px">천원</text>
+                                </td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                                <td class="center_td noline_r"></td>
+                                <td class="center_td"></td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo" rowspan="2">유동경비</td>
+                                <td class="left_memo">총&nbsp;&nbsp;&nbsp;액</td>
+                                <td class="left_memo">복리후생비</td>
+                                <td class="left_memo">세금공과</td>
+                                <td class="left_memo">소모품비</td>
+                                <td class="left_memo">기&nbsp;&nbsp;&nbsp;타</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="center_td small_padding">XXX,XXX<text style="font-size:9px"> 천원</text></td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="right_chart2">차트 삽입</div>
+                </div>
+
+                <div class="main_mid_listBox nomargin2 bot_padding">
+                    <div class="listBox_tap longbg_on noline_a">
+                        <span>주요매출</span>
+                    </div>
+                    <table class="join_info">
+                        <colgroup>
+                            <col width="17.75%">
+                            <col width="24%">
+                            <col width="17.75%">
+                            <col width="17.75%">
+                            <col width="17.75%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td class="left_memo">거래처</td>
+                                <td class="left_memo">전자세금계산서 발행일</td>
+                                <td class="left_memo">금&nbsp;&nbsp;&nbsp;액</td>
+                                <td class="left_memo">품&nbsp;&nbsp;&nbsp;목</td>
+                                <td class="left_memo">월매출중 점유율</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="center_td small_padding">2015-09-08</td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td class="center_td"></td>
+                                <td class="center_td small_padding">
+                                    XXX,XXX<text style="font-size:9px">천원</text>
+                                </td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="center_td"></td>
+                                <td class="center_td small_padding">
+                                    XXX,XXX<text style="font-size:9px">천원</text>
+                                </td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="main_mid_listBox nomargin2">
+                    <div class="listBox_tap longbg_on  noline_a">
+                        <span>주요매출</span>
+                    </div>
+                    <table class="join_info">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td class="left_memo">은&nbsp;&nbsp;&nbsp;행</td>
+                                <td class="left_memo">출금일</td>
+                                <td class="left_memo">금&nbsp;&nbsp;&nbsp;액</td>
+                                <td class="left_memo">적&nbsp;&nbsp;&nbsp;요</td>
+                                <td class="left_memo">월지출중 점유율</td>
+                            </tr>
+                            <tr>
+                                <td class="center_td small_padding">xx은행</td>
+                                <td class="center_td small_padding"></td>
+                                <td class="center_td small_padding"></td>
+                                <td class="center_td small_padding"></td>
+                                <td class="center_td small_padding"></td>
+                            </tr>
+                            <tr>
+                                <td class="center_td small_padding">xx은행</td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                            </tr>
+                            <tr>
+                                <td class="center_td small_padding">xx은행</td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                                <td class="center_td"></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="btnwrap_sub" class="bottom_left2">
+        <div class="rightwrap right">
+            <button type="submit" class="next" value="다음" /></button>
+        </div>
+
+    </div>
+</div>
