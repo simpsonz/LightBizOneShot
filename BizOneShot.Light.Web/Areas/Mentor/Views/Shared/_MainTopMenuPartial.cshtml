@@ -1,5 +1,4 @@
-﻿@Scripts.Render("~/bundles/common")
-
+﻿
 <div id="headerwrap_Mentor">
     <div class="container">
         <a href="@Url.Action("Index","Main",new { area= "Mentor" })"><h1><em>Biz onshot Mentor</em></h1></a><a href="#" class="name">@if (Session[BizOneShot.Light.Web.ComLib.Global.UserNM] != null)
@@ -18,3 +17,5 @@
         </div><!--naviwrap_biz//-->
     </div><!--container//-->
 </div><!--headerwrap_account//-->
+
+@Scripts.Render("~/bundles/common")
