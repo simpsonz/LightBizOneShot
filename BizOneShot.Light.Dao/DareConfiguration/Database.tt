@@ -29,6 +29,7 @@
     {
         ""  //  example: "void SetAutoDetectChangesEnabled(bool flag);"
     };
+	
 	 
     // Migrations *************************************************************************************************************************
     MigrationConfigurationFileName = ""; // null or empty to not create migrations
