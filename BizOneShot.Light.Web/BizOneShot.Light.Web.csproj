@@ -256,7 +256,9 @@
     <Compile Include="ComLib\TransactionAttribute.cs" />
     <Compile Include="ComLib\UserAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BasicSurveyReportController.cs" />
     <Compile Include="Controllers\CsController.cs" />
+    <Compile Include="Controllers\FinanceReportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
@@ -1452,9 +1454,11 @@
     <Content Include="Views\Cs\RegNotice.cshtml" />
     <Content Include="Views\Cs\RegManual.cshtml" />
     <Content Include="Views\Cs\ModifyManual.cshtml" />
+    <Content Include="Views\FinanceReport\FinanceMng.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\BasicSurveyReport\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
