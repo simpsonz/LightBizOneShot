@@ -591,7 +591,6 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             ViewBag.SelectCompInfoList = compInfoList;
 
 
-
             //실제 데이터
             var scMentoringReport = await _scMentoringReportService.GetMentoringReportById(reportSn);
 
@@ -618,6 +617,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
             return View(reportViewModel);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
