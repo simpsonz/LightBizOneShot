@@ -104,7 +104,7 @@
     //              ColumnFilterExclude = new Regex("^FK_.*$");
     TableFilterExclude = null;
     TableFilterInclude = new Regex("SY_USER");
-    ColumnFilterExclude = null;
+    ColumnFilterExclude = null; 
 
     // Stored Procedures ******************************************************************************************************************
     // Use the following regex filters to include or exclude stored procedures
