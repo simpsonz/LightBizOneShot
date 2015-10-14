@@ -191,15 +191,15 @@ namespace BizOneShot.Light.Util.Helper
         }
 
 
-        public async Task<string> GetPhoteString(string filePath)
+        public async Task<string> GetPhotoString(string filePath)
         {
             string rootFilePath = ConfigurationManager.AppSettings["RootFilePath"];
 
             string fileFullPath = Path.Combine(rootFilePath, filePath);
 
             WebImage img = new WebImage(File.ReadAllBytes(fileFullPath));
-            if (img.Width > 500)
-                img.Resize(500, 500);
+            if (img.Width > 300)
+                img.Resize(300, 300);
             return await Task.Run(() => "data:image/png;base64," + Convert.ToBase64String(img.GetBytes()));
             //return await Task.Run(() => "data:image/png;base64," + Convert.ToBase64String(File.ReadAllBytes(fileFullPath)));
         }

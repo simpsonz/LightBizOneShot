@@ -520,7 +520,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             FileHelper fileHelper = new FileHelper();
             foreach (var mentoringPhoto in listMentoringPhotoView)
             {
-                mentoringPhoto.FileBase64String = await fileHelper.GetPhoteString(mentoringPhoto.FilePath);
+                mentoringPhoto.FileBase64String = await fileHelper.GetPhotoString(mentoringPhoto.FilePath);
             }
 
             //첨부파일
@@ -591,7 +591,6 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             ViewBag.SelectCompInfoList = compInfoList;
 
 
-
             //실제 데이터
             var scMentoringReport = await _scMentoringReportService.GetMentoringReportById(reportSn);
 
@@ -618,6 +617,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
             return View(reportViewModel);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
