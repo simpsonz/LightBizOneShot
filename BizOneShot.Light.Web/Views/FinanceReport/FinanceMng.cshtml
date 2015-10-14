@@ -19,6 +19,69 @@
             ChangeYear();
         });
 
+        $('#profit_loss').highcharts({
+
+            chart: {
+                type: 'waterfall',
+                //marginTop: 50
+            },
+            xAxis: {
+                type: 'category',
+                visible:true,
+                //offset: 120,
+                gridLineWidth: 1
+            },
+            yAxis: {
+                gridLineWidth: 0,
+                title: {
+                    text: null
+                },
+
+            },
+            title: { text: null },
+            legend: { enabled: false },
+            exporting: { enabled: false },
+            credits: { enabled: false },
+            tooltip: { enabled: false },
+
+            series: [{
+                upColor: Highcharts.getOptions().colors[2],
+                color: Highcharts.getOptions().colors[3],
+                data: [{
+                    name: "",
+                    y: 32
+                }, {
+                    name: "",
+                    y: 26
+                }, {
+                    name: "",
+                    y: 18
+                }, {
+                    name: "",
+                    y: 13
+                }, {
+                    name: "",
+                    y: 11
+                }, {
+                    name: "",
+                    isSum: true,
+                    color: Highcharts.getOptions().colors[1]
+                }],
+                dataLabels: {
+                    enabled: true,
+                    formatter: function () {
+                        return Highcharts.numberFormat(this.y, 0, ',') + '%';
+                    },
+                    style: {
+                        color: '#FFFFFF',
+                        fontWeight: 'bold',
+                        textShadow: '0px 0px 3px black'
+                    }
+                },
+                pointPadding: 0
+            }]
+        });
+
         $('#submit_form').bind('submit', function () {
             if ($('#SelectYear').val() == "") {
                 alert("년 선택을 하지 않았습니다.");
@@ -59,6 +122,7 @@
 
 </script>
 
+@Scripts.Render("~/bundles/highcharts")
 
 <div id="sub_rightwrap_report">
     <div class="sub_right_title specialist_02_01">
@@ -73,7 +137,7 @@
         </div>
     }
 
-    @if(Model.Display == "Y")
+    @if (Model.Display == "Y")
     {
 
         <div class="sub_report_checkbox">
@@ -108,22 +172,22 @@
                                 </tr>
                                 <tr>
                                     <td class="center_td small_padding">
-                                        XXX,XXX<text style="font-size:9px">천원</text>
+                                        @Model.cashViewModel.ForwardAmt <text style="font-size:9px">천원</text>
                                     </td>
                                     <td class="center_td small_padding">
-                                        XXX,XXX<text style="font-size:9px">천원</text>
+                                        @Model.cashViewModel.ReceivedAmt <text style="font-size:9px">천원</text>
                                     </td>
                                     <td class="center_td small_padding">
-                                        XXX,XXX<text style="font-size:9px">천원</text>
+                                        @Model.cashViewModel.ContributionAmt <text style="font-size:9px">천원</text>
                                     </td>
                                     <td class="center_td small_padding">
-                                        XXX,XXX<text style="font-size:9px">천원</text>
+                                        @Model.cashViewModel.CashBalance<text style="font-size:9px">천원</text>
                                     </td>
                                     <td class="center_td small_padding">
-                                        XXX,XXX<text style="font-size:9px">천원</text>
+                                        @Model.cashViewModel.LastMonthCashBalance <text style="font-size:9px">천원</text>
                                     </td>
                                     <td class="center_td small_padding">
-                                        XXX,XXX<text style="font-size:9px">천원</text>
+                                        @Model.cashViewModel.BeforeQuarterlyCashBalance <text style="font-size:9px">천원</text>
                                     </td>
                                 </tr>
                             </tbody>
@@ -149,10 +213,14 @@
                                 </tr>
                                 <tr>
                                     <td class="center_td small_padding">
-                                        XXX,XXX<text style="font-size:9px">천원</text>
+                                        @Model.salesViewModel.CurMonth<text style="font-size:9px">천원</text>
                                     </td>
-                                    <td class="center_td"></td>
-                                    <td class="center_td"></td>
+                                    <td class="center_td small_padding">
+                                        @Model.salesViewModel.CurYear<text style="font-size:9px">천원</text>
+                                    </td>
+                                    <td class="center_td small_padding">
+                                        @Model.salesViewModel.LastMonth<text style="font-size:9px">천원</text>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -162,6 +230,8 @@
                         <div class="listBox_tap longbg_on noline_a">
                             <span>이익분석</span>
                         </div>
+                        <div class="flow_chart03"></div>
+                        <div id="profit_loss" style="width: 100%; height: 210px; float: left;"></div>
                         <table class="join_info">
                             <colgroup>
                                 <col width="14%">
@@ -173,9 +243,6 @@
                                 <col width="14%">
                             </colgroup>
                             <tbody>
-                                <tr>
-                                    <td class="left_memo center" colspan="7" style="height: 200px;">그래프 삽입</td>
-                                </tr>
                                 <tr>
                                     <td class="center_td">&nbsp;&nbsp;&nbsp;</td>
                                     <td class="center_td">매출액</td>
@@ -215,7 +282,7 @@
                         <div class="listBox_tap longbg_on noline_a">
                             <span>비용분석</span>
                         </div>
-                        <table class="join_info width_70">
+                        <table class="join_info ">
                             <colgroup>
                                 <col width="10%">
                                 <col width="12%">
@@ -251,14 +318,16 @@
                                 </tr>
                                 <tr>
                                     <td></td>
-                                    <td class="center_td small_padding">XXX,XXX<text style="font-size:9px"> 천원</text></td>
+                                    <td class="center_td small_padding">
+                                        XXX,XXX<text style="font-size:9px">천원</text>
+                                    </td>
                                     <td class="center_td"></td>
                                     <td class="center_td"></td>
                                     <td class="center_td"></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="right_chart2">차트 삽입</div>
+
                     </div>
 
                     <div class="main_mid_listBox nomargin2 bot_padding">
@@ -357,12 +426,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="btnwrap_sub" class="bottom_left2">
-            <div class="rightwrap right">
-                <button type="submit" class="next" value="다음" />
-            </div>
-
         </div>
 
     }

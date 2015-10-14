@@ -13,8 +13,7 @@ namespace BizOneShot.Light.Services
     {
         Task<IList<ScMentorMappiing>> GetMentorListAsync(int mngCompSn, int bizWorkSn = 0, string usrTypeDetail = null);
         Task<ScMentorMappiing> GetMentor(int bizWorkSn, string mentorId);
-        //Task<IList<ScMentorMappiing>> GetMentorMappingListByMentorId(string mentorId = null);
-        Task<IList<ScMentorMappiing>> GetMentorMappingListByMentorId(string mentorId = null, int bizWorkYear = 0);
+        Task<IList<ScMentorMappiing>> GetMentorMappingListByMentorId(string mentorId = null);
         Task<int> AddMentorAsync(ScCompInfo scCompInfo);
     }
 
@@ -62,42 +61,13 @@ namespace BizOneShot.Light.Services
             return scMentorMapping;
         }
 
-
-
-        public async Task<IList<ScMentorMappiing>> GetMentorMappingListByMentorId(string mentorId = null, int bizWorkYear = 0)
+        public async Task<IList<ScMentorMappiing>> GetMentorMappingListByMentorId(string mentorId = null)
         {
-            if (mentorId == null)
+            if(mentorId == null)
             {
                 return await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N");
             }
-            else if (mentorId != null && bizWorkYear == 0)
-            {
-                DateTime date = DateTime.Now.Date;
-                //return await scMentorMappingRepository.GetMentorMappingsAsync
-                //    (
-                //    mmp => mmp.MentorId == mentorId && mmp.Status == "N" 
-                //    && mmp.ScBizWork.BizWorkEdDt.Value >= date
-                //    );
-
-                var listScMentorMapping =  await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.MentorId == mentorId && mmp.Status == "N");
-
-                return listScMentorMapping.Where(mmp => mmp.ScBizWork.BizWorkEdDt.Value >= date).ToList();
-
-            }
-            else 
-            {
-                //return await scMentorMappingRepository.GetMentorMappingsAsync
-                //    (
-                //    mmp => mmp.MentorId == mentorId && mmp.Status == "N"
-                //    && mmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear
-                //    );
-
-                var listScMentorMapping = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.MentorId == mentorId && mmp.Status == "N");
-
-                return listScMentorMapping.Where(mmp => mmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear).ToList();
-            }
-
-
+            return await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.MentorId == mentorId && mmp.Status == "N");
         }
 
         public async Task<int> AddMentorAsync(ScCompInfo scCompInfo)

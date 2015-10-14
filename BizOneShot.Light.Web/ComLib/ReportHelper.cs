@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BizOneShot.Light.Models.DareModels;
+using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
+using System.Data.SqlClient;
 
 namespace BizOneShot.Light.Web.ComLib
 {
     public static class ReportHelper
     {
+        /// <summary>
+        /// 사업정보를 이용하여 사업의 시작년 부터 종료년 까지 년도 리스트 생성
+        /// </summary>
+        /// <param name="scBizWork"></param>
+        /// <returns></returns>
         public static SelectList MakeBizYear(ScBizWork scBizWork)
         {
             //사업년도
@@ -33,6 +41,29 @@ namespace BizOneShot.Light.Web.ComLib
             return yearList;
         }
 
+        public static SelectList MakeYear(int startYear)
+        {
+            //사업년도
+            var year = new List<SelectListItem>();
+            year.Add(new SelectListItem { Value = "", Text = "년도선택", Selected = true });
+           
+            for (int i = DateTime.Now.Year; i >= startYear; i--)
+            {
+                year.Add(new SelectListItem { Value = i.ToString(), Text = i.ToString() + "년" });
+            }
+
+            SelectList yearList = new SelectList(year, "Value", "Text");
+
+            return yearList;
+        }
+
+
+        /// <summary>
+        /// 사업정보를 이용하여 특정년도의 유효한 월을 생성
+        /// </summary>
+        /// <param name="scBizWork"></param>
+        /// <param name="year"></param>
+        /// <returns></returns>
         public static SelectList MakeBizMonth(ScBizWork scBizWork, int year = 0)
         {
             //사업년도 범위의 월
@@ -97,6 +128,120 @@ namespace BizOneShot.Light.Web.ComLib
                 momth.Add(new SelectListItem { Value = i.ToString(), Text = i.ToString() + "월" });
             }
             return new SelectList(momth, "Value", "Text");
+        }
+
+        public static SelectList MakeMonth(int year = 0)
+        {
+            //사업년도 범위의 월
+            var momth = new List<SelectListItem>();
+
+            momth.Add(new SelectListItem { Value = "", Text = "월선택", Selected = true });
+
+            if(year == 0)
+            {
+                return new SelectList(momth, "Value", "Text");
+            }
+
+
+            //과거 년도 선택
+            if (year < DateTime.Now.Year)
+            {
+                for (int i = 1; i <= 12; i++)
+                {
+                    momth.Add(new SelectListItem { Value = i.ToString(), Text = i.ToString() + "월" });
+                }
+                return new SelectList(momth, "Value", "Text");
+            }
+
+            //현재 년도 선택
+            for (int i = 1; i < DateTime.Now.Month; i++)
+            {
+                momth.Add(new SelectListItem { Value = i.ToString(), Text = i.ToString() + "월" });
+            }
+            return new SelectList(momth, "Value", "Text");
+
+        }
+
+
+        //Cash Model 생성
+        public static CashViewModel MakeCashViewModel(IList<SHUSER_SboMonthlyCashSelectReturnModel> cashList)
+        {
+            CashViewModel cashViewModel = new CashViewModel();
+
+            cashViewModel.ForwardAmt = string.Format("{0:n0}", Convert.ToInt64((cashList[1].LAST_AMT / 1000)));   //이월액
+            cashViewModel.LastMonthCashBalance = string.Format("{0:n0}", Convert.ToInt64((cashList[1].LAST_AMT / 1000))); //전월잔고
+            cashViewModel.CashBalance = string.Format("{0:n0}", Convert.ToInt64((cashList[0].LAST_AMT / 1000))); //현재잔고
+            cashViewModel.ReceivedAmt = string.Format("{0:n0}", Convert.ToInt64((cashList[0].INPUT_AMT / 1000))); //입금액
+            cashViewModel.ContributionAmt = string.Format("{0:n0}", Convert.ToInt64((cashList[0].OUTPUT_AMT / 1000))); //출급액
+
+            var qm = CalcBeforQuarter(int.Parse(cashList[0].ACC_YEAR), int.Parse(cashList[0].ACC_MONTH));
+
+            Int64 avrBeforQuarter = 0;
+            int cnt = 0;
+            foreach(var cash in cashList)
+            {
+                if(int.Parse(cash.ACC_YEAR) == qm.Year && (int.Parse(cash.ACC_MONTH) >= qm.Quarter*3-2 && int.Parse(cash.ACC_MONTH) <= qm.Quarter * 3))
+                {
+                    avrBeforQuarter = avrBeforQuarter + Convert.ToInt64(cash.LAST_AMT);
+                    cnt++;
+                }
+            }
+
+            cashViewModel.BeforeQuarterlyCashBalance = string.Format("{0:n0}", ((avrBeforQuarter / 3) / 1000)); //전분기
+            return cashViewModel;
+        }
+
+
+        //Sales Model 생성
+        public static SalesViewModel MakeSalesViewModel(IList<SHUSER_SboMonthlySalesSelectReturnModel> slaesList, SHUSER_SboMonthlyYearSalesSelectReturnModel yearTotal)
+        {
+            SalesViewModel salesViewModel = new SalesViewModel();
+
+            salesViewModel.CurMonth = string.Format("{0:n0}", Convert.ToInt64((slaesList[0].SALES_AMT / 1000)));   //현월매출
+            salesViewModel.LastMonth = string.Format("{0:n0}", Convert.ToInt64((slaesList[1].SALES_AMT / 1000))); //전월매출
+            salesViewModel.CurYear = string.Format("{0:n0}", Convert.ToInt64((yearTotal.SALES_AMT / 1000))); // 누적매출
+            return salesViewModel;
+        }
+
+        public static QuarterModel CalcBeforQuarter(int year, int month)
+        {
+            QuarterModel qm = new QuarterModel();
+            if(month >= 1 && month <= 3)
+            {
+                qm.Year = year - 1;
+                qm.Quarter = 4;
+            }
+            else if(month >= 4 && month <= 6)
+            {
+                qm.Year = year;
+                qm.Quarter = 1;
+            }
+            else if (month >= 7 && month <= 9)
+            {
+                qm.Year = year;
+                qm.Quarter = 2;
+            }
+            else
+            {
+                qm.Year = year;
+                qm.Quarter = 3;
+            }
+
+
+            return qm;
+        }
+
+        public static object[] MakeProcedureParams(string bpNo, string corpCd, string bizCd, string year, string month)
+        {
+            SqlParameter compRegNo = new SqlParameter("MEMB_BUSNPERS_NO", bpNo);
+            SqlParameter corpCode = new SqlParameter("CORP_CODE", corpCd);
+            SqlParameter bizCode = new SqlParameter("BIZ_CD", bizCd);
+            SqlParameter setYear = new SqlParameter("SET_YEAR", year);
+            SqlParameter setMonth = new SqlParameter("SET_MONTH", month);
+
+            object[] parameters = new object[] { compRegNo, corpCode, bizCode, setYear, setMonth };
+
+            return parameters;
         }
 
     }

@@ -24,11 +24,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<IList<ScMentorMappiing>> GetMentorMappingsAsync(Expression<Func<ScMentorMappiing, bool>> where)
         {
-            return await this.DbContext.ScMentorMappiings.Include("ScBizWork")
-                .Include(mmp => mmp.ScUsr)
-                .Include(mmp => mmp.ScUsr.ScUsrResume.ScFileInfo)
-                .Include(mmp => mmp.ScBizWork)
-                .Where(where).ToListAsync();
+            return await this.DbContext.ScMentorMappiings.Include("ScBizWork").Include("ScUsr").Include("ScUsr.ScUsrResume.ScFileInfo").Where(where).ToListAsync();
         }
 
         public async Task<ScMentorMappiing> GetMentorMappingAsync(Expression<Func<ScMentorMappiing, bool>> where)

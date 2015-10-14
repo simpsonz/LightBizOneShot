@@ -1464,3 +1464,8 @@ TABLE.table_long {height:520px}
 .auto_m {
     margin:0 30% !important
 }
+
+
+
+/*2015-10-14 추가*/
+DIV.flow_chart03 {float:left;width:612px;height:46px;background:url('../images/flow_chart03.png') no-repeat;margin-left:55px}
