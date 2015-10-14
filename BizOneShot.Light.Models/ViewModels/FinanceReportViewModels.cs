@@ -16,6 +16,18 @@ namespace BizOneShot.Light.Models.ViewModels
         public string Month { get; set; } // month
         public string Display { get; set; } // Display 
         public string CompNm { get; set; } // COMP_NM. 회사명
+
+        public CashViewModel cashViewModel { get; set; } // 현금시제
+    }
+
+    public class CashViewModel
+    {
+        public string ForwardAmt { get; set; } // 이월액
+        public string ReceivedAmt { get; set; } // 입금액
+        public string ContributionAmt { get; set; } // 출금액 
+        public string CashBalance { get; set; } // 현재잔고
+        public string LastMonthCashBalance { get; set; } // 전월잔고
+        public string BeforeQuarterlyCashBalance { get; set; } // 전분기잔고
     }
 
 }

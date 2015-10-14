@@ -10,21 +10,9 @@ namespace BizOneShot.Light.Models.ViewModels
     {
     }
 
-    public class YearDropDownModel
+    public class QuarterModel
     {
-        public int Year { get; set; } // year
-        public string YearText { get; set; } // display year
-    }
-
-    public class MonthDropDownModel
-    {
-        public int Month { get; set; } // month
-        public string MonthText { get; set; } // display month
-    }
-
-    public class QuarterDropDownModel
-    {
-        public int Quarter { get; set; } // quarter
-        public string QuarterText { get; set; } // display quarter
+        public int Year { get; set; } // quarter
+        public int Quarter { get; set; } // display quarter
     }
 }

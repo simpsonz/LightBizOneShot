@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -16,10 +17,12 @@ namespace BizOneShot.Light.Web.Controllers
     {
         
         private readonly IScCompMappingService _scCompMappingService;
+        private readonly IFinenceReportService _finenceReportService;
 
-        public FinanceReportController(IScCompMappingService _scCompMappingService)
+        public FinanceReportController(IScCompMappingService _scCompMappingService, IFinenceReportService _finenceReportService)
         {
             this._scCompMappingService = _scCompMappingService;
+            this._finenceReportService = _finenceReportService;
         }
 
 
@@ -56,6 +59,21 @@ namespace BizOneShot.Light.Web.Controllers
 
             financeMngViewModel.Display = "Y";
             financeMngViewModel.CompNm = scCompMapping.ScCompInfo.CompNm;
+
+            // 현금시제
+            //SqlParameter sidoParam = new SqlParameter("MEMB_BUSNPERS_NO", Session[Global.CompRegistrationNo].ToString());
+            SqlParameter compRegNo = new SqlParameter("MEMB_BUSNPERS_NO", "8888888888");
+            SqlParameter corpCode = new SqlParameter("CORP_CODE", "1000");
+            SqlParameter bizCode = new SqlParameter("BIZ_CD", "0100");
+            SqlParameter setYear = new SqlParameter("SET_YEAR", financeMngViewModel.Year.ToString());
+            SqlParameter setMonth = new SqlParameter("SET_MONTH", financeMngViewModel.Month.ToString());
+
+            object[] parameters = new object[] { compRegNo, corpCode, bizCode, setYear, setMonth };
+
+            var resultList = await _finenceReportService.GetMonthlyCashListAsync(parameters);
+
+            financeMngViewModel.cashViewModel = ReportHelper.MakeCashViewModel(resultList);
+
 
             return View(financeMngViewModel);
         }

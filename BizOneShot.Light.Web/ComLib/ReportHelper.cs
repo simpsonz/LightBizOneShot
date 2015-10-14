@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BizOneShot.Light.Models.DareModels;
+using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
 
 namespace BizOneShot.Light.Web.ComLib
 {
     public static class ReportHelper
     {
+        /// <summary>
+        /// 사업정보를 이용하여 사업의 시작년 부터 종료년 까지 년도 리스트 생성
+        /// </summary>
+        /// <param name="scBizWork"></param>
+        /// <returns></returns>
         public static SelectList MakeBizYear(ScBizWork scBizWork)
         {
             //사업년도
@@ -33,6 +40,12 @@ namespace BizOneShot.Light.Web.ComLib
             return yearList;
         }
 
+        /// <summary>
+        /// 사업정보를 이용하여 특정년도의 유효한 월을 생성
+        /// </summary>
+        /// <param name="scBizWork"></param>
+        /// <param name="year"></param>
+        /// <returns></returns>
         public static SelectList MakeBizMonth(ScBizWork scBizWork, int year = 0)
         {
             //사업년도 범위의 월
@@ -98,5 +111,63 @@ namespace BizOneShot.Light.Web.ComLib
             }
             return new SelectList(momth, "Value", "Text");
         }
+
+
+        //Cash Model 생성
+        public static CashViewModel MakeCashViewModel(IList<SHUSER_SboMonthlyCashSelectReturnModel> cashList)
+        {
+            CashViewModel cashViewModel = new CashViewModel();
+
+            cashViewModel.ForwardAmt = (cashList[1].LAST_AMT / 1000).ToString(); //이월액
+            cashViewModel.LastMonthCashBalance = (cashList[1].LAST_AMT / 1000).ToString(); //전월잔고
+            cashViewModel.CashBalance = (cashList[0].LAST_AMT / 1000).ToString(); //현재잔고
+            cashViewModel.ReceivedAmt = (cashList[0].INPUT_AMT / 1000).ToString(); //입금액
+            cashViewModel.ContributionAmt = (cashList[0].OUTPUT_AMT / 1000).ToString(); //출급액
+
+            var qm = CalcBeforQuarter(int.Parse(cashList[0].ACC_YEAR), int.Parse(cashList[0].ACC_MONTH));
+
+            int avrBeforQuarter = 0;
+            int cnt = 0;
+            foreach(var cash in cashList)
+            {
+                if(int.Parse(cash.ACC_YEAR) == qm.Year && (int.Parse(cash.ACC_MONTH) >= qm.Quarter*3-2 && int.Parse(cash.ACC_MONTH) <= qm.Quarter * 3))
+                {
+                    avrBeforQuarter = avrBeforQuarter + Convert.ToInt32(cash.LAST_AMT);
+                    cnt++;
+                }
+            }
+
+            cashViewModel.BeforeQuarterlyCashBalance = ((avrBeforQuarter / 3) / 1000).ToString(); //전분기
+            return cashViewModel;
+        }
+
+        public static QuarterModel CalcBeforQuarter(int year, int month)
+        {
+            QuarterModel qm = new QuarterModel();
+            if(month >= 1 && month <= 3)
+            {
+                qm.Year = year - 1;
+                qm.Quarter = 4;
+            }
+            else if(month >= 4 && month <= 6)
+            {
+                qm.Year = year;
+                qm.Quarter = 1;
+            }
+            else if (month >= 7 && month <= 9)
+            {
+                qm.Year = year;
+                qm.Quarter = 2;
+            }
+            else
+            {
+                qm.Year = year;
+                qm.Quarter = 3;
+            }
+
+
+            return qm;
+        }
+
     }
 }
