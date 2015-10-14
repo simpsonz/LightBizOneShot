@@ -13,6 +13,7 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         Task<IList<SHUSER_SboMonthlyCashSelectReturnModel>> GetMonthlyCashListAsync(object[] parameters);
         Task<IList<SHUSER_SboMonthlySalesSelectReturnModel>> GetMonthlySalesAsync(object[] parameters);
+        Task<SHUSER_SboMonthlyYearSalesSelectReturnModel> GetYearTotalSalesAsync(object[] parameters);
     }
 
 
@@ -28,6 +29,11 @@ namespace BizOneShot.Light.Dao.Repositories
         public async Task<IList<SHUSER_SboMonthlySalesSelectReturnModel>> GetMonthlySalesAsync(object[] parameters)
         {
             return await this.DareDbContext.Database.SqlQuery<SHUSER_SboMonthlySalesSelectReturnModel>("SBO_MONTHLY_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ", parameters).ToListAsync();
+        }
+
+        public async Task<SHUSER_SboMonthlyYearSalesSelectReturnModel> GetYearTotalSalesAsync(object[] parameters)
+        {
+            return await this.DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyYearSalesSelectReturnModel>("SBO_YEAR_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ", parameters).SingleOrDefaultAsync();
         }
 
 

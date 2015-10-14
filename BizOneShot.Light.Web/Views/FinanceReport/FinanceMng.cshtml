@@ -213,10 +213,14 @@
                                 </tr>
                                 <tr>
                                     <td class="center_td small_padding">
-                                        XXX,XXX<text style="font-size:9px">천원</text>
+                                        @Model.salesViewModel.CurMonth<text style="font-size:9px">천원</text>
                                     </td>
-                                    <td class="center_td"></td>
-                                    <td class="center_td"></td>
+                                    <td class="center_td small_padding">
+                                        @Model.salesViewModel.CurYear<text style="font-size:9px">천원</text>
+                                    </td>
+                                    <td class="center_td small_padding">
+                                        @Model.salesViewModel.LastMonth<text style="font-size:9px">천원</text>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

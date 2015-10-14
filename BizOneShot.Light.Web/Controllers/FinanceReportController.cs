@@ -61,24 +61,16 @@ namespace BizOneShot.Light.Web.Controllers
             financeMngViewModel.CompNm = scCompMapping.ScCompInfo.CompNm;
 
             // 현금시제
-            //SqlParameter compRegNo = new SqlParameter("MEMB_BUSNPERS_NO", Session[Global.CompRegistrationNo].ToString());
-            SqlParameter compRegNo = new SqlParameter("MEMB_BUSNPERS_NO", "8888888888");
-            SqlParameter corpCode = new SqlParameter("CORP_CODE", "1000");
-            SqlParameter bizCode = new SqlParameter("BIZ_CD", "0100");
-            SqlParameter setYear = new SqlParameter("SET_YEAR", financeMngViewModel.Year.ToString());
-            SqlParameter setMonth = new SqlParameter("SET_MONTH", financeMngViewModel.Month.ToString());
-
-            object[] parameters = new object[] { compRegNo, corpCode, bizCode, setYear, setMonth };
-
-            var cashResultList = await _finenceReportService.GetMonthlyCashListAsync(parameters);
+            var cashResultList = await _finenceReportService.GetMonthlyCashListAsync(ReportHelper.MakeProcedureParams("8888888888", "1000", "0100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
 
             financeMngViewModel.cashViewModel = ReportHelper.MakeCashViewModel(cashResultList);
 
-            var salesResult = await _finenceReportService.GetMonthlySalesAsync(parameters);
+            // 매출
+            var salesResult = await _finenceReportService.GetMonthlySalesAsync(ReportHelper.MakeProcedureParams("8888888888", "1000", "0100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
 
-            financeMngViewModel.salesViewModel.CurMonth = salesResult[0].SALES_AMT.ToString();
-            financeMngViewModel.salesViewModel.LastMonth = salesResult[1].SALES_AMT.ToString();
+            var yearTotalResult = await _finenceReportService.GetYearTotalSalesAsync(ReportHelper.MakeProcedureParams("8888888888", "1000", "0100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
 
+            financeMngViewModel.salesViewModel = ReportHelper.MakeSalesViewModel(salesResult, yearTotalResult);
 
             return View(financeMngViewModel);
         }

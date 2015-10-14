@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using BizOneShot.Light.Models.DareModels;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
+using System.Data.SqlClient;
 
 namespace BizOneShot.Light.Web.ComLib
 {
@@ -190,6 +191,18 @@ namespace BizOneShot.Light.Web.ComLib
             return cashViewModel;
         }
 
+
+        //Sales Model 생성
+        public static SalesViewModel MakeSalesViewModel(IList<SHUSER_SboMonthlySalesSelectReturnModel> slaesList, SHUSER_SboMonthlyYearSalesSelectReturnModel yearTotal)
+        {
+            SalesViewModel salesViewModel = new SalesViewModel();
+
+            salesViewModel.CurMonth = string.Format("{0:n0}", Convert.ToInt64((slaesList[0].SALES_AMT / 1000)));   //현월매출
+            salesViewModel.LastMonth = string.Format("{0:n0}", Convert.ToInt64((slaesList[1].SALES_AMT / 1000))); //전월매출
+            salesViewModel.CurYear = string.Format("{0:n0}", Convert.ToInt64((yearTotal.SALES_AMT / 1000))); // 누적매출
+            return salesViewModel;
+        }
+
         public static QuarterModel CalcBeforQuarter(int year, int month)
         {
             QuarterModel qm = new QuarterModel();
@@ -216,6 +229,19 @@ namespace BizOneShot.Light.Web.ComLib
 
 
             return qm;
+        }
+
+        public static object[] MakeProcedureParams(string bpNo, string corpCd, string bizCd, string year, string month)
+        {
+            SqlParameter compRegNo = new SqlParameter("MEMB_BUSNPERS_NO", bpNo);
+            SqlParameter corpCode = new SqlParameter("CORP_CODE", corpCd);
+            SqlParameter bizCode = new SqlParameter("BIZ_CD", bizCd);
+            SqlParameter setYear = new SqlParameter("SET_YEAR", year);
+            SqlParameter setMonth = new SqlParameter("SET_MONTH", month);
+
+            object[] parameters = new object[] { compRegNo, corpCode, bizCode, setYear, setMonth };
+
+            return parameters;
         }
 
     }
