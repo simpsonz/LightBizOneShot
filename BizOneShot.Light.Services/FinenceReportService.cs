@@ -14,6 +14,7 @@ namespace BizOneShot.Light.Services
     public interface IFinenceReportService : IBaseService
     {
         Task<IList<SHUSER_SboMonthlyCashSelectReturnModel>> GetMonthlyCashListAsync(object[] parameters);
+        Task<IList<SHUSER_SboMonthlySalesSelectReturnModel>> GetMonthlySalesAsync(object[] parameters);
     }
 
 
@@ -34,6 +35,12 @@ namespace BizOneShot.Light.Services
         {
             var cashListTask = await financeReportRepository.GetMonthlyCashListAsync(parameters);
             return cashListTask;
+        }
+
+        public async Task<IList<SHUSER_SboMonthlySalesSelectReturnModel>> GetMonthlySalesAsync(object[] parameters)
+        {
+            var salesTask = await financeReportRepository.GetMonthlySalesAsync(parameters);
+            return salesTask;
         }
 
         #region SaveContext

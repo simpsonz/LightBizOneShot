@@ -49,6 +49,11 @@ namespace BizOneShot.Light.Web
 
             bundles.Add(new StyleBundle("~/css/zip_common").Include(
                       "~/css/zip_common.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/highcharts").Include(
+                     "~/Scripts/highcharts.js",
+                     "~/Scripts/highcharts-more.js",
+                     "~/Scripts/modules/exporting.js"));
         }
     }
 }

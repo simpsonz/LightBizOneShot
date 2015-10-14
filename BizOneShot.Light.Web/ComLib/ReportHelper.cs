@@ -40,6 +40,23 @@ namespace BizOneShot.Light.Web.ComLib
             return yearList;
         }
 
+        public static SelectList MakeYear(int startYear)
+        {
+            //사업년도
+            var year = new List<SelectListItem>();
+            year.Add(new SelectListItem { Value = "", Text = "년도선택", Selected = true });
+           
+            for (int i = DateTime.Now.Year; i >= startYear; i--)
+            {
+                year.Add(new SelectListItem { Value = i.ToString(), Text = i.ToString() + "년" });
+            }
+
+            SelectList yearList = new SelectList(year, "Value", "Text");
+
+            return yearList;
+        }
+
+
         /// <summary>
         /// 사업정보를 이용하여 특정년도의 유효한 월을 생성
         /// </summary>
@@ -112,32 +129,64 @@ namespace BizOneShot.Light.Web.ComLib
             return new SelectList(momth, "Value", "Text");
         }
 
+        public static SelectList MakeMonth(int year = 0)
+        {
+            //사업년도 범위의 월
+            var momth = new List<SelectListItem>();
+
+            momth.Add(new SelectListItem { Value = "", Text = "월선택", Selected = true });
+
+            if(year == 0)
+            {
+                return new SelectList(momth, "Value", "Text");
+            }
+
+
+            //과거 년도 선택
+            if (year < DateTime.Now.Year)
+            {
+                for (int i = 1; i <= 12; i++)
+                {
+                    momth.Add(new SelectListItem { Value = i.ToString(), Text = i.ToString() + "월" });
+                }
+                return new SelectList(momth, "Value", "Text");
+            }
+
+            //현재 년도 선택
+            for (int i = 1; i < DateTime.Now.Month; i++)
+            {
+                momth.Add(new SelectListItem { Value = i.ToString(), Text = i.ToString() + "월" });
+            }
+            return new SelectList(momth, "Value", "Text");
+
+        }
+
 
         //Cash Model 생성
         public static CashViewModel MakeCashViewModel(IList<SHUSER_SboMonthlyCashSelectReturnModel> cashList)
         {
             CashViewModel cashViewModel = new CashViewModel();
 
-            cashViewModel.ForwardAmt = (cashList[1].LAST_AMT / 1000).ToString(); //이월액
-            cashViewModel.LastMonthCashBalance = (cashList[1].LAST_AMT / 1000).ToString(); //전월잔고
-            cashViewModel.CashBalance = (cashList[0].LAST_AMT / 1000).ToString(); //현재잔고
-            cashViewModel.ReceivedAmt = (cashList[0].INPUT_AMT / 1000).ToString(); //입금액
-            cashViewModel.ContributionAmt = (cashList[0].OUTPUT_AMT / 1000).ToString(); //출급액
+            cashViewModel.ForwardAmt = string.Format("{0:n0}", Convert.ToInt64((cashList[1].LAST_AMT / 1000)));   //이월액
+            cashViewModel.LastMonthCashBalance = string.Format("{0:n0}", Convert.ToInt64((cashList[1].LAST_AMT / 1000))); //전월잔고
+            cashViewModel.CashBalance = string.Format("{0:n0}", Convert.ToInt64((cashList[0].LAST_AMT / 1000))); //현재잔고
+            cashViewModel.ReceivedAmt = string.Format("{0:n0}", Convert.ToInt64((cashList[0].INPUT_AMT / 1000))); //입금액
+            cashViewModel.ContributionAmt = string.Format("{0:n0}", Convert.ToInt64((cashList[0].OUTPUT_AMT / 1000))); //출급액
 
             var qm = CalcBeforQuarter(int.Parse(cashList[0].ACC_YEAR), int.Parse(cashList[0].ACC_MONTH));
 
-            int avrBeforQuarter = 0;
+            Int64 avrBeforQuarter = 0;
             int cnt = 0;
             foreach(var cash in cashList)
             {
                 if(int.Parse(cash.ACC_YEAR) == qm.Year && (int.Parse(cash.ACC_MONTH) >= qm.Quarter*3-2 && int.Parse(cash.ACC_MONTH) <= qm.Quarter * 3))
                 {
-                    avrBeforQuarter = avrBeforQuarter + Convert.ToInt32(cash.LAST_AMT);
+                    avrBeforQuarter = avrBeforQuarter + Convert.ToInt64(cash.LAST_AMT);
                     cnt++;
                 }
             }
 
-            cashViewModel.BeforeQuarterlyCashBalance = ((avrBeforQuarter / 3) / 1000).ToString(); //전분기
+            cashViewModel.BeforeQuarterlyCashBalance = string.Format("{0:n0}", ((avrBeforQuarter / 3) / 1000)); //전분기
             return cashViewModel;
         }
 

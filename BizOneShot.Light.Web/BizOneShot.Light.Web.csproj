@@ -350,6 +350,7 @@
     <Content Include="images\diagonal_ddd.png" />
     <Content Include="images\digonal_ddd.png" />
     <Content Include="images\end.png" />
+    <Content Include="images\flow_chart03.png" />
     <Content Include="images\ico_none.gif" />
     <Content Include="images\ico_num.gif" />
     <Content Include="images\ico_road.gif" />
@@ -383,6 +384,12 @@
     <Content Include="Areas\Company\Views\Shared\_MainTopMenuPartial.cshtml" />
     <Content Include="Areas\Company\Views\Shared\_MainLeftMenuPatial.cshtml" />
     <Content Include="Areas\Company\Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Scripts\highcharts-3d.js" />
+    <Content Include="Scripts\highcharts-3d.src.js" />
+    <Content Include="Scripts\highcharts-more.js" />
+    <Content Include="Scripts\highcharts-more.src.js" />
+    <Content Include="Scripts\highcharts.js" />
+    <Content Include="Scripts\highcharts.src.js" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Areas\Company\Views\ExpertService\ReceiveList.cshtml" />
     <Content Include="Areas\SysManager\Views\web.config" />

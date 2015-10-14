@@ -94,6 +94,9 @@
     <Compile Include="DareModels\SHUSER_SboMonthlySalesSelectReturnModel.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="DareModels\SHUSER_SboMonthlyYearSalesSelectReturnModel.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="DareModels\SHUSER_SyUser.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
