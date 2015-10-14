@@ -18,7 +18,6 @@ using AutoMapper;
 namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 {
    
-
     [UserAuthorize(Order = 1)]
     [MenuAuthorize(Roles = UserType.Mentor, Order = 2)]
     public class MentoringReportController : BaseController
