@@ -20,6 +20,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
     public class BizWorkMngController : BaseController
     {
 
+
         private readonly IScUsrService _scUsrService;
         private readonly IScBizWorkService _scBizWorkService;
 
