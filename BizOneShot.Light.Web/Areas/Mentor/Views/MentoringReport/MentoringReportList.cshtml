@@ -16,6 +16,50 @@
             $('input:checkbox').not(this).prop('checked', this.checked);
         });
 
+        //드롭다운리스트 처리
+        $('#BizWorkYear').change(function () {
+            var bizWorkYear = $('#BizWorkYear').val();
+
+            $('#BizWorkSn').attr("disabled", false);
+            $('#BizWorkSn').html("");
+          
+
+            $.ajax({
+                url: '@Url.Action("getBizWork", "MentoringReport")',
+                type: "post",
+                dataType: "json",
+                data: { bizWorkYear: bizWorkYear },
+                async: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#BizWorkSn').append("<option value='" + result[i].BizWorkSn + "'>" + result[i].BizWorkNm + "</option>");
+                    }
+                }
+            });
+
+        });
+
+        $('#BizWorkSn').change(function () {
+            var bizWorkYear = $('#BizWorkYear').val();
+            var bizWorkSn= $('#BizWorkSn').val();
+
+            $('#CompSn').attr("disabled", false);
+            $('#CompSn').html("");
+            $.ajax({
+                url: '@Url.Action("getBizComp", "MentoringReport")',
+                type: "post",
+                dataType: "json",
+                data: { bizWorkSn: bizWorkSn, bizWorkYear: bizWorkYear },
+                async: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#CompSn').append("<option value='" + result[i].CompSn + "'>" + result[i].CompNm + "</option>");
+                    }
+                }
+            });
+
+        });
+
         //삭제버튼클릭
         $("#btn_delete").click(function () {
             if (confirm('선택하신 멘토링 일지를 삭제하시겠습니까?')) {
@@ -70,9 +114,12 @@
     {
         <div id="sub_inquiry_box">
 
-            @Html.DropDownList("MentoringDt", ViewBag.SelectMentoringDtList as SelectList, new { @class = "w130" })
-            @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150" })
-            @Html.DropDownList("CompSn", ViewBag.SelectCompInfoList as SelectList, new { @class = "w150" })
+            @Html.DropDownList("MentoringDt", ViewBag.SelectMentoringDtList as SelectList, new { @class = "w130", @id = "BizWorkYear" })
+            @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150" , @id = "BizWorkSn" })
+            @Html.DropDownList("CompSn", ViewBag.SelectCompInfoList as SelectList, new { @class = "w150", @id = "CompSn" })
+            @*@Html.DropDownList("BizWorkSn", new SelectList("0","사업명 선택"), new { @class = "w150" , @id = "BizWorkSnBox" })
+            @Html.DropDownList("CompSn", new SelectList("0", "기업명 선택"), new { @class = "w150", @id = "CompSnBox" })*@
+          
             <button type="submit" class="inquire" value="종합보고서조회">조회</button>
         </div><!--sub_inquiry_box//-->
         @Html.Hidden("curPage", "1")
@@ -126,7 +173,7 @@
             </table>
         </div><!--tablewrap//-->
 
-       
+
         @*<div id="btnwrap_sub">
             <a href="" class="modify left"><em>수정</em></a>
             <input type="button" class="delete left" onclick="confirm('선택하신 멘토링 일지를 목록에서 삭제하시겠습니까?');return false;" title="삭제" />

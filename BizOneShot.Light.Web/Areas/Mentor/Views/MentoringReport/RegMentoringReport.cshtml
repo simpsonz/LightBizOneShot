@@ -32,6 +32,34 @@
             return false;
         });
 
+
+        $('#CompSn').attr("disabled", true);
+        $('#BizWorkSn').change(function () {
+            var bizWorkSn = $('#BizWorkSn').val();
+
+            if (bizWorkSn == 0) {
+                $('#CompSn').attr("disabled", false);
+                $('#CompSn').html("");
+                $('#CompSn').attr("disabled", true);
+            } else {
+                $('#CompSn').attr("disabled", false);
+                $('#CompSn').html("");
+
+                $.ajax({
+                    url: '@Url.Action("getBizComp", "MentoringReport")',
+                    type: "post",
+                    dataType: "json",
+                    data: { bizWorkSn: bizWorkSn, bizWorkYear: 0 },
+                    async: false,
+                    success: function (result) {
+                        for (var i = 0; i < result.length; i++) {
+                            $('#CompSn').append("<option value='" + result[i].CompSn + "'>" + result[i].CompNm + "</option>");
+                        }
+                    }
+                });
+            }
+        });
+
         $('#submit_form').bind('submit', function () {
             //필수값체크
             if ($('#file_photo01').val() == 0) {
@@ -44,8 +72,8 @@
                 $('#file_photo02').focus();
                 return false;
             }
-            
-           
+
+
             //파일체크
             var inputFileCount = 0;
             var totalSize = 0;

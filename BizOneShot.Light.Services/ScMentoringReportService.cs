@@ -50,10 +50,9 @@ namespace BizOneShot.Light.Services
             return await scMentoringReportRepository.GetMentoringReportById(reportSn);
         }
 
+
         public async Task<IList<ScMentoringReport>> GetMentoringReportAsync(string mentorId, int submitDt = 0, int bizWorkSn = 0, int compSn = 0)
         {
-
-
             var listScMentoringReport = await scMentoringReportRepository.GetMentoringReport
                 (mtr => mtr.MentorId == mentorId && mtr.Status == "N");
 

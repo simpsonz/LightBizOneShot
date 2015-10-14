@@ -17,7 +17,7 @@
         //left menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_regMentoringTr').addClass('on');
 
-       
+
         $("#SUBMIT_DATE").datepicker({
             showMonthAfterYear: true,
             yearSuffix: '년',
@@ -26,10 +26,37 @@
             dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
             dateFormat: 'yy-mm-dd'
         });
-        
+
         $('.bt_calendar').on('click', function () {
             $(this).prev().focus();
             return false;
+        });
+
+        $('#CompSn').attr("disabled", true);
+        $('#BizWorkSn').change(function () {
+            var bizWorkSn = $('#BizWorkSn').val();
+
+            if (bizWorkSn == 0) {
+                $('#CompSn').attr("disabled", false);
+                $('#CompSn').html("");
+                $('#CompSn').attr("disabled", true);
+            } else {
+                $('#CompSn').attr("disabled", false);
+                $('#CompSn').html("");
+
+                $.ajax({
+                    url: '@Url.Action("getBizComp", "MentoringReport")',
+                    type: "post",
+                    dataType: "json",
+                    data: { bizWorkSn: bizWorkSn, bizWorkYear: 0 },
+                    async: false,
+                    success: function (result) {
+                        for (var i = 0; i < result.length; i++) {
+                            $('#CompSn').append("<option value='" + result[i].CompSn + "'>" + result[i].CompNm + "</option>");
+                        }
+                    }
+                });
+            }
         });
 
         $('#submit_form').bind('submit', function () {
@@ -108,7 +135,7 @@
 
     });
 
-   
+
 </script>
 
 <div id="sub_rightwrap">

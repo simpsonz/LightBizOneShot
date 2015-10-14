@@ -98,5 +98,6 @@ namespace BizOneShot.Light.Web.ComLib
             }
             return new SelectList(momth, "Value", "Text");
         }
+
     }
 }
