@@ -25,6 +25,7 @@
                     return false;
                 }
 
+
                 var array = [];
                 $("input:checkbox[name='acc_choice']").each(function () {
                     if (this.checked) {
@@ -55,6 +56,49 @@
         });
 
 
+        //드롭다운리스트 처리
+        $('#BizWorkYear').change(function () {
+            var bizWorkYear = $('#BizWorkYear').val();
+
+            $('#BizWorkSn').attr("disabled", false);
+            $('#BizWorkSn').html("");
+
+
+            $.ajax({
+                url: '@Url.Action("getBizWork", "MentoringReport")',
+                type: "post",
+                dataType: "json",
+                data: { bizWorkYear: bizWorkYear },
+                async: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#BizWorkSn').append("<option value='" + result[i].BizWorkSn + "'>" + result[i].BizWorkNm + "</option>");
+                    }
+                }
+            });
+
+        });
+
+        $('#BizWorkSn').change(function () {
+            var bizWorkYear = $('#BizWorkYear').val();
+            var bizWorkSn = $('#BizWorkSn').val();
+
+            $('#CompSn').attr("disabled", false);
+            $('#CompSn').html("");
+            $.ajax({
+                url: '@Url.Action("getBizComp", "MentoringReport")',
+                type: "post",
+                dataType: "json",
+                data: { bizWorkSn: bizWorkSn, bizWorkYear: bizWorkYear },
+                async: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#CompSn').append("<option value='" + result[i].CompSn + "'>" + result[i].CompNm + "</option>");
+                    }
+                }
+            });
+
+        });
 
     });
 
@@ -70,10 +114,9 @@
     @using (Html.BeginForm("MentoringTotalReportList", "MentoringReport", FormMethod.Post, new { area = "Mentor", id = "searchForm" }))
     {
         <div id="sub_inquiry_box">
-
-            @Html.DropDownList("SubmitDt", ViewBag.SelectSubmitList as SelectList, new { @class = "w130" })
-            @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150" })
-            @Html.DropDownList("CompSn", ViewBag.SelectCompInfoList as SelectList, new { @class = "w150" })
+            @Html.DropDownList("SubmitDt", ViewBag.SelectMentoringDtList as SelectList, new { @class = "w130", @id = "BizWorkYear" })
+            @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150", @id = "BizWorkSn" })
+            @Html.DropDownList("CompSn", ViewBag.SelectCompInfoList as SelectList, new { @class = "w150", @id = "CompSn" })
             <button type="submit" class="inquire" value="종합보고서조회">조회</button>
         </div><!--sub_inquiry_box//-->
         @Html.Hidden("curPage", "1")

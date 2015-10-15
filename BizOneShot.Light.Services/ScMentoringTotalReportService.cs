@@ -18,7 +18,7 @@ namespace BizOneShot.Light.Services
         //IList<int> GetMentoringTotalReportSubmitDt(string mentorId);
         Task<IList<int>> GetMentoringTotalReportSubmitDt(string mentorId);
         Task<ScMentoringTotalReport> GetMentoringTotalReportById(int totalReportSn);
-        Task<IList<ScMentoringTotalReport>> GetMentoringTotalReportAsync(string mentorId, int submitDt = 0, int bizWorkSn = 0, int CompSn = 0);
+        Task<IList<ScMentoringTotalReport>> GetMentoringTotalReportAsync(string mentorId, int bizWorkYear = 0, int bizWorkSn = 0, int CompSn = 0);
 
         Task DeleteMentoringTotalReport(IList<string> listTotalReportSn);
         Task ModifyMentoringTRStatusDelete(string totalReportSn);
@@ -50,7 +50,7 @@ namespace BizOneShot.Light.Services
             return await scMentoringTotalReportRepository.GetMentoringTotalReportById(totalReportSn);
         }
 
-        public async Task<IList<ScMentoringTotalReport>> GetMentoringTotalReportAsync(string mentorId, int submitDt = 0, int bizWorkSn = 0, int compSn = 0)
+        public async Task<IList<ScMentoringTotalReport>> GetMentoringTotalReportAsync(string mentorId, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0)
         {
             //return await scMentoringTotalReportRepository.GetMentoringTotalReport
             //    (mtr => mtr.MentorId == mentorId && mtr.Status == "N"
@@ -62,12 +62,25 @@ namespace BizOneShot.Light.Services
             var listScMentoringTotalReport = await scMentoringTotalReportRepository.GetMentoringTotalReport
                 (mtr => mtr.MentorId == mentorId && mtr.Status == "N");
 
+            DateTime date = DateTime.Now.Date;
+            if (bizWorkYear == 0)
+            {
+                return listScMentoringTotalReport.Where(mtr => mtr.ScBizWork.BizWorkEdDt.Value >= date)
+                   .Where(mtr => bizWorkSn != 0 ? mtr.BizWorkSn == bizWorkSn : mtr.BizWorkSn > bizWorkSn)
+                   .Where(mtr => compSn != 0 ? mtr.CompSn == compSn : mtr.CompSn > compSn)
+                   .OrderByDescending(mtr => mtr.TotalReportSn)
+                   .ToList();
+            }
+            else
+            {
+                return listScMentoringTotalReport.Where(mtr => mtr.ScBizWork.BizWorkEdDt.Value >= date)
+                    .Where(mtr => mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
+                   .Where(mtr => bizWorkSn != 0 ? mtr.BizWorkSn == bizWorkSn : mtr.BizWorkSn > bizWorkSn)
+                   .Where(mtr => compSn != 0 ? mtr.CompSn == compSn : mtr.CompSn > compSn)
+                   .OrderByDescending(mtr => mtr.TotalReportSn)
+                   .ToList();
+            }
             
-            return listScMentoringTotalReport.Where(mtr => submitDt != 0 ? mtr.SubmitDt.Value.Year == submitDt : mtr.SubmitDt.Value.Year > submitDt)
-                .Where(mtr => bizWorkSn != 0 ? mtr.BizWorkSn == bizWorkSn : mtr.BizWorkSn > bizWorkSn)
-                .Where(mtr => compSn != 0 ? mtr.CompSn == compSn : mtr.CompSn > compSn)
-                .OrderByDescending(mtr => mtr.TotalReportSn)
-                .ToList();
         }
 
         public async Task DeleteMentoringTotalReport(IList<string> listTotalReportSn)

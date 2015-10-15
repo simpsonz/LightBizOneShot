@@ -15,12 +15,11 @@ using BizOneShot.Light.Util.Security;
 using PagedList;
 using AutoMapper;
 
-namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
+namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 {
-   
     [UserAuthorize(Order = 1)]
-    [MenuAuthorize(Roles = UserType.Mentor, Order = 2)]
-    public class MentoringReportController : BaseController
+    [MenuAuthorize(Roles = UserType.BizManager, Order = 2)]
+    public class ReportController : BaseController
     {
         private readonly IScCompMappingService _scCompMappingService;
         private readonly IScMentorMappingService _scMentorMappingService;
@@ -31,8 +30,8 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
         private readonly IScMentoringFileInfoService _scMentoringFileInfoService;
 
 
-        public MentoringReportController(IScCompMappingService scCompMappingService
-            , IScMentorMappingService scMentorMappingService 
+        public ReportController(IScCompMappingService scCompMappingService
+            , IScMentorMappingService scMentorMappingService
             , IScMentoringTotalReportService scMentoringTotalReportService
             , IScMentoringTrFileInfoService scMentoringTrFileInfoService
             , IScMentoringReportService scMentoringReportService
@@ -46,6 +45,13 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             this._scMentoringFileInfoService = scMentoringFileInfoService;
         }
 
+        // GET: BizManager/Report
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+
 
         #region 멘토링 종합보고서
         public async Task<ActionResult> RegMentoringTotalReport()
@@ -54,15 +60,45 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
             var mentorId = Session[Global.LoginID].ToString();
 
-            
             //사업 DropDown List Data
-            var bizWorkDropDown = await MakeBizWork(mentorId, 0);
+            var listScMentorMapping = await _scMentorMappingService.GetMentorMappingListByMentorId(mentorId);
+            var listScBizWork = listScMentorMapping.Select(mmp => mmp.ScBizWork);
+
+            var bizWorkDropDown =
+                Mapper.Map<List<BizWorkDropDownModel>>(listScBizWork);
+
+            //사업드롭다운 타이틀 추가
+            BizWorkDropDownModel titleBizWork = new BizWorkDropDownModel
+            {
+                BizWorkSn = 0,
+                BizWorkNm = "사업명 선택"
+            };
+
+            bizWorkDropDown.Insert(0, titleBizWork);
+
             SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+
             ViewBag.SelectBizWorkList = bizList;
 
+
             //기업 DropDwon List Data
-            var compInfoDropDown = await MakeBizComp(mentorId, 0, 0);
+            var listScCompMapping = await _scCompMappingService.GetCompMappingListByMentorId(mentorId, "A");
+            var listScCompInfo = listScCompMapping.Select(cmp => cmp.ScCompInfo);//.ToList();
+
+            var compInfoDropDown =
+                Mapper.Map<List<CompInfoDropDownModel>>(listScCompInfo);
+
+            //기업 드롭다운 타이틀 추가
+            CompInfoDropDownModel titleCompInfo = new CompInfoDropDownModel
+            {
+                CompSn = 0,
+                CompNm = "기업명 선택"
+            };
+
+            compInfoDropDown.Insert(0, titleCompInfo);
+
             SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
+
             ViewBag.SelectCompInfoList = compInfoList;
 
             return View();
@@ -130,7 +166,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
 
         [HttpPost]
-        public async Task<JsonResult> DeleteMentoringTotalReport(string [] totalReportSns)
+        public async Task<JsonResult> DeleteMentoringTotalReport(string[] totalReportSns)
         {
             ViewBag.LeftMenu = Global.MentoringReport;
 
@@ -169,19 +205,73 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             var mentorId = Session[Global.LoginID].ToString();
 
             //사업 DropDown List Data
-            var bizWorkDropDown = await MakeBizWork(mentorId, param.SubmitDt);
-            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            var listScMentorMapping = await _scMentorMappingService.GetMentorMappingListByMentorId(mentorId);
+            var listScBizWork = listScMentorMapping.Select(mmp => mmp.ScBizWork);//.ToList();
+
+            var bizWorkDropDown =
+                Mapper.Map<List<BizWorkDropDownModel>>(listScBizWork);
+
+            //사업드롭다운 타이틀 추가
+            BizWorkDropDownModel titleBizWork = new BizWorkDropDownModel
+            {
+                BizWorkSn = 0,
+                BizWorkNm = "사업명 선택"
+            };
+
+            bizWorkDropDown.Insert(0, titleBizWork);
+
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm", param.BizWorkSn);
+
             ViewBag.SelectBizWorkList = bizList;
 
+
             //기업 DropDwon List Data
-            var compInfoDropDown = await MakeBizComp(mentorId, param.BizWorkSn, param.SubmitDt);
-            SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
+            var listScCompMapping = await _scCompMappingService.GetCompMappingListByMentorId(mentorId, "A");
+            var listScCompInfo = listScCompMapping.Select(cmp => cmp.ScCompInfo);//.ToList();
+
+            var compInfoDropDown =
+                Mapper.Map<List<CompInfoDropDownModel>>(listScCompInfo);
+
+            //기업 드롭다운 타이틀 추가
+            CompInfoDropDownModel titleCompInfo = new CompInfoDropDownModel
+            {
+                CompSn = 0,
+                CompNm = "기업명 선택"
+            };
+
+            compInfoDropDown.Insert(0, titleCompInfo);
+
+            SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm", param.CompSn);
+
             ViewBag.SelectCompInfoList = compInfoList;
 
-            //사업년도 DownDown List Data
-            var bizWorkYearDropDown = MakeBizYear(2015);
-            SelectList bizWorkYear = new SelectList(bizWorkYearDropDown, "Value", "Text");
-            ViewBag.SelectMentoringDtList = bizWorkYear;
+
+            //제출년도 DownDown List Data
+            var listSubmitDt = await _scMentoringTotalReportService.GetMentoringTotalReportSubmitDt(mentorId);
+
+            var submitDtDropDown = new List<SubmitDtDropDownModel>();
+
+            foreach (var submitDt in listSubmitDt.AsEnumerable())
+            {
+                submitDtDropDown.Add(
+                    new SubmitDtDropDownModel
+                    {
+                        SubmitDt = submitDt,
+                        SubmitYear = submitDt.ToString()
+                    });
+            }
+
+            SubmitDtDropDownModel titleSubmitDt = new SubmitDtDropDownModel
+            {
+                SubmitDt = 0,
+                SubmitYear = "제출일 선택"
+            };
+
+            submitDtDropDown.Insert(0, titleSubmitDt);
+
+            SelectList submitDtList = new SelectList(submitDtDropDown, "SubmitDt", "SubmitYear", param.SubmitDt);
+
+            ViewBag.SelectSubmitList = submitDtList;
 
 
             //검색조건을 유지하기 위한
@@ -193,12 +283,14 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
             //맨토링 종합 레포트 정보 조회
             var listTotalReportView =
-               Mapper.Map<List<MentoringTotalReportViewModel >>(listscMentoringTotalReport);
+               Mapper.Map<List<MentoringTotalReportViewModel>>(listscMentoringTotalReport);
 
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
             return View(new StaticPagedList<MentoringTotalReportViewModel>(listTotalReportView.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, listTotalReportView.Count));
         }
         #endregion
+
+
 
 
 
@@ -213,20 +305,73 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             var mentorId = Session[Global.LoginID].ToString();
 
             //사업 DropDown List Data
-            var bizWorkDropDown = await MakeBizWork(mentorId, param.MentoringDt);
-            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            var listScMentorMapping = await _scMentorMappingService.GetMentorMappingListByMentorId(mentorId);
+            var listScBizWork = listScMentorMapping.Select(mmp => mmp.ScBizWork);//.ToList();
+
+            var bizWorkDropDown =
+                Mapper.Map<List<BizWorkDropDownModel>>(listScBizWork);
+
+            //사업드롭다운 타이틀 추가
+            BizWorkDropDownModel titleBizWork = new BizWorkDropDownModel
+            {
+                BizWorkSn = 0,
+                BizWorkNm = "사업명 선택"
+            };
+
+            bizWorkDropDown.Insert(0, titleBizWork);
+
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm", param.BizWorkSn);
+
             ViewBag.SelectBizWorkList = bizList;
 
+
             //기업 DropDwon List Data
-            var compInfoDropDown = await MakeBizComp(mentorId, param.BizWorkSn, param.MentoringDt);
-            SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
+            var listScCompMapping = await _scCompMappingService.GetCompMappingListByMentorId(mentorId, "A");
+            var listScCompInfo = listScCompMapping.Select(cmp => cmp.ScCompInfo);//.ToList();
+
+            var compInfoDropDown =
+                Mapper.Map<List<CompInfoDropDownModel>>(listScCompInfo);
+
+            //기업 드롭다운 타이틀 추가
+            CompInfoDropDownModel titleCompInfo = new CompInfoDropDownModel
+            {
+                CompSn = 0,
+                CompNm = "기업명 선택"
+            };
+
+            compInfoDropDown.Insert(0, titleCompInfo);
+
+            SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm", param.CompSn);
+
             ViewBag.SelectCompInfoList = compInfoList;
 
-            //사업년도 DownDown List Data
-            var bizWorkYearDropDown = MakeBizYear(2015);
-            SelectList bizWorkYear = new SelectList(bizWorkYearDropDown, "Value", "Text");
-            ViewBag.SelectMentoringDtList = bizWorkYear;
 
+            //제출년도 DownDown List Data
+            var listMentoringDt = await _scMentoringReportService.GetMentoringReportMentoringDt(mentorId);
+
+            var mentoringDtDropDown = new List<MentoringDtDropDownModel>();
+
+            foreach (var mentoringDt in listMentoringDt.AsEnumerable())
+            {
+                mentoringDtDropDown.Add(
+                    new MentoringDtDropDownModel
+                    {
+                        MentoringDt = mentoringDt,
+                        MentoringYear = mentoringDt.ToString()
+                    });
+            }
+
+            MentoringDtDropDownModel titleMentoringDt = new MentoringDtDropDownModel
+            {
+                MentoringDt = 0,
+                MentoringYear = "멘토링일시 선택"
+            };
+
+            mentoringDtDropDown.Insert(0, titleMentoringDt);
+
+            SelectList mentoringDtList = new SelectList(mentoringDtDropDown, "MentoringDt", "MentoringYear", param.MentoringDt);
+
+            ViewBag.SelectMentoringDtList = mentoringDtList;
 
             //검색조건을 유지하기 위한
             ViewBag.SelectParam = param;
@@ -259,15 +404,45 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
             var mentorId = Session[Global.LoginID].ToString();
 
-
             //사업 DropDown List Data
-            var bizWorkDropDown = await MakeBizWork(mentorId, 0);
+            var listScMentorMapping = await _scMentorMappingService.GetMentorMappingListByMentorId(mentorId);
+            var listScBizWork = listScMentorMapping.Select(mmp => mmp.ScBizWork);
+
+            var bizWorkDropDown =
+                Mapper.Map<List<BizWorkDropDownModel>>(listScBizWork);
+
+            //사업드롭다운 타이틀 추가
+            BizWorkDropDownModel titleBizWork = new BizWorkDropDownModel
+            {
+                BizWorkSn = 0,
+                BizWorkNm = "사업명 선택"
+            };
+
+            bizWorkDropDown.Insert(0, titleBizWork);
+
             SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+
             ViewBag.SelectBizWorkList = bizList;
 
+
             //기업 DropDwon List Data
-            var compInfoDropDown = await MakeBizComp(mentorId, 0, 0);
+            var listScCompMapping = await _scCompMappingService.GetCompMappingListByMentorId(mentorId, "A");
+            var listScCompInfo = listScCompMapping.Select(cmp => cmp.ScCompInfo);//.ToList();
+
+            var compInfoDropDown =
+                Mapper.Map<List<CompInfoDropDownModel>>(listScCompInfo);
+
+            //기업 드롭다운 타이틀 추가
+            CompInfoDropDownModel titleCompInfo = new CompInfoDropDownModel
+            {
+                CompSn = 0,
+                CompNm = "기업명 선택"
+            };
+
+            compInfoDropDown.Insert(0, titleCompInfo);
+
             SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
+
             ViewBag.SelectCompInfoList = compInfoList;
 
             return View();
@@ -311,7 +486,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
                             //파일타입에 따라 재정의해서 넣어야 함(첨부파일, 사진)
                             scMentoringFileInfo.Classify = fileHelper.hasImageFile(file) ? "P" : "A";
-                            
+
                             scMentoringReport.ScMentoringFileInfoes.Add(scMentoringFileInfo);
 
                             await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
@@ -380,13 +555,44 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             var mentorId = Session[Global.LoginID].ToString();
 
             //사업 DropDown List Data
-            var bizWorkDropDown = await MakeBizWork(mentorId, 0);
+            var listScMentorMapping = await _scMentorMappingService.GetMentorMappingListByMentorId(mentorId);
+            var listScBizWork = listScMentorMapping.Select(mmp => mmp.ScBizWork);
+
+            var bizWorkDropDown =
+                Mapper.Map<List<BizWorkDropDownModel>>(listScBizWork);
+
+            //사업드롭다운 타이틀 추가
+            BizWorkDropDownModel titleBizWork = new BizWorkDropDownModel
+            {
+                BizWorkSn = 0,
+                BizWorkNm = "사업명 선택"
+            };
+
+            bizWorkDropDown.Insert(0, titleBizWork);
+
             SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+
             ViewBag.SelectBizWorkList = bizList;
 
+
             //기업 DropDwon List Data
-            var compInfoDropDown = await MakeBizComp(mentorId, 0, 0);
+            var listScCompMapping = await _scCompMappingService.GetCompMappingListByMentorId(mentorId, "A");
+            var listScCompInfo = listScCompMapping.Select(cmp => cmp.ScCompInfo);//.ToList();
+
+            var compInfoDropDown =
+                Mapper.Map<List<CompInfoDropDownModel>>(listScCompInfo);
+
+            //기업 드롭다운 타이틀 추가
+            CompInfoDropDownModel titleCompInfo = new CompInfoDropDownModel
+            {
+                CompSn = 0,
+                CompNm = "기업명 선택"
+            };
+
+            compInfoDropDown.Insert(0, titleCompInfo);
+
             SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
+
             ViewBag.SelectCompInfoList = compInfoList;
 
 
@@ -443,8 +649,8 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
                 scMentoringReport.SubmitDt = dataRequestViewModel.SubmitDt;
 
                 scMentoringReport.UpdId = mentorId;
-                scMentoringReport.UpdDt = DateTime.Now; 
-               
+                scMentoringReport.UpdDt = DateTime.Now;
+
 
                 //삭제파일 상태 업데이트
 
@@ -488,121 +694,12 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
                 await _scMentoringReportService.ModifyScMentoringReportAsync(scMentoringReport);
 
                 return RedirectToAction("MentoringReportList", "MentoringReport");
-              
+
             }
             ModelState.AddModelError("", "입력값 검증 실패.");
             return View(dataRequestViewModel);
         }
 
-        #endregion
-
-        #region 드롭다운박스 처리 controller
-        [HttpPost]
-        public async Task<JsonResult> getBizWork(int bizWorkYear)
-        {
-            var mentorId = Session[Global.LoginID].ToString();
-
-            var bizList = await MakeBizWork(mentorId, bizWorkYear);
-
-            return Json(bizList);
-        }
-
-        [HttpPost]
-        public async Task<JsonResult> getBizComp(int bizWorkSn, int bizWorkYear)
-        {
-            var mentorId = Session[Global.LoginID].ToString();
-
-            var compInfoList = await MakeBizComp(mentorId, bizWorkSn, bizWorkYear);
-
-            return Json(compInfoList);
-        }
-        #endregion
-
-        #region 멘토링 관련 드롭다운리스트
-        public IList<SelectListItem> MakeBizYear(int startYear)
-        {
-            ////멘토링 제출일시로 만든것(안씀)
-            ////var listMentoringDt = await _scMentoringReportService.GetMentoringReportMentoringDt(mentorId);
-            ////var mentoringDtDropDown = new List<MentoringDtDropDownModel>();
-            ////foreach (var mentoringDt in listMentoringDt.AsEnumerable())
-            ////{
-            ////    mentoringDtDropDown.Add(
-            ////        new MentoringDtDropDownModel
-            ////        {
-            ////            MentoringDt = mentoringDt,
-            ////            MentoringYear = mentoringDt.ToString()
-            ////        });
-            ////}
-
-            //사업년도
-            var bizWorkYearDropDown = new List<SelectListItem>();
-
-            bizWorkYearDropDown.Add(new SelectListItem { Value = "0", Text = "사업년도 선택", Selected = true });
-
-            for (int year = startYear; year <= DateTime.Now.Year; year++)
-            {
-                bizWorkYearDropDown.Add(
-                    new SelectListItem
-                    {
-                        Value = year.ToString(),
-                        Text = year.ToString()
-                    });
-            }
-
-            //return new SelectList(bizWorkYearDropDown, "Value", "Text");
-
-            return bizWorkYearDropDown;
-        }
-
-        public async Task<IList<BizWorkDropDownModel>> MakeBizWork(string mentorId, int bizWorkYear)
-        {
-       
-            //사업 DropDown List Data
-            var listScMentorMapping = await _scMentorMappingService.GetMentorMappingListByMentorId(mentorId, bizWorkYear);
-            var listScBizWork = listScMentorMapping.Select(mmp => mmp.ScBizWork);//.ToList();
-
-            var bizWorkDropDown =
-                Mapper.Map<List<BizWorkDropDownModel>>(listScBizWork);
-
-            //사업드롭다운 타이틀 추가
-            BizWorkDropDownModel titleBizWork = new BizWorkDropDownModel
-            {
-                BizWorkSn = 0,
-                BizWorkNm = "사업명 선택"
-            };
-
-            bizWorkDropDown.Insert(0, titleBizWork);
-
-            //SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
-
-            return bizWorkDropDown;
-        }
-
-
-        public async Task<IList<CompInfoDropDownModel>> MakeBizComp(string mentorId, int bizWorkSn, int bizWorkYear)
-        {
-
-            //기업 DropDwon List Data
-            //var listScCompMapping = await _scCompMappingService.GetCompMappingListByMentorId(mentorId, "A");
-            var listScCompMapping = await _scCompMappingService.GetCompMappingListByMentorId(mentorId, "A", bizWorkSn, bizWorkYear);
-            var listScCompInfo = listScCompMapping.Select(cmp => cmp.ScCompInfo);//.ToList();
-
-            var compInfoDropDown =
-                Mapper.Map<List<CompInfoDropDownModel>>(listScCompInfo);
-
-            //기업 드롭다운 타이틀 추가
-            CompInfoDropDownModel titleCompInfo = new CompInfoDropDownModel
-            {
-                CompSn = 0,
-                CompNm = "기업명 선택"
-            };
-
-            compInfoDropDown.Insert(0, titleCompInfo);
-
-            //SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
-
-            return compInfoDropDown;
-        }
         #endregion
 
 
@@ -670,7 +767,5 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
         }
         #endregion
-
-
     }
 }
