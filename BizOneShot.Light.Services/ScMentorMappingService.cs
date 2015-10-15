@@ -64,37 +64,20 @@ namespace BizOneShot.Light.Services
 
 
 
-        public async Task<IList<ScMentorMappiing>> GetMentorMappingListByMentorId(string mentorId = null, int bizWorkYear = 0)
+        public async Task<IList<ScMentorMappiing>> GetMentorMappingListByMentorId(string mentorId, int bizWorkYear = 0)
         {
-            if (mentorId == null)
-            {
-                return await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.Status == "N");
-            }
-            else if (mentorId != null && bizWorkYear == 0)
-            {
-                DateTime date = DateTime.Now.Date;
-                //return await scMentorMappingRepository.GetMentorMappingsAsync
-                //    (
-                //    mmp => mmp.MentorId == mentorId && mmp.Status == "N" 
-                //    && mmp.ScBizWork.BizWorkEdDt.Value >= date
-                //    );
+            DateTime date = DateTime.Now.Date;
 
-                var listScMentorMapping = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.MentorId == mentorId && mmp.Status == "N");
+            var listScMentorMapping = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.MentorId == mentorId && mmp.Status == "N");
 
+            if (bizWorkYear == 0)
+            {
                 return listScMentorMapping.Where(mmp => mmp.ScBizWork.BizWorkEdDt.Value >= date).ToList();
-
             }
             else
             {
-                //return await scMentorMappingRepository.GetMentorMappingsAsync
-                //    (
-                //    mmp => mmp.MentorId == mentorId && mmp.Status == "N"
-                //    && mmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear
-                //    );
-
-                var listScMentorMapping = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.MentorId == mentorId && mmp.Status == "N");
-
-                return listScMentorMapping.Where(mmp => mmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear).ToList();
+                return listScMentorMapping.Where(mmp => mmp.ScBizWork.BizWorkEdDt.Value >= date)
+                    .Where(mmp => mmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear).ToList();
             }
 
 

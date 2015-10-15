@@ -172,38 +172,19 @@ namespace BizOneShot.Light.Services
         public async Task<IList<ScCompMapping>> GetCompMappingListByMentorId(string mentorId, string status = "A", int bizWorkSn = 0, int bizWorkYear = 0)
         {
             DateTime date = DateTime.Now.Date;
+
+            var listScCompMapping = await scCompMappingRepository.GetCompMappingsAsync(cmp => cmp.MentorId == mentorId && cmp.Status == status);
+
             if (bizWorkYear == 0)
             {
-                //return await scCompMappingRepository.GetCompMappingsAsync(
-                //cmp => cmp.MentorId == mentorId && cmp.Status == status
-                //&& cmp.ScBizWork.BizWorkEdDt.Value > date
-                //&& bizWorkSn == 0 ? cmp.ScBizWork.BizWorkSn > 0 : cmp.ScBizWork.BizWorkSn == bizWorkSn
-                //);
-
-                var listScCompMapping = await scCompMappingRepository.GetCompMappingsAsync(cmp => cmp.MentorId == mentorId && cmp.Status == status);
-
-                return listScCompMapping.Where(cmp => cmp.ScBizWork.BizWorkEdDt.Value > date && bizWorkSn == 0 ? cmp.ScBizWork.BizWorkSn > 0 : cmp.ScBizWork.BizWorkSn == bizWorkSn).ToList();
+                return listScCompMapping.Where(cmp => cmp.ScBizWork.BizWorkEdDt.Value > date)
+                    .Where(cmp => bizWorkSn == 0 ? cmp.ScBizWork.BizWorkSn > 0 : cmp.ScBizWork.BizWorkSn == bizWorkSn).ToList();
             }
             else
             {
-                //return await scCompMappingRepository.GetCompMappingsAsync(
-                //cmp => cmp.MentorId == mentorId && cmp.Status == status
-                //&& cmp.ScBizWork.BizWorkEdDt.Value > date
-                //&& bizWorkSn == 0 ? cmp.ScBizWork.BizWorkSn > 0 : cmp.ScBizWork.BizWorkSn == bizWorkSn
-                //);
-                //return await scCompMappingRepository.GetCompMappingsAsync(
-                //cmp => cmp.MentorId == mentorId && cmp.Status == status
-                //&& cmp.ScBizWork.BizWorkEdDt.Value > date
-                //&& bizWorkSn == 0 ? cmp.ScBizWork.BizWorkSn > 0 : cmp.ScBizWork.BizWorkSn == bizWorkSn
-                //&& cmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && cmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear
-                //);
-
-                var listScCompMapping = await scCompMappingRepository.GetCompMappingsAsync(cmp => cmp.MentorId == mentorId && cmp.Status == status);
-
-                return listScCompMapping.Where(cmp => cmp.ScBizWork.BizWorkEdDt.Value > date
-                && bizWorkSn == 0 ? cmp.ScBizWork.BizWorkSn > 0 : cmp.ScBizWork.BizWorkSn == bizWorkSn
-                && cmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && cmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear
-                ).ToList();
+                return listScCompMapping.Where(cmp => cmp.ScBizWork.BizWorkEdDt.Value > date)
+                    .Where(cmp => bizWorkSn == 0 ? cmp.ScBizWork.BizWorkSn > 0 : cmp.ScBizWork.BizWorkSn == bizWorkSn)
+                    .Where(cmp => cmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && cmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear).ToList();
 
             }
         }
