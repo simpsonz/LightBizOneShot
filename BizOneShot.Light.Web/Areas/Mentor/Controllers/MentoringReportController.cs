@@ -169,26 +169,26 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             var mentorId = Session[Global.LoginID].ToString();
 
             //사업 DropDown List Data
-            var bizWorkDropDown = await MakeBizWork(mentorId, param.SubmitDt);
+            var bizWorkDropDown = await MakeBizWork(mentorId, param.BizWorkYear);
             SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
             ViewBag.SelectBizWorkList = bizList;
 
             //기업 DropDwon List Data
-            var compInfoDropDown = await MakeBizComp(mentorId, param.BizWorkSn, param.SubmitDt);
+            var compInfoDropDown = await MakeBizComp(mentorId, param.BizWorkSn, param.BizWorkYear);
             SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
             ViewBag.SelectCompInfoList = compInfoList;
 
             //사업년도 DownDown List Data
             var bizWorkYearDropDown = MakeBizYear(2015);
             SelectList bizWorkYear = new SelectList(bizWorkYearDropDown, "Value", "Text");
-            ViewBag.SelectMentoringDtList = bizWorkYear;
+            ViewBag.SelectBizWorkYearList = bizWorkYear;
 
 
             //검색조건을 유지하기 위한
             ViewBag.SelectParam = param;
 
             //실제 쿼리
-            var listscMentoringTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportAsync(mentorId, param.SubmitDt, param.BizWorkSn, param.CompSn);
+            var listscMentoringTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportAsync(mentorId, param.BizWorkYear, param.BizWorkSn, param.CompSn);
 
 
             //맨토링 종합 레포트 정보 조회
@@ -205,7 +205,6 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
 
         #region 멘토 일지
-
         public async Task<ActionResult> MentoringReportList(SelectedMentorReportParmModel param, string curPage)
         {
             ViewBag.LeftMenu = Global.MentoringReport;
@@ -213,26 +212,26 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             var mentorId = Session[Global.LoginID].ToString();
 
             //사업 DropDown List Data
-            var bizWorkDropDown = await MakeBizWork(mentorId, param.MentoringDt);
+            var bizWorkDropDown = await MakeBizWork(mentorId, param.BizWorkYear);
             SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
             ViewBag.SelectBizWorkList = bizList;
 
             //기업 DropDwon List Data
-            var compInfoDropDown = await MakeBizComp(mentorId, param.BizWorkSn, param.MentoringDt);
+            var compInfoDropDown = await MakeBizComp(mentorId, param.BizWorkSn, param.BizWorkYear);
             SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
             ViewBag.SelectCompInfoList = compInfoList;
 
             //사업년도 DownDown List Data
             var bizWorkYearDropDown = MakeBizYear(2015);
             SelectList bizWorkYear = new SelectList(bizWorkYearDropDown, "Value", "Text");
-            ViewBag.SelectMentoringDtList = bizWorkYear;
+            ViewBag.SelectBizWorkYearList = bizWorkYear;
 
 
             //검색조건을 유지하기 위한
             ViewBag.SelectParam = param;
 
             //맨토링 일지 정보 조회
-            var listscMentoringReport = await _scMentoringReportService.GetMentoringReportAsync(mentorId, param.MentoringDt, param.BizWorkSn, param.CompSn);
+            var listscMentoringReport = await _scMentoringReportService.GetMentoringReportAsync(mentorId, param.BizWorkYear, param.BizWorkSn, param.CompSn);
 
             //맨토링 일지 정보 to 뷰모델 매핑
             var listTotalReportView =

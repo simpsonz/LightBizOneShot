@@ -9,7 +9,7 @@
         </div><!--로그아웃 레이어 끝-->
         <div id="naviwrap_biz">
             <div class="navi_biz">
-                <a href="@Url.Action("BizWorkMng","BizWorkMng",new { area= "" })" class="navi_business01"><em>보고서</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
+                <a href="@Url.Action("MentoringReportListByComp","Report",new { area= "BizManager" })" class="navi_business01"><em>보고서</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
                 <a href="@Url.Action("CompanyList","CompanyMng", new { area= "BizManager" })" class="navi_business02"><em>기업관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
                 <a href="@Url.Action("MentorList","MentorMng", new { area= "BizManager" })" class="navi_business03"><em>멘토관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
                 @if (Session[Global.UserDetailType].Equals(Global.Admin))

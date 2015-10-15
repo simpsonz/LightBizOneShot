@@ -250,8 +250,11 @@ namespace BizOneShot.Light.Web.Mappings
             //멘토 일지 뷰
             Mapper.CreateMap<ScMentoringReport, MentoringReportViewModel>()
                 .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
+                .ForMember(d => d.BizWorkStDt, map => map.MapFrom(s => s.ScBizWork.BizWorkStDt))
+                .ForMember(d => d.BizWorkEdDt, map => map.MapFrom(s => s.ScBizWork.BizWorkEdDt))
                 .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
                 .ForMember(d => d.MentorAreaNm, map => map.MapFrom(s => s.MentorAreaCd == "" ? "" : new BizHelper().getMentorAreaNm(s.MentorAreaCd)))
+                .ForMember(d => d.MentorNm, map => map.MapFrom(s => s.ScUsr.Name))
                 .ForMember(d => d.FileContents, map => map.MapFrom(s => s.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo)));
 
             //기업 뷰 매핑

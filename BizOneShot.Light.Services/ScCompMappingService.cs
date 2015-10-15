@@ -13,6 +13,7 @@ namespace BizOneShot.Light.Services
     {
         Task<IList<ScCompMapping>> GetCompMappingListByMentorId(string mentorId = null, string status = null);
         Task<IList<ScCompMapping>> GetCompMappingListByMentorId(string mentorId, string status = "A", int bizWorkSn = 0, int bizWorkYear = 0);
+        Task<IList<ScCompInfo>> GetBizWorkComList(int mngComSn, string excutorId = null, int bizWorkSn = 0, int bizWorkYear = 0);
         Task<IList<ScCompMapping>> GetCompMappingsAsync(int compSn, int bizWorkSn = 0, string status = null, string compNm = null);
         Task<ScCompMapping> GetCompMappingAsync(int bizWorkSn, int compSn);
         Task<ScCompMapping> GetCompMappingAsync(int compSn, string status = null);
@@ -188,6 +189,29 @@ namespace BizOneShot.Light.Services
 
             }
         }
+
+         public async Task<IList<ScCompInfo>> GetBizWorkComList(int mngComSn, string excutorId = null, int bizWorkSn = 0, int bizWorkYear = 0)
+        {
+            if (string.IsNullOrEmpty(excutorId))
+            {
+                var listScCompMapping = await scCompMappingRepository.GetCompMappingsAsync(cmp => cmp.ScBizWork.MngCompSn == mngComSn && cmp.Status == "A");
+                var scCompInfos = listScCompMapping.Where(cmp => bizWorkSn == 0 ? cmp.BizWorkSn > 0 : cmp.BizWorkSn == bizWorkSn)
+                     .Where(cmp => bizWorkYear == 0 ? cmp.ScBizWork.BizWorkStDt.Value.Year > 0 : cmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && cmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
+                     .Select(cmp => cmp.ScCompInfo).Distinct();
+                 
+                return scCompInfos.OrderByDescending(sc => sc.CompNm).ToList();
+            }
+            else
+            {
+                var listScCompMapping = await scCompMappingRepository.GetCompMappingsAsync(cmp => cmp.ScBizWork.MngCompSn == mngComSn && cmp.ScBizWork.ExecutorId == excutorId && cmp.Status == "A");
+                var scCompInfos = listScCompMapping.Where(cmp => bizWorkSn == 0 ? cmp.BizWorkSn > 0 : cmp.BizWorkSn == bizWorkSn)
+                                    .Where(cmp => bizWorkYear == 0 ? cmp.ScBizWork.BizWorkStDt.Value.Year > 0 : cmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && cmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
+                                    .Select(cmp => cmp.ScCompInfo).Distinct();
+
+                return scCompInfos.OrderByDescending(sc => sc.CompNm).ToList();
+            }
+        }
+
 
         #region SaveContext
         public void SaveDbContext()

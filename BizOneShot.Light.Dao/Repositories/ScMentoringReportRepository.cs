@@ -33,7 +33,7 @@ namespace BizOneShot.Light.Dao.Repositories
             return await DbContext.ScMentoringReports
                 .Include(mtr => mtr.ScBizWork)
                 .Include(mtr => mtr.ScCompInfo)
-                //.Include(mtr => mtr.ScMentoringTrFileInfoes)
+                .Include(mtr => mtr.ScUsr)
                 .Include(mtr => mtr.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo))
                 .Where(mtr => mtr.ReportSn == reportSn)
                 .SingleOrDefaultAsync();
@@ -44,7 +44,7 @@ namespace BizOneShot.Light.Dao.Repositories
             return await DbContext.ScMentoringReports
                 .Include(mtr => mtr.ScBizWork)
                 .Include(mtr => mtr.ScCompInfo)
-                //.Include(mtr => mtr.ScMentoringTrFileInfoes)
+                .Include(mtr => mtr.ScUsr)
                 .Include(mtr => mtr.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo))
                 .Where(where).ToListAsync();
         }

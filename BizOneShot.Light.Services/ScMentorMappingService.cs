@@ -79,8 +79,6 @@ namespace BizOneShot.Light.Services
                 return listScMentorMapping.Where(mmp => mmp.ScBizWork.BizWorkEdDt.Value >= date)
                     .Where(mmp => mmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear).ToList();
             }
-
-
         }
 
         public async Task<int> AddMentorAsync(ScCompInfo scCompInfo)

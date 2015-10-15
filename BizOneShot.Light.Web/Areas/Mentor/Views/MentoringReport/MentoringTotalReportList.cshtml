@@ -114,7 +114,7 @@
     @using (Html.BeginForm("MentoringTotalReportList", "MentoringReport", FormMethod.Post, new { area = "Mentor", id = "searchForm" }))
     {
         <div id="sub_inquiry_box">
-            @Html.DropDownList("SubmitDt", ViewBag.SelectMentoringDtList as SelectList, new { @class = "w130", @id = "BizWorkYear" })
+            @Html.DropDownList("BizWorkYear", ViewBag.SelectBizWorkYearList as SelectList, new { @class = "w130", @id = "BizWorkYear" })
             @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150", @id = "BizWorkSn" })
             @Html.DropDownList("CompSn", ViewBag.SelectCompInfoList as SelectList, new { @class = "w150", @id = "CompSn" })
             <button type="submit" class="inquire" value="종합보고서조회">조회</button>
@@ -160,7 +160,7 @@
                             <td>@item.SubmitDt.Value.ToString("yyyy-MM-dd")</td>
                           
                             <td>
-                                <span class="full_line">@Html.ActionLink("첨부보기", "MentoringTotalReportDetail", new {totalReportSn = item.TotalReportSn , SubmitDt = ViewBag.SelectParam.SubmitDt, BizWorkSn = ViewBag.SelectParam.BizWorkSn, CompSn = ViewBag.SelectParam.CompSn })</span>
+                                <span class="full_line">@Html.ActionLink("첨부보기", "MentoringTotalReportDetail", new {totalReportSn = item.TotalReportSn , BizWorkYear = ViewBag.SelectParam.BizWorkYear, BizWorkSn = ViewBag.SelectParam.BizWorkSn, CompSn = ViewBag.SelectParam.CompSn })</span>
                             </td>
                         </tr>
                     }

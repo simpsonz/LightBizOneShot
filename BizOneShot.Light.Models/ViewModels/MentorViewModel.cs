@@ -187,7 +187,10 @@ namespace BizOneShot.Light.Models.ViewModels
         [Display(Name = "사업명")]
         public int BizWorkSn { get; set; } // BIZ_WORK_SN. 사업식별자
         public string BizWorkNm { get; set; }
+        public DateTime? BizWorkStDt { get; set; } // BIZ_WORK_ST_DT. 사업시작일
+        public DateTime? BizWorkEdDt { get; set; } // BIZ_WORK_ED_DT. 사업종료일
         public string MentorId { get; set; } // MENTOR_ID. 맨토식별자
+        public string MentorNm { get; set; } //멘토 이름
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "기업명을 선택하세요")]
         [Display(Name = "기업명")]
@@ -234,7 +237,7 @@ namespace BizOneShot.Light.Models.ViewModels
 
     public class SelectedMentorTotalReportParmModel
     {
-        public int SubmitDt { get; set; }
+        public int BizWorkYear { get; set; }
         public int BizWorkSn { get; set; }
         public int CompSn { get; set; }
     }
@@ -248,7 +251,7 @@ namespace BizOneShot.Light.Models.ViewModels
 
     public class SelectedMentorReportParmModel
     {
-        public int MentoringDt { get; set; }
+        public int BizWorkYear { get; set; }
         public int BizWorkSn { get; set; }
         public int CompSn { get; set; }
     }
