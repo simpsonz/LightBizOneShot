@@ -52,6 +52,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="DareModels\SHUSER_SboMonthlyBankOutSelectReturnModel.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="DareModels\SHUSER_SboMonthlyCashSelect20150327ReturnModel.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
@@ -92,6 +95,9 @@
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="DareModels\SHUSER_SboMonthlySalesSelectReturnModel.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareModels\SHUSER_SboMonthlyTaxSalesSelectReturnModel.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="DareModels\SHUSER_SboMonthlyYearSalesSelectReturnModel.cs">

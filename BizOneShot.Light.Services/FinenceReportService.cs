@@ -16,6 +16,10 @@ namespace BizOneShot.Light.Services
         Task<IList<SHUSER_SboMonthlyCashSelectReturnModel>> GetMonthlyCashListAsync(object[] parameters);
         Task<IList<SHUSER_SboMonthlySalesSelectReturnModel>> GetMonthlySalesAsync(object[] parameters);
         Task<SHUSER_SboMonthlyYearSalesSelectReturnModel> GetYearTotalSalesAsync(object[] parameters);
+        Task<IList<SHUSER_SboMonthlyCostAnalysisSelectReturnModel>> GetCostAnalysisAsync(object[] parameters);
+        Task<IList<SHUSER_SboMonthlyExpenseCostSelectReturnModel>> GetExpenseCostAsync(object[] parameters);
+        Task<IList<SHUSER_SboMonthlyTaxSalesSelectReturnModel>> GetTaxSalesAsync(object[] parameters);
+        Task<IList<SHUSER_SboMonthlyBankOutSelectReturnModel>> GetBankOutAsync(object[] parameters);
     }
 
 
@@ -48,6 +52,30 @@ namespace BizOneShot.Light.Services
         {
             var yearTotalTask = await financeReportRepository.GetYearTotalSalesAsync(parameters);
             return yearTotalTask;
+        }
+
+        public async Task<IList<SHUSER_SboMonthlyCostAnalysisSelectReturnModel>> GetCostAnalysisAsync(object[] parameters)
+        {
+            var costAnalysisListTask = await financeReportRepository.GetCostAnalysisAsync(parameters);
+            return costAnalysisListTask;
+        }
+
+        public async Task<IList<SHUSER_SboMonthlyExpenseCostSelectReturnModel>> GetExpenseCostAsync(object[] parameters)
+        {
+            var expenseCostTask = await financeReportRepository.GetExpenseCostAsync(parameters);
+            return expenseCostTask;
+        }
+
+        public async Task<IList<SHUSER_SboMonthlyTaxSalesSelectReturnModel>> GetTaxSalesAsync(object[] parameters)
+        {
+            var taxSalesListTask = await financeReportRepository.GetTaxSalesAsync(parameters);
+            return taxSalesListTask;
+        }
+
+        public async Task<IList<SHUSER_SboMonthlyBankOutSelectReturnModel>> GetBankOutAsync(object[] parameters)
+        {
+            var bankOutListTask = await financeReportRepository.GetBankOutAsync(parameters);
+            return bankOutListTask;
         }
 
         #region SaveContext
