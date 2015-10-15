@@ -199,8 +199,90 @@ namespace BizOneShot.Light.Web.ComLib
 
             salesViewModel.CurMonth = string.Format("{0:n0}", Convert.ToInt64((slaesList[0].SALES_AMT / 1000)));   //현월매출
             salesViewModel.LastMonth = string.Format("{0:n0}", Convert.ToInt64((slaesList[1].SALES_AMT / 1000))); //전월매출
-            salesViewModel.CurYear = string.Format("{0:n0}", Convert.ToInt64((yearTotal.SALES_AMT / 1000))); // 누적매출
+
+            if(yearTotal == null)
+            {
+                salesViewModel.CurYear = "0";
+            }
+            else
+            { 
+                salesViewModel.CurYear = string.Format("{0:n0}", Convert.ToInt64((yearTotal.SALES_AMT / 1000))); // 누적매출
+            }
             return salesViewModel;
+        }
+
+        //이익분석 Model 생성
+        public static TotalCostViewModel MakeCostAnalysisViewModel(SHUSER_SboMonthlyCostAnalysisSelectReturnModel cost)
+        {
+            TotalCostViewModel totalCostViewModel = new TotalCostViewModel();
+            totalCostViewModel.AllOtherAmt = string.Format("{0:n0}", Convert.ToInt64((cost.ALL_OTHER_AMT / 1000)));   //영업외비용
+            totalCostViewModel.ManufacturingAmt = string.Format("{0:n0}", Convert.ToInt64((cost.MANUFACTURING_AMT / 1000)));   //제조비
+            totalCostViewModel.MaterialAmt = string.Format("{0:n0}", Convert.ToInt64((cost.MATERIALS_AMT / 1000)));   //자재비
+            totalCostViewModel.OperatingAmt = string.Format("{0:n0}", Convert.ToInt64((cost.OPERATING_AMT / 1000)));   //판관비
+            totalCostViewModel.ProfitAmt = string.Format("{0:n0}", Convert.ToInt64((cost.PROFIT_AMT / 1000)));   //이익
+            totalCostViewModel.SalesAmt = string.Format("{0:n0}", Convert.ToInt64((cost.SALES_AMT / 1000)));   //매출액    
+
+            return totalCostViewModel;
+        }
+
+        //비용분석 Model 생성
+        public static ExpenseCostViewModel MakeExpenseCostViewModel(SHUSER_SboMonthlyExpenseCostSelectReturnModel expenseCost)
+        {
+            ExpenseCostViewModel expenseCostViewModel = new ExpenseCostViewModel();
+            expenseCostViewModel.ManAmt = string.Format("{0:n0}", Convert.ToInt64((expenseCost.MAN_AMT / 1000)));   //인건비
+            expenseCostViewModel.SalesAmt = string.Format("{0:n0}", Convert.ToInt64((expenseCost.SALES_AMT / 1000)));   //지급 임차료
+            expenseCostViewModel.StaticEtcAmt = string.Format("{0:n0}", Convert.ToInt64((expenseCost.STATIC_ETC_AMT / 1000)));   //이자비용
+            expenseCostViewModel.WelfareAmt = string.Format("{0:n0}", Convert.ToInt64((expenseCost.WELFARE_AMT / 1000)));   //복리후생비
+            expenseCostViewModel.TaxAmt = string.Format("{0:n0}", Convert.ToInt64((expenseCost.TAX_AMT / 1000)));   //세금공과
+            expenseCostViewModel.WasteAmt = string.Format("{0:n0}", Convert.ToInt64((expenseCost.WASTE_AMT / 1000)));   //소모품비
+            expenseCostViewModel.FloatEtcAmt = string.Format("{0:n0}", Convert.ToInt64((expenseCost.FLOAT_ETC_AMT / 1000)));   //기타    
+            expenseCostViewModel.FixTotalAmt = string.Format("{0:n0}", Convert.ToInt64(((expenseCost.MAN_AMT + expenseCost.SALES_AMT + expenseCost.STATIC_ETC_AMT) / 1000)));   //고정경비 합계
+            expenseCostViewModel.MoveTotalAmt = string.Format("{0:n0}", Convert.ToInt64(((expenseCost.WELFARE_AMT + expenseCost.TAX_AMT + expenseCost.WASTE_AMT + expenseCost.FLOAT_ETC_AMT) / 1000)));   //유동경비 합계
+
+            return expenseCostViewModel;
+        }
+
+        //주요매출 Model 생성
+        public static IList<TaxSalesViewModel> MakeTaxSalseListViewModel(IList<SHUSER_SboMonthlyTaxSalesSelectReturnModel> taxSalesList, IList<SHUSER_SboMonthlySalesSelectReturnModel> slaesList)
+        {
+            IList<TaxSalesViewModel> taxSalesListViewModel = new List<TaxSalesViewModel>();
+            foreach(var taxSales in taxSalesList)
+            {
+                TaxSalesViewModel taxSalesViewModel = new TaxSalesViewModel();
+                taxSalesViewModel.CustName = taxSales.ACPT_TR_NM; //매입자 회사명
+                taxSalesViewModel.WriteDate = taxSales.JNLYZ_DT.Substring(0, 4) + "-" + taxSales.JNLYZ_DT.Substring(4, 2) + "-" + taxSales.JNLYZ_DT.Substring(6, 2); ; //작성일자
+                taxSalesViewModel.ItemName = taxSales.ITM_NM; //품목명
+                taxSalesViewModel.TotalAmt = string.Format("{0:n0}", Convert.ToInt64((taxSales.SUM_AMT / 1000)));   //합계금액
+
+                if(slaesList[0].SALES_AMT != 0)
+                { 
+                    taxSalesViewModel.Share = string.Format("{0:n0}", Convert.ToInt64((((taxSales.SUM_AMT / slaesList[0].SALES_AMT)*100)/1000)));
+                }
+                else
+                {
+                    taxSalesViewModel.Share = "0";
+                }
+
+                taxSalesListViewModel.Add(taxSalesViewModel);
+            }
+            return taxSalesListViewModel;
+        }
+
+        //주요지울 Model 생성
+        public static IList<BankOutViewModel> MakeBnakOutListViewModel(IList<SHUSER_SboMonthlyBankOutSelectReturnModel> bankOutList)
+        {
+            IList<BankOutViewModel> bankOutListViewModel = new List<BankOutViewModel>();
+            foreach (var bankOut in bankOutList)
+            {
+                BankOutViewModel bankOutViewModel = new BankOutViewModel();
+                bankOutViewModel.BankName = bankOut.BANK_CD; //은행명
+                bankOutViewModel.ItemName = bankOut.HISTCD_4; //적요
+                bankOutViewModel.OutDate = bankOut.TRANDATE.Substring(0,4)+"-"+bankOut.TRANDATE.Substring(4, 2)+ "-" + bankOut.TRANDATE.Substring(6, 2); //출금일
+                bankOutViewModel.TotalAmt = string.Format("{0:n0}", Convert.ToInt64((bankOut.HISTCD_O / 1000)));   //금액
+                bankOutViewModel.Share = "10";
+                bankOutListViewModel.Add(bankOutViewModel);
+            }
+            return bankOutListViewModel;
         }
 
         public static QuarterModel CalcBeforQuarter(int year, int month)
