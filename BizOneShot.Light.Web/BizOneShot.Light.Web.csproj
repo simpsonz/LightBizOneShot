@@ -234,6 +234,7 @@
     <Compile Include="Areas\BizManager\Controllers\CompanyMngController.cs" />
     <Compile Include="Areas\BizManager\Controllers\MainController.cs" />
     <Compile Include="Areas\BizManager\Controllers\MentorMngController.cs" />
+    <Compile Include="Areas\BizManager\Controllers\ReportController.cs" />
     <Compile Include="Areas\Company\CompanyAreaRegistration.cs" />
     <Compile Include="Areas\Company\Controllers\ExpertServiceController.cs" />
     <Compile Include="Areas\Company\Controllers\MainController.cs" />
