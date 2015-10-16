@@ -487,6 +487,8 @@
     <Content Include="Areas\Company\Views\Report\BizCheck13.cshtml" />
     <Content Include="Areas\Company\Views\Report\FinanceCheck01.cshtml" />
     <Content Include="Areas\Company\Views\Report\OrgCheck01.cshtml" />
+    <Content Include="Areas\BizManager\Views\Report\MentoringReportListByComp.cshtml" />
+    <Content Include="Areas\BizManager\Views\Report\MentoringReportDetail.cshtml" />
     <None Include="Properties\PublishProfiles\Demo BizOneShot Lite.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
