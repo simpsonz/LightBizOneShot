@@ -39,17 +39,17 @@
             var bizWorkYear = $('#BizWorkYear').val();
             var bizWorkSn= $('#BizWorkSn').val();
 
-            $('#CompSn').attr("disabled", false);
-            $('#CompSn').html("");
+            $('#MentorId').attr("disabled", false);
+            $('#MentorId').html("");
             $.ajax({
-                url: '@Url.Action("getBizComp", "Report")',
+                url: '@Url.Action("getBizMentor", "Report")',
                 type: "post",
                 dataType: "json",
                 data: { bizWorkSn: bizWorkSn, bizWorkYear: bizWorkYear },
                 async: false,
                 success: function (result) {
                     for (var i = 0; i < result.length; i++) {
-                        $('#CompSn').append("<option value='" + result[i].CompSn + "'>" + result[i].CompNm + "</option>");
+                        $('#MentorId').append("<option value='" + result[i].LoginId + "'>" + result[i].Name + "</option>");
                     }
                 }
             });
@@ -69,21 +69,21 @@
 <div id="sub_rightwrap">
     <div class="sub_right_title bizadmin_01_04"><em>멘토링 일지 현황</em></div>
 
-    <div id="tabswrap" class="tab01">
+    <div id="tabswrap" class="tab02">
         <!--기업별 멘토별 목록 탭-->
         <ul>
-            <li><a href="@Url.Action("MentoringReportListByComp", "Report",new { area= "BizManager"})" class="on">기업별</a></li>
-            <li><a href="@Url.Action("MentoringReportListByMentor", "Report",new { area= "BizManager"})">멘토별</a></li>
+            <li><a href="@Url.Action("MentoringReportListByComp", "Report",new { area= "BizManager"})">기업별</a></li>
+            <li><a href="@Url.Action("MentoringReportListByMentor", "Report",new { area= "BizManager"})" class="on">멘토별</a></li>
         </ul>
     </div>
 
-    @using (Html.BeginForm("MentoringReportListByComp", "Report", FormMethod.Post, new { area = "BizManager", id = "searchForm" }))
+    @using (Html.BeginForm("MentoringReportListByMentor", "Report", FormMethod.Post, new { area = "BizManager", id = "searchForm" }))
     {
         <div id="sub_inquiry_box">
 
             @Html.DropDownList("BizWorkYear", ViewBag.SelectBizWorkYearList as SelectList, new { @class = "w130", @id = "BizWorkYear" })
             @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150" , @id = "BizWorkSn" })
-            @Html.DropDownList("CompSn", ViewBag.SelectCompInfoList as SelectList, new { @class = "w150", @id = "CompSn" })
+            @Html.DropDownList("MentorId", ViewBag.SelectMentorList as SelectList, new { @class = "w150", @id = "MentorId" })
           
             <button type="submit" class="bt_report_present" value="현황 보고서">조회</button>
         </div><!--sub_inquiry_box//-->
@@ -130,7 +130,7 @@
                             <td>@item.MentoringDt.Value.ToString("yyyy-MM-dd")</td>
                             <td>@item.MentorAreaNm</td>
                             <td>
-                                <span class="blue">@Html.ActionLink(item.MentoringSubject.Length > 14 ? item.MentoringSubject.Substring(0, 14) + " .." : item.MentoringSubject, "MentoringReportDetail", new { reportSn = item.ReportSn, BizWorkYear = ViewBag.SelectParam.BizWorkYear, BizWorkSn = ViewBag.SelectParam.BizWorkSn, CompSn = ViewBag.SelectParam.CompSn, searchType = "Comp" })</span>
+                                <span class="blue">@Html.ActionLink(item.MentoringSubject.Length > 14 ? item.MentoringSubject.Substring(0, 14) + " .." : item.MentoringSubject, "MentoringReportDetail", new { reportSn = item.ReportSn, BizWorkYear = ViewBag.SelectParam.BizWorkYear, BizWorkSn = ViewBag.SelectParam.BizWorkSn, MentorId = ViewBag.SelectParam.MentorId, searchType = "Mentor" })</span>
                             </td>
                         </tr>
                     }

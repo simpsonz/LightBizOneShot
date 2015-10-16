@@ -1,7 +1,7 @@
 ﻿@model BizOneShot.Light.Models.ViewModels.MentoringReportViewModel
 
 @{
-    Layout = "~/Areas/Mentor/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
 }
 
 
@@ -12,8 +12,6 @@
         //left menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_mentoringReportList').addClass('on');
     });
-
- 
 </script>
 
 <div id="sub_rightwrap">
@@ -166,7 +164,7 @@
                 }
                 else
                 {
-                    <a href="@Url.Action("MentoringReportListByMentor", "Report", new { BizWorkYear = @ViewBag.SelectParam.BizWorkYear, BizWorkSn = @ViewBag.SelectParam.BizWorkSn, CompSn = @ViewBag.SelectParam.CompSn })" class="list2"><em>목록</em></a>
+                    <a href="@Url.Action("MentoringReportListByMentor", "Report", new { BizWorkYear = @ViewBag.SelectParam.BizWorkYear, BizWorkSn = @ViewBag.SelectParam.BizWorkSn, MentorId = @ViewBag.SelectParam.MentorId })" class="list2"><em>목록</em></a>
                 }
             </div>
         </div><!--btnwrap_sub//-->

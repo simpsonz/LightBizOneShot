@@ -59,6 +59,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\PagedListExtentions.cs" />
     <Compile Include="Repositories\FinanceReportRepository.cs" />
     <Compile Include="Repositories\PostRepository.cs" />
     <Compile Include="Repositories\QuesCheckListRepository.cs" />

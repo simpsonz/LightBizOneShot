@@ -24,8 +24,8 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         private readonly IScBizWorkService _scBizWorkService;
 
         private readonly IScCompMappingService _scCompMappingService;
-        //private readonly IScMentorMappingService _scMentorMappingService;
-        //private readonly IScMentoringTotalReportService _scMentoringTotalReportService;
+        private readonly IScMentorMappingService _scMentorMappingService;
+        private readonly IScMentoringTotalReportService _scMentoringTotalReportService;
         private readonly IScMentoringTrFileInfoService _scMentoringTrFileInfoService;
 
         private readonly IScMentoringReportService _scMentoringReportService;
@@ -34,8 +34,8 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
         public ReportController(IScBizWorkService scBizWorkService
             , IScCompMappingService scCompMappingService
-            //, IScMentorMappingService scMentorMappingService
-            //, IScMentoringTotalReportService scMentoringTotalReportService
+            , IScMentorMappingService scMentorMappingService
+            , IScMentoringTotalReportService scMentoringTotalReportService
             , IScMentoringTrFileInfoService scMentoringTrFileInfoService
             , IScMentoringReportService scMentoringReportService
             , IScMentoringFileInfoService scMentoringFileInfoService
@@ -43,169 +43,138 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         {
             this._scBizWorkService = scBizWorkService;
             this._scCompMappingService = scCompMappingService;
-            //this._scMentorMappingService = scMentorMappingService;
-            //this._scMentoringTotalReportService = scMentoringTotalReportService;
+            this._scMentorMappingService = scMentorMappingService;
+            this._scMentoringTotalReportService = scMentoringTotalReportService;
             this._scMentoringTrFileInfoService = scMentoringTrFileInfoService;
             this._scMentoringReportService = scMentoringReportService;
             this._scMentoringFileInfoService = scMentoringFileInfoService;
         }
 
 
-        //#region 멘토링 종합보고서
-        //public async Task<ActionResult> RegMentoringTotalReport()
-        //{
-        //    ViewBag.LeftMenu = Global.MentoringReport;
+        #region 멘토링 종합보고서
+        public async Task<ActionResult> MentoringTotalReportListByComp(SelectedMentorTotalReportParmModel param, string curPage)
+        {
+            ViewBag.LeftMenu = Global.Report;
 
-        //    var mentorId = Session[Global.LoginID].ToString();
+            string excutorId = null;
 
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
 
-        //    //사업 DropDown List Data
-        //    var bizWorkDropDown = await MakeBizWork(mentorId, 0);
-        //    SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
-        //    ViewBag.SelectBizWorkList = bizList;
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
 
-        //    //기업 DropDwon List Data
-        //    var compInfoDropDown = await MakeBizComp(mentorId, 0, 0);
-        //    SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
-        //    ViewBag.SelectCompInfoList = compInfoList;
+            //사업년도 DownDown List Data
+            var bizWorkYearDropDown = MakeBizYear(2015);
+            SelectList bizWorkYear = new SelectList(bizWorkYearDropDown, "Value", "Text");
+            ViewBag.SelectBizWorkYearList = bizWorkYear;
 
-        //    return View();
-        //}
+            //사업 DropDown List Data
+            var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, param.BizWorkYear);
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            ViewBag.SelectBizWorkList = bizList;
 
+            //기업 DropDwon List Data
+            var compInfoDropDown = await MakeBizComp(mngCompSn, excutorId, param.BizWorkSn, param.BizWorkYear);
+            SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
+            ViewBag.SelectCompInfoList = compInfoList;
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> RegMentoringTotalReport(MentoringTotalReportViewModel dataRequestViewModel, IEnumerable<HttpPostedFileBase> files)
-        //{
-        //    ViewBag.LeftMenu = Global.MentoringReport;
+            //검색조건을 유지하기 위한
+            ViewBag.SelectParam = param;
 
-        //    var mentorId = Session[Global.LoginID].ToString();
+            ////종합보고서 조회
+            //var listscMentoringTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportAsync(mngCompSn, excutorId, param.BizWorkYear, param.BizWorkSn, param.CompSn);
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        var scMentoringTotalReport = Mapper.Map<ScMentoringTotalReport>(dataRequestViewModel);
+            ////맨토링 종합 레포트 정보 조회
+            //var listTotalReportView =
+            //   Mapper.Map<List<MentoringTotalReportViewModel>>(listscMentoringTotalReport);
 
-        //        scMentoringTotalReport.MentorId = mentorId;
-        //        scMentoringTotalReport.RegId = mentorId;
-        //        scMentoringTotalReport.RegDt = DateTime.Now;
-        //        scMentoringTotalReport.Status = "N";
-
-        //        //신규파일정보저장 및 파일업로드
-        //        if (files != null)
-        //        {
-        //            foreach (var file in files)
-        //            {
-        //                if (file != null)
-        //                {
-        //                    var fileHelper = new FileHelper();
-
-        //                    var savedFileName = fileHelper.GetUploadFileName(file);
-
-        //                    var subDirectoryPath = Path.Combine(FileType.Mentoring_Total.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
-
-        //                    var savedFilePath = Path.Combine(subDirectoryPath, savedFileName);
-
-        //                    var scFileInfo = new ScFileInfo { FileNm = Path.GetFileName(file.FileName), FilePath = savedFilePath, Status = "N", RegId = Session[Global.LoginID].ToString(), RegDt = DateTime.Now };
-
-        //                    var scMentoringTrFileInfo = new ScMentoringTrFileInfo { ScFileInfo = scFileInfo };
-        //                    scMentoringTrFileInfo.Classify = "A";
-
-        //                    scMentoringTotalReport.ScMentoringTrFileInfoes.Add(scMentoringTrFileInfo);
-
-        //                    await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
-        //                }
-        //            }
-        //        }
-
-        //        //저장
-        //        int result = await _scMentoringTotalReportService.AddScMentoringTotalReportAsync(scMentoringTotalReport);
-
-        //        if (result != -1)
-        //            return RedirectToAction("MentoringTotalReportList", "MentoringReport");
-        //        else
-        //        {
-        //            ModelState.AddModelError("", "자료요청 등록 실패.");
-        //            return View(dataRequestViewModel);
-        //        }
-        //    }
-        //    ModelState.AddModelError("", "입력값 검증 실패.");
-        //    return View(dataRequestViewModel);
-        //}
+            //int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            //return View(new StaticPagedList<MentoringTotalReportViewModel>(listTotalReportView.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, listTotalReportView.Count));
 
 
-        //[HttpPost]
-        //public async Task<JsonResult> DeleteMentoringTotalReport(string[] totalReportSns)
-        //{
-        //    ViewBag.LeftMenu = Global.MentoringReport;
+            //종합보고서 조회
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            var pagedListMentoringTotalReport = _scMentoringTotalReportService.GetMentoringTotalReportAsync(int.Parse(curPage ?? "1"), pagingSize, mngCompSn, excutorId, param.BizWorkYear, param.BizWorkSn, param.CompSn);
 
-        //    await _scMentoringTotalReportService.DeleteMentoringTotalReport(totalReportSns);
-
-        //    return Json(new { result = true });
-        //}
-
-        //public async Task<ActionResult> MentoringTotalReportDetail(int totalReportSn, SelectedMentorTotalReportParmModel selectParam)
-        //{
-        //    ViewBag.LeftMenu = Global.MentoringReport;
-
-        //    var scMentoringTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportById(totalReportSn);
-
-        //    var listscFileInfo = scMentoringTotalReport.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo).Where(fi => fi.Status == "N");
-
-        //    var listFileContent =
-        //       Mapper.Map<List<FileContent>>(listscFileInfo);
+            //맨토링 종합 레포트 정보 조회
+            var listTotalReportView =
+               Mapper.Map<List<MentoringTotalReportViewModel>>(pagedListMentoringTotalReport.ToList());
 
 
-        //    var totalReportViewModel =
-        //       Mapper.Map<MentoringTotalReportViewModel>(scMentoringTotalReport);
+            return View(new StaticPagedList<MentoringTotalReportViewModel>(listTotalReportView, int.Parse(curPage ?? "1"), pagingSize, pagedListMentoringTotalReport.TotalCount));
+        }
 
-        //    totalReportViewModel.FileContents = listFileContent;
+        public async Task<ActionResult> MentoringTotalReportListByMentor(SelectedMentorTotalReportParmModel param, string curPage)
+        {
+            ViewBag.LeftMenu = Global.Report;
 
-        //    //검색조건 유지를 위해
-        //    ViewBag.SelectParam = selectParam;
+            string excutorId = null;
 
-        //    return View(totalReportViewModel);
-        //}
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
 
-        //public async Task<ActionResult> MentoringTotalReportList(SelectedMentorTotalReportParmModel param, string curPage)
-        //{
-        //    ViewBag.LeftMenu = Global.MentoringReport;
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
 
-        //    var mentorId = Session[Global.LoginID].ToString();
+            //사업년도 DownDown List Data
+            var bizWorkYearDropDown = MakeBizYear(2015);
+            SelectList bizWorkYear = new SelectList(bizWorkYearDropDown, "Value", "Text");
+            ViewBag.SelectBizWorkYearList = bizWorkYear;
 
-        //    //사업 DropDown List Data
-        //    var bizWorkDropDown = await MakeBizWork(mentorId, param.BizWorkYear);
-        //    SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
-        //    ViewBag.SelectBizWorkList = bizList;
+            //사업 DropDown List Data
+            var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, param.BizWorkYear);
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            ViewBag.SelectBizWorkList = bizList;
 
-        //    //기업 DropDwon List Data
-        //    var compInfoDropDown = await MakeBizComp(mentorId, param.BizWorkSn, param.BizWorkYear);
-        //    SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
-        //    ViewBag.SelectCompInfoList = compInfoList;
+            //멘토 DropDwon List Data
+            var mentorDropDown = await MakeBizMentor(mngCompSn, excutorId, param.BizWorkSn, param.BizWorkYear);
+            SelectList mentorList = new SelectList(mentorDropDown, "LoginId", "Name");
+            ViewBag.SelectMentorList = mentorList;
 
-        //    //사업년도 DownDown List Data
-        //    var bizWorkYearDropDown = MakeBizYear(2015);
-        //    SelectList bizWorkYear = new SelectList(bizWorkYearDropDown, "Value", "Text");
-        //    ViewBag.SelectMentoringDtList = bizWorkYear;
+            //검색조건을 유지하기 위한
+            ViewBag.SelectParam = param;
 
-
-        //    //검색조건을 유지하기 위한
-        //    ViewBag.SelectParam = param;
-
-        //    //실제 쿼리
-        //    var listscMentoringTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportAsync(mentorId, param.BizWorkYear, param.BizWorkSn, param.CompSn);
-
-
-        //    //맨토링 종합 레포트 정보 조회
-        //    var listTotalReportView =
-        //       Mapper.Map<List<MentoringTotalReportViewModel>>(listscMentoringTotalReport);
-
-        //    int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
-        //    return View(new StaticPagedList<MentoringTotalReportViewModel>(listTotalReportView.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, listTotalReportView.Count));
-        //}
-        //#endregion
+            //종합보고서 조회
+            var listscMentoringTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportAsync(mngCompSn, excutorId, param.BizWorkYear, param.BizWorkSn, param.MentorId);
 
 
+            //맨토링 종합 레포트 정보 조회
+            var listTotalReportView =
+               Mapper.Map<List<MentoringTotalReportViewModel>>(listscMentoringTotalReport);
 
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            return View(new StaticPagedList<MentoringTotalReportViewModel>(listTotalReportView.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, listTotalReportView.Count));
+        }
+
+        public async Task<ActionResult> MentoringTotalReportDetail(int totalReportSn, SelectedMentorTotalReportParmModel selectParam, string searchType)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            var scMentoringTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportById(totalReportSn);
+
+            var listscFileInfo = scMentoringTotalReport.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo).Where(fi => fi.Status == "N");
+
+            var listFileContent =
+               Mapper.Map<List<FileContent>>(listscFileInfo);
+
+            var totalReportViewModel =
+               Mapper.Map<MentoringTotalReportViewModel>(scMentoringTotalReport);
+
+            totalReportViewModel.FileContents = listFileContent;
+
+            //검색조건 유지를 위해
+            ViewBag.SelectParam = selectParam;
+            //호출한 탭으로 돌아가기 위해
+            ViewBag.SearchType = searchType;
+
+            return View(totalReportViewModel);
+        }
+        #endregion
 
 
         #region 멘토 일지
@@ -223,6 +192,11 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
 
+            //사업년도 DownDown List Data
+            var bizWorkYearDropDown = MakeBizYear(2015);
+            SelectList bizWorkYear = new SelectList(bizWorkYearDropDown, "Value", "Text");
+            ViewBag.SelectBizWorkYearList = bizWorkYear;
+
             //사업 DropDown List Data
             var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, param.BizWorkYear);
             SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
@@ -232,12 +206,6 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             var compInfoDropDown = await MakeBizComp(mngCompSn,excutorId, param.BizWorkSn, param.BizWorkYear);
             SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
             ViewBag.SelectCompInfoList = compInfoList;
-
-            //사업년도 DownDown List Data
-            var bizWorkYearDropDown = MakeBizYear(2015);
-            SelectList bizWorkYear = new SelectList(bizWorkYearDropDown, "Value", "Text");
-            ViewBag.SelectMentoringDtList = bizWorkYear;
-
 
             //검색조건을 유지하기 위한
             ViewBag.SelectParam = param;
@@ -254,7 +222,51 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
         }
 
+        public async Task<ActionResult> MentoringReportListByMentor(SelectedMentorReportParmModel param, string curPage)
+        {
+            ViewBag.LeftMenu = Global.Report;
 
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
+
+            //사업년도 DownDown List Data
+            var bizWorkYearDropDown = MakeBizYear(2015);
+            SelectList bizWorkYear = new SelectList(bizWorkYearDropDown, "Value", "Text");
+            ViewBag.SelectBizWorkYearList = bizWorkYear;
+
+            //사업 DropDown List Data
+            var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, param.BizWorkYear);
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            ViewBag.SelectBizWorkList = bizList;
+
+            //멘토 DropDwon List Data
+            var mentorDropDown = await MakeBizMentor(mngCompSn, excutorId, param.BizWorkSn, param.BizWorkYear);
+            SelectList mentorList = new SelectList(mentorDropDown, "LoginId", "Name");
+            ViewBag.SelectMentorList = mentorList;
+
+
+            //검색조건을 유지하기 위한
+            ViewBag.SelectParam = param;
+
+            //맨토링 일지 정보 조회
+            var listscMentoringReport = await _scMentoringReportService.GetMentoringReportAsync(mngCompSn, excutorId, param.BizWorkYear, param.BizWorkSn, param.MentorId);
+
+            //맨토링 일지 정보 to 뷰모델 매핑
+            var listTotalReportView =
+               Mapper.Map<List<MentoringReportViewModel>>(listscMentoringReport);
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            return View(new StaticPagedList<MentoringReportViewModel>(listTotalReportView.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, listTotalReportView.Count));
+
+        }
+        
         public async Task<ActionResult> MentoringReportDetail(int reportSn, SelectedMentorReportParmModel selectParam, string searchType)
         {
             ViewBag.LeftMenu = Global.Report;
@@ -290,7 +302,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             //검색조건 유지를 위해
             ViewBag.SelectParam = selectParam;
-
+            //호출한 탭으로 돌아가기 위해
             ViewBag.SearchType = searchType;
 
             return View(reportViewModel);
@@ -334,7 +346,26 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             return Json(compInfoList);
         }
+
+        [HttpPost]
+        public async Task<JsonResult> getBizMentor(int bizWorkSn, int bizWorkYear)
+        {
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
+
+            var mentorList = await MakeBizMentor(mngCompSn, excutorId, bizWorkSn, bizWorkYear);
+
+            return Json(mentorList);
+        }
         #endregion
+
 
         #region 멘토링 관련 드롭다운리스트
         public IList<SelectListItem> MakeBizYear(int startYear)
@@ -377,10 +408,8 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             return bizWorkDropDown;
         }
 
-
         public async Task<IList<CompInfoDropDownModel>> MakeBizComp(int mngCompSn, string excutorId, int bizWorkSn, int bizWorkYear)
         {
-
             //기업 DropDwon List Data
             var listScCompInfo = await _scCompMappingService.GetBizWorkComList(mngCompSn, excutorId , bizWorkSn, bizWorkYear);
 
@@ -396,9 +425,27 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             compInfoDropDown.Insert(0, titleCompInfo);
 
-            //SelectList compInfoList = new SelectList(compInfoDropDown, "CompSn", "CompNm");
-
             return compInfoDropDown;
+        }
+
+        public async Task<IList<MentorDropDownModel>> MakeBizMentor(int mngCompSn, string excutorId, int bizWorkSn, int bizWorkYear)
+        {
+            //기업 DropDwon List Data
+            var listScUsr = await _scMentorMappingService.GetMentorListByBizMng(mngCompSn, excutorId, bizWorkSn, bizWorkYear);
+
+            var mentorDropDown =
+                Mapper.Map<List<MentorDropDownModel>>(listScUsr);
+
+            //기업 드롭다운 타이틀 추가
+            MentorDropDownModel titlementor = new MentorDropDownModel
+            {
+                LoginId = "",
+                Name = "멘토 선택"
+            };
+
+            mentorDropDown.Insert(0, titlementor);
+
+            return mentorDropDown;
         }
         #endregion
 

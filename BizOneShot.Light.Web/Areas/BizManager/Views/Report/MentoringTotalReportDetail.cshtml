@@ -1,16 +1,16 @@
 ﻿@model BizOneShot.Light.Models.ViewModels.MentoringTotalReportViewModel
 
 @{
-    Layout = "~/Areas/Mentor/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
 }
 
 
 <script>
     $(document).ready(function () {
         //top menu
-        $('#naviwrap_biz > .navi_biz > a.navi_mentor01').addClass('on');
+        $('#naviwrap_biz > .navi_biz > a.navi_business01').addClass('on');
         //left menu
-        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_mentoringTrList').addClass('on');
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_mentoringTotalReportList').addClass('on');
     });
 </script>
 
@@ -35,10 +35,6 @@
             <tr>
                 <th>사업명</th>
                 <td colspan="4">@Model.BizWorkNm</td>
-            </tr>
-            <tr>
-                <th>사업기간</th>
-                <td>@Model.BizWorkStDt.Value.ToString("yyyy-MM-dd") ~ @Model.BizWorkEdDt.Value.ToString("yyyy-MM-dd")</td>
             </tr>
             <tr>
                 <th>기업명</th>
@@ -93,7 +89,14 @@
 
     <div id="btnwrap_sub">
         <div class="rightwrap">
-            <a href="@Url.Action("MentoringTotalReportList","MentoringReport", new {BizWorkYear= @ViewBag.SelectParam.BizWorkYear, BizWorkSn = @ViewBag.SelectParam.BizWorkSn, CompSn = @ViewBag.SelectParam.CompSn })" class="list2 right"><em>목록</em></a>
+            @if (ViewBag.SearchType == "Comp")
+            {
+                <a href="@Url.Action("MentoringTotalReportListByComp", "Report", new { BizWorkYear = @ViewBag.SelectParam.BizWorkYear, BizWorkSn = @ViewBag.SelectParam.BizWorkSn, CompSn = @ViewBag.SelectParam.CompSn })" class="list2 right"><em>목록</em></a>
+            }
+            else
+            {
+                <a href="@Url.Action("MentoringTotalReportListByMentor", "Report", new { BizWorkYear = @ViewBag.SelectParam.BizWorkYear, BizWorkSn = @ViewBag.SelectParam.BizWorkSn, MentorId = @ViewBag.SelectParam.MentorId })" class="list2 right"><em>목록</em></a>
+            }
         </div>
     </div><!--btnwrap_sub//-->
 

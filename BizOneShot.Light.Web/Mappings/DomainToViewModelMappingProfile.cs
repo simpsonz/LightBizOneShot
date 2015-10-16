@@ -244,7 +244,10 @@ namespace BizOneShot.Light.Web.Mappings
             //맨토 토탈 레포트 뷰
             Mapper.CreateMap<ScMentoringTotalReport, MentoringTotalReportViewModel>()
                 .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
+                .ForMember(d => d.BizWorkStDt, map => map.MapFrom(s => s.ScBizWork.BizWorkStDt))
+                .ForMember(d => d.BizWorkEdDt, map => map.MapFrom(s => s.ScBizWork.BizWorkEdDt))
                 .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
+                .ForMember(d => d.MentorNm, map => map.MapFrom(s => s.ScUsr.Name))
                 .ForMember(d => d.FileContents, map => map.MapFrom(s => s.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo)));
 
             //멘토 일지 뷰
@@ -286,6 +289,7 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.LoginId, map => map.MapFrom(s => s.ScUsr.LoginId))
                 .ForMember(d => d.Name , map => map.MapFrom(s => s.ScUsr.Name));
 
+            Mapper.CreateMap<ScUsr, MentorDropDownModel>();
 
             //기업 회원 관리(사업관리자) 뷰 매핑
             Mapper.CreateMap<ScCompMapping, ExpertCompanyViewModel>()

@@ -17,8 +17,9 @@ namespace BizOneShot.Light.Services
     {
         Task<IList<int>> GetMentoringReportMentoringDt(string mentorId);
         Task<ScMentoringReport> GetMentoringReportById(int reportSn);
-        Task<IList<ScMentoringReport>> GetMentoringReportAsync(string mentorId, int bizWorkYear = 0, int bizWorkSn = 0, int CompSn = 0);
+        Task<IList<ScMentoringReport>> GetMentoringReportAsync(string mentorId, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0);
         Task<IList<ScMentoringReport>> GetMentoringReportAsync(int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0);
+        Task<IList<ScMentoringReport>> GetMentoringReportAsync(int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, string mentorId = null);
 
         Task DeleteMentoringReport(IList<string> listReportSn);
         //Task ModifyMentoringTRStatusDelete(string totalReportSn);
@@ -64,27 +65,6 @@ namespace BizOneShot.Light.Services
                     .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
                     .OrderByDescending(mtr => mtr.ReportSn)
                     .ToList();
-
-
-            //if (bizWorkYear == 0)
-            //{
-            //    return listScMentoringReport.Where(mtr => mtr.ScBizWork.BizWorkEdDt.Value >= date)
-            //        .Where(mtr => bizWorkSn == 0 ? mtr.BizWorkSn > bizWorkSn : mtr.BizWorkSn == bizWorkSn)
-            //        .Where(mtr => compSn == 0 ? mtr.CompSn > compSn : mtr.CompSn == compSn)
-            //        .OrderByDescending(mtr => mtr.ReportSn)
-            //        .ToList();
-            //}
-            //else
-            //{
-            //    return listScMentoringReport.Where(mtr => mtr.ScBizWork.BizWorkEdDt.Value >= date)
-            //        .Where(mtr => mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
-            //        .Where(mtr => bizWorkSn == 0 ? mtr.BizWorkSn > bizWorkSn : mtr.BizWorkSn == bizWorkSn)
-            //        .Where(mtr => compSn == 0 ? mtr.CompSn > compSn : mtr.CompSn == compSn)
-            //        .OrderByDescending(mtr => mtr.ReportSn)
-            //        .ToList();
-            //}
-
-          
         }
 
         public async Task<IList<ScMentoringReport>> GetMentoringReportAsync(int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0)
@@ -111,11 +91,32 @@ namespace BizOneShot.Light.Services
                     .OrderByDescending(mtr => mtr.ReportSn)
                     .ToList();
             }
-            
+        }
 
-     
-          
+        public async Task<IList<ScMentoringReport>> GetMentoringReportAsync(int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, string  mentorId = null)
+        {
+            if (string.IsNullOrEmpty(excutorId))
+            {
+                var listScMentoringReport = await scMentoringReportRepository.GetMentoringReport(mtr => mtr.ScBizWork.MngCompSn == mngComSn && mtr.Status == "N");
 
+                return listScMentoringReport
+                    .Where(mtr => bizWorkSn == 0 ? mtr.BizWorkSn > bizWorkSn : mtr.BizWorkSn == bizWorkSn)
+                    .Where(mtr => mentorId == null ? mtr.MentorId != null : mtr.MentorId == mentorId)
+                    .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
+                    .OrderByDescending(mtr => mtr.ReportSn)
+                    .ToList();
+            }
+            else
+            {
+                var listScMentoringReport = await scMentoringReportRepository.GetMentoringReport(mtr => mtr.ScBizWork.MngCompSn == mngComSn && mtr.ScBizWork.ExecutorId == excutorId && mtr.Status == "N");
+
+                return listScMentoringReport
+                   .Where(mtr => bizWorkSn == 0 ? mtr.BizWorkSn > bizWorkSn : mtr.BizWorkSn == bizWorkSn)
+                   .Where(mtr => mentorId == null ? mtr.MentorId != null : mtr.MentorId == mentorId)
+                   .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
+                   .OrderByDescending(mtr => mtr.ReportSn)
+                   .ToList();
+            }
         }
 
         public async Task DeleteMentoringReport(IList<string> listReportSn)

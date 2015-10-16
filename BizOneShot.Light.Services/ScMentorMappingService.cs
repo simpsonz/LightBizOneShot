@@ -15,6 +15,7 @@ namespace BizOneShot.Light.Services
         Task<ScMentorMappiing> GetMentor(int bizWorkSn, string mentorId);
         //Task<IList<ScMentorMappiing>> GetMentorMappingListByMentorId(string mentorId = null);
         Task<IList<ScMentorMappiing>> GetMentorMappingListByMentorId(string mentorId = null, int bizWorkYear = 0);
+        Task<IList<ScUsr>> GetMentorListByBizMng(int mngComSn, string excutorId = null, int bizWorkSn = 0, int bizWorkYear = 0);
         Task<int> AddMentorAsync(ScCompInfo scCompInfo);
     }
 
@@ -62,8 +63,6 @@ namespace BizOneShot.Light.Services
             return scMentorMapping;
         }
 
-
-
         public async Task<IList<ScMentorMappiing>> GetMentorMappingListByMentorId(string mentorId, int bizWorkYear = 0)
         {
             DateTime date = DateTime.Now.Date;
@@ -78,6 +77,31 @@ namespace BizOneShot.Light.Services
             {
                 return listScMentorMapping.Where(mmp => mmp.ScBizWork.BizWorkEdDt.Value >= date)
                     .Where(mmp => mmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear).ToList();
+            }
+        }
+
+
+        public async Task<IList<ScUsr>> GetMentorListByBizMng(int mngComSn, string excutorId = null, int bizWorkSn = 0, int bizWorkYear = 0)
+        {
+            if(string.IsNullOrEmpty(excutorId))
+            {
+                var listScMentorMapping = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.MngCompSn == mngComSn && mmp.Status == "N");
+
+                var listMentorInfo = listScMentorMapping.Where(mmp => bizWorkSn == 0 ? mmp.BizWorkSn > 0 : mmp.BizWorkSn == bizWorkSn)
+                    .Where(mmp => bizWorkYear == 0 ? mmp.ScBizWork.BizWorkStDt.Value.Year > 0 : mmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
+                    .Select(mmp => mmp.ScUsr).Distinct();
+
+                return listMentorInfo.OrderBy(mi => mi.Name).ToList();
+            }
+            else
+            {
+                var listScMentorMapping = await scMentorMappingRepository.GetMentorMappingsAsync(mmp => mmp.MngCompSn == mngComSn && mmp.ScBizWork.ExecutorId == excutorId && mmp.Status == "N");
+
+                var listMentorInfo = listScMentorMapping.Where(mmp => bizWorkSn == 0 ? mmp.BizWorkSn > 0 : mmp.BizWorkSn == bizWorkSn)
+                    .Where(mmp => bizWorkYear == 0 ? mmp.ScBizWork.BizWorkStDt.Value.Year > 0 : mmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
+                    .Select(mmp => mmp.ScUsr).Distinct();
+
+                return listMentorInfo.OrderBy(mi => mi.Name).ToList();
             }
         }
 

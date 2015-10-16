@@ -1,4 +1,5 @@
-﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.MentoringReportViewModel>
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.MentoringTotalReportViewModel>
+
 
 @{
     Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
@@ -9,9 +10,7 @@
         //top menu
         $('#naviwrap_biz > .navi_biz > a.navi_business01').addClass('on');
         //left menu
-        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_mentoringReportList').addClass('on');
-
-     
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_mentoringTotalReportList').addClass('on');
 
         //드롭다운리스트 처리
         $('#BizWorkYear').change(function () {
@@ -19,7 +18,7 @@
 
             $('#BizWorkSn').attr("disabled", false);
             $('#BizWorkSn').html("");
-          
+
             $.ajax({
                 url: '@Url.Action("getBizWork", "Report")',
                 type: "post",
@@ -39,17 +38,17 @@
             var bizWorkYear = $('#BizWorkYear').val();
             var bizWorkSn= $('#BizWorkSn').val();
 
-            $('#CompSn').attr("disabled", false);
-            $('#CompSn').html("");
+            $('#MentorId').attr("disabled", false);
+            $('#MentorId').html("");
             $.ajax({
-                url: '@Url.Action("getBizComp", "Report")',
+                url: '@Url.Action("getBizMentor", "Report")',
                 type: "post",
                 dataType: "json",
                 data: { bizWorkSn: bizWorkSn, bizWorkYear: bizWorkYear },
                 async: false,
                 success: function (result) {
                     for (var i = 0; i < result.length; i++) {
-                        $('#CompSn').append("<option value='" + result[i].CompSn + "'>" + result[i].CompNm + "</option>");
+                        $('#MentorId').append("<option value='" + result[i].LoginId + "'>" + result[i].Name + "</option>");
                     }
                 }
             });
@@ -64,28 +63,24 @@
     }
 </script>
 
-
-
 <div id="sub_rightwrap">
-    <div class="sub_right_title bizadmin_01_04"><em>멘토링 일지 현황</em></div>
+    <div class="sub_right_title bizadmin_01_05"><em>멘토링 종합보고서 현황</em></div>
 
-    <div id="tabswrap" class="tab01">
+    <div id="tabswrap" class="tab02">
         <!--기업별 멘토별 목록 탭-->
         <ul>
-            <li><a href="@Url.Action("MentoringReportListByComp", "Report",new { area= "BizManager"})" class="on">기업별</a></li>
-            <li><a href="@Url.Action("MentoringReportListByMentor", "Report",new { area= "BizManager"})">멘토별</a></li>
+            <li><a href="@Url.Action("MentoringTotalReportListByComp", "Report",new { area= "BizManager"})">기업별</a></li>
+            <li><a href="@Url.Action("MentoringTotalReportListByMentor", "Report",new { area= "BizManager"})" class="on">멘토별</a></li>
         </ul>
     </div>
 
-    @using (Html.BeginForm("MentoringReportListByComp", "Report", FormMethod.Post, new { area = "BizManager", id = "searchForm" }))
+    @using (Html.BeginForm("MentoringTotalReportListByMentor", "Report", FormMethod.Post, new { area = "BizManager", id = "searchForm" }))
     {
         <div id="sub_inquiry_box">
-
             @Html.DropDownList("BizWorkYear", ViewBag.SelectBizWorkYearList as SelectList, new { @class = "w130", @id = "BizWorkYear" })
-            @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150" , @id = "BizWorkSn" })
-            @Html.DropDownList("CompSn", ViewBag.SelectCompInfoList as SelectList, new { @class = "w150", @id = "CompSn" })
-          
-            <button type="submit" class="bt_report_present" value="현황 보고서">조회</button>
+            @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150", @id = "BizWorkSn" })
+            @Html.DropDownList("MentorId", ViewBag.SelectMentorList as SelectList, new { @class = "w150", @id = "MentorId" })
+            <button type="submit" class="bt_report_present" value="현황보고서">조회</button>
         </div><!--sub_inquiry_box//-->
         @Html.Hidden("curPage", "1")
     }
@@ -95,22 +90,22 @@
         <div class="tablewrap">
             <!--목록-->
             <table class="admin_list">
-                <caption>멘토링 일지 조회 목록</caption>
+                <caption>멘토링 종합보고서 조회</caption>
                 <colgroup>
                     <col width="17%">
+                    <col width="30%">
                     <col width="17%">
                     <col width="12%">
                     <col width="15%">
-                    <col width="12%">
-                    <col width="27%">
+                    <col width="9%">
                 </colgroup>
                 <tr>
                     <th class="topcen">사업</th>
+                    <th class="topcen">사업기간</th>
                     <th class="topcen">기업</th>
                     <th class="topcen">멘토</th>
-                    <th class="topcen">멘토링 일자</th>
-                    <th class="topcen">분야</th>
-                    <th class="topcen">멘토링 주제</th>
+                    <th class="topcen">작성 일자</th>
+                    <th class="topcen">보고서</th>
                 </tr>
 
                 @if (Model == null || Model.TotalItemCount == 0)
@@ -125,19 +120,19 @@
                     {
                         <tr>
                             <td>@item.BizWorkNm</td>
+                            <td>@item.BizWorkStDt.Value.ToString("yyyy-MM-dd") ~ @item.BizWorkEdDt.Value.ToString("yyyy-MM-dd")</td>
                             <td>@item.CompNm</td>
                             <td>@item.MentorNm</td>
-                            <td>@item.MentoringDt.Value.ToString("yyyy-MM-dd")</td>
-                            <td>@item.MentorAreaNm</td>
+                            <td>@item.SubmitDt.Value.ToString("yyyy-MM-dd")</td>
                             <td>
-                                <span class="blue">@Html.ActionLink(item.MentoringSubject.Length > 14 ? item.MentoringSubject.Substring(0, 14) + " .." : item.MentoringSubject, "MentoringReportDetail", new { reportSn = item.ReportSn, BizWorkYear = ViewBag.SelectParam.BizWorkYear, BizWorkSn = ViewBag.SelectParam.BizWorkSn, CompSn = ViewBag.SelectParam.CompSn, searchType = "Comp" })</span>
+                                <span class="full_line">@Html.ActionLink("보기", "MentoringTotalReportDetail", new {totalReportSn = item.TotalReportSn , BizWorkYear = ViewBag.SelectParam.BizWorkYear, BizWorkSn = ViewBag.SelectParam.BizWorkSn, MentorId = ViewBag.SelectParam.MentorId, searchType = "Mentor" })</span>
                             </td>
                         </tr>
                     }
                 }
             </table>
         </div><!--tablewrap//-->
-
+        
         @if (Model != null && Model.TotalItemCount != 0)
         {
             @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
