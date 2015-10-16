@@ -1,7 +1,8 @@
 ﻿@Scripts.Render("~/bundles/common")
 <div id="headerwrap_biz">
     <div class="container">
-        <a href="@Url.Action("Index","Main",new { area= "BizManager" })"><h1 class="gangneung_logo_small03"><em>강릉원주대학교 사업관리자</em></h1></a><a href="#" class="name">@if (Session[BizOneShot.Light.Web.ComLib.Global.UserNM] != null)
+        <a href="@Url.Action("Index","Main",new { area= "BizManager" })"><img src="~/images/gangneung_logo_small04.png" class="float_left" /></a>
+        <a href="#" class="name">@if (Session[BizOneShot.Light.Web.ComLib.Global.UserNM] != null)
         { @Session[BizOneShot.Light.Web.ComLib.Global.UserNM].ToString() } 님</a><a href="#" class="down"></a>
         <div id="header_logoutwrap">
             <!--로그아웃 레이어(클릭시 보임)-->

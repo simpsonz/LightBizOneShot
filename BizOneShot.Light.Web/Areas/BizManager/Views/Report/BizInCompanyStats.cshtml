@@ -1,0 +1,318 @@
+﻿@model BizOneShot.Light.Models.ViewModels.BizInCompanyStatsViewModel
+
+@{
+    Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz > a.navi_business01').addClass('on');
+        //left menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_bizInCompanyStats').addClass('on');
+
+        $('#BizWorkSn').change(function () {
+            ChangeBizWork();
+        });
+        $('#StartYear').change(function () {
+            ChangeStartYear();
+        });
+        $('#EndYear').change(function () {
+            ChangeEndYear();
+        });
+
+        $('#submit_form').bind('submit', function () {
+            if ($('#BizWorkSn').val() == "0") {
+                alert("사업을 하지 않았습니다.");
+                return false;
+            }
+
+            if ($('#StartYear').val() == "0") {
+                alert("시작 년을 선택을 하지 않았습니다.");
+                return false;
+            }
+
+            if ($('#StartMonth').val() == "0") {
+                alert("시작 월을 선택을 하지 않았습니다.");
+                return false;
+            }
+
+            if ($('#EndYear').val() == "0") {
+                alert("종료 년을 선택을 하지 않았습니다.");
+                return false;
+            }
+
+            if ($('#EndMonth').val() == "0") {
+                alert("종료 월을 선택을 하지 않았습니다.");
+                return false;
+            }
+            
+            var startDate = $('#StartYear').val() + $('#StartMonth').val();
+            var endDate = $('#EndYear').val() + $('#EndMonth').val();
+
+            if (startDate > endDate)
+            {
+                alert("종료 년월이 시작 년월보다 빠를 수는 없습니다.");
+                return false;
+            }
+        });
+    });
+
+    function ChangeBizWork() {
+
+        var bizWorkSn = $('#BizWorkSn').val();
+        if (bizWorkSn == 0) {
+            $('#StartYear').html("<option value='0'>년도선택</option>");
+            $('#StartMonth').html("<option value='0'>월선택</option>");
+            $('#EndYear').html("<option value='0'>년도선택</option>");
+            $('#EndMonth').html("<option value='0'>월선택</option>");
+        } else {
+            $('#StartYear').html("");
+            $('#EndYear').html("");
+            $.ajax({
+                url: '@Url.Action("GetYear", "Report", new { area = "BizManager" })',
+                type: "post",
+                dataType: "json",
+                data: { BizWorkSn: bizWorkSn },
+                async: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#StartYear').append("<option value='" + result[i].Value + "'>" + result[i].Text + "</option>");
+                        $('#EndYear').append("<option value='" + result[i].Value + "'>" + result[i].Text + "</option>");
+                    }
+                }
+            });
+        }
+    }
+
+    function ChangeStartYear() {
+        var bizWorkSn = $('#BizWorkSn').val();
+        var year = $('#StartYear').val();
+        if (year == 0) {
+            $('#StartMonth').html("<option value='0'>월선택</option>");
+        } else {
+            $('#StartMonth').html("");
+            $.ajax({
+                url: '@Url.Action("GetMonth", "Report", new { area = "BizManager" })',
+                type: "post",
+                dataType: "json",
+                data: {
+                    BizWorkSn: bizWorkSn,
+                    Year: year
+                },
+                async: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#StartMonth').append("<option value='" + result[i].Value + "'>" + result[i].Text + "</option>");
+                    }
+                }
+            });
+        }
+    }
+
+    function ChangeEndYear() {
+        var bizWorkSn = $('#BizWorkSn').val();
+        var year = $('#EndYear').val();
+        if (year == 0) {
+            $('#EndMonth').html("<option value='0'>월선택</option>");
+        } else {
+            $('#EndMonth').html("");
+            $.ajax({
+                url: '@Url.Action("GetMonth", "Report", new { area = "BizManager" })',
+                type: "post",
+                dataType: "json",
+                data: {
+                    BizWorkSn: bizWorkSn,
+                    Year: year
+                },
+                async: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#EndMonth').append("<option value='" + result[i].Value + "'>" + result[i].Text + "</option>");
+                    }
+                }
+            });
+        }
+    }
+</script>
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_04">
+        <em>참여기업 통계</em>
+    </div>
+@using (Html.BeginForm("BizInCompanyStats", "Report", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form", id = "submit_form" }))
+{
+    <div id="sub_inquiry_box">
+        @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150", @id = "BizWorkSn" })
+        <span class="noti_fo left_m">조회기간</span>
+        @Html.DropDownList("StartYear", ViewBag.SelectStartYearList as SelectList, new { @class = "w80", @id = "StartYear" })
+        @Html.DropDownList("StartMonth", ViewBag.SelectStartMonthList as SelectList, new { @class = "w80", @id = "StartMonth" })
+        <span class="noti_fo">~ </span>
+        @Html.DropDownList("EndYear", ViewBag.SelectEndYearList as SelectList, new { @class = "w80", @id = "EndYear" })
+        @Html.DropDownList("EndMonth", ViewBag.SelectEndMonthList as SelectList, new { @class = "w80", @id = "EndMonth" })
+        <button type="submit" class="bt_searchC" value="검색">검색</button>
+    </div>
+}
+    <!--sub_inquiry_box//-->
+@if (Model != null && Model.Display == "Y")
+{
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2 noline">
+            <div class="title_medium center top_padding bot_padding">
+                참여기업현황
+                요약
+            </div>
+        </div>
+        <div class="report_main_mid margin_t50">
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox noline nomargin2">
+                    <div class="listBox_tap longbg_on noline_a intend_10">
+                        <span>사업명</span>
+                        <text class="left_memo bold line_h22">@Model.BizWorkNm</text>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox nomargin2">
+                    <div class="listBox_tap longbg_on noline_a intend_10">
+                        <span>사업기간</span>
+                        <text class="left_memo bold line_h22">
+                            @Model.BizWorkStDt.GetValueOrDefault().ToShortDateString() ~ @Model.BizWorkEdDt.GetValueOrDefault().ToShortDateString()
+                        </text>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox nomargin2">
+                    <div class="listBox_tap longbg_on noline_a intend_10">
+                        <span>통계산출 기간</span>
+                        <text class="left_memo bold line_h22">@Model.StartYear . @Model.StartMonth ~ @Model.EndYear . @Model.EndMonth</text>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox nomargin2">
+                    <div class="listBox_tap longbg_on noline_a intend_10">
+                        <span>참여기업 수</span>
+                        <text class="left_memo bold line_h22">@Model.compnayStatsListViewModel.Count 개</text>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox nomargin2">
+                    <div class="listBox_tap longbg_on noline_a">
+                        <span>참여기업 매출</span>
+                    </div>
+                    <table class="join_info">
+                        <colgroup>
+
+                            <col width="20%">
+                            <col width="20%">
+
+                            <col width="20%">
+                            <col width="20%">
+
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td class="left_memo">총 합</td>
+                                <td class="left_memo">@Model.SumSales 천원</td>
+                                <td class="left_memo">기업별평균</td>
+                                <td class="left_memo">@Model.AvgSales 천원</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox nomargin2">
+                    <div class="listBox_tap longbg_on noline_a">
+                        <span>참여기업 고용인원</span>
+                    </div>
+                    <table class="join_info">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td class="left_memo">총 합</td>
+                                <td class="left_memo">@Model.SumEmploy 명</td>
+                                <td class="left_memo">기업별평균</td>
+                                <td class="left_memo">@Model.AvgEmploy 명</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <div class="main_mid_listBox nomargin2">
+                    <div class="listBox_tap longbg_on noline_a">
+                        <span>기업별매출 및 고용인원</span>
+                    </div>
+                    <table class="join_info">
+                        <colgroup>
+                            <col width="25%">
+                            <col width="25%">
+                            <col width="25%">
+                            <col width="25%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td class="left_memo">기 업</td>
+                                <td class="left_memo">기간 매출 합</td>
+                                <td class="left_memo">고용인원</td>
+                            </tr>
+                            @if (Model == null || Model.compnayStatsListViewModel.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="3" style="text-align:center;">사업에 참여한 기업이 없습니다.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in Model.compnayStatsListViewModel)
+                                {
+                                    <tr>
+                                        <td class="center_td">@item.CompNm</td>
+                                        <td class="center_td">@item.SumSales</td>
+                                        <td class="center_td">@item.CntEmploy</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="btnwrap_sub">
+        <div class="rightwrap right">
+            <button class="print" value="출력"></button>
+        </div>
+
+    </div>
+}
+</div>

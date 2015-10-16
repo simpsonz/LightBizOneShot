@@ -32,12 +32,11 @@ namespace BizOneShot.Light.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> FinanceMng()
+        public ActionResult FinanceMng()
         {
             ViewBag.LeftMenu = Global.Report;
 
             // 로그인 기업의 승인된 사업정보를 가져옮
-            var scCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(Session[Global.CompSN].ToString()), "A");
             ViewBag.SelectYearList = ReportHelper.MakeYear(2014);
             ViewBag.SelectMonthList = ReportHelper.MakeMonth();
 
@@ -64,7 +63,7 @@ namespace BizOneShot.Light.Web.Controllers
             // 로그인 기업의 승인된 사업정보를 가져옮
             var scCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(Session[Global.CompSN].ToString()), "A");
             ViewBag.SelectYearList = ReportHelper.MakeYear(2014);
-            ViewBag.SelectMonthList = ReportHelper.MakeMonth();
+            ViewBag.SelectMonthList = ReportHelper.MakeMonth(int.Parse(financeMngViewModel.Year));
 
             financeMngViewModel.Display = "Y";
             financeMngViewModel.CompNm = scCompMapping.ScCompInfo.CompNm;

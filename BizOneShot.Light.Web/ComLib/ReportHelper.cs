@@ -22,7 +22,7 @@ namespace BizOneShot.Light.Web.ComLib
             //사업년도
             var year = new List<SelectListItem>();
 
-            year.Add(new SelectListItem { Value = "", Text = "년도선택", Selected = true });
+            year.Add(new SelectListItem { Value = "0", Text = "년도선택", Selected = true });
 
             if(scBizWork != null)
             {
@@ -45,7 +45,7 @@ namespace BizOneShot.Light.Web.ComLib
         {
             //사업년도
             var year = new List<SelectListItem>();
-            year.Add(new SelectListItem { Value = "", Text = "년도선택", Selected = true });
+            year.Add(new SelectListItem { Value = "0", Text = "년도선택", Selected = true });
            
             for (int i = DateTime.Now.Year; i >= startYear; i--)
             {
@@ -69,7 +69,7 @@ namespace BizOneShot.Light.Web.ComLib
             //사업년도 범위의 월
             var momth = new List<SelectListItem>();
 
-            momth.Add(new SelectListItem { Value = "", Text = "월선택", Selected = true });
+            momth.Add(new SelectListItem { Value = "0", Text = "월선택", Selected = true });
 
             if(year > DateTime.Now.Year || scBizWork == null)
             {
@@ -135,7 +135,7 @@ namespace BizOneShot.Light.Web.ComLib
             //사업년도 범위의 월
             var momth = new List<SelectListItem>();
 
-            momth.Add(new SelectListItem { Value = "", Text = "월선택", Selected = true });
+            momth.Add(new SelectListItem { Value = "0", Text = "월선택", Selected = true });
 
             if(year == 0)
             {
@@ -161,6 +161,102 @@ namespace BizOneShot.Light.Web.ComLib
             return new SelectList(momth, "Value", "Text");
 
         }
+
+        public static SelectList MakeBizQuarter(ScBizWork scBizWork, int year = 0)
+        {
+            //사업년도 범위의 월
+            var quarter = new List<SelectListItem>();
+
+            quarter.Add(new SelectListItem { Value = "0", Text = "분기선택", Selected = true });
+
+            if (year > DateTime.Now.Year || scBizWork == null)
+            {
+                return new SelectList(quarter, "Value", "Text");
+            }
+
+            //사업시작년과 종료년이 같을경우
+            if (scBizWork.BizWorkStDt.GetValueOrDefault().Year == scBizWork.BizWorkEdDt.GetValueOrDefault().Year)
+            {
+                for (int i = scBizWork.BizWorkStDt.GetValueOrDefault().Month; i <= scBizWork.BizWorkEdDt.GetValueOrDefault().Month; i++)
+                {
+                    int tempQuarter = 0;
+                    if (year == DateTime.Now.Year && i == DateTime.Now.Month)
+                    {
+                        break;
+                    }
+
+                    int temp = ((i - 1) / 3) + 1;
+                    if(tempQuarter < temp)
+                    {
+                        tempQuarter = temp;
+                        quarter.Add(new SelectListItem { Value = temp.ToString(), Text = temp.ToString() + "분기" });
+                    }
+                }
+                return new SelectList(quarter, "Value", "Text");
+            }
+
+            //사업시작년이 선택년과 같을경우
+            if (year == scBizWork.BizWorkStDt.GetValueOrDefault().Year)
+            {
+                int tempQuarter = 0;
+                for (int i = scBizWork.BizWorkStDt.GetValueOrDefault().Month; i <= 12; i++)
+                {
+                    if (year == DateTime.Now.Year && i == DateTime.Now.Month)
+                    {
+                        break;
+                    }
+                    int temp = ((i - 1) / 3) + 1;
+                    if (tempQuarter < temp)
+                    {
+                        tempQuarter = temp;
+                        quarter.Add(new SelectListItem { Value = temp.ToString(), Text = temp.ToString() + "분기" });
+                    }
+                }
+                return new SelectList(quarter, "Value", "Text");
+            }
+
+            //사업 종료년이 선택년과 같을경우
+            if (year == scBizWork.BizWorkEdDt.GetValueOrDefault().Year)
+            {
+                int tempQuarter = 0;
+                for (int i = 1; i <= scBizWork.BizWorkStDt.GetValueOrDefault().Month; i++)
+                {
+                    if (year == DateTime.Now.Year && i == DateTime.Now.Month)
+                    {
+                        break;
+                    }
+                    int temp = ((i - 1) / 3) + 1;
+                    if (tempQuarter < temp)
+                    {
+                        tempQuarter = temp;
+                        quarter.Add(new SelectListItem { Value = temp.ToString(), Text = temp.ToString() + "분기" });
+                    }
+                }
+                return new SelectList(quarter, "Value", "Text");
+            }
+
+            //선택한 년도가 사업시작년도와 종료년도 사이에 있을경우
+            if(true)
+            { 
+                int tempQuarter = 0;
+                for (int i = 1; i <= 12; i++)
+                {
+                
+                    if (year == DateTime.Now.Year && i == DateTime.Now.Month)
+                    {
+                        break;
+                    }
+                    int temp = ((i - 1) / 3) + 1;
+                    if (tempQuarter < temp)
+                    {
+                        tempQuarter = temp;
+                        quarter.Add(new SelectListItem { Value = temp.ToString(), Text = temp.ToString() + "분기" });
+                    }
+                }
+                return new SelectList(quarter, "Value", "Text");
+            }
+        }
+
 
 
         //Cash Model 생성

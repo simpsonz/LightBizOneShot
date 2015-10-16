@@ -489,6 +489,10 @@
     <Content Include="Areas\Company\Views\Report\OrgCheck01.cshtml" />
     <Content Include="Areas\BizManager\Views\Report\MentoringReportListByComp.cshtml" />
     <Content Include="Areas\BizManager\Views\Report\MentoringReportDetail.cshtml" />
+    <Content Include="Areas\BizManager\Views\Report\BizInCompanyStats.cshtml" />
+    <Content Include="Areas\BizManager\Views\Report\CompanyMonthlyStats.cshtml" />
+    <Content Include="Areas\BizManager\Views\Report\CompanyQuarterlyStats.cshtml" />
+    <Content Include="Areas\BizManager\Views\Report\CompanyYearlyStats.cshtml" />
     <Content Include="Areas\BizManager\Views\Report\MentoringReportListByMentor.cshtml" />
     <Content Include="Areas\BizManager\Views\Report\MentoringTotalReportDetail.cshtml" />
     <Content Include="Areas\BizManager\Views\Report\MentoringTotalReportListByComp.cshtml" />
