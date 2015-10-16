@@ -19,6 +19,7 @@ namespace BizOneShot.Light.Services
         Task<ScCompMapping> GetCompMappingAsync(int compSn, string status = null);
         Task<IList<ScCompMapping>> GetExpertCompMappingsAsync(string expertId, int bizWorkSn = 0, string comName = null);
         Task<IList<ScCompMapping>> GetExpertCompMappingsForPopupAsync(string expertId, string query);
+        Task<IList<ScCompMapping>> GetCompMappingAsync(int bizWorkSn);
     }
 
 
@@ -47,6 +48,13 @@ namespace BizOneShot.Light.Services
         public async Task<ScCompMapping> GetCompMappingAsync(int bizWorkSn, int compSn)
         {
             var scCompMapping = await scCompMappingRepository.GetCompMappingAsync(scm => scm.BizWorkSn == bizWorkSn && scm.CompSn == compSn);
+
+            return scCompMapping;
+        }
+
+        public async Task<IList<ScCompMapping>> GetCompMappingAsync(int bizWorkSn)
+        {
+            var scCompMapping = await scCompMappingRepository.GetCompMappingsAsync(scm => scm.BizWorkSn == bizWorkSn);
 
             return scCompMapping;
         }

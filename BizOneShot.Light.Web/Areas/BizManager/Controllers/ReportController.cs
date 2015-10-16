@@ -400,6 +400,31 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             return compInfoDropDown;
         }
+
+
+        [HttpPost]
+        public async Task<JsonResult> GetMonth(int BizWorkSn, int Year)
+        {
+            var scBizWork = await _scBizWorkService.GetBizWorkByBizWorkSn(BizWorkSn);
+            var month = ReportHelper.MakeBizMonth(scBizWork, Year);
+            return Json(month);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetYear(int BizWorkSn)
+        {
+            var scBizWork = await _scBizWorkService.GetBizWorkByBizWorkSn(BizWorkSn);
+            var year = ReportHelper.MakeBizYear(scBizWork);
+            return Json(year);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetQuarter(int BizWorkSn, int Year)
+        {
+            var scBizWork = await _scBizWorkService.GetBizWorkByBizWorkSn(BizWorkSn);
+            var quarter = ReportHelper.MakeBizQuarter(scBizWork, Year);
+            return Json(quarter);
+        }
         #endregion
 
 
@@ -467,6 +492,267 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
         }
         #endregion
+
+
+        #region 참여기업 통계
+
+        public async Task<ActionResult> BizInCompanyStats()
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
+
+            var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, 0);
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            ViewBag.SelectBizWorkList = bizList;
+            ViewBag.SelectStartYearList = ReportHelper.MakeBizYear(null);
+            ViewBag.SelectStartMonthList = ReportHelper.MakeBizMonth(null);
+            ViewBag.SelectEndYearList = ReportHelper.MakeBizYear(null);
+            ViewBag.SelectEndMonthList = ReportHelper.MakeBizMonth(null);
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BizInCompanyStats(int BizWorkSn, int StartYear, int StartMonth, int EndYear, int EndMonth)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
+
+            var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, 0);
+            var scBizWork = await _scBizWorkService.GetBizWorkByBizWorkSn(BizWorkSn);
+
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            ViewBag.SelectBizWorkList = bizList;
+            ViewBag.SelectStartYearList = ReportHelper.MakeBizYear(scBizWork);
+            ViewBag.SelectStartMonthList = ReportHelper.MakeBizMonth(scBizWork, StartYear);
+            ViewBag.SelectEndYearList = ReportHelper.MakeBizYear(scBizWork);
+            ViewBag.SelectEndMonthList = ReportHelper.MakeBizMonth(scBizWork, EndYear);
+
+            var bizInCompanyStatsView =  Mapper.Map<BizInCompanyStatsViewModel>(scBizWork);
+            bizInCompanyStatsView.Display = "Y";
+
+            var scCompMappingList = await _scCompMappingService.GetCompMappingAsync(BizWorkSn);
+
+            bizInCompanyStatsView.compnayStatsListViewModel = Mapper.Map<List<CompnayStatsViewModel>>(scCompMappingList);
+            bizInCompanyStatsView.StartYear = StartYear.ToString();
+            bizInCompanyStatsView.StartMonth = StartMonth.ToString();
+            bizInCompanyStatsView.EndYear = EndYear.ToString();
+            bizInCompanyStatsView.EndMonth = EndMonth.ToString();
+
+            return View(bizInCompanyStatsView);
+        }
+        #endregion
+
+        #region 기업별 통계
+
+        public async Task<ActionResult> CompanyMonthlyStats()
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
+
+            var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, 0);
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            ViewBag.SelectBizWorkList = bizList;
+            ViewBag.SelectStartYearList = ReportHelper.MakeBizYear(null);
+            ViewBag.SelectStartMonthList = ReportHelper.MakeBizMonth(null);
+            ViewBag.SelectEndYearList = ReportHelper.MakeBizYear(null);
+            ViewBag.SelectEndMonthList = ReportHelper.MakeBizMonth(null);
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CompanyMonthlyStats(int BizWorkSn, int StartYear, int StartMonth, int EndYear, int EndMonth)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
+
+            var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, 0);
+            var scBizWork = await _scBizWorkService.GetBizWorkByBizWorkSn(BizWorkSn);
+
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            ViewBag.SelectBizWorkList = bizList;
+            ViewBag.SelectStartYearList = ReportHelper.MakeBizYear(scBizWork);
+            ViewBag.SelectStartMonthList = ReportHelper.MakeBizMonth(scBizWork, StartYear);
+            ViewBag.SelectEndYearList = ReportHelper.MakeBizYear(scBizWork);
+            ViewBag.SelectEndMonthList = ReportHelper.MakeBizMonth(scBizWork, EndYear);
+
+            var bizInCompanyStatsView = Mapper.Map<BizInCompanyStatsViewModel>(scBizWork);
+            bizInCompanyStatsView.Display = "Y";
+
+            var scCompMappingList = await _scCompMappingService.GetCompMappingAsync(BizWorkSn);
+
+            bizInCompanyStatsView.compnayStatsListViewModel = Mapper.Map<List<CompnayStatsViewModel>>(scCompMappingList);
+            bizInCompanyStatsView.StartYear = StartYear.ToString();
+            bizInCompanyStatsView.StartMonth = StartMonth.ToString();
+            bizInCompanyStatsView.EndYear = EndYear.ToString();
+            bizInCompanyStatsView.EndMonth = EndMonth.ToString();
+
+            return View(bizInCompanyStatsView);
+        }
+
+
+        public async Task<ActionResult> CompanyQuarterlyStats()
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
+
+            var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, 0);
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            ViewBag.SelectBizWorkList = bizList;
+            ViewBag.SelectStartYearList = ReportHelper.MakeBizYear(null);
+            ViewBag.SelectStartQuarterList = ReportHelper.MakeBizQuarter(null);
+            ViewBag.SelectEndYearList = ReportHelper.MakeBizYear(null);
+            ViewBag.SelectEndQuarterList = ReportHelper.MakeBizQuarter(null);
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CompanyQuarterlyStats(int BizWorkSn, int StartYear, int StartQuarter, int EndYear, int EndQuarter)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
+
+            var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, 0);
+            var scBizWork = await _scBizWorkService.GetBizWorkByBizWorkSn(BizWorkSn);
+
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            ViewBag.SelectBizWorkList = bizList;
+            ViewBag.SelectStartYearList = ReportHelper.MakeBizYear(scBizWork);
+            ViewBag.SelectStartQuarterList = ReportHelper.MakeBizQuarter(scBizWork, StartYear);
+            ViewBag.SelectEndYearList = ReportHelper.MakeBizYear(scBizWork);
+            ViewBag.SelectEndQuarterList = ReportHelper.MakeBizQuarter(scBizWork, EndYear);
+
+            var bizInCompanyStatsView = Mapper.Map<BizInCompanyStatsViewModel>(scBizWork);
+            bizInCompanyStatsView.Display = "Y";
+
+            var scCompMappingList = await _scCompMappingService.GetCompMappingAsync(BizWorkSn);
+
+            bizInCompanyStatsView.compnayStatsListViewModel = Mapper.Map<List<CompnayStatsViewModel>>(scCompMappingList);
+            bizInCompanyStatsView.StartYear = StartYear.ToString();
+            bizInCompanyStatsView.StartQuarter = StartQuarter.ToString();
+            bizInCompanyStatsView.EndYear = EndYear.ToString();
+            bizInCompanyStatsView.EndQuarter = EndQuarter.ToString();
+
+            return View(bizInCompanyStatsView);
+        }
+
+
+        public async Task<ActionResult> CompanyYearlyStats()
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
+
+            var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, 0);
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            ViewBag.SelectBizWorkList = bizList;
+            ViewBag.SelectStartYearList = ReportHelper.MakeBizYear(null);
+            ViewBag.SelectEndYearList = ReportHelper.MakeBizYear(null);
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CompanyYearlyStats(int BizWorkSn, int StartYear, int EndYear)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
+
+            var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, 0);
+            var scBizWork = await _scBizWorkService.GetBizWorkByBizWorkSn(BizWorkSn);
+
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            ViewBag.SelectBizWorkList = bizList;
+            ViewBag.SelectStartYearList = ReportHelper.MakeBizYear(scBizWork);
+            ViewBag.SelectEndYearList = ReportHelper.MakeBizYear(scBizWork);
+
+            var bizInCompanyStatsView = Mapper.Map<BizInCompanyStatsViewModel>(scBizWork);
+            bizInCompanyStatsView.Display = "Y";
+
+            var scCompMappingList = await _scCompMappingService.GetCompMappingAsync(BizWorkSn);
+
+            bizInCompanyStatsView.compnayStatsListViewModel = Mapper.Map<List<CompnayStatsViewModel>>(scCompMappingList);
+            bizInCompanyStatsView.StartYear = StartYear.ToString();
+            bizInCompanyStatsView.EndYear = EndYear.ToString();
+
+            return View(bizInCompanyStatsView);
+        }
+        #endregion
+
+
 
 
     }

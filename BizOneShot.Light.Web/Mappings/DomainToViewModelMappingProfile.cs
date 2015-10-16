@@ -356,7 +356,16 @@ namespace BizOneShot.Light.Web.Mappings
                .ForMember(d => d.PartialSum, map => map.MapFrom(s => s.ChiefCount + s.OfficerCount + s.BeginnerCount + s.StaffCount));
 
 
-            
+            //참여기업 통계
+            Mapper.CreateMap<ScBizWork, BizInCompanyStatsViewModel>();
+            Mapper.CreateMap<ScCompMapping, CompnayStatsViewModel>()
+                .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm));
+
+
+
+
+
+
 
 
 
