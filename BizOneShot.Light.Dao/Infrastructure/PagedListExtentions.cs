@@ -22,7 +22,7 @@ public class PagedList<T> : List<T>, IPagedList
     public int Page { get; private set; }
     public int PageSize { get; private set; }
 
-    public PagedList(IQueryable<T>source, int page, int pageSize)
+    public PagedList(IQueryable<T> source, int page, int pageSize)
     {
         TotalCount = source.Count();
         PageCount = GetPageCount(pageSize, TotalCount);
@@ -32,6 +32,7 @@ public class PagedList<T> : List<T>, IPagedList
         AddRange(source.Skip(Page * PageSize).Take(PageSize).ToList());
     }
 
+
     private int GetPageCount(int pageSize, int totalCount)
     {
         if (pageSize == 0)
@@ -40,6 +41,7 @@ public class PagedList<T> : List<T>, IPagedList
         var remainder = totalCount % pageSize;
         return (totalCount / pageSize) + (remainder == 0 ? 0 : 1);
     }
+
 }
 
 

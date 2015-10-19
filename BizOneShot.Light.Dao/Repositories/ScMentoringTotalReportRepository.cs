@@ -67,7 +67,7 @@ namespace BizOneShot.Light.Dao.Repositories
         {
             if (string.IsNullOrEmpty(excutorId))
             {
-                return DbContext.ScMentoringTotalReports
+                return  DbContext.ScMentoringTotalReports
                     .Include(mtr => mtr.ScBizWork)
                     .Include(mtr => mtr.ScCompInfo)
                     .Include(mtr => mtr.ScUsr)
@@ -81,7 +81,7 @@ namespace BizOneShot.Light.Dao.Repositories
             }
             else
             {
-                return DbContext.ScMentoringTotalReports
+                return  DbContext.ScMentoringTotalReports
                     .Include(mtr => mtr.ScBizWork)
                     .Include(mtr => mtr.ScCompInfo)
                     .Include(mtr => mtr.ScUsr)
