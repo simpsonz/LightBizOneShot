@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Models.WebModels;
+using BizOneShot.Light.Models.ViewModels;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -16,6 +17,7 @@ namespace BizOneShot.Light.Dao.Repositories
         Task<ScMentoringReport> GetMentoringReportById(int reportSn);
         Task<IList<ScMentoringReport>> GetMentoringReport(Expression<Func<ScMentoringReport, bool>> where);
         Task<ScMentoringReport> Insert(ScMentoringReport scMentoringReport);
+        Task<IList<MentoringStatsByCompanyGroupModel>> GetMentoringReportGroupBy(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth);
     }
 
 
@@ -53,5 +55,30 @@ namespace BizOneShot.Light.Dao.Repositories
         {
             return await Task.Run(() => DbContext.ScMentoringReports.Add(scMentoringReport));
         }
+
+
+
+        public async Task<IList<MentoringStatsByCompanyGroupModel>> GetMentoringReportGroupBy(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth)
+        {
+            var startDate = new DateTime(startYear, startMonth, 1);
+            var endDate = new DateTime(endYear, endMonth, DateTime.DaysInMonth(endYear, endMonth));
+
+            var a= await DbContext.ScMentoringReports
+                .Where(mr => mr.Status == "N")
+                .Where(mr => mr.BizWorkSn == bizWorkSn)
+                .Where(mr => mr.SubmitDt.Value >= startDate)
+                .Where(mr => mr.SubmitDt.Value <= endDate)
+                .GroupBy(mr => new { mr.CompSn, mr.MentorAreaCd })
+                .Select(g => new MentoringStatsByCompanyGroupModel
+                {
+                    CompSn = g.Key.CompSn.Value,
+                    ComNm =  DbContext.ScCompInfoes.Where(ci => ci.CompSn == g.Key.CompSn.Value).FirstOrDefault().CompNm,
+                    MentoringAreaCd = g.Key.MentorAreaCd,
+                    Count = g.Count()
+                }).ToListAsync();
+
+            return a;
+        }
+
     }
 }

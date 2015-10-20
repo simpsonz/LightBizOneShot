@@ -367,6 +367,33 @@ namespace BizOneShot.Light.Web.Mappings
 
 
 
+            //기업지원통계
+            Mapper.CreateMap<ScBizWork, MentoringCompanyStatsViewModel>()
+                .ForMember(d => d.AvgMentoringDays, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoringDays, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_D, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_F, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_L, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_M, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_P, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_T, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_W, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_Z, map => map.UseValue(0));
+            Mapper.CreateMap<ScCompMapping, MentoringStatByCompanyViewModel>()
+                .ForMember(d => d.ComSn, map => map.MapFrom(s => s.ScCompInfo.CompSn))
+                .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
+                .ForMember(d => d.AvgMentoringDays, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoringDays, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_D, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_F, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_L, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_M, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_P, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_T, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_W, map => map.UseValue(0))
+                .ForMember(d => d.SumMentoring_Z, map => map.UseValue(0));
+
+
 
 
 

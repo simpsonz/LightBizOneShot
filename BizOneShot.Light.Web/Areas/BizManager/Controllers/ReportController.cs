@@ -540,6 +540,171 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         }
         #endregion
 
+        #region 기업지원 통계
+        public async Task<ActionResult> MentoringCompanyStats()
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
+
+            var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, 0);
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            ViewBag.SelectBizWorkList = bizList;
+            ViewBag.SelectStartYearList = ReportHelper.MakeBizYear(null);
+            ViewBag.SelectStartMonthList = ReportHelper.MakeBizMonth(null);
+            ViewBag.SelectEndYearList = ReportHelper.MakeBizYear(null);
+            ViewBag.SelectEndMonthList = ReportHelper.MakeBizMonth(null);
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> MentoringCompanyStats(int BizWorkSn, int StartYear, int StartMonth, int EndYear, int EndMonth)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            string excutorId = null;
+
+            //사업담당자 일 경우 담당 사업만 조회
+            if (Session[Global.UserDetailType].ToString() == "M")
+            {
+                excutorId = Session[Global.LoginID].ToString();
+            }
+
+            int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
+
+            var bizWorkDropDown = await MakeBizWork(mngCompSn, excutorId, 0);
+            var scBizWork = await _scBizWorkService.GetBizWorkByBizWorkSn(BizWorkSn);
+
+            SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
+            ViewBag.SelectBizWorkList = bizList;
+            ViewBag.SelectStartYearList = ReportHelper.MakeBizYear(scBizWork);
+            ViewBag.SelectStartMonthList = ReportHelper.MakeBizMonth(scBizWork, StartYear);
+            ViewBag.SelectEndYearList = ReportHelper.MakeBizYear(scBizWork);
+            ViewBag.SelectEndMonthList = ReportHelper.MakeBizMonth(scBizWork, EndYear);
+
+            var mentoringCompanyStatsViewModel = Mapper.Map<MentoringCompanyStatsViewModel>(scBizWork);
+
+            mentoringCompanyStatsViewModel.Display = "Y";
+
+            mentoringCompanyStatsViewModel.StartYear = StartYear.ToString();
+            mentoringCompanyStatsViewModel.StartMonth = StartMonth.ToString();
+            mentoringCompanyStatsViewModel.EndYear = EndYear.ToString();
+            mentoringCompanyStatsViewModel.EndMonth = EndMonth.ToString();
+
+            var listScCompMapping = await _scCompMappingService.GetCompMappingAsync(BizWorkSn);
+
+            var listMentoringStatByCompanyViewModel = Mapper.Map<List<MentoringStatByCompanyViewModel>>(listScCompMapping);
+
+
+            //실제 카운트 가져옴
+            var listMentoringStatsByCompanyGroupModel = await _scMentoringReportService.GetMentoringReportGroupBy(BizWorkSn, StartYear, StartMonth, EndYear, EndMonth);
+
+            //foreach(var mentoringStatsByCompanyGroupModel in listMentoringStatsByCompanyGroupModel.AsEnumerable())
+            //{
+            //    var comSn = mentoringStatsByCompanyGroupModel.CompSn;
+            //    var mentoringAreaCd = mentoringStatsByCompanyGroupModel.MentoringAreaCd;
+            //    var count = mentoringStatsByCompanyGroupModel.Count;
+
+            //    var mentoringStatByCompanyViewModel = listMentoringStatByCompanyViewModel.Where(msc => msc.ComSn == comSn).FirstOrDefault();
+
+            //    switch (mentoringAreaCd)
+            //    {
+            //        case "D":
+            //            mentoringStatByCompanyViewModel.SumMentoring_D = count;
+            //            break;
+            //        case "F":
+            //            mentoringStatByCompanyViewModel.SumMentoring_F = count;
+            //            break;
+            //        case "L":
+            //            mentoringStatByCompanyViewModel.SumMentoring_L = count;
+            //            break;
+            //        case "M":
+            //            mentoringStatByCompanyViewModel.SumMentoring_M = count;
+            //            break;
+            //        case "P":
+            //            mentoringStatByCompanyViewModel.SumMentoring_P = count;
+            //            break;
+            //        case "T":
+            //            mentoringStatByCompanyViewModel.SumMentoring_T = count;
+            //            break;
+            //        case "W":
+            //            mentoringStatByCompanyViewModel.SumMentoring_W = count;
+            //            break;
+            //        case "Z":
+            //            mentoringStatByCompanyViewModel.SumMentoring_Z = count;
+            //            break;
+            //    }
+            //}
+
+            var diffMonth = 12 * (EndYear - StartYear) + (EndMonth - StartMonth) + 1;
+            int totalCount=0, totalCount_D=0, totalCount_F=0, totalCount_L=0, totalCount_M=0, totalCount_P=0, totalCount_T=0, totalCount_W=0, totalCount_Z =0 ;
+            foreach (var mentoringStatByCompanyViewModel in listMentoringStatByCompanyViewModel.AsEnumerable())
+            {
+                var comSn = mentoringStatByCompanyViewModel.ComSn;
+
+
+                int Count_D = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "D").FirstOrDefault() == null ? Count_D = 0 : Count_D = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "D").FirstOrDefault().Count;
+                int Count_F = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "F").FirstOrDefault() == null ? Count_F = 0 : Count_F = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "F").FirstOrDefault().Count;
+                int Count_L = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "L").FirstOrDefault() == null ? Count_L = 0 : Count_L = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "L").FirstOrDefault().Count;
+                int Count_M = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "M").FirstOrDefault() == null ? Count_M = 0 : Count_M = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "M").FirstOrDefault().Count;
+                int Count_P = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "P").FirstOrDefault() == null ? Count_P = 0 : Count_P = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "P").FirstOrDefault().Count;
+                int Count_T = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "T").FirstOrDefault() == null ? Count_T = 0 : Count_T = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "T").FirstOrDefault().Count;
+                int Count_W = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "W").FirstOrDefault() == null ? Count_W = 0 : Count_W = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "W").FirstOrDefault().Count;
+                int Count_Z = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "Z").FirstOrDefault() == null ? Count_Z = 0 : Count_Z = listMentoringStatsByCompanyGroupModel.Where(mtcg => mtcg.CompSn == comSn && mtcg.MentoringAreaCd == "Z").FirstOrDefault().Count;
+
+                mentoringStatByCompanyViewModel.SumMentoring_D = Count_D;
+                mentoringStatByCompanyViewModel.SumMentoring_F = Count_F;
+                mentoringStatByCompanyViewModel.SumMentoring_L = Count_L;
+                mentoringStatByCompanyViewModel.SumMentoring_M = Count_M;
+                mentoringStatByCompanyViewModel.SumMentoring_P = Count_P;
+                mentoringStatByCompanyViewModel.SumMentoring_T = Count_T;
+                mentoringStatByCompanyViewModel.SumMentoring_W = Count_W;
+                mentoringStatByCompanyViewModel.SumMentoring_Z = Count_Z;
+
+                var totalCountByCompany = Count_D + Count_F + Count_L + Count_M + Count_P + Count_T + Count_W + Count_Z;
+                mentoringStatByCompanyViewModel.SumMentoringDays = totalCountByCompany;
+                mentoringStatByCompanyViewModel.AvgMentoringDays = totalCountByCompany == 0 ?  0 : Math.Round((double)totalCountByCompany / (double)diffMonth ,2);
+
+                totalCount += totalCountByCompany;
+                totalCount_D += Count_D;
+                totalCount_F += Count_F;
+                totalCount_L += Count_L;
+                totalCount_M += Count_M;
+                totalCount_P += Count_P;
+                totalCount_T += Count_T;
+                totalCount_W += Count_W;
+                totalCount_Z += Count_Z;
+            }
+
+
+            mentoringCompanyStatsViewModel.SumMentoringDays = totalCount;
+            mentoringCompanyStatsViewModel.AvgMentoringDays = totalCount == 0 ? 0 : Math.Round((double)totalCount / (double)listMentoringStatByCompanyViewModel.Count, 2);
+            mentoringCompanyStatsViewModel.SumMentoring_D = totalCount_D;
+            mentoringCompanyStatsViewModel.SumMentoring_F = totalCount_F;
+            mentoringCompanyStatsViewModel.SumMentoring_L = totalCount_L;
+            mentoringCompanyStatsViewModel.SumMentoring_M = totalCount_M;
+            mentoringCompanyStatsViewModel.SumMentoring_P = totalCount_P;
+            mentoringCompanyStatsViewModel.SumMentoring_T = totalCount_T;
+            mentoringCompanyStatsViewModel.SumMentoring_W = totalCount_W;
+            mentoringCompanyStatsViewModel.SumMentoring_Z = totalCount_Z;
+
+
+            mentoringCompanyStatsViewModel.MentoringStatByCompanyViewModel = listMentoringStatByCompanyViewModel;
+
+            return View(mentoringCompanyStatsViewModel);
+
+        }
+        #endregion
+
 
         #region 참여기업 통계
 

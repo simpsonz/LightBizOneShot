@@ -26,6 +26,8 @@ namespace BizOneShot.Light.Services
 
         Task<int> AddScMentoringReportAsync(ScMentoringReport scMentoringReport);
         Task ModifyScMentoringReportAsync(ScMentoringReport scMentoringReport);
+
+        Task<IList<MentoringStatsByCompanyGroupModel>> GetMentoringReportGroupBy(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth);
     }
 
 
@@ -168,6 +170,13 @@ namespace BizOneShot.Light.Services
         }
 
 
+        //기업지원 통계 (기업별)
+        public async Task<IList<MentoringStatsByCompanyGroupModel>> GetMentoringReportGroupBy(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth)
+        {
+            return await scMentoringReportRepository.GetMentoringReportGroupBy(bizWorkSn, startYear, startMonth, endYear, endMonth);
+        }
+
+
 
         #region SaveDbContext
         public void SaveDbContext()
@@ -180,10 +189,10 @@ namespace BizOneShot.Light.Services
             return await unitOfWork.CommitAsync();
         }
 
-        public Task<IList<ScMentoringTotalReport>> GetMentoringTotalReportAsync(string submitDate = null, int bizWorkSn = 0, int CompSn = 0)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<IList<ScMentoringTotalReport>> GetMentoringTotalReportAsync(string submitDate = null, int bizWorkSn = 0, int CompSn = 0)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         #endregion
     }
