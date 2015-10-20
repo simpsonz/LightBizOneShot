@@ -627,9 +627,9 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
         }
 
 
-        public async Task DownloadTRReportFileMulti()
+        public async Task DownloadTRReportFileMulti(string totalReportSn)
         {
-            string totalReportSn = Request.QueryString["TotalReportSn"];
+            //string totalReportSn = Request.QueryString["TotalReportSn"];
 
             string archiveName = "download.zip";
 
@@ -648,9 +648,9 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
 
         }
 
-        public async Task DownloadReportFileMulti()
+        public async Task DownloadReportFileMulti(string reportSn)
         {
-            string reportSn = Request.QueryString["ReportSn"];
+            //string reportSn = Request.QueryString["ReportSn"];
 
             string archiveName = "download.zip";
 
