@@ -30,6 +30,10 @@ namespace BizOneShot.Light.Models.WebModels
         public string MentorId { get; set; } // MENTOR_ID. 로그인식별자
         public int? SaveStatus { get; set; } // SAVE_STATUS. 저장단계를 저장    최초 : 0  작성자 : 1  기업정보 :2  ....
         public string Status { get; set; } // STATUS. 작성중 : P  작성완료 : C  삭제 : D
+        public DateTime? RegDt { get; set; } // REG_DT
+        public string RegId { get; set; } // REG_ID
+        public DateTime? UpdDt { get; set; } // UPD_DT
+        public string UpdId { get; set; } // UPD_ID
 
         // Foreign keys
         public virtual QuesMaster QuesMaster { get; set; } // FK_QUES_MASTER_TO_RPT_MASTER

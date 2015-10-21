@@ -1,8 +1,10 @@
-﻿@model BizOneShot.Light.Models.ViewModels.BasicSurveyReportViewModels
+﻿@model BizOneShot.Light.Models.ViewModels.BasicSurveyReportViewModel
 
 @{
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+
+
 
 <div id="sub_rightwrap_report">
 
@@ -66,11 +68,12 @@
     <div id="btnwrap_sub" class="bottom_left2">
 
         <div class="rightwrap left">
-            <button type="submit" class="pre" value="이전" />
+            <a href="@Url.Action("CompanyInfo", "BasicSurveyReport", new { area = "" , BizWorkSn = Model.BizWorkSn, CompSn = Model.CompSn, BizWorkYear = Model.BizWorkYear, Status = Model.Status, QuestionSn = Model.QuestionSn})" class="pre left" value="이전"><em>이전</em></a>
 
         </div>
         <div class="rightwrap right">
-            <button type="submit" class="next" value="다음" />
+            <a href="@Url.Action("OverallSummary", "BasicSurveyReport", new { area = "" , BizWorkSn = Model.BizWorkSn, CompSn = Model.CompSn, BizWorkYear = Model.BizWorkYear, Status = Model.Status, QuestionSn =Model.QuestionSn})" class="next right" value="다음"><em>다음</em></a>
+
         </div>
     </div>
 </div>

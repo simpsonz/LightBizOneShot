@@ -67,6 +67,7 @@
     <Compile Include="Repositories\QuesMasterRepository.cs" />
     <Compile Include="Repositories\QuesResult1Repository.cs" />
     <Compile Include="Repositories\QuesResult2Repository.cs" />
+    <Compile Include="Repositories\RptMasterRepository.cs" />
     <Compile Include="Repositories\ScBizWorkRepository.cs" />
     <Compile Include="Repositories\ScCompMappingRepository.cs" />
     <Compile Include="Repositories\ScExpertMappingRepository.cs" />

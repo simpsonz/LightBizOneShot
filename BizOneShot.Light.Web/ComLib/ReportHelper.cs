@@ -49,7 +49,7 @@ namespace BizOneShot.Light.Web.ComLib
         public static SelectList MakeReportStatusList()
         {
             var statusList = new List<SelectListItem>();
-            statusList.Add(new SelectListItem { Value = "0", Text = "작성상태 선택", Selected = true });
+            statusList.Add(new SelectListItem { Value = "", Text = "작성상태 선택", Selected = true });
             statusList.Add(new SelectListItem { Value = "T", Text = "미작성", Selected = true });
             statusList.Add(new SelectListItem { Value = "W", Text = "작성중", Selected = true });
             statusList.Add(new SelectListItem { Value = "C", Text = "작성완료", Selected = true });

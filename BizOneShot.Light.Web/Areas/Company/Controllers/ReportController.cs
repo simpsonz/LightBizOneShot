@@ -22,8 +22,10 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         private readonly IQuesResult1Service _quesResult1Service;
         private readonly IQuesResult2Service _quesResult2Service;
         private readonly IScUsrService _scUsrService;
+        private readonly IScCompMappingService _scCompMappingService;
+        private readonly IRptMasterService _rptMasterService;
 
-        public ReportController(IQuesMasterService _quesMasterService, IQuesCompInfoService _quesCompInfoService, IScUsrService _scUsrService, IQuesCheckListService _quesCheckListService, IQuesResult1Service _quesResult1Service, IQuesResult2Service _quesResult2Service)
+        public ReportController(IQuesMasterService _quesMasterService, IQuesCompInfoService _quesCompInfoService, IScUsrService _scUsrService, IQuesCheckListService _quesCheckListService, IQuesResult1Service _quesResult1Service, IQuesResult2Service _quesResult2Service, IScCompMappingService _scCompMappingService, IRptMasterService _rptMasterService)
         {
             this._quesMasterService = _quesMasterService;
             this._scUsrService = _scUsrService;
@@ -31,6 +33,8 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             this._quesCheckListService = _quesCheckListService;
             this._quesResult1Service = _quesResult1Service;
             this._quesResult2Service = _quesResult2Service;
+            this._scCompMappingService = _scCompMappingService;
+            this._rptMasterService = _rptMasterService;
         }
 
         // GET: Company/Report
@@ -2318,12 +2322,30 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         {
             ViewBag.LeftMenu = Global.Report;
             int questionSn = quesViewModel.QuestionSn;
+            string compSn = Session[Global.CompSN].ToString();
 
             if (quesViewModel.QuestionSn > 0)
             {
                 var quesMaster = await _quesMasterService.GetQuesMasterAsync(questionSn);
                 quesMaster.Status = "C";
                 await _quesMasterService.SaveDbContextAsync();
+
+                var compMappings = await _scCompMappingService.GetCompMappingsForCompanyAsync(int.Parse(compSn));
+                for(int i = 0; i < compMappings.Count; i++)
+                {
+                    RptMaster rptMaster = new RptMaster();
+                    rptMaster.BasicYear = quesMaster.BasicYear.Value;
+                    rptMaster.BizWorkSn = compMappings[i].BizWorkSn;
+                    rptMaster.Status = "T";
+                    rptMaster.QuestionSn = questionSn;
+                    rptMaster.CompSn = int.Parse(compSn);
+                    rptMaster.MentorId = compMappings[i].MentorId;
+                    rptMaster.RegDt = DateTime.Now;
+                    rptMaster.RegId = Session[Global.LoginID].ToString();
+
+                    await _rptMasterService.AddRptMasterAsync(rptMaster);
+                }
+
             }
             else
             {

@@ -177,11 +177,11 @@
     </div>
     <div id="btnwrap_sub" class="bottom_left2">
         <div class="rightwrap left">
-            <button type="submit" class="pre" value="이전" />
+            <a href="@Url.Action("Cover", "BasicSurveyReport", new { area = "" , BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn})" class="pre left" value="이전"><em>이전</em></a>
 
         </div>
         <div class="rightwrap right">
-            <a href="@Url.Action("OverallSummaryCover", "BasicSurveyReport", new { area = "" , @QuestionSn = Model.QuestionSn, @status = Model.Status})" class="next right" value="다음"><em>다음</em></a>
+            <a href="@Url.Action("OverallSummaryCover", "BasicSurveyReport", new { area = "" , BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn})" class="next right" value="다음"><em>다음</em></a>
             <!--STEP06 에서 다음 숨김-->
         </div>
 

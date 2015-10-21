@@ -1482,6 +1482,7 @@
     <Content Include="Views\BasicSurveyReport\CompanyInfo.cshtml" />
     <Content Include="Views\BasicSurveyReport\OverallSummaryCover.cshtml" />
     <Content Include="Views\BasicSurveyReport\BasicSurveyCompanyList.cshtml" />
+    <Content Include="Views\BasicSurveyReport\OverallSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
