@@ -106,7 +106,6 @@
     <Compile Include="DareModels\SHUSER_SyUser.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\BasicSurveyReportViewModels.cs" />
     <Compile Include="ViewModels\BasicSurveyViewModels.cs" />
     <Compile Include="ViewModels\BizViewModels.cs" />
     <Compile Include="ViewModels\CommonViewModel.cs" />

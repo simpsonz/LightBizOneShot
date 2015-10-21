@@ -174,6 +174,7 @@ namespace BizOneShot.Light.Services
         public async Task<IList<MentoringStatsByCompanyGroupModel>> GetMentoringReportGroupBy(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth)
         {
             return await scMentoringReportRepository.GetMentoringReportGroupBy(bizWorkSn, startYear, startMonth, endYear, endMonth);
+
         }
 
 
