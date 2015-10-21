@@ -12,6 +12,50 @@ namespace BizOneShot.Light.Web.ComLib
 {
     public static class ReportHelper
     {
+        public static SelectList MakeBizWorkList(IList<ScBizWork> scBizWorkList)
+        {
+            var bizWorkList = new List<SelectListItem>();
+            bizWorkList.Add(new SelectListItem { Value = "0", Text = "사업명 선택", Selected = true });
+
+            if(scBizWorkList != null)
+            {
+                foreach(var item in scBizWorkList)
+                { 
+                    bizWorkList.Add(new SelectListItem { Value = item.BizWorkSn.ToString(), Text = item.BizWorkNm });
+                }
+            }
+
+            SelectList list = new SelectList(bizWorkList, "Value", "Text");
+            return list;
+        }
+
+        public static SelectList MakeCompanyList(IList<ScCompInfo> scCompInfoList)
+        {
+            var companyList = new List<SelectListItem>();
+            companyList.Add(new SelectListItem { Value = "0", Text = "기업명 선택", Selected = true });
+
+            if (scCompInfoList != null)
+            {
+                foreach (var item in scCompInfoList)
+                {
+                    companyList.Add(new SelectListItem { Value = item.CompSn.ToString(), Text = item.CompNm });
+                }
+            }
+
+            SelectList list = new SelectList(companyList, "Value", "Text");
+            return list;
+        }
+
+        public static SelectList MakeReportStatusList()
+        {
+            var statusList = new List<SelectListItem>();
+            statusList.Add(new SelectListItem { Value = "0", Text = "작성상태 선택", Selected = true });
+            statusList.Add(new SelectListItem { Value = "T", Text = "미작성", Selected = true });
+            statusList.Add(new SelectListItem { Value = "W", Text = "작성중", Selected = true });
+            statusList.Add(new SelectListItem { Value = "C", Text = "작성완료", Selected = true });
+            SelectList list = new SelectList(statusList, "Value", "Text");
+            return list;
+        }
         /// <summary>
         /// 사업정보를 이용하여 사업의 시작년 부터 종료년 까지 년도 리스트 생성
         /// </summary>

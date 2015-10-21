@@ -82,7 +82,10 @@ namespace BizOneShot.Light.Web.Controllers
         {
             //사업년도 DownDown List Data
             ViewBag.SelectBizWorkYearList = ReportHelper.MakeYear(2015);
-
+            
+            ViewBag.SelectBizWorkList = ReportHelper.MakeBizWorkList(null);
+            ViewBag.SelectCompInfoList = ReportHelper.MakeCompanyList(null);
+            ViewBag.SelectStatusList = ReportHelper.MakeReportStatusList();
             return View();
         }
     }
