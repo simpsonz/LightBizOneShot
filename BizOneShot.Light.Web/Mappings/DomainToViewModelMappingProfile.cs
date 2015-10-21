@@ -394,6 +394,15 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.SumMentoring_Z, map => map.UseValue(0));
 
 
+            //기초역량 보고서 기업리스트
+            Mapper.CreateMap<RptMaster, BasicSurveyReportViewModel>()
+               .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
+               .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
+               .ForMember(d => d.BizWorkYear, map => map.MapFrom(s => s.BasicYear))
+               .ForMember(d => d.QuestionCompleteDt, map => map.MapFrom(s => s.RegDt))
+            ;
+
+
 
 
 

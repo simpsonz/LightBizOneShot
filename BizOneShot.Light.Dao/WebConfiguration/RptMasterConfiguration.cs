@@ -43,6 +43,10 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.MentorId).HasColumnName("MENTOR_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.SaveStatus).HasColumnName("SAVE_STATUS").IsOptional().HasColumnType("int");
             Property(x => x.Status).HasColumnName("STATUS").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
+            Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
+            Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
+            Property(x => x.UpdDt).HasColumnName("UPD_DT").IsOptional().HasColumnType("datetime");
+            Property(x => x.UpdId).HasColumnName("UPD_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
 
             // Foreign keys
             HasOptional(a => a.ScUsr).WithMany(b => b.RptMasters).HasForeignKey(c => c.MentorId); // FK_SC_USR_TO_RPT_MASTER
