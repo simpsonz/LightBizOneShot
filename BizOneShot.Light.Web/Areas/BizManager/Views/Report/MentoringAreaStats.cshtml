@@ -1,4 +1,4 @@
-﻿@model BizOneShot.Light.Models.ViewModels.MentoringCompanyStatsViewModel
+﻿@model BizOneShot.Light.Models.ViewModels.MentoringAreaStatsViewModel
 
 @{
     Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
@@ -142,16 +142,16 @@
     <div class="sub_right_title specialist_02_06">
         <em>기업지원 통계</em>
     </div>
-    <div id="tabswrap_three" class="tab01">
+    <div id="tabswrap_three" class="tab03">
         <!--기업별 조회 목록 탭-->
         <ul>
-            <li><a href="@Url.Action("MentoringCompanyStats", "Report",new { area= "BizManager"})" class="on">기업별</a></li>
+            <li><a href="@Url.Action("MentoringCompanyStats", "Report",new { area= "BizManager"})">기업별</a></li>
             <li><a href="@Url.Action("MentoringMentorStats", "Report",new { area= "BizManager"})">멘토별</a></li>
-            <li><a href="@Url.Action("MentoringAreaStats", "Report",new { area= "BizManager"})">분야별</a></li>
+            <li><a href="@Url.Action("MentoringAreaStats", "Report",new { area= "BizManager"})" class="on">분야별</a></li>
         </ul>
     </div>
 
-@using (Html.BeginForm("MentoringCompanyStats", "Report", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form", id = "submit_form" }))
+@using (Html.BeginForm("MentoringAreaStats", "Report", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form", id = "submit_form" }))
 {
     <div id="sub_inquiry_box">
         @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150", @id = "BizWorkSn" })
@@ -169,7 +169,7 @@
 {
     <div class="sub_report_checkbox">
         <div class="report_main_top2 noline">
-            <div class="title_medium center top_padding bot_padding">기업지원통계(기업별)</div>
+            <div class="title_medium center top_padding bot_padding">기업지원통계(분야)</div>
         </div>
         <div class="report_main_mid margin_t50">
             <div class="main_mid_cont">
@@ -206,29 +206,6 @@
             </div>
         </div>
 
-        <div class="report_main_mid">
-            <div class="main_mid_cont">
-                <div class="main_mid_listBox nomargin2">
-                    <div class="listBox_tap longbg_on noline_a intend_10">
-                        <span>멘토링 일수 총합</span>
-                        <text class="left_memo bold line_h22">@Model.SumMentoringDays 일</text>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="report_main_mid">
-            <div class="main_mid_cont">
-                <div class="main_mid_listBox nomargin2">
-                    <div class="listBox_tap longbg_on noline_a intend_10">
-                        <span>기업별 평균 멘토링 일수</span>
-                        <text class="left_memo bold line_h22">@Model.AvgMentoringDays 일</text>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
 
         <div class="report_main_mid">
             <div class="main_mid_cont">
@@ -238,18 +215,20 @@
                     </div>
                     <table class="join_info">
                         <colgroup>
-                            <col width="12.5%">
-                            <col width="12.5%">
-                            <col width="12.5%">
-                            <col width="12.5%">
-                            <col width="12.5%">
-                            <col width="12.5%">
-                            <col width="12.5%">
-                            <col width="12.5%">
+                            <col width="12%">
+                            <col width="5%">
+                            <col width="5%">
+                            <col width="5%">
+                            <col width="5%">
+                            <col width="5%">
+                            <col width="8%">
+                            <col width="5%">
+                            <col width="5%">
                         </colgroup>
                         <tbody>
 
                             <tr>
+                                <td class="left_memo">분야</td>
                                 <td class="left_memo">자금</td>
                                 <td class="left_memo">기술개발</td>
                                 <td class="left_memo">특허</td>
@@ -260,6 +239,7 @@
                                 <td class="left_memo">기타</td>
                             </tr>
                             <tr>
+                                <td class="left_memo">기간 합</td>
                                 <td class="left_memo">@Model.SumMentoring_F</td>
                                 <td class="left_memo">@Model.SumMentoring_D</td>
                                 <td class="left_memo">@Model.SumMentoring_P</td>
@@ -269,83 +249,23 @@
                                 <td class="left_memo">@Model.SumMentoring_W</td>
                                 <td class="left_memo">@Model.SumMentoring_E</td>
                             </tr>
+                            <tr>
+                                <td class="left_memo">기간 월평균</td>
+                                <td class="center_td">@Model.AvgMentoring_F</td>
+                                <td class="center_td">@Model.AvgMentoring_D</td>
+                                <td class="center_td">@Model.AvgMentoring_P</td>
+                                <td class="center_td">@Model.AvgMentoring_M</td>
+                                <td class="center_td">@Model.AvgMentoring_L</td>
+                                <td class="center_td">@Model.AvgMentoring_T</td>
+                                <td class="center_td">@Model.AvgMentoring_W</td>
+                                <td class="center_td">@Model.AvgMentoring_E</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <div class="report_main_mid">
-            <div class="main_mid_cont">
-                <div class="main_mid_listBox nomargin2">
-                    <div class="listBox_tap longbg_on noline_a">
-                        <span>기업별 멘토링 현황</span>
-                    </div>
-                    <table class="join_info">
-                        <colgroup>
-                            <col width="21%">
-                            <col width="5%">
-                            <col width="5%">
-                            <col width="5%">
-                            <col width="5%">
-                            <col width="5%">
-                            <col width="9%">
-                            <col width="5%">
-                            <col width="5%">
-                            <col width="5%">
-                            <col width="5%">
-                            <col width="5%">
-                        </colgroup>
-                        <tbody>
-                            <tr>
-                                <td class="left_memo" rowspan="2">기업명</td>
-                                <td class="left_memo" colspan="2">멘토링일수</td>
-                                <td class="left_memo" colspan="9">멘토링 횟수(기간 총합)</td>
-                            </tr>
-                            <tr>
-                                <td class="left_memo">기간 종합</td>
-                                <td class="left_memo">기간<br>월<br>평균</td>
-                                <td class="left_memo">자금</td>
-                                <td class="left_memo">기술개발</td>
-                                <td class="left_memo">특허</td>
-                                <td class="left_memo">마케팅</td>
-                                <td class="left_memo">법무</td>
-                                <td class="left_memo">세무회계</td>
-                                <td class="left_memo">노무</td>
-                                <td class="left_memo">기타</td>
-                                <td class="left_memo">계</td>
-                            </tr>
-                            @if (Model == null || Model.MentoringStatByCompanyViewModel.Count == 0)
-                            {
-                                <tr>
-                                    <td colspan="6" style="text-align:center;">사업에 참여한 기업이 없습니다.</td>
-                                </tr>
-                            }
-                            else
-                            {
-                                foreach (var item in Model.MentoringStatByCompanyViewModel)
-                                {
-                                    <tr>
-                                        <td class="center_td">@item.CompNm</td>
-                                        <td class="left_memo">@item.SumMentoringDays</td>
-                                        <td class="left_memo">@item.AvgMentoringDays</td>
-                                        <td class="left_memo">@item.SumMentoring_F</td>
-                                        <td class="left_memo">@item.SumMentoring_D</td>
-                                        <td class="left_memo">@item.SumMentoring_P</td>
-                                        <td class="left_memo">@item.SumMentoring_M</td>
-                                        <td class="left_memo">@item.SumMentoring_L</td>
-                                        <td class="left_memo">@item.SumMentoring_T</td>
-                                        <td class="left_memo">@item.SumMentoring_W</td>
-                                        <td class="left_memo">@item.SumMentoring_E</td>
-                                        <td class="left_memo">@item.SumMentoringDays</td>
-                                    </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
     <div id="btnwrap_sub">
         <div class="rightwrap right">

@@ -71,7 +71,7 @@ namespace BizOneShot.Light.Models.ViewModels
         public int SumMentoring_L { get; set; } //법무 일수
         public int SumMentoring_T { get; set; } //세무회계 일수
         public int SumMentoring_W { get; set; } //노무 일수
-        public int SumMentoring_Z { get; set; } //기타 일수
+        public int SumMentoring_E { get; set; } //기타 일수
 
         public string Display { get; set; } // Display 
 
@@ -92,13 +92,108 @@ namespace BizOneShot.Light.Models.ViewModels
         public int SumMentoring_L { get; set; } //법무 일수
         public int SumMentoring_T { get; set; } //세무회계 일수
         public int SumMentoring_W { get; set; } //노무 일수
-        public int SumMentoring_Z { get; set; } //기타 일수
+        public int SumMentoring_E { get; set; } //기타 일수
     }
 
     public class MentoringStatsByCompanyGroupModel
     {
         public int CompSn { get; set; }
         public string ComNm { get; set; }
+        public string MentoringAreaCd { get; set; }
+        public int Count { get; set; }
+    }
+
+
+
+    public class MentoringMentorStatsViewModel
+    {
+        public string BizWorkNm { get; set; } // BIZ_WORK_NM. 사업명
+        public DateTime? BizWorkStDt { get; set; } // BIZ_WORK_ST_DT. 사업시작일
+        public DateTime? BizWorkEdDt { get; set; } // BIZ_WORK_ED_DT. 사업종료일
+
+        public string StartYear { get; set; } // 시작년
+        public string EndYear { get; set; } // 종료년
+        public string StartMonth { get; set; } // 시작월
+        public string EndMonth { get; set; } // 종료월
+
+        public int SumMentoringDays { get; set; } //전체 멘통링 일수
+        public double AvgMentoringDays { get; set; } //메토링 일수 평균(전체 멘토링 일수 / 맨토수)
+
+        public int SumMentoringCount { get; set; } //전체 맨토링 횟수
+        public double AvgMentoringCount { get; set; } //맨토링 횟수 평균(전체맨토링 횟수 / 맨토수)
+
+        public int SumMentoringHours { get; set; } //전체 맨토링 시간
+        public double AvgMentoringHours { get; set; } //맨토링 시간 평균(전체맨토링 시간 / 맨토수)
+
+        public string Display { get; set; } // Display 
+
+        public IList<MentoringStatByMentorViewModel> ListMentoringStatByMentorViewModel { get; set; } // 기업별 멘토링 통계
+    }
+
+    public class MentoringStatByMentorViewModel
+    {
+        public string LoginId { get; set; } //멘토 아이디
+        public string Name { get; set; } // 멘토이름
+        public string UsrTypeDetail { get; set; } // 멘토분야
+        public string UsrTypeDetailName { get; set; } // 멘토분야이름
+
+        public int CountMentoringComp { get; set; } //기간 멘토링 기업수
+        public int SumMentoringDays { get; set; } //기간 멘토일 일수
+        public int SumMentoringCount { get; set; } //기산 맨토링 횟수
+        public int SumMentoringHours { get; set; } //기간 맨토링 시간
+
+    }
+
+    public class MentoringStatsByMentorGroupModel
+    {
+        public string LoginId { get; set; } //멘토 아이디
+        public DateTime MentoringDt { get; set; } //멘토링일시
+        public int Count { get; set; } //멘토링 일시별 멘토링 횟수
+        public int SumMentoringHours { get; set; } //멘토링 일시별 멘토링 시간
+    }
+
+    public class MentoringStatsByMentorCompGroupModel
+    {
+        public string LoginId { get; set; } //멘토 아이디
+        public int CompSn { get; set; } //멘토링일시
+        public int Count { get; set; } //멘토링 일시별 멘토링 횟수
+    }
+
+
+    public class MentoringAreaStatsViewModel
+    {
+        public string BizWorkNm { get; set; } // BIZ_WORK_NM. 사업명
+        public DateTime? BizWorkStDt { get; set; } // BIZ_WORK_ST_DT. 사업시작일
+        public DateTime? BizWorkEdDt { get; set; } // BIZ_WORK_ED_DT. 사업종료일
+
+        public string StartYear { get; set; } // 시작년
+        public string EndYear { get; set; } // 종료년
+        public string StartMonth { get; set; } // 시작월
+        public string EndMonth { get; set; } // 종료월
+
+        public int SumMentoring_F { get; set; } //자금 일수
+        public int SumMentoring_D { get; set; } //기술개발 일수
+        public int SumMentoring_P { get; set; } //특허 일수
+        public int SumMentoring_M { get; set; } //마케팅 일수
+        public int SumMentoring_L { get; set; } //법무 일수
+        public int SumMentoring_T { get; set; } //세무회계 일수
+        public int SumMentoring_W { get; set; } //노무 일수
+        public int SumMentoring_E { get; set; } //기타 일수
+
+        public double AvgMentoring_F { get; set; } //자금 일수
+        public double AvgMentoring_D { get; set; } //기술개발 일수
+        public double AvgMentoring_P { get; set; } //특허 일수
+        public double AvgMentoring_M { get; set; } //마케팅 일수
+        public double AvgMentoring_L { get; set; } //법무 일수
+        public double AvgMentoring_T { get; set; } //세무회계 일수
+        public double AvgMentoring_W { get; set; } //노무 일수
+        public double AvgMentoring_E { get; set; } //기타 일수
+
+        public string Display { get; set; } // Display 
+    }
+
+    public class MentoringStatsByAreaGroupModel
+    {
         public string MentoringAreaCd { get; set; }
         public int Count { get; set; }
     }
