@@ -34,6 +34,11 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public DbSet<QuesResult1> QuesResult1 { get; set; } // QUES_RESULT1
         public DbSet<QuesResult2> QuesResult2 { get; set; } // QUES_RESULT2
         public DbSet<QuesWriter> QuesWriters { get; set; } // QUES_WRITER
+        public DbSet<RptCheckList> RptCheckLists { get; set; } // RPT_CHECK_LIST
+        public DbSet<RptMaster> RptMasters { get; set; } // RPT_MASTER
+        public DbSet<RptMentorCheck> RptMentorChecks { get; set; } // RPT_MENTOR_CHECK
+        public DbSet<RptMentorComment> RptMentorComments { get; set; } // RPT_MENTOR_COMMENT
+        public DbSet<RptMentorRadio> RptMentorRadios { get; set; } // RPT_MENTOR_RADIO
         public DbSet<ScBizType> ScBizTypes { get; set; } // SC_BIZ_TYPE
         public DbSet<ScBizWork> ScBizWorks { get; set; } // SC_BIZ_WORK
         public DbSet<ScCompInfo> ScCompInfoes { get; set; } // SC_COMP_INFO
@@ -96,6 +101,11 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             modelBuilder.Configurations.Add(new QuesResult1Configuration());
             modelBuilder.Configurations.Add(new QuesResult2Configuration());
             modelBuilder.Configurations.Add(new QuesWriterConfiguration());
+            modelBuilder.Configurations.Add(new RptCheckListConfiguration());
+            modelBuilder.Configurations.Add(new RptMasterConfiguration());
+            modelBuilder.Configurations.Add(new RptMentorCheckConfiguration());
+            modelBuilder.Configurations.Add(new RptMentorCommentConfiguration());
+            modelBuilder.Configurations.Add(new RptMentorRadioConfiguration());
             modelBuilder.Configurations.Add(new ScBizTypeConfiguration());
             modelBuilder.Configurations.Add(new ScBizWorkConfiguration());
             modelBuilder.Configurations.Add(new ScCompInfoConfiguration());
@@ -133,6 +143,11 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             modelBuilder.Configurations.Add(new QuesResult1Configuration(schema));
             modelBuilder.Configurations.Add(new QuesResult2Configuration(schema));
             modelBuilder.Configurations.Add(new QuesWriterConfiguration(schema));
+            modelBuilder.Configurations.Add(new RptCheckListConfiguration(schema));
+            modelBuilder.Configurations.Add(new RptMasterConfiguration(schema));
+            modelBuilder.Configurations.Add(new RptMentorCheckConfiguration(schema));
+            modelBuilder.Configurations.Add(new RptMentorCommentConfiguration(schema));
+            modelBuilder.Configurations.Add(new RptMentorRadioConfiguration(schema));
             modelBuilder.Configurations.Add(new ScBizTypeConfiguration(schema));
             modelBuilder.Configurations.Add(new ScBizWorkConfiguration(schema));
             modelBuilder.Configurations.Add(new ScCompInfoConfiguration(schema));

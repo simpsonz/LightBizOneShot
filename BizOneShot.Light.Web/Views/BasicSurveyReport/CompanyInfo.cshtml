@@ -1,0 +1,190 @@
+﻿@model BizOneShot.Light.Models.ViewModels.QuesCompanyInfoViewModel
+
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz >  a.navi_report').addClass('on');
+        //Cs menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
+    });
+
+</script>
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_03">
+        <em>기초경영역량 보고서</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_report01 on"><em>STEP01.역량검토 결과 요약</em></li>
+            <li class="basic_report02">
+                <a href="" class="ablock">
+                    <em>
+                        STEP02.기초역량검토
+                        종합결과
+                    </em>
+                </a>
+            </li>
+            <li class="basic_report03">
+                <a href="" class="ablock">
+                    <em>
+                        STEP03.성장로드맵
+                        제안
+                    </em>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2">
+            <div class="title_medium center">기업 개요</div>
+        </div>
+        <div class="report_main_mid">
+            <div class="main_mid_cont">
+                <p class="full_p">기업 기본정보</p>
+                <p>
+                    <span>∎</span>기업 일반정보
+                </p>
+                <table class="join_info">
+                    <colgroup>
+                        <col width="15%">
+                        <col width="35%">
+                        <col width="15%">
+                        <col width="35%">
+                    </colgroup>
+                    <tr>
+                        <td rowspan="2" class="left_memo">회사명</td>
+                        <td>(한글)@Model.CompNm</td>
+                        <td rowspan="2" class="left_memo">연락처</td>
+                        <td>(전화)@Model.TelNo</td>
+                    </tr>
+                    <tr>
+                        <td>(영문)text</td>
+                        <td>(팩스)text</td>
+                    </tr>
+                    <tr>
+                        <td class="left_memo">대표자 성명</td>
+                        <td>@Model.Name</td>
+                        <td class="left_memo">대표자 e-mail</td>
+                        <td>@Model.Email</td>
+                    </tr>
+                    <tr>
+                        <td class="left_memo">
+                            사업자<br>등록번호
+                        </td>
+                        <td>@Model.RegistrationNo</td>
+                        <td class="left_memo">법인 등록번호</td>
+                        <td>@Model.CoRegistrationNo</td>
+                    </tr>
+                    <tr>
+                        <td class="left_memo">설립년.월일</td>
+                        <td>@Model.PublishDt</td>
+                        <td class="left_memo">홈페이지</td>
+                        <td>@Model.HomeUrl</td>
+                    </tr>
+                    <tr>
+                        <td class="left_memo" rowspan="3">사업장소재지</td>
+                        <td colspan="3">(본사)@Model.CompAddr</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.RadioButtonFor(model => model.FacPossessYn, "M", new { @checked = "checked", @readonly = "readonly" })자제공장보유<br> @Html.RadioButtonFor(model => model.FacPossessYn, "R", new { @readonly = "readonly" })임대공장보유<br> @Html.RadioButtonFor(model => model.FacPossessYn, "N", new { @readonly = "readonly" })공장없음
+                        </td>
+                        <td colspan="2">(공장 주소)@Model.FactoryAddr</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 15%">
+                            @Html.RadioButtonFor(model => model.RndYn, "Y", new { @checked = "checked", @readonly = "readonly" })기술연구소보유<br>
+                            @Html.RadioButtonFor(model => model.RndYn, "N", new { @readonly = "readonly" })기술연구소없음
+                        </td>
+                        <td colspan="2">(기술연구소 주소)@Model.LabAddr</td>
+                    </tr>
+                    <tr>
+                        <td class="left_memo" rowspan="3">
+                            주요생산품<br>
+                            <span>(중요순서에따라)</span>
+                        </td>
+                        <td colspan="3">(제품/제품군 1)@Model.ProductNm1</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">(제품/제품군 2)@Model.ProductNm2</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">(제품/제품군 3)@Model.ProductNm3</td>
+                    </tr>
+                    <tr>
+                        <td class="left_memo" rowspan="3">제품 판매처</td>
+                        <td colspan="3">▶ 해당 영역에 체크하여 주십시오.(중복 가능)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="last_bottom">
+                            @Html.CheckBoxFor(model => model.MarketPublic, new { @readonly = "readonly" })공공기관 @Html.CheckBoxFor(model => model.MarketCivil, new { @readonly = "readonly" })민간기관 @Html.CheckBoxFor(model => model.MarketConsumer, new { @readonly = "readonly" })일반 소비자 @Html.CheckBoxFor(model => model.MarketForeing, new { @readonly = "readonly" })해외 @Html.CheckBoxFor(model => model.MarketEtc, new { @readonly = "readonly" })기타
+                        </td>
+                    </tr>
+                </table>
+                <p>
+                    <span>∎</span>기업 분류
+                </p>
+                <table class="join_info">
+                    <colgroup>
+                        <col width="15%">
+                        <col width="42%">
+                        <col width="43%">
+                    </colgroup>
+                    <tr>
+                        <td class="left_memo" rowspan="2">기업유형</td>
+                        <td>
+                            @Html.RadioButtonFor(model => model.CompType, "P", new { @checked = "checked", @readonly = "readonly" }) 영세기업 (상시 근로자 5인 미만)
+                        </td>
+                        <td>
+                            @Html.RadioButtonFor(model => model.CompType, "S", new { @readonly = "readonly" }) 소기업 (상시 근로자 49인 이하)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.RadioButtonFor(model => model.CompType, "M", new { @readonly = "readonly" })중기업 (상시 근로자 299인 이하)
+                        </td>
+                        <td>
+                            @Html.RadioButtonFor(model => model.CompType, "B", new { @readonly = "readonly" })중견기업 (상시 근로자 300인 이상)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left_memo">입주유무</td>
+                        <td colspan="2">
+                            @Html.RadioButtonFor(model => model.ResidentType, "R", new { @checked = "checked" , @readonly = "readonly" })예비입주 @Html.RadioButtonFor(model => model.ResidentType, "U", new { @readonly = "readonly" })입주기업
+                            @Html.RadioButtonFor(model => model.ResidentType, "C", new { @readonly = "readonly" })졸업기업
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="last_bottom left_memo">인증유무</td>
+                        <td colspan="2">
+                            @Html.CheckBoxFor(model => model.CertiVenture, new { @readonly = "readonly" })벤처 @Html.CheckBoxFor(model => model.CertiInnobiz, new { @readonly = "readonly" })이노비즈
+                            @Html.CheckBoxFor(model => model.CertiMainbiz, new { @readonly = "readonly" })메인비즈 @Html.CheckBoxFor(model => model.CertiRnd, new { @readonly = "readonly" })부설연구소
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <div id="btnwrap_sub" class="bottom_left2">
+        <div class="rightwrap left">
+            <button type="submit" class="pre" value="이전" />
+
+        </div>
+        <div class="rightwrap right">
+            <a href="@Url.Action("OverallSummaryCover", "BasicSurveyReport", new { area = "" , @QuestionSn = Model.QuestionSn, @status = Model.Status})" class="next right" value="다음"><em>다음</em></a>
+            <!--STEP06 에서 다음 숨김-->
+        </div>
+
+    </div>
+
+</div>

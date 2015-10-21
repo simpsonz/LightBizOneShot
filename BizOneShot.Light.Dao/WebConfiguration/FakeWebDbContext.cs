@@ -35,6 +35,11 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public DbSet<QuesResult1> QuesResult1 { get; set; }
         public DbSet<QuesResult2> QuesResult2 { get; set; }
         public DbSet<QuesWriter> QuesWriters { get; set; }
+        public DbSet<RptCheckList> RptCheckLists { get; set; }
+        public DbSet<RptMaster> RptMasters { get; set; }
+        public DbSet<RptMentorCheck> RptMentorChecks { get; set; }
+        public DbSet<RptMentorComment> RptMentorComments { get; set; }
+        public DbSet<RptMentorRadio> RptMentorRadios { get; set; }
         public DbSet<ScBizType> ScBizTypes { get; set; }
         public DbSet<ScBizWork> ScBizWorks { get; set; }
         public DbSet<ScCompInfo> ScCompInfoes { get; set; }
@@ -69,6 +74,11 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             QuesResult1 = new FakeDbSet<QuesResult1>();
             QuesResult2 = new FakeDbSet<QuesResult2>();
             QuesWriters = new FakeDbSet<QuesWriter>();
+            RptCheckLists = new FakeDbSet<RptCheckList>();
+            RptMasters = new FakeDbSet<RptMaster>();
+            RptMentorChecks = new FakeDbSet<RptMentorCheck>();
+            RptMentorComments = new FakeDbSet<RptMentorComment>();
+            RptMentorRadios = new FakeDbSet<RptMentorRadio>();
             ScBizTypes = new FakeDbSet<ScBizType>();
             ScBizWorks = new FakeDbSet<ScBizWork>();
             ScCompInfoes = new FakeDbSet<ScCompInfo>();

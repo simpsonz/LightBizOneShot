@@ -1,0 +1,102 @@
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.BasicSurveyReportViewModel>
+
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz >  a.navi_report').addClass('on');
+        //Cs menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
+    });
+
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title specialist_02_03">
+        <em>기초경영역량 보고서</em>
+    </div>
+    @using (Html.BeginForm("BasicSurveyCompanyList", "BasicSurveyReport", FormMethod.Post, new { area = "", id = "searchForm" }))
+    {
+        <div id="sub_inquiry_box">
+
+            @Html.DropDownList("BizWorkYear", ViewBag.SelectBizWorkYearList as SelectList, new { @class = "w150", @id = "BizWorkYear" })
+            @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150", @id = "BizWorkSn" })
+            @Html.DropDownList("CompSn", ViewBag.SelectCompInfoList as SelectList, new { @class = "w150", @id = "CompSn" })
+            @Html.DropDownList("Status", ViewBag.SelectStatusList as SelectList, new { @class = "w150", @id = "Status" })
+
+            <button type="submit" class="bt_searchC" value="종합보고서조회" style="margin:0">검색</button>
+        </div><!--sub_inquiry_box//-->
+        @Html.Hidden("curPage", "1")
+    }
+    <!--sub_inquiry_box//-->
+    <div class="line_dot20"></div>
+
+    <form method="" action="" name="" id="">
+        <div class="tablewrap">
+            <!--목록-->
+            <table class="admin_list">
+                <colgroup>
+                    <col width="33%">
+                    <col width="26%">
+                    <col width="16%">
+                    <col width="15%">
+                </colgroup>
+                <tr>
+                    <th class="topcen">사업명</th>
+                    <th class="topcen">기업명</th>
+                    <th class="topcen">문진표 제출일</th>
+                    <th class="topcen">작성 상태</th>
+                </tr>
+                <tr>
+                    <td>창업맞춤형사업</td>
+                    <td>비즈니스온</td>
+                    <td>2015-10-15</td>
+                    <td class="bot_u">미작성</td>
+                </tr>
+                @if (Model == null || Model.TotalItemCount == 0)
+                {
+                    <tr>
+                        <td colspan="4" style="text-align:center;">검색 결과가 없습니다.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.BizWorkNm</td>
+                            <td>@item.CompNm</td>
+                            <td>@item.QuestionCompleteDt.Value.ToString("yyyy-MM-dd")</td>
+                            <td> 
+                                @if(item.Status == "T")
+                                { 
+                                    <span class="bot_u">@Html.ActionLink("미작성", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, Year = item.Year, Status = item.Status })</span>
+                                }
+                                else if (item.Status == "W")
+                                {
+                                    <span class="bot_u">@Html.ActionLink("작성중", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, Year = item.Year, Status = item.Status })</span>
+                                }
+                                else
+                                {
+                                    <span class="bot_u">@Html.ActionLink("작성완료", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, Year = item.Year, Status = item.Status })</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </table>
+        </div>
+        <!--tablewrap//-->
+        @if (Model != null && Model.TotalItemCount != 0)
+        {
+            @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+        }
+        <!-- page_num_wrap//-->
+
+    </form>
+
+</div>

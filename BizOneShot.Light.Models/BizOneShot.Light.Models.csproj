@@ -106,6 +106,7 @@
     <Compile Include="DareModels\SHUSER_SyUser.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\BasicSurveyReportViewModels.cs" />
     <Compile Include="ViewModels\BasicSurveyViewModels.cs" />
     <Compile Include="ViewModels\BizViewModels.cs" />
     <Compile Include="ViewModels\CommonViewModel.cs" />
@@ -149,6 +150,21 @@
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="WebModels\QuesWriter.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebModels\RptCheckList.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebModels\RptMaster.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebModels\RptMentorCheck.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebModels\RptMentorComment.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebModels\RptMentorRadio.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="WebModels\ScBizType.cs">

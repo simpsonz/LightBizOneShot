@@ -34,6 +34,11 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         DbSet<QuesResult1> QuesResult1 { get; set; } // QUES_RESULT1
         DbSet<QuesResult2> QuesResult2 { get; set; } // QUES_RESULT2
         DbSet<QuesWriter> QuesWriters { get; set; } // QUES_WRITER
+        DbSet<RptCheckList> RptCheckLists { get; set; } // RPT_CHECK_LIST
+        DbSet<RptMaster> RptMasters { get; set; } // RPT_MASTER
+        DbSet<RptMentorCheck> RptMentorChecks { get; set; } // RPT_MENTOR_CHECK
+        DbSet<RptMentorComment> RptMentorComments { get; set; } // RPT_MENTOR_COMMENT
+        DbSet<RptMentorRadio> RptMentorRadios { get; set; } // RPT_MENTOR_RADIO
         DbSet<ScBizType> ScBizTypes { get; set; } // SC_BIZ_TYPE
         DbSet<ScBizWork> ScBizWorks { get; set; } // SC_BIZ_WORK
         DbSet<ScCompInfo> ScCompInfoes { get; set; } // SC_COMP_INFO

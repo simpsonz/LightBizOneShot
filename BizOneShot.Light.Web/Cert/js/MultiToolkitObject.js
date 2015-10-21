@@ -177,7 +177,6 @@ TSToolkitRealWrapper.prototype.SetConfig = function(name, ldap, info, policy,
 	return nRet;
 }
 TSToolkitRealWrapper.prototype.GetErrorMessage = function() {
-
 	var nRet = TSToolkitReal.GetErrorMessage();
 	return nRet;
 

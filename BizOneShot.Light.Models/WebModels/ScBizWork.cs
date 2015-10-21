@@ -27,6 +27,7 @@ namespace BizOneShot.Light.Models.WebModels
         public int BizWorkSn { get; set; } // BIZ_WORK_SN (Primary key). 사업식별자
         public string ExecutorId { get; set; } // EXECUTOR_ID. 담당자식별자
         public int MngCompSn { get; set; } // MNG_COMP_SN. 주관기관식별자
+        public string MngDept { get; set; } // MNG_DEPT
         public string BizWorkNm { get; set; } // BIZ_WORK_NM. 사업명
         public string BizWorkSummary { get; set; } // BIZ_WORK_SUMMARY. 사업개요
         public DateTime? BizWorkStDt { get; set; } // BIZ_WORK_ST_DT. 사업시작일
@@ -36,9 +37,9 @@ namespace BizOneShot.Light.Models.WebModels
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시
         public string UpdId { get; set; } // UPD_ID. 수정자
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
-        public string MngDept { get; set; } // MNG_DEPT
 
         // Reverse navigation
+        public virtual ICollection<RptMaster> RptMasters { get; set; } // Many to many mapping
         public virtual ICollection<ScCompMapping> ScCompMappings { get; set; } // Many to many mapping
         public virtual ICollection<ScExpertMapping> ScExpertMappings { get; set; } // Many to many mapping
         public virtual ICollection<ScMentoringReport> ScMentoringReports { get; set; } // SC_MENTORING_REPORT.FK_SC_BIZ_WORK_TO_SC_MENTORING_REPORT
@@ -51,6 +52,7 @@ namespace BizOneShot.Light.Models.WebModels
         
         public ScBizWork()
         {
+            RptMasters = new List<RptMaster>();
             ScCompMappings = new List<ScCompMapping>();
             ScExpertMappings = new List<ScExpertMapping>();
             ScMentorMappiings = new List<ScMentorMappiing>();

@@ -1,0 +1,76 @@
+﻿@model BizOneShot.Light.Models.ViewModels.BasicSurveyReportViewModels
+
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_03">
+        <em>기초경영역량 보고서</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_report01 on"><em>STEP01.역량검토 결과 요약</em></li>
+            <li class="basic_report02">
+                <a href="" class="ablock">
+                    <em>
+                        STEP02.기초역량검토
+                        종합결과
+                    </em>
+                </a>
+            </li>
+            <li class="basic_report03">
+                <a href="" class="ablock">
+                    <em>
+                        STEP03.성장로드맵
+                        제안
+                    </em>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2">
+            <div class="title_medium">
+                Ⅰ. 역량검토 결과 요약 _<span class="top2_right">
+                    전반적인 역량검토를 위한 내용을
+                    확인합니다.
+                </span>
+            </div>
+        </div>
+        <div class="report_main_mid">
+            <table class="list_table top_w350">
+                <colgroup>
+                    <col width="30%">
+                    <col width="70%">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td rowspan="2" class="left_memo">1. 전체 결과요약</td>
+                        <td class="chapter">(1) 역량검토결과 발전단계</td>
+                    </tr>
+                    <tr>
+                        <td class="chapter last_memo">(2) 항목별 역량검토결과</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <!--container//-->
+    <div id="btnwrap_sub" class="bottom_left2">
+
+        <div class="rightwrap left">
+            <button type="submit" class="pre" value="이전" />
+
+        </div>
+        <div class="rightwrap right">
+            <button type="submit" class="next" value="다음" />
+        </div>
+    </div>
+</div>

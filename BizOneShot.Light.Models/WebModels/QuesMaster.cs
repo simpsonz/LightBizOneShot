@@ -34,6 +34,7 @@ namespace BizOneShot.Light.Models.WebModels
         public virtual ICollection<QuesOgranAnalysis> QuesOgranAnalysis { get; set; } // Many to many mapping
         public virtual ICollection<QuesResult1> QuesResult1 { get; set; } // Many to many mapping
         public virtual ICollection<QuesResult2> QuesResult2 { get; set; } // Many to many mapping
+        public virtual ICollection<RptMaster> RptMasters { get; set; } // Many to many mapping
         public virtual QuesCompExtention QuesCompExtention { get; set; } // QUES_COMP_EXTENTION.FK_QUES_MASTER_TO_QUES_PRESIDENT_INFO
         public virtual QuesCompHistory QuesCompHistory { get; set; } // QUES_COMP_HISTORY.FK_QUES_MASTER_TO_QUES_COMP_HISTORY
         public virtual QuesCompInfo QuesCompInfo { get; set; } // QUES_COMP_INFO.FK_QUES_MASTER_TO_QUES_COMP_INFO
@@ -44,6 +45,7 @@ namespace BizOneShot.Light.Models.WebModels
             QuesOgranAnalysis = new List<QuesOgranAnalysis>();
             QuesResult1 = new List<QuesResult1>();
             QuesResult2 = new List<QuesResult2>();
+            RptMasters = new List<RptMaster>();
         }
     }
 

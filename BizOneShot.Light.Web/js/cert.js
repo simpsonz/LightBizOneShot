@@ -1,5 +1,4 @@
 ﻿function checkCertificate(userNo) {
-    //alert("test01");
     //return true;
     // 모든 Condition 설정.
     var nRet = TSToolkit.SetConfig("test", CA_LDAP_INFO, CTL_INFO, POLICIES,
@@ -21,7 +20,6 @@
         return false;
         //return true; //테스트때문에 임시로 true리턴
     }
-
     nRet = TSToolkit.VerifyVID(userNo);
     if (nRet > 0) {
         alert(nRet + " : " + TSToolkit.GetErrorMessage());
