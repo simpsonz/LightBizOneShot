@@ -34,9 +34,9 @@ namespace BizOneShot.Light.Models.WebModels
         public string Status { get; set; } // STATUS. 신규 : N  삭제 : D
 
         // Reverse navigation
-        public virtual ICollection<RptMentorCheck> RptMentorChecks { get; set; } // RPT_MENTOR_CHECK.FK_RPT_CHECK_LIST_TO_RPT_MENTOR_CHECK
-        public virtual ICollection<RptMentorComment> RptMentorComments { get; set; } // RPT_MENTOR_COMMENT.FK_RPT_CHECK_LIST_TO_RPT_MENTOR_COMMENT
-        public virtual ICollection<RptMentorRadio> RptMentorRadios { get; set; } // RPT_MENTOR_RADIO.FK_RPT_CHECK_LIST_TO_RPT_MENTOR_RADIO
+        public virtual ICollection<RptMentorCheck> RptMentorChecks { get; set; } // Many to many mapping
+        public virtual ICollection<RptMentorComment> RptMentorComments { get; set; } // Many to many mapping
+        public virtual ICollection<RptMentorRadio> RptMentorRadios { get; set; } // Many to many mapping
         
         public RptCheckList()
         {

@@ -137,7 +137,17 @@ namespace BizOneShot.Light.Web.Controllers
         public ActionResult OverallSummary(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
+            OverallSummaryViewModel viewModel = new OverallSummaryViewModel();
 
+            ViewBag.paramModel = paramModel;
+            return View();
+
+        }
+
+        [HttpPost]
+        public ActionResult OverallSummary(OverallSummaryViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
 
             ViewBag.paramModel = paramModel;
             return View();

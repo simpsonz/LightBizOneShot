@@ -49,12 +49,18 @@
 @using (Html.BeginForm("OverallSummary", "BasicSurveyReport", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
 {
     @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
+    @Html.Hidden("BizWorkSn", ViewBag.paramModel.BizWorkSn as string)
+    @Html.Hidden("CompSn", ViewBag.paramModel.CompSn as string)
+    @Html.Hidden("BizWorkYear", ViewBag.paramModel.BizWorkYear as string)
+    @Html.Hidden("QuestionSn", ViewBag.paramModel.QuestionSn as string)
+    @Html.Hidden("Status", ViewBag.paramModel.Status as string)
+
     <div class="sub_report_checkbox">
         <div class="report_main_top2"></div>
         <div class="report_main_mid">
             <div class="main_mid_cont">
                 <p class="title_mid">
-                    Ⅰ. 역량검토 결과 요약 _ <span class="small_span float_right">
+                    Ⅰ.역량검토 결과 요약 _<span class="small_span float_right">
                         1.
                         전체 결과요약
                     </span>
@@ -68,14 +74,14 @@
                     </div>
                     <table class="join_info noline">
                         <colgroup>
-                            <col width="20%">
-                            <col width="40%">
-                            <col width="40%">
-                        </colgroup>
+                            <col width = "20%" >
+                            <col width= "40%">
+                            <col width = "40%" >
+                        </colgroup >
                         <tr>
                             <td class="left_memo col_99">경영역량 총괄</td>
-                            <td colspan="2" class="left_memo col_99">
-                                전체평균 : xxx.xx점<br>해당기업
+                            <td colspan = "2" class="left_memo col_99">
+                                전체평균 : xxx.xx점<br> 해당기업
                                 : xxx.xx점
                             </td>
                         </tr>
@@ -90,7 +96,7 @@
                         </tr>
                         <tr>
                             <td class="left_memo col_d6" rowspan="2">
-                                상품화<br>역량
+                                상품화<br> 역량
                             </td>
                             <td class="left_memo col_ee">시행제도/절차검토</td>
                             <td class="left_memo small">기술경영, 마케팅</td>
@@ -110,7 +116,7 @@
                         <tr>
                             <td class="left_memo col_ee">전문가 면접검토</td>
                             <td class="left_memo small">
-                                전반적 제도 및<br>규정관리체계
+                                전반적 제도 및<br> 규정관리체계
                             </td>
                         </tr>
 
