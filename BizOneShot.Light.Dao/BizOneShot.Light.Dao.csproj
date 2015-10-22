@@ -83,6 +83,11 @@
     <Compile Include="Repositories\ScReqDocFileRepository.cs" />
     <Compile Include="Repositories\ScReqDocRepository.cs" />
     <Compile Include="Repositories\SyUserRepository.cs" />
+    <Compile Include="WebConfiguration\Database.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="WebConfiguration\FakeDbSet.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>

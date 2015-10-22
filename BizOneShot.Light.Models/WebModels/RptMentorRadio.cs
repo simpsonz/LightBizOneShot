@@ -26,7 +26,7 @@ namespace BizOneShot.Light.Models.WebModels
         public int QuestionSn { get; set; } // QUESTION_SN (Primary key). 문진표순번
         public int BizWorkSn { get; set; } // BIZ_WORK_SN (Primary key). 사업식별자
         public int BasicYear { get; set; } // BASIC_YEAR (Primary key). 기준년도
-        public string DetailCd { get; set; } // DETAIL_CD. 상세코드
+        public string DetailCd { get; set; } // DETAIL_CD (Primary key). 상세코드
         public int? RadioVal { get; set; } // RADIO_VAL. 멘토작성내용
 
         // Foreign keys

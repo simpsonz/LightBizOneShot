@@ -34,16 +34,16 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public RptMentorCheckConfiguration(string schema)
         {
             ToTable(schema + ".RPT_MENTOR_CHECK");
-            HasKey(x => new { x.QuestionSn, x.BizWorkSn, x.BasicYear });
+            HasKey(x => new { x.QuestionSn, x.BizWorkSn, x.BasicYear, x.DetailCd });
 
             Property(x => x.QuestionSn).HasColumnName("QUESTION_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.BizWorkSn).HasColumnName("BIZ_WORK_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.BasicYear).HasColumnName("BASIC_YEAR").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.DetailCd).HasColumnName("DETAIL_CD").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(8);
+            Property(x => x.DetailCd).HasColumnName("DETAIL_CD").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(8).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.CheckVal).HasColumnName("CHECK_VAL").IsOptional().HasColumnType("bit");
 
             // Foreign keys
-            HasOptional(a => a.RptCheckList).WithMany(b => b.RptMentorChecks).HasForeignKey(c => c.DetailCd); // FK_RPT_CHECK_LIST_TO_RPT_MENTOR_CHECK
+            HasRequired(a => a.RptCheckList).WithMany(b => b.RptMentorChecks).HasForeignKey(c => c.DetailCd); // FK_RPT_CHECK_LIST_TO_RPT_MENTOR_CHECK
             InitializePartial();
         }
         partial void InitializePartial();
