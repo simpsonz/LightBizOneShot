@@ -22,7 +22,9 @@ namespace BizOneShot.Light.Web
 
             //Razor 엔진만 로딩함
             ViewEngines.Engines.Clear();
-            ViewEngines.Engines.Add(new RazorViewEngine());
+            IViewEngine razorEngine = new RazorViewEngine() { FileExtensions = new string[] { "cshtml" } };
+            ViewEngines.Engines.Add(razorEngine);
+            //ViewEngines.Engines.Add(new RazorViewEngine());
 
             // Autofac and Automapper configurations
             AutofacModuleConfig.Run();
