@@ -466,5 +466,153 @@ namespace BizOneShot.Light.Web.ComLib
             return parameters;
         }
 
+        public static RptMentorComment MakeRptMentorcomment(CommentViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            RptMentorComment rptComment = new RptMentorComment();
+            rptComment.DetailCd = viewModel.DetailCd;
+            rptComment.Comment = viewModel.Comment;
+            rptComment.BasicYear = paramModel.BizWorkYear;
+            rptComment.BizWorkSn = paramModel.BizWorkSn;
+            rptComment.QuestionSn = paramModel.QuestionSn;
+
+            return rptComment;
+        }
+
+        public static CommentViewModel MakeCommentViewModel(BasicSurveyReportViewModel paramModel, string detailCode, RptMentorComment rptMentorComment = null)
+        {
+            CommentViewModel viewModel = new CommentViewModel();
+
+            if(rptMentorComment == null)
+            {
+                viewModel.DetailCd = detailCode;
+                viewModel.Comment = "";
+            }
+            else
+            {
+                viewModel.DetailCd = rptMentorComment.DetailCd;
+                viewModel.Comment = rptMentorComment.Comment;
+            }
+
+            return viewModel;
+        }
+
+
+        public static int CalcCheckCount(IList<QuesResult1> checkList)
+        {
+            int trueCount = 0;
+            foreach (var check in checkList)
+            {
+                if (check.AnsVal == true)
+                {
+                    trueCount++;
+                }
+            }
+
+            return trueCount;
+        }
+
+        public static string GetCodeTypeA(int trueCnt)
+        {
+            string code = "";
+            switch (trueCnt)
+            {
+                case 0:
+                case 1:
+                    code = "E";
+                    break;
+                case 2:
+                    code = "D";
+                    break;
+                case 3:
+                    code = "C";
+                    break;
+                case 4:
+                    code = "B";
+                    break;
+                case 5:
+                    code = "A";
+                    break;
+                default:
+                    code = "A";
+                    break;
+            }
+            return code;
+        }
+
+        public static string GetCodeTypeB(int Cnt)
+        {
+            string code = "";
+            switch (Cnt)
+            {
+                case 0:
+                    code = "E";
+                    break;
+                case 1:
+                    code = "C";
+                    break;
+                case 2:
+                    code = "A";
+                    break;
+                default:
+                    code = "A";
+                    break;
+            }
+            return code;
+        }
+
+        public static string GetCodeTypeC(int trueCnt)
+        {
+            string code = "";
+            switch (trueCnt)
+            {
+                case 0:
+                    code = "E";
+                    break;
+                case 1:
+                    code = "D";
+                    break;
+                case 2:
+                    code = "C";
+                    break;
+                case 3:
+                    code = "B";
+                    break;
+                case 4:
+                    code = "A";
+                    break;
+            }
+            return code;
+        }
+
+
+
+
+
+
+
+        public static double CalcPoint(string type, double standardPoing)
+        {
+            double point = 0;
+            switch (type)
+            {
+                case "A":
+                    point = standardPoing * 1;
+                    break;
+                case "B":
+                    point = standardPoing * 0.75;
+                    break;
+                case "C":
+                    point = standardPoing * 0.5;
+                    break;
+                case "D":
+                    point = standardPoing * 0.25;
+                    break;
+                case "E":
+                    point = standardPoing * 0;
+                    break;
+            }
+            return point;
+        }
+
     }
 }

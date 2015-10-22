@@ -1483,6 +1483,8 @@
     <Content Include="Views\BasicSurveyReport\OverallSummaryCover.cshtml" />
     <Content Include="Views\BasicSurveyReport\BasicSurveyCompanyList.cshtml" />
     <Content Include="Views\BasicSurveyReport\OverallSummary.cshtml" />
+    <Content Include="Views\BasicSurveyReport\OverallResultCover.cshtml" />
+    <Content Include="Views\BasicSurveyReport\OrgHR01.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

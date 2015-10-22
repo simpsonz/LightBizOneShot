@@ -46,7 +46,7 @@
             </li>
         </ul>
     </div>
-@using (Html.BeginForm("OverallSummary", "BasicSurveyReport", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))
+@using (Html.BeginForm("OverallSummary", "BasicSurveyReport", FormMethod.Post, new { area = "", @class = "form-horizontal", role = "form", id = "mainForm" }))
 {
     @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
     @Html.Hidden("BizWorkSn", ViewBag.paramModel.BizWorkSn as string)
@@ -238,7 +238,8 @@
                         <tr>
                             <td class="left_memo col_b3">조직역량</td>
                             <td class="left_memo col_ee">조직분화도</td>
-                            <td class="center_td ">@Html.TextAreaFor(model => model.OrgDivision)</td>
+                            <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[0].Comment)</td>
+                            @Html.HiddenFor(model => model.CommentList[0].DetailCd)
                         </tr>
                         <tr>
                             <td class="left_memo col_d6">
@@ -247,7 +248,8 @@
                             <td class="left_memo col_ee">
                                 고객의 수,<br>상품의 질 및<br>마케팅수준
                             </td>
-                            <td class="center_td ">@Html.TextAreaFor(model => model.MarketingLevel)</td>
+                            <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[1].Comment)</td>
+                            @Html.HiddenFor(model => model.CommentList[1].DetailCd)
                         </tr>
                         <tr>
                             <td class="left_memo col_fd">
@@ -256,7 +258,8 @@
                             <td class="left_memo col_ee">
                                 재무회계<br>관리체계 및 <br>제도수준
                             </td>
-                            <td class="center_td ">@Html.TextAreaFor(model => model.FinanceMng)</td>
+                            <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[2].Comment)</td>
+                            @Html.HiddenFor(model => model.CommentList[2].DetailCd)
                         </tr>
                     </table>
                 </div>
@@ -268,7 +271,7 @@
     <div id="btnwrap_sub" class="bottom_left2">
 
         <div class="rightwrap left">
-            <a href="@Url.Action("Cover", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
+            <a href="@Url.Action("OverallSummaryCover", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
 
         </div>
         <div class="rightwrap right">
@@ -278,7 +281,7 @@
             }
             else
             {
-                <a href="@Url.Action("OverallSummaryCover", "BasicSurveyReport", new { area = "" , BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn})" class="next right" value="다음"><em>다음</em></a>
+                <a href="@Url.Action("OverallResultCover", "BasicSurveyReport", new { area = "" , BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn})" class="next right" value="다음"><em>다음</em></a>
             }
         </div>
         @if (ViewBag.paramModel.Status != "C")

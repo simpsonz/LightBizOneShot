@@ -19,18 +19,24 @@ namespace BizOneShot.Light.Web.Controllers
     {
         private readonly IScCompMappingService scCompMappingService;
         private readonly IQuesCompInfoService quesCompInfoService;
+        private readonly IQuesResult1Service quesResult1Service;
         private readonly IScMentorMappingService scMentorMappingService;
         private readonly IRptMasterService rptMasterService;
+        private readonly IRptMentorCommentService rptMentorCommentService;
         public BasicSurveyReportController(
             IScCompMappingService scCompMappingService,
             IQuesCompInfoService quesCompInfoService,
             IScMentorMappingService scMentorMappingService,
-            IRptMasterService rptMasterService)
+            IRptMasterService rptMasterService,
+            IRptMentorCommentService rptMentorCommentService,
+            IQuesResult1Service quesResult1Service)
         {
             this.scCompMappingService = scCompMappingService;
             this.quesCompInfoService = quesCompInfoService;
             this.scMentorMappingService = scMentorMappingService;
             this.rptMasterService = rptMasterService;
+            this.rptMentorCommentService = rptMentorCommentService;
+            this.quesResult1Service = quesResult1Service;
         }
 
         // GET: BasicSurveyReport
@@ -88,6 +94,8 @@ namespace BizOneShot.Light.Web.Controllers
 
         }
 
+               
+
         public ActionResult BasicSurveyCompanyList(string curPage)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
@@ -134,24 +142,145 @@ namespace BizOneShot.Light.Web.Controllers
 
         }
 
-        public ActionResult OverallSummary(BasicSurveyReportViewModel paramModel)
+        public async Task<ActionResult> OverallSummary(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
+
+            double totalPoint = 0;
+
             OverallSummaryViewModel viewModel = new OverallSummaryViewModel();
+            viewModel.CommentList = new List<CommentViewModel>();
+
+
+            //경영목표 및 전략
+            // A1A101 : 경영목표 및 전략 코드
+            var quesResult1sPurpose = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1A101");
+            totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sPurpose)), 0.5);
+
+            // A1A102 : 경영자의 리더쉽 코드
+            var quesResult1sLeadership = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1A102");
+            totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sLeadership)), 0.5);
+
+
+
+
+            // A1A103 : 경영자의 신뢰성
+            var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1A103");
+
+
+
+
+
+
+
+            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "01");
+
+            //조직역량->조직분화도
+            var comment0 = comments.SingleOrDefault(i => i.DetailCd == "01010101");
+            viewModel.CommentList.Add(ReportHelper.MakeCommentViewModel(paramModel, "01010101", comment0));
+
+            // 상품화역량 -> 고객의수, 상품의 질 및 마케팅 수준
+            var comment1 = comments.SingleOrDefault(i => i.DetailCd == "01010102");
+            viewModel.CommentList.Add(ReportHelper.MakeCommentViewModel(paramModel, "01010102", comment1));
+
+            // 위험관리역량 -> 제무회계 관리체계 및 제도수준
+            var comment2 = comments.SingleOrDefault(i => i.DetailCd == "01010103");
+            viewModel.CommentList.Add(ReportHelper.MakeCommentViewModel(paramModel, "01010103", comment2));
+
 
             ViewBag.paramModel = paramModel;
-            return View();
+            return View(viewModel);
 
         }
 
         [HttpPost]
-        public ActionResult OverallSummary(OverallSummaryViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        public async Task<ActionResult> OverallSummary(OverallSummaryViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "01");
+
+            foreach(var item in viewModel.CommentList)
+            {
+                var comment = comments.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if(comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("OverallSummary", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("OverallResultCover", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+        }
+
+        public ActionResult OverallResultCover(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+            return View(paramModel);
+        }
+
+
+
+        public async Task<ActionResult> OrgHR01(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
-            ViewBag.paramModel = paramModel;
-            return View();
+            OrgHR01ViewModel viewModel = new OrgHR01ViewModel();
+            //리스트 데이터 생성
+            var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D101");
 
+
+
+
+
+            //검토결과 데이터 생성
+            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "02");
+
+            //조직역량->인적자원의 확보와 개발관리
+            var comment = comments.SingleOrDefault(i => i.DetailCd == "02010201");
+            viewModel.Comment = ReportHelper.MakeCommentViewModel(paramModel, "02010201", comment);
+
+            ViewBag.paramModel = paramModel;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> OrgHR01(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "02");
+
+            var comment = comments.SingleOrDefault(i => i.DetailCd == viewModel.Comment.DetailCd);
+            if (comment == null)
+            {
+                rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(viewModel.Comment, paramModel));
+            }
+            else
+            {
+                comment.Comment = viewModel.Comment.Comment;
+            }
+
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("OrgHR01", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("OrgHR02", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
         }
 
 
