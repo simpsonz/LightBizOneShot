@@ -499,6 +499,8 @@
     <Content Include="Areas\BizManager\Views\Report\MentoringTotalReportListByComp.cshtml" />
     <Content Include="Areas\BizManager\Views\Report\MentoringTotalReportListByMentor.cshtml" />
     <Content Include="Areas\BizManager\Views\Report\MentoringCompanyStats.cshtml" />
+    <Content Include="Areas\BizManager\Views\Report\MentoringMentorStats.cshtml" />
+    <Content Include="Areas\BizManager\Views\Report\MentoringAreaStats.cshtml" />
     <None Include="Properties\PublishProfiles\Demo BizOneShot Lite.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

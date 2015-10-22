@@ -28,6 +28,9 @@ namespace BizOneShot.Light.Services
         Task ModifyScMentoringReportAsync(ScMentoringReport scMentoringReport);
 
         Task<IList<MentoringStatsByCompanyGroupModel>> GetMentoringReportGroupBy(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth);
+        Task<IList<MentoringStatsByMentorGroupModel>> GetMentoringReportGroupByMentor(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth);
+        Task<IList<MentoringStatsByMentorCompGroupModel>> GetMentoringReportGroupByMentorComp(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth);
+        Task<IList<MentoringStatsByAreaGroupModel>> GetMentoringReportGroupByArea(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth);
     }
 
 
@@ -177,7 +180,23 @@ namespace BizOneShot.Light.Services
 
         }
 
+        //기업지원 통계 (멘토별)
+        public async Task<IList<MentoringStatsByMentorGroupModel>> GetMentoringReportGroupByMentor(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth)
+        {
+            return await scMentoringReportRepository.GetMentoringReportGroupByMentor(bizWorkSn, startYear, startMonth, endYear, endMonth);
+        }
+        //기업지원 통계 (멘토별) 에서 기업수를 가져오기 위한
+        public async Task<IList<MentoringStatsByMentorCompGroupModel>> GetMentoringReportGroupByMentorComp(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth)
+        {
+            return await scMentoringReportRepository.GetMentoringReportGroupByMentorComp(bizWorkSn, startYear, startMonth, endYear, endMonth);
+        }
 
+        //기업지원 통계 (분야별)
+        public async Task<IList<MentoringStatsByAreaGroupModel>> GetMentoringReportGroupByArea(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth)
+        {
+            return await scMentoringReportRepository.GetMentoringReportGroupByArea(bizWorkSn, startYear, startMonth, endYear, endMonth);
+
+        }
 
         #region SaveDbContext
         public void SaveDbContext()

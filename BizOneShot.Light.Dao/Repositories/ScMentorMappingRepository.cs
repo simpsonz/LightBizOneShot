@@ -12,6 +12,7 @@ namespace BizOneShot.Light.Dao.Repositories
 {
     public interface IScMentorMappingRepository : IRepository<ScMentorMappiing>
     {
+        Task<IList<ScMentorMappiing>> GetMentorMappingsInScUsrAsync(Expression<Func<ScMentorMappiing, bool>> where);
         Task<IList<ScMentorMappiing>> GetMentorMappingsAsync(Expression<Func<ScMentorMappiing, bool>> where);
         Task<ScMentorMappiing> GetMentorMappingAsync(Expression<Func<ScMentorMappiing, bool>> where);
     }
@@ -21,6 +22,13 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         public ScMentorMappingRepository(IDbFactory dbFactory) : base(dbFactory) { }
 
+
+        public async Task<IList<ScMentorMappiing>> GetMentorMappingsInScUsrAsync(Expression<Func<ScMentorMappiing, bool>> where)
+        {
+            return await this.DbContext.ScMentorMappiings
+                .Include(mm => mm.ScUsr)
+                .Where(where).ToListAsync();
+        }
 
         public async Task<IList<ScMentorMappiing>> GetMentorMappingsAsync(Expression<Func<ScMentorMappiing, bool>> where)
         {

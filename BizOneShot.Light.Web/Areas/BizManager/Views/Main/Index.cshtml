@@ -5,7 +5,7 @@
 <div class="business_main">
     <div class="container">
         <div id="main_cont4wrap">
-            <a href="" class="m8"><img src="../images/business_admin_01.png"></a><a href="@Url.Action("CompanyList","CompanyMng", new { area= "BizManager" })" class="m8"><img src="../images/business_admin_02.png"></a><a href="@Url.Action("MentorList","MentorMng", new { area= "BizManager" })" class="m8"><img src="../images/business_admin_03.png"></a>
+            <a href="@Url.Action("BizInCompanyStats","Report", new { area= "BizManager" })" class="m8"><img src="../images/business_admin_01.png"></a><a href="@Url.Action("CompanyList","CompanyMng", new { area= "BizManager" })" class="m8"><img src="../images/business_admin_02.png"></a><a href="@Url.Action("MentorList","MentorMng", new { area= "BizManager" })" class="m8"><img src="../images/business_admin_03.png"></a>
         </div><!--main_cont2wrap//-->
         <div id="main_cont4wrap">
             @if (Session[Global.UserDetailType].Equals(Global.Admin))

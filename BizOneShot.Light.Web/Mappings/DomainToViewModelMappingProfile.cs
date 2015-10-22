@@ -378,7 +378,7 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.SumMentoring_P, map => map.UseValue(0))
                 .ForMember(d => d.SumMentoring_T, map => map.UseValue(0))
                 .ForMember(d => d.SumMentoring_W, map => map.UseValue(0))
-                .ForMember(d => d.SumMentoring_Z, map => map.UseValue(0));
+                .ForMember(d => d.SumMentoring_E, map => map.UseValue(0));
             Mapper.CreateMap<ScCompMapping, MentoringStatByCompanyViewModel>()
                 .ForMember(d => d.ComSn, map => map.MapFrom(s => s.ScCompInfo.CompSn))
                 .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
@@ -391,7 +391,14 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.SumMentoring_P, map => map.UseValue(0))
                 .ForMember(d => d.SumMentoring_T, map => map.UseValue(0))
                 .ForMember(d => d.SumMentoring_W, map => map.UseValue(0))
-                .ForMember(d => d.SumMentoring_Z, map => map.UseValue(0));
+                .ForMember(d => d.SumMentoring_E, map => map.UseValue(0));
+
+            Mapper.CreateMap<ScBizWork, MentoringMentorStatsViewModel>();
+            Mapper.CreateMap<ScUsr, MentoringStatByMentorViewModel>()
+                .ForMember(d => d.UsrTypeDetailName, map => map.MapFrom(s => s.UsrTypeDetail == "" ? "" : new BizHelper().getMentorAreaNm(s.UsrTypeDetail)));
+
+            Mapper.CreateMap<ScBizWork, MentoringAreaStatsViewModel>();
+
 
 
             //기초역량 보고서 기업리스트

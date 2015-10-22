@@ -13,8 +13,8 @@ namespace BizOneShot.Light.Services
     {
         Task<IList<ScMentorMappiing>> GetMentorListAsync(int mngCompSn, int bizWorkSn = 0, string usrTypeDetail = null);
         Task<ScMentorMappiing> GetMentor(int bizWorkSn, string mentorId);
-        //Task<IList<ScMentorMappiing>> GetMentorMappingListByMentorId(string mentorId = null);
         Task<IList<ScMentorMappiing>> GetMentorMappingListByMentorId(string mentorId = null, int bizWorkYear = 0);
+        Task<IList<ScUsr>> GetMentorListByBizWork(int bizWorkSn);
         Task<IList<ScUsr>> GetMentorListByBizMng(int mngComSn, string excutorId = null, int bizWorkSn = 0, int bizWorkYear = 0);
         Task<int> AddMentorAsync(ScCompInfo scCompInfo);
     }
@@ -80,6 +80,12 @@ namespace BizOneShot.Light.Services
             }
         }
 
+        public async Task<IList<ScUsr>> GetMentorListByBizWork(int bizWorkSn)
+        {
+            var listScMentorMapping = await scMentorMappingRepository.GetMentorMappingsInScUsrAsync(mmp => mmp.BizWorkSn == bizWorkSn && mmp.Status == "N");
+
+            return listScMentorMapping.Select(mmp => mmp.ScUsr).Distinct().OrderBy(mi => mi.Name).ToList();
+        }
 
         public async Task<IList<ScUsr>> GetMentorListByBizMng(int mngComSn, string excutorId = null, int bizWorkSn = 0, int bizWorkYear = 0)
         {
