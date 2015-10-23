@@ -57,5 +57,10 @@ namespace BizOneShot.Light.Models.ViewModels
     }
 
 
+    public class GrowthStrategyTypeViewModel
+    {
+        public string SubmitType { get; set; }
+        public IList<CommentViewModel> CommentList { get; set; }
+    }
 
 }

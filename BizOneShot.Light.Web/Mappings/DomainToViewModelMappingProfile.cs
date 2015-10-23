@@ -400,7 +400,6 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<ScBizWork, MentoringAreaStatsViewModel>();
 
 
-
             //기초역량 보고서 기업리스트
             Mapper.CreateMap<RptMaster, BasicSurveyReportViewModel>()
                .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
@@ -410,16 +409,8 @@ namespace BizOneShot.Light.Web.Mappings
             ;
 
 
-
-
-
-
-
-
-
-
-
-
+            //기초역량보고서 커맨트 매핑
+            Mapper.CreateMap<RptMentorComment, CommentViewModel>();
 
 
 

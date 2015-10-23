@@ -11,6 +11,7 @@ using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Services;
 using BizOneShot.Light.Web.ComLib;
 using PagedList;
+using AutoMapper;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -21,12 +22,15 @@ namespace BizOneShot.Light.Web.Controllers
         private readonly IQuesCompInfoService quesCompInfoService;
         private readonly IQuesResult1Service quesResult1Service;
         private readonly IScMentorMappingService scMentorMappingService;
+        private readonly IRptCheckListService rptCheckListService;
         private readonly IRptMasterService rptMasterService;
         private readonly IRptMentorCommentService rptMentorCommentService;
+
         public BasicSurveyReportController(
             IScCompMappingService scCompMappingService,
             IQuesCompInfoService quesCompInfoService,
             IScMentorMappingService scMentorMappingService,
+            IRptCheckListService rptCheckListService,
             IRptMasterService rptMasterService,
             IRptMentorCommentService rptMentorCommentService,
             IQuesResult1Service quesResult1Service)
@@ -34,6 +38,7 @@ namespace BizOneShot.Light.Web.Controllers
             this.scCompMappingService = scCompMappingService;
             this.quesCompInfoService = quesCompInfoService;
             this.scMentorMappingService = scMentorMappingService;
+            this.rptCheckListService = rptCheckListService;
             this.rptMasterService = rptMasterService;
             this.rptMentorCommentService = rptMentorCommentService;
             this.quesResult1Service = quesResult1Service;
@@ -288,8 +293,72 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
 
+            //임시로 나중에 삭제
+            paramModel.BizWorkSn = 1;
+            paramModel.BizWorkYear = 2015;
+            paramModel.CompSn = 94;
+            paramModel.QuestionSn = 16;
+            paramModel.Status = "P";
+
             return View(paramModel);
 
+        }
+
+
+        public async Task<ActionResult> GrowthStrategyType(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            GrowthStrategyTypeViewModel viewModel = new GrowthStrategyTypeViewModel();
+        
+            //검토결과 데이터 생성
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "33");
+
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("33");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+          
+            viewModel.CommentList = CommentList;
+
+            ViewBag.paramModel = paramModel;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GrowthStrategyType(BasicSurveyReportViewModel paramModel, GrowthStrategyTypeViewModel viewModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "33");
+
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+          
+            await rptMentorCommentService.SaveDbContextAsync();
+         
+
+            if (viewModel.SubmitType == "T") //임시저장
+            {
+                return RedirectToAction("GrowthStrategyType", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("??", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
         }
         #endregion
 
