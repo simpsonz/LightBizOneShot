@@ -1486,6 +1486,7 @@
     <Content Include="Views\BasicSurveyReport\OverallResultCover.cshtml" />
     <Content Include="Views\BasicSurveyReport\OrgHR01.cshtml" />
     <Content Include="Views\BasicSurveyReport\GrowthRoadMapCover.cshtml" />
+    <Content Include="Views\BasicSurveyReport\GrowthStrategy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
