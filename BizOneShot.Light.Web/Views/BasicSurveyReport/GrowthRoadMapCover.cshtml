@@ -1,0 +1,93 @@
+﻿@model BizOneShot.Light.Models.ViewModels.BasicSurveyReportViewModel
+
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz >  a.navi_report').addClass('on');
+        //Cs menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
+    });
+
+</script>
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_03">
+        <em>기초경영역량 보고서</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_report01"><em>STEP01.역량검토 결과 요약</em></li>
+            <li class="basic_report02">
+                <a href="" class="ablock">
+                    <em>
+                        STEP02.기초역량검토
+                        종합결과
+                    </em>
+                </a>
+            </li>
+            <li class="basic_report03 on">
+                <a href="" class="ablock">
+                    <em>
+                        STEP03.성장로드맵
+                        제안
+                    </em>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="sub_report_checkbox">
+        <div class="report_main_top2">
+            <div class="title_medium">
+                Ⅲ. 성장 로드맵 제안 _<span class="top2_right w475_span">
+                    기초조사 및
+                    면담결과를 토대로 성장로드맵을 제안합니다. 다만, 이 결과는 짧은 조사를 통해서 도출된 것이기 때문에 경영에
+                    참고만 하셔야 하며, 실제 실행에 있어서는 보다 면밀한 전문가와의 상담을 권장합니다.
+                </span>
+            </div>
+        </div>
+        <div class="report_main_mid">
+            <table class="list_table top_w304">
+                <colgroup>
+                    <col width="30%">
+                    <col width="70%">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td rowspan="4" class="left_memo">성장 로드맵 제안</td>
+                        <td class="chapter">• 성장전략 유형검토</td>
+                    </tr>
+                    <tr>
+                        <td class="chapter">• 단계별 성장전략</td>
+                    </tr>
+                    <tr>
+                        <td class="chapter">• 부분별 추진전략</td>
+                    </tr>
+                    <tr>
+                        <td class="chapter last_memo">• 단계별 역량강화 로드맵</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <!--container//-->
+    <div id="btnwrap_sub" class="bottom_left2">
+
+        <div class="rightwrap left">
+            <a href="@Url.Action("??", "??", new { area = "" , BizWorkSn = Model.BizWorkSn, CompSn = Model.CompSn, BizWorkYear = Model.BizWorkYear, Status = Model.Status, QuestionSn = Model.QuestionSn})" class="pre left" value="이전"><em>이전</em></a>
+
+        </div>
+        <div class="rightwrap right">
+            <a href="@Url.Action("??", "??", new { area = "" , BizWorkSn = Model.BizWorkSn, CompSn = Model.CompSn, BizWorkYear = Model.BizWorkYear, Status = Model.Status, QuestionSn =Model.QuestionSn})" class="next right" value="다음"><em>다음</em></a>
+
+        </div>
+    </div>
+</div>

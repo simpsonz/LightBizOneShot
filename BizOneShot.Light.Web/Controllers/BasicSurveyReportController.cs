@@ -282,7 +282,16 @@ namespace BizOneShot.Light.Web.Controllers
                 return RedirectToAction("OrgHR02", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
             }
         }
+        #region 성장 로드맵
+        public ActionResult GrowthRoadMapCover(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
 
+
+            return View(paramModel);
+
+        }
+        #endregion
 
 
         #region 드롭다운박스 처리 controller
