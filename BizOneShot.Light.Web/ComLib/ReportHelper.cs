@@ -746,5 +746,41 @@ namespace BizOneShot.Light.Web.ComLib
             return code;
         }
 
+        public static string GetArrowTypeB(double point)
+        {
+            string code = "";
+            if (point >= 0 && point <= 9.5)
+                code = "C";
+            else if (point > 9.5 && point <= 14.25)
+                code = "B";
+            else
+                code = "A";
+            return code;
+        }
+
+        public static string GetArrowTypeC(double point)
+        {
+            string code = "";
+            if (point >= 0 && point <= 19.5)
+                code = "C";
+            else if (point > 19.5 && point <= 19.25)
+                code = "B";
+            else
+                code = "A";
+            return code;
+        }
+
+        public static string GetArrowTypeD(double point)
+        {
+            string code = "";
+            if (point >= 0 && point <= 5)
+                code = "C";
+            else if (point > 5 && point <= 7.5)
+                code = "B";
+            else
+                code = "A";
+            return code;
+        }
+
     }
 }

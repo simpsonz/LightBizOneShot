@@ -161,19 +161,22 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
             //double totalPoint = 0;
-            Dictionary<string, double> dictionary = new Dictionary<string, double>();
+            Dictionary<string, double> dicTotalHrMng = new Dictionary<string, double>();
+            Dictionary<string, double> dicTotalMkt = new Dictionary<string, double>();
+            Dictionary<string, double> dicTotalBasicCpas = new Dictionary<string, double>();
 
             OverallSummaryViewModel viewModel = new OverallSummaryViewModel();
             viewModel.CommentList = new List<CommentViewModel>();
             ReportUtil reportUtil = new ReportUtil(quesResult1Service, quesResult2Service, quesMasterService);
 
 
-            //1. 경영역량총괄 전체평균
+            //1-A. 경영역량총괄 전체평균
             //1) 종료된 모든 사업에 포함된 기업들의 사업기간내의 기초역량 점수 계산 
             // 확인사항 현재 사업이 장기간의 사업이라면 해당사업이 진행될 수록 사업전 사업은 작아짐. 확인 필요
             var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
             var endBizWorks = await scBizWorkService.GetEndBizWorkList(curBizWork.BizWorkStDt.Value);
-            foreach(var bizWork in endBizWorks)
+
+            foreach (var bizWork in endBizWorks)
             {
                 var compMappings = bizWork.ScCompMappings;
                 foreach (var compMapping in compMappings)
@@ -185,12 +188,20 @@ namespace BizOneShot.Light.Web.Controllers
                     }
                     for (int i = bizWork.BizWorkStDt.Value.Year; i <= bizWork.BizWorkEdDt.Value.Year; i++)
                     {
-                        if(dictionary.ContainsKey(compMapping.ScCompInfo.RegistrationNo + i.ToString()).Equals(false))
+                        var dicKey = compMapping.ScCompInfo.RegistrationNo + i.ToString();
+
+                        if (dicTotalHrMng.ContainsKey(dicKey).Equals(false))
                         {
                             var quesMaster = quesMasters.Where(qm => qm.BasicYear == i).SingleOrDefault();
                             if(quesMaster != null)
-                            { 
-                                dictionary.Add(compMapping.ScCompInfo.RegistrationNo + i.ToString(), await reportUtil.GetCompanyTotalPoint(quesMaster.QuestionSn));
+                            {
+                                var totalHrMng = await reportUtil.GetHumanResourceMng(paramModel.QuestionSn);
+                                var totalMkt = await reportUtil.GetTechMng(paramModel.QuestionSn);
+                                var totalBasicCapa = await reportUtil.GetOverAllManagementTotalPoint(paramModel.QuestionSn);
+
+                                dicTotalHrMng.Add(dicKey, totalHrMng);
+                                dicTotalMkt.Add(dicKey, totalMkt);
+                                dicTotalBasicCpas.Add(dicKey, totalBasicCapa);
                             }
                         }
                     }
@@ -198,6 +209,10 @@ namespace BizOneShot.Light.Web.Controllers
             }
 
             //2) 현재 사업에 참여한 업체 평균
+            Dictionary<string, double> dicBizInHrMng = new Dictionary<string, double>();
+            Dictionary<string, double> dicBizInMkt = new Dictionary<string, double>();
+            Dictionary<string, double> dicBizInBasicCpas = new Dictionary<string, double>();
+
             {
                 var compMappings = curBizWork.ScCompMappings;
                 foreach (var compMapping in compMappings)
@@ -209,13 +224,25 @@ namespace BizOneShot.Light.Web.Controllers
                     }
                     for (int i = curBizWork.BizWorkStDt.Value.Year; i <= curBizWork.BizWorkEdDt.Value.Year; i++)
                     {
-                        if (dictionary.ContainsKey(compMapping.ScCompInfo.RegistrationNo + i.ToString()).Equals(false))
+                        var dicKey = compMapping.ScCompInfo.RegistrationNo + i.ToString();
+                        var quesMaster = quesMasters.Where(qm => qm.BasicYear == i).SingleOrDefault();
+
+                        if (quesMaster != null)
                         {
-                            var quesMaster = quesMasters.Where(qm => qm.BasicYear == i).SingleOrDefault();
-                            if (quesMaster != null)
+                            var bizInHrMng = await reportUtil.GetHumanResourceMng(paramModel.QuestionSn);
+                            var bizInMkt = await reportUtil.GetTechMng(paramModel.QuestionSn);
+                            var bizInBasicCapa = await reportUtil.GetOverAllManagementTotalPoint(paramModel.QuestionSn);
+
+                            if (dicTotalHrMng.ContainsKey(dicKey).Equals(false))
                             {
-                                dictionary.Add(compMapping.ScCompInfo.RegistrationNo + i.ToString(), await reportUtil.GetCompanyTotalPoint(quesMaster.QuestionSn));
+                                dicTotalHrMng.Add(dicKey, bizInHrMng);
+                                dicTotalMkt.Add(dicKey, bizInMkt);
+                                dicTotalBasicCpas.Add(dicKey, bizInBasicCapa);
                             }
+
+                            dicBizInHrMng.Add(dicKey, bizInHrMng);
+                            dicBizInMkt.Add(dicKey, bizInMkt);
+                            dicBizInBasicCpas.Add(dicKey, bizInBasicCapa);
                         }
                     }
                 }
@@ -224,23 +251,66 @@ namespace BizOneShot.Light.Web.Controllers
             // 3) 기초자료 전체 평균
             // 설명자료에 해당 내용 없음.
 
-
             // 4) 전체 평균정수 계산
             double totalPoint = 0;
-            foreach(var item in dictionary.Values)
-            {
-                totalPoint = totalPoint + item;
-            }
+            totalPoint = totalPoint + dicTotalHrMng.Values.Sum();
+            totalPoint = totalPoint + dicTotalMkt.Values.Sum();
+            totalPoint = totalPoint + dicTotalBasicCpas.Values.Sum();
+            viewModel.AvgTotalPoint = Math.Round(totalPoint / dicTotalHrMng.Count, 1);
 
-            totalPoint = totalPoint  / dictionary.Count;
-            viewModel.AvgTotalPoint = Math.Round(totalPoint, 1);
-
-            //2. 해당 기업의 기초역량 점수 계산
-            double companyPoint = await reportUtil.GetCompanyTotalPoint(paramModel.QuestionSn);
+            //1-B. 해당 기업의 기초역량 점수 계산
+            double companyPoint = 0;
+            var mnaagementTotalPoint =  await reportUtil.GetOverAllManagementTotalPoint(paramModel.QuestionSn);
+            var techMng = await reportUtil.GetTechMng(paramModel.QuestionSn);
+            var HrMng = await reportUtil.GetHumanResourceMng(paramModel.QuestionSn);
+            companyPoint = mnaagementTotalPoint + techMng + HrMng;
             viewModel.CompanyPoint = Math.Round(companyPoint, 1);
 
-            //3. 경영역량 총괄 화살표
+            //2. 경영역량 총괄 화살표
             viewModel.BizCapaType = ReportHelper.GetArrowTypeA(companyPoint);
+
+            //3. 인적자원관리 화살표(해당기업)
+            viewModel.HRMngType = ReportHelper.GetArrowTypeB(HrMng);
+
+            //4. 기술경영, 마케팅 화살표(해당기업)
+            viewModel.MarketingType = ReportHelper.GetArrowTypeC(techMng);
+
+            //5. 기초역량 화살표(해당기업)
+            viewModel.BasicCapaType = ReportHelper.GetArrowTypeD(mnaagementTotalPoint);
+
+            //6. 조직문화도 화살표  -------------> 해당 페이지 개발 후 적용 해야함.
+            viewModel.OrgType = "A";
+            //7. 고객의수, 상품의질 화살표 -------------> 해당 페이지 개발 후 적용 해야함.
+            viewModel.CustMngType = "A";
+            //8. 전반적 제도 및 규정관리체계 화살표 -------------> 해당 페이지 개발 후 적용 해야함.
+            viewModel.RoolType = "A";
+
+            //9. 조직역량-인적자원관리 해당기업 점수
+            OverallSummaryPointViewModel orgCapa = new OverallSummaryPointViewModel();
+            orgCapa.CompanyPoint = Math.Round(HrMng, 1);
+            //12. 조직역량-인적자원관리 참여기업 평균 점수
+            orgCapa.AvgBizInCompanyPoint = Math.Round(dicBizInHrMng.Values.Average(), 1);
+            //15. 조직역량-인적자원관리 전체평균 점수
+            orgCapa.AvgTotalPoint = Math.Round(dicTotalHrMng.Values.Average(), 1);
+            viewModel.OrgCapa = orgCapa;
+
+            //10. 상품화역량-기술경영 마케팅관리 해당기업 점수
+            OverallSummaryPointViewModel prductionCapa = new OverallSummaryPointViewModel();
+            prductionCapa.CompanyPoint = Math.Round(techMng, 1);
+            //13. 상품화역량-기술경영 마케팅관리 참여기업 평균 점수
+            prductionCapa.AvgBizInCompanyPoint = Math.Round(dicBizInMkt.Values.Average(), 1);
+            //16. 상품화역량-기술경영 마케팅관리 전체평균 점수
+            prductionCapa.AvgTotalPoint = Math.Round(dicTotalMkt.Values.Average(), 1);
+            viewModel.ProductionCapa = prductionCapa;
+
+            //11. 위험관리역량-기초역량 해당기업 점수
+            OverallSummaryPointViewModel riskMngCapa = new OverallSummaryPointViewModel();
+            riskMngCapa.CompanyPoint = Math.Round(mnaagementTotalPoint, 1);
+            //14. 상품화역량-기술경영 마케팅관리 참여기업 평균 점수
+            riskMngCapa.AvgBizInCompanyPoint = Math.Round(dicBizInBasicCpas.Values.Average(), 1);
+            //17. 상품화역량-기술경영 마케팅관리 전체평균 점수
+            riskMngCapa.AvgTotalPoint = Math.Round(dicTotalBasicCpas.Values.Average(), 1);
+            viewModel.RiskMngCapa = riskMngCapa;
 
             #region 주석 추후 제거 필요
 
@@ -425,7 +495,7 @@ namespace BizOneShot.Light.Web.Controllers
 
             #endregion
 
-            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "01");
+            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "04");
 
             //조직역량->조직분화도
             var comment0 = comments.SingleOrDefault(i => i.DetailCd == "01010401");
@@ -439,7 +509,6 @@ namespace BizOneShot.Light.Web.Controllers
             var comment2 = comments.SingleOrDefault(i => i.DetailCd == "01010403");
             viewModel.CommentList.Add(ReportHelper.MakeCommentViewModel(paramModel, "01010403", comment2));
 
-
             ViewBag.paramModel = paramModel;
             return View(viewModel);
 
@@ -449,7 +518,7 @@ namespace BizOneShot.Light.Web.Controllers
         public async Task<ActionResult> OverallSummary(OverallSummaryViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
-            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "01");
+            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "04");
 
             foreach(var item in viewModel.CommentList)
             {
@@ -489,19 +558,33 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
             OrgHR01ViewModel viewModel = new OrgHR01ViewModel();
+            viewModel.CheckList = new List<CheckListViewModel>();
+
             //리스트 데이터 생성
-            //var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D101");
+            var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D101");
+
+            int count = 1;
+            foreach(var item in quesResult1s)
+            {
+                CheckListViewModel checkListViewModel = new CheckListViewModel();
+                checkListViewModel.Count = count.ToString();
+                checkListViewModel.AnsVal = item.AnsVal.Value;
+                checkListViewModel.DetailCd = item.QuesCheckList.DetailCd;
+                checkListViewModel.Title = item.QuesCheckList.Title;
+                viewModel.CheckList.Add(checkListViewModel);
+                count++;
+            }
 
 
 
 
 
             //검토결과 데이터 생성
-            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "02");
+            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "06");
 
             //조직역량->인적자원의 확보와 개발관리
-            var comment = comments.SingleOrDefault(i => i.DetailCd == "02010201");
-            viewModel.Comment = ReportHelper.MakeCommentViewModel(paramModel, "02010201", comment);
+            var comment = comments.SingleOrDefault(i => i.DetailCd == "02010601");
+            viewModel.Comment = ReportHelper.MakeCommentViewModel(paramModel, "02010601", comment);
 
             ViewBag.paramModel = paramModel;
             return View(viewModel);
@@ -511,7 +594,7 @@ namespace BizOneShot.Light.Web.Controllers
         public async Task<ActionResult> OrgHR01(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
-            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "02");
+            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "06");
 
             var comment = comments.SingleOrDefault(i => i.DetailCd == viewModel.Comment.DetailCd);
             if (comment == null)

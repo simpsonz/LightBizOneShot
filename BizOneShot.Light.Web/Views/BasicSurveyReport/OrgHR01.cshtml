@@ -159,6 +159,35 @@
                             </td>
                             <td class="left_memo">전체평균</td>
                         </tr>
+                        @if (Model == null || Model.CheckList.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.CheckList)
+                            {
+                                <tr>
+                                    <td>@item.Count</td>
+                                    <td>@item.Title</td>
+                                    @if (item.AnsVal == true)
+                                    {
+                                        <td class="center_td center">∎</td>
+                                    }
+                                    else
+                                    { 
+                                        <td class="center_td center">□</td>
+                                    }
+                                    <td>@item.StartUpAvg %</td>
+                                    <td>@item.GrowthAvg %</td>
+                                    <td>@item.IndependentAvg %</td>
+                                    <td>@item.BizInCompanyAvg %</td>
+                                    <td>@item.TotalAvg %</td>
+                                </tr>
+                            }
+                        }
                         <tr>
                             <td class="center_td center">1</td>
                             <td class="center_td center">인력수급 계획</td>
