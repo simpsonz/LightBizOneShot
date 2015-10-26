@@ -13,6 +13,7 @@ namespace BizOneShot.Light.Services
     {
         Task<IList<QuesMaster>> GetQuesMastersAsync(string registrationNo);
         Task<QuesMaster> GetQuesMasterAsync(int questionSn);
+        Task<QuesMaster> GetQuesMasterAsync(string registrationNo, int basicYear);
         Task<QuesMaster> AddQuesMasterAsync(QuesMaster quesMaster);
         Task<QuesMaster> GetQuesCompInfoAsync(int questionSn);
         Task<QuesMaster> GetQuesCompExtentionAsync(int questionSn);
@@ -42,6 +43,12 @@ namespace BizOneShot.Light.Services
         public async Task<QuesMaster> GetQuesMasterAsync(int questionSn)
         {
             var quesMaster = await _quesMasterRepository.GetQuesMasterAsync(qm => qm.QuestionSn == questionSn && qm.Status != "D");
+            return quesMaster;
+        }
+
+        public async Task<QuesMaster> GetQuesMasterAsync(string registrationNo, int basicYear)
+        {
+            var quesMaster = await _quesMasterRepository.GetQuesMasterAsync(qm => qm.RegistrationNo == registrationNo && qm.BasicYear == basicYear && qm.Status == "C");
             return quesMaster;
         }
 
