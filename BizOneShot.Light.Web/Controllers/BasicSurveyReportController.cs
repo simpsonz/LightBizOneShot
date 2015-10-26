@@ -17,19 +17,28 @@ namespace BizOneShot.Light.Web.Controllers
     [UserAuthorize(Order = 1)]
     public class BasicSurveyReportController : BaseController
     {
-        private readonly IScCompMappingService scCompMappingService;
+        
         private readonly IQuesCompInfoService quesCompInfoService;
         private readonly IQuesResult1Service quesResult1Service;
+        private readonly IQuesResult2Service quesResult2Service;
+        private readonly IQuesMasterService quesMasterService;
+        private readonly IScCompMappingService scCompMappingService;
         private readonly IScMentorMappingService scMentorMappingService;
+        private readonly IScBizWorkService scBizWorkService;
         private readonly IRptMasterService rptMasterService;
         private readonly IRptMentorCommentService rptMentorCommentService;
+        
+
         public BasicSurveyReportController(
             IScCompMappingService scCompMappingService,
             IQuesCompInfoService quesCompInfoService,
             IScMentorMappingService scMentorMappingService,
             IRptMasterService rptMasterService,
             IRptMentorCommentService rptMentorCommentService,
-            IQuesResult1Service quesResult1Service)
+            IQuesResult1Service quesResult1Service,
+            IQuesResult2Service quesResult2Service,
+            IQuesMasterService quesMasterService,
+            IScBizWorkService scBizWorkService)
         {
             this.scCompMappingService = scCompMappingService;
             this.quesCompInfoService = quesCompInfoService;
@@ -37,6 +46,9 @@ namespace BizOneShot.Light.Web.Controllers
             this.rptMasterService = rptMasterService;
             this.rptMentorCommentService = rptMentorCommentService;
             this.quesResult1Service = quesResult1Service;
+            this.quesMasterService = quesMasterService;
+            this.quesResult2Service = quesResult2Service;
+            this.scBizWorkService = scBizWorkService;
         }
 
         // GET: BasicSurveyReport
@@ -146,46 +158,284 @@ namespace BizOneShot.Light.Web.Controllers
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
-            double totalPoint = 0;
+            //double totalPoint = 0;
+            Dictionary<string, double> dictionary = new Dictionary<string, double>();
 
             OverallSummaryViewModel viewModel = new OverallSummaryViewModel();
             viewModel.CommentList = new List<CommentViewModel>();
+            ReportUtil reportUtil = new ReportUtil(quesResult1Service, quesResult2Service, quesMasterService);
 
 
-            //경영목표 및 전략
-            // A1A101 : 경영목표 및 전략 코드
-            var quesResult1sPurpose = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1A101");
-            totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sPurpose)), 0.5);
+            //1. 경영역량총괄 전체평균
+            //1) 종료된 모든 사업에 포함된 기업들의 사업기간내의 기초역량 점수 계산 
+            // 확인사항 현재 사업이 장기간의 사업이라면 해당사업이 진행될 수록 사업전 사업은 작아짐. 확인 필요
+            var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
+            var endBizWorks = await scBizWorkService.GetEndBizWorkList(curBizWork.BizWorkStDt.Value);
+            foreach(var bizWork in endBizWorks)
+            {
+                var compMappings = bizWork.ScCompMappings;
+                foreach (var compMapping in compMappings)
+                {
+                    var quesMasters = await quesMasterService.GetQuesMastersAsync(compMapping.ScCompInfo.RegistrationNo);
+                    if (quesMasters.Count == 0)
+                    {
+                        continue;
+                    }
+                    for (int i = bizWork.BizWorkStDt.Value.Year; i <= bizWork.BizWorkEdDt.Value.Year; i++)
+                    {
+                        if(dictionary.ContainsKey(compMapping.ScCompInfo.RegistrationNo + i.ToString()).Equals(false))
+                        {
+                            var quesMaster = quesMasters.Where(qm => qm.BasicYear == i).SingleOrDefault();
+                            if(quesMaster != null)
+                            { 
+                                dictionary.Add(compMapping.ScCompInfo.RegistrationNo + i.ToString(), await reportUtil.GetCompanyTotalPoint(quesMaster.QuestionSn));
+                            }
+                        }
+                    }
+                }
+            }
 
-            // A1A102 : 경영자의 리더쉽 코드
-            var quesResult1sLeadership = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1A102");
-            totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sLeadership)), 0.5);
+            //2) 현재 사업에 참여한 업체 평균
+            {
+                var compMappings = curBizWork.ScCompMappings;
+                foreach (var compMapping in compMappings)
+                {
+                    var quesMasters = await quesMasterService.GetQuesMastersAsync(compMapping.ScCompInfo.RegistrationNo);
+                    if(quesMasters.Count == 0)
+                    {
+                        continue;
+                    }
+                    for (int i = curBizWork.BizWorkStDt.Value.Year; i <= curBizWork.BizWorkEdDt.Value.Year; i++)
+                    {
+                        if (dictionary.ContainsKey(compMapping.ScCompInfo.RegistrationNo + i.ToString()).Equals(false))
+                        {
+                            var quesMaster = quesMasters.Where(qm => qm.BasicYear == i).SingleOrDefault();
+                            if (quesMaster != null)
+                            {
+                                dictionary.Add(compMapping.ScCompInfo.RegistrationNo + i.ToString(), await reportUtil.GetCompanyTotalPoint(quesMaster.QuestionSn));
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 3) 기초자료 전체 평균
+            // 설명자료에 해당 내용 없음.
 
 
+            // 4) 전체 평균정수 계산
+            double totalPoint = 0;
+            foreach(var item in dictionary.Values)
+            {
+                totalPoint = totalPoint + item;
+            }
+
+            totalPoint = totalPoint  / dictionary.Count;
+            viewModel.AvgTotalPoint = Math.Round(totalPoint, 1);
+
+            //2. 해당 기업의 기초역량 점수 계산
+            double companyPoint = await reportUtil.GetCompanyTotalPoint(paramModel.QuestionSn);
+            viewModel.CompanyPoint = Math.Round(companyPoint, 1);
+
+            //3. 경영역량 총괄 화살표
+            viewModel.BizCapaType = ReportHelper.GetArrowTypeA(companyPoint);
+
+            #region 주석 추후 제거 필요
+
+            ////경영목표 및 전략
+            //// A1A101 : 경영목표 및 전략 코드
+            //var quesResult1sPurpose = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1A101");
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sPurpose)), 0.5);
 
 
-            // A1A103 : 경영자의 신뢰성
-            var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1A103");
+            //// A1A102 : 경영자의 리더쉽 코드
+            //var quesResult1sLeadership = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1A102");
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sLeadership)), 0.5);
 
 
+            //// 조직구성 조회
+            //var quesMaster = await quesMasterService.GetQuesOgranAnalysisAsync(paramModel.QuestionSn);
+            //int officerCnt = 0;
+            //foreach(var item in quesMaster.QuesOgranAnalysis)
+            //{
+            //    officerCnt = officerCnt + item.OfficerCount.Value;
+            //}
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeB(officerCnt), 1);
 
 
+            //// A1A103 : 경영자의 신뢰성
+            //var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1A103");
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeC(ReportHelper.CalcCheckCount(quesResult1s)), 2);
 
 
+            //// A1A201 : 근로환경
+            //var quesResult1sWorkEnv = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1A201");
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sWorkEnv)), 1);
+
+
+            //// A1A202 : 조직만족도
+            //var quesResult2s = await quesResult2Service.GetQuesResult2sAsync(paramModel.QuestionSn, "A1A202");
+            ////총직원
+            //var totalEmp = quesResult2s.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1A20201");
+            ////이직직원
+            //var moveEmp = quesResult2s.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1A20202");
+
+            //if(totalEmp.D451 == "0")
+            //{
+            //    double avg = (int.Parse(moveEmp.D) / int.Parse(totalEmp.D)) * 100;
+            //    totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeD(avg), 3);
+
+            //}
+            //else if(totalEmp.D452 == "0")
+            //{
+            //    double avg = ((int.Parse(moveEmp.D) / int.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / int.Parse(totalEmp.D451))) / 2  * 100;
+            //    totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeD(avg), 3);
+            //}
+            //else
+            //{
+            //    double avg = ((int.Parse(moveEmp.D) / int.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / int.Parse(totalEmp.D451)) + (int.Parse(moveEmp.D452) / int.Parse(totalEmp.D452))) / 3 * 100;
+            //    totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeD(avg), 3);
+            //}
+
+
+            //// A1A203 : 정보시스템 활용
+            //var quesResult1sInfoSystem = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1A203");
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sInfoSystem)), 2);
+
+
+            //// 연구개발 투자
+            //// 구현해야 함.(다래 DB 정리되면..............................)
+
+
+            ////연구개발 인력의 비율
+            //var quesResult2sEmpRate = await quesResult2Service.GetQuesResult2sAsync(paramModel.QuestionSn, "A1B102");
+            ////전체임직원수
+            //var TotalEmp = quesResult2sEmpRate.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1B10202");
+            ////연구개발인력
+            //var RndEmp = quesResult2sEmpRate.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1B10201");
+            //if(int.Parse(RndEmp.D) != 0)
+            //{
+            //    double avg = (int.Parse(TotalEmp.D) / int.Parse(RndEmp.D)) * 100;
+            //    totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeE(avg), 1);
+            //}
+
+
+            ////연구개발 인력의 능력
+            //var quesResult2sEmpCapa = await quesResult2Service.GetQuesResult2sAsync(paramModel.QuestionSn, "A1B103");
+            ////박사급
+            //var DoctorEmp = quesResult2sEmpCapa.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1B10301");
+            ////석사급
+            //var MasterEmp = quesResult2sEmpCapa.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1B10302");
+            ////학사급
+            //var CollegeEmp = quesResult2sEmpCapa.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1B10303");
+            ////기능사급
+            //var TechEmp = quesResult2sEmpCapa.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1B10304");
+            ////고졸이하급
+            //var HighEmp = quesResult2sEmpCapa.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1B10305");
+            //if((int.Parse(DoctorEmp.D) + int.Parse(MasterEmp.D) + int.Parse(CollegeEmp.D) + int.Parse(TechEmp.D) + int.Parse(HighEmp.D)) != 0)
+            //{
+            //    double avg = (int.Parse(DoctorEmp.D) * 5) + (int.Parse(MasterEmp.D) * 4) + (int.Parse(CollegeEmp.D) * 3) + (int.Parse(TechEmp.D) * 2) + (int.Parse(HighEmp.D) * 1) / (int.Parse(DoctorEmp.D) + int.Parse(MasterEmp.D) + int.Parse(CollegeEmp.D) + int.Parse(TechEmp.D) + int.Parse(HighEmp.D));
+            //    totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeF(avg), 3);
+            //}
+
+
+            //// A1B104 : 사업화역량
+            //var quesResult1sBizCapa = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1B104");
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeC(ReportHelper.CalcCheckCount(quesResult1sBizCapa)), 5);
+
+
+            //// A1B105 : 사업화실적
+            //var quesResult2sBizResult = await quesResult2Service.GetQuesResult2sAsync(paramModel.QuestionSn, "A1B105");
+            ////사업화실적 총 건수
+            //var BizResultCnt = quesResult2sBizResult.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1B10502");
+            //{
+            //    double avg = int.Parse(BizResultCnt.D) + int.Parse(BizResultCnt.D451) + int.Parse(BizResultCnt.D452) / 3;
+            //    totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeE(avg), 4);
+            //}
+
+
+            //// A1B106 : 생산설비의 운영체제 및 관리
+            //var quesResult1sFacMng = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1B106");
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sFacMng)), 2);
+
+
+            //// A1B107 : 공정관리
+            //var quesResult1sProcess = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1B107");
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeC(ReportHelper.CalcCheckCount(quesResult1sProcess)), 2);
+
+
+            //// A1B108 : 품질관리
+            //var quesResult1sQaMng = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1B108");
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeC(ReportHelper.CalcCheckCount(quesResult1sQaMng)), 3);
+
+
+            //// A1C101 : 마케팅 전략의 수립 및 실행
+            //var quesResult1sMarketing = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1C101");
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeG(ReportHelper.CalcCheckCount(quesResult1sMarketing)), 8);
+
+
+            //// A1C102 : 고객관리
+            //var quesResult1sCustMng = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1C102");
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sCustMng)), 9);
+
+
+            //// A1D101 : 인적자윈의 확보와 개발관리
+            //var quesResult1sHrMng = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D101");
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sHrMng)), 11);
+
+
+            //// A1D102 : 이적자원의 보상 및 유지관리
+            //var quesResult1sMaintenance = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D102");
+            //totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sMaintenance)), 8);
+
+
+            ////재무적성과
+            //// 구현해야 함.(다래 DB 정리되면..............................)
+
+
+            //// A1E102 : 지적재산권성과
+            //var quesResult2sPatent = await quesResult2Service.GetQuesResult2sAsync(paramModel.QuestionSn, "A1E102");
+            ////등록 특허
+            //var RegPatent = quesResult2sPatent.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1E10201");
+            ////등록 실용신안
+            //var RegUtilityModel = quesResult2sPatent.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1E10202");
+            ////출원 특허
+            //var ApplyPatent = quesResult2sPatent.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1E10203");
+            ////출원 실용신안
+            //var ApplyUtilityModel = quesResult2sPatent.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1E10204");
+            ////기타
+            //var Etc = quesResult2sPatent.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1E10205");
+            //{
+            //    double avg = (int.Parse(RegPatent.D)*3) + (int.Parse(ApplyPatent.D)*2) + (int.Parse(RegUtilityModel.D)*2) + int.Parse(ApplyUtilityModel.D) + int.Parse(Etc.D);
+            //    totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeH(avg), 3);
+            //}
+
+
+            //// A1E103 : 임직원 수
+            //var quesResult2sTotalEmp = await quesResult2Service.GetQuesResult2sAsync(paramModel.QuestionSn, "A1E103");
+            ////전체 임직원
+            //var TotalEmploy = quesResult2sTotalEmp.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1E10301");
+            //if(int.Parse(TotalEmploy.D451) != 0)
+            //{
+            //    double avg = (int.Parse(TotalEmploy.D) / int.Parse(TotalEmploy.D451))-1;
+            //    totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeI(avg), 3);
+            //}
+
+            #endregion
 
             var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "01");
 
             //조직역량->조직분화도
-            var comment0 = comments.SingleOrDefault(i => i.DetailCd == "01010101");
-            viewModel.CommentList.Add(ReportHelper.MakeCommentViewModel(paramModel, "01010101", comment0));
+            var comment0 = comments.SingleOrDefault(i => i.DetailCd == "01010401");
+            viewModel.CommentList.Add(ReportHelper.MakeCommentViewModel(paramModel, "01010401", comment0));
 
             // 상품화역량 -> 고객의수, 상품의 질 및 마케팅 수준
-            var comment1 = comments.SingleOrDefault(i => i.DetailCd == "01010102");
-            viewModel.CommentList.Add(ReportHelper.MakeCommentViewModel(paramModel, "01010102", comment1));
+            var comment1 = comments.SingleOrDefault(i => i.DetailCd == "01010402");
+            viewModel.CommentList.Add(ReportHelper.MakeCommentViewModel(paramModel, "01010402", comment1));
 
             // 위험관리역량 -> 제무회계 관리체계 및 제도수준
-            var comment2 = comments.SingleOrDefault(i => i.DetailCd == "01010103");
-            viewModel.CommentList.Add(ReportHelper.MakeCommentViewModel(paramModel, "01010103", comment2));
+            var comment2 = comments.SingleOrDefault(i => i.DetailCd == "01010403");
+            viewModel.CommentList.Add(ReportHelper.MakeCommentViewModel(paramModel, "01010403", comment2));
 
 
             ViewBag.paramModel = paramModel;
@@ -238,7 +488,7 @@ namespace BizOneShot.Light.Web.Controllers
 
             OrgHR01ViewModel viewModel = new OrgHR01ViewModel();
             //리스트 데이터 생성
-            var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D101");
+            //var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D101");
 
 
 

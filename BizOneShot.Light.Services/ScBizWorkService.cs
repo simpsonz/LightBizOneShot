@@ -16,6 +16,7 @@ namespace BizOneShot.Light.Services
         //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
         //Task<IList<ScBizWork>> GetBizWorkList(int comSn, string excutorId = null);
         Task<IList<ScBizWork>> GetBizWorkList(int mngComSn, string excutorId = null, int bizWorkYear = 0);
+        Task<IList<ScBizWork>> GetEndBizWorkList(DateTime endDateTiem);
         Task<IList<ScBizWork>> GetBizWorkListByBizWorkNm(int comSn, string query);
         Task<ScBizWork> GetBizWorkByBizWorkSn(int bizWorkSn);
         ScBizWork Insert(ScBizWork scBizWork);
@@ -68,6 +69,12 @@ namespace BizOneShot.Light.Services
 
                 return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
             }
+        }
+
+        public async Task<IList<ScBizWork>> GetEndBizWorkList(DateTime endDateTiem)
+        {
+            var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.BizWorkEdDt < endDateTiem && bw.Status == "N");
+            return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
         }
 
         public async Task<IList<ScCompInfo>> GetBizWorkComList(int bizWorkSn)

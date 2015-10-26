@@ -632,6 +632,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             else
             {
                 var quesYearListView = Mapper.Map<List<QuesYearListViewModel>>(quesResult2s);
+                //총직원
                 bizCheck04.TotalEmp = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1A20201");
                 //이직직원
                 bizCheck04.MoveEmp = quesYearListView.SingleOrDefault(i => i.DetailCd == "A1A20202");
@@ -779,7 +780,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
 
             var bizCheck05 = new BizCheck05ViewModel();
 
-            // A1A103 : 경영자의 신뢰성
+            // A1A203 : 정보시스템 활용
             var quesResult1s = await _quesResult1Service.GetQuesResult1sAsync(int.Parse(questionSn), "A1A203");
 
             if (quesResult1s.Count() != 6)
@@ -1155,7 +1156,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 bizCheck07.BizCapa = quesCheckListView;
             }
 
-            // A1A202 : 조직만족도
+            // A1B105 : 사업화실적
             var quesResult2s = await _quesResult2Service.GetQuesResult2sAsync(int.Parse(questionSn), "A1B105");
 
             if (quesResult2s.Count() != 2)
