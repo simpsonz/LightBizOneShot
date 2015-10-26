@@ -144,7 +144,8 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.SelectCompInfoList = ReportHelper.MakeCompanyList(listScCompInfo);
             ViewBag.SelectStatusList = ReportHelper.MakeReportStatusList();
 
-            
+
+
             //기초역량 보고서 조회
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
