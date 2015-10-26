@@ -24,9 +24,11 @@ namespace BizOneShot.Light.Web.Controllers
         private readonly IQuesResult2Service quesResult2Service;
         private readonly IQuesMasterService quesMasterService;
         private readonly IScCompMappingService scCompMappingService;
+        private readonly IScBizWorkService scBizWorkService;
         private readonly IScMentorMappingService scMentorMappingService;
         private readonly IRptMasterService rptMasterService;
         private readonly IRptMentorCommentService rptMentorCommentService;
+        private readonly IRptCheckListService rptCheckListService;
         public BasicSurveyReportController(
             IScCompMappingService scCompMappingService,
             IQuesCompInfoService quesCompInfoService,
