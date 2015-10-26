@@ -1,4 +1,4 @@
-﻿@model BizOneShot.Light.Models.ViewModels.GrowthStrategyTypeViewModel
+﻿@model BizOneShot.Light.Models.ViewModels.GrowthStrategyViewModel
 
 @{
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -10,6 +10,40 @@
         $('#naviwrap_biz > .navi_biz >  a.navi_report').addClass('on');
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
+
+        $('#mainForm').bind('submit', function () {
+
+            var valid = true;
+            if ($('#submitType').val() == "N") {
+                $('input[id^="comment"]').each(function () {
+                    if ($(this).val().length == 0) {
+                        alert("필수항목을 입력해 주세요");
+                        $(this).focus();
+                        valid = false;
+
+                        return false;
+                    }
+                });
+
+
+                $('textarea[id^="comment"]').each(function () {
+                    if ($(this).val().length == 0 && valid == true) {
+                        alert("필수항목을 입력해 주세요");
+                        $(this).focus();
+                        valid = false;
+
+                        return false;
+                    }
+                });
+
+                return valid;
+
+                
+
+            }
+
+        });
+
     });
 
     function goSubmit(submitType) {
@@ -87,42 +121,49 @@
                                 <td class="left_memo">약점(W) → 보완</td>
                             </tr>
                             <tr>
-                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[0].Comment , new {@class = "swot_text" })</td>
-                                @Html.HiddenFor(model => model.CommentList[0].DetailCd)
-
-                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[1].Comment , new {@class = "swot_text" })</td>
-                                @Html.HiddenFor(model => model.CommentList[1].DetailCd)
+                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[0].Comment , new { @id ="comment1", @class = "swot_text" })
+                                    @Html.HiddenFor(model => model.CommentList[0].DetailCd)
+                                </td>
+                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[1].Comment , new { @id = "comment2", @class = "swot_text" })
+                                    @Html.HiddenFor(model => model.CommentList[1].DetailCd)
+                                </td>
                             </tr>
 
                             <tr>
                                 <td class="center_td left_memo" rowspan="2">
                                     기<br>회<br>(O)<br>↓<br>포<br>착
                                 </td>
-                                <td class="center_td" rowspan="2">@Html.TextAreaFor(model => model.CommentList[2].Comment, new { @class = "swot_text" })</td>
-                                @Html.HiddenFor(model => model.CommentList[2].DetailCd)
+                                <td class="center_td" rowspan="2">@Html.TextAreaFor(model => model.CommentList[2].Comment, new { @id = "comment3", @class = "swot_text" })
+                                    @Html.HiddenFor(model => model.CommentList[2].DetailCd)
+                                </td>
                                 <td class="center_td center">강점강화 + 기회포착</td>
                                 <td class="center_td center">약점보완 + 기회포착</td>
                             </tr>
                             <tr>
-                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[3].Comment, new { @class = "swot_text" })</td>
-                                @Html.HiddenFor(model => model.CommentList[3].DetailCd)
-                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[4].Comment, new { @class = "swot_text" })</td>
-                                @Html.HiddenFor(model => model.CommentList[4].DetailCd)
+                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[3].Comment, new { @id = "comment4", @class = "swot_text" })
+                                    @Html.HiddenFor(model => model.CommentList[3].DetailCd)
+                                </td>
+                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[4].Comment, new { @id = "comment5", @class = "swot_text" })
+                                    @Html.HiddenFor(model => model.CommentList[4].DetailCd)
+                                </td>
                             </tr>
                             <tr>
                                 <td class="center_td left_memo" rowspan="2">
                                     위<br>협<br>(T)<br>↓<br>포<br>착
                                 </td>
-                                <td class="center_td" rowspan="2">@Html.TextAreaFor(model => model.CommentList[5].Comment, new { @class = "swot_text" })</td>
-                                @Html.HiddenFor(model => model.CommentList[5].DetailCd)
+                                <td class="center_td" rowspan="2">@Html.TextAreaFor(model => model.CommentList[5].Comment, new { @id = "comment6", @class = "swot_text" })
+                                    @Html.HiddenFor(model => model.CommentList[5].DetailCd)
+                                </td>
                                 <td class="center_td center">강점강화 + 위협포착</td>
                                 <td class="center_td center">약점보완 + 위협포착</td>
                             </tr>
                             <tr>
-                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[6].Comment, new { @class = "swot_text" })</td>
-                                @Html.HiddenFor(model => model.CommentList[6].DetailCd)
-                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[7].Comment, new { @class = "swot_text" })</td>
-                                @Html.HiddenFor(model => model.CommentList[7].DetailCd)
+                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[6].Comment, new { @id = "comment7", @class = "swot_text" })
+                                    @Html.HiddenFor(model => model.CommentList[6].DetailCd)
+                                </td>
+                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[7].Comment, new { @id = "comment8", @class = "swot_text" })
+                                    @Html.HiddenFor(model => model.CommentList[7].DetailCd)
+                                </td>
                             </tr>
                         </table>
 
@@ -136,13 +177,14 @@
                             <p class="right_p">가치창출, 비용최소화, 고객맞춤 중 현단계에 맞는 것을 제안</p>
                         </div>
                         @*<textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>*@
-                        @Html.TextAreaFor(model => model.CommentList[8].Comment, new { @class = "bot_textarea", @placeholer = "500자 내로 작성하시기 바랍니다." })
+                        @Html.TextAreaFor(model => model.CommentList[8].Comment, new { @id="comment9", @class = "bot_textarea", @placeholder = "500자 내로 작성하시기 바랍니다." })
                         @Html.HiddenFor(model => model.CommentList[8].DetailCd)
                     </div>
 
                 </div>
             </div>
         </div>
+
     <!--container//-->
         <div id="btnwrap_sub" class="bottom_left2">
 
@@ -157,7 +199,7 @@
                 }
                 else
                 {
-                    <a href="@Url.Action("?", "BasicSurveyReport", new { area = "" , BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn})" class="next right" value="다음"><em>다음</em></a>
+                    <a href="@Url.Action("GrowthStrategyStep", "BasicSurveyReport", new { area = "" , BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn})" class="next right" value="다음"><em>다음</em></a>
                 }
             </div>
             @if (ViewBag.paramModel.Status != "C")

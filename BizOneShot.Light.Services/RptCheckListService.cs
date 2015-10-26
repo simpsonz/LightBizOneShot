@@ -32,6 +32,7 @@ namespace BizOneShot.Light.Services
 
       
 
+
         public async Task<IEnumerable<RptCheckList>> GetRptCheckListBySmallClassCd(string smallClassCd)
         {
             var rptCheckList = await _rptCheckListRepository.GetManyAsync(cl => cl.SmallClassCd == smallClassCd);

@@ -19,6 +19,8 @@ namespace BizOneShot.Light.Services
         Task<IList<RptMaster>> GetRptMasterListAsync(string mentorId, int year, int bizWorkSn, int compSn, string status);
         Task<RptMaster> GetRptMasterAsync(int qustionSn, int compSn, int year);
         PagedList<RptMaster> GetRptMasterList(int page, int pageSize, string mentorId, int basicYear, int bizWorkSn, int compSn, string status);
+
+        void ModifyRptMaster(RptMaster rptMaster);
     }
 
 
@@ -72,6 +74,14 @@ namespace BizOneShot.Light.Services
             }
 
         }
+
+
+        public void ModifyRptMaster(RptMaster rptMaster)
+        {
+            rptMasterRepository.Update(rptMaster);
+        }
+
+
 
         public void SaveDbContext()
         {

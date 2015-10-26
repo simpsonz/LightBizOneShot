@@ -1488,6 +1488,9 @@
     <Content Include="Views\BasicSurveyReport\OrgHR01.cshtml" />
     <Content Include="Views\BasicSurveyReport\GrowthRoadMapCover.cshtml" />
     <Content Include="Views\BasicSurveyReport\GrowthStrategyType.cshtml" />
+    <Content Include="Views\BasicSurveyReport\GrowthStrategyStep.cshtml" />
+    <Content Include="Views\BasicSurveyReport\GrowthCapabilityProposal.cshtml" />
+    <Content Include="Views\BasicSurveyReport\GrowthTotalProposal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
