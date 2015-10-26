@@ -17,6 +17,8 @@ namespace BizOneShot.Light.Services
         Task<IList<ScUsr>> GetMentorListByBizWork(int bizWorkSn);
         Task<IList<ScUsr>> GetMentorListByBizMng(int mngComSn, string excutorId = null, int bizWorkSn = 0, int bizWorkYear = 0);
         Task<int> AddMentorAsync(ScCompInfo scCompInfo);
+
+        IList<ScMentorMappiing> GetMentorMappingListByMentorIdSync(string mentorId = null, int bizWorkYear = 0);
     }
 
 
@@ -79,6 +81,24 @@ namespace BizOneShot.Light.Services
                     .Where(mmp => mmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear).ToList();
             }
         }
+
+        public IList<ScMentorMappiing> GetMentorMappingListByMentorIdSync(string mentorId, int bizWorkYear = 0)
+        {
+            DateTime date = DateTime.Now.Date;
+
+            var listScMentorMapping =  scMentorMappingRepository.GetMany(mmp => mmp.MentorId == mentorId && mmp.Status == "N");
+
+            if (bizWorkYear == 0)
+            {
+                return listScMentorMapping.Where(mmp => mmp.ScBizWork.BizWorkEdDt.Value >= date).ToList();
+            }
+            else
+            {
+                return listScMentorMapping.Where(mmp => mmp.ScBizWork.BizWorkEdDt.Value >= date)
+                    .Where(mmp => mmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear).ToList();
+            }
+        }
+
 
         public async Task<IList<ScUsr>> GetMentorListByBizWork(int bizWorkSn)
         {

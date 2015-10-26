@@ -133,6 +133,7 @@ namespace BizOneShot.Light.Web.Controllers
             if (string.IsNullOrEmpty(paramModel.Status))
                 paramModel.Status = "";
 
+
             //사업 DropDown List Data
             var listScMentorMapping = await scMentorMappingService.GetMentorMappingListByMentorId(mentorId, paramModel.BizWorkYear);
             var listScBizWork = listScMentorMapping.Select(mmp => mmp.ScBizWork).ToList();
@@ -143,7 +144,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.SelectCompInfoList = ReportHelper.MakeCompanyList(listScCompInfo);
             ViewBag.SelectStatusList = ReportHelper.MakeReportStatusList();
 
-
+            
             //기초역량 보고서 조회
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
@@ -534,7 +535,9 @@ namespace BizOneShot.Light.Web.Controllers
                 return RedirectToAction("OrgHR02", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
             }
         }
-        #region 성장 로드맵
+
+
+        #region 3. 성장 로드맵제안
         public ActionResult GrowthRoadMapCover(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
