@@ -75,6 +75,7 @@
     <Compile Include="Repositories\ScFileInfoRepository.cs" />
     <Compile Include="Repositories\ScFormFileRepository.cs" />
     <Compile Include="Repositories\ScFormRepository.cs" />
+    <Compile Include="Repositories\RptCheckListRepository.cs" />
     <Compile Include="Repositories\ScMentoringReportRepository.cs" />
     <Compile Include="Repositories\ScMentoringFileInfoRepository.cs" />
     <Compile Include="Repositories\ScMentoringTrFileInfoRepository.cs" />

@@ -497,6 +497,21 @@ namespace BizOneShot.Light.Web.ComLib
         }
 
 
+        public static IList<CommentViewModel> MakeCommentViewModel(IEnumerable<RptCheckList> listRptCheckList, IList<RptMentorComment> listRptMentorComment)
+        {
+            var CommentList = new List<CommentViewModel>();
+        
+            foreach (var rptCheckList in listRptCheckList)
+            {
+                var rptMentorComment = listRptMentorComment.SingleOrDefault(rmc => rmc.DetailCd == rptCheckList.DetailCd);
+
+                CommentList.Add(MakeCommentViewModel(null, rptCheckList.DetailCd, rptMentorComment));
+            }
+
+            return CommentList;
+        }
+
+
         public static int CalcCheckCount(IList<QuesResult1> checkList)
         {
             int trueCount = 0;
