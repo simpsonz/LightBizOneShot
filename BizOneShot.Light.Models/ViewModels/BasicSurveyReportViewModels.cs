@@ -68,6 +68,7 @@ namespace BizOneShot.Light.Models.ViewModels
     public class CheckListViewModel
     {
         public string Count { get; set; }
+        public string DetailCd { get; set; }
         public string Title { get; set; } //항목
         public bool AnsVal { get; set; } //해당기업 문진표
         public string StartUpAvg { get; set; } //창업보육단계평균
