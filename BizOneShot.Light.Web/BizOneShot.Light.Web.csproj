@@ -255,6 +255,7 @@
     <Compile Include="ComLib\MenuAuthorizeAttribute.cs" />
     <Compile Include="ComLib\MvcHtmlStringHelper.cs" />
     <Compile Include="ComLib\ReportHelper.cs" />
+    <Compile Include="ComLib\ReportUtil.cs" />
     <Compile Include="ComLib\TransactionAttribute.cs" />
     <Compile Include="ComLib\UserAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -1487,6 +1488,9 @@
     <Content Include="Views\BasicSurveyReport\OrgHR01.cshtml" />
     <Content Include="Views\BasicSurveyReport\GrowthRoadMapCover.cshtml" />
     <Content Include="Views\BasicSurveyReport\GrowthStrategyType.cshtml" />
+    <Content Include="Views\BasicSurveyReport\GrowthStrategyStep.cshtml" />
+    <Content Include="Views\BasicSurveyReport\GrowthCapabilityProposal.cshtml" />
+    <Content Include="Views\BasicSurveyReport\GrowthTotalProposal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -545,12 +545,10 @@ namespace BizOneShot.Light.Web.ComLib
                 case 4:
                     code = "B";
                     break;
-                case 5:
-                    code = "A";
-                    break;
                 default:
                     code = "A";
                     break;
+
             }
             return code;
         }
@@ -566,12 +564,10 @@ namespace BizOneShot.Light.Web.ComLib
                 case 1:
                     code = "C";
                     break;
-                case 2:
-                    code = "A";
-                    break;
                 default:
                     code = "A";
                     break;
+
             }
             return code;
         }
@@ -593,14 +589,122 @@ namespace BizOneShot.Light.Web.ComLib
                 case 3:
                     code = "B";
                     break;
-                case 4:
+                default:
                     code = "A";
                     break;
+
             }
             return code;
         }
 
 
+        public static string GetCodeTypeD(double per)
+        {
+            string code = "";
+            if (per < 5)
+                code = "A";
+            else if (per >= 5 && per < 10)
+                code = "B";
+            else if (per >= 10 && per < 15)
+                code = "C";
+            else if (per >= 15 && per < 20)
+                code = "D";
+            else
+                code = "E";
+            return code;
+        }
+
+
+        public static string GetCodeTypeE(double per)
+        {
+            string code = "";
+            if (per >= 5)
+                code = "A";
+            else if (per < 5 && per >= 4)
+                code = "B";
+            else if (per < 4 && per >= 3)
+                code = "C";
+            else if (per < 3 && per >= 2)
+                code = "D";
+            else
+                code = "E";
+            return code;
+        }
+
+        public static string GetCodeTypeF(double per)
+        {
+            string code = "";
+            if (per >= 4)
+                code = "A";
+            else if (per < 4 && per >= 3)
+                code = "B";
+            else if (per < 3 && per >= 2)
+                code = "C";
+            else if (per < 2 && per >= 1)
+                code = "D";
+            else
+                code = "E";
+            return code;
+        }
+
+        public static string GetCodeTypeG(int trueCnt)
+        {
+            string code = "";
+            switch (trueCnt)
+            {
+                case 0:
+                case 1:
+                case 2:
+                    code = "E";
+                    break;
+                case 3:
+                    code = "D";
+                    break;
+                case 4:
+                    code = "C";
+                    break;
+                case 5:
+                    code = "B";
+                    break;
+                default:
+                    code = "A";
+                    break;
+
+            }
+            return code;
+        }
+
+        public static string GetCodeTypeH(double per)
+        {
+            string code = "";
+            if (per >= 25)
+                code = "A";
+            else if (per < 25 && per >= 20)
+                code = "B";
+            else if (per < 20 && per >= 15)
+                code = "C";
+            else if (per < 15 && per >= 10)
+                code = "D";
+            else
+                code = "E";
+            return code;
+        }
+
+        public static string GetCodeTypeI(double per)
+        {
+            string code = "";
+            if (per >= 7.5)
+                code = "A";
+            else if (per < 7.5 && per >= 5)
+                code = "B";
+            else if (per < 5 && per >= 2.5)
+                code = "C";
+            else if (per < 2.5 && per >= 0.1)
+                code = "D";
+            else
+                code = "E";
+            return code;
+        }
 
 
 
@@ -628,6 +732,19 @@ namespace BizOneShot.Light.Web.ComLib
                     break;
             }
             return point;
+        }
+
+
+        public static string GetArrowTypeA(double point)
+        {
+            string code = "";
+            if (point >= 0 && point <= 50)
+                code = "C";
+            else if (point > 50 && point <= 75)
+                code = "B";
+            else
+                code = "A";
+            return code;
         }
 
     }

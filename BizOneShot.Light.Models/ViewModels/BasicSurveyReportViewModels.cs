@@ -25,10 +25,31 @@ namespace BizOneShot.Light.Models.ViewModels
     public class OverallSummaryViewModel
     {
         public string SubmitType { get; set; }
+        public double AvgTotalPoint { get; set; } //전체 평균점수
+        public double CompanyPoint { get; set; } //해당 기업점수
+        public string BizCapaType { get; set; } //경영역량 총괄 화살표
+        public string HRMngType { get; set; } //인적자원관리 화살표
+        public string OrgType { get; set; } //조직분화도 화살표
+        public string MarketingType { get; set; } //기술경영, 마케팅 화살표
+        public string CustMngType { get; set; } //고객의수, 상품의질, 마케팅 수준 화살표
+        public string BasicCapaType { get; set; } //기초역량 화살표
+        public string RoolType { get; set; } //전반적제도, 규정관리 체계 화살표
+        public OverallSummaryPointViewModel OrgCapa { get; set; } //항목별 역량검토결과 - 조직역량
+        public OverallSummaryPointViewModel ProductionCapa { get; set; } //항목별 역량검토결과 - 상품화역량
+        public OverallSummaryPointViewModel RiskMngCapa { get; set; } //항목별 역량검토결과 - 위험관리역량
         public IList<CommentViewModel> CommentList { get; set; }
-        //public string OrgDivision { get; set; } // 조직역량 -> 조직분화도
-        //public string MarketingLevel { get; set; } // 상품화역량 -> 고객의수, 상품의 질 및 마케팅 수준
-        //public string FinanceMng { get; set; } // 위험관리역량 -> 제무회계 관리체계 및 제도수준
+        
+    }
+
+    public class OverallSummaryPointViewModel
+    {
+        public double CompanyPoint { get; set; } //해당기업
+        public double AvgBizInCompanyPoint { get; set; } //참여기업 평균
+        public double AvgTotalPoint { get; set; } //전체평균
+        public double CompanyPoint2 { get; set; } //해당기업
+        public double AvgBizInCompanyPoint2 { get; set; } //참여기업 평균
+        public double AvgTotalPoint2 { get; set; } //전체평균
+        public double AvgSMCompanyPoint { get; set; } //중소기업 평균
     }
 
     public class CommentViewModel
@@ -57,10 +78,13 @@ namespace BizOneShot.Light.Models.ViewModels
     }
 
 
-    public class GrowthStrategyTypeViewModel
+    public class GrowthStrategyViewModel
     {
         public string SubmitType { get; set; }
         public IList<CommentViewModel> CommentList { get; set; }
+
+        public IList<CommentViewModel> PreCommentList { get; set; }
     }
+
 
 }
