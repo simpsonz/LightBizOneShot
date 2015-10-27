@@ -33,6 +33,10 @@ namespace BizOneShot.Light.Models.WebModels
         public string Title { get; set; } // TITLE
         public string Content1 { get; set; } // CONTENT1
         public string Content2 { get; set; } // CONTENT2
+        public int? StartUpStep { get; set; } // START_UP_STEP
+        public int? GrowthStep { get; set; } // GROWTH_STEP
+        public int? IndependentStep { get; set; } // INDEPENDENT_STEP
+        public int? TotalStep { get; set; } // TOTAL_STEP
         public string CurrentUseYn { get; set; } // CURRENT_USE_YN
 
         // Reverse navigation

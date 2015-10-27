@@ -13,6 +13,7 @@ namespace BizOneShot.Light.Dao.Repositories
     public interface IQuesResult1Repository : IRepository<QuesResult1>
     {
         Task<IList<QuesResult1>> GetQuesResult1sAsync(Expression<Func<QuesResult1, bool>> where);
+        Task<QuesResult1> GetQuesResult1Async(Expression<Func<QuesResult1, bool>> where);
     }
 
 
@@ -23,6 +24,11 @@ namespace BizOneShot.Light.Dao.Repositories
         public async Task<IList<QuesResult1>> GetQuesResult1sAsync(Expression<Func<QuesResult1, bool>> where)
         {
             return await this.DbContext.QuesResult1.Include("QuesCheckList").Where(where).ToListAsync();
+        }
+
+        public async Task<QuesResult1> GetQuesResult1Async(Expression<Func<QuesResult1, bool>> where)
+        {
+            return await this.DbContext.QuesResult1.Include("QuesCheckList").Where(where).SingleOrDefaultAsync();
         }
 
     }

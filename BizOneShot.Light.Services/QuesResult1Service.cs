@@ -12,6 +12,7 @@ namespace BizOneShot.Light.Services
     public interface IQuesResult1Service : IBaseService
     {
         Task<IList<QuesResult1>> GetQuesResult1sAsync(int questionSn, string code);
+        Task<QuesResult1> GetQuesResult1Async(int questionSn, string detailCode);
     }
 
 
@@ -30,6 +31,13 @@ namespace BizOneShot.Light.Services
         {
             var listQuesMaster = await _quesResult1Repository.GetQuesResult1sAsync(qr => qr.QuestionSn == questionSn && qr.QuesCheckList.CurrentUseYn == "Y" && qr.QuesCheckList.SmallClassCd == code);
             return listQuesMaster.OrderBy(qr => qr.QuesCheckList.SmallClassCd).ToList();
+        }
+
+
+        public async Task<QuesResult1> GetQuesResult1Async(int questionSn, string detailCode)
+        {
+            var quesMaster = await _quesResult1Repository.GetQuesResult1Async(qr => qr.QuestionSn == questionSn && qr.QuesCheckList.CurrentUseYn == "Y" && qr.QuesCheckList.DetailCd == detailCode);
+            return quesMaster;
         }
 
         #region SaveContext
