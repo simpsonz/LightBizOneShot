@@ -1499,6 +1499,7 @@
     <Content Include="Views\BasicSurveyReport\GrowthStrategyStep.cshtml" />
     <Content Include="Views\BasicSurveyReport\GrowthCapabilityProposal.cshtml" />
     <Content Include="Views\BasicSurveyReport\GrowthTotalProposal.cshtml" />
+    <Content Include="Views\BasicSurveyReport\RiskMgmtEvalProfession.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
