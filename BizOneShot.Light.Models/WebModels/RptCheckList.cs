@@ -31,6 +31,7 @@ namespace BizOneShot.Light.Models.WebModels
         public string Title { get; set; } // TITLE. 타이틀
         public string Content1 { get; set; } // CONTENT1. 내용1
         public string Content2 { get; set; } // CONTENT2. 내용2
+        public string Type { get; set; } // TYPE
         public string Status { get; set; } // STATUS. 신규 : N  삭제 : D
 
         // Reverse navigation
