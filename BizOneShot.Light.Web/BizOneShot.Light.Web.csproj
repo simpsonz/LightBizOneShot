@@ -359,6 +359,7 @@
     <Content Include="images\ico_none.gif" />
     <Content Include="images\ico_num.gif" />
     <Content Include="images\ico_road.gif" />
+    <Content Include="images\left_tableBg.png" />
     <Content Include="images\main_bg_cont6.png" />
     <Content Include="images\main_partner01.jpg" />
     <Content Include="images\main_partner02.jpg" />
@@ -371,6 +372,7 @@
     <Content Include="images\report_write.png" />
     <Content Include="images\report_write_detail.png" />
     <Content Include="images\report_write_modify.png" />
+    <Content Include="images\right_chart.png" />
     <Content Include="images\stageBox_bar01.png" />
     <Content Include="images\start.png" />
     <Content Include="images\swot_line.svg" />
