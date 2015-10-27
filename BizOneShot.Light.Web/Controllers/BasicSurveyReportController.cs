@@ -499,8 +499,6 @@ namespace BizOneShot.Light.Web.Controllers
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
-         
-
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
 
             //검토결과 데이터 생성
@@ -510,10 +508,13 @@ namespace BizOneShot.Light.Web.Controllers
             var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("31");
 
             //CommentList 채우기
-            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList.Where(cl => cl.Type == "C"), listRptMentorComment.Where(rmc => rmc.RptCheckList.Type == "C").ToList());
 
+            //체크박스 List 채우기
+            var ChekcBoxList = ReportHelper.MakeCheckBoxViewModel(enumRptCheckList.Where(cl => cl.Type == "B"), listRptMentorComment.Where(rmc => rmc.RptCheckList.Type == "B").ToList());
 
             viewModel.CommentList = CommentList;
+            viewModel.CheckBoxList = ChekcBoxList;
 
             ViewBag.paramModel = paramModel;
 
@@ -537,6 +538,19 @@ namespace BizOneShot.Light.Web.Controllers
                 else
                 {
                     comment.Comment = item.Comment;
+                }
+            }
+
+            foreach (var item in viewModel.CheckBoxList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.CheckVal.ToString();
                 }
             }
 

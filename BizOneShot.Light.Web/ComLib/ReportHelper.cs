@@ -478,6 +478,18 @@ namespace BizOneShot.Light.Web.ComLib
             return rptComment;
         }
 
+        public static RptMentorComment MakeRptMentorcomment(CheckBoxViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            RptMentorComment rptComment = new RptMentorComment();
+            rptComment.DetailCd = viewModel.DetailCd;
+            rptComment.Comment = viewModel.CheckVal.ToString();
+            rptComment.BasicYear = paramModel.BizWorkYear;
+            rptComment.BizWorkSn = paramModel.BizWorkSn;
+            rptComment.QuestionSn = paramModel.QuestionSn;
+
+            return rptComment;
+        }
+
         public static CommentViewModel MakeCommentViewModel(BasicSurveyReportViewModel paramModel, string detailCode, RptMentorComment rptMentorComment = null)
         {
             CommentViewModel viewModel = new CommentViewModel();
@@ -496,6 +508,24 @@ namespace BizOneShot.Light.Web.ComLib
             return viewModel;
         }
 
+        public static CheckBoxViewModel MakeCheckBoxViewModel(BasicSurveyReportViewModel paramModel, string detailCode, RptMentorComment rptMentorComment = null)
+        {
+            var viewModel = new CheckBoxViewModel();
+
+            if (rptMentorComment == null)
+            {
+                viewModel.DetailCd = detailCode;
+                viewModel.CheckVal = false;
+            }
+            else
+            {
+                viewModel.DetailCd = rptMentorComment.DetailCd;
+                viewModel.CheckVal = bool.Parse(rptMentorComment.Comment);
+            }
+
+            return viewModel;
+        }
+
 
         public static IList<CommentViewModel> MakeCommentViewModel(IEnumerable<RptCheckList> listRptCheckList, IList<RptMentorComment> listRptMentorComment)
         {
@@ -509,6 +539,21 @@ namespace BizOneShot.Light.Web.ComLib
             }
 
             return CommentList;
+
+        }
+
+        public static IList<CheckBoxViewModel> MakeCheckBoxViewModel(IEnumerable<RptCheckList> listRptCheckList, IList<RptMentorComment> listRptMentorComment)
+        {
+            var CheckBoxList = new List<CheckBoxViewModel>();
+
+            foreach (var rptCheckList in listRptCheckList)
+            {
+                var rptMentorComment = listRptMentorComment.SingleOrDefault(rmc => rmc.DetailCd == rptCheckList.DetailCd);
+
+                CheckBoxList.Add(MakeCheckBoxViewModel(null, rptCheckList.DetailCd, rptMentorComment));
+            }
+
+            return CheckBoxList;
 
         }
 
