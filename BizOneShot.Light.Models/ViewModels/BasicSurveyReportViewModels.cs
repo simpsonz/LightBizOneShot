@@ -61,7 +61,7 @@ namespace BizOneShot.Light.Models.ViewModels
     public class OrgHR01ViewModel
     {
         public string SubmitType { get; set; }
-        public CommentViewModel Comment { get; set; }
+        public IList<CommentViewModel> CommentList { get; set; }
         public IList<CheckListViewModel> CheckList { get; set; }
     }
 

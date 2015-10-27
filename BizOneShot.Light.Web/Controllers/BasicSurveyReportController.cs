@@ -427,25 +427,33 @@ namespace BizOneShot.Light.Web.Controllers
                 checkListViewModel.AnsVal = item.AnsVal.Value;
                 checkListViewModel.DetailCd = item.QuesCheckList.DetailCd;
                 checkListViewModel.Title = item.QuesCheckList.ReportTitle;
+                //창업보육단계 평균
                 int startUpCnt =  await reportUtil.GetCheckListCnt(dicStartUp, checkListViewModel.DetailCd);
-                checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + 2.0) / ( 39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + item.QuesCheckList.StartUpStep.Value + 0.0) / ( 39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                //보육성장단계 평균
                 int growthCnt = await reportUtil.GetCheckListCnt(dicGrowth, checkListViewModel.DetailCd);
-                checkListViewModel.GrowthAvg = Math.Round(((growthCnt + 8.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                checkListViewModel.GrowthAvg = Math.Round(((growthCnt + item.QuesCheckList.GrowthStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                //자립성장단계 평균
                 int IndependentCnt = await reportUtil.GetCheckListCnt(dicIndependent, checkListViewModel.DetailCd);
-                checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + 2.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + item.QuesCheckList.IndependentStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                //참여기업 평균
                 checkListViewModel.BizInCompanyAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + 0.0) / (dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                checkListViewModel.TotalAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + 12.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                //전체 평균
+                checkListViewModel.TotalAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + item.QuesCheckList.TotalStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
                 viewModel.CheckList.Add(checkListViewModel);
                 count++;
             }
 
-
             //검토결과 데이터 생성
-            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "06");
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "06");
 
-            //조직역량->인적자원의 확보와 개발관리
-            var comment = comments.SingleOrDefault(i => i.DetailCd == "02010601");
-            viewModel.Comment = ReportHelper.MakeCommentViewModel(paramModel, "02010601", comment);
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("06");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+            viewModel.CommentList = CommentList;
 
             ViewBag.paramModel = paramModel;
             return View(viewModel);
@@ -455,18 +463,21 @@ namespace BizOneShot.Light.Web.Controllers
         public async Task<ActionResult> OrgHR01(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
-            var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "06");
 
-            var comment = comments.SingleOrDefault(i => i.DetailCd == viewModel.Comment.DetailCd);
-            if (comment == null)
-            {
-                rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(viewModel.Comment, paramModel));
-            }
-            else
-            {
-                comment.Comment = viewModel.Comment.Comment;
-            }
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "06");
 
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
             await rptMentorCommentService.SaveDbContextAsync();
 
             if (viewModel.SubmitType == "T")

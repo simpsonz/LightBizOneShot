@@ -46,251 +46,234 @@
             </li>
         </ul>
     </div>
-@using (Html.BeginForm("OverallSummary", "BasicSurveyReport", FormMethod.Post, new { area = "", @class = "form-horizontal", role = "form", id = "mainForm" }))
-{
-    @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
-    @Html.Hidden("BizWorkSn", ViewBag.paramModel.BizWorkSn as string)
-    @Html.Hidden("CompSn", ViewBag.paramModel.CompSn as string)
-    @Html.Hidden("BizWorkYear", ViewBag.paramModel.BizWorkYear as string)
-    @Html.Hidden("QuestionSn", ViewBag.paramModel.QuestionSn as string)
-    @Html.Hidden("Status", ViewBag.paramModel.Status as string)
+    @using (Html.BeginForm("OverallSummary", "BasicSurveyReport", FormMethod.Post, new { area = "", @class = "form-horizontal", role = "form", id = "mainForm" }))
+    {
+        @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
+        @Html.Hidden("BizWorkSn", ViewBag.paramModel.BizWorkSn as string)
+        @Html.Hidden("CompSn", ViewBag.paramModel.CompSn as string)
+        @Html.Hidden("BizWorkYear", ViewBag.paramModel.BizWorkYear as string)
+        @Html.Hidden("QuestionSn", ViewBag.paramModel.QuestionSn as string)
+        @Html.Hidden("Status", ViewBag.paramModel.Status as string)
 
-    <div class="sub_report_checkbox">
-        <div class="report_main_top2"></div>
-        <div class="report_main_mid">
-            <div class="main_mid_cont">
-                <p class="title_mid">
-                    Ⅰ.역량검토 결과 요약 _<span class="small_span float_right">
-                        1.
-                        전체 결과요약
-                    </span>
-                </p>
-            </div>
-            <div class="main_mid_cont">
-                <div class="main_mid_listBox full_line">
-
-                    <div class="listBox_tap longbg_on full_line">
-                        <span>(1)역량검토결과 발전단계</span>
-                    </div>
-                    <table class="join_info noline">
-                        <colgroup>
-                            <col width = "20%" >
-                            <col width= "40%">
-                            <col width = "40%" >
-                        </colgroup >
-                        <tr>
-                            <td class="left_memo col_99">경영역량 총괄</td>
-                            <td colspan = "2" class="left_memo col_99">
-                                전체평균 : xxx.xx점<br> 해당기업
-                                : xxx.xx점
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="left_memo col_b3" rowspan="2">조직역량</td>
-                            <td class="left_memo col_ee">시행제도/절차검토</td>
-                            <td class="left_memo small">인적 자원관리</td>
-                        </tr>
-                        <tr>
-                            <td class="left_memo col_ee">전문가 면접검토</td>
-                            <td class="left_memo small">조직 분화도</td>
-                        </tr>
-                        <tr>
-                            <td class="left_memo col_d6" rowspan="2">
-                                상품화<br> 역량
-                            </td>
-                            <td class="left_memo col_ee">시행제도/절차검토</td>
-                            <td class="left_memo small">기술경영, 마케팅</td>
-                        </tr>
-                        <tr>
-                            <td class="left_memo col_ee">전문가 면접검토</td>
-                            <td class="left_memo small">
-                                고객의 수,<br>상품의 질,<br>마케팅
-                                수준
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="left_memo col_fd" rowspan="2">위험관리역량</td>
-                            <td class="left_memo col_ee">시행제도/절차검토</td>
-                            <td class="left_memo small">기초역량</td>
-                        </tr>
-                        <tr>
-                            <td class="left_memo col_ee">전문가 면접검토</td>
-                            <td class="left_memo small">
-                                전반적 제도 및<br> 규정관리체계
-                            </td>
-                        </tr>
-
-                    </table>
-                    <div class="right_chart">
-                        <!-- 차트가 표현되는 영역, 차트 표현 후 border:0으로 변경해야됨. -->
-                    </div>
+        <div class="sub_report_checkbox">
+            <div class="report_main_top2"></div>
+            <div class="report_main_mid">
+                <div class="main_mid_cont">
+                    <p class="title_mid">
+                        Ⅰ. 역량검토 결과 요약 _ <span class="small_span float_right">
+                            1.
+                            전체 결과요약
+                        </span>
+                    </p>
                 </div>
+                <div class="main_mid_cont">
+                    <div class="main_mid_listBox full_line">
 
-            </div>
-            <div class="main_mid_cont">
-                <div class="main_mid_listBox nomargin2">
-
-                    <div class="listBox_tap longbg_on">
-                        <span>(2)항목별 역량검토결과</span>
+                        <div class="listBox_tap longbg_on full_line">
+                            <span>(1)역량검토결과 발전단계</span>
+                        </div>
+                        <div class="left_tableBg">
+                            <!-- 발전단계 테이블 영역 -->
+                            <div class="table_title margin_t12">전체평균 : xxx.xx점</div>
+                            <div class="table_title margin_t2">해당기업 : xxx.xx점</div>
+                        </div>
+                        <div class="right_chart">
+                            <!-- 차트가 표현되는 영역 -->
+                            <div class="topBg_01"></div><!-- 창업보육단계 -->
+                            <!--<div class="topBg_02"></div> 보육성장단계 -->
+                            <!--<div class="topBg_03"></div> 자립성장단계 -->
+                            <div class="flow_01">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                                <div class="blank"></div>
+                            </div>
+                            <div class="flow_02">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                            </div>
+                            <div class="flow_03">
+                                <div class="full"></div>
+                            </div>
+                            <div class="flow_01 margin_t1">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                                <div class="blank"></div>
+                            </div>
+                            <div class="flow_02">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                            </div>
+                            <div class="flow_03">
+                                <div class="full"></div>
+                            </div>
+                        </div>
                     </div>
-                    <table class="join_info">
-                        <colgroup>
-                            <col width="9%">
-                            <col width="11%">
-                            <col width="10%">
-                            <col width="10%">
-                            <col width="10%">
-                            <col width="10%">
-                            <col width="10%">
-                            <col width="10%">
-                            <col width="10%">
-                            <col width="10%">
-                        </colgroup>
-                        <tr>
-                            <td class="left_memo ">구분</td>
-                            <td class="left_memo">
-                                기초역량<br>평가
-                            </td>
-                            <td class="left_memo">해당기업</td>
-                            <td class="left_memo">참여기업평균</td>
-                            <td class="left_memo">비교지역평균</td>
-                            <td class="left_memo">
-                                재무지표<br>평가
-                            </td>
-                            <td class="left_memo">해당기업</td>
-                            <td class="left_memo">참여기업평균</td>
-                            <td class="left_memo">전체평균</td>
-                            <td class="left_memo">중소기업평균</td>
 
-                        </tr>
-                        <tr>
-                            <td class="left_memo col_b3">조직역량</td>
-                            <td class="left_memo col_ee">
-                                인적자원<br>관리
-                            </td>
-                            <td class="center_td small">xx.xx점</td>
-                            <td class="center_td small">xx.xx점</td>
-                            <td class="center_td small">xx.xx점</td>
-                            <td class="left_memo col_ee">
-                                1인당<br>노동생산성
-                            </td>
-                            <td class="center_td small">xx.xxx천원</td>
-                            <td class="center_td small">xx.xxx천원</td>
-                            <td class="center_td small">xx.xxx천원</td>
-                            <td class="center_td small">xx.xxx천원</td>
-                        </tr>
-                        <tr>
-                            <td class="left_memo col_d6">
-                                상품화<br>역량
-                            </td>
-                            <td class="left_memo col_ee">
-                                기술경영<br>마케팅관리
-                            </td>
-                            <td class="center_td small">xx.xx점</td>
-                            <td class="center_td small">xx.xx점</td>
-                            <td class="center_td small">xx.xx점</td>
-                            <td class="left_memo col_ee">
-                                매 출<br>영업이익률
-                            </td>
-                            <td class="center_td small">xx.xx%</td>
-                            <td class="center_td small">xx.xx%</td>
-                            <td class="center_td small">xx.xx%</td>
-                            <td class="center_td small">xx.xx%</td>
-                        </tr>
-                        <tr>
-                            <td class="left_memo col_fd">
-                                위험관리<br>역량
-                            </td>
-                            <td class="left_memo col_ee">
-                                기술경영<br>마케팅관리
-                            </td>
-                            <td class="center_td">xx.xx점</td>
-                            <td class="center_td">xx.xx점</td>
-                            <td class="center_td">xx.xx점</td>
-                            <td class="left_memo col_ee">
-                                매 출<br>영업이익률
-                            </td>
-                            <td class="center_td">xx.xx%</td>
-                            <td class="center_td">xx.xx%</td>
-                            <td class="center_td">xx.xx%</td>
-                            <td class="center_td">xx.xx%</td>
-                        </tr>
-                    </table>
                 </div>
+                <div class="main_mid_cont">
+                    <div class="main_mid_listBox nomargin2">
 
-            </div>
-            <div class="main_mid_cont">
-                <div class="main_mid_listBox nomargin2">
-                    <table class="join_info">
-                        <colgroup>
-                            <col width="9%">
-                            <col width="11%">
-                            <col width="80%">
-                        </colgroup>
-                        <tr>
-                            <td class="left_memo ">구분</td>
-                            <td class="left_memo">
-                                전문가<br>평가
-                            </td>
-                            <td class="left_memo">분석결과</td>
+                        <div class="listBox_tap longbg_on">
+                            <span>(2)항목별 역량검토결과</span>
+                        </div>
+                        <table class="join_info">
+                            <colgroup>
+                                <col width="9%">
+                                <col width="11%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="10%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo ">구분</td>
+                                <td class="left_memo">
+                                    기초역량<br>평가
+                                </td>
+                                <td class="left_memo">해당기업</td>
+                                <td class="left_memo">참여기업평균</td>
+                                <td class="left_memo">비교지역평균</td>
+                                <td class="left_memo">
+                                    재무지표<br>평가
+                                </td>
+                                <td class="left_memo">해당기업</td>
+                                <td class="left_memo">참여기업평균</td>
+                                <td class="left_memo">전체평균</td>
+                                <td class="left_memo">중소기업평균</td>
 
-                        </tr>
-                        <tr>
-                            <td class="left_memo col_b3">조직역량</td>
-                            <td class="left_memo col_ee">조직분화도</td>
-                            <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[0].Comment)</td>
-                            @Html.HiddenFor(model => model.CommentList[0].DetailCd)
-                        </tr>
-                        <tr>
-                            <td class="left_memo col_d6">
-                                상품화<br>역량
-                            </td>
-                            <td class="left_memo col_ee">
-                                고객의 수,<br>상품의 질 및<br>마케팅수준
-                            </td>
-                            <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[1].Comment)</td>
-                            @Html.HiddenFor(model => model.CommentList[1].DetailCd)
-                        </tr>
-                        <tr>
-                            <td class="left_memo col_fd">
-                                위험관리<br>역량
-                            </td>
-                            <td class="left_memo col_ee">
-                                재무회계<br>관리체계 및 <br>제도수준
-                            </td>
-                            <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[2].Comment)</td>
-                            @Html.HiddenFor(model => model.CommentList[2].DetailCd)
-                        </tr>
-                    </table>
+                            </tr>
+                            <tr>
+                                <td class="left_memo col_b3">조직역량</td>
+                                <td class="left_memo col_ee">
+                                    인적자원<br>관리
+                                </td>
+                                <td class="center_td small">xx.xx점</td>
+                                <td class="center_td small">xx.xx점</td>
+                                <td class="center_td small">xx.xx점</td>
+                                <td class="left_memo col_ee">
+                                    1인당<br>노동생산성
+                                </td>
+                                <td class="center_td small">xx.xxx천원</td>
+                                <td class="center_td small">xx.xxx천원</td>
+                                <td class="center_td small">xx.xxx천원</td>
+                                <td class="center_td small">xx.xxx천원</td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo col_d6">
+                                    상품화<br>역량
+                                </td>
+                                <td class="left_memo col_ee">
+                                    기술경영<br>마케팅관리
+                                </td>
+                                <td class="center_td small">xx.xx점</td>
+                                <td class="center_td small">xx.xx점</td>
+                                <td class="center_td small">xx.xx점</td>
+                                <td class="left_memo col_ee">
+                                    매 출<br>영업이익률
+                                </td>
+                                <td class="center_td small">xx.xx%</td>
+                                <td class="center_td small">xx.xx%</td>
+                                <td class="center_td small">xx.xx%</td>
+                                <td class="center_td small">xx.xx%</td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo col_fd">
+                                    위험관리<br>역량
+                                </td>
+                                <td class="left_memo col_ee">
+                                    기술경영<br>마케팅관리
+                                </td>
+                                <td class="center_td">xx.xx점</td>
+                                <td class="center_td">xx.xx점</td>
+                                <td class="center_td">xx.xx점</td>
+                                <td class="left_memo col_ee">
+                                    매 출<br>영업이익률
+                                </td>
+                                <td class="center_td">xx.xx%</td>
+                                <td class="center_td">xx.xx%</td>
+                                <td class="center_td">xx.xx%</td>
+                                <td class="center_td">xx.xx%</td>
+                            </tr>
+                        </table>
+                    </div>
+
                 </div>
+                <div class="main_mid_cont">
+                    <div class="main_mid_listBox nomargin2">
+                        <table class="join_info">
+                            <colgroup>
+                                <col width="9%">
+                                <col width="11%">
+                                <col width="80%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo ">구분</td>
+                                <td class="left_memo">
+                                    전문가<br>평가
+                                </td>
+                                <td class="left_memo">분석결과</td>
 
+                            </tr>
+                            <tr>
+                                <td class="left_memo col_b3">조직역량</td>
+                                <td class="left_memo col_ee">조직분화도</td>
+                                <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[0].Comment)</td>
+                                @Html.HiddenFor(model => model.CommentList[0].DetailCd)
+                            </tr>
+                            <tr>
+                                <td class="left_memo col_d6">
+                                    상품화<br>역량
+                                </td>
+                                <td class="left_memo col_ee">
+                                    고객의 수,<br>상품의 질 및<br>마케팅수준
+                                </td>
+                                <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[1].Comment)</td>
+                                @Html.HiddenFor(model => model.CommentList[1].DetailCd)
+                            </tr>
+                            <tr>
+                                <td class="left_memo col_fd">
+                                    위험관리<br>역량
+                                </td>
+                                <td class="left_memo col_ee">
+                                    재무회계<br>관리체계 및 <br>제도수준
+                                </td>
+                                <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[2].Comment)</td>
+                                @Html.HiddenFor(model => model.CommentList[2].DetailCd)
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
     <!--container//-->
-    <div id="btnwrap_sub" class="bottom_left2">
+        <div id="btnwrap_sub" class="bottom_left2">
 
-        <div class="rightwrap left">
-            <a href="@Url.Action("OverallSummaryCover", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
+            <div class="rightwrap left">
+                <a href="@Url.Action("OverallSummaryCover", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
 
-        </div>
-        <div class="rightwrap right">
+            </div>
+            <div class="rightwrap right">
+                @if (ViewBag.paramModel.Status != "C")
+                {
+                    <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+                }
+                else
+                {
+                    <a href="@Url.Action("OverallResultCover", "BasicSurveyReport", new { area = "" , BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn})" class="next right" value="다음"><em>다음</em></a>
+                }
+            </div>
             @if (ViewBag.paramModel.Status != "C")
             {
-                <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+                <div class="rightwrap centerwrap">
+                    <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
+                </div>
             }
-            else
-            {
-                <a href="@Url.Action("OverallResultCover", "BasicSurveyReport", new { area = "" , BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn})" class="next right" value="다음"><em>다음</em></a>
-            }
-        </div>
-        @if (ViewBag.paramModel.Status != "C")
-        {
-            <div class="rightwrap centerwrap">
-                <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
-            </div>
-        }
 
-    </div>
-}
+        </div>
+    }
 </div>
