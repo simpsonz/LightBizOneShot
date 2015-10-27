@@ -58,6 +58,12 @@ namespace BizOneShot.Light.Models.ViewModels
         public string Comment { get; set; }
     }
 
+    public class CheckBoxViewModel
+    {
+        public string DetailCd { get; set; }
+        public bool CheckVal { get; set; }
+    }
+
     public class OrgHR01ViewModel
     {
         public string SubmitType { get; set; }
@@ -83,8 +89,16 @@ namespace BizOneShot.Light.Models.ViewModels
     {
         public string SubmitType { get; set; }
         public IList<CommentViewModel> CommentList { get; set; }
+    }
 
-        public IList<CommentViewModel> PreCommentList { get; set; }
+    public class RiskMgmtViewModel
+    {
+        public string SubmitType { get; set; }
+        public IList<CommentViewModel> CommentList { get; set; }
+
+        public IList<CheckBoxViewModel> CheckBoxList { get; set; }
+
+
     }
 
 
