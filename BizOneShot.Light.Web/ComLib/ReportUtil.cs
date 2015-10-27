@@ -246,5 +246,19 @@ namespace BizOneShot.Light.Web.ComLib
             return totalPoint;
         }
 
+
+        public async Task<int> GetCheckListCnt(Dictionary<int, int> checkList, string detailCd)
+        {
+            int count = 0;
+
+            foreach(var item in checkList.Values)
+            {
+                var quesResult1 = await quesResult1Service.GetQuesResult1Async(item, detailCd);
+                if (quesResult1 != null && quesResult1.AnsVal == true)
+                    count++;
+            }
+
+            return count;
+        }
     }
 }

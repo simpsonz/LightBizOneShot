@@ -38,12 +38,12 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<ScBizWork> GetBizWorkAsync(Expression<Func<ScBizWork, bool>> where)
         {
-            return await this.DbContext.ScBizWorks.Include("ScCompMappings").Include("ScUsr").Where(where).SingleAsync();
+            return await this.DbContext.ScBizWorks.Include("ScCompMappings").Include("ScUsr").Where(where).SingleOrDefaultAsync();
         }
 
         public async Task<ScBizWork> GetBizWorkByLoginIdAsync(Expression<Func<ScBizWork, bool>> where)
         {
-            return await this.DbContext.ScBizWorks.Include("ScUsr").Where(where).SingleAsync();
+            return await this.DbContext.ScBizWorks.Include("ScUsr").Where(where).SingleOrDefaultAsync();
         }
 
     }
