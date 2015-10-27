@@ -71,6 +71,14 @@ namespace BizOneShot.Light.Models.ViewModels
         public IList<CheckListViewModel> CheckList { get; set; }
     }
 
+
+    public class OrgProductivityViewModel
+    {
+        public string SubmitType { get; set; }
+        public IList<CommentViewModel> CommentList { get; set; }
+        public IList<CheckListViewModel> CheckList { get; set; }
+    }
+
     public class CheckListViewModel
     {
         public string Count { get; set; }

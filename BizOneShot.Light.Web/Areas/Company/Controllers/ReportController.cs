@@ -1775,7 +1775,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             }
             else
             {
-                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesResult1s);
+                var quesCheckListView = Mapper.Map<List<QuesCheckListViewModel>>(quesResult1sMaintenance);
                 bizCheck12.HRMaintenance = quesCheckListView;
             }
 
