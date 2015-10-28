@@ -39,6 +39,7 @@ namespace BizOneShot.Light.Web.ComLib
         /// </summary>
         /// <param name="questionSn"></param>
         /// <returns></returns>
+        /// 
         public async Task<double> GetOverAllManagementTotalPoint(int questionSn)
         {
             double totalPoint = 0;

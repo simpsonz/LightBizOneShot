@@ -388,7 +388,6 @@ namespace BizOneShot.Light.Web.Controllers
             Dictionary<int, int> dicIndependent = new Dictionary<int, int>();
 
             var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
-
             {
                 var compMappings = curBizWork.ScCompMappings;
                 foreach (var compMapping in compMappings)
