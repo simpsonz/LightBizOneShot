@@ -74,38 +74,150 @@
                         </div>
                         <div class="left_tableBg">
                             <!-- 발전단계 테이블 영역 -->
-                            <div class="table_title margin_t12">전체평균 : xxx.xx점</div>
-                            <div class="table_title margin_t2">해당기업 : xxx.xx점</div>
+                            <div class="table_title margin_t12">전체평균 : @Model.AvgTotalPoint 점</div>
+                            <div class="table_title margin_t2">해당기업 : @Model.CompanyPoint 점</div>
                         </div>
                         <div class="right_chart">
                             <!-- 차트가 표현되는 영역 -->
-                            <div class="topBg_01"></div><!-- 창업보육단계 -->
-                            <!--<div class="topBg_02"></div> 보육성장단계 -->
-                            <!--<div class="topBg_03"></div> 자립성장단계 -->
-                            <div class="flow_01">
-                                <div class="full"></div>
-                                <div class="blank"></div>
-                                <div class="blank"></div>
-                            </div>
-                            <div class="flow_02">
-                                <div class="full"></div>
-                                <div class="blank"></div>
-                            </div>
-                            <div class="flow_03">
-                                <div class="full"></div>
-                            </div>
-                            <div class="flow_01 margin_t1">
-                                <div class="full"></div>
-                                <div class="blank"></div>
-                                <div class="blank"></div>
-                            </div>
-                            <div class="flow_02">
-                                <div class="full"></div>
-                                <div class="blank"></div>
-                            </div>
-                            <div class="flow_03">
-                                <div class="full"></div>
-                            </div>
+                            @if (Model.BizCapaType == "C")
+                            {
+                                <div class="topBg_01"></div><!-- 창업보육단계 -->
+                            }
+                            else if (Model.BizCapaType == "B")
+                            {
+                                <div class="topBg_02"></div><!-- 보육성장단계 -->
+                            }
+                            else if (Model.BizCapaType == "A")
+                            {
+                                <div class="topBg_03"></div><!-- 자립성장단계 -->
+                            }
+
+                            @if (Model.HRMngType == "C")
+                            {
+                                <div class="flow_01">
+                                    <div class="full"></div>
+                                    <div class="blank"></div>
+                                    <div class="blank"></div>
+                                </div>
+                            }
+                            else if (Model.HRMngType == "B")
+                            {
+                                <div class="flow_02">
+                                    <div class="full"></div>
+                                    <div class="blank"></div>
+                                </div>
+                            }
+                            else if (Model.HRMngType == "A")
+                            {
+                                <div class="flow_03">
+                                    <div class="full"></div>
+                                </div>
+                            }
+                            @if (Model.OrgType == "C")
+                            {
+                                <div class="flow_01">
+                                    <div class="full"></div>
+                                    <div class="blank"></div>
+                                    <div class="blank"></div>
+                                </div>
+                            }
+                            else if (Model.OrgType == "B")
+                            {
+                                <div class="flow_02">
+                                    <div class="full"></div>
+                                    <div class="blank"></div>
+                                </div>
+                            }
+                            else if (Model.OrgType == "A")
+                            {
+                                <div class="flow_03">
+                                    <div class="full"></div>
+                                </div>
+                            }
+                            @if (Model.MarketingType == "C")
+                            {
+                                <div class="flow_01">
+                                    <div class="full"></div>
+                                    <div class="blank"></div>
+                                    <div class="blank"></div>
+                                </div>
+                            }
+                            else if (Model.MarketingType == "B")
+                            {
+                                <div class="flow_02">
+                                    <div class="full"></div>
+                                    <div class="blank"></div>
+                                </div>
+                            }
+                            else if (Model.MarketingType == "A")
+                            {
+                                <div class="flow_03">
+                                    <div class="full"></div>
+                                </div>
+                            }
+                            @if (Model.CustMngType == "C")
+                            {
+                                <div class="flow_01 margin_t1">
+                                    <div class="full"></div>
+                                    <div class="blank"></div>
+                                    <div class="blank"></div>
+                                </div>
+                            }
+                            else if (Model.CustMngType == "B")
+                            {
+                                <div class="flow_02 margin_t1">
+                                    <div class="full"></div>
+                                    <div class="blank"></div>
+                                </div>
+                            }
+                            else if (Model.CustMngType == "A")
+                            {
+                                <div class="flow_03 margin_t1">
+                                    <div class="full"></div>
+                                </div>
+                            }
+                            @if (Model.BasicCapaType == "C")
+                            {
+                                <div class="flow_01">
+                                    <div class="full"></div>
+                                    <div class="blank"></div>
+                                    <div class="blank"></div>
+                                </div>
+                            }
+                            else if (Model.BasicCapaType == "B")
+                            {
+                                <div class="flow_02">
+                                    <div class="full"></div>
+                                    <div class="blank"></div>
+                                </div>
+                            }
+                            else if (Model.BasicCapaType == "A")
+                            {
+                                <div class="flow_03">
+                                    <div class="full"></div>
+                                </div>
+                            }
+                            @if (Model.RoolType == "C")
+                            {
+                                <div class="flow_01">
+                                    <div class="full"></div>
+                                    <div class="blank"></div>
+                                    <div class="blank"></div>
+                                </div>
+                            }
+                            else if (Model.RoolType == "B")
+                            {
+                                <div class="flow_02">
+                                    <div class="full"></div>
+                                    <div class="blank"></div>
+                                </div>
+                            }
+                            else if (Model.RoolType == "A")
+                            {
+                                <div class="flow_03">
+                                    <div class="full"></div>
+                                </div>
+                            }
                         </div>
                     </div>
 
@@ -151,16 +263,16 @@
                                 <td class="left_memo col_ee">
                                     인적자원<br>관리
                                 </td>
-                                <td class="center_td small">xx.xx점</td>
-                                <td class="center_td small">xx.xx점</td>
-                                <td class="center_td small">xx.xx점</td>
+                                <td class="center_td small">@Model.OrgCapa.CompanyPoint 점</td>
+                                <td class="center_td small">@Model.OrgCapa.AvgBizInCompanyPoint 점</td>
+                                <td class="center_td small">@Model.OrgCapa.AvgTotalPoint 점</td>
                                 <td class="left_memo col_ee">
                                     1인당<br>노동생산성
                                 </td>
-                                <td class="center_td small">xx.xxx천원</td>
-                                <td class="center_td small">xx.xxx천원</td>
-                                <td class="center_td small">xx.xxx천원</td>
-                                <td class="center_td small">xx.xxx천원</td>
+                                <td class="center_td small">@Model.OrgCapa.CompanyPoint2 천원</td>
+                                <td class="center_td small">@Model.OrgCapa.AvgBizInCompanyPoint2 천원</td>
+                                <td class="center_td small">@Model.OrgCapa.AvgTotalPoint2 천원</td>
+                                <td class="center_td small">@Model.OrgCapa.AvgSMCompanyPoint 천원</td>
                             </tr>
                             <tr>
                                 <td class="left_memo col_d6">
@@ -169,16 +281,16 @@
                                 <td class="left_memo col_ee">
                                     기술경영<br>마케팅관리
                                 </td>
-                                <td class="center_td small">xx.xx점</td>
-                                <td class="center_td small">xx.xx점</td>
-                                <td class="center_td small">xx.xx점</td>
+                                <td class="center_td small">@Model.ProductionCapa.CompanyPoint 점</td>
+                                <td class="center_td small">@Model.ProductionCapa.AvgBizInCompanyPoint 점</td>
+                                <td class="center_td small">@Model.ProductionCapa.AvgTotalPoint 점</td>
                                 <td class="left_memo col_ee">
                                     매 출<br>영업이익률
                                 </td>
-                                <td class="center_td small">xx.xx%</td>
-                                <td class="center_td small">xx.xx%</td>
-                                <td class="center_td small">xx.xx%</td>
-                                <td class="center_td small">xx.xx%</td>
+                                <td class="center_td small">@Model.ProductionCapa.CompanyPoint2 %</td>
+                                <td class="center_td small">@Model.ProductionCapa.AvgBizInCompanyPoint2 %</td>
+                                <td class="center_td small">@Model.ProductionCapa.AvgTotalPoint2 %</td>
+                                <td class="center_td small">@Model.ProductionCapa.AvgSMCompanyPoint %</td>
                             </tr>
                             <tr>
                                 <td class="left_memo col_fd">
@@ -187,16 +299,16 @@
                                 <td class="left_memo col_ee">
                                     기술경영<br>마케팅관리
                                 </td>
-                                <td class="center_td">xx.xx점</td>
-                                <td class="center_td">xx.xx점</td>
-                                <td class="center_td">xx.xx점</td>
+                                <td class="center_td small">@Model.RiskMngCapa.CompanyPoint 점</td>
+                                <td class="center_td small">@Model.RiskMngCapa.AvgBizInCompanyPoint 점</td>
+                                <td class="center_td small">@Model.RiskMngCapa.AvgTotalPoint 점</td>
                                 <td class="left_memo col_ee">
                                     매 출<br>영업이익률
                                 </td>
-                                <td class="center_td">xx.xx%</td>
-                                <td class="center_td">xx.xx%</td>
-                                <td class="center_td">xx.xx%</td>
-                                <td class="center_td">xx.xx%</td>
+                                <td class="center_td small">@Model.RiskMngCapa.CompanyPoint2 %</td>
+                                <td class="center_td small">@Model.RiskMngCapa.AvgBizInCompanyPoint2 %</td>
+                                <td class="center_td small">@Model.RiskMngCapa.AvgTotalPoint2 %</td>
+                                <td class="center_td small">@Model.RiskMngCapa.AvgSMCompanyPoint %</td>
                             </tr>
                         </table>
                     </div>
