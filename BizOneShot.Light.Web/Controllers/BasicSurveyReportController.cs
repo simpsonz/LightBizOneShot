@@ -614,6 +614,24 @@ namespace BizOneShot.Light.Web.Controllers
 
             OrgProductivityViewModel viewModel = new OrgProductivityViewModel();
             viewModel.CheckList = new List<CheckListViewModel>();
+            viewModel.Productivity = new BarChartViewModel();
+            viewModel.Activity = new BarChartViewModel();
+            viewModel.Activity.Dividend = 12;
+            viewModel.Activity.Divisor = 100;
+            viewModel.Activity.Result = viewModel.Activity.Dividend / viewModel.Activity.Divisor * 100;
+            viewModel.Activity.Company = viewModel.Activity.Result;
+            viewModel.Activity.AvgBizInCompany = 12.1;
+            viewModel.Activity.AvgSMCompany = 34.2;
+            viewModel.Activity.AvgTotal = 70;
+
+            viewModel.Productivity.Dividend = 79;
+            viewModel.Productivity.Divisor = 158;
+            viewModel.Productivity.Result = viewModel.Productivity.Dividend / viewModel.Productivity.Divisor;
+            viewModel.Productivity.Company = viewModel.Productivity.Result;
+            viewModel.Productivity.AvgBizInCompany = 62.1;
+            viewModel.Productivity.AvgSMCompany = 54.2;
+            viewModel.Productivity.AvgTotal = 48;
+            viewModel.CheckList = new List<CheckListViewModel>();
 
             //사업참여 기업들의 레벨(창업보육, 보육성장, 자립성장) 분류
             Dictionary<int, int> dicStartUp = new Dictionary<int, int>();
@@ -647,36 +665,6 @@ namespace BizOneShot.Light.Web.Controllers
                 }
             }
 
-
-
-            //리스트 데이터 생성
-            var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D102");
-
-            int count = 1;
-            foreach (var item in quesResult1s)
-            {
-                CheckListViewModel checkListViewModel = new CheckListViewModel();
-                checkListViewModel.Count = count.ToString();
-                checkListViewModel.AnsVal = item.AnsVal.Value;
-                checkListViewModel.DetailCd = item.QuesCheckList.DetailCd;
-                checkListViewModel.Title = item.QuesCheckList.ReportTitle;
-                //창업보육단계 평균
-                int startUpCnt = await reportUtil.GetCheckListCnt(dicStartUp, checkListViewModel.DetailCd);
-                checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + item.QuesCheckList.StartUpStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //보육성장단계 평균
-                int growthCnt = await reportUtil.GetCheckListCnt(dicGrowth, checkListViewModel.DetailCd);
-                checkListViewModel.GrowthAvg = Math.Round(((growthCnt + item.QuesCheckList.GrowthStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //자립성장단계 평균
-                int IndependentCnt = await reportUtil.GetCheckListCnt(dicIndependent, checkListViewModel.DetailCd);
-                checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + item.QuesCheckList.IndependentStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //참여기업 평균
-                checkListViewModel.BizInCompanyAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + 0.0) / (dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //전체 평균
-                checkListViewModel.TotalAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + item.QuesCheckList.TotalStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                viewModel.CheckList.Add(checkListViewModel);
-                count++;
-            }
-
             //검토결과 데이터 생성
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "08");
 
@@ -693,7 +681,7 @@ namespace BizOneShot.Light.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> OrgProductivity(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        public async Task<ActionResult> OrgProductivity(OrgProductivityViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
@@ -723,6 +711,90 @@ namespace BizOneShot.Light.Web.Controllers
             }
         }
 
+
+        public async Task<ActionResult> OrgDivided(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            ReportUtil reportUtil = new ReportUtil(quesResult1Service, quesResult2Service, quesMasterService);
+
+            var viewModel = new OrgDividedViewModel();
+
+            // 조직구성 조회
+            var quesMaster = await quesMasterService.GetQuesOgranAnalysisAsync(paramModel.QuestionSn);
+
+            //기획관리
+            var management = quesMaster.QuesOgranAnalysis.SingleOrDefault(i => i.DeptCd == "M");
+            viewModel.Management = Mapper.Map<OrgEmpCompositionViewModel>(management);
+
+            //생산관리
+            var produce = quesMaster.QuesOgranAnalysis.SingleOrDefault(i => i.DeptCd == "P");
+            viewModel.Produce = Mapper.Map<OrgEmpCompositionViewModel>(produce);
+
+            //연구개발
+            var rnd = quesMaster.QuesOgranAnalysis.SingleOrDefault(i => i.DeptCd == "R");
+            viewModel.RND = Mapper.Map<OrgEmpCompositionViewModel>(rnd);
+
+            //마케팅
+            var salse = quesMaster.QuesOgranAnalysis.SingleOrDefault(i => i.DeptCd == "S");
+            viewModel.Salse = Mapper.Map<OrgEmpCompositionViewModel>(salse);
+
+
+            viewModel.StaffSumCount = viewModel.Management.StaffCount + viewModel.Produce.StaffCount + viewModel.RND.StaffCount + viewModel.Salse.StaffCount;
+
+            viewModel.ChiefSumCount = viewModel.Management.ChiefCount + viewModel.Produce.ChiefCount + viewModel.RND.ChiefCount + viewModel.Salse.ChiefCount;
+
+            viewModel.OfficerSumCount = viewModel.Management.OfficerCount + viewModel.Produce.OfficerCount + viewModel.RND.OfficerCount + viewModel.Salse.OfficerCount;
+
+            viewModel.BeginnerSumCount = viewModel.Management.BeginnerCount + viewModel.Produce.BeginnerCount + viewModel.RND.BeginnerCount + viewModel.Salse.BeginnerCount;
+
+            viewModel.TotalSumCount = viewModel.StaffSumCount + viewModel.ChiefSumCount + viewModel.OfficerSumCount + viewModel.BeginnerSumCount;
+
+            //검토결과 데이터 생성
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "09");
+
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("09");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+            viewModel.CommentList = CommentList;
+
+            ViewBag.paramModel = paramModel;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> OrgDivided(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "09");
+
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("OrgDivided", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("ProductTechMgmt", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+        }
 
         #region 2. 기초역량 검토 종합결과
 

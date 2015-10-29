@@ -103,7 +103,7 @@
     //              TableFilterInclude = new Regex("^table_name1$|^table_name2$|etc");
     //              ColumnFilterExclude = new Regex("^FK_.*$");
     TableFilterExclude = null;
-    TableFilterInclude = new Regex("SY_USER");
+    TableFilterInclude = new Regex("SY_USER|SBO_FINANCIAL_INDEX_T");
     ColumnFilterExclude = null; 
 
     // Stored Procedures ******************************************************************************************************************

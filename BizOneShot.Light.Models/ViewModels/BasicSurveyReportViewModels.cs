@@ -75,8 +75,22 @@ namespace BizOneShot.Light.Models.ViewModels
     public class OrgProductivityViewModel
     {
         public string SubmitType { get; set; }
+        public BarChartViewModel Productivity { get; set; } //생산성
+        public BarChartViewModel Activity { get; set; } //활동성
         public IList<CommentViewModel> CommentList { get; set; }
         public IList<CheckListViewModel> CheckList { get; set; }
+    }
+
+    public class BarChartViewModel
+    {
+        public double Result { get; set; } //결과
+        public double Dividend { get; set; } //분자
+        public double Divisor { get; set; } // 분모
+        public double Company { get; set; }
+        public double AvgBizInCompany { get; set; }
+        public double AvgTotal { get; set; }
+        public double AvgSMCompany { get; set; }
+
     }
 
     public class CheckListViewModel
@@ -90,6 +104,43 @@ namespace BizOneShot.Light.Models.ViewModels
         public string IndependentAvg { get; set; } //자립성장단계 평균
         public string BizInCompanyAvg { get; set; } // 참여기업 평균
         public string TotalAvg { get; set; } //전체평균
+    }
+
+
+    public class OrgDividedViewModel
+    {
+        public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
+        public string SubmitType { get; set; } // Submit 방식
+        public string Status { get; set; } // STATUS
+        public OrgEmpCompositionViewModel Management { get; set; } //기획/관리
+        public OrgEmpCompositionViewModel Produce { get; set; } // 생산/생산관리
+        public OrgEmpCompositionViewModel RND { get; set; } // 연구개발/연구지원
+        public OrgEmpCompositionViewModel Salse { get; set; } // 마케팅기획 / 판매영업
+        public int? OfficerSumCount { get; set; } // OFFICER_COUNT
+        public int? ChiefSumCount { get; set; } // CHIEF_COUNT
+        public int? StaffSumCount { get; set; } // STAFF_COUNT
+        public int? BeginnerSumCount { get; set; } // BEGINNER_COUNT
+        public int? TotalSumCount { get; set; } //부문별 합계
+        public double CompanySum { get; set; } //해당기업 합계
+        public double AvgBizInCompanySum { get; set; } //참여기업 합계 평균
+        public double AvgTotalSum { get; set; } //전체 합계 평균
+        public IList<CommentViewModel> CommentList { get; set; }
+        public IList<CheckListViewModel> CheckList { get; set; }
+
+    }
+
+    public class OrgEmpCompositionViewModel
+    {
+        public string Dept1 { get; set; } // DEPT1
+        public string Dept2 { get; set; } // DEPT2
+        public int OfficerCount { get; set; } // OFFICER_COUNT
+        public int ChiefCount { get; set; } // CHIEF_COUNT
+        public int StaffCount { get; set; } // STAFF_COUNT
+        public int BeginnerCount { get; set; } // BEGINNER_COUNT
+        public int PartialSum { get; set; } // 부문별 합계
+        public double Company { get; set; } // 해당기업
+        public double AvgBizInCompany { get; set; } // 참여기업 평균
+        public double AvgTotal { get; set; } // 전체평균
     }
 
 

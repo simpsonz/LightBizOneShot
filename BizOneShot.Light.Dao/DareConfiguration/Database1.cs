@@ -1,3 +1,17 @@
+﻿
+
+// This file was automatically generated.
+// Do not make changes directly to this file - edit the template instead.
+// 
+// The following connection settings were used to generate this file
+// 
+//     Configuration file:     "BizOneShot.Light.Dao\App.config"
+//     Connection String Name: "DareDbContext"
+//     Connection String:      "Data Source=219.252.53.127;password=**zapped**;"
+
+// Database Edition: Enterprise Edition (64-bit)
+// Database Engine Edition: Enterprise
+
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
 // ReSharper disable InconsistentNaming
@@ -23,14 +37,5 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 
 namespace BizOneShot.Light.Dao.DareConfiguration
 {
-    public interface IDareDbContext : IDisposable
-    {
-        DbSet<SHUSER_SboFinancialIndexT> SHUSER_SboFinancialIndexTs { get; set; } // SBO_FINANCIAL_INDEX_T
-        DbSet<SHUSER_SyUser> SHUSER_SyUsers { get; set; } // SY_USER
-
-        int SaveChanges();
-        System.Threading.Tasks.Task<int> SaveChangesAsync();
-        System.Threading.Tasks.Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-    }
-
 }
+
