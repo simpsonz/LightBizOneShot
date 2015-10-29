@@ -1511,6 +1511,17 @@
     <Content Include="Views\BasicSurveyReport\RiskMgmtEvalProfession.cshtml" />
     <Content Include="Views\BasicSurveyReport\OrgHR02.cshtml" />
     <Content Include="Views\BasicSurveyReport\OrgProductivity.cshtml" />
+    <Content Include="Views\BasicSurveyReport\RiskMgmtITSystem.cshtml" />
+    <Content Include="Views\BasicSurveyReport\ProductivityMgmtMarketing.cshtml" />
+    <Content Include="Views\BasicSurveyReport\RiskMgmtRelCEO.cshtml" />
+    <Content Include="Views\BasicSurveyReport\RiskMgmtLeadership.cshtml" />
+    <Content Include="Views\BasicSurveyReport\RiskMgmtVisionStrategy.cshtml" />
+    <Content Include="Views\BasicSurveyReport\ProductivityMgmtCustomer.cshtml" />
+    <Content Include="Views\BasicSurveyReport\RiskMgmtWorkingEnv.cshtml" />
+    <Content Include="Views\BasicSurveyReport\ProductivityQC.cshtml" />
+    <Content Include="Views\BasicSurveyReport\ProductivityProcessControl.cshtml" />
+    <Content Include="Views\BasicSurveyReport\ProductivityMgmtFacility.cshtml" />
+    <Content Include="Views\BasicSurveyReport\ProductivityCommercialize.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

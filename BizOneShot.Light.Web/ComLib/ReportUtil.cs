@@ -4,23 +4,97 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using BizOneShot.Light.Services;
+using BizOneShot.Light.Models.ViewModels;
 
 namespace BizOneShot.Light.Web.ComLib
 {
     public class ReportUtil
     {
+        private readonly IScBizWorkService scBizWorkService;
         private readonly IQuesResult1Service quesResult1Service;
         private readonly IQuesResult2Service quesResult2Service;
         private readonly IQuesMasterService quesMasterService;
 
         public ReportUtil(
+            IScBizWorkService scBizWorkService,
             IQuesResult1Service quesResult1Service,
             IQuesResult2Service quesResult2Service,
             IQuesMasterService quesMasterService)
         {
+            this.scBizWorkService = scBizWorkService;
             this.quesResult1Service = quesResult1Service;
             this.quesResult2Service = quesResult2Service;
             this.quesMasterService = quesMasterService;
+        }
+
+
+
+        public async Task<IList<CheckListViewModel>> getGrowthStepPointCheckList(BasicSurveyReportViewModel paramModel, string quesCheckListSmallClassCd)
+        {
+
+            //사업참여 기업들의 레벨(창업보육, 보육성장, 자립성장) 분류
+            Dictionary<int, int> dicStartUp = new Dictionary<int, int>();
+            Dictionary<int, int> dicGrowth = new Dictionary<int, int>();
+            Dictionary<int, int> dicIndependent = new Dictionary<int, int>();
+
+            var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
+            {
+                var compMappings = curBizWork.ScCompMappings;
+                foreach (var compMapping in compMappings)
+                {
+                    var quesMasters = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);
+                    if (quesMasters == null)
+                    {
+                        continue;
+                    }
+
+                    //다래 재무정보 유무 체크하는 로직 추가해야함.(문진표정보, 재무정보가 있어야 보고서 생성가능.)
+
+
+                    //종합점수 조회하여 분류별로 딕셔너리 저장
+                    var point = await GetCompanyTotalPoint(quesMasters.QuestionSn);
+
+                    if (point >= 0 && point <= 50)
+                        dicStartUp.Add(compMapping.CompSn, quesMasters.QuestionSn);
+                    else if (point > 50 && point <= 75)
+                        dicGrowth.Add(compMapping.CompSn, quesMasters.QuestionSn);
+                    else
+                        dicIndependent.Add(compMapping.CompSn, quesMasters.QuestionSn);
+                }
+            }
+
+
+
+            //리스트 데이터 생성
+            var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, quesCheckListSmallClassCd);
+
+            int count = 1;
+            var CheckList = new List<CheckListViewModel>();
+            foreach (var item in quesResult1s)
+            {
+                CheckListViewModel checkListViewModel = new CheckListViewModel();
+                checkListViewModel.Count = count.ToString();
+                checkListViewModel.AnsVal = item.AnsVal.Value;
+                checkListViewModel.DetailCd = item.QuesCheckList.DetailCd;
+                checkListViewModel.Title = item.QuesCheckList.ReportTitle;
+                //창업보육단계 평균
+                int startUpCnt = await GetCheckListCnt(dicStartUp, checkListViewModel.DetailCd);
+                checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + item.QuesCheckList.StartUpStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                //보육성장단계 평균
+                int growthCnt = await GetCheckListCnt(dicGrowth, checkListViewModel.DetailCd);
+                checkListViewModel.GrowthAvg = Math.Round(((growthCnt + item.QuesCheckList.GrowthStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                //자립성장단계 평균
+                int IndependentCnt = await GetCheckListCnt(dicIndependent, checkListViewModel.DetailCd);
+                checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + item.QuesCheckList.IndependentStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                //참여기업 평균
+                checkListViewModel.BizInCompanyAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + 0.0) / (dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                //전체 평균
+                checkListViewModel.TotalAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + item.QuesCheckList.TotalStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                CheckList.Add(checkListViewModel);
+                count++;
+            }
+
+            return CheckList;
         }
 
         public async Task<double> GetCompanyTotalPoint(int qustionSn)

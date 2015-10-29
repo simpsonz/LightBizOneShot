@@ -103,10 +103,8 @@ namespace BizOneShot.Light.Models.ViewModels
     {
         public string SubmitType { get; set; }
         public IList<CommentViewModel> CommentList { get; set; }
-
         public IList<CheckBoxViewModel> CheckBoxList { get; set; }
-
-
+        public IList<CheckListViewModel> CheckList { get; set; }
     }
 
 
