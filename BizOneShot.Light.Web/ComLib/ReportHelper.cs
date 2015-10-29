@@ -755,25 +755,25 @@ namespace BizOneShot.Light.Web.ComLib
 
 
 
-        public static double CalcPoint(string type, double standardPoing)
+        public static double CalcPoint(string type, double standardPoint)
         {
             double point = 0;
             switch (type)
             {
                 case "A":
-                    point = standardPoing * 1;
+                    point = standardPoint * 1;
                     break;
                 case "B":
-                    point = standardPoing * 0.75;
+                    point = standardPoint * 0.75;
                     break;
                 case "C":
-                    point = standardPoing * 0.5;
+                    point = standardPoint * 0.5;
                     break;
                 case "D":
-                    point = standardPoing * 0.25;
+                    point = standardPoint * 0.25;
                     break;
                 case "E":
-                    point = standardPoing * 0;
+                    point = standardPoint * 0;
                     break;
             }
             return point;
