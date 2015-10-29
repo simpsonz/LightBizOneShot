@@ -359,7 +359,6 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<QuesOgranAnalysis, OrgCompositionViewModel>()
                .ForMember(d => d.PartialSum, map => map.MapFrom(s => s.ChiefCount + s.OfficerCount + s.BeginnerCount + s.StaffCount));
 
-
             //참여기업 통계
             Mapper.CreateMap<ScBizWork, BizInCompanyStatsViewModel>();
             Mapper.CreateMap<ScCompMapping, CompnayStatsViewModel>()
@@ -412,7 +411,11 @@ namespace BizOneShot.Light.Web.Mappings
             //기초역량보고서 커맨트 매핑
             Mapper.CreateMap<RptMentorComment, CommentViewModel>();
 
+            //조직분화도
+            Mapper.CreateMap<QuesOgranAnalysis, OrgEmpCompositionViewModel>()
+               .ForMember(d => d.PartialSum, map => map.MapFrom(s => s.ChiefCount + s.OfficerCount + s.BeginnerCount + s.StaffCount));
 
+            
 
         }
 

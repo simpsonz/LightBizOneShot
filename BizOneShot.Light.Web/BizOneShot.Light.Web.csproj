@@ -1511,6 +1511,7 @@
     <Content Include="Views\BasicSurveyReport\RiskMgmtEvalProfession.cshtml" />
     <Content Include="Views\BasicSurveyReport\OrgHR02.cshtml" />
     <Content Include="Views\BasicSurveyReport\OrgProductivity.cshtml" />
+    <Content Include="Views\BasicSurveyReport\OrgDivided.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

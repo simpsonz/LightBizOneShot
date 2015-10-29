@@ -59,6 +59,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DareConfiguration\Database1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\SHUSER_SboFinancialIndexTConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\PagedListExtentions.cs" />
     <Compile Include="Repositories\FinanceReportRepository.cs" />
     <Compile Include="Repositories\PostRepository.cs" />

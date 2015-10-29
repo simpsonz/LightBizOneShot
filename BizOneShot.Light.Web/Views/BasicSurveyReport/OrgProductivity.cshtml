@@ -10,13 +10,111 @@
         $('#naviwrap_biz > .navi_biz >  a.navi_report').addClass('on');
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
+
+        makeBarChart("Productivity", @Model.Productivity.Company, @Model.Productivity.AvgBizInCompany, @Model.Productivity.AvgTotal, @Model.Productivity.AvgSMCompany);
+        makeBarChart("Activity", @Model.Activity.Company, @Model.Activity.AvgBizInCompany, @Model.Activity.AvgTotal, @Model.Activity.AvgSMCompany);
     });
 
     function goSubmit(submitType) {
         $('#submitType').val(submitType);
         $('#mainForm').submit();
     }
+
+    function makeBarChart(divName, company, avgBizInCompany, avgTotal, avgSMCompany) {
+        @*var param1 = @Model.Productivity.Company;
+        var param2 = @Model.Productivity.AvgBizInCompany;
+        var param3 = @Model.Productivity.AvgTotal;
+        var param4 = @Model.Productivity.AvgSMCompany;*@
+
+        var param1 = company;
+        var param2 = avgBizInCompany;
+        var param3 = avgTotal;
+        var param4 = avgSMCompany;
+
+
+        chart = new Highcharts.Chart({
+            chart: {
+                type: 'column',
+                renderTo: divName,
+                margin: [10, 0, 25, 50],
+                spacingTop: 0,
+                //spacingBottom: 0,
+                //spacingLeft: 0,
+                spacingRight: 0
+            },
+            exporting: {                    // highcharts context menu 제거
+                buttons: {
+                    contextButtons: {
+                        enabled: false,
+                        menuItems: null
+                    }
+                },
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                style: {
+                    display: 'none'
+                }
+            },
+            xAxis: {
+                type: 'category',
+                gridLineWidth: 1
+            },
+            yAxis: {
+                gridLineWidth: 0,
+                title: {
+                    style: {
+                        display: 'none'
+                    }
+                },
+                labels: {
+                    enabled: true
+                },
+            },
+            legend: {
+                enabled:false
+            },
+            tooltip: { enabled: false },
+
+            series: [{
+                upColor: Highcharts.getOptions().colors[2],
+                color: Highcharts.getOptions().colors[3],
+                pointWidth: 35,
+                enableMouseTracking: false,
+                data: [{
+                    name: "해당기업",
+                    y: param1
+                }, {
+                    name: "참여기업평균",
+                    y: param2
+                }, {
+                    name: "전체평균",
+                    y: param3
+                }, {
+                    name: "중소기업 평균",
+                    y: param4
+                }],
+                dataLabels: {
+                    enabled: true,
+                    formatter: function () {
+                        return Highcharts.numberFormat(this.y, 0, ',');
+                    },
+                    style: {
+                        color: '#FFFFFF',
+                        fontWeight: 'bold',
+                        textShadow: '0px 0px 3px black'
+                    }
+                },
+                pointPadding: 0
+            }]
+        });
+    }
 </script>
+
+@Scripts.Render("~/bundles/highcharts")
 
 <div id="sub_rightwrap_report">
 
@@ -116,19 +214,19 @@
                         </div>
                         <div class="index_left_mid">
                             <span>
-                                부가가치<br> 노동생산성 = <br>( )
+                                부가가치<br> 노동생산성 = <br>(@Model.Productivity.Result)
                             </span>
                         </div>
                         <div class="index_right_mid">
                             <span class="right_mid_top">
-                                매출액-<br>재료비<br>(
+                                매출액-<br>재료비<br>(@Model.Productivity.Dividend
                                 )
                             </span> <span class="right_mid_bot">
-                                종업원수<br>( )
+                                종업원수<br>(@Model.Productivity.Divisor )
                             </span>
                         </div>
                     </div>
-                    <div class="index_chart">
+                    <div id="Productivity" class="index_chart">
                         <!-- 차트가 표시되는 부분 -->
                     </div>
                 </div>
@@ -161,19 +259,19 @@
                         </div>
                         <div class="index_left_mid multi" style="padding-top: 14px">
                             <span>
-                                총자산<br> 회전율 = <br>( )
+                                <br>총자산<br> 회전율 = <br>(@Model.Activity.Result )
                             </span>
                         </div>
                         <div class="index_right_mid multi">
                             <span class="right_mid_top">
-                                매출액<br>( )
+                                <br> 매출액<br>(@Model.Activity.Dividend)
                             </span> <span class="right_mid_bot">
-                                총자산<br>( )
+                                총자산<br>(@Model.Activity.Divisor)
                             </span>
                         </div>
-                        <div class="index_right_multi">X 100</div>
+                        <div class="index_right_multi"><br>X 100</div>
                     </div>
-                    <div class="index_chart h_109">
+                    <div id="Activity" class="index_chart">
                         <!-- 차트가 표시되는 부분 -->
                     </div>
                 </div>
