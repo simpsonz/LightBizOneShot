@@ -378,68 +378,69 @@ namespace BizOneShot.Light.Web.Controllers
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
 
             OrgHR01ViewModel viewModel = new OrgHR01ViewModel();
-            viewModel.CheckList = new List<CheckListViewModel>();
+            //viewModel.CheckList = new List<CheckListViewModel>();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1D101");
 
-            //사업참여 기업들의 레벨(창업보육, 보육성장, 자립성장) 분류
-            Dictionary<int, int> dicStartUp = new Dictionary<int, int>();
-            Dictionary<int, int> dicGrowth = new Dictionary<int, int>();
-            Dictionary<int, int> dicIndependent = new Dictionary<int, int>();
+            ////사업참여 기업들의 레벨(창업보육, 보육성장, 자립성장) 분류
+            //Dictionary<int, int> dicStartUp = new Dictionary<int, int>();
+            //Dictionary<int, int> dicGrowth = new Dictionary<int, int>();
+            //Dictionary<int, int> dicIndependent = new Dictionary<int, int>();
 
-            var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
-            {
-                var compMappings = curBizWork.ScCompMappings;
-                foreach (var compMapping in compMappings)
-                {
-                    var quesMasters = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);
-                    if (quesMasters == null)
-                    {
-                        continue;
-                    }
+            //var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
+            //{
+            //    var compMappings = curBizWork.ScCompMappings;
+            //    foreach (var compMapping in compMappings)
+            //    {
+            //        var quesMasters = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);
+            //        if (quesMasters == null)
+            //        {
+            //            continue;
+            //        }
 
-                    //다래 재무정보 유무 체크하는 로직 추가해야함.(문진표정보, 재무정보가 있어야 보고서 생성가능.)
-
-
-                    //종합점수 조회하여 분류별로 딕셔너리 저장
-                    var point = await reportUtil.GetCompanyTotalPoint(quesMasters.QuestionSn);
-
-                    if (point >= 0 && point <= 50)
-                        dicStartUp.Add(compMapping.CompSn, quesMasters.QuestionSn);
-                    else if (point > 50 && point <= 75)
-                        dicGrowth.Add(compMapping.CompSn, quesMasters.QuestionSn);
-                    else
-                        dicIndependent.Add(compMapping.CompSn, quesMasters.QuestionSn);
-                }
-            }
+            //        //다래 재무정보 유무 체크하는 로직 추가해야함.(문진표정보, 재무정보가 있어야 보고서 생성가능.)
 
 
+            //        //종합점수 조회하여 분류별로 딕셔너리 저장
+            //        var point = await reportUtil.GetCompanyTotalPoint(quesMasters.QuestionSn);
 
-            //리스트 데이터 생성
-            var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D101");
+            //        if (point >= 0 && point <= 50)
+            //            dicStartUp.Add(compMapping.CompSn, quesMasters.QuestionSn);
+            //        else if (point > 50 && point <= 75)
+            //            dicGrowth.Add(compMapping.CompSn, quesMasters.QuestionSn);
+            //        else
+            //            dicIndependent.Add(compMapping.CompSn, quesMasters.QuestionSn);
+            //    }
+            //}
 
-            int count = 1;
-            foreach(var item in quesResult1s)
-            {
-                CheckListViewModel checkListViewModel = new CheckListViewModel();
-                checkListViewModel.Count = count.ToString();
-                checkListViewModel.AnsVal = item.AnsVal.Value;
-                checkListViewModel.DetailCd = item.QuesCheckList.DetailCd;
-                checkListViewModel.Title = item.QuesCheckList.ReportTitle;
-                //창업보육단계 평균
-                int startUpCnt =  await reportUtil.GetCheckListCnt(dicStartUp, checkListViewModel.DetailCd);
-                checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + item.QuesCheckList.StartUpStep.Value + 0.0) / ( 39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //보육성장단계 평균
-                int growthCnt = await reportUtil.GetCheckListCnt(dicGrowth, checkListViewModel.DetailCd);
-                checkListViewModel.GrowthAvg = Math.Round(((growthCnt + item.QuesCheckList.GrowthStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //자립성장단계 평균
-                int IndependentCnt = await reportUtil.GetCheckListCnt(dicIndependent, checkListViewModel.DetailCd);
-                checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + item.QuesCheckList.IndependentStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //참여기업 평균
-                checkListViewModel.BizInCompanyAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + 0.0) / (dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //전체 평균
-                checkListViewModel.TotalAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + item.QuesCheckList.TotalStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                viewModel.CheckList.Add(checkListViewModel);
-                count++;
-            }
+
+
+            ////리스트 데이터 생성
+            //var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D101");
+
+            //int count = 1;
+            //foreach(var item in quesResult1s)
+            //{
+            //    CheckListViewModel checkListViewModel = new CheckListViewModel();
+            //    checkListViewModel.Count = count.ToString();
+            //    checkListViewModel.AnsVal = item.AnsVal.Value;
+            //    checkListViewModel.DetailCd = item.QuesCheckList.DetailCd;
+            //    checkListViewModel.Title = item.QuesCheckList.ReportTitle;
+            //    //창업보육단계 평균
+            //    int startUpCnt =  await reportUtil.GetCheckListCnt(dicStartUp, checkListViewModel.DetailCd);
+            //    checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + item.QuesCheckList.StartUpStep.Value + 0.0) / ( 39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //보육성장단계 평균
+            //    int growthCnt = await reportUtil.GetCheckListCnt(dicGrowth, checkListViewModel.DetailCd);
+            //    checkListViewModel.GrowthAvg = Math.Round(((growthCnt + item.QuesCheckList.GrowthStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //자립성장단계 평균
+            //    int IndependentCnt = await reportUtil.GetCheckListCnt(dicIndependent, checkListViewModel.DetailCd);
+            //    checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + item.QuesCheckList.IndependentStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //참여기업 평균
+            //    checkListViewModel.BizInCompanyAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + 0.0) / (dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //전체 평균
+            //    checkListViewModel.TotalAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + item.QuesCheckList.TotalStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    viewModel.CheckList.Add(checkListViewModel);
+            //    count++;
+            //}
 
             //검토결과 데이터 생성
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "06");
@@ -495,69 +496,70 @@ namespace BizOneShot.Light.Web.Controllers
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
 
             OrgHR01ViewModel viewModel = new OrgHR01ViewModel();
-            viewModel.CheckList = new List<CheckListViewModel>();
+            //viewModel.CheckList = new List<CheckListViewModel>();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1D102");
 
-            //사업참여 기업들의 레벨(창업보육, 보육성장, 자립성장) 분류
-            Dictionary<int, int> dicStartUp = new Dictionary<int, int>();
-            Dictionary<int, int> dicGrowth = new Dictionary<int, int>();
-            Dictionary<int, int> dicIndependent = new Dictionary<int, int>();
+            ////사업참여 기업들의 레벨(창업보육, 보육성장, 자립성장) 분류
+            //Dictionary<int, int> dicStartUp = new Dictionary<int, int>();
+            //Dictionary<int, int> dicGrowth = new Dictionary<int, int>();
+            //Dictionary<int, int> dicIndependent = new Dictionary<int, int>();
 
-            var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
+            //var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
 
-            {
-                var compMappings = curBizWork.ScCompMappings;
-                foreach (var compMapping in compMappings)
-                {
-                    var quesMasters = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);
-                    if (quesMasters == null)
-                    {
-                        continue;
-                    }
+            //{
+            //    var compMappings = curBizWork.ScCompMappings;
+            //    foreach (var compMapping in compMappings)
+            //    {
+            //        var quesMasters = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);
+            //        if (quesMasters == null)
+            //        {
+            //            continue;
+            //        }
 
-                    //다래 재무정보 유무 체크하는 로직 추가해야함.(문진표정보, 재무정보가 있어야 보고서 생성가능.)
-
-
-                    //종합점수 조회하여 분류별로 딕셔너리 저장
-                    var point = await reportUtil.GetCompanyTotalPoint(quesMasters.QuestionSn);
-
-                    if (point >= 0 && point <= 50)
-                        dicStartUp.Add(compMapping.CompSn, quesMasters.QuestionSn);
-                    else if (point > 50 && point <= 75)
-                        dicGrowth.Add(compMapping.CompSn, quesMasters.QuestionSn);
-                    else
-                        dicIndependent.Add(compMapping.CompSn, quesMasters.QuestionSn);
-                }
-            }
+            //        //다래 재무정보 유무 체크하는 로직 추가해야함.(문진표정보, 재무정보가 있어야 보고서 생성가능.)
 
 
+            //        //종합점수 조회하여 분류별로 딕셔너리 저장
+            //        var point = await reportUtil.GetCompanyTotalPoint(quesMasters.QuestionSn);
 
-            //리스트 데이터 생성
-            var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D102");
+            //        if (point >= 0 && point <= 50)
+            //            dicStartUp.Add(compMapping.CompSn, quesMasters.QuestionSn);
+            //        else if (point > 50 && point <= 75)
+            //            dicGrowth.Add(compMapping.CompSn, quesMasters.QuestionSn);
+            //        else
+            //            dicIndependent.Add(compMapping.CompSn, quesMasters.QuestionSn);
+            //    }
+            //}
 
-            int count = 1;
-            foreach (var item in quesResult1s)
-            {
-                CheckListViewModel checkListViewModel = new CheckListViewModel();
-                checkListViewModel.Count = count.ToString();
-                checkListViewModel.AnsVal = item.AnsVal.Value;
-                checkListViewModel.DetailCd = item.QuesCheckList.DetailCd;
-                checkListViewModel.Title = item.QuesCheckList.ReportTitle;
-                //창업보육단계 평균
-                int startUpCnt = await reportUtil.GetCheckListCnt(dicStartUp, checkListViewModel.DetailCd);
-                checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + item.QuesCheckList.StartUpStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //보육성장단계 평균
-                int growthCnt = await reportUtil.GetCheckListCnt(dicGrowth, checkListViewModel.DetailCd);
-                checkListViewModel.GrowthAvg = Math.Round(((growthCnt + item.QuesCheckList.GrowthStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //자립성장단계 평균
-                int IndependentCnt = await reportUtil.GetCheckListCnt(dicIndependent, checkListViewModel.DetailCd);
-                checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + item.QuesCheckList.IndependentStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //참여기업 평균
-                checkListViewModel.BizInCompanyAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + 0.0) / (dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //전체 평균
-                checkListViewModel.TotalAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + item.QuesCheckList.TotalStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                viewModel.CheckList.Add(checkListViewModel);
-                count++;
-            }
+
+
+            ////리스트 데이터 생성
+            //var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D102");
+
+            //int count = 1;
+            //foreach (var item in quesResult1s)
+            //{
+            //    CheckListViewModel checkListViewModel = new CheckListViewModel();
+            //    checkListViewModel.Count = count.ToString();
+            //    checkListViewModel.AnsVal = item.AnsVal.Value;
+            //    checkListViewModel.DetailCd = item.QuesCheckList.DetailCd;
+            //    checkListViewModel.Title = item.QuesCheckList.ReportTitle;
+            //    //창업보육단계 평균
+            //    int startUpCnt = await reportUtil.GetCheckListCnt(dicStartUp, checkListViewModel.DetailCd);
+            //    checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + item.QuesCheckList.StartUpStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //보육성장단계 평균
+            //    int growthCnt = await reportUtil.GetCheckListCnt(dicGrowth, checkListViewModel.DetailCd);
+            //    checkListViewModel.GrowthAvg = Math.Round(((growthCnt + item.QuesCheckList.GrowthStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //자립성장단계 평균
+            //    int IndependentCnt = await reportUtil.GetCheckListCnt(dicIndependent, checkListViewModel.DetailCd);
+            //    checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + item.QuesCheckList.IndependentStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //참여기업 평균
+            //    checkListViewModel.BizInCompanyAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + 0.0) / (dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //전체 평균
+            //    checkListViewModel.TotalAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + item.QuesCheckList.TotalStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    viewModel.CheckList.Add(checkListViewModel);
+            //    count++;
+            //}
 
             //검토결과 데이터 생성
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "07");
@@ -716,7 +718,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
-            ReportUtil reportUtil = new ReportUtil(quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
 
             var viewModel = new OrgDividedViewModel();
 
