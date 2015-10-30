@@ -1522,6 +1522,7 @@
     <Content Include="Views\BasicSurveyReport\ProductivityProcessControl.cshtml" />
     <Content Include="Views\BasicSurveyReport\ProductivityMgmtFacility.cshtml" />
     <Content Include="Views\BasicSurveyReport\ProductivityCommercialize.cshtml" />
+    <Content Include="Views\BasicSurveyReport\OrgDivided.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
