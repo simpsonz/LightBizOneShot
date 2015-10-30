@@ -125,6 +125,7 @@ namespace BizOneShot.Light.Dao.Infrastructure
         #region Properties
         private DareDbContext dareDbContext;
         private readonly IDbSet<T> dbSet;
+        private IDareDbFactory dbFactory;
 
         protected IDareDbFactory DareDbFactory
         {

@@ -77,6 +77,7 @@
     <Compile Include="Repositories\QuesResult2Repository.cs" />
     <Compile Include="Repositories\RptMasterRepository.cs" />
     <Compile Include="Repositories\RptMentorCommentRepository.cs" />
+    <Compile Include="Repositories\SboFinancialIndexTRepository.cs" />
     <Compile Include="Repositories\ScBizWorkRepository.cs" />
     <Compile Include="Repositories\ScCompMappingRepository.cs" />
     <Compile Include="Repositories\ScExpertMappingRepository.cs" />

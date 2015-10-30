@@ -17,10 +17,10 @@ namespace BizOneShot.Light.Web.ComLib
             var bizWorkList = new List<SelectListItem>();
             bizWorkList.Add(new SelectListItem { Value = "0", Text = "사업명 선택", Selected = true });
 
-            if(scBizWorkList != null)
+            if (scBizWorkList != null)
             {
-                foreach(var item in scBizWorkList)
-                { 
+                foreach (var item in scBizWorkList)
+                {
                     bizWorkList.Add(new SelectListItem { Value = item.BizWorkSn.ToString(), Text = item.BizWorkNm });
                 }
             }
@@ -68,9 +68,9 @@ namespace BizOneShot.Light.Web.ComLib
 
             year.Add(new SelectListItem { Value = "0", Text = "년도선택", Selected = true });
 
-            if(scBizWork != null)
+            if (scBizWork != null)
             {
-                for(int i = scBizWork.BizWorkStDt.GetValueOrDefault().Year; i <= scBizWork.BizWorkEdDt.GetValueOrDefault().Year; i++)
+                for (int i = scBizWork.BizWorkStDt.GetValueOrDefault().Year; i <= scBizWork.BizWorkEdDt.GetValueOrDefault().Year; i++)
                 {
                     if (i > DateTime.Now.Year)
                     {
@@ -90,7 +90,7 @@ namespace BizOneShot.Light.Web.ComLib
             //사업년도
             var year = new List<SelectListItem>();
             year.Add(new SelectListItem { Value = "0", Text = "년도선택", Selected = true });
-           
+
             for (int i = DateTime.Now.Year; i >= startYear; i--)
             {
                 year.Add(new SelectListItem { Value = i.ToString(), Text = i.ToString() + "년" });
@@ -115,7 +115,7 @@ namespace BizOneShot.Light.Web.ComLib
 
             momth.Add(new SelectListItem { Value = "0", Text = "월선택", Selected = true });
 
-            if(year > DateTime.Now.Year || scBizWork == null)
+            if (year > DateTime.Now.Year || scBizWork == null)
             {
                 return new SelectList(momth, "Value", "Text");
             }
@@ -133,7 +133,7 @@ namespace BizOneShot.Light.Web.ComLib
                 }
                 return new SelectList(momth, "Value", "Text");
             }
-            
+
             //사업시작년이 선택년과 같을경우
             if (year == scBizWork.BizWorkStDt.GetValueOrDefault().Year)
             {
@@ -151,7 +151,7 @@ namespace BizOneShot.Light.Web.ComLib
             //사업 종료년이 선택년과 같을경우
             if (year == scBizWork.BizWorkEdDt.GetValueOrDefault().Year)
             {
-                for (int i = 1; i<= scBizWork.BizWorkStDt.GetValueOrDefault().Month; i++)
+                for (int i = 1; i <= scBizWork.BizWorkStDt.GetValueOrDefault().Month; i++)
                 {
                     if (year == DateTime.Now.Year && i == DateTime.Now.Month)
                     {
@@ -181,7 +181,7 @@ namespace BizOneShot.Light.Web.ComLib
 
             momth.Add(new SelectListItem { Value = "0", Text = "월선택", Selected = true });
 
-            if(year == 0)
+            if (year == 0)
             {
                 return new SelectList(momth, "Value", "Text");
             }
@@ -230,7 +230,7 @@ namespace BizOneShot.Light.Web.ComLib
                     }
 
                     int temp = ((i - 1) / 3) + 1;
-                    if(tempQuarter < temp)
+                    if (tempQuarter < temp)
                     {
                         tempQuarter = temp;
                         quarter.Add(new SelectListItem { Value = temp.ToString(), Text = temp.ToString() + "분기" });
@@ -280,12 +280,12 @@ namespace BizOneShot.Light.Web.ComLib
             }
 
             //선택한 년도가 사업시작년도와 종료년도 사이에 있을경우
-            if(true)
-            { 
+            if (true)
+            {
                 int tempQuarter = 0;
                 for (int i = 1; i <= 12; i++)
                 {
-                
+
                     if (year == DateTime.Now.Year && i == DateTime.Now.Month)
                     {
                         break;
@@ -318,9 +318,9 @@ namespace BizOneShot.Light.Web.ComLib
 
             Int64 avrBeforQuarter = 0;
             int cnt = 0;
-            foreach(var cash in cashList)
+            foreach (var cash in cashList)
             {
-                if(int.Parse(cash.ACC_YEAR) == qm.Year && (int.Parse(cash.ACC_MONTH) >= qm.Quarter*3-2 && int.Parse(cash.ACC_MONTH) <= qm.Quarter * 3))
+                if (int.Parse(cash.ACC_YEAR) == qm.Year && (int.Parse(cash.ACC_MONTH) >= qm.Quarter * 3 - 2 && int.Parse(cash.ACC_MONTH) <= qm.Quarter * 3))
                 {
                     avrBeforQuarter = avrBeforQuarter + Convert.ToInt64(cash.LAST_AMT);
                     cnt++;
@@ -340,12 +340,12 @@ namespace BizOneShot.Light.Web.ComLib
             salesViewModel.CurMonth = string.Format("{0:n0}", Convert.ToInt64((slaesList[0].SALES_AMT / 1000)));   //현월매출
             salesViewModel.LastMonth = string.Format("{0:n0}", Convert.ToInt64((slaesList[1].SALES_AMT / 1000))); //전월매출
 
-            if(yearTotal == null)
+            if (yearTotal == null)
             {
                 salesViewModel.CurYear = "0";
             }
             else
-            { 
+            {
                 salesViewModel.CurYear = string.Format("{0:n0}", Convert.ToInt64((yearTotal.SALES_AMT / 1000))); // 누적매출
             }
             return salesViewModel;
@@ -386,7 +386,7 @@ namespace BizOneShot.Light.Web.ComLib
         public static IList<TaxSalesViewModel> MakeTaxSalseListViewModel(IList<SHUSER_SboMonthlyTaxSalesSelectReturnModel> taxSalesList, IList<SHUSER_SboMonthlySalesSelectReturnModel> slaesList)
         {
             IList<TaxSalesViewModel> taxSalesListViewModel = new List<TaxSalesViewModel>();
-            foreach(var taxSales in taxSalesList)
+            foreach (var taxSales in taxSalesList)
             {
                 TaxSalesViewModel taxSalesViewModel = new TaxSalesViewModel();
                 taxSalesViewModel.CustName = taxSales.ACPT_TR_NM; //매입자 회사명
@@ -394,9 +394,9 @@ namespace BizOneShot.Light.Web.ComLib
                 taxSalesViewModel.ItemName = taxSales.ITM_NM; //품목명
                 taxSalesViewModel.TotalAmt = string.Format("{0:n0}", Convert.ToInt64((taxSales.SUM_AMT / 1000)));   //합계금액
 
-                if(slaesList[0].SALES_AMT != 0)
-                { 
-                    taxSalesViewModel.Share = string.Format("{0:n0}", Convert.ToInt64((((taxSales.SUM_AMT / slaesList[0].SALES_AMT)*100)/1000)));
+                if (slaesList[0].SALES_AMT != 0)
+                {
+                    taxSalesViewModel.Share = string.Format("{0:n0}", Convert.ToInt64((((taxSales.SUM_AMT / slaesList[0].SALES_AMT) * 100) / 1000)));
                 }
                 else
                 {
@@ -417,7 +417,7 @@ namespace BizOneShot.Light.Web.ComLib
                 BankOutViewModel bankOutViewModel = new BankOutViewModel();
                 bankOutViewModel.BankName = bankOut.BANK_CD; //은행명
                 bankOutViewModel.ItemName = bankOut.HISTCD_4; //적요
-                bankOutViewModel.OutDate = bankOut.TRANDATE.Substring(0,4)+"-"+bankOut.TRANDATE.Substring(4, 2)+ "-" + bankOut.TRANDATE.Substring(6, 2); //출금일
+                bankOutViewModel.OutDate = bankOut.TRANDATE.Substring(0, 4) + "-" + bankOut.TRANDATE.Substring(4, 2) + "-" + bankOut.TRANDATE.Substring(6, 2); //출금일
                 bankOutViewModel.TotalAmt = string.Format("{0:n0}", Convert.ToInt64((bankOut.HISTCD_O / 1000)));   //금액
                 bankOutViewModel.Share = "10";
                 bankOutListViewModel.Add(bankOutViewModel);
@@ -428,12 +428,12 @@ namespace BizOneShot.Light.Web.ComLib
         public static QuarterModel CalcBeforQuarter(int year, int month)
         {
             QuarterModel qm = new QuarterModel();
-            if(month >= 1 && month <= 3)
+            if (month >= 1 && month <= 3)
             {
                 qm.Year = year - 1;
                 qm.Quarter = 4;
             }
-            else if(month >= 4 && month <= 6)
+            else if (month >= 4 && month <= 6)
             {
                 qm.Year = year;
                 qm.Quarter = 1;
@@ -494,7 +494,7 @@ namespace BizOneShot.Light.Web.ComLib
         {
             CommentViewModel viewModel = new CommentViewModel();
 
-            if(rptMentorComment == null)
+            if (rptMentorComment == null)
             {
                 viewModel.DetailCd = detailCode;
                 viewModel.Comment = "";
@@ -530,7 +530,7 @@ namespace BizOneShot.Light.Web.ComLib
         public static IList<CommentViewModel> MakeCommentViewModel(IEnumerable<RptCheckList> listRptCheckList, IList<RptMentorComment> listRptMentorComment)
         {
             var CommentList = new List<CommentViewModel>();
-        
+
             foreach (var rptCheckList in listRptCheckList)
             {
                 var rptMentorComment = listRptMentorComment.SingleOrDefault(rmc => rmc.DetailCd == rptCheckList.DetailCd);
@@ -751,6 +751,22 @@ namespace BizOneShot.Light.Web.ComLib
             return code;
         }
 
+        public static string GetCodeTypeM(double per)
+        {
+            string code = "";
+            if (per >= 3)
+                code = "A";
+            else if (per < 3 && per >= 2.5)
+                code = "B";
+            else if (per < 2.5 && per >= 2)
+                code = "C";
+            else if (per < 2 && per >= 1.5)
+                code = "D";
+            else
+                code = "E";
+            return code;
+        }
+
 
 
 
@@ -828,5 +844,43 @@ namespace BizOneShot.Light.Web.ComLib
             return code;
         }
 
+        public static double CalcFinancialPoint(SHUSER_SboFinancialIndexT sboFinancialIndexT)
+        {
+            //매출영업이익률(영업이익 ÷ 매출액)×100
+            double a = Convert.ToDouble((sboFinancialIndexT.OperatingEarning.Value / sboFinancialIndexT.CurrentSale.Value) * 100);
+            //자기자본순이익률(당기순이익 ÷ 자본총계)×100
+            double b = Convert.ToDouble((sboFinancialIndexT.CurrentEarning.Value / sboFinancialIndexT.TotalCapital.Value) * 100);
+            //매출증가율((당기매출액 - 전기매출액) ÷ 전기매출액)×100
+            double c = Convert.ToDouble(((sboFinancialIndexT.CurrentSale.Value - sboFinancialIndexT.PrevSale.Value) / sboFinancialIndexT.PrevSale.Value) * 100);
+            //순이익증가율((당기순이익 - 전기순이익) ÷ 전기순이익)×100
+            double d = Convert.ToDouble(((sboFinancialIndexT.CurrentEarning.Value - sboFinancialIndexT.PrevEarning.Value) / sboFinancialIndexT.PrevEarning.Value) * 100);
+            //당좌비율((유동자산 - 재고자산) ÷ 유동부채)×100
+            double e = Convert.ToDouble(((sboFinancialIndexT.CurrentAsset.Value - sboFinancialIndexT.InventoryAsset.Value) / sboFinancialIndexT.CurrentLiability.Value) * 100);
+            //유동비율(유동자산 ÷ 유동부채)×100 
+            double f = Convert.ToDouble((sboFinancialIndexT.CurrentAsset.Value / sboFinancialIndexT.CurrentLiability.Value) * 100);
+            //부채비율(부채 ÷ 자산총계)×100
+            double g = Convert.ToDouble((sboFinancialIndexT.TotalLiability.Value / sboFinancialIndexT.TotalAsset.Value) * 100);
+            //이자보상비율(영업이익 ÷ 이자비용)×100
+            double h = Convert.ToDouble((sboFinancialIndexT.OperatingEarning.Value / sboFinancialIndexT.InterstCost.Value) * 100);
+            //총자산회전율(매출액 ÷ 총자산)×100
+            double i = Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.TotalAsset.Value) * 100);
+            //매출채권회전율(매출액 ÷ 매출채권(=외상매출금,미수금,받을어음))×100
+            double j = Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.Salescredit.Value) * 100);
+            //재고자산회전율(매출액 ÷ 재고자산)×100
+            double k = Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.InventoryAsset.Value) * 100);
+            //부가가치율(부가가치 ÷ 매출액)×100
+            double l = Convert.ToDouble((sboFinancialIndexT.ValueAdded.Value / sboFinancialIndexT.CurrentSale.Value) * 100);
+            //노동생산성(매출액-재료비) ÷ 종업원수
+            double m = Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value - sboFinancialIndexT.MaterialCost.Value) / sboFinancialIndexT.QtEmp.Value);
+            //자본생산성((부가가치 ÷ 자본총계)×100
+            double n = Convert.ToDouble((sboFinancialIndexT.ValueAdded.Value / sboFinancialIndexT.TotalCapital.Value) * 100);
+
+            //재무점수로 환산
+
+            double point = ((a / (5.24 + a)) * 17) + ((b / (5.19 + b)) * 6) + ((c / (4.93 + c)) * 9) + ((d / (19.96 + d)) * 14) + ((e / (102.09 + e)) * 4) + ((f / (136.27 + f)) * 13) + ((g / (141.66 + g)) * 9) + ((h / (333.63 + h)) * 7) + ((i / (114.75 + i)) * 3) + ((j / (569.36 + j)) * 3) + ((k / (915.48 + k)) * 4) + ((l / (24.02 + l)) * 4) + ((m / (16163671 + m)) * 4) + ((n / (137.01 + n)) * 3);
+
+            return point;
+
+        }
     }
 }
