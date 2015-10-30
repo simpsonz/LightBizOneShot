@@ -425,7 +425,7 @@ namespace BizOneShot.Light.Web.Controllers
 
 
                     //종합점수 조회하여 분류별로 딕셔너리 저장
-                    var point = await reportUtil.GetCompanyTotalPoint(quesMasters.QuestionSn);
+                    //var point = await reportUtil.GetCompanyTotalPoint(quesMasters.QuestionSn);
 
             //        if (point >= 0 && point <= 50)
             //            dicStartUp.Add(compMapping.CompSn, quesMasters.QuestionSn);
@@ -544,7 +544,7 @@ namespace BizOneShot.Light.Web.Controllers
 
 
                     //종합점수 조회하여 분류별로 딕셔너리 저장
-                    var point = await reportUtil.GetCompanyTotalPoint(quesMasters.QuestionSn);
+                    //var point = await reportUtil.GetCompanyTotalPoint(quesMasters.QuestionSn);
 
             //        if (point >= 0 && point <= 50)
             //            dicStartUp.Add(compMapping.CompSn, quesMasters.QuestionSn);
