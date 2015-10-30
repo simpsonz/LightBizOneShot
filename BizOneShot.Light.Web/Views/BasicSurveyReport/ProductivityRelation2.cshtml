@@ -421,8 +421,14 @@
                                     2점, 동등하면 1점, 경쟁제품이 열위이면 0점을 우측 칸에 기술한 후 합계를 표시합니다. 합계점수가 9점
                                     이상이면 해당 회사 제품에 비해 우리 회사제품이 열위임을 의미합니다.
                                 </td>
-                                <td class="center_td center">@Model.CommentList[21].Comment</td>
-                                <td class="center_td center">@Model.CommentList[22].Comment</td>
+                                <td class="center_td center">
+                                    @Html.TextBoxFor(model => model.CommentList[21].Comment, new { @id = "comment21" })
+                                    @Html.HiddenFor(model => model.CommentList[21].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    @Html.TextBoxFor(model => model.CommentList[22].Comment, new { @id = "comment21" })
+                                    @Html.HiddenFor(model => model.CommentList[22].DetailCd)
+                                </td>
                             </tr>
                         </table>
 
