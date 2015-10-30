@@ -15,17 +15,20 @@ namespace BizOneShot.Light.Web.ComLib
         private readonly IQuesResult1Service quesResult1Service;
         private readonly IQuesResult2Service quesResult2Service;
         private readonly IQuesMasterService quesMasterService;
+        private readonly ISboFinancialIndexTService sboFinancialIndexTService;
 
         public ReportUtil(
             IScBizWorkService scBizWorkService,
             IQuesResult1Service quesResult1Service,
             IQuesResult2Service quesResult2Service,
-            IQuesMasterService quesMasterService)
+            IQuesMasterService quesMasterService,
+            ISboFinancialIndexTService sboFinancialIndexTService)
         {
             this.scBizWorkService = scBizWorkService;
             this.quesResult1Service = quesResult1Service;
             this.quesResult2Service = quesResult2Service;
             this.quesMasterService = quesMasterService;
+            this.sboFinancialIndexTService = sboFinancialIndexTService;
         }
 
 
@@ -49,10 +52,15 @@ namespace BizOneShot.Light.Web.ComLib
                     }
 
                     //다래 재무정보 유무 체크하는 로직 추가해야함.(문진표정보, 재무정보가 있어야 보고서 생성가능.)
-
+                    //다래 재무정보 조회해야 함.
+                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, "1000", "1100", paramModel.BizWorkYear.ToString());
+                    if (sboFinacialIndexT == null)
+                    {
+                        continue;
+                    }
 
                     //종합점수 조회하여 분류별로 딕셔너리 저장
-                    var point = await GetCompanyTotalPoint(quesMasters.QuestionSn);
+                    var point = await GetCompanyTotalPoint(quesMasters.QuestionSn, sboFinacialIndexT);
 
                     if (point >= 0 && point <= 50)
                         dicStartUp.Add(compMapping.CompSn, quesMasters.QuestionSn);
@@ -97,7 +105,7 @@ namespace BizOneShot.Light.Web.ComLib
             return CheckList;
         }
 
-        public async Task<double> GetCompanyTotalPoint(int qustionSn)
+        public async Task<double> GetCompanyTotalPoint(int qustionSn, SHUSER_SboFinancialIndexT sboFinancialIndexT)
         {
             double totalPoint = 0;
 
