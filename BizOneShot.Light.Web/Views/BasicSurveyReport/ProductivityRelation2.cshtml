@@ -422,11 +422,11 @@
                                     이상이면 해당 회사 제품에 비해 우리 회사제품이 열위임을 의미합니다.
                                 </td>
                                 <td class="center_td center">
-                                    @Html.TextBoxFor(model => model.CommentList[21].Comment, new { @id = "comment21" })
+                                    @Html.TextBoxFor(model => model.CommentList[21].Comment, new { @id = "comment21", @readonly="true" })
                                     @Html.HiddenFor(model => model.CommentList[21].DetailCd)
                                 </td>
                                 <td class="center_td center">
-                                    @Html.TextBoxFor(model => model.CommentList[22].Comment, new { @id = "comment21" })
+                                    @Html.TextBoxFor(model => model.CommentList[22].Comment, new { @id = "comment22", @readonly = "true" })
                                     @Html.HiddenFor(model => model.CommentList[22].DetailCd)
                                 </td>
                             </tr>
@@ -445,21 +445,39 @@
                             </tr>
                             <tr>
                                 <td class="left_memo">개요</td>
-                                <td class="center"><textarea></textarea></td>
+                                <td class="center">
+                                    @Html.TextAreaFor(model => model.CommentList[24].Comment, new { @id = "comment24"})
+                                    @Html.HiddenFor(model => model.CommentList[24].DetailCd)
+                                </td>
                                 <td class="left_memo">개요</td>
-                                <td class="center"><textarea></textarea></td>
+                                <td class="center">
+                                    @Html.TextAreaFor(model => model.CommentList[25].Comment, new { @id = "comment24" })
+                                    @Html.HiddenFor(model => model.CommentList[25].DetailCd)
+                                </td>
                             </tr>
                             <tr>
                                 <td class="left_memo">회사명</td>
-                                <td class="center"><input type="text" /></td>
+                                <td class="center">
+                                    @Html.TextBoxFor(model => model.CommentList[26].Comment, new { @id = "comment26" })
+                                    @Html.HiddenFor(model => model.CommentList[26].DetailCd)
+                                </td>
                                 <td class="left_memo">회사명</td>
-                                <td class="center"><input type="text" /></td>
+                                <td class="center">
+                                    @Html.TextBoxFor(model => model.CommentList[27].Comment, new { @id = "comment27" })
+                                    @Html.HiddenFor(model => model.CommentList[27].DetailCd)
+                                </td>
                             </tr>
                             <tr>
                                 <td class="left_memo">상품명</td>
-                                <td class="center"><input type="text" /></td>
+                                <td class="center">
+                                    @Html.TextBoxFor(model => model.CommentList[28].Comment, new { @id = "comment28" })
+                                    @Html.HiddenFor(model => model.CommentList[28].DetailCd)
+                                </td>
                                 <td class="left_memo">상품명</td>
-                                <td class="center"><input type="text" /></td>
+                                <td class="center">
+                                    @Html.TextBoxFor(model => model.CommentList[29].Comment, new { @id = "comment29" })
+                                    @Html.HiddenFor(model => model.CommentList[29].DetailCd)
+                                </td>
                             </tr>
                         </table>
 
