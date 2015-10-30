@@ -1859,7 +1859,7 @@ namespace BizOneShot.Light.Web.Controllers
         }
 
 
-        //3.위험관리 역량 - 31p. 전문가 평가
+        //31p 3.위험관리 역량 - 31p. 전문가 평가
         public async Task<ActionResult> RiskMgmtEvalProfession(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
@@ -1937,6 +1937,7 @@ namespace BizOneShot.Light.Web.Controllers
 
 
         #region 3. 성장 로드맵제안
+        //32p
         public ActionResult GrowthRoadMapCover(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
@@ -1953,7 +1954,7 @@ namespace BizOneShot.Light.Web.Controllers
         }
 
 
-        //유형별 성장전략
+        //p33 유형별 성장전략
         public async Task<ActionResult> GrowthStrategyType(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
@@ -2011,7 +2012,7 @@ namespace BizOneShot.Light.Web.Controllers
             }
         }
 
-        //단계 성장전략
+        //p34 단계 성장전략
         public async Task<ActionResult> GrowthStrategyStep(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
@@ -2069,7 +2070,7 @@ namespace BizOneShot.Light.Web.Controllers
             }
         }
 
-        //역량강화제안
+        //p35 역량강화제안
         public async Task<ActionResult> GrowthCapabilityProposal(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
@@ -2127,7 +2128,7 @@ namespace BizOneShot.Light.Web.Controllers
             }
         }
 
-        //회사핵심내용
+        //p36 회사핵심내용
         public async Task<ActionResult> GrowthTotalProposal(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
