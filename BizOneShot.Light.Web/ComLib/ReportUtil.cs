@@ -5,20 +5,24 @@ using System.Threading.Tasks;
 using System.Web;
 using BizOneShot.Light.Models.DareModels;
 using BizOneShot.Light.Services;
+using BizOneShot.Light.Models.ViewModels;
 
 namespace BizOneShot.Light.Web.ComLib
 {
     public class ReportUtil
     {
+        private readonly IScBizWorkService scBizWorkService;
         private readonly IQuesResult1Service quesResult1Service;
         private readonly IQuesResult2Service quesResult2Service;
         private readonly IQuesMasterService quesMasterService;
 
         public ReportUtil(
+            IScBizWorkService scBizWorkService,
             IQuesResult1Service quesResult1Service,
             IQuesResult2Service quesResult2Service,
             IQuesMasterService quesMasterService)
         {
+            this.scBizWorkService = scBizWorkService;
             this.quesResult1Service = quesResult1Service;
             this.quesResult2Service = quesResult2Service;
             this.quesMasterService = quesMasterService;

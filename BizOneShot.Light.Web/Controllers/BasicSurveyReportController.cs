@@ -18,7 +18,6 @@ namespace BizOneShot.Light.Web.Controllers
     [UserAuthorize(Order = 1)]
     public class BasicSurveyReportController : BaseController
     {
-        
         private readonly IQuesCompInfoService quesCompInfoService;
         private readonly IQuesResult1Service quesResult1Service;
         private readonly IQuesResult2Service quesResult2Service;
@@ -168,7 +167,7 @@ namespace BizOneShot.Light.Web.Controllers
             //double totalPoint = 0;
             OverallSummaryViewModel viewModel = new OverallSummaryViewModel();
             viewModel.CommentList = new List<CommentViewModel>();
-            ReportUtil reportUtil = new ReportUtil(quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
 
             //해당기업 기초역량
             double basicCapa = 0.0;
@@ -231,14 +230,14 @@ namespace BizOneShot.Light.Web.Controllers
 
                     //해당기업을 찾아 점수를 별도로 저장한다.
                     if (quesMaster.QuestionSn == paramModel.QuestionSn)
-                    {
+                            {
                         basicCapa = bizInBasicCapa;
                         mkt = bizInMkt;
                         hrMng = bizInHrMng;
                         workProductivity = Math.Truncate(Convert.ToDouble(((sboFinacialIndexT.CurrentSale - sboFinacialIndexT.MaterialCost) / sboFinacialIndexT.QtEmp) / 1000));
                         salesEarning = Math.Round(Convert.ToDouble((sboFinacialIndexT.OperatingEarning / sboFinacialIndexT.CurrentSale) * 100), 1);
                         current = Math.Round(Convert.ToDouble((sboFinacialIndexT.CurrentAsset / sboFinacialIndexT.CurrentLiability) * 100), 1);
-                    }
+                            }
 
                     dicBizInHrMng.Add(compMapping.ScCompInfo.RegistrationNo, bizInHrMng);
                     dicBizInMkt.Add(compMapping.ScCompInfo.RegistrationNo, bizInMkt);
@@ -396,81 +395,76 @@ namespace BizOneShot.Light.Web.Controllers
         }
 
 
-
         public async Task<ActionResult> OrgHR01(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
-            ReportUtil reportUtil = new ReportUtil(quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
 
             OrgHR01ViewModel viewModel = new OrgHR01ViewModel();
-            viewModel.CheckList = new List<CheckListViewModel>();
+            //viewModel.CheckList = new List<CheckListViewModel>();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1D101");
 
-            //사업참여 기업들의 레벨(창업보육, 보육성장, 자립성장) 분류
-            Dictionary<int, int> dicStartUp = new Dictionary<int, int>();
-            Dictionary<int, int> dicGrowth = new Dictionary<int, int>();
-            Dictionary<int, int> dicIndependent = new Dictionary<int, int>();
+            ////사업참여 기업들의 레벨(창업보육, 보육성장, 자립성장) 분류
+            //Dictionary<int, int> dicStartUp = new Dictionary<int, int>();
+            //Dictionary<int, int> dicGrowth = new Dictionary<int, int>();
+            //Dictionary<int, int> dicIndependent = new Dictionary<int, int>();
 
-            var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
-            {
-                var compMappings = curBizWork.ScCompMappings;
-                foreach (var compMapping in compMappings)
-                {
-                    var quesMasters = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);
-                    if (quesMasters == null)
-                    {
-                        continue;
-                    }
+            //var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
+            //{
+            //    var compMappings = curBizWork.ScCompMappings;
+            //    foreach (var compMapping in compMappings)
+            //    {
+            //        var quesMasters = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);
+            //        if (quesMasters == null)
+            //        {
+            //            continue;
+            //        }
 
                     //다래 재무정보 유무 체크하는 로직 추가해야함.(문진표정보, 재무정보가 있어야 보고서 생성가능.)
-                    //다래 재무정보 조회해야 함.
-                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, "1000", "1100", paramModel.BizWorkYear.ToString());
-                    if (sboFinacialIndexT == null)
-                    {
-                        continue;
-                    }
+
 
                     //종합점수 조회하여 분류별로 딕셔너리 저장
-                    var point = await reportUtil.GetCompanyTotalPoint(quesMasters.QuestionSn, sboFinacialIndexT);
+                    var point = await reportUtil.GetCompanyTotalPoint(quesMasters.QuestionSn);
 
-                    if (point >= 0 && point <= 50)
-                        dicStartUp.Add(compMapping.CompSn, quesMasters.QuestionSn);
-                    else if (point > 50 && point <= 75)
-                        dicGrowth.Add(compMapping.CompSn, quesMasters.QuestionSn);
-                    else
-                        dicIndependent.Add(compMapping.CompSn, quesMasters.QuestionSn);
-                }
-            }
+            //        if (point >= 0 && point <= 50)
+            //            dicStartUp.Add(compMapping.CompSn, quesMasters.QuestionSn);
+            //        else if (point > 50 && point <= 75)
+            //            dicGrowth.Add(compMapping.CompSn, quesMasters.QuestionSn);
+            //        else
+            //            dicIndependent.Add(compMapping.CompSn, quesMasters.QuestionSn);
+            //    }
+            //}
 
 
 
-            //리스트 데이터 생성
-            var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D101");
+            ////리스트 데이터 생성
+            //var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D101");
 
-            int count = 1;
-            foreach(var item in quesResult1s)
-            {
-                CheckListViewModel checkListViewModel = new CheckListViewModel();
-                checkListViewModel.Count = count.ToString();
-                checkListViewModel.AnsVal = item.AnsVal.Value;
-                checkListViewModel.DetailCd = item.QuesCheckList.DetailCd;
-                checkListViewModel.Title = item.QuesCheckList.ReportTitle;
-                //창업보육단계 평균
-                int startUpCnt =  await reportUtil.GetCheckListCnt(dicStartUp, checkListViewModel.DetailCd);
-                checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + item.QuesCheckList.StartUpStep.Value + 0.0) / ( 39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //보육성장단계 평균
-                int growthCnt = await reportUtil.GetCheckListCnt(dicGrowth, checkListViewModel.DetailCd);
-                checkListViewModel.GrowthAvg = Math.Round(((growthCnt + item.QuesCheckList.GrowthStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //자립성장단계 평균
-                int IndependentCnt = await reportUtil.GetCheckListCnt(dicIndependent, checkListViewModel.DetailCd);
-                checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + item.QuesCheckList.IndependentStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //참여기업 평균
-                checkListViewModel.BizInCompanyAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + 0.0) / (dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //전체 평균
-                checkListViewModel.TotalAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + item.QuesCheckList.TotalStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                viewModel.CheckList.Add(checkListViewModel);
-                count++;
-            }
+            //int count = 1;
+            //foreach(var item in quesResult1s)
+            //{
+            //    CheckListViewModel checkListViewModel = new CheckListViewModel();
+            //    checkListViewModel.Count = count.ToString();
+            //    checkListViewModel.AnsVal = item.AnsVal.Value;
+            //    checkListViewModel.DetailCd = item.QuesCheckList.DetailCd;
+            //    checkListViewModel.Title = item.QuesCheckList.ReportTitle;
+            //    //창업보육단계 평균
+            //    int startUpCnt =  await reportUtil.GetCheckListCnt(dicStartUp, checkListViewModel.DetailCd);
+            //    checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + item.QuesCheckList.StartUpStep.Value + 0.0) / ( 39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //보육성장단계 평균
+            //    int growthCnt = await reportUtil.GetCheckListCnt(dicGrowth, checkListViewModel.DetailCd);
+            //    checkListViewModel.GrowthAvg = Math.Round(((growthCnt + item.QuesCheckList.GrowthStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //자립성장단계 평균
+            //    int IndependentCnt = await reportUtil.GetCheckListCnt(dicIndependent, checkListViewModel.DetailCd);
+            //    checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + item.QuesCheckList.IndependentStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //참여기업 평균
+            //    checkListViewModel.BizInCompanyAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + 0.0) / (dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //전체 평균
+            //    checkListViewModel.TotalAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + item.QuesCheckList.TotalStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    viewModel.CheckList.Add(checkListViewModel);
+            //    count++;
+            //}
 
             //검토결과 데이터 생성
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "06");
@@ -523,76 +517,73 @@ namespace BizOneShot.Light.Web.Controllers
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
-            ReportUtil reportUtil = new ReportUtil(quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
 
             OrgHR01ViewModel viewModel = new OrgHR01ViewModel();
-            viewModel.CheckList = new List<CheckListViewModel>();
+            //viewModel.CheckList = new List<CheckListViewModel>();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1D102");
 
-            //사업참여 기업들의 레벨(창업보육, 보육성장, 자립성장) 분류
-            Dictionary<int, int> dicStartUp = new Dictionary<int, int>();
-            Dictionary<int, int> dicGrowth = new Dictionary<int, int>();
-            Dictionary<int, int> dicIndependent = new Dictionary<int, int>();
+            ////사업참여 기업들의 레벨(창업보육, 보육성장, 자립성장) 분류
+            //Dictionary<int, int> dicStartUp = new Dictionary<int, int>();
+            //Dictionary<int, int> dicGrowth = new Dictionary<int, int>();
+            //Dictionary<int, int> dicIndependent = new Dictionary<int, int>();
 
-            var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
+            //var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
 
-            {
-                var compMappings = curBizWork.ScCompMappings;
-                foreach (var compMapping in compMappings)
-                {
-                    var quesMasters = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);
-                    if (quesMasters == null)
-                    {
-                        continue;
-                    }
+            //{
+            //    var compMappings = curBizWork.ScCompMappings;
+            //    foreach (var compMapping in compMappings)
+            //    {
+            //        var quesMasters = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);
+            //        if (quesMasters == null)
+            //        {
+            //            continue;
+            //        }
 
                     //다래 재무정보 유무 체크하는 로직 추가해야함.(문진표정보, 재무정보가 있어야 보고서 생성가능.)
-                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, "1000", "1100", paramModel.BizWorkYear.ToString());
-                    if (sboFinacialIndexT == null)
-                    {
-                        continue;
-                    }
+
 
                     //종합점수 조회하여 분류별로 딕셔너리 저장
-                    var point = await reportUtil.GetCompanyTotalPoint(quesMasters.QuestionSn, sboFinacialIndexT);
+                    var point = await reportUtil.GetCompanyTotalPoint(quesMasters.QuestionSn);
 
-                    if (point >= 0 && point <= 50)
-                        dicStartUp.Add(compMapping.CompSn, quesMasters.QuestionSn);
-                    else if (point > 50 && point <= 75)
-                        dicGrowth.Add(compMapping.CompSn, quesMasters.QuestionSn);
-                    else
-                        dicIndependent.Add(compMapping.CompSn, quesMasters.QuestionSn);
-                }
-            }
+            //        if (point >= 0 && point <= 50)
+            //            dicStartUp.Add(compMapping.CompSn, quesMasters.QuestionSn);
+            //        else if (point > 50 && point <= 75)
+            //            dicGrowth.Add(compMapping.CompSn, quesMasters.QuestionSn);
+            //        else
+            //            dicIndependent.Add(compMapping.CompSn, quesMasters.QuestionSn);
+            //    }
+            //}
 
 
 
-            //리스트 데이터 생성
-            var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D102");
+            ////리스트 데이터 생성
+            //var quesResult1s = await quesResult1Service.GetQuesResult1sAsync(paramModel.QuestionSn, "A1D102");
 
-            int count = 1;
-            foreach (var item in quesResult1s)
-            {
-                CheckListViewModel checkListViewModel = new CheckListViewModel();
-                checkListViewModel.Count = count.ToString();
-                checkListViewModel.AnsVal = item.AnsVal.Value;
-                checkListViewModel.DetailCd = item.QuesCheckList.DetailCd;
-                checkListViewModel.Title = item.QuesCheckList.ReportTitle;
-                //창업보육단계 평균
-                int startUpCnt = await reportUtil.GetCheckListCnt(dicStartUp, checkListViewModel.DetailCd);
-                checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + item.QuesCheckList.StartUpStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //보육성장단계 평균
-                int growthCnt = await reportUtil.GetCheckListCnt(dicGrowth, checkListViewModel.DetailCd);
-                checkListViewModel.GrowthAvg = Math.Round(((growthCnt + item.QuesCheckList.GrowthStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //자립성장단계 평균
-                int IndependentCnt = await reportUtil.GetCheckListCnt(dicIndependent, checkListViewModel.DetailCd);
-                checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + item.QuesCheckList.IndependentStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //참여기업 평균
-                checkListViewModel.BizInCompanyAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + 0.0) / (dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                //전체 평균
-                checkListViewModel.TotalAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + item.QuesCheckList.TotalStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
-                viewModel.CheckList.Add(checkListViewModel);
-                count++;
-            }
+            //int count = 1;
+            //foreach (var item in quesResult1s)
+            //{
+            //    CheckListViewModel checkListViewModel = new CheckListViewModel();
+            //    checkListViewModel.Count = count.ToString();
+            //    checkListViewModel.AnsVal = item.AnsVal.Value;
+            //    checkListViewModel.DetailCd = item.QuesCheckList.DetailCd;
+            //    checkListViewModel.Title = item.QuesCheckList.ReportTitle;
+            //    //창업보육단계 평균
+            //    int startUpCnt = await reportUtil.GetCheckListCnt(dicStartUp, checkListViewModel.DetailCd);
+            //    checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + item.QuesCheckList.StartUpStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //보육성장단계 평균
+            //    int growthCnt = await reportUtil.GetCheckListCnt(dicGrowth, checkListViewModel.DetailCd);
+            //    checkListViewModel.GrowthAvg = Math.Round(((growthCnt + item.QuesCheckList.GrowthStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //자립성장단계 평균
+            //    int IndependentCnt = await reportUtil.GetCheckListCnt(dicIndependent, checkListViewModel.DetailCd);
+            //    checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + item.QuesCheckList.IndependentStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //참여기업 평균
+            //    checkListViewModel.BizInCompanyAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + 0.0) / (dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    //전체 평균
+            //    checkListViewModel.TotalAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + item.QuesCheckList.TotalStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+            //    viewModel.CheckList.Add(checkListViewModel);
+            //    count++;
+            //}
 
             //검토결과 데이터 생성
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "07");
@@ -646,6 +637,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
             ReportUtil reportUtil = new ReportUtil(quesResult1Service, quesResult2Service, quesMasterService);
+
             OrgProductivityViewModel viewModel = new OrgProductivityViewModel();
             viewModel.CheckList = new List<CheckListViewModel>();
             viewModel.Productivity = new BarChartViewModel();
@@ -700,7 +692,7 @@ namespace BizOneShot.Light.Web.Controllers
 
                 }
             }
-            
+
             //평균값 계산
             viewModel.Productivity.AvgBizInCompany = Math.Truncate(Convert.ToDouble(((dicSales.Values.Sum() - dicMaterrial.Values.Sum()) / dicQtEmp.Values.Sum()) / 1000));
             viewModel.Productivity.AvgTotal = Math.Truncate(Convert.ToDouble((((dicSales.Values.Sum() - dicMaterrial.Values.Sum()) + 68138995337) / (dicQtEmp.Values.Sum() + 718)) / 1000));
@@ -762,6 +754,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
             ReportUtil reportUtil = new ReportUtil(quesResult1Service, quesResult2Service, quesMasterService);
+
             var viewModel = new OrgDividedViewModel();
 
             //1) 현재 사업에 참여한 업체 평균
@@ -936,6 +929,648 @@ namespace BizOneShot.Light.Web.Controllers
         }
 
         #region 2. 기초역량 검토 종합결과
+
+        //P14 2.상품화역량 - 생산설비의 운영체계 및 관리
+        public async Task<ActionResult> ProductivityCommercialize(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+
+            RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1B104");
+
+
+            //검토결과 데이터 생성
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "12");
+
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("12");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+            viewModel.CommentList = CommentList;
+
+            ViewBag.paramModel = paramModel;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ProductivityCommercialize(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "12");
+
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("ProductivityCommercialize", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("ProductivityMgmtFacility", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+        }
+
+
+        //P14 2.상품화역량 - 생산설비의 운영체계 및 관리
+        public async Task<ActionResult> ProductivityMgmtFacility(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+
+            RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1B106");
+
+
+            //검토결과 데이터 생성
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "14");
+
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("14");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+            viewModel.CommentList = CommentList;
+
+            ViewBag.paramModel = paramModel;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ProductivityMgmtFacility(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "14");
+
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("ProductivityMgmtFacility", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("ProductivityProcessControl", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+        }
+
+        //P15 2.상품화역량 - 공정관리
+        public async Task<ActionResult> ProductivityProcessControl(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+
+            RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1B107");
+
+
+            //검토결과 데이터 생성
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "15");
+
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("15");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+            viewModel.CommentList = CommentList;
+
+            ViewBag.paramModel = paramModel;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ProductivityProcessControl(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "15");
+
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("ProductivityProcessControl", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("ProductivityQC", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+        }
+
+        //P16 2.상품화역량 - 품질관리
+        public async Task<ActionResult> ProductivityQC(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+
+            RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1B108");
+
+
+            //검토결과 데이터 생성
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "16");
+
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("16");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+            viewModel.CommentList = CommentList;
+
+            ViewBag.paramModel = paramModel;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ProductivityQC(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "16");
+
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("ProductivityQC", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("ProductivityMgmtMarketing", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+        }
+
+        //P17 2.상품화역량 - 마케팅 전략의 수립 및 실행
+        public async Task<ActionResult> ProductivityMgmtMarketing(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+
+            RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1C101");
+
+
+            //검토결과 데이터 생성
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "17");
+
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("17");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+            viewModel.CommentList = CommentList;
+
+            ViewBag.paramModel = paramModel;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ProductivityMgmtMarketing(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "17");
+
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("ProductivityMgmtMarketing", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("ProductivityMgmtCustomer", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+        }
+
+        //P18 2.상품화역량 - 고객관리
+        public async Task<ActionResult> ProductivityMgmtCustomer(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+
+            RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1C102");
+
+
+            //검토결과 데이터 생성
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "18");
+
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("18");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+            viewModel.CommentList = CommentList;
+
+            ViewBag.paramModel = paramModel;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ProductivityMgmtCustomer(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "18");
+
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("ProductivityMgmtCustomer", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("RiskMgmtVisionStrategy", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+        }
+
+
+        //P24 3.위험관리역량 - [CEO역량]경영목표 및 전략
+        public async Task<ActionResult> RiskMgmtVisionStrategy(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+
+            RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1A101");
+
+
+            //검토결과 데이터 생성
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "24");
+
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("24");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+            viewModel.CommentList = CommentList;
+
+            ViewBag.paramModel = paramModel;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RiskMgmtVisionStrategy(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "24");
+
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("RiskMgmtVisionStrategy", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("RiskMgmtLeadership", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+        }
+
+        //P25 3.위험관리역량 - [CEO역량]경영자의 리더쉽
+        public async Task<ActionResult> RiskMgmtLeadership(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+
+            RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1A102");
+
+
+            //검토결과 데이터 생성
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "25");
+
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("25");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+            viewModel.CommentList = CommentList;
+
+            ViewBag.paramModel = paramModel;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RiskMgmtLeadership(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "25");
+
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("RiskMgmtLeadership", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("RiskMgmtRelCEO", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+        }
+
+        //P26 3.위험관리역량 - 경영목표의 신뢰성
+        public async Task<ActionResult> RiskMgmtRelCEO(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+
+            RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1A103");
+
+
+            //검토결과 데이터 생성
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "26");
+
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("26");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+            viewModel.CommentList = CommentList;
+
+            ViewBag.paramModel = paramModel;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RiskMgmtRelCEO(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "26");
+
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("RiskMgmtRelCEO", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("RiskMgmtWorkingEnv", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+        }
+
+        //P27 3.위험관리역량 - 근로환경
+        public async Task<ActionResult> RiskMgmtWorkingEnv(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+
+            RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1A201");
+
+
+            //검토결과 데이터 생성
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "27");
+
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("27");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+            viewModel.CommentList = CommentList;
+
+            ViewBag.paramModel = paramModel;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RiskMgmtWorkingEnv(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "27");
+
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("RiskMgmtWorkingEnv", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("??", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+        }
+
+
+
+        //P29 3.위험관리역량 - 정보시스템활용
+        public async Task<ActionResult> RiskMgmtITSystem(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+
+            RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
+            viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1A203");
+            
+
+            //검토결과 데이터 생성
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "29");
+
+            //레포트 체크리스트
+            var enumRptCheckList = await rptCheckListService.GetRptCheckListBySmallClassCd("29");
+
+            //CommentList 채우기
+            var CommentList = ReportHelper.MakeCommentViewModel(enumRptCheckList, listRptMentorComment);
+
+            viewModel.CommentList = CommentList;
+
+            ViewBag.paramModel = paramModel;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RiskMgmtITSystem(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.CapabilityReport;
+
+            var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "29");
+
+            foreach (var item in viewModel.CommentList)
+            {
+                var comment = listRptMentorComment.SingleOrDefault(i => i.DetailCd == item.DetailCd);
+                if (comment == null)
+                {
+                    rptMentorCommentService.Insert(ReportHelper.MakeRptMentorcomment(item, paramModel));
+                }
+                else
+                {
+                    comment.Comment = item.Comment;
+                }
+            }
+            await rptMentorCommentService.SaveDbContextAsync();
+
+            if (viewModel.SubmitType == "T")
+            {
+                return RedirectToAction("RiskMgmtITSystem", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+            else
+            {
+                return RedirectToAction("??", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+            }
+        }
 
 
         //3.위험관리 역량 - 31p. 전문가 평가

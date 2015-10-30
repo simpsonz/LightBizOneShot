@@ -1,0 +1,256 @@
+﻿@model BizOneShot.Light.Models.ViewModels.RiskMgmtViewModel
+
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz >  a.navi_report').addClass('on');
+        //Cs menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
+
+        $('#mainForm').bind('submit', function () {
+
+            var valid = true;
+            if ($('#submitType').val() == "N") {
+
+                $('textarea[id^="comment"]').each(function () {
+                    if ($(this).val().length == 0 && valid == true) {
+                        alert("필수항목을 입력해 주세요");
+                        $(this).focus();
+                        valid = false;
+
+                        return false;
+                    }
+                });
+                return valid;
+            }
+
+        });
+    });
+
+    function goSubmit(submitType) {
+        $('#submitType').val(submitType);
+        $('#mainForm').submit();
+    }
+</script>
+
+
+<div id="sub_rightwrap_report">
+
+    <div class="sub_right_title specialist_02_03">
+        <em>기초경영역량 보고서</em>
+    </div>
+
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_report01"><em>STEP01.역량검토 결과 요약</em></li>
+            <li class="basic_report02 on">
+                <a href="" class="ablock">
+                    <em>
+                        STEP02.기초역량검토
+                        종합결과
+                    </em>
+                </a>
+            </li>
+            <li class="basic_report03">
+                <a href="" class="ablock">
+                    <em>
+                        STEP03.성장로드맵
+                        제안
+                    </em>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    @using (Html.BeginForm("ProductivityCommercialize", "BasicSurveyReport", FormMethod.Post, new { area = "", @class = "form-horizontal", role = "form", id = "mainForm" }))
+    {
+        @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
+        @Html.Hidden("BizWorkSn", ViewBag.paramModel.BizWorkSn as string)
+        @Html.Hidden("CompSn", ViewBag.paramModel.CompSn as string)
+        @Html.Hidden("BizWorkYear", ViewBag.paramModel.BizWorkYear as string)
+        @Html.Hidden("QuestionSn", ViewBag.paramModel.QuestionSn as string)
+        @Html.Hidden("Status", ViewBag.paramModel.Status as string)
+
+        <div class="sub_report_checkbox">
+            <div class="report_main_top2"></div>
+            <div class="report_main_mid">
+                <div class="main_mid_cont">
+                    <p class="title_mid">
+                        Ⅱ. 기초역량검토 종합결과 _ <span class="small_span float_right">
+                            역량별
+                            검토결과
+                        </span>
+                    </p>
+                </div>
+                <div class="main_mid_cont">
+                    <div class="main_mid_listBox">
+
+                        <div class="listBox_tap longbg_on noline">
+                            <span>(2)상품화역량</span>
+                        </div>
+                        <table class="join_info">
+                            <colgroup>
+                                <col width="20%">
+                                <col width="20%">
+                                <col width="60%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo">역량 검토 항목</td>
+                                <td>
+                                    <span class="span_on">□ 기초역량 평가</span> <span class="span_weak">□ 재무지표 평가</span> <span class="span_weak">
+                                        □
+                                        전문가 평가
+                                    </span>
+                                </td>
+                                <td class="center_td">
+                                    <div class="label_td">기술경영</div> <span class="label_span"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="main_mid_cont">
+                    <p class="full_p">
+                        <span class="big_span">사업화역량 _</span><span class="small_span">
+                            기술개발의
+                            결과를 사업화로 연결시킬 수 있는 역량을 갖추고 있는지의 여부
+                        </span>
+                    </p>
+                    <div class="explainBox">
+                        <div class="label_ex">
+                            <p class="ex_p">
+                                <span>•</span>전경련 중소기업협력센터의 연구발표보고서(2007)에 의하면 기술의 사업화 역량 제고는
+                                중소기업 지속성장의 핵심 원동력입니다.
+                            </p>
+                            <p class="ex_p">
+                                <span>•</span>동 보고서에 의하면 제품화 및 사업화와 관련하여 기술개발 및 제품생산과 같은 1차적인
+                                차원 외에 기술 사업화 추진의 애로사항으로 ‘시장개척’, ‘유사제품’, ‘자금’ ‘마케팅’ 등이
+                                지적되었습니다.
+                            </p>
+                            <p class="ex_p">
+                                <span>•</span>이 중에서 ‘시장개척’이나 ‘마케팅’ 영역은 별도의 지표에서 다루고 여기에서는 그
+                                외의 지표에 대하여 평가합니다.
+                            </p>
+                            <p class="ex_p">
+                                <span style="height: 45px">•</span>한편 기술을 제품에 반영하여 사업화하기 위해서는
+                                영업의 최일선에서 고객의 니드를 파악할 마케팅 부서와 이를 기술개발에 반영할 연구개발 부서, 이를 재정적으로
+                                지원할 자금부서, 이를 총괄 지휘할 경영자 등이 유기적으로 협업이 되어야 하고 이를 위한 시스템이 마련되어
+                                있어야 합니다. 물론 중소기업의 경우, 각 기능 단위가 부서가 아닌 한 개인 직원일 가능성이 높습니다.
+                            </p>
+                            <p class="ex_p bot_padding">
+                                <span>•</span>본 지표에서는 제품의 사업화에 필요한 조직 및 관리 체계 유지 여부, 개발 제품을
+                                위한 적절한 기능분석 수행 여부, 그리고 이러한 제 활동을 가능하게 하는 소요예산이 편성되어 있는지를
+                                평가합니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main_mid_cont">
+                    <div class="main_mid_listBox nomargin2">
+                        <table class="capacity_table">
+                            <colgroup>
+                                <col width="5%">
+                                <col width="24.5%">
+                                <col width="10%">
+                                <col width="12%">
+                                <col width="12%">
+                                <col width="12%">
+                                <col width="12%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo ">NO</td>
+                                <td class="left_memo">체크리스트 항목</td>
+                                <td class="left_memo">해당기업</td>
+                                <td class="left_memo">
+                                    창업보육<br>단계 평균
+                                </td>
+                                <td class="left_memo">
+                                    보육성장<br> 단계 평균
+                                </td>
+                                <td class="left_memo">
+                                    자립성장<br> 단계 평균
+                                </td>
+                                <td class="left_memo">
+                                    참여<br>기업평균
+                                </td>
+                                <td class="left_memo">전체평균</td>
+                            </tr>
+                            @if (Model == null || Model.CheckList.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in Model.CheckList)
+                                {
+                                    <tr>
+                                        <td class="center_td center">@item.Count</td>
+                                        <td class="center_td center">@item.Title</td>
+                                        @if (item.AnsVal == true)
+                                        {
+                                            <td class="center_td center">∎</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="center_td center">□</td>
+                                        }
+                                        <td class="center_td center">@item.StartUpAvg %</td>
+                                        <td class="center_td center">@item.GrowthAvg %</td>
+                                        <td class="center_td center">@item.IndependentAvg %</td>
+                                        <td class="center_td center">@item.BizInCompanyAvg %</td>
+                                        <td class="center_td center">@item.TotalAvg %</td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+
+                </div>
+                <div class="main_mid_cont fix_bot">
+                    <div class="main_mid_listBox nomargin2">
+                        <div class="listBox_tap bg_on">
+                            <span>검토결과</span>
+                        </div>
+                        @Html.TextAreaFor(model => model.CommentList[0].Comment, new { @id="comment0", @class = "bot_textarea", @placeholder = "500자 내로 작성하시기 바랍니다." })
+                        @Html.HiddenFor(model => model.CommentList[0].DetailCd)
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    <!--container//-->
+        <div id="btnwrap_sub" class="bottom_left2">
+
+            <div class="rightwrap left">
+                <a href="@Url.Action("", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
+
+            </div>
+            <div class="rightwrap right">
+                @if (ViewBag.paramModel.Status != "C")
+                {
+                    <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+                }
+                else
+                {
+                    <a href="@Url.Action("ProductivityMgmtFacility", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="next right" value="다음"><em>다음</em></a>
+                }
+            </div>
+            @if (ViewBag.paramModel.Status != "C")
+            {
+                <div class="rightwrap centerwrap">
+                    <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
+                </div>
+            }
+
+        </div>
+    }
+</div>
