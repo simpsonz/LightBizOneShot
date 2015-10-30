@@ -1,0 +1,491 @@
+﻿@model BizOneShot.Light.Models.ViewModels.ProductivityRelationViewModel
+
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz >  a.navi_report').addClass('on');
+        //Cs menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
+
+        $('#mainForm').bind('submit', function () {
+
+            var valid = true;
+
+            if ($('#submitType').val() == "N") {
+                $('input[id^="comment"]').each(function () {
+                    if ($(this).val().length == 0) {
+                        alert("필수항목을 입력해 주세요");
+                        $(this).focus();
+                        valid = false;
+
+                        return false;
+                    }
+                });
+
+
+                $('textarea[id^="comment"]').each(function () {
+                    if ($(this).val().length == 0 && valid == true) {
+                        alert("필수항목을 입력해 주세요");
+                        $(this).focus();
+                        valid = false;
+
+                        return false;
+                    }
+                });
+
+                var names = {};
+                $('input:radio').each(function () { // find unique names
+                    names[$(this).attr('name')] = true;
+                });
+                var count = 0;
+                $.each(names, function () { // then count them
+                    count++;
+                });
+
+                if ($('input:radio:checked').length != count && valid == true) {
+                    alert("라디오버튼을 선택해 주세요");
+                    valid = false;
+                    return false;
+                }
+
+                return valid;
+            }
+
+        });
+
+    });
+
+    function goSubmit(submitType) {
+        $('#submitType').val(submitType);
+        $('#mainForm').submit();
+    }
+</script>
+
+<div id="sub_rightwrap_report">
+    <div class="sub_right_title specialist_02_03">
+        <em>기초경영역량 보고서</em>
+    </div>
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_report01"><em>STEP01.역량검토 결과 요약</em></li>
+            <li class="basic_report02 on">
+                <a href="" class="ablock">
+                    <em>STEP02.기초역량검토 종합결과</em>
+                </a>
+            </li>
+            <li class="basic_report03">
+                <a href="" class="ablock">
+                    <em>STEP03.성장로드맵 제안</em>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+    @using (Html.BeginForm("ProductivityRelation2", "BasicSurveyReport", FormMethod.Post, new { area = "", @class = "form-horizontal", role = "form", id = "mainForm" }))
+    {
+        @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
+        @Html.Hidden("BizWorkSn", ViewBag.paramModel.BizWorkSn as string)
+        @Html.Hidden("CompSn", ViewBag.paramModel.CompSn as string)
+        @Html.Hidden("BizWorkYear", ViewBag.paramModel.BizWorkYear as string)
+        @Html.Hidden("QuestionSn", ViewBag.paramModel.QuestionSn as string)
+        @Html.Hidden("Status", ViewBag.paramModel.Status as string)
+
+        <div class="sub_report_checkbox">
+            <div class="report_main_top2"></div>
+            <div class="report_main_mid">
+                <div class="main_mid_cont">
+                    <p class="title_mid">
+                        Ⅱ. 기초역량검토 종합결과 _ <span class="small_span float_right">역량별 검토결과</span>
+                    </p>
+                </div>
+                <div class="main_mid_cont">
+                    <div class="main_mid_listBox nomargin2">
+                        <div class="listBox_tap longbg_on noline">
+                            <span>(2)상품화역량</span>
+                        </div>
+                        <table class="join_info">
+                            <colgroup>
+                                <col width="20%">
+                                <col width="20%">
+                                <col width="60%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo">역량 검토 항목</td>
+                                <td>
+                                    <span class="span_weak">□ 기초역량 평가</span>
+                                    <span class="span_weak">□ 재무지표 평가</span>
+                                    <span class="span_on">□ 전문가 평가</span>
+                                </td>
+                                <td class="center_td">
+                                    <div class="label_td" style="width: 45%">
+                                        제품생산-판매 관계망
+                                        검토 2
+                                    </div> <span class="label_span" style="width: 50%"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="main_mid_cont">
+                    <div class="main_mid_listBox">
+                        <div class="listBox_tap longbg_on full_line">
+                            <span>경쟁력 검토</span>
+                        </div>
+                        <table class="capacity_table reval_table">
+                            <colgroup>
+                                <col width="22%">
+                                <col width="50%">
+                                <col width="14%">
+                                <col width="14%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo">구분</td>
+                                <td class="left_memo">자사</td>
+                                <td class="left_memo">경쟁사1</td>
+                                <td class="left_memo">경쟁사2</td>
+                            </tr>
+                            <tr>
+                                <td class="center_td center bold">
+                                    People<br>(사람의 역량)
+                                </td>
+                                <td class="center_td center">
+                                    @Html.TextBoxFor(model => model.CommentList[0].Comment, new { @id = "comment0" })
+                                    @Html.HiddenFor(model => model.CommentList[0].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[1].Comment, "1", new { @id = "comment1" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[1].Comment, "2", new { @id = "comment1" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[1].Comment, "3", new { @id = "comment1" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[1].DetailCd)
+                                    </div>
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[2].Comment, "1", new { @id = "comment2" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[2].Comment, "2", new { @id = "comment2" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[2].Comment, "3", new { @id = "comment2" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[2].DetailCd)
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td center bold">
+                                    Product<br>(상품의 수준)
+                                </td>
+                                <td class="center_td center">
+                                    @Html.TextBoxFor(model => model.CommentList[3].Comment, new { @id = "comment3" })
+                                    @Html.HiddenFor(model => model.CommentList[3].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[4].Comment, "1", new { @id = "comment4" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[4].Comment, "2", new { @id = "comment4" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[4].Comment, "3", new { @id = "comment4" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[4].DetailCd)
+                                    </div>
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[5].Comment, "1", new { @id = "comment5" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[5].Comment, "2", new { @id = "comment5" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[5].Comment, "3", new { @id = "comment5" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[5].DetailCd)
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td center bold">
+                                    Sales promotion<br>(마케팅 역량)
+                                </td>
+                                <td class="center_td center">
+                                    @Html.TextBoxFor(model => model.CommentList[6].Comment, new { @id = "comment6" })
+                                    @Html.HiddenFor(model => model.CommentList[6].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "1", new { @id = "comment7" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "2", new { @id = "comment7" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "3", new { @id = "comment7" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[7].DetailCd)
+                                    </div>
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "1", new { @id = "comment8" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "2", new { @id = "comment8" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "3", new { @id = "comment8" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[8].DetailCd)
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td center bold">
+                                    Price<br>(가격 경쟁력)
+                                </td>
+                                <td class="center_td center">
+                                    @Html.TextBoxFor(model => model.CommentList[6].Comment, new { @id = "comment6" })
+                                    @Html.HiddenFor(model => model.CommentList[6].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "1", new { @id = "comment7" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "2", new { @id = "comment7" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "3", new { @id = "comment7" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[7].DetailCd)
+                                    </div>
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "1", new { @id = "comment8" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "2", new { @id = "comment8" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "3", new { @id = "comment8" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[8].DetailCd)
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td center bold">
+                                    Place<br>(유통채널 경쟁력)
+                                </td>
+                                <td class="center_td center">
+                                    @Html.TextBoxFor(model => model.CommentList[9].Comment, new { @id = "comment9" })
+                                    @Html.HiddenFor(model => model.CommentList[9].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[10].Comment, "1", new { @id = "comment10" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[10].Comment, "2", new { @id = "comment10" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[10].Comment, "3", new { @id = "comment10" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[10].DetailCd)
+                                    </div>
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[11].Comment, "1", new { @id = "comment11" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[11].Comment, "2", new { @id = "comment11" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[11].Comment, "3", new { @id = "comment11" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[11].DetailCd)
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td center bold">
+                                    Process<br>(고객의 사용절차 경쟁력)
+                                </td>
+                                <td class="center_td center">
+                                    @Html.TextBoxFor(model => model.CommentList[12].Comment, new { @id = "comment12" })
+                                    @Html.HiddenFor(model => model.CommentList[12].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[13].Comment, "1", new { @id = "comment13" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[13].Comment, "2", new { @id = "comment13" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[13].Comment, "3", new { @id = "comment13" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[13].DetailCd)
+                                    </div>
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[14].Comment, "1", new { @id = "comment14" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[14].Comment, "2", new { @id = "comment14" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[14].Comment, "3", new { @id = "comment14" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[14].DetailCd)
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td center bold">
+                                    Physical experience<br>(고객의 사용경험 우수성)
+                                </td>
+                                <td class="center_td center">
+                                    @Html.TextBoxFor(model => model.CommentList[15].Comment, new { @id = "comment15" })
+                                    @Html.HiddenFor(model => model.CommentList[15].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[16].Comment, "1", new { @id = "comment16" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[16].Comment, "2", new { @id = "comment16" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[16].Comment, "3", new { @id = "comment16" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[16].DetailCd)
+                                    </div>
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[17].Comment, "1", new { @id = "comment17" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[17].Comment, "2", new { @id = "comment17" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[17].Comment, "3", new { @id = "comment17" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[17].DetailCd)
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td center bold">
+                                    Status<br>(브랜드 및 시장의 위상)
+                                </td>
+                                <td class="center_td center">
+                                    @Html.TextBoxFor(model => model.CommentList[18].Comment, new { @id = "comment18" })
+                                    @Html.HiddenFor(model => model.CommentList[18].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[19].Comment, "1", new { @id = "comment19" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[19].Comment, "2", new { @id = "comment19" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[19].Comment, "3", new { @id = "comment19" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[19].DetailCd)
+                                    </div>
+                                </td>
+                                <td class="center_td center">
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[20].Comment, "1", new { @id = "comment20" }) 2점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[20].Comment, "2", new { @id = "comment20" }) 1점
+                                    </div>
+                                    <div class="contact">
+                                        @Html.RadioButtonFor(model => model.CommentList[20].Comment, "3", new { @id = "comment20" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[20].DetailCd)
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td left" colspan="2">
+                                    경쟁제품이 우위이면 각 항목별로
+                                    2점, 동등하면 1점, 경쟁제품이 열위이면 0점을 우측 칸에 기술한 후 합계를 표시합니다. 합계점수가 9점
+                                    이상이면 해당 회사 제품에 비해 우리 회사제품이 열위임을 의미합니다.
+                                </td>
+                                <td class="center_td center">@Model.CommentList[21].Comment</td>
+                                <td class="center_td center">@Model.CommentList[22].Comment</td>
+                            </tr>
+                        </table>
+
+                        <table class="reval_table">
+                            <colgroup>
+                                <col width="10%">
+                                <col width="40%">
+                                <col width="10%">
+                                <col width="40%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo" colspan="2">경쟁사1</td>
+                                <td class="left_memo" colspan="2">경쟁사2</td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo">개요</td>
+                                <td class="center"><textarea></textarea></td>
+                                <td class="left_memo">개요</td>
+                                <td class="center"><textarea></textarea></td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo">회사명</td>
+                                <td class="center"><input type="text" /></td>
+                                <td class="left_memo">회사명</td>
+                                <td class="center"><input type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td class="left_memo">상품명</td>
+                                <td class="center"><input type="text" /></td>
+                                <td class="left_memo">상품명</td>
+                                <td class="center"><input type="text" /></td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    <!--container//-->
+        <div id="btnwrap_sub" class="bottom_left2">
+
+            <div class="rightwrap left">
+                <a href="@Url.Action("ProductivityRelation", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
+            </div>
+            <div class="rightwrap right">
+                @if (ViewBag.paramModel.Status != "C")
+                {
+                    <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+                }
+                else
+                {
+                    <a href="@Url.Action("RiskMgmtVisionStrategy", "BasicSurveyReport", new { area = "" , BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn})" class="next right" value="다음"><em>다음</em></a>
+                }
+            </div>
+            @if (ViewBag.paramModel.Status != "C")
+            {
+                <div class="rightwrap centerwrap">
+                    <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
+                </div>
+            }
+
+        </div>
+    }
+</div>

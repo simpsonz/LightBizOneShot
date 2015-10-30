@@ -1,0 +1,284 @@
+﻿@model BizOneShot.Light.Models.ViewModels.RiskMgmtViewModel
+
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz >  a.navi_report').addClass('on');
+        //Cs menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
+
+        $('#mainForm').bind('submit', function () {
+
+            var valid = true;
+            if ($('#submitType').val() == "N") {
+                $('input[id^="comment"]').each(function () {
+                    if ($(this).val().length == 0) {
+                        alert("필수항목을 입력해 주세요");
+                        $(this).focus();
+                        valid = false;
+
+                        return false;
+                    }
+                });
+
+
+                $('textarea[id^="comment"]').each(function () {
+                    if ($(this).val().length == 0 && valid == true) {
+                        alert("필수항목을 입력해 주세요");
+                        $(this).focus();
+                        valid = false;
+
+                        return false;
+                    }
+                });
+
+                return valid;
+            }
+
+        });
+
+    });
+
+    function goSubmit(submitType) {
+        $('#submitType').val(submitType);
+        $('#mainForm').submit();
+    }
+</script>
+
+<div id="sub_rightwrap_report">
+    <div class="sub_right_title specialist_02_03">
+        <em>기초경영역량 보고서</em>
+    </div>
+    <div id="report_wm_step">
+        <!--STEP 아이콘-->
+        <ul>
+            <li class="basic_report01"><em>STEP01.역량검토 결과 요약</em></li>
+            <li class="basic_report02 on">
+                <a href="" class="ablock">
+                    <em>STEP02.기초역량검토 종합결과</em>
+                </a>
+            </li>
+            <li class="basic_report03">
+                <a href="" class="ablock">
+                    <em>STEP03.성장로드맵 제안</em>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+    @using (Html.BeginForm("ProductivityValueChain", "BasicSurveyReport", FormMethod.Post, new { area = "", @class = "form-horizontal", role = "form", id = "mainForm" }))
+    {
+        @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
+        @Html.Hidden("BizWorkSn", ViewBag.paramModel.BizWorkSn as string)
+        @Html.Hidden("CompSn", ViewBag.paramModel.CompSn as string)
+        @Html.Hidden("BizWorkYear", ViewBag.paramModel.BizWorkYear as string)
+        @Html.Hidden("QuestionSn", ViewBag.paramModel.QuestionSn as string)
+        @Html.Hidden("Status", ViewBag.paramModel.Status as string)
+
+        <div class="sub_report_checkbox">
+            <div class="report_main_top2"></div>
+            <div class="report_main_mid">
+                <div class="main_mid_cont">
+                    <p class="title_mid">
+                        Ⅱ. 기초역량검토 종합결과 _ <span class="small_span float_right">역량별 검토결과</span>
+                    </p>
+                </div>
+                <div class="main_mid_cont">
+                    <div class="main_mid_listBox nomargin2">
+                        <div class="listBox_tap longbg_on noline">
+                            <span>(2)상품화역량</span>
+                        </div>
+                        <table class="join_info">
+                            <colgroup>
+                                <col width="20%">
+                                <col width="20%">
+                                <col width="60%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo">역량 검토 항목</td>
+                                <td>
+                                    <span class="span_weak">□ 기초역량 평가</span>
+                                    <span class="span_weak">□ 재무지표 평가</span>
+                                    <span class="span_on">□ 전문가 평가</span>
+                                </td>
+                                <td class="center_td">
+                                    <div class="label_td" style="width: 30%">상품화구조 Check</div> <span class="label_span" style="width: 62%"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="main_mid_cont">
+                    <div class="main_mid_listBox nomargin2">
+                        <div class="listBox_tap longbg_on full_line noline">
+                            <span>사업모델 도출과정</span>
+                        </div>
+                        <table class="capacity_table">
+                            <colgroup>
+                                <col width="12%">
+                                <col width="12%">
+                                <col width="19%">
+                                <col width="19%">
+                                <col width="19%">
+                                <col width="19%">
+
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo ">발전단계</td>
+                                <td class="left_memo">구분</td>
+                                <td class="left_memo">가치제공 유형</td>
+                                <td class="left_memo">제품개발 수준</td>
+                                <td class="left_memo">영업방식</td>
+                                <td class="left_memo">최종 제품형태</td>
+
+                            </tr>
+                            <tr>
+                                <td class="center_td center bold">창업보육</td>
+                                <td class="center_td center bold">서비스</td>
+                                <td class="center_td center">
+                                    고객맞춤형 @Html.CheckBoxFor(model => model.CheckBoxList[0].CheckVal, new { @id = "check0" })
+                                    @Html.HiddenFor(model => model.CheckBoxList[0].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    기능적 완성 @Html.CheckBoxFor(model => model.CheckBoxList[1].CheckVal, new { @id = "check1" })
+                                    @Html.HiddenFor(model => model.CheckBoxList[1].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    총판방식 @Html.CheckBoxFor(model => model.CheckBoxList[2].CheckVal, new { @id = "check2" })
+                                    @Html.HiddenFor(model => model.CheckBoxList[2].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    서비스 / 용역 @Html.CheckBoxFor(model => model.CheckBoxList[3].CheckVal, new { @id = "check3" })
+                                    @Html.HiddenFor(model => model.CheckBoxList[3].DetailCd)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td center bold">보육성장</td>
+                                <td class="center_td center bold">솔루션</td>
+                                <td class="center_td center">
+                                    가치창출형 @Html.CheckBoxFor(model => model.CheckBoxList[4].CheckVal, new { @id = "check4" })
+                                    @Html.HiddenFor(model => model.CheckBoxList[4].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    제품적 완성 @Html.CheckBoxFor(model => model.CheckBoxList[5].CheckVal, new { @id = "check5" })
+                                    @Html.HiddenFor(model => model.CheckBoxList[5].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    영업팀운영 @Html.CheckBoxFor(model => model.CheckBoxList[6].CheckVal, new { @id = "check6" })
+                                    @Html.HiddenFor(model => model.CheckBoxList[6].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    부품 / 원료 @Html.CheckBoxFor(model => model.CheckBoxList[7].CheckVal, new { @id = "check7" })
+                                    @Html.HiddenFor(model => model.CheckBoxList[7].DetailCd)<br>(솔루션)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center_td center bold">자립성장</td>
+                                <td class="center_td center bold">상품화</td>
+                                <td class="center_td center">
+                                    비용최소화 @Html.CheckBoxFor(model => model.CheckBoxList[8].CheckVal, new { @id = "check8" })
+                                    @Html.HiddenFor(model => model.CheckBoxList[8].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    영업적 완성 @Html.CheckBoxFor(model => model.CheckBoxList[9].CheckVal, new { @id = "check9" })
+                                    @Html.HiddenFor(model => model.CheckBoxList[9].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    대리점 운영 @Html.CheckBoxFor(model => model.CheckBoxList[10].CheckVal, new { @id = "check10" })
+                                    @Html.HiddenFor(model => model.CheckBoxList[10].DetailCd)
+                                </td>
+                                <td class="center_td center">
+                                    완제품 @Html.CheckBoxFor(model => model.CheckBoxList[11].CheckVal, new { @id = "check11" })
+                                    @Html.HiddenFor(model => model.CheckBoxList[11].DetailCd)
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="capacity_comment">
+                            <div class="capacity_comment_left bold">종합 의견</div>
+                            <div class="capacity_comment_right">
+                                <div class="label bold">
+                                    창업보육단계
+                                    @Html.RadioButtonFor(model => model.CommentList[0].Comment, "1", new { @id = "comment0" })
+                                </div>
+                                <div class="label bold">
+                                    보육성장단계
+                                    @Html.RadioButtonFor(model => model.CommentList[0].Comment, "2", new { @id = "comment0" })
+                                </div>
+                                <div class="label bold">
+                                    자립성장단계
+                                    @Html.RadioButtonFor(model => model.CommentList[0].Comment, "3", new { @id = "comment0" })
+                                    @Html.HiddenFor(model => model.CommentList[0].DetailCd)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="capacity_comment">
+                            <div class="capacity_comment_title bold">
+                                참고 :
+                                가치사슬(Value-Chain) 분석을 위한 기본 전제
+                            </div>
+                            <div class="capacity_comment_att">
+                                <p>
+                                    <span>1.</span>사업화역량을 보다 정밀히 하고, 이후 나오는 제품판매관계망 검토를 위해서는 해당
+                                    산업군의 가치사슬 분석을 진행해야 합니다.
+                                </p>
+                                <p>
+                                    <span>2.</span>산업군별로 가치를 부여하는 연관망은 차이가 있으나, 보편적인 업무단계를 나눌 수
+                                    있습니다.
+                                </p>
+                                <p>
+                                    <span>3.</span>아래의 그림은 제품구상 → 연구개발 → 생산 → 판매에 이르는 각 단계를 각각
+                                    2단계씩 총 8단계로 구분한 것으로 가치사슬 분석의 기본이 됩니다.
+                                </p>
+                                <p>
+                                    <span>4.</span>제품판매관계망 분석에서는 아래의 그림을 전제로 해당 회사에서 내부적으로 수행하는
+                                    것과 외부에 위탁하는 것을 구분하여 진행합니다.
+                                </p>
+                                <p>
+                                    <span>5.</span>지역 혹은 산업별로 가치사슬 분석에서 차이가 나는 부분에 따라 해당 부분을 추가,
+                                    변경 혹은 삭제하여 검토할 수 있습니다.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="capacity_bg"></div>
+                    </div>
+
+                </div>
+
+               
+            </div>
+        </div>
+    <!--container//-->
+        <div id="btnwrap_sub" class="bottom_left2">
+
+            <div class="rightwrap left">
+                <a href="@Url.Action("ProductivityTargetCustomer", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
+            </div>
+            <div class="rightwrap right">
+                @if (ViewBag.paramModel.Status != "C")
+                {
+                    <button type="button" class="next" onclick="goSubmit('N');" value="다음" />
+                }
+                else
+                {
+                    <a href="@Url.Action("ProductivityRelation", "BasicSurveyReport", new { area = "" , BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn})" class="next right" value="다음"><em>다음</em></a>
+                }
+            </div>
+            @if (ViewBag.paramModel.Status != "C")
+            {
+                <div class="rightwrap centerwrap">
+                    <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
+                </div>
+            }
+
+        </div>
+    }
+</div>

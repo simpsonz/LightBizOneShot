@@ -158,5 +158,14 @@ namespace BizOneShot.Light.Models.ViewModels
         public IList<CheckListViewModel> CheckList { get; set; }
     }
 
+    public class ProductivityRelationViewModel
+    {
+        public string SubmitType { get; set; }
+        public IList<CommentViewModel> CommentList { get; set; }
+        public IList<CheckListViewModel> CheckList { get; set; }
+
+        //SCP 입력값필드 있어야 함
+    }
+
 
 }

@@ -31,7 +31,6 @@ namespace BizOneShot.Light.Web.ComLib
 
         public async Task<IList<CheckListViewModel>> getGrowthStepPointCheckList(BasicSurveyReportViewModel paramModel, string quesCheckListSmallClassCd)
         {
-
             //사업참여 기업들의 레벨(창업보육, 보육성장, 자립성장) 분류
             Dictionary<int, int> dicStartUp = new Dictionary<int, int>();
             Dictionary<int, int> dicGrowth = new Dictionary<int, int>();
