@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using BizOneShot.Light.Models.DareModels;
 using BizOneShot.Light.Services;
 
 namespace BizOneShot.Light.Web.ComLib
@@ -23,13 +24,13 @@ namespace BizOneShot.Light.Web.ComLib
             this.quesMasterService = quesMasterService;
         }
 
-        public async Task<double> GetCompanyTotalPoint(int qustionSn)
+        public async Task<double> GetCompanyTotalPoint(int qustionSn, SHUSER_SboFinancialIndexT sboFinancialIndexT)
         {
             double totalPoint = 0;
 
             totalPoint = totalPoint + await GetOverAllManagementTotalPoint(qustionSn);
-            totalPoint = totalPoint + await GetTechMng(qustionSn);
-            totalPoint = totalPoint + await GetHumanResourceMng(qustionSn);
+            totalPoint = totalPoint + await GetTechMng(qustionSn, sboFinancialIndexT);
+            totalPoint = totalPoint + await GetHumanResourceMng(qustionSn, sboFinancialIndexT);
 
             return totalPoint;
         }
@@ -109,12 +110,15 @@ namespace BizOneShot.Light.Web.ComLib
         /// <summary>
         /// 기술경영,마케팅
         /// </summary>
-        public async Task<double> GetTechMng(int questionSn)
+        public async Task<double> GetTechMng(int questionSn, SHUSER_SboFinancialIndexT sboFinancialIndexT)
         {
             double totalPoint = 0;
 
             // 연구개발 투자
-            // 구현해야 함.(다래 DB 정리되면..............................)
+            {
+                double avg = Convert.ToDouble(sboFinancialIndexT.ReserchAmt / sboFinancialIndexT.CurrentSale) * 100;
+                totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeM(avg), 2);
+            }
 
 
             //연구개발 인력의 비율
@@ -195,26 +199,21 @@ namespace BizOneShot.Light.Web.ComLib
         /// </summary>
         /// <param name="questionSn"></param>
         /// <returns></returns>
-        public async Task<double> GetHumanResourceMng(int questionSn)
+        public async Task<double> GetHumanResourceMng(int questionSn, SHUSER_SboFinancialIndexT sboFinancialIndexT)
         {
             double totalPoint = 0;
-
-
-
 
             // A1D101 : 인적자윈의 확보와 개발관리
             var quesResult1sHrMng = await quesResult1Service.GetQuesResult1sAsync(questionSn, "A1D101");
             totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sHrMng)), 11);
 
-
             // A1D102 : 이적자원의 보상 및 유지관리
             var quesResult1sMaintenance = await quesResult1Service.GetQuesResult1sAsync(questionSn, "A1D102");
             totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sMaintenance)), 8);
 
-
             //재무적성과
-            // 구현해야 함.(다래 DB 정리되면..............................)
-
+            // 다래 DB를 통한 계산
+            totalPoint = totalPoint + ((ReportHelper.CalcFinancialPoint(sboFinancialIndexT) / 100) * 26);
 
             // A1E102 : 지적재산권성과
             var quesResult2sPatent = await quesResult2Service.GetQuesResult2sAsync(questionSn, "A1E102");
@@ -232,7 +231,6 @@ namespace BizOneShot.Light.Web.ComLib
                 double avg = (int.Parse(RegPatent.D) * 3) + (int.Parse(ApplyPatent.D) * 2) + (int.Parse(RegUtilityModel.D) * 2) + int.Parse(ApplyUtilityModel.D) + int.Parse(Etc.D);
                 totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeH(avg), 3);
             }
-
 
             // A1E103 : 임직원 수
             var quesResult2sTotalEmp = await quesResult2Service.GetQuesResult2sAsync(questionSn, "A1E103");

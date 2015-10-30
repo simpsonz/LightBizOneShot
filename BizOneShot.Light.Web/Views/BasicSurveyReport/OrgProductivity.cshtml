@@ -11,8 +11,8 @@
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
 
-        makeBarChart("Productivity", @Model.Productivity.Company, @Model.Productivity.AvgBizInCompany, @Model.Productivity.AvgTotal, @Model.Productivity.AvgSMCompany);
-        makeBarChart("Activity", @Model.Activity.Company, @Model.Activity.AvgBizInCompany, @Model.Activity.AvgTotal, @Model.Activity.AvgSMCompany);
+        makeBarChart("Productivity", @Model.Productivity.Company, @Model.Productivity.AvgBizInCompany, @Model.Productivity.AvgTotal, @Model.Productivity.AvgSMCompany, "천원", 0);
+        makeBarChart("Activity", @Model.Activity.Company, @Model.Activity.AvgBizInCompany, @Model.Activity.AvgTotal, @Model.Activity.AvgSMCompany, "%", 1);
     });
 
     function goSubmit(submitType) {
@@ -20,7 +20,7 @@
         $('#mainForm').submit();
     }
 
-    function makeBarChart(divName, company, avgBizInCompany, avgTotal, avgSMCompany) {
+    function makeBarChart(divName, company, avgBizInCompany, avgTotal, avgSMCompany, unit, point) {
         @*var param1 = @Model.Productivity.Company;
         var param2 = @Model.Productivity.AvgBizInCompany;
         var param3 = @Model.Productivity.AvgTotal;
@@ -30,6 +30,13 @@
         var param2 = avgBizInCompany;
         var param3 = avgTotal;
         var param4 = avgSMCompany;
+
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: '.',
+                thousandsSep: ','
+            }
+        });
 
 
         chart = new Highcharts.Chart({
@@ -78,7 +85,7 @@
                 enabled:false
             },
             tooltip: { enabled: false },
-
+            
             series: [{
                 upColor: Highcharts.getOptions().colors[2],
                 color: Highcharts.getOptions().colors[3],
@@ -100,12 +107,12 @@
                 dataLabels: {
                     enabled: true,
                     formatter: function () {
-                        return Highcharts.numberFormat(this.y, 0, ',');
+                        return Highcharts.numberFormat(this.y, point, '.') + unit;
                     },
                     style: {
-                        color: '#FFFFFF',
-                        fontWeight: 'bold',
-                        textShadow: '0px 0px 3px black'
+                        color: '#000000',
+                        fontWeight: 'bold'//,
+                        //textShadow: '0px 0px 3px black'
                     }
                 },
                 pointPadding: 0
