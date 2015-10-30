@@ -470,7 +470,7 @@ namespace BizOneShot.Light.Web.ComLib
         {
             RptMentorComment rptComment = new RptMentorComment();
             rptComment.DetailCd = viewModel.DetailCd;
-            rptComment.Comment = viewModel.Comment;
+            rptComment.Comment = viewModel.Comment == null ? "" : viewModel.Comment ;
             rptComment.BasicYear = paramModel.BizWorkYear;
             rptComment.BizWorkSn = paramModel.BizWorkSn;
             rptComment.QuestionSn = paramModel.QuestionSn;

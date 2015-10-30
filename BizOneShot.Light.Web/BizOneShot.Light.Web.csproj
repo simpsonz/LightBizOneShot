@@ -1522,7 +1522,10 @@
     <Content Include="Views\BasicSurveyReport\ProductivityProcessControl.cshtml" />
     <Content Include="Views\BasicSurveyReport\ProductivityMgmtFacility.cshtml" />
     <Content Include="Views\BasicSurveyReport\ProductivityCommercialize.cshtml" />
-    <Content Include="Views\BasicSurveyReport\OrgDivided.cshtml" />
+    <Content Include="Views\BasicSurveyReport\ProductivityTargetCustomer.cshtml" />
+    <Content Include="Views\BasicSurveyReport\ProductivityValueChain.cshtml" />
+    <Content Include="Views\BasicSurveyReport\ProductivityRelation.cshtml" />
+    <Content Include="Views\BasicSurveyReport\ProductivityRelation2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
