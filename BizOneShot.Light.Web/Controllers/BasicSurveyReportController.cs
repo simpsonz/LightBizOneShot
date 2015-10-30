@@ -167,7 +167,7 @@ namespace BizOneShot.Light.Web.Controllers
             //double totalPoint = 0;
             OverallSummaryViewModel viewModel = new OverallSummaryViewModel();
             viewModel.CommentList = new List<CommentViewModel>();
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             //해당기업 기초역량
             double basicCapa = 0.0;
@@ -399,7 +399,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             OrgHR01ViewModel viewModel = new OrgHR01ViewModel();
             //viewModel.CheckList = new List<CheckListViewModel>();
@@ -517,7 +517,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             OrgHR01ViewModel viewModel = new OrgHR01ViewModel();
             //viewModel.CheckList = new List<CheckListViewModel>();
@@ -636,7 +636,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             OrgProductivityViewModel viewModel = new OrgProductivityViewModel();
             viewModel.CheckList = new List<CheckListViewModel>();
@@ -753,7 +753,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             var viewModel = new OrgDividedViewModel();
 
@@ -936,7 +936,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
             viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1B104");
@@ -995,7 +995,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
             viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1B106");
@@ -1053,7 +1053,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
             viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1B107");
@@ -1111,7 +1111,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
             viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1B108");
@@ -1169,7 +1169,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
             viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1C101");
@@ -1227,7 +1227,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
             viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1C102");
@@ -1572,7 +1572,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
             viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1A101");
@@ -1630,7 +1630,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
             viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1A102");
@@ -1688,7 +1688,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
             viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1A103");
@@ -1746,7 +1746,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
             viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1A201");
@@ -1806,7 +1806,7 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.CapabilityReport;
 
 
-            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService);
+            ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
             viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1A203");
