@@ -7,6 +7,7 @@
 // TargetFrameworkVersion = 4.51
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
+
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -39,6 +40,8 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public DbSet<RptMentorCheck> RptMentorChecks { get; set; } // RPT_MENTOR_CHECK
         public DbSet<RptMentorComment> RptMentorComments { get; set; } // RPT_MENTOR_COMMENT
         public DbSet<RptMentorRadio> RptMentorRadios { get; set; } // RPT_MENTOR_RADIO
+        public DbSet<RptMngCode> RptMngCodes { get; set; } // RPT_MNG_CODE
+        public DbSet<RptMngComment> RptMngComments { get; set; } // RPT_MNG_COMMENT
         public DbSet<ScBizType> ScBizTypes { get; set; } // SC_BIZ_TYPE
         public DbSet<ScBizWork> ScBizWorks { get; set; } // SC_BIZ_WORK
         public DbSet<ScCompInfo> ScCompInfoes { get; set; } // SC_COMP_INFO
@@ -106,6 +109,8 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             modelBuilder.Configurations.Add(new RptMentorCheckConfiguration());
             modelBuilder.Configurations.Add(new RptMentorCommentConfiguration());
             modelBuilder.Configurations.Add(new RptMentorRadioConfiguration());
+            modelBuilder.Configurations.Add(new RptMngCodeConfiguration());
+            modelBuilder.Configurations.Add(new RptMngCommentConfiguration());
             modelBuilder.Configurations.Add(new ScBizTypeConfiguration());
             modelBuilder.Configurations.Add(new ScBizWorkConfiguration());
             modelBuilder.Configurations.Add(new ScCompInfoConfiguration());
@@ -148,6 +153,8 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             modelBuilder.Configurations.Add(new RptMentorCheckConfiguration(schema));
             modelBuilder.Configurations.Add(new RptMentorCommentConfiguration(schema));
             modelBuilder.Configurations.Add(new RptMentorRadioConfiguration(schema));
+            modelBuilder.Configurations.Add(new RptMngCodeConfiguration(schema));
+            modelBuilder.Configurations.Add(new RptMngCommentConfiguration(schema));
             modelBuilder.Configurations.Add(new ScBizTypeConfiguration(schema));
             modelBuilder.Configurations.Add(new ScBizWorkConfiguration(schema));
             modelBuilder.Configurations.Add(new ScCompInfoConfiguration(schema));
