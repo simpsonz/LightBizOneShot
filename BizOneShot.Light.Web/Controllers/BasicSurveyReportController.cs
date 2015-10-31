@@ -1285,13 +1285,6 @@ namespace BizOneShot.Light.Web.Controllers
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
-            //임시로 나중에 삭제
-            paramModel.BizWorkSn = 1;
-            paramModel.BizWorkYear = 2015;
-            paramModel.CompSn = 94;
-            paramModel.QuestionSn = 16;
-            paramModel.Status = "P";
-
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
 
             //검토결과 데이터 생성
@@ -1318,13 +1311,6 @@ namespace BizOneShot.Light.Web.Controllers
         public async Task<ActionResult> ProductivityTargetCustomer(BasicSurveyReportViewModel paramModel, RiskMgmtViewModel viewModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
-
-            //임시로 나중에 삭제
-            paramModel.BizWorkSn = 1;
-            paramModel.BizWorkYear = 2015;
-            paramModel.CompSn = 94;
-            paramModel.QuestionSn = 16;
-            paramModel.Status = "P";
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "20");
 
@@ -1443,6 +1429,13 @@ namespace BizOneShot.Light.Web.Controllers
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
+            //임시로 나중에 삭제
+            paramModel.BizWorkSn = 1;
+            paramModel.BizWorkYear = 2015;
+            paramModel.CompSn = 94;
+            paramModel.QuestionSn = 16;
+            paramModel.Status = "P";
+
             ProductivityRelationViewModel viewModel = new ProductivityRelationViewModel();
 
             //검토결과 데이터 생성
@@ -1468,6 +1461,13 @@ namespace BizOneShot.Light.Web.Controllers
         public async Task<ActionResult> ProductivityRelation(BasicSurveyReportViewModel paramModel, ProductivityRelationViewModel viewModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
+
+            //임시로 나중에 삭제
+            paramModel.BizWorkSn = 1;
+            paramModel.BizWorkYear = 2015;
+            paramModel.CompSn = 94;
+            paramModel.QuestionSn = 16;
+            paramModel.Status = "P";
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "22");
 
