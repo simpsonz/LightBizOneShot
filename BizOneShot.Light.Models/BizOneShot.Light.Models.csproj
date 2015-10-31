@@ -123,11 +123,6 @@
     <Compile Include="ViewModels\CsViewModels.cs" />
     <Compile Include="ViewModels\ReportViewModels.cs" />
     <Compile Include="ViewModels\ZipViewModles.cs" />
-    <Compile Include="WebModels\Models.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
     <Compile Include="WebModels\QuesCheckList.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
