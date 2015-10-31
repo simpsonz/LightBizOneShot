@@ -27,7 +27,10 @@ namespace BizOneShot.Light.Web.Controllers
         private readonly IRptMasterService rptMasterService;
         private readonly IRptMentorCommentService rptMentorCommentService;
         private readonly IRptCheckListService rptCheckListService;
+        private readonly IRptMngCodeService rptMngCodeService;
+        private readonly IRptMngCommentService rptMngCommentService;
         private readonly ISboFinancialIndexTService sboFinancialIndexTService;
+
         public BasicSurveyReportController(
             IScCompMappingService scCompMappingService,
             IQuesCompInfoService quesCompInfoService,
@@ -39,6 +42,8 @@ namespace BizOneShot.Light.Web.Controllers
             IQuesResult2Service quesResult2Service,
             IQuesMasterService quesMasterService,
             IScBizWorkService scBizWorkService,
+            IRptMngCodeService rptMngCodeService,
+            IRptMngCommentService rptMngCommentService,
             ISboFinancialIndexTService sboFinancialIndexTService)
         {
             this.scCompMappingService = scCompMappingService;
@@ -51,6 +56,8 @@ namespace BizOneShot.Light.Web.Controllers
             this.quesMasterService = quesMasterService;
             this.quesResult2Service = quesResult2Service;
             this.scBizWorkService = scBizWorkService;
+            this.rptMngCodeService = rptMngCodeService;
+            this.rptMngCommentService = rptMngCommentService;
             this.sboFinancialIndexTService = sboFinancialIndexTService;
         }
 
@@ -1448,8 +1455,18 @@ namespace BizOneShot.Light.Web.Controllers
 
 
             //SCP 입력값 가져오는 로직 있어야함(테이블도 생성해야함)
+            //검토결과 데이터 생성
+            var listRptMngComment = await rptMngCommentService.GetRptMngCommentListAsync(paramModel.BizWorkYear, "22");
+
+            //레포트 체크리스트
+            var enumRptMngCode = await rptMngCodeService.GetRptMngCodeBySmallClassCd("22");
+
+            //CommentList 채우기
+            var MngCommentList = ReportHelper.MakeCommentViewModel(enumRptMngCode, listRptMngComment.ToList());
+
 
             viewModel.CommentList = CommentList;
+            viewModel.MngComment = MngCommentList;
 
             ViewBag.paramModel = paramModel;
 
