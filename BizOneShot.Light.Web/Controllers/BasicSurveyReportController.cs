@@ -11,7 +11,6 @@ using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Services;
 using BizOneShot.Light.Web.ComLib;
 using PagedList;
-using AutoMapper;
 
 namespace BizOneShot.Light.Web.Controllers
 {
