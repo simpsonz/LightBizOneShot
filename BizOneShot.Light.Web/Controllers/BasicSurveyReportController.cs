@@ -11,7 +11,6 @@ using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Services;
 using BizOneShot.Light.Web.ComLib;
 using PagedList;
-using AutoMapper;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -28,7 +27,10 @@ namespace BizOneShot.Light.Web.Controllers
         private readonly IRptMasterService rptMasterService;
         private readonly IRptMentorCommentService rptMentorCommentService;
         private readonly IRptCheckListService rptCheckListService;
+        private readonly IRptMngCodeService rptMngCodeService;
+        private readonly IRptMngCommentService rptMngCommentService;
         private readonly ISboFinancialIndexTService sboFinancialIndexTService;
+
         public BasicSurveyReportController(
             IScCompMappingService scCompMappingService,
             IQuesCompInfoService quesCompInfoService,
@@ -40,6 +42,8 @@ namespace BizOneShot.Light.Web.Controllers
             IQuesResult2Service quesResult2Service,
             IQuesMasterService quesMasterService,
             IScBizWorkService scBizWorkService,
+            IRptMngCodeService rptMngCodeService,
+            IRptMngCommentService rptMngCommentService,
             ISboFinancialIndexTService sboFinancialIndexTService)
         {
             this.scCompMappingService = scCompMappingService;
@@ -52,6 +56,8 @@ namespace BizOneShot.Light.Web.Controllers
             this.quesMasterService = quesMasterService;
             this.quesResult2Service = quesResult2Service;
             this.scBizWorkService = scBizWorkService;
+            this.rptMngCodeService = rptMngCodeService;
+            this.rptMngCommentService = rptMngCommentService;
             this.sboFinancialIndexTService = sboFinancialIndexTService;
         }
 
@@ -984,7 +990,7 @@ namespace BizOneShot.Light.Web.Controllers
             }
             else
             {
-                return RedirectToAction("ProductivityMgmtFacility", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+                return RedirectToAction("??", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
             }
         }
 
@@ -1275,7 +1281,7 @@ namespace BizOneShot.Light.Web.Controllers
             }
             else
             {
-                return RedirectToAction("RiskMgmtVisionStrategy", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+                return RedirectToAction("??", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
             }
         }
 
@@ -1284,13 +1290,6 @@ namespace BizOneShot.Light.Web.Controllers
         public async Task<ActionResult> ProductivityTargetCustomer(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
-
-            //임시로 나중에 삭제
-            paramModel.BizWorkSn = 1;
-            paramModel.BizWorkYear = 2015;
-            paramModel.CompSn = 94;
-            paramModel.QuestionSn = 16;
-            paramModel.Status = "P";
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
 
@@ -1318,13 +1317,6 @@ namespace BizOneShot.Light.Web.Controllers
         public async Task<ActionResult> ProductivityTargetCustomer(BasicSurveyReportViewModel paramModel, RiskMgmtViewModel viewModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
-
-            //임시로 나중에 삭제
-            paramModel.BizWorkSn = 1;
-            paramModel.BizWorkYear = 2015;
-            paramModel.CompSn = 94;
-            paramModel.QuestionSn = 16;
-            paramModel.Status = "P";
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "20");
 
@@ -1443,6 +1435,13 @@ namespace BizOneShot.Light.Web.Controllers
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
 
+            //임시로 나중에 삭제
+            paramModel.BizWorkSn = 1;
+            paramModel.BizWorkYear = 2015;
+            paramModel.CompSn = 94;
+            paramModel.QuestionSn = 16;
+            paramModel.Status = "P";
+
             ProductivityRelationViewModel viewModel = new ProductivityRelationViewModel();
 
             //검토결과 데이터 생성
@@ -1456,8 +1455,18 @@ namespace BizOneShot.Light.Web.Controllers
 
 
             //SCP 입력값 가져오는 로직 있어야함(테이블도 생성해야함)
+            //검토결과 데이터 생성
+            var listRptMngComment = await rptMngCommentService.GetRptMngCommentListAsync(paramModel.BizWorkYear, "22");
+
+            //레포트 체크리스트
+            var enumRptMngCode = await rptMngCodeService.GetRptMngCodeBySmallClassCd("22");
+
+            //CommentList 채우기
+            var MngCommentList = ReportHelper.MakeCommentViewModel(enumRptMngCode, listRptMngComment.ToList());
+
 
             viewModel.CommentList = CommentList;
+            viewModel.MngComment = MngCommentList;
 
             ViewBag.paramModel = paramModel;
 
@@ -1468,6 +1477,13 @@ namespace BizOneShot.Light.Web.Controllers
         public async Task<ActionResult> ProductivityRelation(BasicSurveyReportViewModel paramModel, ProductivityRelationViewModel viewModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
+
+            //임시로 나중에 삭제
+            paramModel.BizWorkSn = 1;
+            paramModel.BizWorkYear = 2015;
+            paramModel.CompSn = 94;
+            paramModel.QuestionSn = 16;
+            paramModel.Status = "P";
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "22");
 
@@ -1859,7 +1875,7 @@ namespace BizOneShot.Light.Web.Controllers
         }
 
 
-        //3.위험관리 역량 - 31p. 전문가 평가
+        //31p 3.위험관리 역량 - 31p. 전문가 평가
         public async Task<ActionResult> RiskMgmtEvalProfession(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
@@ -1937,6 +1953,7 @@ namespace BizOneShot.Light.Web.Controllers
 
 
         #region 3. 성장 로드맵제안
+        //32p
         public ActionResult GrowthRoadMapCover(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
@@ -1953,7 +1970,7 @@ namespace BizOneShot.Light.Web.Controllers
         }
 
 
-        //유형별 성장전략
+        //p33 유형별 성장전략
         public async Task<ActionResult> GrowthStrategyType(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
@@ -2011,7 +2028,7 @@ namespace BizOneShot.Light.Web.Controllers
             }
         }
 
-        //단계 성장전략
+        //p34 단계 성장전략
         public async Task<ActionResult> GrowthStrategyStep(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
@@ -2069,7 +2086,7 @@ namespace BizOneShot.Light.Web.Controllers
             }
         }
 
-        //역량강화제안
+        //p35 역량강화제안
         public async Task<ActionResult> GrowthCapabilityProposal(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;
@@ -2127,7 +2144,7 @@ namespace BizOneShot.Light.Web.Controllers
             }
         }
 
-        //회사핵심내용
+        //p36 회사핵심내용
         public async Task<ActionResult> GrowthTotalProposal(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.CapabilityReport;

@@ -164,7 +164,8 @@ namespace BizOneShot.Light.Models.ViewModels
         public IList<CommentViewModel> CommentList { get; set; }
         public IList<CheckListViewModel> CheckList { get; set; }
 
-        //SCP 입력값필드 있어야 함
+        //관리자 입력값
+        public IList<CommentViewModel> MngComment { get; set; }
     }
 
 

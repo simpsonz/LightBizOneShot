@@ -14,6 +14,7 @@ fileManager.StartHeader();
 // TargetFrameworkVersion = <#=TargetFrameworkVersion #>
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
+
 <# foreach(var additionalNamespace in AdditionalNamespaces) { #>
 using <#= additionalNamespace #>;
 <# } #>

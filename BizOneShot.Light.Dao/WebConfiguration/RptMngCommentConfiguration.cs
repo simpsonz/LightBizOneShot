@@ -24,27 +24,27 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 
 namespace BizOneShot.Light.Dao.WebConfiguration
 {
-    // RPT_MENTOR_CHECK
-    internal partial class RptMentorCheckConfiguration : EntityTypeConfiguration<RptMentorCheck>
+    // RPT_MNG_COMMENT
+    internal partial class RptMngCommentConfiguration : EntityTypeConfiguration<RptMngComment>
     {
-        public RptMentorCheckConfiguration()
+        public RptMngCommentConfiguration()
             : this("dbo")
         {
         }
  
-        public RptMentorCheckConfiguration(string schema)
+        public RptMngCommentConfiguration(string schema)
         {
-            ToTable(schema + ".RPT_MENTOR_CHECK");
-            HasKey(x => new { x.QuestionSn, x.BizWorkSn, x.BasicYear, x.DetailCd });
+            ToTable(schema + ".RPT_MNG_COMMENT");
+            HasKey(x => new { x.MngCompSn, x.BasicYear, x.DetailCd });
 
-            Property(x => x.QuestionSn).HasColumnName("QUESTION_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.BizWorkSn).HasColumnName("BIZ_WORK_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.MngCompSn).HasColumnName("MNG_COMP_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.BasicYear).HasColumnName("BASIC_YEAR").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.DetailCd).HasColumnName("DETAIL_CD").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(8).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.CheckVal).HasColumnName("CHECK_VAL").IsOptional().HasColumnType("bit");
+            Property(x => x.Comment).HasColumnName("COMMENT").IsOptional().HasColumnType("nvarchar").HasMaxLength(2000);
 
             // Foreign keys
-            HasRequired(a => a.RptCheckList).WithMany(b => b.RptMentorChecks).HasForeignKey(c => c.DetailCd); // FK_RPT_CHECK_LIST_TO_RPT_MENTOR_CHECK
+            HasRequired(a => a.RptMngCode).WithMany(b => b.RptMngComments).HasForeignKey(c => c.DetailCd); // FK_RPT_MNG_CODE_TO_RPT_MNG_COMMENT
+            HasRequired(a => a.ScCompInfo).WithMany(b => b.RptMngComments).HasForeignKey(c => c.MngCompSn); // FK_SC_COMP_INFO_TO_RPT_MNG_COMMENT
             InitializePartial();
         }
         partial void InitializePartial();

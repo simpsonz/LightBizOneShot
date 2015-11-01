@@ -75,7 +75,9 @@
     <Compile Include="Repositories\QuesMasterRepository.cs" />
     <Compile Include="Repositories\QuesResult1Repository.cs" />
     <Compile Include="Repositories\QuesResult2Repository.cs" />
+    <Compile Include="Repositories\RptMngCodeRepository.cs" />
     <Compile Include="Repositories\RptMasterRepository.cs" />
+    <Compile Include="Repositories\RptMngCommentRepository.cs" />
     <Compile Include="Repositories\RptMentorCommentRepository.cs" />
     <Compile Include="Repositories\SboFinancialIndexTRepository.cs" />
     <Compile Include="Repositories\ScBizWorkRepository.cs" />
@@ -94,6 +96,39 @@
     <Compile Include="Repositories\ScReqDocFileRepository.cs" />
     <Compile Include="Repositories\ScReqDocRepository.cs" />
     <Compile Include="Repositories\SyUserRepository.cs" />
+    <Compile Include="DareConfiguration\DareDbContext.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\FakeDareDbContext.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\FakeDbSet.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\IDareDbContext.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareConfiguration\SHUSER_SyUserConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ScCompInfoRepository.cs" />
+    <Compile Include="Repositories\ScFaqRepository.cs" />
+    <Compile Include="Repositories\ScNtcRepository.cs" />
+    <Compile Include="Repositories\ScQclRepository.cs" />
+    <Compile Include="Repositories\ScUsrRepository.cs" />
+    <Compile Include="Infrastructure\Dbfactory.cs" />
+    <Compile Include="Infrastructure\Disposable.cs" />
+    <Compile Include="Infrastructure\IDbFactory.cs" />
+    <Compile Include="Infrastructure\IRepository.cs" />
+    <Compile Include="Infrastructure\IUnitOfWork.cs" />
+    <Compile Include="Infrastructure\RepositoryBase.cs" />
+    <Compile Include="Infrastructure\UnitOfWork.cs" />
+    <Compile Include="WebConfiguration\Database.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="WebConfiguration\FakeDbSet.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
@@ -143,6 +178,12 @@
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="WebConfiguration\RptMentorRadioConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebConfiguration\RptMngCodeConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebConfiguration\RptMngCommentConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="WebConfiguration\ScBizTypeConfiguration.cs">
@@ -211,54 +252,26 @@
     <Compile Include="WebConfiguration\SyDareDbInfoConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="DareConfiguration\DareDbContext.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareConfiguration\FakeDareDbContext.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareConfiguration\FakeDbSet.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareConfiguration\IDareDbContext.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareConfiguration\SHUSER_SyUserConfiguration.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebConfiguration\WebDbContext.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\ScCompInfoRepository.cs" />
-    <Compile Include="Repositories\ScFaqRepository.cs" />
-    <Compile Include="Repositories\ScNtcRepository.cs" />
-    <Compile Include="Repositories\ScQclRepository.cs" />
-    <Compile Include="Repositories\ScUsrRepository.cs" />
-    <Compile Include="Infrastructure\Dbfactory.cs" />
-    <Compile Include="Infrastructure\Disposable.cs" />
-    <Compile Include="Infrastructure\IDbFactory.cs" />
-    <Compile Include="Infrastructure\IRepository.cs" />
-    <Compile Include="Infrastructure\IUnitOfWork.cs" />
-    <Compile Include="Infrastructure\RepositoryBase.cs" />
-    <Compile Include="Infrastructure\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="WebConfiguration\EF.Reverse.POCO.Core.ttinclude" />
-    <None Include="WebConfiguration\EF.Reverse.POCO.ttinclude" />
     <None Include="DareConfiguration\EF.Reverse.POCO.Core.ttinclude" />
     <None Include="DareConfiguration\EF.Reverse.POCO.ttinclude" />
     <None Include="packages.config" />
+    <None Include="WebConfiguration\EF.Reverse.POCO.Core.ttinclude" />
+    <None Include="WebConfiguration\EF.Reverse.POCO.ttinclude" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="WebConfiguration\Database.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Database.cs</LastGenOutput>
-    </Content>
     <Content Include="DareConfiguration\Database.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Database1.cs</LastGenOutput>
+    </Content>
+    <Content Include="WebConfiguration\Database.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Database.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

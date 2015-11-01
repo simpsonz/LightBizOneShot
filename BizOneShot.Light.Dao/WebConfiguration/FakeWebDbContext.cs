@@ -7,6 +7,7 @@
 // TargetFrameworkVersion = 4.51
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
+
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -40,6 +41,8 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public DbSet<RptMentorCheck> RptMentorChecks { get; set; }
         public DbSet<RptMentorComment> RptMentorComments { get; set; }
         public DbSet<RptMentorRadio> RptMentorRadios { get; set; }
+        public DbSet<RptMngCode> RptMngCodes { get; set; }
+        public DbSet<RptMngComment> RptMngComments { get; set; }
         public DbSet<ScBizType> ScBizTypes { get; set; }
         public DbSet<ScBizWork> ScBizWorks { get; set; }
         public DbSet<ScCompInfo> ScCompInfoes { get; set; }
@@ -79,6 +82,8 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             RptMentorChecks = new FakeDbSet<RptMentorCheck>();
             RptMentorComments = new FakeDbSet<RptMentorComment>();
             RptMentorRadios = new FakeDbSet<RptMentorRadio>();
+            RptMngCodes = new FakeDbSet<RptMngCode>();
+            RptMngComments = new FakeDbSet<RptMngComment>();
             ScBizTypes = new FakeDbSet<ScBizType>();
             ScBizWorks = new FakeDbSet<ScBizWork>();
             ScCompInfoes = new FakeDbSet<ScCompInfo>();

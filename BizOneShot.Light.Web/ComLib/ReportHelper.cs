@@ -508,6 +508,24 @@ namespace BizOneShot.Light.Web.ComLib
             return viewModel;
         }
 
+        public static CommentViewModel MakeCommentViewModel(string detailCode, RptMngComment rptMngComment = null)
+        {
+            CommentViewModel viewModel = new CommentViewModel();
+
+            if (rptMngComment == null)
+            {
+                viewModel.DetailCd = detailCode;
+                viewModel.Comment = "";
+            }
+            else
+            {
+                viewModel.DetailCd = rptMngComment.DetailCd;
+                viewModel.Comment = rptMngComment.Comment;
+            }
+
+            return viewModel;
+        }
+
         public static CheckBoxViewModel MakeCheckBoxViewModel(BasicSurveyReportViewModel paramModel, string detailCode, RptMentorComment rptMentorComment = null)
         {
             var viewModel = new CheckBoxViewModel();
@@ -526,6 +544,20 @@ namespace BizOneShot.Light.Web.ComLib
             return viewModel;
         }
 
+        public static IList<CommentViewModel> MakeCommentViewModel(IEnumerable<RptMngCode> listRptMngCode, IList<RptMngComment> listRptMngComment)
+        {
+            var CommentList = new List<CommentViewModel>();
+
+            foreach (var rptCheckList in listRptMngCode)
+            {
+                var rptMngComment = listRptMngComment.SingleOrDefault(rmc => rmc.DetailCd == rptCheckList.DetailCd);
+
+                CommentList.Add(MakeCommentViewModel(rptCheckList.DetailCd, rptMngComment));
+            }
+
+            return CommentList;
+
+        }
 
         public static IList<CommentViewModel> MakeCommentViewModel(IEnumerable<RptCheckList> listRptCheckList, IList<RptMentorComment> listRptMentorComment)
         {

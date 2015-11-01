@@ -30,6 +30,7 @@
         ""  //  example: "void SetAutoDetectChangesEnabled(bool flag);"
     };
 
+
     // Migrations *************************************************************************************************************************
     MigrationConfigurationFileName = ""; // null or empty to not create migrations
     MigrationStrategy = "MigrateDatabaseToLatestVersion"; // MigrateDatabaseToLatestVersion, CreateDatabaseIfNotExists or DropCreateDatabaseIfModelChanges
@@ -54,7 +55,6 @@
         new CustomPluralizationEntry("CustomerStatus", "CustomerStatus"), // Use same value to prevent pluralisation
         new CustomPluralizationEntry("EmployeeStatus", "EmployeeStatus")
     });
-    
     
     // Elements to generate ***************************************************************************************************************
     // Add the elements that should be generated when the template is executed.
@@ -111,7 +111,6 @@
     StoredProcedureFilterExclude = null;
     StoredProcedureFilterInclude = null;
 
-
     // Table renaming *********************************************************************************************************************
     // Use the following function to rename tables such as tblOrders to Orders, Shipments_AB to Shipments, etc.
     // Example:
@@ -123,6 +122,7 @@
     };*/
     TableRename = (name, schema) => name;   // Do nothing by default
     
+
     // Column modification*****************************************************************************************************************
     // Use the following list to replace column byte types with Enums.
     // As long as the type can be mapped to your new type, all is well.

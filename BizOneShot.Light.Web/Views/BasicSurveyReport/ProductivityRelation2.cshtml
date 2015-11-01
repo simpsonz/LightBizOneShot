@@ -11,6 +11,29 @@
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
 
+       //회사1의 자동 합산 점수
+        $('input[type=radio][id^="com1radio"]').change(function () {
+
+            var sumradio = 0;
+            $('input:radio:checked[id^="com1radio"]').each(function () {
+                sumradio = sumradio + parseInt($(this).val(), 10)
+            });
+
+            $('#sumcom1radio').val(sumradio);
+        });
+
+        //회사2의 자동 합산 점수
+        $('input[type=radio][id^="com2radio"]').change(function () {
+  
+            var sumradio = 0;
+            $('input:radio:checked[id^="com2radio"]').each(function () {
+                sumradio = sumradio + parseInt($(this).val(), 10)
+            });
+
+            $('#sumcom2radio').val(sumradio);
+        });
+
+
         $('#mainForm').bind('submit', function () {
 
             var valid = true;
@@ -134,7 +157,7 @@
                 </div>
 
                 <div class="main_mid_cont">
-                    <div class="main_mid_listBox">
+                    <div class="main_mid_listBox nomargin2">
                         <div class="listBox_tap longbg_on full_line">
                             <span>경쟁력 검토</span>
                         </div>
@@ -161,25 +184,25 @@
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[1].Comment, "1", new { @id = "comment1" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[1].Comment, "2", new { @id = "com1radio1" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[1].Comment, "2", new { @id = "comment1" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[1].Comment, "1", new { @id = "com1radio1" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[1].Comment, "3", new { @id = "comment1" }) 0점
+                                        @Html.RadioButtonFor(model => model.CommentList[1].Comment, "0", new { @id = "com1radio1" }) 0점
                                         @Html.HiddenFor(model => model.CommentList[1].DetailCd)
                                     </div>
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[2].Comment, "1", new { @id = "comment2" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[2].Comment, "2", new { @id = "com2radio2" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[2].Comment, "2", new { @id = "comment2" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[2].Comment, "1", new { @id = "com2radio2" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[2].Comment, "3", new { @id = "comment2" }) 0점
+                                        @Html.RadioButtonFor(model => model.CommentList[2].Comment, "0", new { @id = "com2radio2" }) 0점
                                         @Html.HiddenFor(model => model.CommentList[2].DetailCd)
                                     </div>
                                 </td>
@@ -194,25 +217,25 @@
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[4].Comment, "1", new { @id = "comment4" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[4].Comment, "2", new { @id = "com1radio4" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[4].Comment, "2", new { @id = "comment4" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[4].Comment, "1", new { @id = "com1radio4" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[4].Comment, "3", new { @id = "comment4" }) 0점
+                                        @Html.RadioButtonFor(model => model.CommentList[4].Comment, "0", new { @id = "com1radio4" }) 0점
                                         @Html.HiddenFor(model => model.CommentList[4].DetailCd)
                                     </div>
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[5].Comment, "1", new { @id = "comment5" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[5].Comment, "2", new { @id = "com2radio5" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[5].Comment, "2", new { @id = "comment5" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[5].Comment, "1", new { @id = "com2radio5" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[5].Comment, "3", new { @id = "comment5" }) 0점
+                                        @Html.RadioButtonFor(model => model.CommentList[5].Comment, "0", new { @id = "com2radio5" }) 0점
                                         @Html.HiddenFor(model => model.CommentList[5].DetailCd)
                                     </div>
                                 </td>
@@ -227,25 +250,25 @@
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "1", new { @id = "comment7" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "2", new { @id = "com1radio7" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "2", new { @id = "comment7" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "1", new { @id = "com1radio7" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "3", new { @id = "comment7" }) 0점
+                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "0", new { @id = "com1radio7" }) 0점
                                         @Html.HiddenFor(model => model.CommentList[7].DetailCd)
                                     </div>
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "1", new { @id = "comment8" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "2", new { @id = "com2radio8" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "2", new { @id = "comment8" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "1", new { @id = "com2radio8" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "3", new { @id = "comment8" }) 0점
+                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "0", new { @id = "com2radio8" }) 0점
                                         @Html.HiddenFor(model => model.CommentList[8].DetailCd)
                                     </div>
                                 </td>
@@ -255,31 +278,31 @@
                                     Price<br>(가격 경쟁력)
                                 </td>
                                 <td class="center_td center">
-                                    @Html.TextBoxFor(model => model.CommentList[6].Comment, new { @id = "comment6" })
-                                    @Html.HiddenFor(model => model.CommentList[6].DetailCd)
+                                    @Html.TextBoxFor(model => model.CommentList[9].Comment, new { @id = "comment9" })
+                                    @Html.HiddenFor(model => model.CommentList[9].DetailCd)
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "1", new { @id = "comment7" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[10].Comment, "2", new { @id = "com1radio10" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "2", new { @id = "comment7" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[10].Comment, "1", new { @id = "com1radio10" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[7].Comment, "3", new { @id = "comment7" }) 0점
-                                        @Html.HiddenFor(model => model.CommentList[7].DetailCd)
+                                        @Html.RadioButtonFor(model => model.CommentList[10].Comment, "0", new { @id = "com1radio10" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[10].DetailCd)
                                     </div>
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "1", new { @id = "comment8" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[11].Comment, "2", new { @id = "com2radio11" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "2", new { @id = "comment8" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[11].Comment, "1", new { @id = "com2radio11" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[8].Comment, "3", new { @id = "comment8" }) 0점
-                                        @Html.HiddenFor(model => model.CommentList[8].DetailCd)
+                                        @Html.RadioButtonFor(model => model.CommentList[11].Comment, "0", new { @id = "com2radio11" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[11].DetailCd)
                                     </div>
                                 </td>
                             </tr>
@@ -288,31 +311,31 @@
                                     Place<br>(유통채널 경쟁력)
                                 </td>
                                 <td class="center_td center">
-                                    @Html.TextBoxFor(model => model.CommentList[9].Comment, new { @id = "comment9" })
-                                    @Html.HiddenFor(model => model.CommentList[9].DetailCd)
+                                    @Html.TextBoxFor(model => model.CommentList[12].Comment, new { @id = "comment12" })
+                                    @Html.HiddenFor(model => model.CommentList[12].DetailCd)
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[10].Comment, "1", new { @id = "comment10" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[13].Comment, "2", new { @id = "com1radio13" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[10].Comment, "2", new { @id = "comment10" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[13].Comment, "1", new { @id = "com1radio13" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[10].Comment, "3", new { @id = "comment10" }) 0점
-                                        @Html.HiddenFor(model => model.CommentList[10].DetailCd)
+                                        @Html.RadioButtonFor(model => model.CommentList[13].Comment, "0", new { @id = "com1radio13" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[13].DetailCd)
                                     </div>
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[11].Comment, "1", new { @id = "comment11" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[14].Comment, "2", new { @id = "com2radio14" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[11].Comment, "2", new { @id = "comment11" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[14].Comment, "1", new { @id = "com2radio14" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[11].Comment, "3", new { @id = "comment11" }) 0점
-                                        @Html.HiddenFor(model => model.CommentList[11].DetailCd)
+                                        @Html.RadioButtonFor(model => model.CommentList[14].Comment, "0", new { @id = "com2radio14" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[14].DetailCd)
                                     </div>
                                 </td>
                             </tr>
@@ -321,31 +344,31 @@
                                     Process<br>(고객의 사용절차 경쟁력)
                                 </td>
                                 <td class="center_td center">
-                                    @Html.TextBoxFor(model => model.CommentList[12].Comment, new { @id = "comment12" })
-                                    @Html.HiddenFor(model => model.CommentList[12].DetailCd)
+                                    @Html.TextBoxFor(model => model.CommentList[15].Comment, new { @id = "comment15" })
+                                    @Html.HiddenFor(model => model.CommentList[15].DetailCd)
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[13].Comment, "1", new { @id = "comment13" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[16].Comment, "2", new { @id = "com1radio16" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[13].Comment, "2", new { @id = "comment13" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[16].Comment, "1", new { @id = "com1radio16" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[13].Comment, "3", new { @id = "comment13" }) 0점
-                                        @Html.HiddenFor(model => model.CommentList[13].DetailCd)
+                                        @Html.RadioButtonFor(model => model.CommentList[16].Comment, "0", new { @id = "com1radio16" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[16].DetailCd)
                                     </div>
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[14].Comment, "1", new { @id = "comment14" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[17].Comment, "2", new { @id = "com2radio17" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[14].Comment, "2", new { @id = "comment14" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[17].Comment, "1", new { @id = "com2radio17" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[14].Comment, "3", new { @id = "comment14" }) 0점
-                                        @Html.HiddenFor(model => model.CommentList[14].DetailCd)
+                                        @Html.RadioButtonFor(model => model.CommentList[17].Comment, "0", new { @id = "com2radio17" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[17].DetailCd)
                                     </div>
                                 </td>
                             </tr>
@@ -354,31 +377,31 @@
                                     Physical experience<br>(고객의 사용경험 우수성)
                                 </td>
                                 <td class="center_td center">
-                                    @Html.TextBoxFor(model => model.CommentList[15].Comment, new { @id = "comment15" })
-                                    @Html.HiddenFor(model => model.CommentList[15].DetailCd)
+                                    @Html.TextBoxFor(model => model.CommentList[18].Comment, new { @id = "comment18" })
+                                    @Html.HiddenFor(model => model.CommentList[18].DetailCd)
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[16].Comment, "1", new { @id = "comment16" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[19].Comment, "2", new { @id = "com1radio19" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[16].Comment, "2", new { @id = "comment16" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[19].Comment, "1", new { @id = "com1radio19" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[16].Comment, "3", new { @id = "comment16" }) 0점
-                                        @Html.HiddenFor(model => model.CommentList[16].DetailCd)
+                                        @Html.RadioButtonFor(model => model.CommentList[19].Comment, "0", new { @id = "com1radio19" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[19].DetailCd)
                                     </div>
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[17].Comment, "1", new { @id = "comment17" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[20].Comment, "2", new { @id = "com2radio20" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[17].Comment, "2", new { @id = "comment17" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[20].Comment, "1", new { @id = "com2radio20" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[17].Comment, "3", new { @id = "comment17" }) 0점
-                                        @Html.HiddenFor(model => model.CommentList[17].DetailCd)
+                                        @Html.RadioButtonFor(model => model.CommentList[20].Comment, "0", new { @id = "com2radio20" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[20].DetailCd)
                                     </div>
                                 </td>
                             </tr>
@@ -387,31 +410,31 @@
                                     Status<br>(브랜드 및 시장의 위상)
                                 </td>
                                 <td class="center_td center">
-                                    @Html.TextBoxFor(model => model.CommentList[18].Comment, new { @id = "comment18" })
-                                    @Html.HiddenFor(model => model.CommentList[18].DetailCd)
+                                    @Html.TextBoxFor(model => model.CommentList[21].Comment, new { @id = "comment21" })
+                                    @Html.HiddenFor(model => model.CommentList[21].DetailCd)
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[19].Comment, "1", new { @id = "comment19" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[22].Comment, "2", new { @id = "com1radio22" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[19].Comment, "2", new { @id = "comment19" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[22].Comment, "1", new { @id = "com1radio22" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[19].Comment, "3", new { @id = "comment19" }) 0점
-                                        @Html.HiddenFor(model => model.CommentList[19].DetailCd)
+                                        @Html.RadioButtonFor(model => model.CommentList[22].Comment, "0", new { @id = "com1radio22" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[22].DetailCd)
                                     </div>
                                 </td>
                                 <td class="center_td center">
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[20].Comment, "1", new { @id = "comment20" }) 2점
+                                        @Html.RadioButtonFor(model => model.CommentList[23].Comment, "2", new { @id = "com2radio23" }) 2점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[20].Comment, "2", new { @id = "comment20" }) 1점
+                                        @Html.RadioButtonFor(model => model.CommentList[23].Comment, "1", new { @id = "com2radio23" }) 1점
                                     </div>
                                     <div class="contact">
-                                        @Html.RadioButtonFor(model => model.CommentList[20].Comment, "3", new { @id = "comment20" }) 0점
-                                        @Html.HiddenFor(model => model.CommentList[20].DetailCd)
+                                        @Html.RadioButtonFor(model => model.CommentList[23].Comment, "0", new { @id = "com2radio23" }) 0점
+                                        @Html.HiddenFor(model => model.CommentList[23].DetailCd)
                                     </div>
                                 </td>
                             </tr>
@@ -422,12 +445,12 @@
                                     이상이면 해당 회사 제품에 비해 우리 회사제품이 열위임을 의미합니다.
                                 </td>
                                 <td class="center_td center">
-                                    @Html.TextBoxFor(model => model.CommentList[21].Comment, new { @id = "comment21" })
-                                    @Html.HiddenFor(model => model.CommentList[21].DetailCd)
+                                    @Html.TextBoxFor(model => model.CommentList[24].Comment, new { @id = "sumcom1radio", @class="center", @readonly="true" })
+                                    @Html.HiddenFor(model => model.CommentList[24].DetailCd)
                                 </td>
                                 <td class="center_td center">
-                                    @Html.TextBoxFor(model => model.CommentList[22].Comment, new { @id = "comment21" })
-                                    @Html.HiddenFor(model => model.CommentList[22].DetailCd)
+                                    @Html.TextBoxFor(model => model.CommentList[25].Comment, new { @id = "sumcom2radio", @class = "center", @readonly = "true" })
+                                    @Html.HiddenFor(model => model.CommentList[25].DetailCd)
                                 </td>
                             </tr>
                         </table>
@@ -445,21 +468,39 @@
                             </tr>
                             <tr>
                                 <td class="left_memo">개요</td>
-                                <td class="center"><textarea></textarea></td>
+                                <td class="center">
+                                    @Html.TextAreaFor(model => model.CommentList[26].Comment, new { @id = "comment26"})
+                                    @Html.HiddenFor(model => model.CommentList[26].DetailCd)
+                                </td>
                                 <td class="left_memo">개요</td>
-                                <td class="center"><textarea></textarea></td>
+                                <td class="center">
+                                    @Html.TextAreaFor(model => model.CommentList[27].Comment, new { @id = "comment27" })
+                                    @Html.HiddenFor(model => model.CommentList[27].DetailCd)
+                                </td>
                             </tr>
                             <tr>
                                 <td class="left_memo">회사명</td>
-                                <td class="center"><input type="text" /></td>
+                                <td class="center">
+                                    @Html.TextBoxFor(model => model.CommentList[28].Comment, new { @id = "comment28" })
+                                    @Html.HiddenFor(model => model.CommentList[28].DetailCd)
+                                </td>
                                 <td class="left_memo">회사명</td>
-                                <td class="center"><input type="text" /></td>
+                                <td class="center">
+                                    @Html.TextBoxFor(model => model.CommentList[29].Comment, new { @id = "comment29" })
+                                    @Html.HiddenFor(model => model.CommentList[29].DetailCd)
+                                </td>
                             </tr>
                             <tr>
                                 <td class="left_memo">상품명</td>
-                                <td class="center"><input type="text" /></td>
+                                <td class="center">
+                                    @Html.TextBoxFor(model => model.CommentList[30].Comment, new { @id = "comment30" })
+                                    @Html.HiddenFor(model => model.CommentList[30].DetailCd)
+                                </td>
                                 <td class="left_memo">상품명</td>
-                                <td class="center"><input type="text" /></td>
+                                <td class="center">
+                                    @Html.TextBoxFor(model => model.CommentList[31].Comment, new { @id = "comment31" })
+                                    @Html.HiddenFor(model => model.CommentList[31].DetailCd)
+                                </td>
                             </tr>
                         </table>
 

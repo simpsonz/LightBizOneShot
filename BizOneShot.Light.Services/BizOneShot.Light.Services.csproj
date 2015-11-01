@@ -48,6 +48,8 @@
     <Compile Include="QuesMasterService.cs" />
     <Compile Include="QuesResult1Service.cs" />
     <Compile Include="QuesResult2Service.cs" />
+    <Compile Include="RptMngCommentService.cs" />
+    <Compile Include="RptMngCodeService.cs" />
     <Compile Include="RptCheckListService.cs" />
     <Compile Include="RptMasterService.cs" />
     <Compile Include="RptMentorCommentService.cs" />
