@@ -1526,6 +1526,7 @@
     <Content Include="Views\BasicSurveyReport\ProductivityValueChain.cshtml" />
     <Content Include="Views\BasicSurveyReport\ProductivityRelation.cshtml" />
     <Content Include="Views\BasicSurveyReport\ProductivityRelation2.cshtml" />
+    <Content Include="Views\BasicSurveyReport\OrgDivided.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
