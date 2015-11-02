@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
 using BizOneShot.Light.Models.WebModels;
+using PagedList;
 
 namespace BizOneShot.Light.Services
 {
@@ -18,7 +19,7 @@ namespace BizOneShot.Light.Services
 
         Task<IList<RptMaster>> GetRptMasterListAsync(string mentorId, int year, int bizWorkSn, int compSn, string status);
         Task<RptMaster> GetRptMasterAsync(int qustionSn, int compSn, int year);
-        PagedList<RptMaster> GetRptMasterList(int page, int pageSize, string mentorId, int basicYear, int bizWorkSn, int compSn, string status);
+        IPagedList<RptMaster> GetRptMasterList(int page, int pageSize, string mentorId, int basicYear, int bizWorkSn, int compSn, string status);
 
         void ModifyRptMaster(RptMaster rptMaster);
     }
@@ -49,7 +50,7 @@ namespace BizOneShot.Light.Services
             return rptMaster;
         }
 
-        public PagedList<RptMaster> GetRptMasterList(int page, int pageSize, string mentorId, int basicYear, int bizWorkSn, int compSn, string status)
+        public IPagedList<RptMaster> GetRptMasterList(int page, int pageSize, string mentorId, int basicYear, int bizWorkSn, int compSn, string status)
         {
             return rptMasterRepository.GetRptMasters(page, pageSize, mentorId, basicYear, bizWorkSn, compSn, status);
         }

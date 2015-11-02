@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Models.WebModels;
+using PagedList;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -15,7 +16,7 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         RptMaster Insert(RptMaster rptMaster);
         Task<IList<RptMaster>> GetRptMastersAsync(Expression<Func<RptMaster, bool>> where);
-        PagedList<RptMaster> GetRptMasters(int page, int pageSize, string mentorID, int basicYear, int bizWorkSn, int compSn, string status);
+        IPagedList<RptMaster> GetRptMasters(int page, int pageSize, string mentorID, int basicYear, int bizWorkSn, int compSn, string status);
 
         Task<RptMaster> GetRptMasterAsync(Expression<Func<RptMaster, bool>> where);
     }
@@ -40,7 +41,7 @@ namespace BizOneShot.Light.Dao.Repositories
             return await this.DbContext.RptMasters.Include("ScBizWork").Include("ScCompInfo").Where(where).SingleOrDefaultAsync();
         }
 
-        public PagedList<RptMaster> GetRptMasters(int page, int pageSize, string mentorID, int basicYear, int bizWorkSn, int compSn, string status)
+        public IPagedList<RptMaster> GetRptMasters(int page, int pageSize, string mentorID, int basicYear, int bizWorkSn, int compSn, string status)
         {
             return DbContext.RptMasters
                     .Include(rm => rm.ScBizWork)

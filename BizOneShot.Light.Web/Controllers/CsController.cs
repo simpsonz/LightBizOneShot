@@ -13,6 +13,7 @@ using System;
 using System.Web;
 using System.IO;
 using System.Linq;
+using PagedList;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -74,15 +75,16 @@ namespace BizOneShot.Light.Web.Controllers
             };
 
             ViewBag.SelectList = searchBy;
-
-            var faqs = await _scFaqService.GetFaqsAsync();
-
-            var faqViews =
-               Mapper.Map<List<FaqViewModel>>(faqs);
-
+           
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            return View(new StaticPagedList<FaqViewModel>(faqViews.ToPagedList(1, pagingSize), 1, pagingSize, faqViews.Count));
+            var pagedListfaqs = await _scFaqService.GetPagedListFaqsAsync(1, pagingSize);
+
+            var faqViews =
+               Mapper.Map<List<FaqViewModel>>(pagedListfaqs);
+
+            //return View(new StaticPagedList<FaqViewModel>(faqViews.ToPagedList(1, pagingSize), 1, pagingSize, faqViews.Count));
+            return View(new StaticPagedList<FaqViewModel>(faqViews, 1, pagingSize, pagedListfaqs.TotalItemCount));
         }
 
         [HttpPost]
@@ -97,14 +99,14 @@ namespace BizOneShot.Light.Web.Controllers
             };
             ViewBag.SelectList = searchBy;
 
-            var faqs = await _scFaqService.GetFaqsAsync(SelectList, Query);
-
-            var faqViews =
-               Mapper.Map<List<FaqViewModel>>(faqs);
-
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            return View(new StaticPagedList<FaqViewModel>(faqViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, faqViews.Count));
+            var pagedListfaqs = await _scFaqService.GetPagedListFaqsAsync(int.Parse(curPage ?? "1"), pagingSize, SelectList, Query);
+
+            var faqViews =
+               Mapper.Map<List<FaqViewModel>>(pagedListfaqs);
+
+            return View(new StaticPagedList<FaqViewModel>(faqViews, int.Parse(curPage), pagingSize, pagedListfaqs.TotalItemCount));
         }
 
 
@@ -229,15 +231,15 @@ namespace BizOneShot.Light.Web.Controllers
 
             ViewBag.SelectList = searchBy;
 
-            //var listScNtc = _scNtcService.GetNotices();
-            var listScNtc = await _scNtcService.GetNoticesAsync();
-
-            var noticeViews =
-                Mapper.Map<List<NoticeViewModel>>(listScNtc);
-
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(1, pagingSize), 1, pagingSize, noticeViews.Count));
+            var pagedListScNtc = await _scNtcService.GetNoticesAsync(1, pagingSize);
+
+            var noticeViews =
+                Mapper.Map<List<NoticeViewModel>>(pagedListScNtc);
+
+            //return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(1, pagingSize), 1, pagingSize, noticeViews.Count));
+            return View(new StaticPagedList<NoticeViewModel>(noticeViews, 1, pagingSize, pagedListScNtc.TotalItemCount));
         }
 
         [HttpPost]
@@ -252,15 +254,15 @@ namespace BizOneShot.Light.Web.Controllers
             };
             ViewBag.SelectList = searchBy;
 
-            //var listScNtc = _scNtcService.GetNotices(SelectList, Query);
-            var listScNtc = await _scNtcService.GetNoticesAsync(SelectList, Query);
-
-            var noticeViews =
-                Mapper.Map<List<NoticeViewModel>>(listScNtc);
-
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, noticeViews.Count));
+            var pagedListScNtc = await _scNtcService.GetNoticesAsync(int.Parse(curPage ?? "1"), pagingSize, SelectList, Query);
+
+            var noticeViews =
+                Mapper.Map<List<NoticeViewModel>>(pagedListScNtc);
+
+            //return View(new StaticPagedList<NoticeViewModel>(noticeViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, noticeViews.Count));
+            return View(new StaticPagedList<NoticeViewModel>(noticeViews, int.Parse(curPage ?? "1"), pagingSize, pagedListScNtc.TotalItemCount));
         }
 
         public async Task<ActionResult> NoticeDetail(int noticeSn)
@@ -378,15 +380,17 @@ namespace BizOneShot.Light.Web.Controllers
 
             ViewBag.SelectList = searchBy;
 
+            int pageSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            var listScForm = await _scFormService.GetManualsAsync();
+            var pagedListScForm = await _scFormService.GetManualsAsync(1, pageSize);
 
             var manualViews =
-                Mapper.Map<List<ManualViewModel>>(listScForm);
+                Mapper.Map<List<ManualViewModel>>(pagedListScForm);
 
-            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            
 
-            return View(new StaticPagedList<ManualViewModel>(manualViews.ToPagedList(1, pagingSize), 1, pagingSize, manualViews.Count));
+            //return View(new StaticPagedList<ManualViewModel>(manualViews.ToPagedList(1, pagingSize), 1, pagingSize, manualViews.Count));
+            return View(new StaticPagedList<ManualViewModel>(manualViews, 1, pageSize, pagedListScForm.TotalItemCount));
         }
 
         [HttpPost]
@@ -402,15 +406,16 @@ namespace BizOneShot.Light.Web.Controllers
 
             ViewBag.SelectList = searchBy;
 
-
-            var listScForm = await _scFormService.GetManualsAsync(SelectList, Query);
-
-            var manualViews =
-                Mapper.Map<List<ManualViewModel>>(listScForm);
-
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            return View(new StaticPagedList<ManualViewModel>(manualViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, manualViews.Count));
+            var pageListScForm = await _scFormService.GetManualsAsync(int.Parse(curPage ?? "1"), pagingSize, SelectList, Query);
+
+            var manualViews =
+                Mapper.Map<List<ManualViewModel>>(pageListScForm);
+
+
+            //return View(new StaticPagedList<ManualViewModel>(manualViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, manualViews.Count));
+            return View(new StaticPagedList<ManualViewModel>(manualViews, int.Parse(curPage ?? "1"), pagingSize, pageListScForm.TotalItemCount));
         }
 
         public async Task<ActionResult> ManualDetail(int formSn)
