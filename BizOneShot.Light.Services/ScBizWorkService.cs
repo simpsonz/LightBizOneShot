@@ -7,6 +7,8 @@ using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
 using BizOneShot.Light.Models.WebModels;
 
+using PagedList;
+
 namespace BizOneShot.Light.Services
 {
 
@@ -21,10 +23,10 @@ namespace BizOneShot.Light.Services
         Task<ScBizWork> GetBizWorkByBizWorkSn(int bizWorkSn);
         ScBizWork Insert(ScBizWork scBizWork);
         Task<IList<ScCompInfo>> GetBizWorkComList(int bizWorkSn);
+        Task<IPagedList<ScCompInfo>> GetPagedListBizWorkComList(int bizWorkSn, int page, int pageSize);
         Task<int> AddBizWorkAsync(ScBizWork scBizWork);
         Task<ScBizWork> GetBizWorkByloginId(string loginId);
     }
-
 
     public class ScBizWorkService : IScBizWorkService
     {
@@ -71,6 +73,24 @@ namespace BizOneShot.Light.Services
             }
         }
 
+        //public async Task<IPagedList<ScBizWork>> GetPagedListBizWorkList(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0)
+        //{
+        //    if (string.IsNullOrEmpty(excutorId))
+        //    {
+        //        retrun await scBizWorkRespository.GetPagedListBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.Status == "N", page, pageSize);
+        //        scBizWorks.Where(bw => bizWorkYear == 0 ? bw.BizWorkStDt.Value.Year > 0 : bw.BizWorkStDt.Value.Year <= bizWorkYear && bw.BizWorkEdDt.Value.Year >= bizWorkYear);
+
+        //        return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
+        //    }
+        //    else
+        //    {
+        //        var scBizWorks = await scBizWorkRespository.GetPagedListBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.Status == "N" && bw.ExecutorId == excutorId,  page, pageSize);
+        //        scBizWorks.Where(bw => bizWorkYear == 0 ? bw.BizWorkStDt.Value.Year > 0 : bw.BizWorkStDt.Value.Year <= bizWorkYear && bw.BizWorkEdDt.Value.Year >= bizWorkYear);
+
+        //        return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
+        //    }
+        //}
+
         public async Task<IList<ScBizWork>> GetEndBizWorkList(DateTime endDateTiem)
         {
             var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.BizWorkEdDt < endDateTiem && bw.Status == "N");
@@ -81,6 +101,12 @@ namespace BizOneShot.Light.Services
         {
             var scBizWorks = await scCompMappingRepository.GetCompanysAsync(bw => bw.BizWorkSn == bizWorkSn);
             return  scBizWorks.OrderByDescending(sc => sc.CompNm).ToList();
+        }
+
+        public async Task<IPagedList<ScCompInfo>> GetPagedListBizWorkComList(int bizWorkSn, int page, int pageSize)
+        {
+            return await scCompMappingRepository.GetPagedListCompanysAsync(bw => bw.BizWorkSn == bizWorkSn, page, pageSize);
+            //return scBizWorks.OrderByDescending(sc => sc.CompNm).ToList();
         }
 
         public async Task<IList<ScBizWork>> GetBizWorkListByBizWorkNm(int mngComSn, string query)

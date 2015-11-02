@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Models.WebModels;
-using System.Linq.Expressions;
+
+using PagedList;
+using PagedList.EntityFramework;
+
+
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -16,6 +21,7 @@ namespace BizOneShot.Light.Dao.Repositories
         Task<IList<ScCompMapping>> GetCompMappingsAsync(Expression<Func<ScCompMapping, bool>> where);
         Task<ScCompMapping> GetCompMappingAsync(Expression<Func<ScCompMapping, bool>> where);
         Task<IList<ScCompInfo>> GetCompanysAsync(Expression<Func<ScCompMapping, bool>> where);
+        Task<IPagedList<ScCompInfo>> GetPagedListCompanysAsync(Expression<Func<ScCompMapping, bool>> where, int page, int pageSize);
 
         Task<IList<ScCompMapping>> GetExpertCompanysAsync(string loginId, string comName = null);
         Task<IList<ScCompMapping>> GetExpertCompanysAsync(Expression<Func<ScCompMapping, bool>> where);
@@ -41,6 +47,15 @@ namespace BizOneShot.Light.Dao.Repositories
         public async Task<IList<ScCompInfo>> GetCompanysAsync(Expression<Func<ScCompMapping, bool>> where)
         {
             return await this.DbContext.ScCompMappings.Include("ScCompMappings").Include("ScUsr").Where(where).Select(bw => bw.ScCompInfo).Include("ScUsrs").ToListAsync();
+        }
+
+        public async Task<IPagedList<ScCompInfo>> GetPagedListCompanysAsync(Expression<Func<ScCompMapping, bool>> where, int page, int pageSize)
+        {
+            return await this.DbContext.ScCompMappings
+                .Include("ScCompMappings")
+                .Include("ScUsr")
+                .Where(where)
+                .Select(bw => bw.ScCompInfo).Include("ScUsrs").OrderByDescending(sc => sc.CompNm).ToPagedListAsync(page, pageSize);
         }
 
         public async Task<IList<ScCompMapping>> GetExpertCompanysAsync(Expression<Func<ScCompMapping, bool>> where)

@@ -65,19 +65,36 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             return View(new StaticPagedList<BizWorkViewModel>(bizWorkViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, bizWorkViews.Count));
         }
 
-        public async Task<ActionResult> BizWorkComList(string bizWorkSn, string bizWorkNm)
+        //public async Task<ActionResult> BizWorkComList(string bizWorkSn, string bizWorkNm)
+        //{
+        //    ViewBag.LeftMenu = Global.BizWorkMng;
+        //    ViewBag.BizWorkNm = bizWorkNm;
+
+        //    var comListScBizWork = await _scBizWorkService.GetBizWorkComList(int.Parse(bizWorkSn));
+
+        //    var comListViews =
+        //        Mapper.Map<List<JoinCompanyViewModel>>(comListScBizWork);
+
+        //    int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+        //    pagingSize = 2;
+        //    return View(new StaticPagedList<JoinCompanyViewModel>(comListViews.ToPagedList(1, pagingSize), 1, pagingSize, comListViews.Count));
+        //}
+
+        public async Task<ActionResult> BizWorkComList(string bizWorkSn, string bizWorkNm, string curPage)
         {
             ViewBag.LeftMenu = Global.BizWorkMng;
             ViewBag.BizWorkNm = bizWorkNm;
 
-            var comListScBizWork = await _scBizWorkService.GetBizWorkComList(int.Parse(bizWorkSn));
-
-            var comListViews =
-                Mapper.Map<List<JoinCompanyViewModel>>(comListScBizWork);
-
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            return View(new StaticPagedList<JoinCompanyViewModel>(comListViews.ToPagedList(1, pagingSize), 1, pagingSize, comListViews.Count));
+            var pagedListScBizWork = await _scBizWorkService.GetPagedListBizWorkComList(int.Parse(bizWorkSn), int.Parse(curPage ?? "1"), pagingSize);
+
+            var comListViews =
+                Mapper.Map<List<JoinCompanyViewModel>>(pagedListScBizWork);
+
+            ViewBag.BizWorkSN = bizWorkSn;
+
+            return View(new StaticPagedList<JoinCompanyViewModel>(comListViews, pagedListScBizWork.PageNumber, pagingSize, pagedListScBizWork.TotalItemCount));
         }
 
 
