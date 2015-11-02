@@ -41,6 +41,11 @@
 
         });
 
+        if ($('#Status').val() == "C") {
+            $('#mainForm input').attr('disabled', true);
+            $('#mainForm textarea').attr('disabled', true);
+        }
+
     });
 
     function goSubmit(submitType) {
@@ -152,7 +157,7 @@
                 }
                 else
                 {
-                    <a href="@Url.Action("BasicSurveyCompanyList", "BasicSurveyReport", new { area = ""})" class="write_end right" value="작성완료"><em>작성완료</em></a>
+                    <a href="@Url.Action("BasicSurveyCompanyList", "BasicSurveyReport", new { area = ""})" class="list2 right" value="목록"><em>목록</em></a>
                 }
             </div>
             @if (ViewBag.paramModel.Status != "C")

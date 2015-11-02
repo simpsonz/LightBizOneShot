@@ -1,4 +1,4 @@
-﻿@model BizOneShot.Light.Models.ViewModels.OrgHR01ViewModel
+﻿@model BizOneShot.Light.Models.ViewModels.RndEmpViewModel
 
 @{
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -51,7 +51,7 @@
             </li>
         </ul>
     </div>
-@using (Html.BeginForm("OrgHR01", "BasicSurveyReport", FormMethod.Post, new { area = "", @class = "form-horizontal", role = "form", id = "mainForm" }))
+@using (Html.BeginForm("RndEmp", "BasicSurveyReport", FormMethod.Post, new { area = "", @class = "form-horizontal", role = "form", id = "mainForm" }))
 {
     @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
     @Html.Hidden("BizWorkSn", ViewBag.paramModel.BizWorkSn as string)
@@ -74,7 +74,7 @@
                 <div class="main_mid_listBox">
 
                     <div class="listBox_tap longbg_on noline">
-                        <span>(1)조직역량</span>
+                        <span>(2)상품화역량</span>
                     </div>
                     <table class="join_info">
                         <colgroup>
@@ -91,11 +91,7 @@
                                 </span>
                             </td>
                             <td class="center_td">
-                                <div class="label_td">인적자원</div> <span class="label_span">
-                                    인적자원의
-                                    확보를 위한 전략은 조직역량 확충에 가장 중요합니다. 본 체크리스트는 인적자원의 확보를 위한 회사의 제도
-                                    및 절차를 검토합니다.
-                                </span>
+                                <div class="label_td">기술경영</div> <span class="label_span"></span>
                             </td>
                         </tr>
 
@@ -106,31 +102,37 @@
             </div>
             <div class="main_mid_cont">
                 <p class="full_p">
-                    <span class="big_span">인적자원의 확보와 개발관리 _</span><span class="small_span">인적자원의 확보와 개발의 체계성 정도</span>
+                    <span class="big_span">연구개발 인력의 비율 _</span><span class="small_span">연구개발 인력의 구성비율 및 석사급 이상 인력의 비율</span>
                 </p>
                 <div class="explainBox">
                     <div class="label_ex">
                         <p class="ex_p">
-                            <span>•</span>경영의 네 가지 요소는 목표, 인적자원, 물적자원, 전략과 정보입니다.
+                            <span>•</span>연구개발투자가 기업의 미래 성장잠재력을 결정한다는 사실은 앞서의 지표인
+                            ‘연구개발투자’에서 본 바와 같습니다.
                         </p>
                         <p class="ex_p">
-                            <span style="height: 45px">•</span>그런데 이들 네 가지 요소 모두는 ‘사람
-                            인적자원’에 의하여 결정된다는 특징이 있다. 목표를 세우는 것도 사람이며, 물적자원을 조달하고 운용하는 것도
-                            사람, 전략을 세우고 정보를 관리하는 것도 사람입니다. 조직에서 인적자원이 얼마나 중요한지를 알 수 있습니다.
+                            <span>•</span>연구개발투자의 투입원천 성격이 ‘자본(K)’이라면 연구개발을 수행하는 인력의 투입원천
+                            성격은 ‘노동(L)’입니다.
                         </p>
                         <p class="ex_p">
-                            <span>•</span>인적자원을 관리하는 활동에는 네 가지의 핵심활동이 있는데, 먼저 두 가지의 활동으로
-                            다음과 같은 것들이 있습니다.
+                            <span>•</span>기술 경영을 위한 연구개발 인프라는 위의 두 가지 요소라고 할 수 있으므로
+                            ‘연구개발투자’와 함께 인력 자체에 대해서도 평가할 필요가 있습니다.
                         </p>
                         <p class="ex_p">
-                            <span class="ex_span">- 확보관리 : </span>우수한 인력을 어떻게 확보할 것인가에 관한
-                            것으로 인력수급계획, 종업원 선발 또는 채용 등이 그 내용입니다.
+                            <span>•</span>‘노동(L)'요소 즉 인력 수준을 평가할 때 양(quantity)과
+                            질(quality) 두 가지 면에서 평가할 수 있습니다. <br>(참고로 ‘자본(K)’ 요소인 경우엔
+                            금액으로 표시되는 양(quantity) 밖에 없습니다)
+                        </p>
+                        <p class="ex_p">
+                            <span>•</span>이를 위한 양(quantity)을 측정하기 위한 지표인 연구개발인력 구성비율은
+                            연구개발 인적자원에 대해 전체 임직원과 상대비교한 지표입니다.
                         </p>
                         <p class="ex_p bot_padding">
-                            <span class="ex_span">- 개발관리 : </span>종업원의 잠재적 능력을 어떻게 개발하여
-                            그들의 능력을 최대한 발휘할 수 있도록 할 것인가에 관한 것으로 승진, 전환배치, 경력개발, 교육 등이 그
-                            내용입니다.
+                            <span>•</span>연구개발인력의 질(quality)을 측정하기 위해서 전체 연구개발 인력중 석사급 이상
+                            인력의 비율을 측정하여 표시합니다. 석사급 이상은 관련 분야 석사 혹은 관련 분야에 종사한지 6년 이상된
+                            연구인력을 의미합니다.
                         </p>
+
                     </div>
                 </div>
             </div>
@@ -138,17 +140,17 @@
                 <div class="main_mid_listBox nomargin2">
                     <table class="capacity_table">
                         <colgroup>
-                            <col width="5%">
-                            <col width="24.5%">
-                            <col width="10%">
-                            <col width="12%">
-                            <col width="12%">
-                            <col width="12%">
-                            <col width="12%">
+                            <col width="11%">
+                            <col width="11%">
+                            <col width="13%">
+                            <col width="13%">
+                            <col width="13%">
+                            <col width="13%">
+                            <col width="13%">
+                            <col width="13%">
                         </colgroup>
                         <tr>
-                            <td class="left_memo ">NO</td>
-                            <td class="left_memo">체크리스트 항목</td>
+                            <td class="left_memo ">구분</td>
                             <td class="left_memo">해당기업</td>
                             <td class="left_memo">
                                 창업보육<br>단계 평균
@@ -163,36 +165,35 @@
                                 참여<br>기업평균
                             </td>
                             <td class="left_memo">전체평균</td>
+                            <td class="left_memo">
+                                중소기업<br>평균
+                            </td>
                         </tr>
-                        @if (Model == null || Model.CheckList.Count == 0)
-                        {
-                            <tr>
-                                <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
-                            </tr>
-                        }
-                        else
-                        {
-                            foreach (var item in Model.CheckList)
-                            {
-                                <tr>
-                                    <td class="center_td center">@item.Count</td>
-                                    <td class="center_td center">@item.Title</td>
-                                    @if (item.AnsVal == true)
-                                    {
-                                        <td class="center_td center">∎</td>
-                                    }
-                                    else
-                                    { 
-                                        <td class="center_td center">□</td>
-                                    }
-                                    <td class="center_td center">@item.StartUpAvg %</td>
-                                    <td class="center_td center">@item.GrowthAvg %</td>
-                                    <td class="center_td center">@item.IndependentAvg %</td>
-                                    <td class="center_td center">@item.BizInCompanyAvg %</td>
-                                    <td class="center_td center">@item.TotalAvg %</td>
-                                </tr>
-                            }
-                        }
+                        <tr>
+                            <td class="center_td center">
+                                연구개발<br>인력의 비율
+                            </td>
+                            <td class="center_td center">@Model.rndEmpRatio.Company%</td>
+                            <td class="center_td center">@Model.rndEmpRatio.StartUpAvg%</td>
+                            <td class="center_td center">@Model.rndEmpRatio.GrowthAvg%</td>
+                            <td class="center_td center">@Model.rndEmpRatio.IndependentAvg%</td>
+                            <td class="center_td center">@Model.rndEmpRatio.BizInCompanyAvg%</td>
+                            <td class="center_td center">@Model.rndEmpRatio.TotalAvg%</td>
+                            <td class="center_td center">-</td>
+                        </tr>
+                        <tr>
+                            <td class="center_td center">
+                                연구개발<br>인력 중<br>석사급<br>이상
+                                비율
+                            </td>
+                            <td class="center_td center">@Model.rndEmpLevelRatio.Company%</td>
+                            <td class="center_td center">@Model.rndEmpLevelRatio.StartUpAvg%</td>
+                            <td class="center_td center">@Model.rndEmpLevelRatio.GrowthAvg%</td>
+                            <td class="center_td center">@Model.rndEmpLevelRatio.IndependentAvg%</td>
+                            <td class="center_td center">@Model.rndEmpLevelRatio.BizInCompanyAvg%</td>
+                            <td class="center_td center">@Model.rndEmpLevelRatio.TotalAvg%</td>
+                            <td class="center_td center">@Model.rndEmpLevelRatio.SMCompanyAvg%</td>
+                        </tr>
                     </table>
                 </div>
 
@@ -213,7 +214,7 @@
     <div id="btnwrap_sub" class="bottom_left2">
 
         <div class="rightwrap left">
-            <a href="@Url.Action("OverallResultCover", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
+            <a href="@Url.Action("RndCost", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
 
         </div>
         <div class="rightwrap right">
@@ -223,7 +224,7 @@
             }
             else
             {
-                <a href="@Url.Action("OrgHR02", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="next right" value="다음"><em>다음</em></a>
+                <a href="@Url.Action("ProductivityCommercialize", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="next right" value="다음"><em>다음</em></a>
             }
         </div>
         @if (ViewBag.paramModel.Status != "C")
@@ -232,7 +233,6 @@
                 <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
             </div>
         }
-
     </div>
 }
 </div>

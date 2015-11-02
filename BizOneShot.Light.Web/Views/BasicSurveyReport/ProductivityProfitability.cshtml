@@ -1,4 +1,4 @@
-﻿@model BizOneShot.Light.Models.ViewModels.OrgProductivityViewModel
+﻿@model BizOneShot.Light.Models.ViewModels.ProductivityProfitabilityViewModel
 
 @{
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -11,13 +11,13 @@
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
 
-        makeBarChart("Productivity", @Model.Productivity.Company, @Model.Productivity.AvgBizInCompany, @Model.Productivity.AvgTotal, @Model.Productivity.AvgSMCompany, "천원", 0);
-        makeBarChart("Activity", @Model.Activity.Company, @Model.Activity.AvgBizInCompany, @Model.Activity.AvgTotal, @Model.Activity.AvgSMCompany, "%", 1);
-
         if ($('#Status').val() == "C") {
             $('#mainForm input').attr('disabled', true);
             $('#mainForm textarea').attr('disabled', true);
         }
+
+        makeBarChart("Profitability", @Model.Profitability.Company, @Model.Profitability.AvgBizInCompany, @Model.Profitability.AvgTotal, @Model.Profitability.AvgSMCompany, "%", 1);
+        makeBarChart("Growth", @Model.Growth.Company, @Model.Growth.AvgBizInCompany, @Model.Growth.AvgTotal, @Model.Growth.AvgSMCompany, "%", 1);
     });
 
     function goSubmit(submitType) {
@@ -90,7 +90,7 @@
                 enabled:false
             },
             tooltip: { enabled: false },
-            
+
             series: [{
                 upColor: Highcharts.getOptions().colors[2],
                 color: Highcharts.getOptions().colors[3],
@@ -156,7 +156,7 @@
             </li>
         </ul>
     </div>
-@using (Html.BeginForm("OrgProductivity", "BasicSurveyReport", FormMethod.Post, new { area = "", @class = "form-horizontal", role = "form", id = "mainForm" }))
+@using (Html.BeginForm("ProductivityProfitability", "BasicSurveyReport", FormMethod.Post, new { area = "", @class = "form-horizontal", role = "form", id = "mainForm" }))
 {
     @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
     @Html.Hidden("BizWorkSn", ViewBag.paramModel.BizWorkSn as string)
@@ -179,7 +179,7 @@
                 <div class="main_mid_listBox">
 
                     <div class="listBox_tap longbg_on noline">
-                        <span>(1)조직역량</span>
+                        <span>(2)상품화역량</span>
                     </div>
                     <table class="join_info">
                         <colgroup>
@@ -196,10 +196,10 @@
                                 </span>
                             </td>
                             <td class="center_td">
-                                <div class="label_td">생산성, 활동성</div> <span class="label_span">
-                                    재무지표중 생산성은 조직원의 매출기여도를 표시하는 것으로
-                                    조직역량을 가장 직접적으로 나타냄. 또한, 제품생산에서 매출채권회수까지의 자산의 효율성 및 활동역량을
-                                    검토하여 기업의 전체적인 조직역량을 측정.
+                                <div class="label_td">수익성, 성장성</div> <span class="label_span">
+                                    상품화역량이 우수한 기업들은 결과적으로 매출대비 수익이
+                                    높아지게 되며, 상품경쟁력을 통해 중장기적으로 성장률이 높아지게 됩니다. 본 항목에서는 이들 재무지표를
+                                    통해 회사의 상품화역량을 점겁합니다.
                                 </span>
                             </td>
                         </tr>
@@ -212,33 +212,33 @@
             <div class="main_mid_cont">
                 <div class="main_mid_listBox nomargin2">
                     <div class="listBox_tap bg_on full_line">
-                        <span>생산성</span>
+                        <span>수익성</span>
                     </div>
                     <div class="listBox_title top_padding">
-                        <span class="big_span">부가가치 노동생산성 _</span><span class="small_span">
-                            기업 구성원의 경력 및 업무이해도, 숙련도 등 활동력은
-                            노동생산성으로 연결 됨으로서 기업의 전체적인 조직의 효율성(조직역량)을 판단함.
+                        <span class="big_span">매출 영업이익률 _</span><span class="small_span">
+                            기업의 영업이익율은 상품역량을 측정하는 기본지표로서 경쟁상품이
+                            많을수록 상품역량이 떨어지므로 매출 영업이익감소로 연동되어 상품역량을 측정하는 기본지표로 판단함.
                         </span>
                     </div>
                     <div class="index_left">
                         <div class="index_left_title">
                             <span>측정지표</span>
                         </div>
-                        <div class="index_left_mid">
+                        <div class="index_left_mid multi" style="padding-top: 14px">
                             <span>
-                                부가가치<br> 노동생산성 = <br>(@Model.Productivity.Result)
+                                매출영업<br> 이익률 = <br>(@Model.Profitability.Result)
                             </span>
                         </div>
-                        <div class="index_right_mid">
+                        <div class="index_right_mid multi">
                             <span class="right_mid_top">
-                                매출액-<br>재료비<br>(@Model.Productivity.Dividend
-                                )
+                                영업이익<br>(@Model.Profitability.Dividend)
                             </span> <span class="right_mid_bot">
-                                종업원수<br>(@Model.Productivity.Divisor )
+                                매출<br>(@Model.Profitability.Divisor)
                             </span>
                         </div>
+                        <div class="index_right_multi">X 100</div>
                     </div>
-                    <div id="Productivity" class="index_chart">
+                    <div id="Profitability" class="index_chart h_109">
                         <!-- 차트가 표시되는 부분 -->
                     </div>
                 </div>
@@ -257,33 +257,33 @@
             <div class="main_mid_cont">
                 <div class="main_mid_listBox nomargin2">
                     <div class="listBox_tap bg_on full_line">
-                        <span>활동성</span>
+                        <span>성장성</span>
                     </div>
                     <div class="listBox_title top_padding">
-                        <span class="big_span">총자산회전율 _</span><span class="small_span">
-                            기업의
-                            “사람”과 연결된 생산요소(자산)의 활동성을 측정 함으로서 전체적인 조직의 역량을<br>측정,판단함.
+                        <span class="big_span">매출 증가율 _</span><span class="small_span">
+                            기업매출의
+                            증가율은 시장점유율의 확대 및 성장을 의미 함으로서 경쟁상품에 대한 자사기업의 상품역량을 판단함.
                         </span>
                     </div>
                     <div class="index_left">
                         <div class="index_left_title">
                             <span>측정지표</span>
                         </div>
-                        <div class="index_left_mid multi" style="padding-top: 14px">
+                        <div class="index_left_mid multi" style="padding-top: 27px">
                             <span>
-                                <br>총자산<br> 회전율 = <br>(@Model.Activity.Result )
+                                매출<br> 증가율 = <br>(@Model.Growth.Result)
                             </span>
                         </div>
                         <div class="index_right_mid multi">
                             <span class="right_mid_top">
-                                <br> 매출액<br>(@Model.Activity.Dividend)
+                                (당기-전기)<br>매출액<br>(@Model.Growth.Dividend)
                             </span> <span class="right_mid_bot">
-                                총자산<br>(@Model.Activity.Divisor)
+                                전기<br>매출액<br>(@Model.Growth.Divisor)
                             </span>
                         </div>
-                        <div class="index_right_multi"><br>X 100</div>
+                        <div class="index_right_multi2">X 100</div>
                     </div>
-                    <div id="Activity" class="index_chart">
+                    <div id="Growth" class="index_chart h_136">
                         <!-- 차트가 표시되는 부분 -->
                     </div>
                 </div>
@@ -305,7 +305,7 @@
     <div id="btnwrap_sub" class="bottom_left2">
 
         <div class="rightwrap left">
-            <a href="@Url.Action("OrgHR02", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
+            <a href="@Url.Action("ProductivityMgmtCustomer", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
 
         </div>
         <div class="rightwrap right">
@@ -315,7 +315,7 @@
             }
             else
             {
-                <a href="@Url.Action("OrgDivided", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="next right" value="다음"><em>다음</em></a>
+                <a href="@Url.Action("ProductivityTargetCustomer", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="next right" value="다음"><em>다음</em></a>
             }
         </div>
         @if (ViewBag.paramModel.Status != "C")
@@ -324,7 +324,6 @@
                 <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
             </div>
         }
-
     </div>
 }
 </div>

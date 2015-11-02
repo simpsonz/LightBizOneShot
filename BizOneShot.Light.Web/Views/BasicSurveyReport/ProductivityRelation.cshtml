@@ -57,6 +57,11 @@
 
         });
 
+        if ($('#Status').val() == "C") {
+            $('#mainForm input').attr('disabled', true);
+            $('#mainForm textarea').attr('disabled', true);
+        }
+
     });
 
     function goSubmit(submitType) {

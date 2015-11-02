@@ -208,9 +208,9 @@ namespace BizOneShot.Light.Web.ComLib
             var TotalEmp = quesResult2sEmpRate.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1B10202");
             //연구개발인력
             var RndEmp = quesResult2sEmpRate.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1B10201");
-            if (int.Parse(RndEmp.D) != 0)
+            if (int.Parse(TotalEmp.D) != 0)
             {
-                double avg = (int.Parse(TotalEmp.D) / int.Parse(RndEmp.D)) * 100;
+                double avg = (int.Parse(RndEmp.D) / int.Parse(TotalEmp.D)) * 100;
                 totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeE(avg), 1);
             }
 

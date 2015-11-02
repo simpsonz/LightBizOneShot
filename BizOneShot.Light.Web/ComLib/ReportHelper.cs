@@ -876,6 +876,18 @@ namespace BizOneShot.Light.Web.ComLib
             return code;
         }
 
+        public static string GetArrowTypeE(int type)
+        {
+            string code = "";
+            if (type == 1)
+                code = "C";
+            else if (type == 2)
+                code = "B";
+            else
+                code = "A";
+            return code;
+        }
+
         public static double CalcFinancialPoint(SHUSER_SboFinancialIndexT sboFinancialIndexT)
         {
             //매출영업이익률(영업이익 ÷ 매출액)×100
