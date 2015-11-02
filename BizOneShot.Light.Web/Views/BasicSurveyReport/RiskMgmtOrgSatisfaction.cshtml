@@ -1,4 +1,4 @@
-﻿@model BizOneShot.Light.Models.ViewModels.RiskMgmtViewModel
+﻿@model BizOneShot.Light.Models.ViewModels.RiskMgmtOrgSatisfactionViewModel
 
 @{
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -11,25 +11,6 @@
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
 
-        $('#mainForm').bind('submit', function () {
-
-            var valid = true;
-            if ($('#submitType').val() == "N") {
-            
-                $('textarea[id^="comment"]').each(function () {
-                    if ($(this).val().length == 0 && valid == true) {
-                        alert("필수항목을 입력해 주세요");
-                        $(this).focus();
-                        valid = false;
-
-                        return false;
-                    }
-                });
-                return valid;
-            }
-
-        });
-
         if ($('#Status').val() == "C") {
             $('#mainForm input').attr('disabled', true);
             $('#mainForm textarea').attr('disabled', true);
@@ -41,7 +22,6 @@
         $('#mainForm').submit();
     }
 </script>
-
 
 <div id="sub_rightwrap_report">
 
@@ -71,7 +51,7 @@
             </li>
         </ul>
     </div>
-@using (Html.BeginForm("RiskMgmtRelCEO", "BasicSurveyReport", FormMethod.Post, new { area = "", @class = "form-horizontal", role = "form", id = "mainForm" }))
+@using (Html.BeginForm("RiskMgmtOrgSatisfaction", "BasicSurveyReport", FormMethod.Post, new { area = "", @class = "form-horizontal", role = "form", id = "mainForm" }))
 {
     @Html.HiddenFor(model => model.SubmitType, new { @id = "submitType" })
     @Html.Hidden("BizWorkSn", ViewBag.paramModel.BizWorkSn as string)
@@ -79,7 +59,6 @@
     @Html.Hidden("BizWorkYear", ViewBag.paramModel.BizWorkYear as string)
     @Html.Hidden("QuestionSn", ViewBag.paramModel.QuestionSn as string)
     @Html.Hidden("Status", ViewBag.paramModel.Status as string)
-
     <div class="sub_report_checkbox">
         <div class="report_main_top2"></div>
         <div class="report_main_mid">
@@ -115,49 +94,45 @@
                                 <div class="label_td">기초역량</div> <span class="label_span"></span>
                             </td>
                         </tr>
+
+
                     </table>
                 </div>
-            </div>
 
+            </div>
             <div class="main_mid_cont">
                 <p class="full_p">
-                    <span class="big_span" style="margin: 0">
-                        [CEO 역량] 경영자의
-                        신뢰성 _
-                    </span><span class="small_span" style="margin: 0">
-                        최고경영자(기업)의
-                        대내외적인 신뢰성 정도
-                    </span>
+                    <span class="big_span" style="margin: 0">[조직역량] 조직만족도 _</span><span class="small_span" style="margin: 0">종업원이 조직에 만족하는 정도</span>
                 </p>
                 <div class="explainBox">
                     <div class="label_ex">
                         <p class="ex_p bot_padding">
-                            경영자의 자질 중 또 하나의 중요한 지표는 신뢰성입니다. 경영자의 신뢰성은 경영자가 사회적 책임을 다하고
-                            있는지의 측면에서 평가할 수 있습니다.<br> 경영자 또는 기업의 사회적 책임은 기업의 유지 및
-                            발전에 대한 책임과 더불어 기업 이해관계자에 대한 책임도 있습니다.<br> 기업의 중요한
-                            이해관계자로는 내부의 종업원, 외부의 공급자와 수요자, 그리고 지역사회 및 정부 등이 있습니다. <br>
-                            수요자에 대한 경영자의 책임 영역은 '고객관리'항목에서 별도로 평가될 것이므로 여기에서는 수요자를 제외한
-                            나머지 이해관계자에 대한 신뢰성 측면을 위주로 평가합니다.
+                            조직은 목표를 달성하기 위한 집합체입니다. 조직관리는 조직의 목표를 달성하고자 구성원 집단을 대상으로 명령과
+                            의사결정을 하는 과정입니다.<br> 조직관리 과정에서 조직구성원의 욕구만족에 필요한 가치의 생산과
+                            배분을 기초로 목표의 복잡성, 한계, 표준을 고려하여야 합니다.<br> 종업원의 조직에 대한 만족도
+                            즉, 조직 만족도는 조직문화 형성과 조직의 경쟁력 결정에 중요한 요인이 됩니다.<br> 조직 만족도는
+                            조직관여 또는 몰입으로 나타납니다. 이를 역으로 표현하면 조직만족도가 높을수록 이직률이 낮음을 의미합니다. <br>
+                            조직만족도를 정성적으로 평가할 수도 있지만 여기에서는 이직률이라는 정량 단위로 평가합니다.<br>
+                            이직율이 높은 회사는 중장기적으로 회사의 위험관리역량을 현저히 떨어뜨릴 수 있기 때문에 적극적으로 관리해야만
+                            하는 지표로 겁토대상이 되었습니다.
                         </p>
                     </div>
                 </div>
             </div>
-
             <div class="main_mid_cont">
                 <div class="main_mid_listBox nomargin2">
                     <table class="capacity_table">
                         <colgroup>
-                            <col width="5%">
-                            <col width="24.5%">
-                            <col width="10%">
                             <col width="12%">
-                            <col width="12%">
-                            <col width="12%">
-                            <col width="12%">
+                            <col width="13%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="15%">
                         </colgroup>
                         <tr>
-                            <td class="left_memo ">NO</td>
-                            <td class="left_memo">체크리스트 항목</td>
+                            <td class="left_memo ">구분</td>
                             <td class="left_memo">해당기업</td>
                             <td class="left_memo">
                                 창업보육<br>단계 평균
@@ -171,37 +146,22 @@
                             <td class="left_memo">
                                 참여<br>기업평균
                             </td>
-                            <td class="left_memo">전체평균</td>
+                            <td class="left_memo">
+                                전체<br>평균
+                            </td>
                         </tr>
-                        @if (Model == null || Model.CheckList.Count == 0)
-                        {
-                            <tr>
-                                <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
-                            </tr>
-                        }
-                        else
-                        {
-                            foreach (var item in Model.CheckList)
-                            {
-                                <tr>
-                                    <td class="center_td center">@item.Count</td>
-                                    <td class="center_td center">@item.Title</td>
-                                    @if (item.AnsVal == true)
-                                    {
-                                        <td class="center_td center">∎</td>
-                                    }
-                                    else
-                                    { 
-                                        <td class="center_td center">□</td>
-                                    }
-                                    <td class="center_td center">@item.StartUpAvg %</td>
-                                    <td class="center_td center">@item.GrowthAvg %</td>
-                                    <td class="center_td center">@item.IndependentAvg %</td>
-                                    <td class="center_td center">@item.BizInCompanyAvg %</td>
-                                    <td class="center_td center">@item.TotalAvg %</td>
-                                </tr>
-                            }
-                        }
+                        <tr>
+                            <td class="center_td center">
+                                조직만족도<br>(이직률)
+                            </td>
+                            <td class="center_td center">@Model.orgSatisfaction.Company (%)</td>
+                            <td class="center_td center">@Model.orgSatisfaction.StartUpAvg (%)</td>
+                            <td class="center_td center">@Model.orgSatisfaction.GrowthAvg (%)</td> 
+                            <td class="center_td center">@Model.orgSatisfaction.IndependentAvg (%)</td>
+                            <td class="center_td center">@Model.orgSatisfaction.BizInCompanyAvg (%)</td>
+                            <td class="center_td center">@Model.orgSatisfaction.TotalAvg (%)</td>
+                        </tr>
+
                     </table>
                 </div>
 
@@ -211,7 +171,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    @Html.TextAreaFor(model => model.CommentList[0].Comment, new { @id = "comment0", @class = "bot_textarea", @placeholder = "500자 내로 작성하시기 바랍니다." })
+                    @Html.TextAreaFor(model => model.CommentList[0].Comment, new { @class = "bot_textarea", @placeholder = "500자 내로 작성하시기 바랍니다." })
                     @Html.HiddenFor(model => model.CommentList[0].DetailCd)
                 </div>
 
@@ -222,7 +182,7 @@
     <div id="btnwrap_sub" class="bottom_left2">
 
         <div class="rightwrap left">
-            <a href="@Url.Action("RiskMgmtLeadership", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
+            <a href="@Url.Action("RiskMgmtWorkingEnv", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
 
         </div>
         <div class="rightwrap right">
@@ -232,7 +192,7 @@
             }
             else
             {
-                <a href="@Url.Action("RiskMgmtWorkingEnv", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="next right" value="다음"><em>다음</em></a>
+                <a href="@Url.Action("RiskMgmtITSystem", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="next right" value="다음"><em>다음</em></a>
             }
         </div>
         @if (ViewBag.paramModel.Status != "C")
@@ -241,7 +201,6 @@
                 <button type="button" class="write_save" onclick="goSubmit('T');" value="임시저장" />
             </div>
         }
-
     </div>
 }
 </div>

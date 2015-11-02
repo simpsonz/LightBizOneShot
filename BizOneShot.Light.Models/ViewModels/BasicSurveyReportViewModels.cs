@@ -41,6 +41,42 @@ namespace BizOneShot.Light.Models.ViewModels
         
     }
 
+    public class RndCostViewModel
+    {
+        public string SubmitType { get; set; }
+        public CheckListViewModel value { get; set; }
+        public CheckListViewModel percent { get; set; }
+        public IList<CommentViewModel> CommentList { get; set; }
+        public IList<CheckListViewModel> CheckList { get; set; }
+    }
+
+    public class ProductivityResultViewModel
+    {
+        public string SubmitType { get; set; }
+        public CheckListViewModel BizResultCnt { get; set; }
+        public CheckListViewModel BizResultPoint { get; set; }
+        public IList<CommentViewModel> CommentList { get; set; }
+        public IList<CheckListViewModel> CheckList { get; set; }
+    }
+
+
+    public class RndEmpViewModel
+    {
+        public string SubmitType { get; set; }
+        public CheckListViewModel rndEmpRatio { get; set; }
+        public CheckListViewModel rndEmpLevelRatio { get; set; }
+        public IList<CommentViewModel> CommentList { get; set; }
+        public IList<CheckListViewModel> CheckList { get; set; }
+    }
+
+    public class RiskMgmtOrgSatisfactionViewModel
+    {
+        public string SubmitType { get; set; }
+        public CheckListViewModel orgSatisfaction { get; set; }
+        public IList<CommentViewModel> CommentList { get; set; }
+        public IList<CheckListViewModel> CheckList { get; set; }
+    }
+
     public class OverallSummaryPointViewModel
     {
         public double CompanyPoint { get; set; } //해당기업
@@ -81,6 +117,24 @@ namespace BizOneShot.Light.Models.ViewModels
         public IList<CheckListViewModel> CheckList { get; set; }
     }
 
+    public class ProductivityProfitabilityViewModel
+    {
+        public string SubmitType { get; set; }
+        public BarChartViewModel Profitability { get; set; } //수익성
+        public BarChartViewModel Growth { get; set; } //성장성
+        public IList<CommentViewModel> CommentList { get; set; }
+        public IList<CheckListViewModel> CheckList { get; set; }
+    }
+
+    public class RiskMgmtLiquidityViewModel
+    {
+        public string SubmitType { get; set; }
+        public BarChartViewModel Liquidity { get; set; } //유동성
+        public BarChartViewModel Stability { get; set; } //안정성
+        public IList<CommentViewModel> CommentList { get; set; }
+        public IList<CheckListViewModel> CheckList { get; set; }
+    }
+
     public class BarChartViewModel
     {
         public double Result { get; set; } //결과
@@ -99,11 +153,13 @@ namespace BizOneShot.Light.Models.ViewModels
         public string DetailCd { get; set; }
         public string Title { get; set; } //항목
         public bool AnsVal { get; set; } //해당기업 문진표
+        public string Company { get; set; } //해당기업 
         public string StartUpAvg { get; set; } //창업보육단계평균
         public string GrowthAvg { get; set; } // 보육성장단계 평균
         public string IndependentAvg { get; set; } //자립성장단계 평균
         public string BizInCompanyAvg { get; set; } // 참여기업 평균
         public string TotalAvg { get; set; } //전체평균
+        public string SMCompanyAvg { get; set; } //중소기업 평균
     }
 
 

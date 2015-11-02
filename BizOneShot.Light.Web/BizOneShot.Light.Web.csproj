@@ -1527,6 +1527,12 @@
     <Content Include="Views\BasicSurveyReport\ProductivityRelation.cshtml" />
     <Content Include="Views\BasicSurveyReport\ProductivityRelation2.cshtml" />
     <Content Include="Views\BasicSurveyReport\OrgDivided.cshtml" />
+    <Content Include="Views\BasicSurveyReport\RndCost.cshtml" />
+    <Content Include="Views\BasicSurveyReport\RndEmp.cshtml" />
+    <Content Include="Views\BasicSurveyReport\ProductivityResult.cshtml" />
+    <Content Include="Views\BasicSurveyReport\ProductivityProfitability.cshtml" />
+    <Content Include="Views\BasicSurveyReport\RiskMgmtOrgSatisfaction.cshtml" />
+    <Content Include="Views\BasicSurveyReport\RiskMgmtLiquidity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

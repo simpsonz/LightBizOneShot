@@ -9,6 +9,8 @@
         $('#naviwrap_biz > .navi_biz >  a.navi_report').addClass('on');
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
+
+        $('#mainForm input').attr('disabled', true);
     });
 
 </script>
@@ -41,7 +43,8 @@
             </li>
         </ul>
     </div>
-
+@using (Html.BeginForm("CompanyInfo", "BasicSurveyReport", FormMethod.Post, new { area = "", @class = "form-horizontal", role = "form", id = "mainForm" }))
+{
     <div class="sub_report_checkbox">
         <div class="report_main_top2">
             <div class="title_medium center">기업 개요</div>
@@ -159,7 +162,7 @@
                     <tr>
                         <td class="left_memo">입주유무</td>
                         <td colspan="2">
-                            @Html.RadioButtonFor(model => model.ResidentType, "R", new { @checked = "checked" , @readonly = "readonly" })예비입주 @Html.RadioButtonFor(model => model.ResidentType, "U", new { @readonly = "readonly" })입주기업
+                            @Html.RadioButtonFor(model => model.ResidentType, "R", new { @checked = "checked", @readonly = "readonly" })예비입주 @Html.RadioButtonFor(model => model.ResidentType, "U", new { @readonly = "readonly" })입주기업
                             @Html.RadioButtonFor(model => model.ResidentType, "C", new { @readonly = "readonly" })졸업기업
                         </td>
                     </tr>
@@ -177,14 +180,14 @@
     </div>
     <div id="btnwrap_sub" class="bottom_left2">
         <div class="rightwrap left">
-            <a href="@Url.Action("Cover", "BasicSurveyReport", new { area = "" , BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn})" class="pre left" value="이전"><em>이전</em></a>
+            <a href="@Url.Action("Cover", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="pre left" value="이전"><em>이전</em></a>
 
         </div>
         <div class="rightwrap right">
-            <a href="@Url.Action("OverallSummaryCover", "BasicSurveyReport", new { area = "" , BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn})" class="next right" value="다음"><em>다음</em></a>
+            <a href="@Url.Action("OverallSummaryCover", "BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="next right" value="다음"><em>다음</em></a>
             <!--STEP06 에서 다음 숨김-->
         </div>
 
     </div>
-
+}
 </div>

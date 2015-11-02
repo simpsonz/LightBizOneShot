@@ -10,6 +10,11 @@
         $('#naviwrap_biz > .navi_biz >  a.navi_report').addClass('on');
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
+
+        if ($('#Status').val() == "C") {
+            $('#mainForm input').attr('disabled', true);
+            $('#mainForm textarea').attr('disabled', true);
+        }
     });
 
     function goSubmit(submitType) {
