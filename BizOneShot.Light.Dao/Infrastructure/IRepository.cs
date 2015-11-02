@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using PagedList;
 
 namespace BizOneShot.Light.Dao.Infrastructure
 {
@@ -31,7 +32,7 @@ namespace BizOneShot.Light.Dao.Infrastructure
         // Gets entities using delegate
         IEnumerable<T> GetMany(Expression<Func<T, bool>> where);
         Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where);
-        //Task<IEnumerable<T>> GetManyIncludeAsync(Expression<Func<T, bool>> where, string include);
+
 
     }
 }

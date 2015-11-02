@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Models.WebModels;
+using PagedList;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -16,7 +17,7 @@ namespace BizOneShot.Light.Dao.Repositories
         Task<IList<ScMentoringTotalReport>> GetMentoringTotalReport(Expression<Func<ScMentoringTotalReport, bool>> where);
         Task<ScMentoringTotalReport> Insert(ScMentoringTotalReport scMentoringTotalReport);
 
-        PagedList<ScMentoringTotalReport> GetMentoringTotalReport(int page, int pageSize, int mngComSn, string excutorId, int bizWorkYear, int bizWorkSn, int compSn);
+        IPagedList<ScMentoringTotalReport> GetMentoringTotalReport(int page, int pageSize, int mngComSn, string excutorId, int bizWorkYear, int bizWorkSn, int compSn);
 
         //PagedList<ScMentoringTotalReport> GetMentoringTotalReport(Expression<Func<ScMentoringTotalReport, bool>> where, int page, int pageSize);
 
@@ -63,11 +64,11 @@ namespace BizOneShot.Light.Dao.Repositories
         //        .Where(where).ToPagedList(page, pageSize);
         //}
 
-        public PagedList<ScMentoringTotalReport> GetMentoringTotalReport(int page, int pageSize, int mngComSn, string excutorId, int bizWorkYear, int bizWorkSn, int compSn)
+        public IPagedList<ScMentoringTotalReport> GetMentoringTotalReport(int page, int pageSize, int mngComSn, string excutorId, int bizWorkYear, int bizWorkSn, int compSn)
         {
             if (string.IsNullOrEmpty(excutorId))
             {
-                return  DbContext.ScMentoringTotalReports
+                return DbContext.ScMentoringTotalReports
                     .Include(mtr => mtr.ScBizWork)
                     .Include(mtr => mtr.ScCompInfo)
                     .Include(mtr => mtr.ScUsr)
@@ -81,7 +82,7 @@ namespace BizOneShot.Light.Dao.Repositories
             }
             else
             {
-                return  DbContext.ScMentoringTotalReports
+                return DbContext.ScMentoringTotalReports
                     .Include(mtr => mtr.ScBizWork)
                     .Include(mtr => mtr.ScCompInfo)
                     .Include(mtr => mtr.ScUsr)

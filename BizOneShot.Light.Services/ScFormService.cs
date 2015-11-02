@@ -8,13 +8,14 @@ using BizOneShot.Light.Dao.Repositories;
 
 using System.Linq.Expressions;
 using System;
+using PagedList;
 
 
 namespace BizOneShot.Light.Services
 {
     public interface IScFormService : IBaseService
     {
-        Task<IList<ScForm>> GetManualsAsync(string searchType = null, string keyword = null);
+        Task<IPagedList<ScForm>> GetManualsAsync(int page, int pageSize, string searchType = null, string keyword = null);
 
         Task<IDictionary<string, ScForm>> GetManualDetailByIdAsync(int formSn);
 
@@ -35,37 +36,27 @@ namespace BizOneShot.Light.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<IList<ScForm>> GetManualsAsync(string searchType = null, string keyword = null)
+
+        public async Task<IPagedList<ScForm>> GetManualsAsync(int page, int pageSize, string searchType = null, string keyword = null)
         {
-            IEnumerable<ScForm> listScFormTask = null;
             if (string.IsNullOrEmpty(searchType) || string.IsNullOrEmpty(keyword))
             {
-                listScFormTask = await scFormRepository.GetManyAsync(manual => manual.Status == "N");
-                return listScFormTask.OrderByDescending(manual => manual.FormSn)
-                    .ToList();
+                return await scFormRepository.GetPagedListAsync(manual => manual.Status == "N", page, pageSize);
             }
             else if (searchType.Equals("0")) // 제목, 내용중 keyword가 포함된 Notice 검색 
             {
-                listScFormTask = await scFormRepository.GetManyAsync(manual => manual.Subject.Contains(keyword) || manual.Contents.Contains(keyword) && manual.Status == "N");
-                return listScFormTask.OrderByDescending(manual => manual.FormSn)
-                    .ToList();
+                return await scFormRepository.GetPagedListAsync(manual => manual.Subject.Contains(keyword) || manual.Contents.Contains(keyword) && manual.Status == "N", page, pageSize);
             }
             else if (searchType.Equals("1")) // 제목중에 keyword가 포함된 Notice 검색 
             {
-                listScFormTask = await scFormRepository.GetManyAsync(manual => manual.Subject.Contains(keyword) && manual.Status == "N");
-                return listScFormTask.OrderByDescending(manual => manual.FormSn)
-                    .ToList();
+                return await scFormRepository.GetPagedListAsync(manual => manual.Subject.Contains(keyword) && manual.Status == "N", page, pageSize);
             }
             else if (searchType.Equals("2")) // 내용중에 keyword가 포함된 Notice 검색 
             {
-                listScFormTask = await scFormRepository.GetManyAsync(manual => manual.Contents.Contains(keyword) && manual.Status == "N");
-                return listScFormTask.OrderByDescending(manual => manual.FormSn)
-                    .ToList();
+                return await scFormRepository.GetPagedListAsync(manual => manual.Contents.Contains(keyword) && manual.Status == "N", page, pageSize);
             }
 
-            listScFormTask = await scFormRepository.GetManyAsync(manual => manual.Status == "N");
-            return listScFormTask.OrderByDescending(manual => manual.FormSn)
-                .ToList();
+            return await scFormRepository.GetPagedListAsync(manual => manual.Status == "N", page, pageSize);
         }
 
         public async Task<IDictionary<string, ScForm>> GetManualDetailByIdAsync(int formSn)

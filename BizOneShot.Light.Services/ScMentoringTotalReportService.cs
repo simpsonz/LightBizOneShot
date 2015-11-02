@@ -10,6 +10,7 @@ using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Models.ViewModels;
+using PagedList;
 
 namespace BizOneShot.Light.Services
 {
@@ -28,7 +29,7 @@ namespace BizOneShot.Light.Services
         Task<int> AddScMentoringTotalReportAsync(ScMentoringTotalReport scMentoringTotalReport);
 
 
-        PagedList<ScMentoringTotalReport> GetMentoringTotalReportAsync(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0);
+        IPagedList<ScMentoringTotalReport> GetMentoringTotalReportAsync(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0);
     }
 
 
@@ -111,7 +112,7 @@ namespace BizOneShot.Light.Services
 
 
 
-        public PagedList<ScMentoringTotalReport> GetMentoringTotalReportAsync(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0)
+        public IPagedList<ScMentoringTotalReport> GetMentoringTotalReportAsync(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0)
         {
             return scMentoringTotalReportRepository.GetMentoringTotalReport(page, pageSize, mngComSn, excutorId, bizWorkYear, bizWorkSn, compSn);
         }

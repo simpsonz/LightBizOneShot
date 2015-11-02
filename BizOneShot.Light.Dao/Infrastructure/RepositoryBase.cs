@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.WebConfiguration;
 using BizOneShot.Light.Dao.DareConfiguration;
+using PagedList;
 
 namespace BizOneShot.Light.Dao.Infrastructure
 {
@@ -111,14 +112,10 @@ namespace BizOneShot.Light.Dao.Infrastructure
             return await dbSet.Where(where).ToListAsync();
         }
 
-        //public virtual async Task<IEnumerable<T>> GetManyIncludeAsync(Expression<Func<T, bool>> where, string include)
-        //{
-        //    return await dbSet.Include(include).Where(where).ToListAsync();
-        //}
+       
 
-
-        #endregion
-    }
+    #endregion
+}
 
     public abstract class DareRepositoryBase<T> where T : class
     {
@@ -217,7 +214,7 @@ namespace BizOneShot.Light.Dao.Infrastructure
             return await dbSet.Where(where).ToListAsync();
         }
 
-       
+     
 
         #endregion
     }

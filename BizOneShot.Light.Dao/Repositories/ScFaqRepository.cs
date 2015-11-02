@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Dao.Infrastructure;
+using PagedList;
+using PagedList.EntityFramework;
 
 
 
@@ -17,6 +19,7 @@ namespace BizOneShot.Light.Dao.Repositories
     public interface IScFaqRepository : IRepository<ScFaq>
     {
         Task<ScFaq> Insert(ScFaq scFaq);
+        Task<IPagedList<ScFaq>> GetPagedListAsync(Expression<Func<ScFaq, bool>> where, int page, int pageSize);
     }
 
 
@@ -31,6 +34,14 @@ namespace BizOneShot.Light.Dao.Repositories
             return await this.DbContext.ScFaqs.Include("ScQcl").Where(where).ToListAsync();
 
         }
+
+
+        public async Task<IPagedList<ScFaq>> GetPagedListAsync(Expression<Func<ScFaq, bool>> where, int page, int pageSize)
+        {
+            return await this.DbContext.ScFaqs.Include("ScQcl").Where(where).OrderByDescending(sf => sf.FaqSn).ToPagedListAsync(page, pageSize); ;
+
+        }
+
 
         public async Task<ScFaq> Insert(ScFaq scFaq)
         {

@@ -104,7 +104,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
                Mapper.Map<List<MentoringTotalReportViewModel>>(pagedListMentoringTotalReport.ToList());
 
 
-            return View(new StaticPagedList<MentoringTotalReportViewModel>(listTotalReportView, int.Parse(curPage ?? "1"), pagingSize, pagedListMentoringTotalReport.TotalCount));
+            return View(new StaticPagedList<MentoringTotalReportViewModel>(listTotalReportView, int.Parse(curPage ?? "1"), pagingSize, pagedListMentoringTotalReport.TotalItemCount));
         }
 
         public async Task<ActionResult> MentoringTotalReportListByMentor(SelectedMentorTotalReportParmModel param, string curPage)
