@@ -34,6 +34,22 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             return View();
         }
 
+        ////PagedList 처리 양이 많지 않아 필요없을것으로 판단됨
+        //public async Task<ActionResult> BizWorkList()
+        //{
+        //    ViewBag.LeftMenu = Global.BizWorkMng;
+
+        //    int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+        //    var pagedListScBizWork = await _scBizWorkService.GetPagedListBizWorkList(1, pagingSize, int.Parse(Session[Global.CompSN].ToString()));
+
+        //    var bizWorkViews =
+        //        Mapper.Map<List<BizWorkViewModel>>(pagedListScBizWork);
+
+
+        //    return View(new StaticPagedList<BizWorkViewModel>(bizWorkViews, 1, pagingSize, pagedListScBizWork.TotalItemCount));
+        //}
+
 
         public async Task<ActionResult> BizWorkList()
         {

@@ -18,6 +18,7 @@ namespace BizOneShot.Light.Services
         //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
         //Task<IList<ScBizWork>> GetBizWorkList(int comSn, string excutorId = null);
         Task<IList<ScBizWork>> GetBizWorkList(int mngComSn, string excutorId = null, int bizWorkYear = 0);
+        Task<IPagedList<ScBizWork>> GetPagedListBizWorkList(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0);
         Task<IList<ScBizWork>> GetEndBizWorkList(DateTime endDateTiem);
         Task<IList<ScBizWork>> GetBizWorkListByBizWorkNm(int comSn, string query);
         Task<ScBizWork> GetBizWorkByBizWorkSn(int bizWorkSn);
@@ -41,19 +42,6 @@ namespace BizOneShot.Light.Services
             this.unitOfWork = unitOfWork;
         }
 
-        //public async Task<IList<ScBizWork>> GetBizWorkList(int mngComSn, string excutorId = null)
-        //{
-        //    if(string.IsNullOrEmpty(excutorId))
-        //    { 
-        //        var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.Status =="N");
-        //        return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
-        //    }
-        //    else
-        //    {
-        //        var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.Status == "N" && bw.ExecutorId == excutorId);
-        //        return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
-        //    }
-        //}
 
         public async Task<IList<ScBizWork>> GetBizWorkList(int mngComSn, string excutorId = null, int bizWorkYear = 0)
         {
@@ -73,23 +61,10 @@ namespace BizOneShot.Light.Services
             }
         }
 
-        //public async Task<IPagedList<ScBizWork>> GetPagedListBizWorkList(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0)
-        //{
-        //    if (string.IsNullOrEmpty(excutorId))
-        //    {
-        //        retrun await scBizWorkRespository.GetPagedListBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.Status == "N", page, pageSize);
-        //        scBizWorks.Where(bw => bizWorkYear == 0 ? bw.BizWorkStDt.Value.Year > 0 : bw.BizWorkStDt.Value.Year <= bizWorkYear && bw.BizWorkEdDt.Value.Year >= bizWorkYear);
-
-        //        return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
-        //    }
-        //    else
-        //    {
-        //        var scBizWorks = await scBizWorkRespository.GetPagedListBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.Status == "N" && bw.ExecutorId == excutorId,  page, pageSize);
-        //        scBizWorks.Where(bw => bizWorkYear == 0 ? bw.BizWorkStDt.Value.Year > 0 : bw.BizWorkStDt.Value.Year <= bizWorkYear && bw.BizWorkEdDt.Value.Year >= bizWorkYear);
-
-        //        return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
-        //    }
-        //}
+        public async Task<IPagedList<ScBizWork>> GetPagedListBizWorkList(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0)
+        {
+            return await scBizWorkRespository.GetPagedListBizWorksAsync(page, pageSize, mngComSn, excutorId, bizWorkYear);
+        }
 
         public async Task<IList<ScBizWork>> GetEndBizWorkList(DateTime endDateTiem)
         {

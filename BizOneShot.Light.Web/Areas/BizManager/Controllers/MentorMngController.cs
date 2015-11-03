@@ -90,6 +90,8 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             ViewBag.SelectMentorPartList = mentorPartList;
 
+
+
             //전문가 리스트 조회
             var listMentor = await _scMentorMappingService.GetMentorListAsync(int.Parse(Session[Global.CompSN].ToString()), bizWorkSn);
 

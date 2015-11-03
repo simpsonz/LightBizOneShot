@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
 using BizOneShot.Light.Models.WebModels;
+using PagedList;
 
 namespace BizOneShot.Light.Services
 {
@@ -14,6 +15,7 @@ namespace BizOneShot.Light.Services
         Task<IList<ScCompMapping>> GetCompMappingListByMentorId(string mentorId = null, string status = null);
         Task<IList<ScCompMapping>> GetCompMappingListByMentorId(string mentorId, string status = "A", int bizWorkSn = 0, int bizWorkYear = 0);
         Task<IList<ScCompInfo>> GetBizWorkComList(int mngComSn, string excutorId = null, int bizWorkSn = 0, int bizWorkYear = 0);
+        Task<IPagedList<ScCompMapping>> GetPagedListCompMappingsAsync(int page, int pageSize, int compSn, int bizWorkSn = 0, string status = null, string compNm = null);
         Task<IList<ScCompMapping>> GetCompMappingsAsync(int compSn, int bizWorkSn = 0, string status = null, string compNm = null);
         Task<ScCompMapping> GetCompMappingAsync(int bizWorkSn, int compSn);
         Task<ScCompMapping> GetCompMappingAsync(int compSn, string status = null);
@@ -22,7 +24,6 @@ namespace BizOneShot.Light.Services
         Task<IList<ScCompMapping>> GetCompMappingAsync(int bizWorkSn);
         Task<IList<ScCompMapping>> GetCompMappingsForCompanyAsync(int compSn);
     }
-
 
     public class ScCompMappingService : IScCompMappingService
     {
@@ -76,6 +77,11 @@ namespace BizOneShot.Light.Services
 
                 return scCompMapping;
             }
+        }
+
+        public async Task<IPagedList<ScCompMapping>> GetPagedListCompMappingsAsync(int page, int pageSize, int compSn, int bizWorkSn = 0, string status = null, string compNm = null)
+        { 
+            return await scCompMappingRepository.GetPagedListCompMappingsAsync(page, pageSize, compSn, bizWorkSn, status, compNm);
         }
 
         public async Task<IList<ScCompMapping>> GetCompMappingsAsync(int compSn, int bizWorkSn = 0, string status = null, string compNm = null)

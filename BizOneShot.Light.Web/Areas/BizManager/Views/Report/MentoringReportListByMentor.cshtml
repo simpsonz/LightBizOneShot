@@ -15,6 +15,8 @@
 
         //드롭다운리스트 처리
         $('#BizWorkYear').change(function () {
+            $('#curPage').val(1);
+
             var bizWorkYear = $('#BizWorkYear').val();
 
             $('#BizWorkSn').attr("disabled", false);
@@ -36,6 +38,8 @@
         });
 
         $('#BizWorkSn').change(function () {
+            $('#curPage').val(1);
+
             var bizWorkYear = $('#BizWorkYear').val();
             var bizWorkSn= $('#BizWorkSn').val();
 
@@ -54,6 +58,10 @@
                 }
             });
 
+        });
+
+        $('#MentorId').change(function () {
+            $('#curPage').val(1);
         });
 
     });

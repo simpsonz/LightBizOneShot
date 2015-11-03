@@ -21,7 +21,6 @@ namespace BizOneShot.Light.Services
         IList<ScMentorMappiing> GetMentorMappingListByMentorIdSync(string mentorId = null, int bizWorkYear = 0);
     }
 
-
     public class ScMentorMappingService : IScMentorMappingService
     {
         private readonly IScMentorMappingRepository scMentorMappingRepository;

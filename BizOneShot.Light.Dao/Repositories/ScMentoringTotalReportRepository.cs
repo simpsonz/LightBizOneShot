@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Models.WebModels;
 using PagedList;
+using PagedList.EntityFramework;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -17,10 +18,7 @@ namespace BizOneShot.Light.Dao.Repositories
         Task<IList<ScMentoringTotalReport>> GetMentoringTotalReport(Expression<Func<ScMentoringTotalReport, bool>> where);
         Task<ScMentoringTotalReport> Insert(ScMentoringTotalReport scMentoringTotalReport);
 
-        IPagedList<ScMentoringTotalReport> GetMentoringTotalReport(int page, int pageSize, int mngComSn, string excutorId, int bizWorkYear, int bizWorkSn, int compSn);
-
-        //PagedList<ScMentoringTotalReport> GetMentoringTotalReport(Expression<Func<ScMentoringTotalReport, bool>> where, int page, int pageSize);
-
+        Task<IPagedList<ScMentoringTotalReport>> GetPagedListMentoringTotalReportAsync(int page, int pageSize, int mngComSn, string excutorId, int bizWorkYear, int bizWorkSn, int compSn, string mentorId);
     }
 
 
@@ -54,21 +52,12 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Where(where).ToListAsync();
         }
 
-        //public PagedList<ScMentoringTotalReport> GetMentoringTotalReport(Expression<Func<ScMentoringTotalReport, bool>> where, int page, int pageSize)
-        //{
-        //    return DbContext.ScMentoringTotalReports
-        //        .Include(mtr => mtr.ScBizWork)
-        //        .Include(mtr => mtr.ScCompInfo)
-        //        .Include(mtr => mtr.ScUsr)
-        //        .Include(mtr => mtr.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo))
-        //        .Where(where).ToPagedList(page, pageSize);
-        //}
 
-        public IPagedList<ScMentoringTotalReport> GetMentoringTotalReport(int page, int pageSize, int mngComSn, string excutorId, int bizWorkYear, int bizWorkSn, int compSn)
+        public async Task<IPagedList<ScMentoringTotalReport>> GetPagedListMentoringTotalReportAsync(int page, int pageSize, int mngComSn, string excutorId, int bizWorkYear, int bizWorkSn, int compSn, string mentorId)
         {
             if (string.IsNullOrEmpty(excutorId))
             {
-                return DbContext.ScMentoringTotalReports
+                return await DbContext.ScMentoringTotalReports
                     .Include(mtr => mtr.ScBizWork)
                     .Include(mtr => mtr.ScCompInfo)
                     .Include(mtr => mtr.ScUsr)
@@ -76,13 +65,14 @@ namespace BizOneShot.Light.Dao.Repositories
                     .Where(mtr => mtr.ScBizWork.MngCompSn == mngComSn && mtr.Status == "N")
                     .Where(mtr => bizWorkSn == 0 ? mtr.BizWorkSn > bizWorkSn : mtr.BizWorkSn == bizWorkSn)
                     .Where(mtr => compSn == 0 ? mtr.CompSn > compSn : mtr.CompSn == compSn)
+                    .Where(mtr => mentorId == null ? mtr.MentorId != null : mtr.MentorId == mentorId)
                     .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
                     .OrderByDescending(mtr => mtr.TotalReportSn)
-                    .ToPagedList(page, pageSize);
+                    .ToPagedListAsync(page, pageSize);
             }
             else
             {
-                return DbContext.ScMentoringTotalReports
+                return await DbContext.ScMentoringTotalReports
                     .Include(mtr => mtr.ScBizWork)
                     .Include(mtr => mtr.ScCompInfo)
                     .Include(mtr => mtr.ScUsr)
@@ -90,9 +80,10 @@ namespace BizOneShot.Light.Dao.Repositories
                     .Where(mtr => mtr.ScBizWork.MngCompSn == mngComSn && mtr.ScBizWork.ExecutorId == excutorId && mtr.Status == "N")
                     .Where(mtr => bizWorkSn == 0 ? mtr.BizWorkSn > bizWorkSn : mtr.BizWorkSn == bizWorkSn)
                     .Where(mtr => compSn == 0 ? mtr.CompSn > compSn : mtr.CompSn == compSn)
+                    .Where(mtr => mentorId == null ? mtr.MentorId != null : mtr.MentorId == mentorId)
                     .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
                     .OrderByDescending(mtr => mtr.TotalReportSn)
-                    .ToPagedList(page, pageSize);
+                    .ToPagedListAsync(page, pageSize);
             }
         }
 
