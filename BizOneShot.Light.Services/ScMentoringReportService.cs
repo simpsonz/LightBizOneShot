@@ -18,7 +18,7 @@ namespace BizOneShot.Light.Services
     {
         Task<IList<int>> GetMentoringReportMentoringDt(string mentorId);
         Task<ScMentoringReport> GetMentoringReportById(int reportSn);
-        Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReportAsync(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null);
+        Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReportByMngComp(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null);
         Task<IList<ScMentoringReport>> GetMentoringReportAsync(string mentorId, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0);
         Task<IList<ScMentoringReport>> GetMentoringReportAsync(int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0);
         Task<IList<ScMentoringReport>> GetMentoringReportAsync(int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, string mentorId = null);
@@ -58,7 +58,7 @@ namespace BizOneShot.Light.Services
             return await scMentoringReportRepository.GetMentoringReportById(reportSn);
         }
 
-        public async Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReportAsync(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null)
+        public async Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReportByMngComp(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null)
         {
             return await scMentoringReportRepository.GetPagedListMentoringReport(page, pageSize, mngComSn, excutorId, bizWorkYear, bizWorkSn, compSn, mentorId);
         }

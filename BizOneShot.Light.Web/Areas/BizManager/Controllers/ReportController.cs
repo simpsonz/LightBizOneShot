@@ -97,7 +97,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             //종합보고서 조회
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
-            var pagedListMentoringTotalReport = await _scMentoringTotalReportService.GetPagedListMentoringTotalReportAsync(int.Parse(curPage ?? "1"), pagingSize, mngCompSn, excutorId, param.BizWorkYear, param.BizWorkSn, param.CompSn, null);
+            var pagedListMentoringTotalReport = await _scMentoringTotalReportService.GetPagedListMentoringTotalReportByMngComp(int.Parse(curPage ?? "1"), pagingSize, mngCompSn, excutorId, param.BizWorkYear, param.BizWorkSn, param.CompSn, null);
 
             //맨토링 종합 레포트 정보 조회
             var listTotalReportView =
@@ -141,7 +141,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             //종합보고서 조회
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
-            var pagedListMentoringTotalReport = await _scMentoringTotalReportService.GetPagedListMentoringTotalReportAsync(int.Parse(curPage ?? "1"), pagingSize, mngCompSn, excutorId, param.BizWorkYear, param.BizWorkSn, 0, param.MentorId);
+            var pagedListMentoringTotalReport = await _scMentoringTotalReportService.GetPagedListMentoringTotalReportByMngComp(int.Parse(curPage ?? "1"), pagingSize, mngCompSn, excutorId, param.BizWorkYear, param.BizWorkSn, 0, param.MentorId);
 
             //맨토링 종합 레포트 정보 조회
             var listTotalReportView =
@@ -222,7 +222,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             //맨토링 일지 정보 조회
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            var pagedListscMentoringReport = await _scMentoringReportService.GetPagedListMentoringReportAsync(int.Parse(curPage ?? "1"), pagingSize, mngCompSn, excutorId, param.BizWorkYear, param.BizWorkSn, param.CompSn, null);
+            var pagedListscMentoringReport = await _scMentoringReportService.GetPagedListMentoringReportByMngComp(int.Parse(curPage ?? "1"), pagingSize, mngCompSn, excutorId, param.BizWorkYear, param.BizWorkSn, param.CompSn, null);
 
             //맨토링 일지 정보 to 뷰모델 매핑
             var listTotalReportView =
@@ -279,7 +279,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             //맨토링 일지 정보 조회
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
    
-            var pagedListscMentoringReport = await _scMentoringReportService.GetPagedListMentoringReportAsync(int.Parse(curPage ?? "1"), pagingSize, mngCompSn, excutorId, param.BizWorkYear, param.BizWorkSn,0, param.MentorId);
+            var pagedListscMentoringReport = await _scMentoringReportService.GetPagedListMentoringReportByMngComp(int.Parse(curPage ?? "1"), pagingSize, mngCompSn, excutorId, param.BizWorkYear, param.BizWorkSn,0, param.MentorId);
 
             //맨토링 일지 정보 to 뷰모델 매핑
             var listTotalReportView =

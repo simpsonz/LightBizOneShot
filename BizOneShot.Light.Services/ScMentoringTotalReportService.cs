@@ -29,7 +29,7 @@ namespace BizOneShot.Light.Services
         Task<int> AddScMentoringTotalReportAsync(ScMentoringTotalReport scMentoringTotalReport);
 
 
-        Task<IPagedList<ScMentoringTotalReport>> GetPagedListMentoringTotalReportAsync(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null);
+        Task<IPagedList<ScMentoringTotalReport>> GetPagedListMentoringTotalReportByMngComp(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null);
     }
 
     public class ScMentoringTotalReportService : IScMentoringTotalReportService
@@ -82,7 +82,7 @@ namespace BizOneShot.Light.Services
 
         }
 
-        public async Task<IPagedList<ScMentoringTotalReport>> GetPagedListMentoringTotalReportAsync(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null)
+        public async Task<IPagedList<ScMentoringTotalReport>> GetPagedListMentoringTotalReportByMngComp(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null)
         {
             return await scMentoringTotalReportRepository.GetPagedListMentoringTotalReportAsync(page, pageSize, mngComSn, excutorId, bizWorkYear, bizWorkSn, compSn, mentorId);
         }
