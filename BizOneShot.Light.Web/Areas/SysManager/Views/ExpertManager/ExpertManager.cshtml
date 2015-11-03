@@ -12,6 +12,14 @@
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_ExpertMng').addClass('on');
 
+        //드롭다운리스트 변경시 페이지값 초기화
+        $('#BizMngList').change(function () {
+            $('#curPage').val(1);
+        });
+        $('#ExpertPartList').change(function () {
+            $('#curPage').val(1);
+        });
+
         //체크박스 전체선택
         $("#checkAll").click(function () {
             $('input:checkbox').not(this).prop('checked', this.checked);

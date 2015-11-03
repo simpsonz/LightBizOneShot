@@ -12,11 +12,23 @@
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
 
         $('#BizWorkYear').change(function () {
+            $('#curPage').val(1);
+
             ChangeBizWorkYear();
         });
 
         $('#BizWorkSn').change(function () {
+            $('#curPage').val(1);
+
             ChangeBizWorkSn();
+        });
+
+        $('#CompSn').change(function () {
+            $('#curPage').val(1);
+        });
+
+        $('#Status').change(function () {
+            $('#curPage').val(1);
         });
 
         $('#searchForm').bind('submit', function () {
