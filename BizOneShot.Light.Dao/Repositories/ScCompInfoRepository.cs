@@ -7,6 +7,7 @@ using System.Data.Entity;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.WebConfiguration;
+using System.Linq.Expressions;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -14,6 +15,7 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         IList<ScCompInfo> GetScCompInfoByName(string compNm);
         ScCompInfo Insert(ScCompInfo compInfo);
+        Task<ScCompInfo> GetCompInfoAsync(Expression<Func<ScCompInfo, bool>> where);
     }
 
 
@@ -26,6 +28,11 @@ namespace BizOneShot.Light.Dao.Repositories
             var compInfos = this.DbContext.ScCompInfoes.Where(ci => ci.CompNm == compNm).ToList();
 
             return compInfos;
+        }
+
+        public async Task<ScCompInfo> GetCompInfoAsync(Expression<Func<ScCompInfo, bool>> where)
+        {
+            return await this.DbContext.ScCompInfoes.Where(where).SingleOrDefaultAsync();
         }
 
         public override void Update(ScCompInfo compInfo)

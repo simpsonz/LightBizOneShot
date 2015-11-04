@@ -1,7 +1,7 @@
 ﻿@Scripts.Render("~/bundles/common")
 <div id="headerwrap_biz">
     <div class="container">
-        <a href="@Url.Action("Index","Main",new { area= "BizManager" })"><img src="~/images/gangneung_logo_small04.png" class="float_left" /></a>
+        <a href="@Url.Action("Index","Main",new { area= "BizManager" })"><img src="~/images/gangneung_logo_small03.png" class="float_left" /></a>
         <a href="#" class="name">@if (Session[BizOneShot.Light.Web.ComLib.Global.UserNM] != null)
         { @Session[BizOneShot.Light.Web.ComLib.Global.UserNM].ToString() } 님</a><a href="#" class="down"></a>
         <div id="header_logoutwrap">
@@ -10,7 +10,7 @@
         </div><!--로그아웃 레이어 끝-->
         <div id="naviwrap_biz">
             <div class="navi_biz">
-                <a href="@Url.Action("BizInCompanyStats","Report",new { area= "BizManager" })" class="navi_business01"><em>보고서</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
+                <a href="@Url.Action("BizInCompanyStats","Report",new { area= "BizManager" })" class="navi_business01 navi_report"><em>보고서</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
                 <a href="@Url.Action("CompanyList","CompanyMng", new { area= "BizManager" })" class="navi_business02"><em>기업관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
                 <a href="@Url.Action("MentorList","MentorMng", new { area= "BizManager" })" class="navi_business03"><em>멘토관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
                 @if (Session[Global.UserDetailType].Equals(Global.Admin))

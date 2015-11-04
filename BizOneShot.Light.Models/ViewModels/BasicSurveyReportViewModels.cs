@@ -18,6 +18,8 @@ namespace BizOneShot.Light.Models.ViewModels
         public int QuestionSn { get; set; }
         public DateTime? QuestionCompleteDt { get; set; }
         public string BizWorkNm { get; set; }
+        public string RegistrationNo { get; set; }
+        public string OwnNm { get; set; }
         public string CompNm { get; set; }
         public string Status { get; set; } // STATUS
     }

@@ -24,6 +24,7 @@ namespace BizOneShot.Light.Web.Controllers
         private readonly IScCompMappingService scCompMappingService;
         private readonly IScBizWorkService scBizWorkService;
         private readonly IScMentorMappingService scMentorMappingService;
+        private readonly IScCompInfoService scCompInfoService;
         private readonly IRptMasterService rptMasterService;
         private readonly IRptMentorCommentService rptMentorCommentService;
         private readonly IRptCheckListService rptCheckListService;
@@ -44,7 +45,8 @@ namespace BizOneShot.Light.Web.Controllers
             IScBizWorkService scBizWorkService,
             IRptMngCodeService rptMngCodeService,
             IRptMngCommentService rptMngCommentService,
-            ISboFinancialIndexTService sboFinancialIndexTService)
+            ISboFinancialIndexTService sboFinancialIndexTService,
+            IScCompInfoService scCompInfoService)
         {
             this.scCompMappingService = scCompMappingService;
             this.quesCompInfoService = quesCompInfoService;
@@ -59,6 +61,7 @@ namespace BizOneShot.Light.Web.Controllers
             this.rptMngCodeService = rptMngCodeService;
             this.rptMngCommentService = rptMngCommentService;
             this.sboFinancialIndexTService = sboFinancialIndexTService;
+            this.scCompInfoService = scCompInfoService;
         }
 
         // GET: BasicSurveyReport
@@ -69,7 +72,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public async Task<ActionResult> Cover(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             if (paramModel.CompSn == 0 || paramModel.BizWorkSn == 0)
             {
@@ -87,7 +90,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public async Task<ActionResult> CompanyInfo(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             if(paramModel.Status == "T")
             {
@@ -109,7 +112,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public ActionResult OverallSummaryCover(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
 
             return View(paramModel);
@@ -120,7 +123,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public ActionResult BasicSurveyCompanyList(string curPage)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
             //사업년도 DownDown List Data
             ViewBag.SelectBizWorkYearList = ReportHelper.MakeYear(2015);
             
@@ -133,7 +136,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> BasicSurveyCompanyList(BasicSurveyReportViewModel paramModel, string curPage)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
             //사업년도 DownDown List Data
             ViewBag.SelectBizWorkYearList = ReportHelper.MakeYear(2015);
 
@@ -168,7 +171,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public async Task<ActionResult> OverallSummary(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             //double totalPoint = 0;
             OverallSummaryViewModel viewModel = new OverallSummaryViewModel();
@@ -369,7 +372,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> OverallSummary(OverallSummaryViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
             var comments = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "04");
 
             foreach(var item in viewModel.CommentList)
@@ -399,14 +402,14 @@ namespace BizOneShot.Light.Web.Controllers
 
         public ActionResult OverallResultCover(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
             return View(paramModel);
         }
 
 
         public async Task<ActionResult> OrgHR01(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
@@ -493,7 +496,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> OrgHR01(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "06");
 
@@ -524,7 +527,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public async Task<ActionResult> OrgHR02(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
@@ -612,7 +615,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> OrgHR02(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "07");
 
@@ -643,7 +646,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public async Task<ActionResult> OrgProductivity(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
@@ -729,7 +732,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> OrgProductivity(OrgProductivityViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "08");
 
@@ -760,7 +763,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public async Task<ActionResult> OrgDivided(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
@@ -909,7 +912,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> OrgDivided(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "09");
 
@@ -941,7 +944,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public async Task<ActionResult> RndCost(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
@@ -1040,7 +1043,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> RndCost(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "10");
 
@@ -1071,7 +1074,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public async Task<ActionResult> RndEmp(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
@@ -1224,7 +1227,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> RndEmp(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "11");
 
@@ -1257,7 +1260,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public async Task<ActionResult> ProductivityResult(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
@@ -1375,7 +1378,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductivityResult(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "11");
 
@@ -1407,7 +1410,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public async Task<ActionResult> ProductivityProfitability(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
@@ -1493,7 +1496,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductivityProfitability(OrgProductivityViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "19");
 
@@ -1525,7 +1528,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public async Task<ActionResult> RiskMgmtOrgSatisfaction(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
@@ -1638,7 +1641,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> RiskMgmtOrgSatisfaction(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "28");
 
@@ -1670,7 +1673,7 @@ namespace BizOneShot.Light.Web.Controllers
 
         public async Task<ActionResult> RiskMgmtLiquidity(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
 
@@ -1759,7 +1762,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> RiskMgmtLiquidity(OrgProductivityViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "30");
 
@@ -1793,7 +1796,7 @@ namespace BizOneShot.Light.Web.Controllers
         //P12 2.상품화역량 - 사업화역량
         public async Task<ActionResult> ProductivityCommercialize(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
@@ -1820,7 +1823,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductivityCommercialize(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "12");
 
@@ -1852,7 +1855,7 @@ namespace BizOneShot.Light.Web.Controllers
         //P14 2.상품화역량 - 생산설비의 운영체계 및 관리
         public async Task<ActionResult> ProductivityMgmtFacility(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
@@ -1879,7 +1882,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductivityMgmtFacility(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "14");
 
@@ -1910,7 +1913,7 @@ namespace BizOneShot.Light.Web.Controllers
         //P15 2.상품화역량 - 공정관리
         public async Task<ActionResult> ProductivityProcessControl(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
@@ -1937,7 +1940,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductivityProcessControl(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "15");
 
@@ -1968,7 +1971,7 @@ namespace BizOneShot.Light.Web.Controllers
         //P16 2.상품화역량 - 품질관리
         public async Task<ActionResult> ProductivityQC(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
@@ -1995,7 +1998,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductivityQC(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "16");
 
@@ -2026,7 +2029,7 @@ namespace BizOneShot.Light.Web.Controllers
         //P17 2.상품화역량 - 마케팅 전략의 수립 및 실행
         public async Task<ActionResult> ProductivityMgmtMarketing(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
@@ -2053,7 +2056,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductivityMgmtMarketing(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "17");
 
@@ -2084,7 +2087,7 @@ namespace BizOneShot.Light.Web.Controllers
         //P18 2.상품화역량 - 고객관리
         public async Task<ActionResult> ProductivityMgmtCustomer(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
@@ -2111,7 +2114,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductivityMgmtCustomer(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "18");
 
@@ -2143,7 +2146,7 @@ namespace BizOneShot.Light.Web.Controllers
         // p20 2.상품화 역량 -  역량별 검토결과 - 타깃고객검토
         public async Task<ActionResult> ProductivityTargetCustomer(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
 
@@ -2170,7 +2173,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductivityTargetCustomer(BasicSurveyReportViewModel paramModel, RiskMgmtViewModel viewModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "20");
 
@@ -2215,7 +2218,7 @@ namespace BizOneShot.Light.Web.Controllers
         // p21 2.상품화 역량 -  역량별 검토결과 - 상품화구조 Check
         public async Task<ActionResult> ProductivityValueChain(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
 
@@ -2242,7 +2245,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductivityValueChain(BasicSurveyReportViewModel paramModel, RiskMgmtViewModel viewModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "21");
 
@@ -2287,7 +2290,7 @@ namespace BizOneShot.Light.Web.Controllers
         // p22 2.상품화 역량 -  역량별 검토결과 - 제품생산.판매 관계망검토
         public async Task<ActionResult> ProductivityRelation(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             ProductivityRelationViewModel viewModel = new ProductivityRelationViewModel();
 
@@ -2323,7 +2326,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductivityRelation(BasicSurveyReportViewModel paramModel, ProductivityRelationViewModel viewModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "22");
 
@@ -2360,7 +2363,7 @@ namespace BizOneShot.Light.Web.Controllers
         // p23 2.상품화 역량 -  역량별 검토결과 - 제품생산.판매 관계망검토
         public async Task<ActionResult> ProductivityRelation2(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             ProductivityRelationViewModel viewModel = new ProductivityRelationViewModel();
 
@@ -2386,7 +2389,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductivityRelation2(BasicSurveyReportViewModel paramModel, ProductivityRelationViewModel viewModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "23");
 
@@ -2425,7 +2428,7 @@ namespace BizOneShot.Light.Web.Controllers
         //P24 3.위험관리역량 - [CEO역량]경영목표 및 전략
         public async Task<ActionResult> RiskMgmtVisionStrategy(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
@@ -2452,7 +2455,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> RiskMgmtVisionStrategy(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "24");
 
@@ -2483,7 +2486,7 @@ namespace BizOneShot.Light.Web.Controllers
         //P25 3.위험관리역량 - [CEO역량]경영자의 리더쉽
         public async Task<ActionResult> RiskMgmtLeadership(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
@@ -2510,7 +2513,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> RiskMgmtLeadership(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "25");
 
@@ -2541,7 +2544,7 @@ namespace BizOneShot.Light.Web.Controllers
         //P26 3.위험관리역량 - 경영목표의 신뢰성
         public async Task<ActionResult> RiskMgmtRelCEO(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
@@ -2568,7 +2571,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> RiskMgmtRelCEO(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "26");
 
@@ -2599,7 +2602,7 @@ namespace BizOneShot.Light.Web.Controllers
         //P27 3.위험관리역량 - 근로환경
         public async Task<ActionResult> RiskMgmtWorkingEnv(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
@@ -2626,7 +2629,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> RiskMgmtWorkingEnv(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "27");
 
@@ -2659,7 +2662,7 @@ namespace BizOneShot.Light.Web.Controllers
         //P29 3.위험관리역량 - 정보시스템활용
         public async Task<ActionResult> RiskMgmtITSystem(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
 
             ReportUtil reportUtil = new ReportUtil(scBizWorkService, quesResult1Service, quesResult2Service, quesMasterService, sboFinancialIndexTService);
@@ -2686,7 +2689,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> RiskMgmtITSystem(OrgHR01ViewModel viewModel, BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "29");
 
@@ -2718,7 +2721,7 @@ namespace BizOneShot.Light.Web.Controllers
         //31p 3.위험관리 역량 - 31p. 전문가 평가
         public async Task<ActionResult> RiskMgmtEvalProfession(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
 
@@ -2745,7 +2748,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> RiskMgmtEvalProfession(BasicSurveyReportViewModel paramModel, RiskMgmtViewModel viewModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "31");
 
@@ -2796,7 +2799,7 @@ namespace BizOneShot.Light.Web.Controllers
         //32p
         public ActionResult GrowthRoadMapCover(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             return View(paramModel);
 
@@ -2806,7 +2809,7 @@ namespace BizOneShot.Light.Web.Controllers
         //p33 유형별 성장전략
         public async Task<ActionResult> GrowthStrategyType(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             GrowthStrategyViewModel viewModel = new GrowthStrategyViewModel();
         
@@ -2830,7 +2833,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> GrowthStrategyType(BasicSurveyReportViewModel paramModel, GrowthStrategyViewModel viewModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "33");
 
@@ -2864,7 +2867,7 @@ namespace BizOneShot.Light.Web.Controllers
         //p34 단계 성장전략
         public async Task<ActionResult> GrowthStrategyStep(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             GrowthStrategyViewModel viewModel = new GrowthStrategyViewModel();
 
@@ -2888,7 +2891,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> GrowthStrategyStep(BasicSurveyReportViewModel paramModel, GrowthStrategyViewModel viewModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "34");
 
@@ -2922,7 +2925,7 @@ namespace BizOneShot.Light.Web.Controllers
         //p35 역량강화제안
         public async Task<ActionResult> GrowthCapabilityProposal(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             GrowthStrategyViewModel viewModel = new GrowthStrategyViewModel();
 
@@ -2946,7 +2949,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> GrowthCapabilityProposal(BasicSurveyReportViewModel paramModel, GrowthStrategyViewModel viewModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "35");
 
@@ -2980,7 +2983,7 @@ namespace BizOneShot.Light.Web.Controllers
         //p36 회사핵심내용
         public async Task<ActionResult> GrowthTotalProposal(BasicSurveyReportViewModel paramModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             GrowthStrategyViewModel viewModel = new GrowthStrategyViewModel();
 
@@ -3004,7 +3007,7 @@ namespace BizOneShot.Light.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> GrowthTotalProposal(BasicSurveyReportViewModel paramModel, GrowthStrategyViewModel viewModel)
         {
-            ViewBag.LeftMenu = Global.CapabilityReport;
+            ViewBag.LeftMenu = Global.Report;
 
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "36");
 
@@ -3068,5 +3071,21 @@ namespace BizOneShot.Light.Web.Controllers
             return Json(bizList);
         }
         #endregion
+
+        [HttpPost]
+        public async Task<JsonResult> CheckFinanceData(int CompSn, int BasicYear)
+        {
+            var compInfo = await scCompInfoService.GetScCompInfoByCompSn(CompSn);
+            //다래 재무정보 조회해야 함.
+            var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compInfo.RegistrationNo, "1000", "1100", BasicYear.ToString());
+            if (sboFinacialIndexT != null)
+            {
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new { result = false });
+            }
+        }
     }
 }

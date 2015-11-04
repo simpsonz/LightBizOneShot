@@ -405,6 +405,8 @@ namespace BizOneShot.Light.Web.Mappings
                .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
                .ForMember(d => d.BizWorkYear, map => map.MapFrom(s => s.BasicYear))
                .ForMember(d => d.QuestionCompleteDt, map => map.MapFrom(s => s.RegDt))
+               .ForMember(d => d.RegistrationNo, map => map.MapFrom(s => s.ScCompInfo.RegistrationNo))
+               .ForMember(d => d.OwnNm, map => map.MapFrom(s => s.ScCompInfo.OwnNm))
             ;
 
 

@@ -17,6 +17,7 @@ namespace BizOneShot.Light.Services
         IEnumerable<ScCompInfo> GetScCompInfos(string compNm = null);
 
         ScCompInfo GetScCompInfo(int id);
+        Task<ScCompInfo> GetScCompInfoByCompSn(int compSn);
 
         void CreateScCompInfo(ScCompInfo scCompInfo);
 
@@ -67,6 +68,12 @@ namespace BizOneShot.Light.Services
         {
             var scCompInfos = await scCompInfoRespository.GetManyAsync(scr => scr.RegistrationNo == registationNo);
             return scCompInfos.ToList();
+        }
+
+        public async Task<ScCompInfo> GetScCompInfoByCompSn(int compSn)
+        {
+            var scCompInfo = await scCompInfoRespository.GetCompInfoAsync(scr => scr.CompSn == compSn);
+            return scCompInfo;
         }
 
 

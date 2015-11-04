@@ -13,6 +13,7 @@ namespace BizOneShot.Light.Services
     {
         Task<IList<ScCompMapping>> GetCompMappingListByMentorId(string mentorId = null, string status = null);
         Task<IList<ScCompMapping>> GetCompMappingListByMentorId(string mentorId, string status = "A", int bizWorkSn = 0, int bizWorkYear = 0);
+        Task<IList<ScCompMapping>> GetCompMappingListByCompSn(int compSn, string status = "A", int bizWorkSn = 0, int bizWorkYear = 0);
         Task<IList<ScCompInfo>> GetBizWorkComList(int mngComSn, string excutorId = null, int bizWorkSn = 0, int bizWorkYear = 0);
         Task<IList<ScCompMapping>> GetCompMappingsAsync(int compSn, int bizWorkSn = 0, string status = null, string compNm = null);
         Task<ScCompMapping> GetCompMappingAsync(int bizWorkSn, int compSn);
@@ -184,6 +185,27 @@ namespace BizOneShot.Light.Services
             DateTime date = DateTime.Now.Date;
 
             var listScCompMapping = await scCompMappingRepository.GetCompMappingsAsync(cmp => cmp.MentorId == mentorId && cmp.Status == status);
+
+            if (bizWorkYear == 0)
+            {
+                return listScCompMapping.Where(cmp => cmp.ScBizWork.BizWorkEdDt.Value > date)
+                    .Where(cmp => bizWorkSn == 0 ? cmp.ScBizWork.BizWorkSn > 0 : cmp.ScBizWork.BizWorkSn == bizWorkSn).ToList();
+            }
+            else
+            {
+                return listScCompMapping.Where(cmp => cmp.ScBizWork.BizWorkEdDt.Value > date)
+                    .Where(cmp => bizWorkSn == 0 ? cmp.ScBizWork.BizWorkSn > 0 : cmp.ScBizWork.BizWorkSn == bizWorkSn)
+                    .Where(cmp => cmp.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && cmp.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear).ToList();
+
+            }
+        }
+
+
+        public async Task<IList<ScCompMapping>> GetCompMappingListByCompSn(int compSn, string status = "A", int bizWorkSn = 0, int bizWorkYear = 0)
+        {
+            DateTime date = DateTime.Now.Date;
+
+            var listScCompMapping = await scCompMappingRepository.GetCompMappingsAsync(cmp => cmp.CompSn == compSn && cmp.Status == status);
 
             if (bizWorkYear == 0)
             {

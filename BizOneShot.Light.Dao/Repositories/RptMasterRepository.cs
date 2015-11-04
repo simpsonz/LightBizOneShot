@@ -17,7 +17,7 @@ namespace BizOneShot.Light.Dao.Repositories
         RptMaster Insert(RptMaster rptMaster);
         Task<IList<RptMaster>> GetRptMastersAsync(Expression<Func<RptMaster, bool>> where);
         IPagedList<RptMaster> GetRptMasters(int page, int pageSize, string mentorID, int basicYear, int bizWorkSn, int compSn, string status);
-
+        IPagedList<RptMaster> GetRptMastersForBizmanger(int page, int pageSize, string executorId, int basicYear, int bizWorkSn, int compSn, string status);
         Task<RptMaster> GetRptMasterAsync(Expression<Func<RptMaster, bool>> where);
     }
 
@@ -51,6 +51,33 @@ namespace BizOneShot.Light.Dao.Repositories
                     .Where(rm => compSn == 0 ? rm.CompSn > 0 : rm.CompSn == compSn)
                     .OrderByDescending(rm => rm.RegDt)
                     .ToPagedList(page, pageSize);
+        }
+
+        public IPagedList<RptMaster> GetRptMastersForBizmanger(int page, int pageSize, string executorId, int basicYear, int bizWorkSn, int compSn, string status)
+        {
+            if(executorId == null)
+            {
+                return DbContext.RptMasters
+                    .Include(rm => rm.ScBizWork)
+                    .Include(rm => rm.ScCompInfo)
+                    .Where(rm => rm.ScBizWork.MngCompSn == compSn && rm.Status == status)
+                    .Where(rm => bizWorkSn == 0 ? rm.BizWorkSn > 0 : rm.BizWorkSn == bizWorkSn)
+                    .Where(rm => basicYear == 0 ? rm.BasicYear > 0 : rm.BasicYear == basicYear)
+                    .OrderByDescending(rm => rm.RegDt)
+                    .ToPagedList(page, pageSize);
+            }
+            else
+            {
+                return DbContext.RptMasters
+                    .Include(rm => rm.ScBizWork)
+                    .Include(rm => rm.ScCompInfo)
+                    .Where(rm => rm.ScBizWork.MngCompSn == compSn && rm.ScBizWork.ExecutorId == executorId && rm.Status == status)
+                    .Where(rm => bizWorkSn == 0 ? rm.BizWorkSn > 0 : rm.BizWorkSn == bizWorkSn)
+                    .Where(rm => basicYear == 0 ? rm.BasicYear > 0 : rm.BasicYear == basicYear)
+                    .OrderByDescending(rm => rm.RegDt)
+                    .ToPagedList(page, pageSize);
+            }
+            
         }
     }
 }

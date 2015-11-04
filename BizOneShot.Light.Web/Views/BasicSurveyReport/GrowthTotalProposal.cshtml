@@ -157,7 +157,18 @@
                 }
                 else
                 {
-                    <a href="@Url.Action("BasicSurveyCompanyList", "BasicSurveyReport", new { area = ""})" class="list2 right" value="목록"><em>목록</em></a>
+                    if (Session[Global.UserType].Equals(Global.Company))
+                    {
+                        <a href="@Url.Action("BasicSurveyReport", "Report", new { area = "Company"})" class="list2 right" value="목록"><em>목록</em></a>
+                    }
+                    else if (Session[Global.UserType].Equals(Global.BizManager))
+                    {
+                        <a href="@Url.Action("BasicSurveyReport", "Report", new { area = "BizManager"})" class="list2 right" value="목록"><em>목록</em></a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("BasicSurveyCompanyList", "BasicSurveyReport", new { area = ""})" class="list2 right" value="목록"><em>목록</em></a>
+                    }
                 }
             </div>
             @if (ViewBag.paramModel.Status != "C")

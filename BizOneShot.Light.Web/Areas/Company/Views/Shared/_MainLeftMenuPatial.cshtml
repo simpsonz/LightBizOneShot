@@ -30,7 +30,7 @@
                 <li class="title biz_report"><em>보고서</em></li>
                 <li><a href="@Url.Action("FinanceMng","FinanceReport",new { area= "" })" class="gnb gnb_financeMng">재무관리 보고서</a></li>
                 <li><a href="@Url.Action("BasicSurvey","Report",new { area= "Company" })" class="gnb gnb_basicsurvey">기초경영역량 문진표</a></li>
-                <li><a href="" class="gnb gnb_basicsurveyreport">기초경영역량 보고서</a></li>
+                <li><a href="@Url.Action("BasicSurveyReport","Report",new { area= "Company" })" class="gnb gnb_basicReport">기초경영역량 보고서</a></li>
             }
             else
             {

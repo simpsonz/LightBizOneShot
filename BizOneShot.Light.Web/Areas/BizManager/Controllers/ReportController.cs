@@ -27,7 +27,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         private readonly IScMentorMappingService _scMentorMappingService;
         private readonly IScMentoringTotalReportService _scMentoringTotalReportService;
         private readonly IScMentoringTrFileInfoService _scMentoringTrFileInfoService;
-
+        private readonly IRptMasterService rptMasterService;
         private readonly IScMentoringReportService _scMentoringReportService;
         private readonly IScMentoringFileInfoService _scMentoringFileInfoService;
 
@@ -39,6 +39,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             , IScMentoringTrFileInfoService scMentoringTrFileInfoService
             , IScMentoringReportService scMentoringReportService
             , IScMentoringFileInfoService scMentoringFileInfoService
+            , IRptMasterService rptMasterService
             )
         {
             this._scBizWorkService = scBizWorkService;
@@ -48,6 +49,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             this._scMentoringTrFileInfoService = scMentoringTrFileInfoService;
             this._scMentoringReportService = scMentoringReportService;
             this._scMentoringFileInfoService = scMentoringFileInfoService;
+            this.rptMasterService = rptMasterService;
         }
 
 
@@ -1036,7 +1038,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             if (Session[Global.UserDetailType].ToString() == "M")
             {
                 excutorId = Session[Global.LoginID].ToString();
-        }
+            }
 
             int mngCompSn = int.Parse(Session[Global.CompSN].ToString());
 
@@ -1124,7 +1126,63 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         }
         #endregion
 
+        public ActionResult BasicSurveyReport(string curPage)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            //사업년도 DownDown List Data
+            ViewBag.SelectBizWorkYearList = ReportHelper.MakeYear(2015);
+            ViewBag.SelectBizWorkList = ReportHelper.MakeBizWorkList(null);
+            return View();
+        }
 
+        [HttpPost]
+        public async Task<ActionResult> BasicSurveyReport(BasicSurveyReportViewModel paramModel, string curPage)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            //사업년도 DownDown List Data
+            ViewBag.SelectBizWorkYearList = ReportHelper.MakeYear(2015);
+
+            var compSn = Session[Global.CompSN].ToString();
+            var executorId = Session[Global.LoginID].ToString();
+
+            if (Session[Global.UserDetailType].ToString() == "A")
+                executorId = null;
+
+            //사업 DropDown List Data
+            var listScBizWork = await _scBizWorkService.GetBizWorkList(int.Parse(compSn), executorId, paramModel.BizWorkYear);
+            ViewBag.SelectBizWorkList = ReportHelper.MakeBizWorkList(listScBizWork);
+
+
+            //기초역량 보고서 조회
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            var rptMsters = rptMasterService.GetRptMasterListForBizManager(int.Parse(curPage ?? "1"), pagingSize, executorId, paramModel.BizWorkYear, paramModel.BizWorkSn, int.Parse(compSn), "C");
+
+            //뷰모델 맵핑
+            var rptMasterListView = Mapper.Map<List<BasicSurveyReportViewModel>>(rptMsters.ToList());
+
+            return View(new StaticPagedList<BasicSurveyReportViewModel>(rptMasterListView, int.Parse(curPage ?? "1"), pagingSize, rptMsters.TotalItemCount));
+
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> GetBizWorkNm(int Year)
+        {
+            var compSn = Session[Global.CompSN].ToString();
+            var executorId = Session[Global.LoginID].ToString();
+
+            if (Session[Global.UserDetailType].ToString() == "A")
+                executorId = null;
+
+            //사업 DropDown List Data
+            var listScBizWork = await _scBizWorkService.GetBizWorkList(int.Parse(compSn), executorId, Year);
+            ViewBag.SelectBizWorkList = ReportHelper.MakeBizWorkList(listScBizWork);
+
+            var bizList = ReportHelper.MakeBizWorkList(listScBizWork);
+
+            return Json(bizList);
+        }
 
 
     }

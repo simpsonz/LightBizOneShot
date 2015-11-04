@@ -2373,8 +2373,45 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             return View();
         }
 
+        public ActionResult BasicSurveyReport()
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            // 로그인 기업의 승인된 사업정보를 가져옮
+            ViewBag.SelectBizWorkYearList = ReportHelper.MakeYear(2015);
+
+            ViewBag.SelectBizWorkList = ReportHelper.MakeBizWorkList(null);
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BasicSurveyReport(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            var compSn = Session[Global.CompSN].ToString();
+            var rptMaster = await _rptMasterService.GetRptMasterAsyncForCompany(paramModel.BizWorkSn, int.Parse(compSn), paramModel.BizWorkYear);
+
+            return RedirectToAction("Cover", "BasicSurveyReport", new { area = "", BizWorkSn = rptMaster.BizWorkSn, CompSn = rptMaster.CompSn, BizWorkYear = rptMaster.BasicYear, Status = rptMaster.Status, QuestionSn = rptMaster.QuestionSn });
+
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetBizWorkNm(int Year)
+        {
+            var compSn = Session[Global.CompSN].ToString();
+
+            //사업 DropDown List Data
+            //var listScCompMapping = await _scCompMappingService.GetCompMappingListByCompSn(int.Parse(compSn), "A", 0, Year);//
+            var listRptMaster = await _rptMasterService.GetRptMasterListAsync(int.Parse(compSn), Year);
+            var listScBizWork = listRptMaster.Select(mmp => mmp.ScBizWork).ToList();
+
+            var bizList = ReportHelper.MakeBizWorkList(listScBizWork);
+
+            return Json(bizList);
+        }
 
 
-        
     }
 }
