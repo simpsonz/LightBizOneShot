@@ -108,16 +108,18 @@ namespace EntityTestConsole
 
             using (var context = new WebDbContext())
             {
-                var bizWorkSns = context.ScExpertMappings.Where(em => em.ExpertId == "simpsonz23").Select(sm => sm.ScBizWork).Select(tt => tt.RptMasters).ToList();
+                var listRptMatsers = context.ScExpertMappings.Where(em => em.ExpertId == "simpsonz23").Select(sm => sm.ScBizWork).Select(tt => tt.RptMasters).ToList();
 
-                IList<RptMaster> listRptMater = new List<RptMaster>();
-                foreach (var bizWorkSn in bizWorkSns)
+                IList<RptMaster> rptMaterView = new List<RptMaster>();
+                foreach (var rptMasters in listRptMatsers)
                 {
-                    foreach(var a in bizWorkSn)
+                    foreach(var rptMaster in rptMasters)
                     {
-                        Console.WriteLine(a.QuestionSn);
+                        rptMaterView.Add(rptMaster);
                     }
                 }
+
+
             }
 
             Console.ReadLine();
