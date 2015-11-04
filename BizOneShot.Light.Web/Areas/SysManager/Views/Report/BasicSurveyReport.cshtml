@@ -1,7 +1,7 @@
 ﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.BasicSurveyReportViewModel>
 
 @{
-    Layout = "~/Areas/BizManager/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Areas/SysManager/Views/Shared/_MainLayout.cshtml";
 }
 
 <script>
@@ -11,8 +11,8 @@
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
 
-        $('#BizWorkYear').change(function () {
-            ChangeBizWorkYear();
+        $('#BizWorkMngr').change(function () {
+            ChangeBizWorkMngr();
         });
 
         $('#searchForm').bind('submit', function () {
@@ -22,18 +22,18 @@
     });
 
 
-    function ChangeBizWorkYear() {
-
-        var bizWorkYear = $('#BizWorkYear').val();
-        if (bizWorkYear == 0) {
-            $('#BizWorkSn').html("<option value='0'>사업명 선택</option>");
+    function ChangeBizWorkMngr() {
+        var mngCompSn = $('#BizWorkMngr').val();
+        
+        if (mngCompSn == 0) {
+            $('#BizWorkSn').html("<option value='0'>사업 선택</option>");
         } else {
             $('#BizWorkSn').html("");
             $.ajax({
-                url: '@Url.Action("GetBizWorkNm", "Report", new { area = "BizManager" })',
+                url: '@Url.Action("GetBizWorkNm", "Report", new { area = "SysManager" })',
                 type: "post",
                 dataType: "json",
-                data: { Year: bizWorkYear },
+                data: { MngCompSn: mngCompSn },
                 async: false,
                 success: function (result) {
                     for (var i = 0; i < result.length; i++) {
@@ -91,18 +91,17 @@
 
 
     }
-   
 </script>
 
 <div id="sub_rightwrap">
     <div class="sub_right_title specialist_02_03">
         <em>기초경영역량 보고서</em>
     </div>
-    @using (Html.BeginForm("BasicSurveyReport", "Report", FormMethod.Post, new { area = "BizManager", id = "searchForm" }))
+    @using (Html.BeginForm("BasicSurveyReport", "Report", FormMethod.Post, new { area = "SysManager", id = "searchForm" }))
     {
         <div id="sub_inquiry_box">
 
-            @Html.DropDownList("BizWorkYear", ViewBag.SelectBizWorkYearList as SelectList, new { @class = "w150", @id = "BizWorkYear" })
+            @Html.DropDownList("BizWorkMngr", ViewBag.SelectBizWorkMngrList as SelectList, new { @class = "w150", @id = "BizWorkMngr" })
             @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150", @id = "BizWorkSn" })
             <button type="submit" class="bt_searchC right" value="종합보고서조회" style="margin:0">검색</button>
         </div><!--sub_inquiry_box//-->
@@ -165,3 +164,4 @@
     </form>
 
 </div>
+

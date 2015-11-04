@@ -17,7 +17,8 @@ namespace BizOneShot.Light.Dao.Repositories
         RptMaster Insert(RptMaster rptMaster);
         Task<IList<RptMaster>> GetRptMastersAsync(Expression<Func<RptMaster, bool>> where);
         IPagedList<RptMaster> GetRptMasters(int page, int pageSize, string mentorID, int basicYear, int bizWorkSn, int compSn, string status);
-        IPagedList<RptMaster> GetRptMastersForBizmanger(int page, int pageSize, string executorId, int basicYear, int bizWorkSn, int compSn, string status);
+        IPagedList<RptMaster> GetRptMastersForBizManager(int page, int pageSize, string executorId, int basicYear, int bizWorkSn, int compSn, string status);
+        IPagedList<RptMaster> GetRptMastersForSysManager(int page, int pageSize, int bizWorkSn, int mngCompSn, string status);
         Task<RptMaster> GetRptMasterAsync(Expression<Func<RptMaster, bool>> where);
     }
 
@@ -53,7 +54,7 @@ namespace BizOneShot.Light.Dao.Repositories
                     .ToPagedList(page, pageSize);
         }
 
-        public IPagedList<RptMaster> GetRptMastersForBizmanger(int page, int pageSize, string executorId, int basicYear, int bizWorkSn, int compSn, string status)
+        public IPagedList<RptMaster> GetRptMastersForBizManager(int page, int pageSize, string executorId, int basicYear, int bizWorkSn, int compSn, string status)
         {
             if(executorId == null)
             {
@@ -78,6 +79,20 @@ namespace BizOneShot.Light.Dao.Repositories
                     .ToPagedList(page, pageSize);
             }
             
+        }
+
+
+        public IPagedList<RptMaster> GetRptMastersForSysManager(int page, int pageSize, int bizWorkSn, int mngCompSn, string status)
+        {
+            return DbContext.RptMasters
+                    .Include(rm => rm.ScBizWork)
+                    .Include(rm => rm.ScCompInfo)
+                    .Where(rm => rm.Status == status)
+                    .Where(rm => mngCompSn == 0 ? rm.ScBizWork.MngCompSn > 0 : rm.ScBizWork.MngCompSn == mngCompSn)
+                    .Where(rm => bizWorkSn == 0 ? rm.BizWorkSn > 0 : rm.BizWorkSn == bizWorkSn)
+                    .OrderByDescending(rm => rm.RegDt)
+                    .ToPagedList(page, pageSize);
+
         }
     }
 }
