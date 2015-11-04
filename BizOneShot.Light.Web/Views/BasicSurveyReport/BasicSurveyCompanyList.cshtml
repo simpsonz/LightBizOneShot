@@ -36,6 +36,7 @@
                 alert("년도 선택을 하지 않았습니다.");
                 return false;
             }
+            $('#curPage').val('1');
         });
 
     });
@@ -189,15 +190,15 @@
                             <td> 
                                 @if(item.Status == "T")
                                 { 
-                                    <span class="bot_u">@Html.ActionLink("미작성", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn })</span>
+                                    <span class="bot_u">@Html.ActionLink("미작성", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn }, new { @onclick = "return CheckFinanceData(" + @item.CompSn + ", " + item.BizWorkYear + ");", @style = "text-decoration:underline;" })</span>
                                 }
                                 else if (item.Status == "P")
                                 {
-                                    <span class="bot_u">@Html.ActionLink("작성중", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn }, new { @style = "text-decoration:underline;" })</span>
+                                    <span class="bot_u">@Html.ActionLink("작성중", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn }, new { @onclick = "return CheckFinanceData(" + @item.CompSn + ", " + item.BizWorkYear + ");", @style = "text-decoration:underline;" })</span>
                                 }
                                 else
                                 {
-                                    <span class="bot_u">@Html.ActionLink("작성완료", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn }, new { @style = "text-decoration:underline;" })</span>
+                                    <span class="bot_u">@Html.ActionLink("작성완료", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn }, new { @onclick = "return CheckFinanceData(" + @item.CompSn + ", " + item.BizWorkYear + ");", @style = "text-decoration:underline;" })</span>
                                 }
                             </td>
                         </tr>

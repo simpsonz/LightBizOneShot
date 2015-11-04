@@ -249,6 +249,7 @@
     <Compile Include="Areas\SysManager\Controllers\BizManagerController.cs" />
     <Compile Include="Areas\SysManager\Controllers\ExpertManagerController.cs" />
     <Compile Include="Areas\SysManager\Controllers\MainController.cs" />
+    <Compile Include="Areas\SysManager\Controllers\ReportController.cs" />
     <Compile Include="Areas\SysManager\SysManagerAreaRegistration.cs" />
     <Compile Include="ComLib\BaseController.cs" />
     <Compile Include="ComLib\Global.cs" />
@@ -521,6 +522,7 @@
     <Content Include="Areas\BizManager\Views\Report\MentoringAreaStats.cshtml" />
     <Content Include="Areas\Company\Views\Report\BasicSurveyReport.cshtml" />
     <Content Include="Areas\BizManager\Views\Report\BasicSurveyReport.cshtml" />
+    <Content Include="Areas\SysManager\Views\Report\BasicSurveyReport.cshtml" />
     <None Include="Properties\PublishProfiles\Demo BizOneShot Lite.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
