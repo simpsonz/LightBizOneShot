@@ -33,7 +33,7 @@ namespace BizOneShot.Light.Services
 
         public async Task<IList<ScExpertMapping>> GetExpertManagerAsync(string bizMngSn = null, string expertType = null)
         {
-            IEnumerable<ScExpertMapping> listScUsrTask = null;
+            IEnumerable<ScExpertMapping> listScUsrTask = null; 
 
 
             if ((bizMngSn != "0") && string.IsNullOrEmpty(expertType))

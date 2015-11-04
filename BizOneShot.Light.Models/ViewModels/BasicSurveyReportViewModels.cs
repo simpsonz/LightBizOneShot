@@ -15,6 +15,7 @@ namespace BizOneShot.Light.Models.ViewModels
         public int BizWorkSn { get; set; }
         public int CompSn { get; set; }
         public int BizWorkMngr { get; set; }
+        public string BizWorkMngrNm { get; set; }
         public int BizWorkYear { get; set; }
         public int QuestionSn { get; set; }
         public DateTime? QuestionCompleteDt { get; set; }

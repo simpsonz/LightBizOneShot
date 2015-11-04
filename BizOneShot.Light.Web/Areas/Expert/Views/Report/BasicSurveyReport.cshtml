@@ -1,0 +1,167 @@
+﻿@model IPagedList<BizOneShot.Light.Models.ViewModels.BasicSurveyReportViewModel>
+
+@{
+    Layout = "~/Areas/Expert/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz >  a.navi_report').addClass('on');
+        //Cs menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
+
+        $('#BizWorkMngr').change(function () {
+            ChangeBizWorkMngr();
+        });
+
+        $('#searchForm').bind('submit', function () {
+            $('#curPage').val('1');
+        });
+
+    });
+
+
+    function ChangeBizWorkMngr() {
+        var mngCompSn = $('#BizWorkMngr').val();
+
+        if (mngCompSn == 0) {
+            $('#BizWorkSn').html("<option value='0'>사업 선택</option>");
+        } else {
+            $('#BizWorkSn').html("");
+            $.ajax({
+                url: '@Url.Action("GetBizWorkNm", "Report", new { area = "Expert" })',
+                type: "post",
+                dataType: "json",
+                data: { MngCompSn: mngCompSn },
+                async: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#BizWorkSn').append("<option value='" + result[i].Value + "'>" + result[i].Text + "</option>");
+                    }
+                }
+            });
+        }
+    }
+
+
+    function goPage(page) {
+        $('#curPage').val(page);
+        $('#searchForm').submit();
+    }
+
+    function CheckFinanceData(compSn, year, control)
+    {
+        //CheckFinanceData
+        var checkResutl = true;
+
+        $.ajax({
+            url: '@Url.Action("CheckFinanceData", "BasicSurveyReport", new { area = "" })',
+            type: "post",
+            dataType: "json",
+            data: {
+                CompSn: compSn,
+                BasicYear: year
+            },
+            async: false,
+            success: function (data) {
+                if (data.result == true) {
+                    return true;
+                }
+                else {
+                    alert("BizOneShot 재무정보가 아직 생성되지 않았습니다.");
+                    checkResutl = false;
+                }
+            },
+            fail: function (error) {
+                alert('error :' + error.responseText);
+                checkResutl = false;
+            }
+        });
+
+        if (checkResutl == false)
+        {
+            $(control).attr("href", "javascript:void(0);");
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
+
+    }
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title specialist_02_03">
+        <em>기초경영역량 보고서</em>
+    </div>
+    @using (Html.BeginForm("BasicSurveyReport", "Report", FormMethod.Post, new { area = "Expert", id = "searchForm" }))
+    {
+        <div id="sub_inquiry_box">
+
+            @Html.DropDownList("BizWorkMngr", ViewBag.SelectBizWorkMngrList as SelectList, new { @class = "w150", @id = "BizWorkMngr" })
+            @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150", @id = "BizWorkSn" })
+            <button type="submit" class="bt_searchC right" value="종합보고서조회" style="margin:0">검색</button>
+        </div><!--sub_inquiry_box//-->
+        @Html.Hidden("curPage", "1")
+    }
+    <!--sub_inquiry_box//-->
+    <div class="line_dot20"></div>
+
+    <form method="" action="" name="" id="">
+        <div class="tablewrap">
+            <!--목록-->
+            <table class="admin_list">
+                <colgroup>
+                    <col width="18%">
+                    <col width="14%">
+                    <col width="14%">
+                    <col width="26%">
+                    <col width="16%">
+                    <col width="12%">
+                </colgroup>
+                <tr>
+                    <th class="topcen">기업명</th>
+                    <th class="topcen">사업자번호</th>
+                    <th class="topcen">대표자</th>
+                    <th class="topcen">사업관리기관</th>
+                    <th class="topcen">사업명</th>
+                    <th class="topcen">보고서보기</th>
+                </tr>
+                @if (Model == null || Model.TotalItemCount == 0)
+                {
+                    <tr>
+                        <td colspan="6" style="text-align:center;">작성 완료된 보고서가 없습니다.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.CompNm</td>
+                            <td>@item.RegistrationNo</td>
+                            <td>@item.OwnNm</td>
+                            <td>@item.BizWorkMngrNm</td>
+                            <td>@item.BizWorkNm</td>
+                            <td>
+                                <a onclick="CheckFinanceData(@item.CompSn , @item.BizWorkYear, this);" href="@Url.Action("Cover", "BasicSurveyReport", new { area = "", BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn } )" class="report_view"><em>보고서보기</em></a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+        <!--tablewrap//-->
+        @if (Model != null && Model.TotalItemCount != 0)
+        {
+            @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+        }
+        <!-- page_num_wrap//-->
+
+    </form>
+
+</div>
+
