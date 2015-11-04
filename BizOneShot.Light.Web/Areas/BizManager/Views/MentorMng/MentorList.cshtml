@@ -12,6 +12,15 @@
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_mentorList').addClass('on');
 
+        //드롭다운리스트 변경시 페이지 초기화
+        $('#BizWorkList').change(function () {
+            $('#curPage').val(1);
+        });
+
+        $('#MentorPartList').change(function () {
+            $('#curPage').val(1);
+        });
+
         //체크박스 전체선택
         $("#checkAll").click(function () {
             $('input:checkbox').not(this).prop('checked', this.checked);
@@ -111,7 +120,7 @@
                         <tr>
                             <td><input type="checkbox" value="@item.LoginId" name="acc_choice" bizWorkSn="@item.BizWorkSn" /></td>
                             <td>
-                                <span class="full_line">@Html.ActionLink(item.Name+"(" +item.LoginId + ")", "MentorDetail", new { bizWorkSn = item.BizWorkSn, mentorId = item.LoginId })</span>
+                                <span class="full_line">@Html.ActionLink(item.Name+"(" +item.LoginId + ")", "MentorDetail", new { bizWorkSn = item.BizWorkSn, mentorId = item.LoginId }, new { @style = "text-decoration:underline;" })</span>
                             </td>
                             <td>@item.BizWorkNm</td>
                             @if (item.UsrTypeDetail == "T")

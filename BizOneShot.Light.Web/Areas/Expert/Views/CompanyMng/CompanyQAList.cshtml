@@ -137,7 +137,7 @@
                 {
                     <tr>
                         <td class="center">
-                            <span class="full_line">@Html.ActionLink(item.Subject, "CompanyQaDetail", new { usrQaSn = item.UsrQaSn })</span>
+                            <span class="full_line">@Html.ActionLink(item.Subject, "CompanyQaDetail", new { usrQaSn = item.UsrQaSn }, new { @style = "text-decoration:underline;" })</span>
                         </td>
                         <td class="center">@item.QuestionComNm</td>
                         <td class="center">@item.QuestionRegistrationNo</td>

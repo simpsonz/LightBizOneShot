@@ -68,14 +68,14 @@
                         <tr>
                             <td><input type="checkbox" value="@item.BizWorkSn" /></td>
                             <td >
-                                <span class="full_line">@Html.ActionLink(item.BizWorkNm, "BizWorkDetail", new { bizWorkSn = item.BizWorkSn })</span>
+                                <span class="full_line">@Html.ActionLink(item.BizWorkNm, "BizWorkDetail", new { bizWorkSn = item.BizWorkSn }, new { @style = "text-decoration:underline;" })</span>
                             </td>
                             <td>@item.BizWorkStDt ~ @item.BizWorkEdDt</td>
                             <td>@item.MngDept</td>
                             <td>@item.Name</td>
                             <td>@item.TelNo1-@item.TelNo2-@item.TelNo3</td>
                             <td>
-                                <span class="full_line">@Html.ActionLink(item.ComCount, "BizWorkComList", new { bizWorkSn = item.BizWorkSn, bizWorkNm = item.BizWorkNm })</span>
+                                <span class="full_line">@Html.ActionLink(item.ComCount, "BizWorkComList", new { bizWorkSn = item.BizWorkSn, bizWorkNm = item.BizWorkNm }, new { @style = "text-decoration:underline;" })</span>
                             </td>
                         </tr>
                     }

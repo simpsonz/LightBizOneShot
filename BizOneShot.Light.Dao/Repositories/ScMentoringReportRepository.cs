@@ -9,12 +9,16 @@ using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Models.ViewModels;
 
+using PagedList;
+using PagedList.EntityFramework;
+
 namespace BizOneShot.Light.Dao.Repositories
 {
     public interface IScMentoringReportRepository : IRepository<ScMentoringReport>
     {
         Task<IList<int>> GetMentoringReportMentoringDt(string mentorId);
         Task<ScMentoringReport> GetMentoringReportById(int reportSn);
+        Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReport(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null);
         Task<IList<ScMentoringReport>> GetMentoringReport(Expression<Func<ScMentoringReport, bool>> where);
         Task<ScMentoringReport> Insert(ScMentoringReport scMentoringReport);
         Task<IList<MentoringStatsByCompanyGroupModel>> GetMentoringReportGroupBy(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth);
@@ -44,6 +48,22 @@ namespace BizOneShot.Light.Dao.Repositories
                 .SingleOrDefaultAsync();
         }
 
+        public async Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReport(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null)
+        {
+            return await DbContext.ScMentoringReports
+                .Include(mtr => mtr.ScBizWork)
+                .Include(mtr => mtr.ScCompInfo)
+                .Include(mtr => mtr.ScUsr)
+                .Include(mtr => mtr.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo))
+                .Where(mtr => mtr.ScBizWork.MngCompSn == mngComSn && mtr.Status == "N")
+                .Where(mtr => string.IsNullOrEmpty(excutorId) ? mtr.ScBizWork.ExecutorId != null : mtr.ScBizWork.ExecutorId == excutorId)
+                .Where(mtr => compSn == 0 ? mtr.CompSn > compSn : mtr.CompSn == compSn)
+                .Where(mtr => mentorId == null ? mtr.MentorId != null : mtr.MentorId == mentorId)
+                .Where(mtr => bizWorkSn == 0 ? mtr.BizWorkSn > bizWorkSn : mtr.BizWorkSn == bizWorkSn)
+                .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
+                .OrderByDescending(mtr => mtr.ReportSn).ToPagedListAsync(page, pageSize);
+        }
+
         public async Task<IList<ScMentoringReport>> GetMentoringReport(Expression<Func<ScMentoringReport, bool>> where)
         {
             return await DbContext.ScMentoringReports
@@ -53,6 +73,7 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Include(mtr => mtr.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo))
                 .Where(where).ToListAsync();
         }
+
 
         public async Task<ScMentoringReport> Insert(ScMentoringReport scMentoringReport)
         {

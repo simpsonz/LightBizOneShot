@@ -22,9 +22,16 @@
 
 <div id="sub_rightwrap">
     <div class="sub_right_title bizadmin_project04"><em>참여기업목록</em></div>
-    <div id="sub_inquiry_box">
-        <p>@ViewBag.BizWorkNm</p>
-    </div><!--sub_inquiry_box//-->
+ 
+    @using (Html.BeginForm("BizWorkComList", "BizWorkMng", FormMethod.Post, new { area = "BizManager", id = "searchForm" }))
+    {
+        <div id="sub_inquiry_box">
+            <p>@ViewBag.BizWorkNm</p>
+        </div><!--sub_inquiry_box//-->
+        @Html.Hidden("curPage", "1")
+        @Html.Hidden("bizWorkSn", ViewBag.BizWorkSN as string)
+    }
+
     <div class="line_dot20"></div>
 
     <form method="" action="" name="" id="">
@@ -63,8 +70,8 @@
                     <tr>
                         <td><input type="checkbox" value="@item." /></td>
                         <td>
-                            <span class="full_line">@Html.ActionLink(item.CompNm, "ComInfoDetail", new { compSn = item.CompSn })</span>
-                        </td>
+                            <span class="full_line">@Html.ActionLink(item.CompNm, "CompanyDetail", "CompanyMng", new { bizWorkSn= ViewBag.BizWorkSN,  compSn = item.CompSn }, new { @style = "text-decoration:underline;" })</span>
+                         </td>
                         <td>@item.ComOwnNm</td>
                         <td>@item.ComRegistrationNo</td>
                         <td>@item.Name</td>

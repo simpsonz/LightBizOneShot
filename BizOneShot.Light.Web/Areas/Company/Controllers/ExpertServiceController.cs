@@ -61,16 +61,29 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
                 return RedirectToAction("Index", "Main");
             }
 
-            var listScReqDoc = await _scReqDocService.GetReceiveDocs(receiverId, expertType);
+            //수신함 가져오기(pagedList 방식)
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            var pagedListScReqDoc = await _scReqDocService.GetPagedListReceiveDocs(int.Parse(curPage ?? "1"), pagingSize, receiverId, expertType);
 
             var dataRequestList =
-                Mapper.Map<List<DataRequstViewModels>>(listScReqDoc);
-
-            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+                Mapper.Map<List<DataRequstViewModels>>(pagedListScReqDoc);
 
             ViewBag.ExpertType = expertType;
 
-            return View(new StaticPagedList<DataRequstViewModels>(dataRequestList.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, dataRequestList.Count));
+            return View(new StaticPagedList<DataRequstViewModels>(dataRequestList, int.Parse(curPage ?? "1"), pagingSize, pagedListScReqDoc.TotalItemCount));
+
+
+            //var listScReqDoc = await _scReqDocService.GetReceiveDocs(receiverId, expertType);
+
+            //var dataRequestList =
+            //    Mapper.Map<List<DataRequstViewModels>>(listScReqDoc);
+
+            //int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            //ViewBag.ExpertType = expertType;
+
+            //return View(new StaticPagedList<DataRequstViewModels>(dataRequestList.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, dataRequestList.Count));
 
         }
 
@@ -198,17 +211,31 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
 
             string senderId = Session[Global.LoginID].ToString();
 
-            var listScReqDoc = await _scReqDocService.GetSendDocs(senderId, expertType);
+            //송신문서 가져오기
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            var pagedListScReqDoc = await _scReqDocService.GetPagedListSendDocs(int.Parse(curPage ?? "1"), pagingSize, senderId, expertType);
 
             var dataRequestList =
-                Mapper.Map<List<DataRequstViewModels>>(listScReqDoc);
-
-            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+                Mapper.Map<List<DataRequstViewModels>>(pagedListScReqDoc);
 
             //전문가 타입 뷰로 전달
             ViewBag.ExpertType = expertType;
 
-            return View(new StaticPagedList<DataRequstViewModels>(dataRequestList.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, dataRequestList.Count));
+            return View(new StaticPagedList<DataRequstViewModels>(dataRequestList, int.Parse(curPage ?? "1"), pagingSize, pagedListScReqDoc.TotalItemCount));
+
+
+            //var listScReqDoc = await _scReqDocService.GetSendDocs(senderId, expertType);
+
+            //var dataRequestList =
+            //    Mapper.Map<List<DataRequstViewModels>>(listScReqDoc);
+
+            //int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            ////전문가 타입 뷰로 전달
+            //ViewBag.ExpertType = expertType;
+
+            //return View(new StaticPagedList<DataRequstViewModels>(dataRequestList.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, dataRequestList.Count));
 
         }
 
@@ -336,18 +363,31 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
 
             string questionId = Session[Global.LoginID].ToString();
 
+
             //수신함 조회
-            var scQas = await _scQaService.GetReceiveQAsByQuestionId(questionId, expertType);
-
-            var qaList =
-                Mapper.Map<List<QaRequstViewModels>>(scQas);
-
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
+            var pagedListscQas = await _scQaService.GetPagedListReceiveQAsByQuestionId(int.Parse(curPage ?? "1"), pagingSize, questionId, expertType);
+
+            var qaList =
+                Mapper.Map<List<QaRequstViewModels>>(pagedListscQas);
+            
             //전문가 타입 뷰로 전달
             ViewBag.ExpertType = expertType;
 
-            return View(new StaticPagedList<QaRequstViewModels>(qaList.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, qaList.Count));
+            return View(new StaticPagedList<QaRequstViewModels>(qaList, int.Parse(curPage ?? "1"), pagingSize, pagedListscQas.TotalItemCount));
+
+            //var scQas = await _scQaService.GetReceiveQAsByQuestionId(questionId, expertType);
+
+            //var qaList =
+            //    Mapper.Map<List<QaRequstViewModels>>(scQas);
+
+            //int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            ////전문가 타입 뷰로 전달
+            //ViewBag.ExpertType = expertType;
+
+            //return View(new StaticPagedList<QaRequstViewModels>(qaList.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, qaList.Count));
         }
 
         public async Task<ActionResult> CompanyQADetail(string usrQaSn, string expertType)

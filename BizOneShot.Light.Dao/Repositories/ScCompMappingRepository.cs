@@ -1,21 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Models.WebModels;
-using System.Linq.Expressions;
+
+using PagedList;
+using PagedList.EntityFramework;
+
+
 
 namespace BizOneShot.Light.Dao.Repositories
 {
 
     public interface IScCompMappingRepository : IRepository<ScCompMapping>
     {
+        Task<IPagedList<ScCompMapping>> GetPagedListCompMappingsAsync(int page, int pageSize, int compSn, int bizWorkSn = 0, string status = null, string compNm = null);
         Task<IList<ScCompMapping>> GetCompMappingsAsync(Expression<Func<ScCompMapping, bool>> where);
         Task<ScCompMapping> GetCompMappingAsync(Expression<Func<ScCompMapping, bool>> where);
         Task<IList<ScCompInfo>> GetCompanysAsync(Expression<Func<ScCompMapping, bool>> where);
+        Task<IPagedList<ScCompInfo>> GetPagedListCompanysAsync(Expression<Func<ScCompMapping, bool>> where, int page, int pageSize);
 
         Task<IList<ScCompMapping>> GetExpertCompanysAsync(string loginId, string comName = null);
         Task<IList<ScCompMapping>> GetExpertCompanysAsync(Expression<Func<ScCompMapping, bool>> where);
@@ -27,6 +34,22 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         public ScCompMappingRepository(IDbFactory dbFactory) : base(dbFactory) { }
 
+        public async Task<IPagedList<ScCompMapping>> GetPagedListCompMappingsAsync(int page, int pageSize, int compSn, int bizWorkSn = 0, string status = null, string compNm = null)
+        {
+           
+            return await DbContext.ScCompMappings
+                .Include("ScCompInfo")
+                .Include("ScBizWork")
+                .Include("ScUsr")
+                .Include("ScBizWork.ScCompInfo")
+                .Include("ScBizWork.ScUsr")
+                .Where(scm => scm.ScBizWork.ScCompInfo.CompSn == compSn && scm.Status != "D")
+                .Where(scm => bizWorkSn == 0 ? scm.BizWorkSn > bizWorkSn : scm.BizWorkSn == bizWorkSn)
+                .Where(scm => string.IsNullOrEmpty(status) ? scm.Status != "D" : scm.Status == status)
+                .Where(scm => string.IsNullOrEmpty(compNm) ? scm.ScCompInfo.CompNm != null : scm.ScCompInfo.CompNm.Contains(compNm))
+                .OrderByDescending(scm => scm.RegDt).ToPagedListAsync(page, pageSize);
+
+        }
 
         public async Task<IList<ScCompMapping>> GetCompMappingsAsync(Expression<Func<ScCompMapping, bool>> where)
         {
@@ -41,6 +64,15 @@ namespace BizOneShot.Light.Dao.Repositories
         public async Task<IList<ScCompInfo>> GetCompanysAsync(Expression<Func<ScCompMapping, bool>> where)
         {
             return await this.DbContext.ScCompMappings.Include("ScCompMappings").Include("ScUsr").Where(where).Select(bw => bw.ScCompInfo).Include("ScUsrs").ToListAsync();
+        }
+
+        public async Task<IPagedList<ScCompInfo>> GetPagedListCompanysAsync(Expression<Func<ScCompMapping, bool>> where, int page, int pageSize)
+        {
+            return await this.DbContext.ScCompMappings
+                .Include("ScCompMappings")
+                .Include("ScUsr")
+                .Where(where)
+                .Select(bw => bw.ScCompInfo).Include("ScUsrs").OrderByDescending(sc => sc.CompNm).ToPagedListAsync(page, pageSize);
         }
 
         public async Task<IList<ScCompMapping>> GetExpertCompanysAsync(Expression<Func<ScCompMapping, bool>> where)

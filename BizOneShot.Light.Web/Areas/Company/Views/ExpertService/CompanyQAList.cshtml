@@ -83,7 +83,7 @@
                 {
                     <tr>
                         <td class="center">
-                            <span class="full_line">@Html.ActionLink(item.Subject, "CompanyQaDetail", new { usrQaSn = item.UsrQaSn, expertType = ViewBag.ExpertType })</span>
+                            <span class="full_line">@Html.ActionLink(item.Subject, "CompanyQaDetail", new { usrQaSn = item.UsrQaSn, expertType = ViewBag.ExpertType }, new { @style = "text-decoration:underline;" })</span>
                         </td>
                         <td class="center">@item.AskDt.GetValueOrDefault().ToShortDateString()</td>
                         @if (item.AnsYn == "Y")

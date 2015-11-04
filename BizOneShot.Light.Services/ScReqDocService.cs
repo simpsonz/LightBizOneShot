@@ -7,13 +7,15 @@ using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
+using PagedList;
 
 
 namespace BizOneShot.Light.Services
 {
     public interface IScReqDocService : IBaseService
     {
-        //Task<IList<ScReqDoc>> GetReqDocsAsync(string searchType = null, string keyword = null);
+        Task<IPagedList<ScReqDoc>> GetPagedListSendDocs(int page, int pageSize, string senderId, string sendExpertType, DateTime? startDate = null, DateTime? endDate = null);
+        Task<IPagedList<ScReqDoc>> GetPagedListReceiveDocs(int page, int pageSize, string receiverId, string sendExpertType, DateTime? startDate = null, DateTime? endDate = null);
         Task<IList<ScReqDoc>> GetReceiveDocs(string receiverId, string checkYN, DateTime startDate, DateTime endDate, string comName = null, string registrationNo = null);
         Task<IList<ScReqDoc>> GetReceiveDocs(string receiverId, string sendExpertType, DateTime? startDate = null, DateTime? endDate = null);
 
@@ -33,14 +35,15 @@ namespace BizOneShot.Light.Services
             this.scReqDocRepository = scReqDocRepository;
             this.unitOfWork = unitOfWork;
         }
-       
-        //public async Task<IList<ScReqDoc>> GetReqDocsAsync(string senderId, string receiverId)
-        //{
-        //    IEnumerable<ScReqDoc> listScReqDocTask = null;
-        //    listScReqDocTask = await scReqDocRepository.GetManyAsync(reqDoc => reqDoc.ReceiverId == receiverId && reqDoc.SenderId == receiverId && reqDoc.Status == "N");
-        //    return listScReqDocTask.OrderByDescending(reqDoc => reqDoc.ReqDocSn).ToList();
-        //}
 
+
+        public async Task<IPagedList<ScReqDoc>> GetPagedListReceiveDocs(int page, int pageSize, string receiverId, string sendExpertType, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            startDate = startDate ?? DateTime.Parse("1900-01-01");
+            endDate = endDate ?? DateTime.Parse("2999-12-31");
+
+            return await scReqDocRepository.GetPagedListReqDocsAsync(page, pageSize, receiverId, sendExpertType, startDate, endDate);
+        }
 
         public async Task<IList<ScReqDoc>> GetReceiveDocs(string receiverId, string checkYN, DateTime startDate, DateTime endDate, string comName = null, string registrationNo = null)
         {
@@ -77,6 +80,14 @@ namespace BizOneShot.Light.Services
         {
             var scReqDocs = await scReqDocRepository.GetReqDocsAsync(rd => rd.SenderId == senderId && rd.Status == "N" && rd.ChkYn.Contains(checkYN) && (rd.ReqDt >= startDate && rd.ReqDt <= endDate && rd.ScUsr_ReceiverId.ScCompInfo.CompNm.Contains(comName) && rd.ScUsr_ReceiverId.ScCompInfo.RegistrationNo.Contains(registrationNo)));
             return scReqDocs.OrderByDescending(rd => rd.ReqDt).ToList();
+        }
+
+        public async Task<IPagedList<ScReqDoc>> GetPagedListSendDocs(int page, int pageSize, string senderId, string sendExpertType, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            startDate = startDate ?? DateTime.Parse("1900-01-01");
+            endDate = endDate ?? DateTime.Parse("2999-12-31");
+
+            return await scReqDocRepository.GetPagedListSendDocsAsync(page, pageSize, senderId, sendExpertType, startDate, endDate);
         }
 
         public async Task<IList<ScReqDoc>> GetSendDocs(string senderId, string sendExpertType, DateTime? startDate = null, DateTime? endDate = null)

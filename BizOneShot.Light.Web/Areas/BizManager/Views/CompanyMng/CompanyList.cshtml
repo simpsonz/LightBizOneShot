@@ -10,6 +10,15 @@
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gbn_CompanyList').addClass('on');
 
+        //드롭다운리스트 변경시 페이지 초기화
+        $('#BizWorkList').change(function () {
+            $('#curPage').val(1);
+        });
+
+        $('#BizWorkList').change(function () {
+            $('#curPage').val(1);
+        });
+
         //체크박스 전체선택
         $("#checkAll").click(function () {
             $('input:checkbox').not(this).prop('checked', this.checked);
@@ -110,7 +119,7 @@
                             <td><input type="checkbox" name="acc_choice" value="@item.CompSn#@item.BizWorkSn" bizWorkSn="@item.BizWorkSn" /></td>
                             <td>@item.ApproveRequestDate</td>
                             <td>
-                                <span class="full_line">@Html.ActionLink(item.CompNm, "CompanyDetail", new { bizWorkSn = item.BizWorkSn, compSn = item.CompSn })</span>
+                                <span class="full_line">@Html.ActionLink(item.CompNm, "CompanyDetail", new { bizWorkSn = item.BizWorkSn, compSn = item.CompSn }, new { @style = "text-decoration:underline;" })</span>
                             </td>
                             <td>@item.RegistrationNo</td>
                             <td>@item.OwnNm</td>

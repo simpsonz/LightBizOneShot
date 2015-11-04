@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
 using BizOneShot.Light.Models.WebModels;
+using PagedList;
 
 namespace BizOneShot.Light.Services
 {
 
     public interface IScQaService : IBaseService
     {
+        Task<IPagedList<ScQa>> GetPagedListReceiveQAsByQuestionId(int page, int pageSize, string questionId, string expertType, DateTime? startDate = null, DateTime? endDate = null);
+
         Task<IList<ScQa>> GetReceiveQAsAsync(string answerId, string checkYN, DateTime startDate, DateTime endDate, string comName = null, string registrationNo = null);
         Task<IList<ScQa>> GetReceiveQAsByQuestionId(string questionId, string expertType, DateTime? startDate = null, DateTime? endDate = null);
         Task<ScQa> GetQAAsync(int usrQaSn);
@@ -75,6 +78,15 @@ namespace BizOneShot.Light.Services
             var listScQaTask = await _scQaRepository.GetQAsAsync(sq => sq.AnswerId == answerId && sq.AnsYn.Contains(checkYN) && sq.ScUsr_QuestionId.ScCompInfo.CompNm.Contains(comName) && sq.ScUsr_QuestionId.ScCompInfo.RegistrationNo.Contains(registrationNo) && (sq.AskDt >= startDate && sq.AskDt <= endDate));
             return listScQaTask.OrderByDescending(sq => sq.AskDt).ToList();
         }
+
+        public async Task<IPagedList<ScQa>> GetPagedListReceiveQAsByQuestionId(int page, int pageSize, string questionId, string expertType, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            startDate = startDate ?? DateTime.Parse("1900-01-01");
+            endDate = endDate ?? DateTime.Parse("2999-12-31");
+
+            return await _scQaRepository.GetpagedListQAsAsync(page, pageSize, questionId, expertType, startDate, endDate);
+        }
+
 
         public async Task<IList<ScQa>> GetReceiveQAsByQuestionId(string questionId, string expertType, DateTime? startDate = null, DateTime? endDate = null)
         {

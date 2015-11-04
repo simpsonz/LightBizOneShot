@@ -86,16 +86,24 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             ViewBag.SelectStatusList = statusList;
 
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-
-            //사업참여기업 리스트 조회
-            var listCompany = await _scCompMappingService.GetCompMappingsAsync(int.Parse(Session[Global.CompSN].ToString()), bizWorkSn);
+            //사업참여기업 리스트 조회(pagedList 적용)
+            var pagedListCompany = await _scCompMappingService.GetPagedListCompMappingsAsync(1, pagingSize, int.Parse(Session[Global.CompSN].ToString()), bizWorkSn);
 
             var usrViews =
-                Mapper.Map<List<CompanyMngViewModel>>(listCompany);
+                Mapper.Map<List<CompanyMngViewModel>>(pagedListCompany);
 
-            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
-            return View(new StaticPagedList<CompanyMngViewModel>(usrViews.ToPagedList(1, pagingSize), 1, pagingSize, usrViews.Count));
+            
+            return View(new StaticPagedList<CompanyMngViewModel>(usrViews, 1, pagingSize, pagedListCompany.TotalItemCount));
+
+            //var listCompany = await _scCompMappingService.GetCompMappingsAsync(int.Parse(Session[Global.CompSN].ToString()), bizWorkSn);
+
+            //var usrViews =
+            //    Mapper.Map<List<CompanyMngViewModel>>(listCompany);
+
+            //int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            //return View(new StaticPagedList<CompanyMngViewModel>(usrViews.ToPagedList(1, pagingSize), 1, pagingSize, usrViews.Count));
         }
 
         [HttpPost]
@@ -147,14 +155,28 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             ViewBag.SelectStatusList = statusList;
 
-            //사업참여기업 리스트 조회
-            var listCompany = await _scCompMappingService.GetCompMappingsAsync(int.Parse(Session[Global.CompSN].ToString()), int.Parse(BizWorkList), StatusList, QUERY);
+
+
+            //사업참여기업 리스트 조회(PagedList 적용)
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            var pagedListCompany = await _scCompMappingService.GetPagedListCompMappingsAsync(int.Parse(curPage), pagingSize,int.Parse(Session[Global.CompSN].ToString()), int.Parse(BizWorkList), StatusList, QUERY);
 
             var usrViews =
-                Mapper.Map<List<CompanyMngViewModel>>(listCompany);
+                Mapper.Map<List<CompanyMngViewModel>>(pagedListCompany);
 
-            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
-            return View(new StaticPagedList<CompanyMngViewModel>(usrViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, usrViews.Count));
+            
+            return View(new StaticPagedList<CompanyMngViewModel>(usrViews, int.Parse(curPage), pagingSize, pagedListCompany.TotalItemCount));
+
+
+            //var listCompany = await _scCompMappingService.GetCompMappingsAsync(int.Parse(Session[Global.CompSN].ToString()), int.Parse(BizWorkList), StatusList, QUERY);
+
+            //var usrViews =
+            //    Mapper.Map<List<CompanyMngViewModel>>(listCompany);
+
+            //int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            //return View(new StaticPagedList<CompanyMngViewModel>(usrViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, usrViews.Count));
+
         }
 
         public async Task<ActionResult> CompanyDetail(string bizWorkSn, string compSn)

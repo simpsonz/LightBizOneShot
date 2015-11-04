@@ -34,6 +34,22 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             return View();
         }
 
+        ////PagedList 처리 양이 많지 않아 필요없을것으로 판단됨
+        //public async Task<ActionResult> BizWorkList()
+        //{
+        //    ViewBag.LeftMenu = Global.BizWorkMng;
+
+        //    int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+        //    var pagedListScBizWork = await _scBizWorkService.GetPagedListBizWorkList(1, pagingSize, int.Parse(Session[Global.CompSN].ToString()));
+
+        //    var bizWorkViews =
+        //        Mapper.Map<List<BizWorkViewModel>>(pagedListScBizWork);
+
+
+        //    return View(new StaticPagedList<BizWorkViewModel>(bizWorkViews, 1, pagingSize, pagedListScBizWork.TotalItemCount));
+        //}
+
 
         public async Task<ActionResult> BizWorkList()
         {
@@ -65,19 +81,36 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             return View(new StaticPagedList<BizWorkViewModel>(bizWorkViews.ToPagedList(int.Parse(curPage), pagingSize), int.Parse(curPage), pagingSize, bizWorkViews.Count));
         }
 
-        public async Task<ActionResult> BizWorkComList(string bizWorkSn, string bizWorkNm)
+        //public async Task<ActionResult> BizWorkComList(string bizWorkSn, string bizWorkNm)
+        //{
+        //    ViewBag.LeftMenu = Global.BizWorkMng;
+        //    ViewBag.BizWorkNm = bizWorkNm;
+
+        //    var comListScBizWork = await _scBizWorkService.GetBizWorkComList(int.Parse(bizWorkSn));
+
+        //    var comListViews =
+        //        Mapper.Map<List<JoinCompanyViewModel>>(comListScBizWork);
+
+        //    int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+        //    pagingSize = 2;
+        //    return View(new StaticPagedList<JoinCompanyViewModel>(comListViews.ToPagedList(1, pagingSize), 1, pagingSize, comListViews.Count));
+        //}
+
+        public async Task<ActionResult> BizWorkComList(string bizWorkSn, string bizWorkNm, string curPage)
         {
             ViewBag.LeftMenu = Global.BizWorkMng;
             ViewBag.BizWorkNm = bizWorkNm;
 
-            var comListScBizWork = await _scBizWorkService.GetBizWorkComList(int.Parse(bizWorkSn));
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            pagingSize  = 2;
+            var pagedListScBizWork = await _scBizWorkService.GetPagedListBizWorkComList(int.Parse(bizWorkSn), int.Parse(curPage ?? "1"), pagingSize);
 
             var comListViews =
-                Mapper.Map<List<JoinCompanyViewModel>>(comListScBizWork);
+                Mapper.Map<List<JoinCompanyViewModel>>(pagedListScBizWork);
 
-            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            ViewBag.BizWorkSN = bizWorkSn;
 
-            return View(new StaticPagedList<JoinCompanyViewModel>(comListViews.ToPagedList(1, pagingSize), 1, pagingSize, comListViews.Count));
+            return View(new StaticPagedList<JoinCompanyViewModel>(comListViews, pagedListScBizWork.PageNumber, pagingSize, pagedListScBizWork.TotalItemCount));
         }
 
 

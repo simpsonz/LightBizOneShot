@@ -14,6 +14,8 @@
 
         //드롭다운리스트 처리
         $('#BizWorkYear').change(function () {
+            $('#curPage').val(1);
+
             var bizWorkYear = $('#BizWorkYear').val();
 
             $('#BizWorkSn').attr("disabled", false);
@@ -35,6 +37,8 @@
         });
 
         $('#BizWorkSn').change(function () {
+            $('#curPage').val(1);
+
             var bizWorkYear = $('#BizWorkYear').val();
             var bizWorkSn= $('#BizWorkSn').val();
 
@@ -53,6 +57,10 @@
                 }
             });
 
+        });
+
+        $('#CompSn').change(function () {
+            $('#curPage').val(1);
         });
 
     });
@@ -125,7 +133,7 @@
                             <td>@item.MentorNm</td>
                             <td>@item.SubmitDt.Value.ToString("yyyy-MM-dd")</td>
                             <td>
-                                <span class="full_line">@Html.ActionLink("보기", "MentoringTotalReportDetail", new {totalReportSn = item.TotalReportSn , BizWorkYear = ViewBag.SelectParam.BizWorkYear, BizWorkSn = ViewBag.SelectParam.BizWorkSn, CompSn = ViewBag.SelectParam.CompSn, searchType = "Comp" })</span>
+                                <span class="full_line">@Html.ActionLink("보기", "MentoringTotalReportDetail", new {totalReportSn = item.TotalReportSn , BizWorkYear = ViewBag.SelectParam.BizWorkYear, BizWorkSn = ViewBag.SelectParam.BizWorkSn, CompSn = ViewBag.SelectParam.CompSn, searchType = "Comp" }, new { @style = "text-decoration:underline;" })</span>
                             </td>
                         </tr>
                     }
