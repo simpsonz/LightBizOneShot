@@ -98,6 +98,10 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.CompSn, map => map.MapFrom(s => s.ScCompInfo.CompSn))
                 .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm));
 
+            Mapper.CreateMap<ScCompInfo, BizMngDropDownModel>()
+                .ForMember(d => d.CompSn, map => map.MapFrom(s => s.CompSn))
+                .ForMember(d => d.CompNm, map => map.MapFrom(s => s.CompNm));
+
             //사업 뷰 매핑
             Mapper.CreateMap<ScBizWork, BizWorkDropDownModel>();
 
@@ -404,6 +408,7 @@ namespace BizOneShot.Light.Web.Mappings
                .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
                .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
                .ForMember(d => d.BizWorkYear, map => map.MapFrom(s => s.BasicYear))
+               .ForMember(d => d.BizWorkMngrNm, map => map.MapFrom(s => s.ScBizWork.ScCompInfo.CompNm))
                .ForMember(d => d.QuestionCompleteDt, map => map.MapFrom(s => s.RegDt))
                .ForMember(d => d.RegistrationNo, map => map.MapFrom(s => s.ScCompInfo.RegistrationNo))
                .ForMember(d => d.OwnNm, map => map.MapFrom(s => s.ScCompInfo.OwnNm))

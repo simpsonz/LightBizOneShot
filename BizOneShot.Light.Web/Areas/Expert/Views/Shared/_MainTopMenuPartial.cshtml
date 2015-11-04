@@ -11,7 +11,7 @@
         <div id="naviwrap_biz">
             <div class="navi_biz">
                 <a href="@Url.Action("CompanyList","CompanyMng", new { area= "Expert" })" class="navi_expert01"><em>기업관리</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
-                <a href="" class="navi_expert02"><em>보고서</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
+                <a href="@Url.Action("FinanceMng","FinanceReport",new { area= "" })" class="navi_expert02 navi_report"><em>보고서</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
                 <a href="@Url.Action("Notice","Cs",new { area= "" })" class="navi_expert03 navi_CS"><em>고객센터</em></a><img src="~/images/header_bar.png" class="navi_bizbar" />
                 <a href="@Url.Action("MyInfo","Main", new { area= "Expert" })" class="navi_expert04 navi_MyInfo"><em>내정보관리</em></a>
             </div>
