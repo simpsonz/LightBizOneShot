@@ -25,12 +25,12 @@
         }
 
         $('#submit_form').bind('submit', function () {
-            if ($('#SelectYear').val() == "") {
+            if ($('#SelectYear').val() == "0") {
                 alert("년 선택을 하지 않았습니다.");
                 return false;
             }
 
-            if ($('#SelectMonth').val() == "") {
+            if ($('#SelectMonth').val() == "0") {
                 alert("월 선택을 하지 않았습니다.");
                 return false;
             }
