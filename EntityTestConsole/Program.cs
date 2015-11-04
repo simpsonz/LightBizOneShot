@@ -88,23 +88,40 @@ namespace EntityTestConsole
 
             //    }
 
-        
+
+
+            //using (var context = new WebDbContext())
+            //{
+            //    //var clientIdParameter = new SqlParameter("@ClientId", 4);
+
+            //    var result = context.Database
+            //        .SqlQuery<UspSelectSidoForWebListReturnModel>("USP_SelectSidoForWebList")
+            //        .ToList();
+
+            //    foreach(var sido in result)
+            //    {
+            //        Console.WriteLine(sido.SIDO);
+            //    }
+
+            //    Console.ReadLine();
+            //}
 
             using (var context = new WebDbContext())
             {
-                //var clientIdParameter = new SqlParameter("@ClientId", 4);
+                var bizWorkSns = context.ScExpertMappings.Where(em => em.ExpertId == "simpsonz23").Select(sm => sm.ScBizWork).Select(tt => tt.RptMasters).ToList();
 
-                var result = context.Database
-                    .SqlQuery<UspSelectSidoForWebListReturnModel>("USP_SelectSidoForWebList")
-                    .ToList();
-
-                foreach(var sido in result)
+                IList<RptMaster> listRptMater = new List<RptMaster>();
+                foreach (var bizWorkSn in bizWorkSns)
                 {
-                    Console.WriteLine(sido.SIDO);
+                    foreach(var a in bizWorkSn)
+                    {
+                        Console.WriteLine(a.QuestionSn);
+                    }
                 }
-
-                Console.ReadLine();
             }
+
+            Console.ReadLine();
+                
         }
 
 
