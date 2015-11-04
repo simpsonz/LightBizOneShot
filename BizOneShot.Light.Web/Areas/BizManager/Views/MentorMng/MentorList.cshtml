@@ -120,7 +120,7 @@
                         <tr>
                             <td><input type="checkbox" value="@item.LoginId" name="acc_choice" bizWorkSn="@item.BizWorkSn" /></td>
                             <td>
-                                <span class="full_line">@Html.ActionLink(item.Name+"(" +item.LoginId + ")", "MentorDetail", new { bizWorkSn = item.BizWorkSn, mentorId = item.LoginId })</span>
+                                <span class="full_line">@Html.ActionLink(item.Name+"(" +item.LoginId + ")", "MentorDetail", new { bizWorkSn = item.BizWorkSn, mentorId = item.LoginId }, new { @style = "text-decoration:underline;" })</span>
                             </td>
                             <td>@item.BizWorkNm</td>
                             @if (item.UsrTypeDetail == "T")

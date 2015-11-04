@@ -148,15 +148,15 @@
                             <td> 
                                 @if(item.Status == "T")
                                 { 
-                                    <span class="bot_u">@Html.ActionLink("미작성", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn })</span>
+                                    <span class="bot_u">@Html.ActionLink("미작성", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn }, new { @style = "text-decoration:underline;" })</span>
                                 }
                                 else if (item.Status == "P")
                                 {
-                                    <span class="bot_u">@Html.ActionLink("작성중", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn })</span>
+                                    <span class="bot_u">@Html.ActionLink("작성중", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn }, new { @style = "text-decoration:underline;" })</span>
                                 }
                                 else
                                 {
-                                    <span class="bot_u">@Html.ActionLink("작성완료", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn })</span>
+                                    <span class="bot_u">@Html.ActionLink("작성완료", "Cover", new { BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn }, new { @style = "text-decoration:underline;" })</span>
                                 }
                             </td>
                         </tr>

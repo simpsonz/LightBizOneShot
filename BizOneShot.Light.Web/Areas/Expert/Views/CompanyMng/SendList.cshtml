@@ -138,7 +138,7 @@
                 {
                     <tr>
                         <td class="center">
-                            <span class="full_line">@Html.ActionLink(item.ReqSubject, "SendDetail", new { reqDocSn = item.ReqDocSn })</span>
+                            <span class="full_line">@Html.ActionLink(item.ReqSubject, "SendDetail", new { reqDocSn = item.ReqDocSn }, new { @style = "text-decoration:underline;" })</span>
                         </td>
                         <td class="center">@item.ReceiverComNm</td>
                         <td class="center">@item.ReceiverRegistrationNo</td>

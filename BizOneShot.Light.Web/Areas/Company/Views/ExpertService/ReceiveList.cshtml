@@ -81,7 +81,7 @@
                 {
                     <tr>
                         <td class="center">
-                            <span class="full_line">@Html.ActionLink(item.ReqSubject, "ReceiveDetail", new { reqDocSn = item.ReqDocSn , expertType = ViewBag.ExpertType })</span>
+                            <span class="full_line">@Html.ActionLink(item.ReqSubject, "ReceiveDetail", new { reqDocSn = item.ReqDocSn , expertType = ViewBag.ExpertType }, new { @style = "text-decoration:underline;" })</span>
                         </td>
                         <td class="center">@item.SenderName</td>
                         <td class="center">@item.ReqDt.GetValueOrDefault().ToShortDateString()</td>

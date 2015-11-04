@@ -70,7 +70,7 @@
                     <tr>
                         <td><input type="checkbox" value="@item." /></td>
                         <td>
-                            <span class="full_line">@Html.ActionLink(item.CompNm, "CompanyDetail", "CompanyMng", new { bizWorkSn= ViewBag.BizWorkSN,  compSn = item.CompSn }, null)</span>
+                            <span class="full_line">@Html.ActionLink(item.CompNm, "CompanyDetail", "CompanyMng", new { bizWorkSn= ViewBag.BizWorkSN,  compSn = item.CompSn }, new { @style = "text-decoration:underline;" })</span>
                          </td>
                         <td>@item.ComOwnNm</td>
                         <td>@item.ComRegistrationNo</td>

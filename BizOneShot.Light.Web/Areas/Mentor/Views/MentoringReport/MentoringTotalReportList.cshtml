@@ -167,7 +167,7 @@
                             <td>@item.SubmitDt.Value.ToString("yyyy-MM-dd")</td>
                           
                             <td>
-                                <span class="full_line">@Html.ActionLink("보기", "MentoringTotalReportDetail", new {totalReportSn = item.TotalReportSn , BizWorkYear = ViewBag.SelectParam.BizWorkYear, BizWorkSn = ViewBag.SelectParam.BizWorkSn, CompSn = ViewBag.SelectParam.CompSn })</span>
+                                <span class="full_line">@Html.ActionLink("보기", "MentoringTotalReportDetail", new {totalReportSn = item.TotalReportSn , BizWorkYear = ViewBag.SelectParam.BizWorkYear, BizWorkSn = ViewBag.SelectParam.BizWorkSn, CompSn = ViewBag.SelectParam.CompSn }, new { @style = "text-decoration:underline;" })</span>
                             </td>
                         </tr>
                     }

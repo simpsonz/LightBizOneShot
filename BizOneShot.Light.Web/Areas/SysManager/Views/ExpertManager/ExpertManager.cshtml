@@ -114,7 +114,7 @@
                 {
                     <tr>
                         <td><input type="checkbox" name="acc_choice" value="@item.LoginId" /></td>
-                        <td class="center">@Html.ActionLink(item.Name, "ExpertManagerDetail", new { loginId = item.LoginId })</td>
+                        <td class="center">@Html.ActionLink(item.Name, "ExpertManagerDetail", new { loginId = item.LoginId }, new { @style = "text-decoration:underline;" })</td>
                         <td>@item.LoginId</td>
                         <td>@item.BizMagComName</td>
                         

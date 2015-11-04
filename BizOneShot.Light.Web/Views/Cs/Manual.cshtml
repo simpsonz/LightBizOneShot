@@ -56,7 +56,7 @@
                     @if (item.FormType == "M")
                     {
                 <td class="center">메뉴얼</td>}
-                    <td>@Html.ActionLink(item.Subject, "ManualDetail", new { formSn = item.FormSn })</td>
+                    <td>@Html.ActionLink(item.Subject, "ManualDetail", new { formSn = item.FormSn }, new { @style = "text-decoration:underline;" })</td>
                     <td class="center">@item.RegDt.Value.ToShortDateString()</td>
                 </tr>
             }

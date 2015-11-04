@@ -119,7 +119,7 @@
                             <td><input type="checkbox" name="acc_choice" value="@item.CompSn#@item.BizWorkSn" bizWorkSn="@item.BizWorkSn" /></td>
                             <td>@item.ApproveRequestDate</td>
                             <td>
-                                <span class="full_line">@Html.ActionLink(item.CompNm, "CompanyDetail", new { bizWorkSn = item.BizWorkSn, compSn = item.CompSn })</span>
+                                <span class="full_line">@Html.ActionLink(item.CompNm, "CompanyDetail", new { bizWorkSn = item.BizWorkSn, compSn = item.CompSn }, new { @style = "text-decoration:underline;" })</span>
                             </td>
                             <td>@item.RegistrationNo</td>
                             <td>@item.OwnNm</td>

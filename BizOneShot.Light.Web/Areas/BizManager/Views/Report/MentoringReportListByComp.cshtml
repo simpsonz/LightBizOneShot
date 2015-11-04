@@ -138,7 +138,7 @@
                             <td>@item.MentoringDt.Value.ToString("yyyy-MM-dd")</td>
                             <td>@item.MentorAreaNm</td>
                             <td>
-                                <span class="blue">@Html.ActionLink(item.MentoringSubject.Length > 14 ? item.MentoringSubject.Substring(0, 14) + " .." : item.MentoringSubject, "MentoringReportDetail", new { reportSn = item.ReportSn, BizWorkYear = ViewBag.SelectParam.BizWorkYear, BizWorkSn = ViewBag.SelectParam.BizWorkSn, CompSn = ViewBag.SelectParam.CompSn, searchType = "Comp" })</span>
+                                <span class="blue">@Html.ActionLink(item.MentoringSubject.Length > 14 ? item.MentoringSubject.Substring(0, 14) + " .." : item.MentoringSubject, "MentoringReportDetail", new { reportSn = item.ReportSn, BizWorkYear = ViewBag.SelectParam.BizWorkYear, BizWorkSn = ViewBag.SelectParam.BizWorkSn, CompSn = ViewBag.SelectParam.CompSn, searchType = "Comp" }, new { @style = "text-decoration:underline;" })</span>
                             </td>
                         </tr>
                     }
