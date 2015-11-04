@@ -19,6 +19,7 @@ namespace BizOneShot.Light.Dao.Repositories
         IPagedList<RptMaster> GetRptMasters(int page, int pageSize, string mentorID, int basicYear, int bizWorkSn, int compSn, string status);
         IPagedList<RptMaster> GetRptMastersForBizManager(int page, int pageSize, string executorId, int basicYear, int bizWorkSn, int compSn, string status);
         IPagedList<RptMaster> GetRptMastersForSysManager(int page, int pageSize, int bizWorkSn, int mngCompSn, string status);
+        IPagedList<RptMaster> GetRptMastersForExpert(int page, int pageSize, string expertId, int bizWorkSn, int mngCompSn, string status);
         Task<RptMaster> GetRptMasterAsync(Expression<Func<RptMaster, bool>> where);
     }
 
@@ -93,6 +94,31 @@ namespace BizOneShot.Light.Dao.Repositories
                     .OrderByDescending(rm => rm.RegDt)
                     .ToPagedList(page, pageSize);
 
+        }
+
+        public IPagedList<RptMaster> GetRptMastersForExpert(int page, int pageSize, string expertId, int bizWorkSn, int mngCompSn, string status)
+        {
+            var listRptMatsers = DbContext.ScExpertMappings
+                .Where(em => em.ExpertId == expertId)
+                .Select(sm => sm.ScBizWork)
+                .Select(tt => tt.RptMasters).ToList();
+
+            IList<RptMaster> rptMaterView = new List<RptMaster>();
+            foreach (var rptMasters in listRptMatsers)
+            {
+                foreach (var rptMaster in rptMasters)
+                {
+                    rptMaterView.Add(rptMaster);
+                }
+            }
+
+            var rptMaters = rptMaterView.Where(em => em.Status == status)
+                .Where(rm => mngCompSn == 0 ? rm.ScBizWork.MngCompSn > 0 : rm.ScBizWork.MngCompSn == mngCompSn)
+                .Where(rm => bizWorkSn == 0 ? rm.BizWorkSn > 0 : rm.BizWorkSn == bizWorkSn)
+                .OrderByDescending(rm => rm.RegDt)
+                .ToPagedList(page, pageSize);
+
+            return rptMaters;
         }
     }
 }

@@ -107,7 +107,7 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             //기초역량 보고서 조회
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            var rptMsters = rptMasterService.GetRptMasterListForSysManager(int.Parse(curPage ?? "1"), pagingSize, paramModel.BizWorkSn, paramModel.BizWorkMngr, "C");
+            var rptMsters = rptMasterService.GetRptMasterListForExpert(int.Parse(curPage ?? "1"), pagingSize, loginId, paramModel.BizWorkSn, paramModel.BizWorkMngr, "C");
 
             //뷰모델 맵핑
             var rptMasterListView = Mapper.Map<List<BasicSurveyReportViewModel>>(rptMsters.ToList());

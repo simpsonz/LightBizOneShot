@@ -126,8 +126,8 @@
                     <th class="topcen">기업명</th>
                     <th class="topcen">사업자번호</th>
                     <th class="topcen">대표자</th>
+                    <th class="topcen">사업관리기관</th>
                     <th class="topcen">사업명</th>
-                    <th class="topcen">사업년도</th>
                     <th class="topcen">보고서보기</th>
                 </tr>
                 @if (Model == null || Model.TotalItemCount == 0)
@@ -144,8 +144,8 @@
                             <td>@item.CompNm</td>
                             <td>@item.RegistrationNo</td>
                             <td>@item.OwnNm</td>
+                            <td>@item.BizWorkMngrNm</td>
                             <td>@item.BizWorkNm</td>
-                            <td>@item.BizWorkYear</td>
                             <td>
                                 <a onclick="CheckFinanceData(@item.CompSn , @item.BizWorkYear, this);" href="@Url.Action("Cover", "BasicSurveyReport", new { area = "", BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn } )" class="report_view"><em>보고서보기</em></a>
                             </td>

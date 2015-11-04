@@ -24,6 +24,7 @@ namespace BizOneShot.Light.Services
         IPagedList<RptMaster> GetRptMasterList(int page, int pageSize, string mentorId, int basicYear, int bizWorkSn, int compSn, string status);
         IPagedList<RptMaster> GetRptMasterListForBizManager(int page, int pageSize, string executorId, int basicYear, int bizWorkSn, int compSn, string status);
         IPagedList<RptMaster> GetRptMasterListForSysManager(int page, int pageSize, int bizWorkSn, int mngCompSn, string status);
+        IPagedList<RptMaster> GetRptMasterListForExpert(int page, int pageSize, string expertId, int bizWorkSn, int mngCompSn, string status);
         void ModifyRptMaster(RptMaster rptMaster);
     }
 
@@ -78,6 +79,11 @@ namespace BizOneShot.Light.Services
         public IPagedList<RptMaster> GetRptMasterListForSysManager(int page, int pageSize, int bizWorkSn, int mngCompSn, string status)
         {
             return rptMasterRepository.GetRptMastersForSysManager(page, pageSize, bizWorkSn, mngCompSn, status);
+        }
+
+        public IPagedList<RptMaster> GetRptMasterListForExpert(int page, int pageSize, string expertId, int bizWorkSn, int mngCompSn, string status)
+        {
+            return rptMasterRepository.GetRptMastersForExpert(page, pageSize, expertId, bizWorkSn, mngCompSn, status);
         }
 
         public RptMaster Insert(RptMaster rptMaster)
