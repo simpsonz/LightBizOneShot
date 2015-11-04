@@ -24,6 +24,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<IList<ScExpertMapping>> GetExperetMappingsAsync(Expression<Func<ScExpertMapping, bool>> where)
         {
+            
             return await this.DbContext.ScExpertMappings.Include("ScBizWork").Include("ScUsr").Include("ScUsr.ScUsrResume.ScFileInfo").Where(where).ToListAsync();
         }
 
