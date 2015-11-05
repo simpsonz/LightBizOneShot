@@ -48,7 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="await.cs" />
     <Compile Include="FinenceReportService.cs" />
     <Compile Include="PostService.cs" />
     <Compile Include="QuesCheckListService.cs" />

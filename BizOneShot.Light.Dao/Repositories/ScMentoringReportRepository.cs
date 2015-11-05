@@ -18,8 +18,9 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         Task<IList<int>> GetMentoringReportMentoringDt(string mentorId);
         Task<ScMentoringReport> GetMentoringReportById(int reportSn);
-        Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReport(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null);
+        Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReportByMngComp(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null);
         Task<IList<ScMentoringReport>> GetMentoringReport(Expression<Func<ScMentoringReport, bool>> where);
+        Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReport(int page, int pageSize, string mentorId, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0);
         Task<ScMentoringReport> Insert(ScMentoringReport scMentoringReport);
         Task<IList<MentoringStatsByCompanyGroupModel>> GetMentoringReportGroupBy(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth);
         Task<IList<MentoringStatsByMentorGroupModel>> GetMentoringReportGroupByMentor(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth);
@@ -44,11 +45,11 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Include(mtr => mtr.ScCompInfo)
                 .Include(mtr => mtr.ScUsr)
                 .Include(mtr => mtr.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo))
-                .Where(mtr => mtr.ReportSn == reportSn)
+                .Where(mtr => mtr.ReportSn == reportSn).AsNoTracking()
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReport(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null)
+        public async Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReportByMngComp(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null)
         {
             return await DbContext.ScMentoringReports
                 .Include(mtr => mtr.ScBizWork)
@@ -61,7 +62,51 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Where(mtr => mentorId == null ? mtr.MentorId != null : mtr.MentorId == mentorId)
                 .Where(mtr => bizWorkSn == 0 ? mtr.BizWorkSn > bizWorkSn : mtr.BizWorkSn == bizWorkSn)
                 .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
-                .OrderByDescending(mtr => mtr.ReportSn).ToPagedListAsync(page, pageSize);
+                .OrderByDescending(mtr => mtr.ReportSn).AsNoTracking().ToPagedListAsync(page, pageSize);
+        }
+
+        //특정필드만 셀렉하는 예제
+        //public async Task<IList<MentoringReportViewModel>> GetMentoringReport(Expression<Func<ScMentoringReport, bool>> where)
+        //{
+        //    return await DbContext.ScMentoringReports
+        //        .Include(mtr => mtr.ScBizWork)
+        //        .Include(mtr => mtr.ScCompInfo)
+        //        .Include(mtr => mtr.ScUsr)
+        //        .Include(mtr => mtr.ScMentoringFileInfoes)
+        //        .Include(mtr => mtr.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo))
+        //        .Where(where)
+        //        .Select(mtr => new MentoringReportViewModel
+        //        {
+        //            BizWorkSn = mtr.BizWorkSn,
+        //            CompSn = mtr.CompSn,
+        //            BizWorkNm = mtr.ScBizWork.BizWorkNm,
+        //            BizWorkStDt = mtr.ScBizWork.BizWorkStDt,
+        //            BizWorkEdDt = mtr.ScBizWork.BizWorkEdDt,
+        //            CompNm = mtr.ScCompInfo.CompNm,
+        //            MentorNm = mtr.ScUsr.Name
+        //            //FileContents = mtr.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo)
+
+        //        })
+        //        .AsNoTracking().ToListAsync();
+        //}
+
+
+        public async Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReport(int page, int pageSize, string mentorId, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0)
+        {
+            DateTime date = DateTime.Now.Date;
+
+            return await DbContext.ScMentoringReports
+                .Include(mtr => mtr.ScBizWork)
+                .Include(mtr => mtr.ScCompInfo)
+                .Include(mtr => mtr.ScUsr)
+                .Include(mtr => mtr.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo))
+                .Where(mtr => mtr.ScBizWork.BizWorkEdDt.Value >= date)
+                .Where(mtr => mtr.MentorId == mentorId && mtr.Status == "N")
+                .Where(mtr => bizWorkSn == 0 ? mtr.BizWorkSn > bizWorkSn : mtr.BizWorkSn == bizWorkSn)
+                .Where(mtr => compSn == 0 ? mtr.CompSn > compSn : mtr.CompSn == compSn)
+                .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
+                .OrderByDescending(mtr => mtr.ReportSn)
+                .AsNoTracking().ToPagedListAsync(page, pageSize);
         }
 
         public async Task<IList<ScMentoringReport>> GetMentoringReport(Expression<Func<ScMentoringReport, bool>> where)
@@ -71,7 +116,8 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Include(mtr => mtr.ScCompInfo)
                 .Include(mtr => mtr.ScUsr)
                 .Include(mtr => mtr.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo))
-                .Where(where).ToListAsync();
+                .Where(where)
+                .AsNoTracking().ToListAsync();
         }
 
 
@@ -99,7 +145,7 @@ namespace BizOneShot.Light.Dao.Repositories
                     ComNm = DbContext.ScCompInfoes.Where(ci => ci.CompSn == g.Key.CompSn.Value).FirstOrDefault().CompNm,
                     MentoringAreaCd = g.Key.MentorAreaCd,
                     Count = g.Count()
-                }).ToListAsync();
+                }).AsNoTracking().ToListAsync();
         }
 
         public async Task<IList<MentoringStatsByMentorGroupModel>> GetMentoringReportGroupByMentor(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth)
@@ -154,7 +200,7 @@ namespace BizOneShot.Light.Dao.Repositories
                 {
                     MentoringAreaCd = g.Key.MentorAreaCd,
                     Count = g.Count()
-                }).ToListAsync();
+                }).AsNoTracking().ToListAsync();
         }
 
 

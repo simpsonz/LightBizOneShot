@@ -183,20 +183,33 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             SelectList bizWorkYear = new SelectList(bizWorkYearDropDown, "Value", "Text");
             ViewBag.SelectBizWorkYearList = bizWorkYear;
 
-
             //검색조건을 유지하기 위한
             ViewBag.SelectParam = param;
 
-            //실제 쿼리
-            var listscMentoringTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportAsync(mentorId, param.BizWorkYear, param.BizWorkSn, param.CompSn);
 
+            //실제 쿼리
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            var pagedListscMentoringTotalReport = await _scMentoringTotalReportService.GetPagedListMentoringTotalReportAsync(int.Parse(curPage ?? "1"), pagingSize, mentorId, param.BizWorkYear, param.BizWorkSn, param.CompSn);
 
             //맨토링 종합 레포트 정보 조회
             var listTotalReportView =
-               Mapper.Map<List<MentoringTotalReportViewModel >>(listscMentoringTotalReport);
+               Mapper.Map<List<MentoringTotalReportViewModel>>(pagedListscMentoringTotalReport);
 
-            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
-            return View(new StaticPagedList<MentoringTotalReportViewModel>(listTotalReportView.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, listTotalReportView.Count));
+            
+            return View(new StaticPagedList<MentoringTotalReportViewModel>(listTotalReportView, int.Parse(curPage ?? "1"), pagingSize, pagedListscMentoringTotalReport.TotalItemCount));
+
+
+            ////실제 쿼리
+            //var listscMentoringTotalReport = await _scMentoringTotalReportService.GetMentoringTotalReportAsync(mentorId, param.BizWorkYear, param.BizWorkSn, param.CompSn);
+
+            ////맨토링 종합 레포트 정보 조회
+            //var listTotalReportView =
+            //   Mapper.Map<List<MentoringTotalReportViewModel >>(listscMentoringTotalReport);
+
+            //int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            //return View(new StaticPagedList<MentoringTotalReportViewModel>(listTotalReportView.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, listTotalReportView.Count));
+
         }
         #endregion
 
@@ -231,14 +244,25 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             ViewBag.SelectParam = param;
 
             //맨토링 일지 정보 조회
-            var listscMentoringReport = await _scMentoringReportService.GetMentoringReportAsync(mentorId, param.BizWorkYear, param.BizWorkSn, param.CompSn);
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            var pagedListscMentoringReport = await _scMentoringReportService.GetPagedListMentoringReportAsync(int.Parse(curPage ?? "1"), pagingSize, mentorId, param.BizWorkYear, param.BizWorkSn, param.CompSn);
 
             //맨토링 일지 정보 to 뷰모델 매핑
             var listTotalReportView =
-               Mapper.Map<List<MentoringReportViewModel>>(listscMentoringReport);
+               Mapper.Map<List<MentoringReportViewModel>>(pagedListscMentoringReport);
 
-            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
-            return View(new StaticPagedList<MentoringReportViewModel>(listTotalReportView.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, listTotalReportView.Count));
+            return View(new StaticPagedList<MentoringReportViewModel>(listTotalReportView, int.Parse(curPage ?? "1"), pagingSize, pagedListscMentoringReport.TotalItemCount));
+
+
+            ////맨토링 일지 정보 조회
+            //var listscMentoringReport = await _scMentoringReportService.GetMentoringReportAsync(mentorId, param.BizWorkYear, param.BizWorkSn, param.CompSn);
+
+            ////맨토링 일지 정보 to 뷰모델 매핑
+            //var listTotalReportView =
+            //   Mapper.Map<List<MentoringReportViewModel>>(listscMentoringReport);
+
+            //int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+            //return View(new StaticPagedList<MentoringReportViewModel>(listTotalReportView.ToPagedList(int.Parse(curPage ?? "1"), pagingSize), int.Parse(curPage ?? "1"), pagingSize, listTotalReportView.Count));
 
         }
 
