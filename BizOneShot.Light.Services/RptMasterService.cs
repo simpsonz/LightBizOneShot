@@ -21,10 +21,10 @@ namespace BizOneShot.Light.Services
         Task<IList<RptMaster>> GetRptMasterListAsync(int compSn, int year);
         Task<RptMaster> GetRptMasterAsync(int qustionSn, int compSn, int year);
         Task<RptMaster> GetRptMasterAsyncForCompany(int bizWorkSn, int compSn, int year);
-        IPagedList<RptMaster> GetRptMasterList(int page, int pageSize, string mentorId, int basicYear, int bizWorkSn, int compSn, string status);
-        IPagedList<RptMaster> GetRptMasterListForBizManager(int page, int pageSize, string executorId, int basicYear, int bizWorkSn, int compSn, string status);
-        IPagedList<RptMaster> GetRptMasterListForSysManager(int page, int pageSize, int bizWorkSn, int mngCompSn, string status);
-        IPagedList<RptMaster> GetRptMasterListForExpert(int page, int pageSize, string expertId, int bizWorkSn, int mngCompSn, string status);
+        Task<IPagedList<RptMaster>> GetRptMasterList(int page, int pageSize, string mentorId, int basicYear, int bizWorkSn, int compSn, string status);
+        Task<IPagedList<RptMaster>> GetRptMasterListForBizManager(int page, int pageSize, string executorId, int basicYear, int bizWorkSn, int compSn, string status);
+        Task<IPagedList<RptMaster>> GetRptMasterListForSysManager(int page, int pageSize, int bizWorkSn, int mngCompSn, string status);
+        Task<IPagedList<RptMaster>> GetRptMasterListForExpert(int page, int pageSize, string expertId, int bizWorkSn, int mngCompSn, string status);
         void ModifyRptMaster(RptMaster rptMaster);
     }
 
@@ -66,24 +66,24 @@ namespace BizOneShot.Light.Services
             return rptMaster;
         }
 
-        public IPagedList<RptMaster> GetRptMasterList(int page, int pageSize, string mentorId, int basicYear, int bizWorkSn, int compSn, string status)
+        public async Task<IPagedList<RptMaster>> GetRptMasterList(int page, int pageSize, string mentorId, int basicYear, int bizWorkSn, int compSn, string status)
         {
-            return rptMasterRepository.GetRptMasters(page, pageSize, mentorId, basicYear, bizWorkSn, compSn, status);
+            return await rptMasterRepository.GetRptMasters(page, pageSize, mentorId, basicYear, bizWorkSn, compSn, status);
         }
 
-        public IPagedList<RptMaster> GetRptMasterListForBizManager(int page, int pageSize, string executorId, int basicYear, int bizWorkSn, int compSn, string status)
+        public async Task<IPagedList<RptMaster>> GetRptMasterListForBizManager(int page, int pageSize, string executorId, int basicYear, int bizWorkSn, int compSn, string status)
         {
-            return rptMasterRepository.GetRptMastersForBizManager(page, pageSize, executorId, basicYear, bizWorkSn, compSn, status);
+            return await rptMasterRepository.GetRptMastersForBizManager(page, pageSize, executorId, basicYear, bizWorkSn, compSn, status);
         }
 
-        public IPagedList<RptMaster> GetRptMasterListForSysManager(int page, int pageSize, int bizWorkSn, int mngCompSn, string status)
+        public async Task<IPagedList<RptMaster>> GetRptMasterListForSysManager(int page, int pageSize, int bizWorkSn, int mngCompSn, string status)
         {
-            return rptMasterRepository.GetRptMastersForSysManager(page, pageSize, bizWorkSn, mngCompSn, status);
+            return await rptMasterRepository.GetRptMastersForSysManager(page, pageSize, bizWorkSn, mngCompSn, status);
         }
 
-        public IPagedList<RptMaster> GetRptMasterListForExpert(int page, int pageSize, string expertId, int bizWorkSn, int mngCompSn, string status)
+        public async Task<IPagedList<RptMaster>> GetRptMasterListForExpert(int page, int pageSize, string expertId, int bizWorkSn, int mngCompSn, string status)
         {
-            return rptMasterRepository.GetRptMastersForExpert(page, pageSize, expertId, bizWorkSn, mngCompSn, status);
+            return await rptMasterRepository.GetRptMastersForExpert(page, pageSize, expertId, bizWorkSn, mngCompSn, status);
         }
 
         public RptMaster Insert(RptMaster rptMaster)

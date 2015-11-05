@@ -23,12 +23,14 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<QuesCompInfo> GetQuesCompInfoAsync(Expression<Func<QuesCompInfo, bool>> where)
         {
-            return await this.DbContext.QuesCompInfoes.Where(where).SingleAsync();
+            return await this.DbContext.QuesCompInfoes.Where(where)
+                //.AsNoTracking()
+                .SingleAsync();
         }
 
         public QuesCompInfo Insert(QuesCompInfo quesCompInfo)
         {
-            return this.DbContext.QuesCompInfoes.Add(quesCompInfo);
+            return DbContext.QuesCompInfoes.Add(quesCompInfo);
         }
 
     }

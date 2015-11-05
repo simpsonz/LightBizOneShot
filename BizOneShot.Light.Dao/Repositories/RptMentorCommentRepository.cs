@@ -25,17 +25,17 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public RptMentorComment Insert(RptMentorComment rptMentorComment)
         {
-            return this.DbContext.RptMentorComments.Add(rptMentorComment);
+            return DbContext.RptMentorComments.Add(rptMentorComment);
         }
 
         public async Task<IList<RptMentorComment>> GetRptMentorCommentsAsync(Expression<Func<RptMentorComment, bool>> where)
         {
-            return await this.DbContext.RptMentorComments.Include("RptCheckList").Where(where).ToListAsync();
+            return await DbContext.RptMentorComments.Include("RptCheckList").Where(where).ToListAsync();
         }
 
         public async Task<RptMentorComment> GetRptMentorCommentAsync(Expression<Func<RptMentorComment, bool>> where)
         {
-            return await this.DbContext.RptMentorComments.Include("RptCheckList").Where(where).SingleOrDefaultAsync();
+            return await DbContext.RptMentorComments.Include("RptCheckList").Where(where).SingleOrDefaultAsync();
         }
     }
 }

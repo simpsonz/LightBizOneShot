@@ -45,7 +45,8 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Include(mtr => mtr.ScCompInfo)
                 .Include(mtr => mtr.ScUsr)
                 .Include(mtr => mtr.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo))
-                .Where(mtr => mtr.ReportSn == reportSn).AsNoTracking()
+                .Where(mtr => mtr.ReportSn == reportSn)
+                //.AsNoTracking()
                 .SingleOrDefaultAsync();
         }
 
@@ -62,7 +63,9 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Where(mtr => mentorId == null ? mtr.MentorId != null : mtr.MentorId == mentorId)
                 .Where(mtr => bizWorkSn == 0 ? mtr.BizWorkSn > bizWorkSn : mtr.BizWorkSn == bizWorkSn)
                 .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
-                .OrderByDescending(mtr => mtr.ReportSn).AsNoTracking().ToPagedListAsync(page, pageSize);
+                .OrderByDescending(mtr => mtr.ReportSn)
+                .AsNoTracking()
+                .ToPagedListAsync(page, pageSize);
         }
 
         //특정필드만 셀렉하는 예제
@@ -75,19 +78,24 @@ namespace BizOneShot.Light.Dao.Repositories
         //        .Include(mtr => mtr.ScMentoringFileInfoes)
         //        .Include(mtr => mtr.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo))
         //        .Where(where)
-        //        .Select(mtr => new MentoringReportViewModel
-        //        {
-        //            BizWorkSn = mtr.BizWorkSn,
-        //            CompSn = mtr.CompSn,
-        //            BizWorkNm = mtr.ScBizWork.BizWorkNm,
-        //            BizWorkStDt = mtr.ScBizWork.BizWorkStDt,
-        //            BizWorkEdDt = mtr.ScBizWork.BizWorkEdDt,
-        //            CompNm = mtr.ScCompInfo.CompNm,
-        //            MentorNm = mtr.ScUsr.Name
-        //            //FileContents = mtr.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo)
+        //        .Select(mtr => new
+        //            {
+        //                mtr.BizWorkSn,
+        //                mtr.CompSn,
+        //                mtr.ScBizWork.BizWorkNm,
+        //                mtr.ScBizWork.BizWorkStDt,
+        //                mtr.ScBizWork.BizWorkEdDt,
+        //                mtr.ScCompInfo.CompNm,
+        //                mtr.ScUsr.Name
 
-        //        })
-        //        .AsNoTracking().ToListAsync();
+        //            }
+        //        )
+        //        .Select(mtr => new MentoringReportViewModel
+        //            {
+        //                 BizWorkSn = mtr.BizWorkSn  
+        //            }
+        //        )
+        //        .ToListAsync();
         //}
 
 
@@ -106,7 +114,8 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Where(mtr => compSn == 0 ? mtr.CompSn > compSn : mtr.CompSn == compSn)
                 .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
                 .OrderByDescending(mtr => mtr.ReportSn)
-                .AsNoTracking().ToPagedListAsync(page, pageSize);
+                .AsNoTracking()
+                .ToPagedListAsync(page, pageSize);
         }
 
         public async Task<IList<ScMentoringReport>> GetMentoringReport(Expression<Func<ScMentoringReport, bool>> where)
@@ -145,7 +154,9 @@ namespace BizOneShot.Light.Dao.Repositories
                     ComNm = DbContext.ScCompInfoes.Where(ci => ci.CompSn == g.Key.CompSn.Value).FirstOrDefault().CompNm,
                     MentoringAreaCd = g.Key.MentorAreaCd,
                     Count = g.Count()
-                }).AsNoTracking().ToListAsync();
+                })
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<IList<MentoringStatsByMentorGroupModel>> GetMentoringReportGroupByMentor(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth)

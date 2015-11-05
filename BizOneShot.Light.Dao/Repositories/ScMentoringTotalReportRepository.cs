@@ -58,6 +58,7 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Where(mtr => bizWorkSn != 0 ? mtr.BizWorkSn == bizWorkSn : mtr.BizWorkSn > bizWorkSn)
                 .Where(mtr => compSn != 0 ? mtr.CompSn == compSn : mtr.CompSn > compSn)
                 .OrderByDescending(mtr => mtr.TotalReportSn).AsNoTracking()
+                .AsNoTracking()
                 .ToPagedListAsync(page, pageSize);
         }
 
@@ -69,7 +70,9 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Include(mtr => mtr.ScCompInfo)
                 .Include(mtr => mtr.ScUsr)
                 .Include(mtr => mtr.ScMentoringTrFileInfoes.Select(mtfi => mtfi.ScFileInfo))
-                .Where(where).ToListAsync();
+                .Where(where)
+                //.AsNoTracking()
+                .ToListAsync();
         }
 
 
@@ -88,6 +91,7 @@ namespace BizOneShot.Light.Dao.Repositories
                     .Where(mtr => mentorId == null ? mtr.MentorId != null : mtr.MentorId == mentorId)
                     .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
                     .OrderByDescending(mtr => mtr.TotalReportSn)
+                    .AsNoTracking()
                     .ToPagedListAsync(page, pageSize);
             }
             else
@@ -103,6 +107,7 @@ namespace BizOneShot.Light.Dao.Repositories
                     .Where(mtr => mentorId == null ? mtr.MentorId != null : mtr.MentorId == mentorId)
                     .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
                     .OrderByDescending(mtr => mtr.TotalReportSn)
+                    .AsNoTracking()
                     .ToPagedListAsync(page, pageSize);
             }
         }
