@@ -17,12 +17,16 @@ namespace BizOneShot.Light.Web.Controllers
     {
         
         private readonly IScCompMappingService _scCompMappingService;
+        private readonly IScBizWorkService _scBizWorkService;
         private readonly IFinenceReportService _finenceReportService;
+        private readonly IScCompInfoService _scCompInfoService;
 
-        public FinanceReportController(IScCompMappingService _scCompMappingService, IFinenceReportService _finenceReportService)
+        public FinanceReportController(IScCompMappingService _scCompMappingService, IFinenceReportService _finenceReportService, IScBizWorkService _scBizWorkService, IScCompInfoService _scCompInfoService)
         {
             this._scCompMappingService = _scCompMappingService;
             this._finenceReportService = _finenceReportService;
+            this._scBizWorkService = _scBizWorkService;
+            this._scCompInfoService = _scCompInfoService;
         }
 
 
@@ -32,9 +36,14 @@ namespace BizOneShot.Light.Web.Controllers
             return View();
         }
 
-        public ActionResult FinanceMng()
+        public ActionResult FinanceMng(int CompSn = 0, int BizWorkSn = 0)
         {
             ViewBag.LeftMenu = Global.Report;
+
+            if(CompSn == 0)
+            {
+                CompSn = int.Parse(Session[Global.CompSN].ToString());
+            }
 
             // 로그인 기업의 승인된 사업정보를 가져옮
             ViewBag.SelectYearList = ReportHelper.MakeYear(2014);
@@ -42,6 +51,8 @@ namespace BizOneShot.Light.Web.Controllers
 
             FinanceMngViewModel financeMngViewModel = new FinanceMngViewModel();
             financeMngViewModel.Display = "N";
+            financeMngViewModel.CompSn = CompSn;
+            financeMngViewModel.BizWorkSn = BizWorkSn;
 
             financeMngViewModel.curMenthTotalCostViewModel = new TotalCostViewModel();
             financeMngViewModel.curMenthTotalCostViewModel.AllOtherAmt = "0";
@@ -61,12 +72,12 @@ namespace BizOneShot.Light.Web.Controllers
             ViewBag.LeftMenu = Global.Report;
 
             // 로그인 기업의 승인된 사업정보를 가져옮
-            var scCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(Session[Global.CompSN].ToString()), "A");
+            var scCompInfo = await _scCompInfoService.GetScCompInfoByCompSn(financeMngViewModel.CompSn);
             ViewBag.SelectYearList = ReportHelper.MakeYear(2014);
             ViewBag.SelectMonthList = ReportHelper.MakeMonth(int.Parse(financeMngViewModel.Year));
 
             financeMngViewModel.Display = "Y";
-            financeMngViewModel.CompNm = scCompMapping.ScCompInfo.CompNm;
+            financeMngViewModel.CompNm = scCompInfo.CompNm;
 
             // 현금시제
             var cashResultList = await _finenceReportService.GetMonthlyCashListAsync(ReportHelper.MakeProcedureParams("8888888888", "1000", "0100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
@@ -103,13 +114,20 @@ namespace BizOneShot.Light.Web.Controllers
 
 
         [HttpPost]
-        public async Task<JsonResult> GetMonth(string Year)
+        public async Task<JsonResult> GetMonth(string Year, int CompSn, int BizWorkSn)
         {
-            var scCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(Session[Global.CompSN].ToString()), "A");
 
-            var month = ReportHelper.MakeBizMonth(scCompMapping.ScBizWork, int.Parse(Year));
-
-            return Json(month);
+            if (Session[Global.UserType].Equals(Global.Company))
+            {// 기업회원
+                var month = ReportHelper.MakeMonth(int.Parse(Year));
+                return Json(month);
+            }
+            else
+            {
+                var scBizWork = await _scBizWorkService.GetBizWorkByBizWorkSn(BizWorkSn);
+                var month = ReportHelper.MakeBizMonth(scBizWork, int.Parse(Year));
+                return Json(month);
+            }
         }
     }
 }

@@ -16,6 +16,8 @@ namespace BizOneShot.Light.Models.ViewModels
         public string Month { get; set; } // month
         public string Display { get; set; } // Display 
         public string CompNm { get; set; } // COMP_NM. 회사명
+        public int CompSn { get; set; } // COMP_NM. 회사 식별자
+        public int BizWorkSn { get; set; } // COMP_NM. 사업 식별자
 
         public CashViewModel cashViewModel { get; set; } // 현금시제
         public SalesViewModel salesViewModel { get; set; } // 매출

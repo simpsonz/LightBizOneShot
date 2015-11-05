@@ -414,6 +414,15 @@ namespace BizOneShot.Light.Web.Mappings
                .ForMember(d => d.OwnNm, map => map.MapFrom(s => s.ScCompInfo.OwnNm))
             ;
 
+            //재무보고서 기업 리스트
+            Mapper.CreateMap<ScCompMapping, BasicSurveyReportViewModel>()
+               .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
+               .ForMember(d => d.CompNm, map => map.MapFrom(s => s.ScCompInfo.CompNm))
+               .ForMember(d => d.BizWorkMngrNm, map => map.MapFrom(s => s.ScBizWork.ScCompInfo.CompNm))
+               .ForMember(d => d.RegistrationNo, map => map.MapFrom(s => s.ScCompInfo.RegistrationNo))
+               .ForMember(d => d.OwnNm, map => map.MapFrom(s => s.ScCompInfo.OwnNm))
+            ;
+
 
             //기초역량보고서 커맨트 매핑
             Mapper.CreateMap<RptMentorComment, CommentViewModel>();

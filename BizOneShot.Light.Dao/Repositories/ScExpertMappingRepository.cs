@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Models.WebModels;
+using PagedList;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -15,6 +16,7 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         Task<IList<ScExpertMapping>> GetExperetMappingsAsync(Expression<Func<ScExpertMapping, bool>> where);
         Task<ScExpertMapping> GetExpertMappingAsync(Expression<Func<ScExpertMapping, bool>> where);
+        IPagedList<ScCompMapping> GetExpertMappingsAsync(int page, int pageSize, string expertId, int bizWorkSn, int mngCompSn, string status);
     }
 
 
@@ -31,6 +33,33 @@ namespace BizOneShot.Light.Dao.Repositories
         public async Task<ScExpertMapping> GetExpertMappingAsync(Expression<Func<ScExpertMapping, bool>> where)
         {
             return await this.DbContext.ScExpertMappings.Include("ScBizWork").Include("ScBizWork.ScCompInfo").Include("ScUsr").Include("ScUsr.ScCompInfo").Include("ScUsr.ScUsrResume.ScFileInfo").Where(where).SingleOrDefaultAsync();
+        }
+
+
+        public IPagedList<ScCompMapping> GetExpertMappingsAsync(int page, int pageSize, string expertId, int bizWorkSn, int mngCompSn, string status)
+        {
+            var listScCompMappings = DbContext.ScExpertMappings
+                .Where(em => em.ExpertId == expertId)
+                .Select(sm => sm.ScBizWork)
+                .Select(tt => tt.ScCompMappings).ToList();
+
+            IList<ScCompMapping> scCompMappings = new List<ScCompMapping>();
+            foreach (var listScCompMapping in listScCompMappings)
+            {
+                foreach (var scCompMapping in listScCompMapping)
+                {
+                    scCompMappings.Add(scCompMapping);
+                }
+            }
+
+            var rstScCompMappings = scCompMappings.Where(em => em.Status == status)
+                .Where(rm => mngCompSn == 0 ? rm.ScBizWork.MngCompSn > 0 : rm.ScBizWork.MngCompSn == mngCompSn)
+                .Where(rm => bizWorkSn == 0 ? rm.BizWorkSn > 0 : rm.BizWorkSn == bizWorkSn)
+                .OrderByDescending(rm => rm.RegDt)
+                .ToPagedList(page, pageSize);
+
+            return rstScCompMappings;
+
         }
     }
 }

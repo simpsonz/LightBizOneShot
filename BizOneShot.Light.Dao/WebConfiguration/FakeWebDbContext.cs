@@ -37,6 +37,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public DbSet<QuesResult2> QuesResult2 { get; set; }
         public DbSet<QuesWriter> QuesWriters { get; set; }
         public DbSet<RptCheckList> RptCheckLists { get; set; }
+        public DbSet<RptFinanceComment> RptFinanceComments { get; set; }
         public DbSet<RptMaster> RptMasters { get; set; }
         public DbSet<RptMentorCheck> RptMentorChecks { get; set; }
         public DbSet<RptMentorComment> RptMentorComments { get; set; }
@@ -78,6 +79,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             QuesResult2 = new FakeDbSet<QuesResult2>();
             QuesWriters = new FakeDbSet<QuesWriter>();
             RptCheckLists = new FakeDbSet<RptCheckList>();
+            RptFinanceComments = new FakeDbSet<RptFinanceComment>();
             RptMasters = new FakeDbSet<RptMaster>();
             RptMentorChecks = new FakeDbSet<RptMentorCheck>();
             RptMentorComments = new FakeDbSet<RptMentorComment>();

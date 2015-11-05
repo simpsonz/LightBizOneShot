@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
 using BizOneShot.Light.Models.WebModels;
+using PagedList;
 
 namespace BizOneShot.Light.Services
 {
@@ -17,6 +18,7 @@ namespace BizOneShot.Light.Services
         Task<ScExpertMapping> GetExpertAsync(int bizWorkSn, string expertType);
         Task<IList<ScExpertMapping>> GetExpertsAsync(string ExpertId);
         Task<ScExpertMapping> GetSameDetailTypeExpertAsync(int bizWorkSn, string userTypeDetail);
+        IPagedList<ScCompMapping> GetScCompMappings(int page, int pageSize, string expertId, int bizWorkSn, int mngCompSn, string status);
     }
 
 
@@ -75,6 +77,10 @@ namespace BizOneShot.Light.Services
             return scExpertMapping;
         }
 
+        public IPagedList<ScCompMapping> GetScCompMappings(int page, int pageSize, string expertId, int bizWorkSn, int mngCompSn, string status)
+        {
+            return scExpertMappingRespository.GetExpertMappingsAsync(page, pageSize, expertId, bizWorkSn, mngCompSn, status);
+        }
 
 
         public void SaveDbContext()
