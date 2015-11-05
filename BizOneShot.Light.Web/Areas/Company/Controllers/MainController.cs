@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using BizOneShot.Light.Web.ComLib;
 using BizOneShot.Light.Models.ViewModels;
 using System.Threading.Tasks;
+using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Services;
+using PagedList;
 using AutoMapper;
 
 namespace BizOneShot.Light.Web.Areas.Company.Controllers
