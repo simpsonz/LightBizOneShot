@@ -114,6 +114,10 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<OrgCompositionViewModel, QuesOgranAnalysis>();
 
 
+            //전문가 재무보고서 의견 등록
+            Mapper.CreateMap<RegCommentViewModel, RptFinanceComment>();
+            
+
 
 
         }

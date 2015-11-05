@@ -228,5 +228,19 @@ namespace BizOneShot.Light.Models.ViewModels
         public IList<CommentViewModel> MngComment { get; set; }
     }
 
+    public class RegCommentViewModel
+    {
+        public int CompSn { get; set; } // COMP_SN (Primary key). 기업식별자
+        public string ExpertId { get; set; } // EXPERT_ID (Primary key). 전문가식별자
+        public int BizWorkSn { get; set; } // BIZ_WORK_SN. 사업식별자
+        public int BasicYear { get; set; } // BASIC_YEAR (Primary key). 기준년도
+        public int BasicMonth { get; set; } // BASIC_MONTH (Primary key). 기준월
+        public string Comment { get; set; } // COMMENT. 커맨트
+        public DateTime? WriteDt { get; set; } // WRITE_DT. 등록일
+        public string ExpertNm { get; set; } // EXPERT_ID (Primary key). 전문가이름
+        public string BizWorkNm { get; set; } // EXPERT_ID (Primary key). 사업명
+        public string WriteYN { get; set; } //Commant 작성여부 Y:작성, N:미작성
+    }
+
 
 }

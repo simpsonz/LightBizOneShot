@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using BizOneShot.Light.Models.ViewModels;
+using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Services;
 using BizOneShot.Light.Web.ComLib;
+using PagedList;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -20,13 +24,15 @@ namespace BizOneShot.Light.Web.Controllers
         private readonly IScBizWorkService _scBizWorkService;
         private readonly IFinenceReportService _finenceReportService;
         private readonly IScCompInfoService _scCompInfoService;
+        private readonly IRptFinanceCommentService _rptFinanceCommentService;
 
-        public FinanceReportController(IScCompMappingService _scCompMappingService, IFinenceReportService _finenceReportService, IScBizWorkService _scBizWorkService, IScCompInfoService _scCompInfoService)
+        public FinanceReportController(IScCompMappingService _scCompMappingService, IFinenceReportService _finenceReportService, IScBizWorkService _scBizWorkService, IScCompInfoService _scCompInfoService, IRptFinanceCommentService _rptFinanceCommentService)
         {
             this._scCompMappingService = _scCompMappingService;
             this._finenceReportService = _finenceReportService;
             this._scBizWorkService = _scBizWorkService;
             this._scCompInfoService = _scCompInfoService;
+            this._rptFinanceCommentService = _rptFinanceCommentService;
         }
 
 
@@ -128,6 +134,59 @@ namespace BizOneShot.Light.Web.Controllers
                 var month = ReportHelper.MakeBizMonth(scBizWork, int.Parse(Year));
                 return Json(month);
             }
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> SaveComment(RegCommentViewModel paramModel)
+        {
+            var rptFinanceComment =
+                Mapper.Map<RptFinanceComment>(paramModel);
+
+            rptFinanceComment.ExpertId = Session[Global.LoginID].ToString();
+            rptFinanceComment.WriteDt = DateTime.Now;
+
+            var saveResult = _rptFinanceCommentService.Insert(rptFinanceComment);
+
+            if (saveResult != null)
+            {
+                await _rptFinanceCommentService.SaveDbContextAsync();
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new { result = false });
+            }
+        }
+        
+
+        public async Task<ActionResult> RegCommentPopup(RegCommentViewModel paramModel)
+        {
+            var rptFinanceComment = await _rptFinanceCommentService.GetRptFinanceCommentAsync(paramModel.BizWorkSn, paramModel.CompSn, paramModel.BasicYear, paramModel.BasicMonth);
+
+            if(rptFinanceComment == null)
+            {
+                paramModel.WriteYN = "N";
+            }
+            else
+            {
+                paramModel.WriteYN = "Y";
+                paramModel.Comment = rptFinanceComment.Comment;
+            }
+            return View(paramModel);
+
+        }
+
+
+        public async Task<ActionResult> SearchCommentPopup(RegCommentViewModel paramModel)
+        {
+            var rptFinanceComment = await _rptFinanceCommentService.GetRptFinanceCommentsAsync(paramModel.CompSn, paramModel.BasicYear, paramModel.BasicMonth);
+
+            var regCommentViewModels =
+                Mapper.Map<List<RegCommentViewModel>>(rptFinanceComment);
+
+            return View(regCommentViewModels);
+
         }
     }
 }

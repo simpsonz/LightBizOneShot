@@ -115,7 +115,7 @@ namespace BizOneShot.Light.Web.ComLib
 
             momth.Add(new SelectListItem { Value = "0", Text = "월선택", Selected = true });
 
-            if (year > DateTime.Now.Year || scBizWork == null)
+            if (year > DateTime.Now.Year || scBizWork == null || year > scBizWork.BizWorkEdDt.GetValueOrDefault().Year)
             {
                 return new SelectList(momth, "Value", "Text");
             }
@@ -151,7 +151,7 @@ namespace BizOneShot.Light.Web.ComLib
             //사업 종료년이 선택년과 같을경우
             if (year == scBizWork.BizWorkEdDt.GetValueOrDefault().Year)
             {
-                for (int i = 1; i <= scBizWork.BizWorkStDt.GetValueOrDefault().Month; i++)
+                for (int i = 1; i <= scBizWork.BizWorkEdDt.GetValueOrDefault().Month; i++)
                 {
                     if (year == DateTime.Now.Year && i == DateTime.Now.Month)
                     {

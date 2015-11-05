@@ -431,7 +431,10 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<QuesOgranAnalysis, OrgEmpCompositionViewModel>()
                .ForMember(d => d.PartialSum, map => map.MapFrom(s => s.ChiefCount + s.OfficerCount + s.BeginnerCount + s.StaffCount));
 
-            
+            //재무 보고서 전문가 의견 조회
+            Mapper.CreateMap<RptFinanceComment, RegCommentViewModel>()
+                .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
+                .ForMember(d => d.ExpertNm, map => map.MapFrom(s => s.ScUsr.Name));
 
         }
 

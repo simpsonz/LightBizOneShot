@@ -186,6 +186,41 @@
         }
     }
 
+
+    function RegCommentPopupOpen()
+    {
+        var year = $('#SelectYear').val();
+        var month = $('#SelectMonth').val();
+        var compSn = $('#CompSn').val();
+        var bizWorkSn = $('#BizWorkSn').val();
+        
+
+        w = 575;    //팝업창의 너비
+        h = 500;    //팝업창의 높이
+        //중앙위치 구해오기
+        LeftPosition = (screen.width - w) / 2;
+        TopPosition = (screen.height - h) / 2;
+        var popUp = window.open('/FinanceReport/RegCommentPopup?BasicYear=' + year +'&BasicMonth=' + month + '&BizWorkSn=' + bizWorkSn + '&CompSn=' + compSn, 'RegComment', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=no, resizable=no");
+        popUp.focus();
+    }
+
+    function SearchCommentPopupOpen()
+    {
+        var year = $('#SelectYear').val();
+        var month = $('#SelectMonth').val();
+        var compSn = $('#CompSn').val();
+        var bizWorkSn = $('#BizWorkSn').val();
+        
+
+        w = 700;    //팝업창의 너비
+        h = 500;    //팝업창의 높이
+        //중앙위치 구해오기
+        LeftPosition = (screen.width - w) / 2;
+        TopPosition = (screen.height - h) / 2;
+        var popUp = window.open('/FinanceReport/SearchCommentPopup?BasicYear=' + year +'&BasicMonth=' + month + '&BizWorkSn=' + bizWorkSn + '&CompSn=' + compSn, 'RegComment', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=yes, resizable=no");
+        popUp.focus();
+    }
+
 </script>
 
 @Scripts.Render("~/bundles/highcharts")
@@ -529,11 +564,11 @@
             <div class="rightwrap">
                 @if (Session[Global.UserType].Equals(Global.Expert) && Session[Global.UserDetailType].Equals("T"))
                 {//전문가
-                    <button type="submit" class="comment_write float_left" value="세무회계사코멘트등록" />
+                    <button type="button" class="comment_write float_left" onClick="javascript: RegCommentPopupOpen();" value="세무회계사코멘트등록" />
                 }
                 else
                 { 
-                    <button type="submit" class="comment_confirm float_left" value="세무회계사코멘트확인" />
+                    <button type="submit" class="comment_confirm float_left"  onClick="javascript: SearchCommentPopupOpen();" value="세무회계사코멘트확인" />
                 }
                 <button type="submit" class="print" value="출력" />
             </div>

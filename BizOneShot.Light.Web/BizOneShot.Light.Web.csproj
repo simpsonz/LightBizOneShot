@@ -1540,6 +1540,8 @@
     <Content Include="Views\BasicSurveyReport\ProductivityProfitability.cshtml" />
     <Content Include="Views\BasicSurveyReport\RiskMgmtOrgSatisfaction.cshtml" />
     <Content Include="Views\BasicSurveyReport\RiskMgmtLiquidity.cshtml" />
+    <Content Include="Views\FinanceReport\RegCommentPopup.cshtml" />
+    <Content Include="Views\FinanceReport\SearchCommentPopup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
