@@ -5,17 +5,13 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
+
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Data;
-using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using System.Threading;
 
 namespace BizOneShot.Light.Models.DareModels
@@ -52,5 +48,4 @@ namespace BizOneShot.Light.Models.DareModels
         public string ModifyDts { get; set; } // MODIFY_DTS
         public string ModifyId { get; set; } // MODIFY_ID
     }
-
 }

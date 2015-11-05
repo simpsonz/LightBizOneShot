@@ -3,34 +3,14 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
-using BizOneShot.Light.Dao.WebConfiguration;
 using BizOneShot.Light.Dao.DareConfiguration;
-using PagedList;
+using BizOneShot.Light.Dao.WebConfiguration;
 
 namespace BizOneShot.Light.Dao.Infrastructure
 {
     public abstract class RepositoryBase<T> where T : class
     {
-        #region Properties
-        private WebDbContext dbContext;
-        private readonly IDbSet<T> dbSet;
-        private IDbFactory dbFactory;
-
-        protected IDbFactory DbFactory
-        {
-            get;
-            private set;
-        }
-
-        protected WebDbContext DbContext
-        {
-            get { return dbContext ?? (dbContext = DbFactory.Init()); }
-        }
-
-        #endregion
-
         protected RepositoryBase(IDbFactory dbFactory)
         {
             DbFactory = dbFactory;
@@ -40,7 +20,23 @@ namespace BizOneShot.Light.Dao.Infrastructure
             //DbContext.Configuration.LazyLoadingEnabled = false;
         }
 
+        #region Properties
+
+        private WebDbContext dbContext;
+        private readonly IDbSet<T> dbSet;
+        private IDbFactory dbFactory;
+
+        protected IDbFactory DbFactory { get; }
+
+        protected WebDbContext DbContext
+        {
+            get { return dbContext ?? (dbContext = DbFactory.Init()); }
+        }
+
+        #endregion
+
         #region 구현
+
         public virtual void Add(T entity)
         {
             dbSet.Add(entity);
@@ -62,8 +58,8 @@ namespace BizOneShot.Light.Dao.Infrastructure
 
         public virtual void Delete(Expression<Func<T, bool>> where)
         {
-            IEnumerable<T> objects = dbSet.Where<T>(where).AsEnumerable();
-            foreach (T obj in objects)
+            var objects = dbSet.Where(where).AsEnumerable();
+            foreach (var obj in objects)
                 dbSet.Remove(obj);
         }
 
@@ -84,12 +80,12 @@ namespace BizOneShot.Light.Dao.Infrastructure
 
         public virtual T Get(Expression<Func<T, bool>> where)
         {
-            return dbSet.Where(where).FirstOrDefault<T>();
+            return dbSet.Where(where).FirstOrDefault();
         }
 
         public virtual async Task<T> GetAsync(Expression<Func<T, bool>> where)
         {
-            return await dbSet.Where(where).FirstOrDefaultAsync<T>();
+            return await dbSet.Where(where).FirstOrDefaultAsync();
         }
 
         public virtual IEnumerable<T> GetAll()
@@ -112,37 +108,34 @@ namespace BizOneShot.Light.Dao.Infrastructure
             return await dbSet.Where(where).ToListAsync();
         }
 
-       
-
-    #endregion
-}
+        #endregion
+    }
 
     public abstract class DareRepositoryBase<T> where T : class
     {
-        #region Properties
-        private DareDbContext dareDbContext;
-        private readonly IDbSet<T> dbSet;
-        private IDareDbFactory dbFactory;
-
-        protected IDareDbFactory DareDbFactory
-        {
-            get;
-            private set;
-        }
-
-        protected DareDbContext DareDbContext
-        {
-            get { return dareDbContext ?? (dareDbContext = DareDbFactory.Init()); }
-        }
-        #endregion
-
         protected DareRepositoryBase(IDareDbFactory dareDbFactory)
         {
             DareDbFactory = dareDbFactory;
             dbSet = DareDbContext.Set<T>();
         }
 
+        #region Properties
+
+        private DareDbContext dareDbContext;
+        private readonly IDbSet<T> dbSet;
+        private IDareDbFactory dbFactory;
+
+        protected IDareDbFactory DareDbFactory { get; }
+
+        protected DareDbContext DareDbContext
+        {
+            get { return dareDbContext ?? (dareDbContext = DareDbFactory.Init()); }
+        }
+
+        #endregion
+
         #region 구현
+
         public virtual void Add(T entity)
         {
             dbSet.Add(entity);
@@ -164,8 +157,8 @@ namespace BizOneShot.Light.Dao.Infrastructure
 
         public virtual void Delete(Expression<Func<T, bool>> where)
         {
-            IEnumerable<T> objects = dbSet.Where<T>(where).AsEnumerable();
-            foreach (T obj in objects)
+            var objects = dbSet.Where(where).AsEnumerable();
+            foreach (var obj in objects)
                 dbSet.Remove(obj);
         }
 
@@ -186,12 +179,12 @@ namespace BizOneShot.Light.Dao.Infrastructure
 
         public virtual T Get(Expression<Func<T, bool>> where)
         {
-            return dbSet.Where(where).FirstOrDefault<T>();
+            return dbSet.Where(where).FirstOrDefault();
         }
 
         public virtual async Task<T> GetAsync(Expression<Func<T, bool>> where)
         {
-            return await dbSet.Where(where).FirstOrDefaultAsync<T>();
+            return await dbSet.Where(where).FirstOrDefaultAsync();
         }
 
         public virtual IEnumerable<T> GetAll()
@@ -213,8 +206,6 @@ namespace BizOneShot.Light.Dao.Infrastructure
         {
             return await dbSet.Where(where).ToListAsync();
         }
-
-     
 
         #endregion
     }

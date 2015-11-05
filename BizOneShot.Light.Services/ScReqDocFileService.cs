@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
@@ -28,12 +26,16 @@ namespace BizOneShot.Light.Services
 
         public async Task<IList<ScReqDocFile>> GetReqFilesAsync(int reqDocSn, string regType)
         {
-            var listScReqDocFileTask = await _scReqDocFileRepository.GetFilesAsync(file => file.ReqDocSn == reqDocSn && file.ScFileInfo.Status == "N" && file.RegType == regType);
+            var listScReqDocFileTask =
+                await
+                    _scReqDocFileRepository.GetFilesAsync(
+                        file => file.ReqDocSn == reqDocSn && file.ScFileInfo.Status == "N" && file.RegType == regType);
 
             return listScReqDocFileTask.OrderBy(file => file.FileSn).ToList();
         }
 
         #region SaveDbContext
+
         public void SaveDbContext()
         {
             unitOfWork.Commit();
@@ -43,8 +45,7 @@ namespace BizOneShot.Light.Services
         {
             return await unitOfWork.CommitAsync();
         }
+
         #endregion
-
-
     }
 }

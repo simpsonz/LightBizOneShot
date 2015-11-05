@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Text.RegularExpressions;
-using System.Reflection;
-using System.Configuration;
-
-using BizOneShot.Light.Models.WebModels;
+using System.Web.Mvc;
 using BizOneShot.Light.Models.ViewModels;
+using BizOneShot.Light.Models.WebModels;
 
 namespace BizOneShot.Light.Web.ComLib
 {
@@ -28,31 +22,30 @@ namespace BizOneShot.Light.Web.ComLib
         //    this._logService = logService;
         //}
 
-
-
         #region 에러처리 및 로깅
 
         /// <summary>
-        /// [기능] : Exception 처리 및 로깅
-        /// [작성] : 2014-10-23 김충기
-        /// [수정] :  
+        ///     [기능] : Exception 처리 및 로깅
+        ///     [작성] : 2014-10-23 김충기
+        ///     [수정] :
         /// </summary>
         /// <param name="filterContext"></param>
         protected override void OnException(ExceptionContext filterContext)
         {
-
             //if (filterContext.ExceptionHandled)
             //    return;
 
-            string actionName = filterContext.RouteData.Values["action"].ToString();
-            string controllerName = filterContext.RouteData.Values["controller"].ToString();
-            Type controllerType = filterContext.Controller.GetType();
+            var actionName = filterContext.RouteData.Values["action"].ToString();
+            var controllerName = filterContext.RouteData.Values["controller"].ToString();
+            var controllerType = filterContext.Controller.GetType();
             //var method = controllerType.GetMethod(actionName);   
             //var returnType = method.ReturnType;
 
 
             //통합관제 DB에 웹에러 로깅
+
             #region Insert WebLog
+
             //WebLogViewModel log = new WebLogViewModel
             //{
             //    SRV_CD = ConfigurationManager.AppSettings["ServiceCode"],
@@ -64,17 +57,18 @@ namespace BizOneShot.Light.Web.ComLib
             //    FILE_NM = string.Format("/{0}/{1}", controllerName, actionName)
             //};
             //_logService.RegisterWeblog(log);
+
             #endregion
 
-            string userComment = "일시적인 장애가 발생했습니다.잠시후 다시 시도해주시기 바랍니다."; //리소스에서 메시지 가져오기
+            var userComment = "일시적인 장애가 발생했습니다.잠시후 다시 시도해주시기 바랍니다."; //리소스에서 메시지 가져오기
 
 
             if (filterContext.HttpContext.Request.IsAjaxRequest())
             {
                 filterContext.HttpContext.Response.Clear();
-                filterContext.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+                filterContext.HttpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
                 filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
-                filterContext.Result = new JsonResult() { Data = userComment };
+                filterContext.Result = new JsonResult {Data = userComment};
             }
             else
             {
@@ -82,15 +76,33 @@ namespace BizOneShot.Light.Web.ComLib
             }
 
             filterContext.ExceptionHandled = true;
-
         }
+
+        #endregion
+
+        #region 메시지
+
+        /// <summary>
+        ///     [기능] : 삭제된(빈) 데이터 처리
+        ///     [작성] : 2014-10-28 김충기
+        ///     [수정] :
+        /// </summary>
+        protected void EmptyDataMessage()
+        {
+            Response.Write("<script>alert('삭제되었거나 존재하지 않는 게시물입니다.');</script>"); //메시지 리소스로 처리
+            Response.Write("<script>history.back();</script>");
+            Response.Flush();
+            Response.End();
+        }
+
         #endregion
 
         #region 세션처리
+
         /// <summary>
-        /// [기능] : 로그온 세션유무 확인
-        /// [작성] : 2014-10-23 김충기
-        /// [수정] :  
+        ///     [기능] : 로그온 세션유무 확인
+        ///     [작성] : 2014-10-23 김충기
+        ///     [수정] :
         /// </summary>
         /// <returns></returns>
         private bool HasSession()
@@ -99,9 +111,9 @@ namespace BizOneShot.Light.Web.ComLib
         }
 
         /// <summary>
-        /// [기능] : 로그온 세션생성
-        /// [작성] : 2014-10-23 김충기
-        /// [수정] :  
+        ///     [기능] : 로그온 세션생성
+        ///     [작성] : 2014-10-23 김충기
+        ///     [수정] :
         /// </summary>
         /// <param name="user"></param>
         protected void LogOn(ScUsr user)
@@ -112,7 +124,7 @@ namespace BizOneShot.Light.Web.ComLib
             Session[Global.UserNM] = user.Name;
             Session[Global.UserType] = user.UsrType;
             Session[Global.UserDetailType] = user.UsrTypeDetail;
-            Session[Global.UserTypeVal] = GetUserTypeVal(user.UsrType);    //권한체크용
+            Session[Global.UserTypeVal] = GetUserTypeVal(user.UsrType); //권한체크용
             Session[Global.AgreeYn] = user.AgreeYn;
         }
 
@@ -122,9 +134,9 @@ namespace BizOneShot.Light.Web.ComLib
         }
 
         /// <summary>
-        /// [기능] : 로그오프
-        /// [작성] : 2014-10-23 김충기
-        /// [수정] :  
+        ///     [기능] : 로그오프
+        ///     [작성] : 2014-10-23 김충기
+        ///     [수정] :
         /// </summary>
         protected void LogOff()
         {
@@ -135,9 +147,9 @@ namespace BizOneShot.Light.Web.ComLib
         }
 
         /// <summary>
-        /// [기능] : UserType enum value
-        /// [작성] : 2014-10-23 김충기
-        /// [수정] :  
+        ///     [기능] : UserType enum value
+        ///     [작성] : 2014-10-23 김충기
+        ///     [수정] :
         /// </summary>
         /// <param name="userType"></param>
         /// <returns></returns>
@@ -146,26 +158,25 @@ namespace BizOneShot.Light.Web.ComLib
             switch (userType)
             {
                 case Global.Company:
-                    return (int)UserType.Company;
+                    return (int) UserType.Company;
                 case Global.Mentor:
-                    return (int)UserType.Mentor;
+                    return (int) UserType.Mentor;
                 case Global.Expert:
-                    return (int)UserType.Expert;
+                    return (int) UserType.Expert;
                 case Global.BizManager:
-                    return (int)UserType.BizManager;
+                    return (int) UserType.BizManager;
                 case Global.SysManager:
-                    return (int)UserType.SysManager;
+                    return (int) UserType.SysManager;
                 default:
                     return 0;
-            };
+            }
+            ;
         }
 
         /// <summary>
-        /// [기능] : 로그온 회원정보 전역변수
-
-
-        /// [작성] : 2014-10-23 김충기
-        /// [수정] :  
+        ///     [기능] : 로그온 회원정보 전역변수
+        ///     [작성] : 2014-10-23 김충기
+        ///     [수정] :
         /// </summary>
         public ScUsr _LogOnUser
         {
@@ -181,33 +192,34 @@ namespace BizOneShot.Light.Web.ComLib
                         UsrTypeDetail = Session[Global.UserDetailType].ToString()
                     };
                 }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
         }
+
         #endregion
 
         #region 검색조건유지 
+
         /// <summary>
-        /// [기능] : 검색조건 저장 함수
-        /// [작성] : 2014-10-23 김충기
-        /// [수정] :  
+        ///     [기능] : 검색조건 저장 함수
+        ///     [작성] : 2014-10-23 김충기
+        ///     [수정] :
         /// </summary>
         protected void SetSearchCookie()
         {
-            string previousUrl = (Request.ServerVariables["HTTP_REFERER"] != null ? Request.ServerVariables["HTTP_REFERER"].ToUpper() : "");
-            string currentUrl = Request.ServerVariables["SCRIPT_NAME"].ToUpper();
-            string searchInfo = "searchInfo=" + currentUrl;
+            var previousUrl = Request.ServerVariables["HTTP_REFERER"] != null
+                ? Request.ServerVariables["HTTP_REFERER"].ToUpper()
+                : "";
+            var currentUrl = Request.ServerVariables["SCRIPT_NAME"].ToUpper();
+            var searchInfo = "searchInfo=" + currentUrl;
 
             foreach (string key in Request.Form.Keys)
             {
                 if (key != "__EVENTTARGET" && key != "__EVENTARGUMENT" && key != "__VIEWSTATE"
                     && key != "__PREVIOUSPAGE" && key != "__EVENTVALIDATION" && key != null)
                 {
-                    string[] values = Request.Form.GetValues(key);
-                    for (int k = 0; k < values.Length; k++)
+                    var values = Request.Form.GetValues(key);
+                    for (var k = 0; k < values.Length; k++)
                     {
                         if (k == 0)
                         {
@@ -228,37 +240,43 @@ namespace BizOneShot.Light.Web.ComLib
         }
 
         /// <summary>
-        /// [기능] : 검색조건 반환 함수
-        /// [작성] : 2014-10-23 김충기
-        /// [수정] :  
+        ///     [기능] : 검색조건 반환 함수
+        ///     [작성] : 2014-10-23 김충기
+        ///     [수정] :
         /// </summary>
         /// <returns></returns>
         protected SortedList<string, string> GetSearchCookie()
         {
-            string searchInfo = (Request.Cookies[Global.ScpSearch] != null ? Server.UrlDecode(Request.Cookies[Global.ScpSearch].Value) : "");
-            string[] conditions = Regex.Split(searchInfo, "@@", RegexOptions.IgnorePatternWhitespace);
-            SortedList<string, string> sl = new SortedList<string, string>();
-            for (int i = 0; i < conditions.Length; i++)
+            var searchInfo = Request.Cookies[Global.ScpSearch] != null
+                ? Server.UrlDecode(Request.Cookies[Global.ScpSearch].Value)
+                : "";
+            var conditions = Regex.Split(searchInfo, "@@", RegexOptions.IgnorePatternWhitespace);
+            var sl = new SortedList<string, string>();
+            for (var i = 0; i < conditions.Length; i++)
             {
-                string[] keyValues = Regex.Split(conditions[i], "=", RegexOptions.IgnorePatternWhitespace);
+                var keyValues = Regex.Split(conditions[i], "=", RegexOptions.IgnorePatternWhitespace);
                 sl.Add(keyValues[0], keyValues[1]);
             }
             return sl;
         }
 
         /// <summary>
-        /// [기능] : 검색조건 유무확인 
-        /// [작성] : 2014-10-23 김충기
-        /// [수정] :  
+        ///     [기능] : 검색조건 유무확인
+        ///     [작성] : 2014-10-23 김충기
+        ///     [수정] :
         /// </summary>
         /// <returns></returns>
         protected bool HasSearchCookie()
         {
-            bool hasCookie = false;
-            string searchInfo = (Request.Cookies[Global.ScpSearch] != null ? Server.UrlDecode(Request.Cookies[Global.ScpSearch].Value) : "");
-            string[] keyValues = Regex.Split(searchInfo, "@@", RegexOptions.IgnorePatternWhitespace);
-            string previousUrl = (Request.ServerVariables["HTTP_REFERER"] != null ? Request.ServerVariables["HTTP_REFERER"].ToUpper() : "");
-            string currentUrl = Request.ServerVariables["SCRIPT_NAME"].ToUpper();
+            var hasCookie = false;
+            var searchInfo = Request.Cookies[Global.ScpSearch] != null
+                ? Server.UrlDecode(Request.Cookies[Global.ScpSearch].Value)
+                : "";
+            var keyValues = Regex.Split(searchInfo, "@@", RegexOptions.IgnorePatternWhitespace);
+            var previousUrl = Request.ServerVariables["HTTP_REFERER"] != null
+                ? Request.ServerVariables["HTTP_REFERER"].ToUpper()
+                : "";
+            var currentUrl = Request.ServerVariables["SCRIPT_NAME"].ToUpper();
             //if ((previousUrl.IndexOf(currentUrl) == -1) && (keyValues.Length > 1))
             if (keyValues.Length > 1)
             {
@@ -269,25 +287,11 @@ namespace BizOneShot.Light.Web.ComLib
             }
             return hasCookie;
         }
-        #endregion
 
-        #region 메시지
-        /// <summary>
-        /// [기능] : 삭제된(빈) 데이터 처리
-        /// [작성] : 2014-10-28 김충기
-        /// [수정] : 
-        /// </summary>
-        protected void EmptyDataMessage()
-        {
-            Response.Write("<script>alert('삭제되었거나 존재하지 않는 게시물입니다.');</script>");    //메시지 리소스로 처리
-            Response.Write("<script>history.back();</script>");
-            Response.Flush();
-            Response.End();
-        }
         #endregion
-
 
         #region 파일다운로드
+
         /// <summary>
         /// [기능] : 파일다운로드
         /// [작성] : 2014-11-24 김충기
@@ -319,6 +323,7 @@ namespace BizOneShot.Light.Web.ComLib
         //    return File(directory, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
 
         //}
+
         #endregion
     }
 }

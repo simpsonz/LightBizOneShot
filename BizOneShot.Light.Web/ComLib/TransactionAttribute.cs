@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 using System.Web.Mvc;
-using BizOneShot.Light.Dao.WebConfiguration;
 using BizOneShot.Light.Dao.Infrastructure;
+using BizOneShot.Light.Dao.WebConfiguration;
 
 namespace BizOneShot.Light.Web.ComLib
 {
@@ -12,9 +9,9 @@ namespace BizOneShot.Light.Web.ComLib
     {
         protected readonly IDbFactory dbFactory;
         private WebDbContext dbContext;
-        private System.Data.Entity.DbContextTransaction tran;
+        private DbContextTransaction tran;
 
-     
+
         public WebDbTransactionAttribute(IDbFactory dbFactory)
         {
             this.dbFactory = dbFactory;

@@ -5,6 +5,7 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
+
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 
@@ -31,26 +32,46 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             : this("dbo")
         {
         }
- 
+
         public QuesResult1Configuration(string schema)
         {
             ToTable(schema + ".QUES_RESULT1");
-            HasKey(x => new { x.QuestionSn, x.CheckListSn });
+            HasKey(x => new {x.QuestionSn, x.CheckListSn});
 
-            Property(x => x.QuestionSn).HasColumnName("QUESTION_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.CheckListSn).HasColumnName("CHECK_LIST_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.QuestionSn)
+                .HasColumnName("QUESTION_SN")
+                .IsRequired()
+                .HasColumnType("int")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.CheckListSn)
+                .HasColumnName("CHECK_LIST_SN")
+                .IsRequired()
+                .HasColumnType("int")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.AnsVal).HasColumnName("ANS_VAL").IsOptional().HasColumnType("bit");
-            Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
+            Property(x => x.RegId)
+                .HasColumnName("REG_ID")
+                .IsOptional()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(25);
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
-            Property(x => x.UpdId).HasColumnName("UPD_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
+            Property(x => x.UpdId)
+                .HasColumnName("UPD_ID")
+                .IsOptional()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(25);
             Property(x => x.UpdDt).HasColumnName("UPD_DT").IsOptional().HasColumnType("datetime");
 
             // Foreign keys
-            HasRequired(a => a.QuesCheckList).WithMany(b => b.QuesResult1).HasForeignKey(c => c.CheckListSn); // FK_QUES_CHECK_LIST_TO_QUES_RESULT1
-            HasRequired(a => a.QuesMaster).WithMany(b => b.QuesResult1).HasForeignKey(c => c.QuestionSn); // FK_QUES_MASTER_TO_QUES_RESULT1
+            HasRequired(a => a.QuesCheckList).WithMany(b => b.QuesResult1).HasForeignKey(c => c.CheckListSn);
+                // FK_QUES_CHECK_LIST_TO_QUES_RESULT1
+            HasRequired(a => a.QuesMaster).WithMany(b => b.QuesResult1).HasForeignKey(c => c.QuestionSn);
+                // FK_QUES_MASTER_TO_QUES_RESULT1
             InitializePartial();
         }
+
         partial void InitializePartial();
     }
-
 }

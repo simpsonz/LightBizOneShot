@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
-using BizOneShot.Light.Models.WebModels;
-using BizOneShot.Light.Dao.Infrastructure;
-using BizOneShot.Light.Dao.WebConfiguration;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using BizOneShot.Light.Dao.Infrastructure;
+using BizOneShot.Light.Models.WebModels;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -21,18 +19,20 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public class ScCompInfoRepository : RepositoryBase<ScCompInfo>, IScCompInfoRepository
     {
-        public ScCompInfoRepository(IDbFactory dbFactory) : base(dbFactory) { }
+        public ScCompInfoRepository(IDbFactory dbFactory) : base(dbFactory)
+        {
+        }
 
         public IList<ScCompInfo> GetScCompInfoByName(string compNm)
         {
-            var compInfos = this.DbContext.ScCompInfoes.Where(ci => ci.CompNm == compNm).ToList();
+            var compInfos = DbContext.ScCompInfoes.Where(ci => ci.CompNm == compNm).ToList();
 
             return compInfos;
         }
 
         public async Task<ScCompInfo> GetCompInfoAsync(Expression<Func<ScCompInfo, bool>> where)
         {
-            return await this.DbContext.ScCompInfoes.Where(where).SingleOrDefaultAsync();
+            return await DbContext.ScCompInfoes.Where(where).SingleOrDefaultAsync();
         }
 
         public override void Update(ScCompInfo compInfo)
@@ -44,7 +44,7 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public ScCompInfo Insert(ScCompInfo compInfo)
         {
-            return this.DbContext.ScCompInfoes.Add(compInfo);
+            return DbContext.ScCompInfoes.Add(compInfo);
         }
     }
 }

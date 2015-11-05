@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
@@ -28,11 +26,15 @@ namespace BizOneShot.Light.Services
 
         public async Task<IList<QuesCheckList>> GetQuesCheckListAsync(string code)
         {
-            var listQuesCheckList = await _quesCheckListRepository.GetQuesCheckListsAsync(qcl => qcl.SmallClassCd == code && qcl.CurrentUseYn == "Y" );
+            var listQuesCheckList =
+                await
+                    _quesCheckListRepository.GetQuesCheckListsAsync(
+                        qcl => qcl.SmallClassCd == code && qcl.CurrentUseYn == "Y");
             return listQuesCheckList.OrderBy(qr => qr.SmallClassCd).ToList();
         }
 
         #region SaveContext
+
         public void SaveDbContext()
         {
             unitOfWork.Commit();
@@ -42,6 +44,7 @@ namespace BizOneShot.Light.Services
         {
             return await unitOfWork.CommitAsync();
         }
+
         #endregion
     }
 }

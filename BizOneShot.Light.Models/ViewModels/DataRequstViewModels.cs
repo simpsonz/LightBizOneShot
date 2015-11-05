@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BizOneShot.Light.Models.ViewModels
 {
@@ -18,6 +15,7 @@ namespace BizOneShot.Light.Models.ViewModels
         public string ReqSubject { get; set; } // REQ_SUBJECT. 송신제목
         public string ReqContents { get; set; } // REQ_CONTENTS. 송신내용
         public DateTime? ResDt { get; set; } // RES_DT. 답변일시
+
         [Required]
         [Display(Name = "답변내용")]
         public string ResContents { get; set; } // RES_CONTENTS. 답변내용
@@ -39,9 +37,11 @@ namespace BizOneShot.Light.Models.ViewModels
         public string Status { get; set; } // STATUS. 상태  N: 정상(Normal)  D: 삭제됨(Deleted)
         public string ChkYn { get; set; } // CHK_YN. 수신확인여부  Y: 수신함  N 수신안함
         public DateTime? ReqDt { get; set; } // REQ_DT. 요청일시
+
         [Required]
         [Display(Name = "제목")]
         public string ReqSubject { get; set; } // REQ_SUBJECT. 송신제목
+
         [Required]
         [Display(Name = "내용")]
         public string ReqContents { get; set; } // REQ_CONTENTS. 송신내용
@@ -106,9 +106,11 @@ namespace BizOneShot.Light.Models.ViewModels
         public string QuestionId { get; set; } // QUESTION_ID. 질문자회원순번
         public string AnswerId { get; set; } // ANSWER_ID. 답변자회원순번
         public DateTime? AskDt { get; set; } // ASK_DT. 질문일시
+
         [Required]
         [Display(Name = "문의제목")]
         public string Subject { get; set; } // SUBJECT. 제목
+
         [Required]
         [Display(Name = "문의내용")]
         public string Question { get; set; } // QUESTION. 질문

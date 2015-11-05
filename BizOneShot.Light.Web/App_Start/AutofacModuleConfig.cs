@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Reflection;
 using System.Web.Mvc;
-using System.Reflection;
-
 using Autofac;
 using Autofac.Integration.Mvc;
-
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Web.Mappings;
-using BizOneShot.Light.Services;
-using BizOneShot.Light.Dao.Repositories;
 
 namespace BizOneShot.Light.Web.App_Start
 {
@@ -64,7 +56,7 @@ namespace BizOneShot.Light.Web.App_Start
                 .AsImplementedInterfaces()
                 .InstancePerRequest();
 
-            IContainer container = builder.Build();
+            var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }

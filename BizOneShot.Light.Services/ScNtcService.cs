@@ -1,15 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BizOneShot.Light.Models.WebModels;
-using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
-
-using System.Linq.Expressions;
-using System;
+using BizOneShot.Light.Models.WebModels;
 using PagedList;
-
 
 namespace BizOneShot.Light.Services
 {
@@ -44,19 +39,21 @@ namespace BizOneShot.Light.Services
                     .OrderByDescending(ntc => ntc.NoticeSn)
                     .ToList();
             }
-            else if (searchType.Equals("0")) // 제목, 내용중 keyword가 포함된 Notice 검색 
+            if (searchType.Equals("0")) // 제목, 내용중 keyword가 포함된 Notice 검색 
             {
-                return scNtcRepository.GetMany(ntc => ntc.Subject.Contains(keyword) || ntc.RmkTxt.Contains(keyword) && ntc.Status == "N")
-                    .OrderByDescending(ntc => ntc.NoticeSn)
-                    .ToList();
+                return
+                    scNtcRepository.GetMany(
+                        ntc => ntc.Subject.Contains(keyword) || ntc.RmkTxt.Contains(keyword) && ntc.Status == "N")
+                        .OrderByDescending(ntc => ntc.NoticeSn)
+                        .ToList();
             }
-            else if (searchType.Equals("1")) // 제목중에 keyword가 포함된 Notice 검색 
+            if (searchType.Equals("1")) // 제목중에 keyword가 포함된 Notice 검색 
             {
                 return scNtcRepository.GetMany(ntc => ntc.Subject.Contains(keyword) && ntc.Status == "N")
                     .OrderByDescending(ntc => ntc.NoticeSn)
                     .ToList();
             }
-            else if (searchType.Equals("2")) // 내용중에 keyword가 포함된 Notice 검색 
+            if (searchType.Equals("2")) // 내용중에 keyword가 포함된 Notice 검색 
             {
                 return scNtcRepository.GetMany(ntc => ntc.RmkTxt.Contains(keyword) && ntc.Status == "N")
                     .OrderByDescending(ntc => ntc.NoticeSn)
@@ -69,23 +66,34 @@ namespace BizOneShot.Light.Services
         }
 
         //Async
-        public async Task<IPagedList<ScNtc>> GetNoticesAsync(int page, int pageSize, string searchType = null, string keyword = null)
+        public async Task<IPagedList<ScNtc>> GetNoticesAsync(int page, int pageSize, string searchType = null,
+            string keyword = null)
         {
             if (string.IsNullOrEmpty(searchType) || string.IsNullOrEmpty(keyword))
             {
                 return await scNtcRepository.GetPagedListAsync(ntc => ntc.Status == "N", page, pageSize);
             }
-            else if (searchType.Equals("0")) // 제목, 내용중 keyword가 포함된 Notice 검색 
+            if (searchType.Equals("0")) // 제목, 내용중 keyword가 포함된 Notice 검색 
             {
-                return await scNtcRepository.GetPagedListAsync(ntc => ntc.Subject.Contains(keyword) || ntc.RmkTxt.Contains(keyword) && ntc.Status == "N", page, pageSize);
+                return
+                    await
+                        scNtcRepository.GetPagedListAsync(
+                            ntc => ntc.Subject.Contains(keyword) || ntc.RmkTxt.Contains(keyword) && ntc.Status == "N",
+                            page, pageSize);
             }
-            else if (searchType.Equals("1")) // 제목중에 keyword가 포함된 Notice 검색 
+            if (searchType.Equals("1")) // 제목중에 keyword가 포함된 Notice 검색 
             {
-                return await scNtcRepository.GetPagedListAsync(ntc => ntc.Subject.Contains(keyword) && ntc.Status == "N", page, pageSize);
+                return
+                    await
+                        scNtcRepository.GetPagedListAsync(ntc => ntc.Subject.Contains(keyword) && ntc.Status == "N",
+                            page, pageSize);
             }
-            else if (searchType.Equals("2")) // 내용중에 keyword가 포함된 Notice 검색 
+            if (searchType.Equals("2")) // 내용중에 keyword가 포함된 Notice 검색 
             {
-                return await scNtcRepository.GetPagedListAsync(ntc => ntc.RmkTxt.Contains(keyword) && ntc.Status == "N", page, pageSize);
+                return
+                    await
+                        scNtcRepository.GetPagedListAsync(ntc => ntc.RmkTxt.Contains(keyword) && ntc.Status == "N", page,
+                            pageSize);
             }
 
             return await scNtcRepository.GetPagedListAsync(ntc => ntc.Status == "N", page, pageSize);
@@ -123,7 +131,6 @@ namespace BizOneShot.Light.Services
         //Async
         public async Task<IDictionary<string, ScNtc>> GetNoticeDetailByIdAsync(int noticeSn)
         {
-
             var preNoticeTask = await scNtcRepository.GetManyAsync(ntc => ntc.NoticeSn < noticeSn && ntc.Status == "N");
             var preNotice = preNoticeTask.OrderBy(ntc => ntc.NoticeSn).LastOrDefault();
 
@@ -140,7 +147,7 @@ namespace BizOneShot.Light.Services
             dicScNtcs.Add("nextNotice", nextNotice);
 
 
-            return  dicScNtcs;
+            return dicScNtcs;
         }
 
 
@@ -157,14 +164,11 @@ namespace BizOneShot.Light.Services
             {
                 return -1;
             }
-            else
-            {
-                return await SaveDbContextAsync();
-            }
-
+            return await SaveDbContextAsync();
         }
 
         #region SaveDbContext
+
         public void SaveDbContext()
         {
             unitOfWork.Commit();
@@ -174,7 +178,7 @@ namespace BizOneShot.Light.Services
         {
             return await unitOfWork.CommitAsync();
         }
-        #endregion
 
+        #endregion
     }
 }

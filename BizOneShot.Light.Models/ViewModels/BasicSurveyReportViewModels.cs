@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BizOneShot.Light.Models.ViewModels
 {
@@ -42,7 +39,6 @@ namespace BizOneShot.Light.Models.ViewModels
         public OverallSummaryPointViewModel ProductionCapa { get; set; } //항목별 역량검토결과 - 상품화역량
         public OverallSummaryPointViewModel RiskMngCapa { get; set; } //항목별 역량검토결과 - 위험관리역량
         public IList<CommentViewModel> CommentList { get; set; }
-        
     }
 
     public class RndCostViewModel
@@ -148,7 +144,6 @@ namespace BizOneShot.Light.Models.ViewModels
         public double AvgBizInCompany { get; set; }
         public double AvgTotal { get; set; }
         public double AvgSMCompany { get; set; }
-
     }
 
     public class CheckListViewModel
@@ -186,7 +181,6 @@ namespace BizOneShot.Light.Models.ViewModels
         public double AvgTotalSum { get; set; } //전체 합계 평균
         public IList<CommentViewModel> CommentList { get; set; }
         public IList<CheckListViewModel> CheckList { get; set; }
-
     }
 
     public class OrgEmpCompositionViewModel
@@ -241,6 +235,4 @@ namespace BizOneShot.Light.Models.ViewModels
         public string BizWorkNm { get; set; } // EXPERT_ID (Primary key). 사업명
         public string WriteYN { get; set; } //Commant 작성여부 Y:작성, N:미작성
     }
-
-
 }

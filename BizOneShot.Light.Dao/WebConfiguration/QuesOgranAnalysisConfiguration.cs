@@ -5,6 +5,7 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
+
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 
@@ -31,30 +32,52 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             : this("dbo")
         {
         }
- 
+
         public QuesOgranAnalysisConfiguration(string schema)
         {
             ToTable(schema + ".QUES_OGRAN_ANALYSIS");
-            HasKey(x => new { x.QuestionSn, x.DeptCd });
+            HasKey(x => new {x.QuestionSn, x.DeptCd});
 
-            Property(x => x.QuestionSn).HasColumnName("QUESTION_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.DeptCd).HasColumnName("DEPT_CD").IsRequired().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.QuestionSn)
+                .HasColumnName("QUESTION_SN")
+                .IsRequired()
+                .HasColumnType("int")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.DeptCd)
+                .HasColumnName("DEPT_CD")
+                .IsRequired()
+                .IsFixedLength()
+                .IsUnicode(false)
+                .HasColumnType("char")
+                .HasMaxLength(1)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.Dept1).HasColumnName("DEPT1").IsOptional().HasColumnType("nvarchar").HasMaxLength(50);
             Property(x => x.Dept2).HasColumnName("DEPT2").IsOptional().HasColumnType("nvarchar").HasMaxLength(50);
             Property(x => x.OfficerCount).HasColumnName("OFFICER_COUNT").IsOptional().HasColumnType("int");
             Property(x => x.ChiefCount).HasColumnName("CHIEF_COUNT").IsOptional().HasColumnType("int");
             Property(x => x.StaffCount).HasColumnName("STAFF_COUNT").IsOptional().HasColumnType("int");
             Property(x => x.BeginnerCount).HasColumnName("BEGINNER_COUNT").IsOptional().HasColumnType("int");
-            Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
+            Property(x => x.RegId)
+                .HasColumnName("REG_ID")
+                .IsOptional()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(25);
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
-            Property(x => x.UpdId).HasColumnName("UPD_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
+            Property(x => x.UpdId)
+                .HasColumnName("UPD_ID")
+                .IsOptional()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(25);
             Property(x => x.UpdDt).HasColumnName("UPD_DT").IsOptional().HasColumnType("datetime");
 
             // Foreign keys
-            HasRequired(a => a.QuesMaster).WithMany(b => b.QuesOgranAnalysis).HasForeignKey(c => c.QuestionSn); // FK_QUES_MASTER_TO_QUES_OGRAN_ANALYSIS
+            HasRequired(a => a.QuesMaster).WithMany(b => b.QuesOgranAnalysis).HasForeignKey(c => c.QuestionSn);
+                // FK_QUES_MASTER_TO_QUES_OGRAN_ANALYSIS
             InitializePartial();
         }
+
         partial void InitializePartial();
     }
-
 }

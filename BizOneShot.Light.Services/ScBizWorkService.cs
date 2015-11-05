@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
 using BizOneShot.Light.Models.WebModels;
-
 using PagedList;
 
 namespace BizOneShot.Light.Services
 {
-
     public interface IScBizWorkService : IBaseService
     {
-
         //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
         //Task<IList<ScBizWork>> GetBizWorkList(int comSn, string excutorId = null);
         Task<IList<ScBizWork>> GetBizWorkList(int mngComSn, string excutorId = null, int bizWorkYear = 0);
-        Task<IPagedList<ScBizWork>> GetPagedListBizWorkList(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0);
+
+        Task<IPagedList<ScBizWork>> GetPagedListBizWorkList(int page, int pageSize, int mngComSn,
+            string excutorId = null, int bizWorkYear = 0);
+
         Task<IList<ScBizWork>> GetEndBizWorkList(DateTime endDateTiem);
         Task<IList<ScBizWork>> GetBizWorkListByBizWorkNm(int comSn, string query);
         Task<ScBizWork> GetBizWorkByBizWorkSn(int bizWorkSn);
@@ -35,7 +34,8 @@ namespace BizOneShot.Light.Services
         private readonly IScCompMappingRepository scCompMappingRepository;
         private readonly IUnitOfWork unitOfWork;
 
-        public ScBizWorkService(IScBizWorkRepository scBizWorkRespository, IScCompMappingRepository scCompMappingRepository, IUnitOfWork unitOfWork)
+        public ScBizWorkService(IScBizWorkRepository scBizWorkRespository,
+            IScCompMappingRepository scCompMappingRepository, IUnitOfWork unitOfWork)
         {
             this.scBizWorkRespository = scBizWorkRespository;
             this.scCompMappingRepository = scCompMappingRepository;
@@ -47,46 +47,64 @@ namespace BizOneShot.Light.Services
         {
             if (string.IsNullOrEmpty(excutorId))
             {
-                var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.Status == "N");
-                scBizWorks.Where(bw => bizWorkYear == 0 ? bw.BizWorkStDt.Value.Year > 0 : bw.BizWorkStDt.Value.Year <= bizWorkYear && bw.BizWorkEdDt.Value.Year >= bizWorkYear);
+                var scBizWorks =
+                    await scBizWorkRespository.GetBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.Status == "N");
+                scBizWorks.Where(
+                    bw =>
+                        bizWorkYear == 0
+                            ? bw.BizWorkStDt.Value.Year > 0
+                            : bw.BizWorkStDt.Value.Year <= bizWorkYear && bw.BizWorkEdDt.Value.Year >= bizWorkYear);
 
                 return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
             }
             else
             {
-                var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.Status == "N" && bw.ExecutorId == excutorId);
-                scBizWorks.Where(bw => bizWorkYear == 0 ? bw.BizWorkStDt.Value.Year > 0 : bw.BizWorkStDt.Value.Year <= bizWorkYear && bw.BizWorkEdDt.Value.Year >= bizWorkYear);
+                var scBizWorks =
+                    await
+                        scBizWorkRespository.GetBizWorksAsync(
+                            bw => bw.MngCompSn == mngComSn && bw.Status == "N" && bw.ExecutorId == excutorId);
+                scBizWorks.Where(
+                    bw =>
+                        bizWorkYear == 0
+                            ? bw.BizWorkStDt.Value.Year > 0
+                            : bw.BizWorkStDt.Value.Year <= bizWorkYear && bw.BizWorkEdDt.Value.Year >= bizWorkYear);
 
                 return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
             }
         }
 
-        public async Task<IPagedList<ScBizWork>> GetPagedListBizWorkList(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0)
+        public async Task<IPagedList<ScBizWork>> GetPagedListBizWorkList(int page, int pageSize, int mngComSn,
+            string excutorId = null, int bizWorkYear = 0)
         {
-            return await scBizWorkRespository.GetPagedListBizWorksAsync(page, pageSize, mngComSn, excutorId, bizWorkYear);
+            return
+                await scBizWorkRespository.GetPagedListBizWorksAsync(page, pageSize, mngComSn, excutorId, bizWorkYear);
         }
 
         public async Task<IList<ScBizWork>> GetEndBizWorkList(DateTime endDateTiem)
         {
-            var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.BizWorkEdDt < endDateTiem && bw.Status == "N");
+            var scBizWorks =
+                await scBizWorkRespository.GetBizWorksAsync(bw => bw.BizWorkEdDt < endDateTiem && bw.Status == "N");
             return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
         }
 
         public async Task<IList<ScCompInfo>> GetBizWorkComList(int bizWorkSn)
         {
             var scBizWorks = await scCompMappingRepository.GetCompanysAsync(bw => bw.BizWorkSn == bizWorkSn);
-            return  scBizWorks.OrderByDescending(sc => sc.CompNm).ToList();
+            return scBizWorks.OrderByDescending(sc => sc.CompNm).ToList();
         }
 
         public async Task<IPagedList<ScCompInfo>> GetPagedListBizWorkComList(int bizWorkSn, int page, int pageSize)
         {
-            return await scCompMappingRepository.GetPagedListCompanysAsync(bw => bw.BizWorkSn == bizWorkSn, page, pageSize);
+            return
+                await scCompMappingRepository.GetPagedListCompanysAsync(bw => bw.BizWorkSn == bizWorkSn, page, pageSize);
             //return scBizWorks.OrderByDescending(sc => sc.CompNm).ToList();
         }
 
         public async Task<IList<ScBizWork>> GetBizWorkListByBizWorkNm(int mngComSn, string query)
         {
-            var scBizWorks = await scBizWorkRespository.GetBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.BizWorkNm.Contains(query));
+            var scBizWorks =
+                await
+                    scBizWorkRespository.GetBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.BizWorkNm.Contains(query));
             return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
         }
 
@@ -118,11 +136,7 @@ namespace BizOneShot.Light.Services
             {
                 return -1;
             }
-            else
-            {
-                return await SaveDbContextAsync();
-            }
-
+            return await SaveDbContextAsync();
         }
 
         public void SaveDbContext()

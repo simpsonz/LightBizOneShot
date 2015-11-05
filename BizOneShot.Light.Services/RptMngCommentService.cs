@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
@@ -11,7 +9,6 @@ namespace BizOneShot.Light.Services
 {
     public interface IRptMngCommentService : IBaseService
     {
-
         RptMngComment Insert(RptMngComment rptMngComment);
         Task<int> AddRptMngCommentAsync(RptMngComment rptMngComment);
 
@@ -33,14 +30,20 @@ namespace BizOneShot.Light.Services
 
         public async Task<IList<RptMngComment>> GetRptMngCommentListAsync(int basicYear, string pageCode)
         {
-            var rptMngComments = await rptMngCommentRepository.GetRptMngCommentsAsync(rm => rm.BasicYear == basicYear && rm.RptMngCode.SmallClassCd == pageCode);
+            var rptMngComments =
+                await
+                    rptMngCommentRepository.GetRptMngCommentsAsync(
+                        rm => rm.BasicYear == basicYear && rm.RptMngCode.SmallClassCd == pageCode);
 
             return rptMngComments.OrderBy(rm => rm.DetailCd).ToList();
         }
 
         public async Task<RptMngComment> GetRptMngCommentAsync(int basicYear, string detailCode)
         {
-            var rptMngComment = await rptMngCommentRepository.GetRptMngCommentAsync(rm =>  rm.BasicYear == basicYear && rm.DetailCd == detailCode);
+            var rptMngComment =
+                await
+                    rptMngCommentRepository.GetRptMngCommentAsync(
+                        rm => rm.BasicYear == basicYear && rm.DetailCd == detailCode);
             return rptMngComment;
         }
 
@@ -58,11 +61,7 @@ namespace BizOneShot.Light.Services
             {
                 return -1;
             }
-            else
-            {
-                return await SaveDbContextAsync();
-            }
-
+            return await SaveDbContextAsync();
         }
 
         public void SaveDbContext()

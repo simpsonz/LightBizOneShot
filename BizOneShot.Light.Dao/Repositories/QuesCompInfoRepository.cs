@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Models.WebModels;
@@ -19,11 +17,13 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public class QuesCompInfoRepository : RepositoryBase<QuesCompInfo>, IQuesCompInfoRepository
     {
-        public QuesCompInfoRepository(IDbFactory dbFactory) : base(dbFactory) { }
+        public QuesCompInfoRepository(IDbFactory dbFactory) : base(dbFactory)
+        {
+        }
 
         public async Task<QuesCompInfo> GetQuesCompInfoAsync(Expression<Func<QuesCompInfo, bool>> where)
         {
-            return await this.DbContext.QuesCompInfoes.Where(where)
+            return await DbContext.QuesCompInfoes.Where(where)
                 //.AsNoTracking()
                 .SingleAsync();
         }
@@ -32,6 +32,5 @@ namespace BizOneShot.Light.Dao.Repositories
         {
             return DbContext.QuesCompInfoes.Add(quesCompInfo);
         }
-
     }
 }

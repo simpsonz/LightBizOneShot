@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Services;
 using BizOneShot.Light.Util.Helper;
-using BizOneShot.Light.Util.Security;
 using PagedList;
 using AutoMapper;
 
@@ -333,7 +332,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
                             var scMentoringFileInfo = new ScMentoringFileInfo { ScFileInfo = scFileInfo };
 
                             //파일타입에 따라 재정의해서 넣어야 함(첨부파일, 사진)
-                            scMentoringFileInfo.Classify = fileHelper.hasImageFile(file) ? "P" : "A";
+                            scMentoringFileInfo.Classify = fileHelper.HasImageFile(file) ? "P" : "A";
                             
                             scMentoringReport.ScMentoringFileInfoes.Add(scMentoringFileInfo);
 
@@ -498,7 +497,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
                             var scMentoringFileInfo = new ScMentoringFileInfo { ScFileInfo = scFileInfo };
 
                             //파일타입에 따라 재정의해서 넣어야 함(첨부파일, 사진)
-                            scMentoringFileInfo.Classify = fileHelper.hasImageFile(file) ? "P" : "A";
+                            scMentoringFileInfo.Classify = fileHelper.HasImageFile(file) ? "P" : "A";
 
                             scMentoringReport.ScMentoringFileInfoes.Add(scMentoringFileInfo);
 

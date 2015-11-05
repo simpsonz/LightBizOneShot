@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BizOneShot.Light.Models.ViewModels
 {
-    class ReportViewModels
+    internal class ReportViewModels
     {
     }
 
@@ -18,7 +15,6 @@ namespace BizOneShot.Light.Models.ViewModels
 
     public class BizInCompanyStatsViewModel
     {
-
         public string BizWorkNm { get; set; } // BIZ_WORK_NM. 사업명
         public DateTime? BizWorkStDt { get; set; } // BIZ_WORK_ST_DT. 사업시작일
         public DateTime? BizWorkEdDt { get; set; } // BIZ_WORK_ED_DT. 사업종료일
@@ -48,8 +44,8 @@ namespace BizOneShot.Light.Models.ViewModels
         public string BeforeSales { get; set; } // 참여기업 종료 전(월, 분기, 년) 매출 
     }
 
-
     #region 기업지원통계
+
     public class MentoringCompanyStatsViewModel
     {
         public string BizWorkNm { get; set; } // BIZ_WORK_NM. 사업명
@@ -104,7 +100,6 @@ namespace BizOneShot.Light.Models.ViewModels
     }
 
 
-
     public class MentoringMentorStatsViewModel
     {
         public string BizWorkNm { get; set; } // BIZ_WORK_NM. 사업명
@@ -141,7 +136,6 @@ namespace BizOneShot.Light.Models.ViewModels
         public int SumMentoringDays { get; set; } //기간 멘토일 일수
         public int SumMentoringCount { get; set; } //기산 맨토링 횟수
         public int SumMentoringHours { get; set; } //기간 맨토링 시간
-
     }
 
     public class MentoringStatsByMentorGroupModel
@@ -197,6 +191,6 @@ namespace BizOneShot.Light.Models.ViewModels
         public string MentoringAreaCd { get; set; }
         public int Count { get; set; }
     }
-    #endregion
 
+    #endregion
 }

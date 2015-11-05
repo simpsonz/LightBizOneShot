@@ -1,15 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BizOneShot.Light.Models.WebModels;
-using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
-
-using System.Linq.Expressions;
-using System;
+using BizOneShot.Light.Models.WebModels;
 using PagedList;
-
 
 namespace BizOneShot.Light.Services
 {
@@ -37,23 +32,35 @@ namespace BizOneShot.Light.Services
         }
 
 
-        public async Task<IPagedList<ScForm>> GetManualsAsync(int page, int pageSize, string searchType = null, string keyword = null)
+        public async Task<IPagedList<ScForm>> GetManualsAsync(int page, int pageSize, string searchType = null,
+            string keyword = null)
         {
             if (string.IsNullOrEmpty(searchType) || string.IsNullOrEmpty(keyword))
             {
                 return await scFormRepository.GetPagedListAsync(manual => manual.Status == "N", page, pageSize);
             }
-            else if (searchType.Equals("0")) // 제목, 내용중 keyword가 포함된 Notice 검색 
+            if (searchType.Equals("0")) // 제목, 내용중 keyword가 포함된 Notice 검색 
             {
-                return await scFormRepository.GetPagedListAsync(manual => manual.Subject.Contains(keyword) || manual.Contents.Contains(keyword) && manual.Status == "N", page, pageSize);
+                return
+                    await
+                        scFormRepository.GetPagedListAsync(
+                            manual =>
+                                manual.Subject.Contains(keyword) ||
+                                manual.Contents.Contains(keyword) && manual.Status == "N", page, pageSize);
             }
-            else if (searchType.Equals("1")) // 제목중에 keyword가 포함된 Notice 검색 
+            if (searchType.Equals("1")) // 제목중에 keyword가 포함된 Notice 검색 
             {
-                return await scFormRepository.GetPagedListAsync(manual => manual.Subject.Contains(keyword) && manual.Status == "N", page, pageSize);
+                return
+                    await
+                        scFormRepository.GetPagedListAsync(
+                            manual => manual.Subject.Contains(keyword) && manual.Status == "N", page, pageSize);
             }
-            else if (searchType.Equals("2")) // 내용중에 keyword가 포함된 Notice 검색 
+            if (searchType.Equals("2")) // 내용중에 keyword가 포함된 Notice 검색 
             {
-                return await scFormRepository.GetPagedListAsync(manual => manual.Contents.Contains(keyword) && manual.Status == "N", page, pageSize);
+                return
+                    await
+                        scFormRepository.GetPagedListAsync(
+                            manual => manual.Contents.Contains(keyword) && manual.Status == "N", page, pageSize);
             }
 
             return await scFormRepository.GetPagedListAsync(manual => manual.Status == "N", page, pageSize);
@@ -61,12 +68,14 @@ namespace BizOneShot.Light.Services
 
         public async Task<IDictionary<string, ScForm>> GetManualDetailByIdAsync(int formSn)
         {
-            var preFormTask = await scFormRepository.GetManyAsync(manual => manual.FormSn < formSn && manual.Status == "N");
+            var preFormTask =
+                await scFormRepository.GetManyAsync(manual => manual.FormSn < formSn && manual.Status == "N");
             var preForm = preFormTask.OrderBy(manual => manual.FormSn).LastOrDefault();
 
             var curForm = await scFormRepository.GetAsync(manual => manual.FormSn == formSn);
 
-            var nextFormTask = await scFormRepository.GetManyAsync(manual => manual.FormSn > formSn && manual.Status == "N");
+            var nextFormTask =
+                await scFormRepository.GetManyAsync(manual => manual.FormSn > formSn && manual.Status == "N");
             var nextForm = nextFormTask.OrderBy(manual => manual.FormSn).FirstOrDefault();
 
             var dicScForms = new Dictionary<string, ScForm>();
@@ -91,11 +100,7 @@ namespace BizOneShot.Light.Services
             {
                 return -1;
             }
-            else
-            {
-                return await SaveDbContextAsync();
-            }
-
+            return await SaveDbContextAsync();
         }
 
         public async Task ModifyScFormAsync(ScForm scForm)
@@ -107,6 +112,7 @@ namespace BizOneShot.Light.Services
         }
 
         #region SaveDbContext
+
         public void SaveDbContext()
         {
             unitOfWork.Commit();
@@ -116,8 +122,7 @@ namespace BizOneShot.Light.Services
         {
             return await unitOfWork.CommitAsync();
         }
+
         #endregion
-
-
     }
 }

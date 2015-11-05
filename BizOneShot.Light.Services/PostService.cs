@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
@@ -13,9 +11,15 @@ namespace BizOneShot.Light.Services
     {
         Task<IList<UspSelectSidoForWebListReturnModel>> GetSidoListAsync();
         Task<IList<UspSelectGunguForWebListReturnModel>> GetGunguListAsync(object[] parameters);
-        Task<IList<UspSelectAddressByStreetSearchForWebListReturnModel>> GetAddressByStreetSearchListAsync(object[] parameters);
-        Task<IList<UspSelectAddressByDongSearchForWebListReturnModel>> GetAddressByDongSearchListAsync(object[] parameters);
-        Task<IList<UspSelectAddressByBuildingSearchForWebListReturnModel>> GetAddressByBuildingSearchListAsync(object[] parameters);
+
+        Task<IList<UspSelectAddressByStreetSearchForWebListReturnModel>> GetAddressByStreetSearchListAsync(
+            object[] parameters);
+
+        Task<IList<UspSelectAddressByDongSearchForWebListReturnModel>> GetAddressByDongSearchListAsync(
+            object[] parameters);
+
+        Task<IList<UspSelectAddressByBuildingSearchForWebListReturnModel>> GetAddressByBuildingSearchListAsync(
+            object[] parameters);
     }
 
 
@@ -43,26 +47,29 @@ namespace BizOneShot.Light.Services
             return listGunguTask.Distinct().OrderBy(sq => sq.GUNGU).ToList();
         }
 
-        public async Task<IList<UspSelectAddressByStreetSearchForWebListReturnModel>> GetAddressByStreetSearchListAsync(object[] parameters)
+        public async Task<IList<UspSelectAddressByStreetSearchForWebListReturnModel>> GetAddressByStreetSearchListAsync(
+            object[] parameters)
         {
             var listGunguTask = await _postRepository.GetAddressByStreetSearchListAsync(parameters);
             return listGunguTask.Distinct().OrderBy(sq => sq.ZIP_CD).ToList();
         }
 
-        public async Task<IList<UspSelectAddressByDongSearchForWebListReturnModel>> GetAddressByDongSearchListAsync(object[] parameters)
+        public async Task<IList<UspSelectAddressByDongSearchForWebListReturnModel>> GetAddressByDongSearchListAsync(
+            object[] parameters)
         {
             var listGunguTask = await _postRepository.GetAddressByDongSearchListAsync(parameters);
             return listGunguTask.Distinct().OrderBy(sq => sq.ZIP_CD).ToList();
         }
 
-        public async Task<IList<UspSelectAddressByBuildingSearchForWebListReturnModel>> GetAddressByBuildingSearchListAsync(object[] parameters)
+        public async Task<IList<UspSelectAddressByBuildingSearchForWebListReturnModel>>
+            GetAddressByBuildingSearchListAsync(object[] parameters)
         {
             var listGunguTask = await _postRepository.GetAddressByBuildingSearchListAsync(parameters);
             return listGunguTask.Distinct().OrderBy(sq => sq.ZIP_CD).ToList();
         }
-            
 
         #region SaveContext
+
         public void SaveDbContext()
         {
             unitOfWork.Commit();
@@ -72,6 +79,7 @@ namespace BizOneShot.Light.Services
         {
             return await unitOfWork.CommitAsync();
         }
+
         #endregion
     }
 }

@@ -5,6 +5,7 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
+
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 using System;
@@ -19,6 +20,7 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using BizOneShot.Light.Models.DareModels;
 using System.Threading;
+using System.Threading.Tasks;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
 namespace BizOneShot.Light.Dao.DareConfiguration
@@ -29,8 +31,7 @@ namespace BizOneShot.Light.Dao.DareConfiguration
         DbSet<SHUSER_SyUser> SHUSER_SyUsers { get; set; } // SY_USER
 
         int SaveChanges();
-        System.Threading.Tasks.Task<int> SaveChangesAsync();
-        System.Threading.Tasks.Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
-
 }

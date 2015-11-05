@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
+
 
 using AutoMapper;
 using BizOneShot.Light.Models.ViewModels;

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BizOneShot.Light.Models.ViewModels
 {
-    class FinanceReportViewModels
+    internal class FinanceReportViewModels
     {
     }
 
@@ -85,5 +81,4 @@ namespace BizOneShot.Light.Models.ViewModels
         public string ItemName { get; set; } // 적요
         public string Share { get; set; } // 점유율
     }
-
 }

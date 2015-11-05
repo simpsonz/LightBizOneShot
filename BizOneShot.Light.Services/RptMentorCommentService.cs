@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
@@ -11,11 +9,12 @@ namespace BizOneShot.Light.Services
 {
     public interface IRptMentorCommentService : IBaseService
     {
-
         RptMentorComment Insert(RptMentorComment rptMentorComment);
         Task<int> AddRptMentorCommentAsync(RptMentorComment rptMentorComment);
 
-        Task<IList<RptMentorComment>> GetRptMentorCommentListAsync(int qustionSn, int bizWorkSn, int basicYear, string pageCode);
+        Task<IList<RptMentorComment>> GetRptMentorCommentListAsync(int qustionSn, int bizWorkSn, int basicYear,
+            string pageCode);
+
         Task<RptMentorComment> GetRptMentorCommentAsync(int qustionSn, int bizWorkSn, int basicYear, string detailCode);
     }
 
@@ -31,16 +30,28 @@ namespace BizOneShot.Light.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<IList<RptMentorComment>> GetRptMentorCommentListAsync(int qustionSn, int bizWorkSn, int basicYear, string pageCode)
+        public async Task<IList<RptMentorComment>> GetRptMentorCommentListAsync(int qustionSn, int bizWorkSn,
+            int basicYear, string pageCode)
         {
-            var rptMentorComments = await rptMentorCommentRepository.GetRptMentorCommentsAsync(rm => rm.QuestionSn == qustionSn && rm.BizWorkSn == bizWorkSn && rm.BasicYear == basicYear && rm.RptCheckList.SmallClassCd == pageCode);
+            var rptMentorComments =
+                await
+                    rptMentorCommentRepository.GetRptMentorCommentsAsync(
+                        rm =>
+                            rm.QuestionSn == qustionSn && rm.BizWorkSn == bizWorkSn && rm.BasicYear == basicYear &&
+                            rm.RptCheckList.SmallClassCd == pageCode);
 
             return rptMentorComments.OrderBy(rm => rm.DetailCd).ToList();
         }
 
-        public async Task<RptMentorComment> GetRptMentorCommentAsync(int qustionSn, int bizWorkSn, int basicYear, string detailCode)
+        public async Task<RptMentorComment> GetRptMentorCommentAsync(int qustionSn, int bizWorkSn, int basicYear,
+            string detailCode)
         {
-            var rptMentorComment = await rptMentorCommentRepository.GetRptMentorCommentAsync(rm => rm.QuestionSn == qustionSn && rm.BizWorkSn == bizWorkSn && rm.BasicYear == basicYear && rm.DetailCd == detailCode);
+            var rptMentorComment =
+                await
+                    rptMentorCommentRepository.GetRptMentorCommentAsync(
+                        rm =>
+                            rm.QuestionSn == qustionSn && rm.BizWorkSn == bizWorkSn && rm.BasicYear == basicYear &&
+                            rm.DetailCd == detailCode);
             return rptMentorComment;
         }
 
@@ -58,11 +69,7 @@ namespace BizOneShot.Light.Services
             {
                 return -1;
             }
-            else
-            {
-                return await SaveDbContextAsync();
-            }
-
+            return await SaveDbContextAsync();
         }
 
         public void SaveDbContext()

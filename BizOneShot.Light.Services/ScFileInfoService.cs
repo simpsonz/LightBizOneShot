@@ -1,13 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BizOneShot.Light.Models.WebModels;
-using BizOneShot.Light.Models.ViewModels;
+﻿using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
-using System.Linq.Expressions;
-using System;
-
+using BizOneShot.Light.Models.WebModels;
 
 namespace BizOneShot.Light.Services
 {
@@ -34,6 +28,7 @@ namespace BizOneShot.Light.Services
         }
 
         #region SaveDbContext
+
         public void SaveDbContext()
         {
             unitOfWork.Commit();
@@ -43,8 +38,7 @@ namespace BizOneShot.Light.Services
         {
             return await unitOfWork.CommitAsync();
         }
+
         #endregion
-
-
     }
 }
