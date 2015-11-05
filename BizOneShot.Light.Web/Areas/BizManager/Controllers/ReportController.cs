@@ -22,7 +22,6 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
     public class ReportController : BaseController
     {
         private readonly IScBizWorkService _scBizWorkService;
-
         private readonly IScCompMappingService _scCompMappingService;
         private readonly IScMentorMappingService _scMentorMappingService;
         private readonly IScMentoringTotalReportService _scMentoringTotalReportService;

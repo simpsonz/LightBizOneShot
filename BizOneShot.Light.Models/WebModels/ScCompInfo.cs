@@ -41,6 +41,7 @@ namespace BizOneShot.Light.Models.WebModels
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
 
         // Reverse navigation
+        public virtual ICollection<RptFinanceComment> RptFinanceComments { get; set; } // Many to many mapping
         public virtual ICollection<RptMaster> RptMasters { get; set; } // RPT_MASTER.FK_SC_COMP_INFO_TO_RPT_MASTER
         public virtual ICollection<RptMngComment> RptMngComments { get; set; } // Many to many mapping
         public virtual ICollection<ScBizWork> ScBizWorks { get; set; } // SC_BIZ_WORK.FK_SC_COMP_INFO_TO_SC_BIZ_WORK
@@ -53,6 +54,7 @@ namespace BizOneShot.Light.Models.WebModels
         
         public ScCompInfo()
         {
+            RptFinanceComments = new List<RptFinanceComment>();
             RptMasters = new List<RptMaster>();
             RptMngComments = new List<RptMngComment>();
             ScBizWorks = new List<ScBizWork>();

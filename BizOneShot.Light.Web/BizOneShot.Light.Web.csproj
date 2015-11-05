@@ -525,6 +525,7 @@
     <Content Include="Areas\BizManager\Views\Report\BasicSurveyReport.cshtml" />
     <Content Include="Areas\SysManager\Views\Report\BasicSurveyReport.cshtml" />
     <Content Include="Areas\Expert\Views\Report\BasicSurveyReport.cshtml" />
+    <Content Include="Areas\Expert\Views\Report\FinanceReport.cshtml" />
     <None Include="Properties\PublishProfiles\Demo BizOneShot Lite.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

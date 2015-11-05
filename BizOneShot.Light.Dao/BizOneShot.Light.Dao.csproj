@@ -171,6 +171,9 @@
     <Compile Include="WebConfiguration\RptCheckListConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="WebConfiguration\RptFinanceCommentConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="WebConfiguration\RptMasterConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>

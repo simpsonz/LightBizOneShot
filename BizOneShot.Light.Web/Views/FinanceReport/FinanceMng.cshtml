@@ -159,6 +159,8 @@
     function ChangeYear() {
 
         var year = $('#SelectYear').val();
+        var compSn = $('#CompSn').val();
+        var bizWorkSn = $('#BizWorkSn').val();
         if (year == '') {
             $('#SelectMonth').html("<option value='0'>월선택</option>");
             $('#SelectMonth').attr("disabled", true);
@@ -169,7 +171,11 @@
                 url: '@Url.Action("GetMonth", "FinanceReport")',
                 type: "post",
                 dataType: "json",
-                data: { Year: year },
+                data: { 
+                    Year: year,
+                    CompSn : compSn,
+                    BizWorkSn : bizWorkSn
+                },
                 async: false,
                 success: function (result) {
                     for (var i = 0; i < result.length; i++) {
@@ -194,6 +200,9 @@
             @Html.DropDownListFor(model => model.Year, ViewBag.SelectYearList as SelectList, new { @id = "SelectYear", @class = "year" })
             @Html.DropDownListFor(model => model.Month, ViewBag.SelectMonthList as SelectList, new { @id = "SelectMonth", @class = "month" })
             <button type="submit" class="report_view right" value="보고서 보기">보고서 보기</button>
+
+            @Html.HiddenFor(model => model.CompSn)
+            @Html.HiddenFor(model => model.BizWorkSn)
         </div>
     }
 
@@ -516,6 +525,18 @@
                 </div>
             </div>
         </div>
-
+        <div id="btnwrap_sub">
+            <div class="rightwrap">
+                @if (Session[Global.UserType].Equals(Global.Expert) && Session[Global.UserDetailType].Equals("T"))
+                {//전문가
+                    <button type="submit" class="comment_write float_left" value="세무회계사코멘트등록" />
+                }
+                else
+                { 
+                    <button type="submit" class="comment_confirm float_left" value="세무회계사코멘트확인" />
+                }
+                <button type="submit" class="print" value="출력" />
+            </div>
+        </div>
     }
 </div>

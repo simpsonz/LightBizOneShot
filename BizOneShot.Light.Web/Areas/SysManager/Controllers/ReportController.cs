@@ -13,6 +13,8 @@ using PagedList;
 
 namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
 {
+    [UserAuthorize(Order = 1)]
+    [MenuAuthorize(Roles = UserType.SysManager, Order = 2)]
     public class ReportController : Controller
     {
         private readonly IScBizWorkService _scBizWorkService;

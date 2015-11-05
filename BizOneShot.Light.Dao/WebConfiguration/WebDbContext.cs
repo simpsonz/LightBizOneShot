@@ -36,6 +36,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public DbSet<QuesResult2> QuesResult2 { get; set; } // QUES_RESULT2
         public DbSet<QuesWriter> QuesWriters { get; set; } // QUES_WRITER
         public DbSet<RptCheckList> RptCheckLists { get; set; } // RPT_CHECK_LIST
+        public DbSet<RptFinanceComment> RptFinanceComments { get; set; } // RPT_FINANCE_COMMENT
         public DbSet<RptMaster> RptMasters { get; set; } // RPT_MASTER
         public DbSet<RptMentorCheck> RptMentorChecks { get; set; } // RPT_MENTOR_CHECK
         public DbSet<RptMentorComment> RptMentorComments { get; set; } // RPT_MENTOR_COMMENT
@@ -105,6 +106,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             modelBuilder.Configurations.Add(new QuesResult2Configuration());
             modelBuilder.Configurations.Add(new QuesWriterConfiguration());
             modelBuilder.Configurations.Add(new RptCheckListConfiguration());
+            modelBuilder.Configurations.Add(new RptFinanceCommentConfiguration());
             modelBuilder.Configurations.Add(new RptMasterConfiguration());
             modelBuilder.Configurations.Add(new RptMentorCheckConfiguration());
             modelBuilder.Configurations.Add(new RptMentorCommentConfiguration());
@@ -149,6 +151,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             modelBuilder.Configurations.Add(new QuesResult2Configuration(schema));
             modelBuilder.Configurations.Add(new QuesWriterConfiguration(schema));
             modelBuilder.Configurations.Add(new RptCheckListConfiguration(schema));
+            modelBuilder.Configurations.Add(new RptFinanceCommentConfiguration(schema));
             modelBuilder.Configurations.Add(new RptMasterConfiguration(schema));
             modelBuilder.Configurations.Add(new RptMentorCheckConfiguration(schema));
             modelBuilder.Configurations.Add(new RptMentorCommentConfiguration(schema));
