@@ -160,10 +160,10 @@ namespace BizOneShot.Light.Web.Controllers
             //기초역량 보고서 조회
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            var rptMsters = rptMasterService.GetRptMasterList(int.Parse(curPage ?? "1"), pagingSize, mentorId, paramModel.BizWorkYear, paramModel.BizWorkSn, paramModel.CompSn, paramModel.Status);
+            var rptMsters = await rptMasterService.GetRptMasterList(int.Parse(curPage ?? "1"), pagingSize, mentorId, paramModel.BizWorkYear, paramModel.BizWorkSn, paramModel.CompSn, paramModel.Status);
 
             //뷰모델 맵핑
-            var rptMasterListView = Mapper.Map<List<BasicSurveyReportViewModel>>(rptMsters.ToList());
+            var rptMasterListView = Mapper.Map<List<BasicSurveyReportViewModel>>(rptMsters);
 
             return View(new StaticPagedList<BasicSurveyReportViewModel>(rptMasterListView, int.Parse(curPage ?? "1"), pagingSize, rptMsters.TotalItemCount));
 

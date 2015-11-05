@@ -32,43 +32,43 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<IList<QuesMaster>> GetQuesMastersAsync(Expression<Func<QuesMaster, bool>> where)
         {
-            return await this.DbContext.QuesMasters.Include("QuesWriter").Where(where).ToListAsync();
+            return await DbContext.QuesMasters.Include("QuesWriter").Where(where).ToListAsync();
         }
 
 
         public async Task<QuesMaster> GetQuesMasterAsync(Expression<Func<QuesMaster, bool>> where)
         {
-            return await this.DbContext.QuesMasters.Include("QuesWriter").Where(where).SingleOrDefaultAsync();
+            return await DbContext.QuesMasters.Include("QuesWriter").Where(where).SingleOrDefaultAsync();
         }
 
         public async Task<QuesMaster> GetQuesCompInfoAsync(Expression<Func<QuesMaster, bool>> where)
         {
-            return await this.DbContext.QuesMasters.Include("QuesCompInfo").Where(where).SingleOrDefaultAsync();
+            return await DbContext.QuesMasters.Include("QuesCompInfo").Where(where).SingleOrDefaultAsync();
         }
 
         public async Task<QuesMaster> GetQuesCompExtentionAsync(Expression<Func<QuesMaster, bool>> where)
         {
-            return await this.DbContext.QuesMasters.Include("QuesCompExtention").Where(where).SingleOrDefaultAsync();
+            return await DbContext.QuesMasters.Include("QuesCompExtention").Where(where).SingleOrDefaultAsync();
         }
 
         public async Task<QuesMaster> GetQuesResult1Async(Expression<Func<QuesMaster, bool>> where)
         {
-            return await this.DbContext.QuesMasters.Include("QuesResult1").Where(where).SingleOrDefaultAsync();
+            return await DbContext.QuesMasters.Include("QuesResult1").Where(where).SingleOrDefaultAsync();
         }
 
         public async Task<QuesMaster> GetQuesResult2Async(Expression<Func<QuesMaster, bool>> where)
         {
-            return await this.DbContext.QuesMasters.Include("QuesResult2").Where(where).SingleOrDefaultAsync();
+            return await DbContext.QuesMasters.Include("QuesResult2").Where(where).SingleOrDefaultAsync();
         }
 
         public async Task<QuesMaster> GetQuesOgranAnalysisAsync(Expression<Func<QuesMaster, bool>> where)
         {
-            return await this.DbContext.QuesMasters.Include("QuesOgranAnalysis").Where(where).SingleOrDefaultAsync();
+            return await DbContext.QuesMasters.Include("QuesOgranAnalysis").Where(where).SingleOrDefaultAsync();
         }
 
         public QuesMaster Insert(QuesMaster quesMaster)
         {
-            return this.DbContext.QuesMasters.Add(quesMaster);
+            return DbContext.QuesMasters.Add(quesMaster);
         }
 
     }

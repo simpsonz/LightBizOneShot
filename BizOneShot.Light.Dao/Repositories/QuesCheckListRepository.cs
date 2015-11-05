@@ -22,7 +22,9 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<IList<QuesCheckList>> GetQuesCheckListsAsync(Expression<Func<QuesCheckList, bool>> where)
         {
-            return await this.DbContext.QuesCheckLists.Where(where).ToListAsync();
+            return await DbContext.QuesCheckLists.Where(where)
+                //.AsNoTracking()
+                .ToListAsync();
         }
 
     }

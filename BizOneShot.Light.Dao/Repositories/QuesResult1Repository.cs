@@ -23,12 +23,12 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<IList<QuesResult1>> GetQuesResult1sAsync(Expression<Func<QuesResult1, bool>> where)
         {
-            return await this.DbContext.QuesResult1.Include("QuesCheckList").Where(where).ToListAsync();
+            return await DbContext.QuesResult1.Include("QuesCheckList").Where(where).ToListAsync();
         }
 
         public async Task<QuesResult1> GetQuesResult1Async(Expression<Func<QuesResult1, bool>> where)
         {
-            return await this.DbContext.QuesResult1.Include("QuesCheckList").Where(where).SingleOrDefaultAsync();
+            return await DbContext.QuesResult1.Include("QuesCheckList").Where(where).SingleOrDefaultAsync();
         }
 
     }
