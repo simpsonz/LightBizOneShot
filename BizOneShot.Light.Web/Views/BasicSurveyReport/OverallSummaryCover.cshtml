@@ -23,11 +23,11 @@
     <div id="report_wm_step">
         <!--STEP 아이콘-->
         <ul>
-            <li class="basic_report01 on"><a href="@Url.Action("CompanyInfo","BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="ablock"><em>STEP01.역량검토 결과 요약</em></a></li>
+            <li class="basic_report01 on"><a href="@Url.Action("CompanyInfo","BasicSurveyReport", new { area = "" , BizWorkSn = Model.BizWorkSn, CompSn = Model.CompSn, BizWorkYear = Model.BizWorkYear, Status = Model.Status, QuestionSn = Model.QuestionSn})" class="ablock"><em>STEP01.역량검토 결과 요약</em></a></li>
             <li class="basic_report02">
-                @if (ViewBag.paramModel.Status as string == "C")
+                @if (Model.Status  == "C")
                 {
-                    <a href="@Url.Action("OverallResultCover","BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="ablock"><em>STEP02.기초역량검토 종합결과</em></a>
+                    <a href="@Url.Action("OverallResultCover","BasicSurveyReport", new { area = "" , BizWorkSn = Model.BizWorkSn, CompSn = Model.CompSn, BizWorkYear = Model.BizWorkYear, Status = Model.Status, QuestionSn = Model.QuestionSn})" class="ablock"><em>STEP02.기초역량검토 종합결과</em></a>
                 }
                 else
                 {
@@ -35,9 +35,9 @@
                 }
             </li>
             <li class="basic_report03">
-                @if (ViewBag.paramModel.Status as string == "C")
+                @if (Model.Status == "C")
                 {
-                    <a href="@Url.Action("GrowthRoadMapCover","BasicSurveyReport", new { area = "", BizWorkSn = ViewBag.paramModel.BizWorkSn, CompSn = ViewBag.paramModel.CompSn, BizWorkYear = ViewBag.paramModel.BizWorkYear, Status = ViewBag.paramModel.Status, QuestionSn = ViewBag.paramModel.QuestionSn })" class="ablock"><em>STEP03.성장로드맵 제안</em></a>
+                    <a href="@Url.Action("GrowthRoadMapCover","BasicSurveyReport", new { area = "" , BizWorkSn = Model.BizWorkSn, CompSn = Model.CompSn, BizWorkYear = Model.BizWorkYear, Status = Model.Status, QuestionSn = Model.QuestionSn})" class="ablock"><em>STEP03.성장로드맵 제안</em></a>
                 }
                 else
                 {
