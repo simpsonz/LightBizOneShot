@@ -909,7 +909,7 @@ namespace BizOneShot.Light.Web.ComLib
             //총자산회전율(매출액 ÷ 총자산)×100
             double i = Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.TotalAsset.Value) * 100);
             //매출채권회전율(매출액 ÷ 매출채권(=외상매출금,미수금,받을어음))×100
-            double j = Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.Salescredit.Value) * 100);
+            double j = Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.SalesCredit.Value) * 100);
             //재고자산회전율(매출액 ÷ 재고자산)×100
             double k = Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.InventoryAsset.Value) * 100);
             //부가가치율(부가가치 ÷ 매출액)×100

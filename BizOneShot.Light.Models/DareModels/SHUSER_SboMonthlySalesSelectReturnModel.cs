@@ -5,21 +5,17 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Threading;
 
 namespace BizOneShot.Light.Models.DareModels
 {
     public class SHUSER_SboMonthlySalesSelectReturnModel
     {
-        public string DT_YEAR { get; set; }
-        public string DT_MONTH { get; set; }
-        public decimal? SALES_AMT { get; set; }
+        public String DT_YEAR { get; set; }
+        public String DT_MONTH { get; set; }
+        public Decimal? SALES_AMT { get; set; }
     }
+
 }

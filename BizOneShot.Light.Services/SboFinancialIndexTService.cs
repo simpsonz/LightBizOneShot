@@ -27,12 +27,7 @@ namespace BizOneShot.Light.Services
         public async Task<SHUSER_SboFinancialIndexT> GetSHUSER_SboFinancialIndexT(string registrationNo, string corpCode,
             string bizCode, string year)
         {
-            var sboFinancialIndexT =
-                await
-                    sboFinancialIndexTRepository.GetSHUSER_SboFinancialIndexT(
-                        i =>
-                            i.MembBusnpersNo == registrationNo && i.CorpCode == corpCode && i.BizCd == bizCode &&
-                            i.Year == year);
+            var sboFinancialIndexT = await sboFinancialIndexTRepository.GetSHUSER_SboFinancialIndexT(i => i.MembBusnpersNo == registrationNo && i.CorpCode == corpCode && i.BizCd == bizCode && i.Year == year);
 
             return sboFinancialIndexT;
         }

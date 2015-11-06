@@ -5,14 +5,8 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Threading;
 
 namespace BizOneShot.Light.Models.DareModels
 {
@@ -39,7 +33,7 @@ namespace BizOneShot.Light.Models.DareModels
         public decimal? TotalAsset { get; set; } // TOTAL_ASSET
         public decimal? NonOperEar { get; set; } // NON_OPER_EAR
         public decimal? InterstCost { get; set; } // INTERST_COST
-        public decimal? Salescredit { get; set; } // SALES CREDIT
+        public decimal? SalesCredit { get; set; } // SALES_CREDIT
         public decimal? ValueAdded { get; set; } // VALUE_ADDED
         public decimal? MaterialCost { get; set; } // MATERIAL_COST
         public decimal? QtEmp { get; set; } // QT_EMP
@@ -48,4 +42,5 @@ namespace BizOneShot.Light.Models.DareModels
         public string ModifyDts { get; set; } // MODIFY_DTS
         public string ModifyId { get; set; } // MODIFY_ID
     }
+
 }

@@ -1,4 +1,6 @@
-﻿// This file was automatically generated.
+﻿
+
+// This file was automatically generated.
 // Do not make changes directly to this file - edit the template instead.
 // 
 // The following connection settings were used to generate this file
@@ -17,7 +19,6 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 using System;
@@ -37,3 +38,4 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 namespace BizOneShot.Light.Dao.DareConfiguration
 {
 }
+
