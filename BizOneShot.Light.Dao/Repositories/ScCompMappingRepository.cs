@@ -22,9 +22,6 @@ namespace BizOneShot.Light.Dao.Repositories
         Task<IPagedList<ScCompInfo>> GetPagedListCompanysAsync(Expression<Func<ScCompMapping, bool>> where, int page, int pageSize);
         Task<IPagedList<ScCompMapping>> GetPagedListCompMappingsAsync(int page, int pageSize, int compSn, string excutorId = null, int bizWorkSn = 0);
 
-        Task<IPagedList<ScCompInfo>> GetPagedListCompanysAsync(Expression<Func<ScCompMapping, bool>> where, int page,
-            int pageSize);
-
         Task<IList<ScCompMapping>> GetExpertCompanysAsync(string loginId, string comName = null);
         Task<IList<ScCompMapping>> GetExpertCompanysAsync(Expression<Func<ScCompMapping, bool>> where);
         Task<IList<ScCompMapping>> GetExpertCompanysForPopupAsync(string expertId, string query);
