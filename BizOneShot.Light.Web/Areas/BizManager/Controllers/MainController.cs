@@ -13,7 +13,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 {
     [UserAuthorize(Order = 1)]
     [MenuAuthorize(Roles = UserType.BizManager, Order = 2)]
-    public class MainController : Controller
+    public class MainController : BaseController
     {
         private readonly IScBizWorkService _scBizWorkService;
         private readonly IScUsrService _scUsrService;

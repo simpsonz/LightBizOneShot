@@ -15,7 +15,7 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
 {
     [UserAuthorize(Order = 1)]
     [MenuAuthorize(Roles = UserType.SysManager, Order = 2)]
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
         private readonly IScBizWorkService scBizWorkService;
         private readonly IScCompMappingService scCompMappingService;

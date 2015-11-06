@@ -15,7 +15,7 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
 {
     [UserAuthorize(Order = 1)]
     [MenuAuthorize(Roles = UserType.Expert, Order = 2)]
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
         private readonly IScBizWorkService _scBizWorkService;
         private readonly IRptMasterService rptMasterService;
