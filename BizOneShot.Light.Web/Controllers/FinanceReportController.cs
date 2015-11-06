@@ -16,7 +16,7 @@ using PagedList;
 namespace BizOneShot.Light.Web.Controllers
 {
     [UserAuthorize(Order = 1)]
-    [MenuAuthorize(Roles = UserType.Company | UserType.Expert | UserType.SysManager, Order = 2)]
+    [MenuAuthorize(Roles = UserType.Company | UserType.Expert | UserType.SysManager | UserType.BizManager, Order = 2)]
     public class FinanceReportController : Controller
     {
         

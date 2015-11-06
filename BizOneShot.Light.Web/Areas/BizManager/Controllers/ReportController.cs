@@ -1216,6 +1216,45 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             return Json(bizList);
         }
 
+        public async Task<ActionResult> FinanceReport(string curPage)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            //사업년도 DownDown List Data
+            ViewBag.SelectBizWorkYearList = ReportHelper.MakeYear(2015);
+            ViewBag.SelectBizWorkList = ReportHelper.MakeBizWorkList(null);
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> FinanceReport(BasicSurveyReportViewModel paramModel, string curPage)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            //사업관리기관 DownDown List Data
+            ViewBag.SelectBizWorkYearList = ReportHelper.MakeYear(2015);
+
+            var compSn = Session[Global.CompSN].ToString();
+            var executorId = Session[Global.LoginID].ToString();
+
+            if (Session[Global.UserDetailType].ToString() == "A")
+                executorId = null;
+
+            //사업 DropDown List Data
+            var listScBizWork = await _scBizWorkService.GetBizWorkList(int.Parse(compSn), executorId, paramModel.BizWorkYear);
+            ViewBag.SelectBizWorkList = ReportHelper.MakeBizWorkList(listScBizWork);
+
+
+            //사업별 기업 조회
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            var scCompMappings = await _scCompMappingService.GetPagedListCompMappingsAsync(int.Parse(curPage ?? "1"), pagingSize, int.Parse(compSn), executorId, paramModel.BizWorkSn);
+
+            //뷰모델 맵핑
+            var rptMasterListView = Mapper.Map<List<BasicSurveyReportViewModel>>(scCompMappings.ToList());
+
+            return View(new StaticPagedList<BasicSurveyReportViewModel>(rptMasterListView, int.Parse(curPage ?? "1"), pagingSize, scCompMappings.TotalItemCount));
+
+        }
+
 
     }
 }

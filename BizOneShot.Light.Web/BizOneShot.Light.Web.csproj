@@ -246,6 +246,7 @@
     <Compile Include="Areas\Expert\ExpertAreaRegistration.cs" />
     <Compile Include="Areas\Mentor\Controllers\MainController.cs" />
     <Compile Include="Areas\Mentor\Controllers\MentoringReportController.cs" />
+    <Compile Include="Areas\Mentor\Controllers\ReportController.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
     <Compile Include="Areas\SysManager\Controllers\BizManagerController.cs" />
     <Compile Include="Areas\SysManager\Controllers\ExpertManagerController.cs" />
@@ -525,6 +526,9 @@
     <Content Include="Areas\SysManager\Views\Report\BasicSurveyReport.cshtml" />
     <Content Include="Areas\Expert\Views\Report\BasicSurveyReport.cshtml" />
     <Content Include="Areas\Expert\Views\Report\FinanceReport.cshtml" />
+    <Content Include="Areas\BizManager\Views\Report\FinanceReport.cshtml" />
+    <Content Include="Areas\Mentor\Views\Report\BasicSurveyReport.cshtml" />
+    <Content Include="Areas\SysManager\Views\Report\FinanceReport.cshtml" />
     <None Include="Properties\PublishProfiles\Demo BizOneShot Lite.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

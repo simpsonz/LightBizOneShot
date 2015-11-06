@@ -1,0 +1,224 @@
+﻿
+@model IPagedList<BizOneShot.Light.Models.ViewModels.BasicSurveyReportViewModel>
+
+@{
+    Layout = "~/Areas/Mentor/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //top menu
+        $('#naviwrap_biz > .navi_biz >  a.navi_report').addClass('on');
+        //Cs menu
+        $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
+
+        $('#BizWorkYear').change(function () {
+            $('#curPage').val(1);
+
+            ChangeBizWorkYear();
+        });
+
+        $('#BizWorkSn').change(function () {
+            $('#curPage').val(1);
+
+            ChangeBizWorkSn();
+        });
+
+        $('#CompSn').change(function () {
+            $('#curPage').val(1);
+        });
+
+        $('#Status').change(function () {
+            $('#curPage').val(1);
+        });
+
+        $('#searchForm').bind('submit', function () {
+            if ($('#BizWorkYear').val() == "0") {
+                alert("년도 선택을 하지 않았습니다.");
+                return false;
+            }
+            $('#curPage').val('1');
+        });
+
+    });
+
+
+    function ChangeBizWorkYear() {
+
+        var bizWorkYear = $('#BizWorkYear').val();
+        if (bizWorkYear == 0) {
+            $('#BizWorkSn').html("<option value='0'>사업명 선택</option>");
+            $('#CompSn').html("<option value='0'>기업명 선택</option>");
+        } else {
+            $('#BizWorkSn').html("");
+            $.ajax({
+                url: '@Url.Action("GetBizWorkNm", "Report", new { area = "Mentor" })',
+                type: "post",
+                dataType: "json",
+                data: { Year: bizWorkYear },
+                async: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#BizWorkSn').append("<option value='" + result[i].Value + "'>" + result[i].Text + "</option>");
+                    }
+                }
+            });
+        }
+    }
+
+    function ChangeBizWorkSn() {
+        var bizWorkYear = $('#BizWorkYear').val();
+        var bizWorkSn = $('#BizWorkSn').val();
+        if (bizWorkSn == 0) {
+            $('#CompSn').html("<option value='0'>기업명 선택</option>");
+        } else {
+            $('#CompSn').html("");
+            $.ajax({
+                url: '@Url.Action("GetCompanyNm", "Report", new { area = "Mentor" })',
+                type: "post",
+                dataType: "json",
+                data: {
+                    BizWorkSn: bizWorkSn,
+                    Year: bizWorkYear
+                },
+                async: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#CompSn').append("<option value='" + result[i].Value + "'>" + result[i].Text + "</option>");
+                    }
+                }
+            });
+        }
+    }
+
+    function goPage(page) {
+        $('#curPage').val(page);
+        $('#searchForm').submit();
+    }
+
+    function CheckFinanceData(compSn, year)
+    {
+        //CheckFinanceData
+        var checkResutl = true;
+
+        $.ajax({
+            url: '@Url.Action("CheckFinanceData", "BasicSurveyReport", new { area = "" })',
+            type: "post",
+            dataType: "json",
+            data: {
+                CompSn: compSn,
+                BasicYear: year
+            },
+            async: false,
+            success: function (data) {
+                if (data.result == true) {
+                    return true;
+                }
+                else {
+                    alert("BizOneShot 재무정보가 아직 생성되지 않았습니다.");
+                    checkResutl = false;
+                }
+            },
+            fail: function (error) {
+                alert('error :' + error.responseText);
+                checkResutl = false;
+            }
+        });
+
+        if (checkResutl == false)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
+
+    }
+</script>
+
+<div id="sub_rightwrap">
+    <div class="sub_right_title specialist_02_03">
+        <em>기초경영역량 보고서</em>
+    </div>
+    @using (Html.BeginForm("BasicSurveyReport", "Report", FormMethod.Post, new { area = "Mentor", id = "searchForm" }))
+    {
+        <div id="sub_inquiry_box">
+
+            @Html.DropDownList("BizWorkYear", ViewBag.SelectBizWorkYearList as SelectList, new { @class = "w150", @id = "BizWorkYear" })
+            @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150", @id = "BizWorkSn" })
+            @Html.DropDownList("CompSn", ViewBag.SelectCompInfoList as SelectList, new { @class = "w150", @id = "CompSn" })
+            @Html.DropDownList("Status", ViewBag.SelectStatusList as SelectList, new { @class = "w150", @id = "Status" })
+
+            <button type="submit" class="bt_searchC" value="종합보고서조회" style="margin:0">검색</button>
+        </div><!--sub_inquiry_box//-->
+        @Html.Hidden("curPage", "1")
+    }
+    <!--sub_inquiry_box//-->
+    <div class="line_dot20"></div>
+
+    <form method="" action="" name="" id="">
+        <div class="tablewrap">
+            <!--목록-->
+            <table class="admin_list">
+                <colgroup>
+                    <col width="33%">
+                    <col width="26%">
+                    <col width="16%">
+                    <col width="15%">
+                </colgroup>
+                <tr>
+                    <th class="topcen">사업명</th>
+                    <th class="topcen">기업명</th>
+                    <th class="topcen">문진표 제출일</th>
+                    <th class="topcen">작성 상태</th>
+                </tr>
+                @if (Model == null || Model.TotalItemCount == 0)
+                {
+                    <tr>
+                        <td colspan="4" style="text-align:center;">검색 결과가 없습니다.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.BizWorkNm</td>
+                            <td>@item.CompNm</td>
+                            <td>@item.QuestionCompleteDt.Value.ToString("yyyy-MM-dd")</td>
+                            <td>
+                                @if (item.Status == "T")
+                                {
+                                    <span class="bot_u">@Html.ActionLink("미작성", "Cover", "BasicSurveyReport" , new { area = "", BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn }, new { @onclick = "return CheckFinanceData(" + @item.CompSn + ", " + item.BizWorkYear + ");", @style = "text-decoration:underline;" })</span>
+                                }
+                                else if (item.Status == "P")
+                                {
+                                    <span class="bot_u">@Html.ActionLink("작성중", "Cover", "BasicSurveyReport", new { area = "", BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn }, new { @onclick = "return CheckFinanceData(" + @item.CompSn + ", " + item.BizWorkYear + ");", @style = "text-decoration:underline;" })</span>
+                                }
+                                else
+                                {
+                                    <span class="bot_u">@Html.ActionLink("작성완료", "Cover", "BasicSurveyReport", new { area = "", BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn }, new { @onclick = "return CheckFinanceData(" + @item.CompSn + ", " + item.BizWorkYear + ");", @style = "text-decoration:underline;" })</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </table>
+        </div>
+        <!-- page_num_wrap//-->
+        @if (Model != null && Model.TotalItemCount != 0)
+        {
+            @Html.Pagination("goPage", Model.PageNumber, Model.PageCount, Model.HasPreviousPage, Model.HasNextPage)
+        }
+
+
+
+    </form>
+
+</div>
+
+
+

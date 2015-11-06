@@ -121,53 +121,7 @@ namespace BizOneShot.Light.Web.Controllers
 
                
 
-        public ActionResult BasicSurveyCompanyList(string curPage)
-        {
-            ViewBag.LeftMenu = Global.Report;
-            //사업년도 DownDown List Data
-            ViewBag.SelectBizWorkYearList = ReportHelper.MakeYear(2015);
-            
-            ViewBag.SelectBizWorkList = ReportHelper.MakeBizWorkList(null);
-            ViewBag.SelectCompInfoList = ReportHelper.MakeCompanyList(null);
-            ViewBag.SelectStatusList = ReportHelper.MakeReportStatusList();
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> BasicSurveyCompanyList(BasicSurveyReportViewModel paramModel, string curPage)
-        {
-            ViewBag.LeftMenu = Global.Report;
-            //사업년도 DownDown List Data
-            ViewBag.SelectBizWorkYearList = ReportHelper.MakeYear(2015);
-
-            var mentorId = Session[Global.LoginID].ToString();
-            if (string.IsNullOrEmpty(paramModel.Status))
-                paramModel.Status = "";
-
-
-            //사업 DropDown List Data
-            var listScMentorMapping = await scMentorMappingService.GetMentorMappingListByMentorId(mentorId, paramModel.BizWorkYear);
-            var listScBizWork = listScMentorMapping.Select(mmp => mmp.ScBizWork).ToList();
-            ViewBag.SelectBizWorkList = ReportHelper.MakeBizWorkList(listScBizWork);
-
-            var listScCompMapping = await scCompMappingService.GetCompMappingListByMentorId(mentorId, "A", paramModel.BizWorkSn, paramModel.BizWorkYear);
-            var listScCompInfo = listScCompMapping.Select(cmp => cmp.ScCompInfo).ToList();
-            ViewBag.SelectCompInfoList = ReportHelper.MakeCompanyList(listScCompInfo);
-            ViewBag.SelectStatusList = ReportHelper.MakeReportStatusList();
-
-
-
-            //기초역량 보고서 조회
-            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
-
-            var rptMsters = await rptMasterService.GetRptMasterList(int.Parse(curPage ?? "1"), pagingSize, mentorId, paramModel.BizWorkYear, paramModel.BizWorkSn, paramModel.CompSn, paramModel.Status);
-
-            //뷰모델 맵핑
-            var rptMasterListView = Mapper.Map<List<BasicSurveyReportViewModel>>(rptMsters);
-
-            return View(new StaticPagedList<BasicSurveyReportViewModel>(rptMasterListView, int.Parse(curPage ?? "1"), pagingSize, rptMsters.TotalItemCount));
-
-        }
+        
 
         public async Task<ActionResult> OverallSummary(BasicSurveyReportViewModel paramModel)
         {
@@ -3043,34 +2997,7 @@ namespace BizOneShot.Light.Web.Controllers
         #endregion
 
 
-        #region 드롭다운박스 처리 controller
-        [HttpPost]
-        public async Task<JsonResult> GetBizWorkNm(int Year)
-        {
-            var mentorId = Session[Global.LoginID].ToString();
-
-            //사업 DropDown List Data
-            var listScMentorMapping = await scMentorMappingService.GetMentorMappingListByMentorId(mentorId, Year);
-            var listScBizWork = listScMentorMapping.Select(mmp => mmp.ScBizWork).ToList();
-
-            var bizList = ReportHelper.MakeBizWorkList(listScBizWork);
-
-            return Json(bizList);
-        }
-
-        [HttpPost]
-        public async Task<JsonResult> GetCompanyNm(int BizWorkSn, int Year)
-        {
-            var mentorId = Session[Global.LoginID].ToString();
-
-            var listScCompMapping = await scCompMappingService.GetCompMappingListByMentorId(mentorId, "A", BizWorkSn, Year);
-            var listScCompInfo = listScCompMapping.Select(cmp => cmp.ScCompInfo).ToList();
-
-            var bizList = ReportHelper.MakeCompanyList(listScCompInfo);
-
-            return Json(bizList);
-        }
-        #endregion
+        
 
         [HttpPost]
         public async Task<JsonResult> CheckFinanceData(int CompSn, int BasicYear)
