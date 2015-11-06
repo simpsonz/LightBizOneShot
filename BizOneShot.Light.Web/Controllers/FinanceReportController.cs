@@ -86,33 +86,33 @@ namespace BizOneShot.Light.Web.Controllers
             financeMngViewModel.CompNm = scCompInfo.CompNm;
 
             // 현금시제
-            var cashResultList = await _finenceReportService.GetMonthlyCashListAsync(ReportHelper.MakeProcedureParams("8888888888", "1000", "0100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var cashResultList = await _finenceReportService.GetMonthlyCashListAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "0100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
 
             financeMngViewModel.cashViewModel = ReportHelper.MakeCashViewModel(cashResultList);
 
             // 매출
-            var salesResult = await _finenceReportService.GetMonthlySalesAsync(ReportHelper.MakeProcedureParams("8888888888", "1000", "0100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var salesResult = await _finenceReportService.GetMonthlySalesAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
 
-            var yearTotalResult = await _finenceReportService.GetYearTotalSalesAsync(ReportHelper.MakeProcedureParams("8888888888", "1000", "0100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var yearTotalResult = await _finenceReportService.GetYearTotalSalesAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
 
             financeMngViewModel.salesViewModel = ReportHelper.MakeSalesViewModel(salesResult, yearTotalResult);
 
             // 이익분석
-            var costAnalysisListResult = await _finenceReportService.GetCostAnalysisAsync(ReportHelper.MakeProcedureParams("8888888888", "1000", "0100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var costAnalysisListResult = await _finenceReportService.GetCostAnalysisAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
 
             financeMngViewModel.curMenthTotalCostViewModel = ReportHelper.MakeCostAnalysisViewModel(costAnalysisListResult[0]);
             //financeMngViewModel.lastMenthTotalCostViewModel = ReportHelper.MakeCostAnalysisViewModel(costAnalysisListResult[1]);
 
             // 비용분석
-            var expenseCostResult = await _finenceReportService.GetExpenseCostAsync(ReportHelper.MakeProcedureParams("8888888888", "1000", "0100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var expenseCostResult = await _finenceReportService.GetExpenseCostAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
             financeMngViewModel.expenseCostViewModel = ReportHelper.MakeExpenseCostViewModel(expenseCostResult[0]);
 
             // 주요매출
-            var taxSalesResult = await _finenceReportService.GetTaxSalesAsync(ReportHelper.MakeProcedureParams("8888888888", "1000", "1000", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var taxSalesResult = await _finenceReportService.GetTaxSalesAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
             financeMngViewModel.taxSalesListViewModel = ReportHelper.MakeTaxSalseListViewModel(taxSalesResult, salesResult);
 
             // 주요지출
-            var bankOutResult = await _finenceReportService.GetBankOutAsync(ReportHelper.MakeProcedureParams("1048196471", "1000", "1000", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var bankOutResult = await _finenceReportService.GetBankOutAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
             financeMngViewModel.bankOutListViewModel = ReportHelper.MakeBnakOutListViewModel(bankOutResult);
 
             return View(financeMngViewModel);

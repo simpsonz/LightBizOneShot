@@ -396,7 +396,7 @@ namespace BizOneShot.Light.Web.ComLib
 
                 if (slaesList[0].SALES_AMT != 0)
                 {
-                    taxSalesViewModel.Share = string.Format("{0:n0}", Convert.ToInt64((((taxSales.SUM_AMT / slaesList[0].SALES_AMT) * 100) / 1000)));
+                    taxSalesViewModel.Share = string.Format("{0:n0}", Convert.ToInt64((taxSales.SUM_AMT / slaesList[0].SALES_AMT) * 100));
                 }
                 else
                 {
@@ -419,7 +419,15 @@ namespace BizOneShot.Light.Web.ComLib
                 bankOutViewModel.ItemName = bankOut.HISTCD_4; //적요
                 bankOutViewModel.OutDate = bankOut.TRANDATE.Substring(0, 4) + "-" + bankOut.TRANDATE.Substring(4, 2) + "-" + bankOut.TRANDATE.Substring(6, 2); //출금일
                 bankOutViewModel.TotalAmt = string.Format("{0:n0}", Convert.ToInt64((bankOut.HISTCD_O / 1000)));   //금액
-                bankOutViewModel.Share = "10";
+
+                if (bankOut.TOTAL_SUM.Value != 0)
+                {
+                    bankOutViewModel.Share = string.Format("{0:n0}", Convert.ToInt64((bankOut.HISTCD_O / bankOut.TOTAL_SUM.Value) * 100));
+                }
+                else
+                {
+                    bankOutViewModel.Share = "0";
+                }
                 bankOutListViewModel.Add(bankOutViewModel);
             }
             return bankOutListViewModel;

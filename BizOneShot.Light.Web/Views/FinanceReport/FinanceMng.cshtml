@@ -500,13 +500,13 @@
                                     foreach (var item in Model.taxSalesListViewModel)
                                     {
                                         <tr>
-                                            <td>@item.CustName</td>
+                                            <td class="center_td small_padding">@item.CustName</td>
                                             <td class="center_td small_padding">@item.WriteDate</td>
                                             <td class="center_td small_padding">
                                                 @item.TotalAmt<text style="font-size:9px">천원</text>
                                             </td>
-                                            <td>@item.ItemName</td>
-                                            <td>@item.Share</td>
+                                            <td class="center_td small_padding">@item.ItemName</td>
+                                            <td class="center_td small_padding">@item.Share</td>
                                         </tr>
                                     }
                                 }
@@ -544,13 +544,13 @@
                                     foreach (var item in Model.bankOutListViewModel)
                                     {
                                         <tr>
-                                            <td>@item.BankName</td>
+                                            <td class="center_td small_padding">@item.BankName</td>
                                             <td class="center_td small_padding">@item.OutDate</td>
                                             <td class="center_td small_padding">
                                                 @item.TotalAmt<text style="font-size:9px">천원</text>
                                             </td>
-                                            <td>@item.ItemName</td>
-                                            <td>@item.Share</td>
+                                            <td class="center_td small_padding">@item.ItemName</td>
+                                            <td class="center_td small_padding">@item.Share</td>
                                         </tr>
                                     }
                                 }
