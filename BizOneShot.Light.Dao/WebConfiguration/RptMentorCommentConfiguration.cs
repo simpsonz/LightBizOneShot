@@ -5,6 +5,7 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
+
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 
@@ -31,23 +32,42 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             : this("dbo")
         {
         }
- 
+
         public RptMentorCommentConfiguration(string schema)
         {
             ToTable(schema + ".RPT_MENTOR_COMMENT");
-            HasKey(x => new { x.QuestionSn, x.BizWorkSn, x.BasicYear, x.DetailCd });
+            HasKey(x => new {x.QuestionSn, x.BizWorkSn, x.BasicYear, x.DetailCd});
 
-            Property(x => x.QuestionSn).HasColumnName("QUESTION_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.BizWorkSn).HasColumnName("BIZ_WORK_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.BasicYear).HasColumnName("BASIC_YEAR").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.DetailCd).HasColumnName("DETAIL_CD").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(8).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.QuestionSn)
+                .HasColumnName("QUESTION_SN")
+                .IsRequired()
+                .HasColumnType("int")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.BizWorkSn)
+                .HasColumnName("BIZ_WORK_SN")
+                .IsRequired()
+                .HasColumnType("int")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.BasicYear)
+                .HasColumnName("BASIC_YEAR")
+                .IsRequired()
+                .HasColumnType("int")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.DetailCd)
+                .HasColumnName("DETAIL_CD")
+                .IsRequired()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(8)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.Comment).HasColumnName("COMMENT").IsOptional().HasColumnType("nvarchar").HasMaxLength(1000);
 
             // Foreign keys
-            HasRequired(a => a.RptCheckList).WithMany(b => b.RptMentorComments).HasForeignKey(c => c.DetailCd); // FK_RPT_CHECK_LIST_TO_RPT_MENTOR_COMMENT
+            HasRequired(a => a.RptCheckList).WithMany(b => b.RptMentorComments).HasForeignKey(c => c.DetailCd);
+                // FK_RPT_CHECK_LIST_TO_RPT_MENTOR_COMMENT
             InitializePartial();
         }
+
         partial void InitializePartial();
     }
-
 }

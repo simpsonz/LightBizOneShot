@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Models.WebModels;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
-
     public interface IRptMngCommentRepository : IRepository<RptMngComment>
     {
         RptMngComment Insert(RptMngComment rptMngComment);
@@ -21,23 +19,25 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public class RptMngCommentRepository : RepositoryBase<RptMngComment>, IRptMngCommentRepository
     {
-        public RptMngCommentRepository(IDbFactory dbFactory) : base(dbFactory) { }
+        public RptMngCommentRepository(IDbFactory dbFactory) : base(dbFactory)
+        {
+        }
 
         public RptMngComment Insert(RptMngComment rptMngComment)
         {
-            return this.DbContext.RptMngComments.Add(rptMngComment);
+            return DbContext.RptMngComments.Add(rptMngComment);
         }
 
         public async Task<IList<RptMngComment>> GetRptMngCommentsAsync(Expression<Func<RptMngComment, bool>> where)
         {
-            return await this.DbContext.RptMngComments
+            return await DbContext.RptMngComments
                 .Include(rmc => rmc.RptMngCode)
                 .Where(where).ToListAsync();
         }
 
         public async Task<RptMngComment> GetRptMngCommentAsync(Expression<Func<RptMngComment, bool>> where)
         {
-            return await this.DbContext.RptMngComments
+            return await DbContext.RptMngComments
                 .Include(rmc => rmc.RptMngCode)
                 .Where(where).SingleOrDefaultAsync();
         }

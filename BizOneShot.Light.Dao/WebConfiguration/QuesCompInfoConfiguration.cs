@@ -5,6 +5,7 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
+
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 
@@ -31,52 +32,149 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             : this("dbo")
         {
         }
- 
+
         public QuesCompInfoConfiguration(string schema)
         {
             ToTable(schema + ".QUES_COMP_INFO");
             HasKey(x => x.QuestionSn);
 
-            Property(x => x.QuestionSn).HasColumnName("QUESTION_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.QuestionSn)
+                .HasColumnName("QUESTION_SN")
+                .IsRequired()
+                .HasColumnType("int")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.CompNm).HasColumnName("COMP_NM").IsOptional().HasColumnType("nvarchar").HasMaxLength(70);
-            Property(x => x.EngCompNm).HasColumnName("ENG_COMP_NM").IsOptional().HasColumnType("nvarchar").HasMaxLength(70);
-            Property(x => x.TelNo).HasColumnName("TEL_NO").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(30);
-            Property(x => x.FaxNo).HasColumnName("FAX_NO").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(20);
-            Property(x => x.Name).HasColumnName("NAME").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(50);
-            Property(x => x.Email).HasColumnName("EMAIL").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(40);
-            Property(x => x.RegistrationNo).HasColumnName("REGISTRATION_NO").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(10);
-            Property(x => x.CoRegistrationNo).HasColumnName("CO_REGISTRATION_NO").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(13);
+            Property(x => x.EngCompNm)
+                .HasColumnName("ENG_COMP_NM")
+                .IsOptional()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(70);
+            Property(x => x.TelNo)
+                .HasColumnName("TEL_NO")
+                .IsOptional()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(30);
+            Property(x => x.FaxNo)
+                .HasColumnName("FAX_NO")
+                .IsOptional()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(20);
+            Property(x => x.Name)
+                .HasColumnName("NAME")
+                .IsOptional()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(50);
+            Property(x => x.Email)
+                .HasColumnName("EMAIL")
+                .IsOptional()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(40);
+            Property(x => x.RegistrationNo)
+                .HasColumnName("REGISTRATION_NO")
+                .IsOptional()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(10);
+            Property(x => x.CoRegistrationNo)
+                .HasColumnName("CO_REGISTRATION_NO")
+                .IsOptional()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(13);
             Property(x => x.PublishDt).HasColumnName("PUBLISH_DT").IsOptional().HasColumnType("datetime");
-            Property(x => x.HomeUrl).HasColumnName("HOME_URL").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(200);
-            Property(x => x.CompAddr).HasColumnName("COMP_ADDR").IsOptional().HasColumnType("nvarchar").HasMaxLength(255);
-            Property(x => x.FactoryAddr).HasColumnName("FACTORY_ADDR").IsOptional().HasColumnType("nvarchar").HasMaxLength(255);
+            Property(x => x.HomeUrl)
+                .HasColumnName("HOME_URL")
+                .IsOptional()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(200);
+            Property(x => x.CompAddr)
+                .HasColumnName("COMP_ADDR")
+                .IsOptional()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(255);
+            Property(x => x.FactoryAddr)
+                .HasColumnName("FACTORY_ADDR")
+                .IsOptional()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(255);
             Property(x => x.LabAddr).HasColumnName("LAB_ADDR").IsOptional().HasColumnType("nvarchar").HasMaxLength(255);
-            Property(x => x.FacPossessYn).HasColumnName("FAC_POSSESS_YN").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
-            Property(x => x.RndYn).HasColumnName("RND_YN").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
-            Property(x => x.ProductNm1).HasColumnName("PRODUCT_NM1").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
-            Property(x => x.ProductNm2).HasColumnName("PRODUCT_NM2").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
-            Property(x => x.ProductNm3).HasColumnName("PRODUCT_NM3").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
+            Property(x => x.FacPossessYn)
+                .HasColumnName("FAC_POSSESS_YN")
+                .IsOptional()
+                .IsFixedLength()
+                .IsUnicode(false)
+                .HasColumnType("char")
+                .HasMaxLength(1);
+            Property(x => x.RndYn)
+                .HasColumnName("RND_YN")
+                .IsOptional()
+                .IsFixedLength()
+                .IsUnicode(false)
+                .HasColumnType("char")
+                .HasMaxLength(1);
+            Property(x => x.ProductNm1)
+                .HasColumnName("PRODUCT_NM1")
+                .IsOptional()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(100);
+            Property(x => x.ProductNm2)
+                .HasColumnName("PRODUCT_NM2")
+                .IsOptional()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(100);
+            Property(x => x.ProductNm3)
+                .HasColumnName("PRODUCT_NM3")
+                .IsOptional()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(100);
             Property(x => x.MarketPublic).HasColumnName("MARKET_PUBLIC").IsOptional().HasColumnType("bit");
             Property(x => x.MarketCivil).HasColumnName("MARKET_CIVIL").IsOptional().HasColumnType("bit");
             Property(x => x.MarketConsumer).HasColumnName("MARKET_CONSUMER").IsOptional().HasColumnType("bit");
             Property(x => x.MarketForeing).HasColumnName("MARKET_FOREING").IsOptional().HasColumnType("bit");
             Property(x => x.MarketEtc).HasColumnName("MARKET_ETC").IsOptional().HasColumnType("bit");
-            Property(x => x.CompType).HasColumnName("COMP_TYPE").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
-            Property(x => x.ResidentType).HasColumnName("RESIDENT_TYPE").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
+            Property(x => x.CompType)
+                .HasColumnName("COMP_TYPE")
+                .IsOptional()
+                .IsFixedLength()
+                .IsUnicode(false)
+                .HasColumnType("char")
+                .HasMaxLength(1);
+            Property(x => x.ResidentType)
+                .HasColumnName("RESIDENT_TYPE")
+                .IsOptional()
+                .IsFixedLength()
+                .IsUnicode(false)
+                .HasColumnType("char")
+                .HasMaxLength(1);
             Property(x => x.CertiVenture).HasColumnName("CERTI_VENTURE").IsOptional().HasColumnType("bit");
             Property(x => x.CertiRnd).HasColumnName("CERTI_RND").IsOptional().HasColumnType("bit");
             Property(x => x.CertiMainbiz).HasColumnName("CERTI_MAINBIZ").IsOptional().HasColumnType("bit");
             Property(x => x.CertiInnobiz).HasColumnName("CERTI_INNOBIZ").IsOptional().HasColumnType("bit");
-            Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
+            Property(x => x.RegId)
+                .HasColumnName("REG_ID")
+                .IsOptional()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(25);
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
-            Property(x => x.UpdId).HasColumnName("UPD_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
+            Property(x => x.UpdId)
+                .HasColumnName("UPD_ID")
+                .IsOptional()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(25);
             Property(x => x.UpdDt).HasColumnName("UPD_DT").IsOptional().HasColumnType("datetime");
 
             // Foreign keys
             HasRequired(a => a.QuesMaster).WithOptional(b => b.QuesCompInfo); // FK_QUES_MASTER_TO_QUES_COMP_INFO
             InitializePartial();
         }
+
         partial void InitializePartial();
     }
-
 }

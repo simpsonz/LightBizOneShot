@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
-using System.Data.Entity;
-using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Dao.Infrastructure;
+using BizOneShot.Light.Models.WebModels;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -20,17 +19,19 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public class ScUsrRepository : RepositoryBase<ScUsr>, IScUsrRepository
     {
-        public ScUsrRepository(IDbFactory dbFactory) : base(dbFactory) { }
+        public ScUsrRepository(IDbFactory dbFactory) : base(dbFactory)
+        {
+        }
 
         public async Task<IList<ScUsr>> GetScUsrById(string loginId)
         {
-            var usrInfo = await this.DbContext.ScUsrs.Where(ci => ci.LoginId == loginId).ToListAsync();
+            var usrInfo = await DbContext.ScUsrs.Where(ci => ci.LoginId == loginId).ToListAsync();
             return usrInfo;
         }
 
         public ScUsr Insert(ScUsr scUsr)
         {
-            return this.DbContext.ScUsrs.Add(scUsr);
+            return DbContext.ScUsrs.Add(scUsr);
         }
 
         //public async Task<ScUsr> GetMentorInfoById(string loginId)
@@ -44,13 +45,13 @@ namespace BizOneShot.Light.Dao.Repositories
         //}
 
         /// <summary>
-        /// 맨토정보 가져오기(Eager 로딩, include ScUsrResume, ScMentorMappiings.Select(s => s.ScBizWork)
+        ///     맨토정보 가져오기(Eager 로딩, include ScUsrResume, ScMentorMappiings.Select(s => s.ScBizWork)
         /// </summary>
         /// <param name="where"></param>
         /// <returns></returns>
         public async Task<ScUsr> GetMentorInfoById(Expression<Func<ScUsr, bool>> where)
         {
-            var scusr = await this.DbContext.ScUsrs
+            var scusr = await DbContext.ScUsrs
                 .Include(i => i.ScUsrResume)
                 //.Include(i => i.ScUsrResume.ScFileInfo)
                 .Include(i => i.ScMentorMappiings.Select(s => s.ScBizWork))

@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
-using System.Data.Entity;
-using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Dao.Infrastructure;
+using BizOneShot.Light.Models.WebModels;
 using PagedList;
 using PagedList.EntityFramework;
-
-
-
-
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -31,15 +26,20 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public override async Task<IEnumerable<ScFaq>> GetManyAsync(Expression<Func<ScFaq, bool>> where)
         {
-            return await this.DbContext.ScFaqs.Include("ScQcl").Where(where).ToListAsync();
-
+            return await DbContext.ScFaqs.Include("ScQcl").Where(where).ToListAsync();
         }
 
 
-        public async Task<IPagedList<ScFaq>> GetPagedListAsync(Expression<Func<ScFaq, bool>> where, int page, int pageSize)
+        public async Task<IPagedList<ScFaq>> GetPagedListAsync(Expression<Func<ScFaq, bool>> where, int page,
+            int pageSize)
         {
-            return await this.DbContext.ScFaqs.Include("ScQcl").Where(where).OrderByDescending(sf => sf.FaqSn).ToPagedListAsync(page, pageSize); ;
-
+            return
+                await
+                    DbContext.ScFaqs.Include("ScQcl")
+                        .Where(where)
+                        .OrderByDescending(sf => sf.FaqSn)
+                        .ToPagedListAsync(page, pageSize);
+            ;
         }
 
 
@@ -47,6 +47,5 @@ namespace BizOneShot.Light.Dao.Repositories
         {
             return await Task.Run(() => DbContext.ScFaqs.Add(scFaq));
         }
-
     }
 }

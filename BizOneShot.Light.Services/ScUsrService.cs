@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
-using BizOneShot.Light.Models.WebModels;
-using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.DareModels;
+using BizOneShot.Light.Models.WebModels;
 
 namespace BizOneShot.Light.Services
 {
     public interface IScUsrService : IBaseService
     {
-
         //IEnumerable<FaqViewModel> GetFaqs(string searchType = null, string keyword = null);
 
         Task<bool> ChkLoginId(string loginId);
@@ -32,26 +27,27 @@ namespace BizOneShot.Light.Services
         Task<IList<ScUsr>> GetExpertManagerAsync(string bizMngSn = null, string expertType = null);
         //Task<IList<ScUsr>> GetMentorListAsync(int mngCompSn);
         Task<ScUsr> SelectScUsr(string loginId, string registrationNo);
-
     }
 
 
     public class ScUsrService : IScUsrService
     {
-        private readonly IScUsrRepository scUsrRespository;
+        private readonly IDareUnitOfWork dareUnitOfWork;
         private readonly IScCompInfoRepository scCompInfoRespository;
         private readonly IScMentorMappingRepository scMentorMappingRepository;
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IScUsrRepository scUsrRespository;
 
         private readonly ISyUserRepository syUserRespository;
-        private readonly IDareUnitOfWork dareUnitOfWork;
+        private readonly IUnitOfWork unitOfWork;
 
-        public ScUsrService(IScUsrRepository scUsrRespository, IUnitOfWork unitOfWork, ISyUserRepository syUserRespository, IDareUnitOfWork dareUnitOfWor, IScCompInfoRepository scCompInfoRespository, IScMentorMappingRepository scMentorMappingRepository)
+        public ScUsrService(IScUsrRepository scUsrRespository, IUnitOfWork unitOfWork,
+            ISyUserRepository syUserRespository, IDareUnitOfWork dareUnitOfWor,
+            IScCompInfoRepository scCompInfoRespository, IScMentorMappingRepository scMentorMappingRepository)
         {
             this.scUsrRespository = scUsrRespository;
             this.unitOfWork = unitOfWork;
             this.syUserRespository = syUserRespository;
-            this.dareUnitOfWork = dareUnitOfWor;
+            dareUnitOfWork = dareUnitOfWor;
             this.scCompInfoRespository = scCompInfoRespository;
             this.scMentorMappingRepository = scMentorMappingRepository;
         }
@@ -83,7 +79,11 @@ namespace BizOneShot.Light.Services
 
         public async Task<ScUsr> SelectScUsr(string loginId, string registrationNo)
         {
-            var scUsr = await scUsrRespository.GetAsync(sc => sc.LoginId == loginId && sc.Status == "N" && sc.ScCompInfo.RegistrationNo == registrationNo);
+            var scUsr =
+                await
+                    scUsrRespository.GetAsync(
+                        sc =>
+                            sc.LoginId == loginId && sc.Status == "N" && sc.ScCompInfo.RegistrationNo == registrationNo);
 
             return scUsr;
         }
@@ -113,15 +113,11 @@ namespace BizOneShot.Light.Services
             {
                 return -1;
             }
-            else
-            {
-                int rst =  await SaveDbContextAsync();
-                if (rst != 1)
-                    return rst;
+            var rst = await SaveDbContextAsync();
+            if (rst != 1)
+                return rst;
 
-                return await SaveDareDbContextAsync();
-            }
-
+            return await SaveDareDbContextAsync();
         }
 
         public async Task<int> AddBizManagerMemberAsync(ScUsr scUsr)
@@ -132,11 +128,7 @@ namespace BizOneShot.Light.Services
             {
                 return -1;
             }
-            else
-            {
-                return await SaveDbContextAsync();
-            }
-
+            return await SaveDbContextAsync();
         }
 
         public async Task<int> AddBizManagerAsync(ScCompInfo scCompInfo)
@@ -145,15 +137,11 @@ namespace BizOneShot.Light.Services
             //scCompInfo.
             var rstScCompInfo = scCompInfoRespository.Insert(scCompInfo);
 
-            if (rstScCompInfo == null )
+            if (rstScCompInfo == null)
             {
                 return -1;
             }
-            else
-            {
-                return await SaveDbContextAsync();
-            }
-
+            return await SaveDbContextAsync();
         }
 
 
@@ -161,7 +149,10 @@ namespace BizOneShot.Light.Services
         {
             IEnumerable<ScUsr> listScUsrTask = null;
 
-            listScUsrTask = await scUsrRespository.GetManyAsync(usr => usr.Status == "N" && usr.UsrType == "B" && usr.UsrTypeDetail == "A");
+            listScUsrTask =
+                await
+                    scUsrRespository.GetManyAsync(
+                        usr => usr.Status == "N" && usr.UsrType == "B" && usr.UsrTypeDetail == "A");
             return listScUsrTask.OrderByDescending(usr => usr.RegDt).ToList();
         }
 
@@ -170,9 +161,13 @@ namespace BizOneShot.Light.Services
         {
             IEnumerable<ScUsr> listScUsrTask = null;
 
-            listScUsrTask = await scUsrRespository.GetManyAsync(usr => usr.Status == "N" && usr.UsrType == "B" && usr.UsrTypeDetail == "A" && usr.ScCompInfo.CompNm.Contains(keyword));
+            listScUsrTask =
+                await
+                    scUsrRespository.GetManyAsync(
+                        usr =>
+                            usr.Status == "N" && usr.UsrType == "B" && usr.UsrTypeDetail == "A" &&
+                            usr.ScCompInfo.CompNm.Contains(keyword));
             return listScUsrTask.OrderByDescending(usr => usr.RegDt).ToList();
-
         }
 
 
@@ -184,34 +179,42 @@ namespace BizOneShot.Light.Services
             return listScUsrTask.OrderByDescending(usr => usr.RegDt).ToList();
         }
 
-        
+
         public async Task<IList<ScUsr>> GetExpertManagerAsync(string bizMngSn = null, string expertType = null)
         {
             IEnumerable<ScUsr> listScUsrTask = null;
 
 
-            if ((string.IsNullOrEmpty(bizMngSn) && string.IsNullOrEmpty(expertType)) || ((bizMngSn == "0") && string.IsNullOrEmpty(expertType)))
+            if ((string.IsNullOrEmpty(bizMngSn) && string.IsNullOrEmpty(expertType)) ||
+                ((bizMngSn == "0") && string.IsNullOrEmpty(expertType)))
             {
                 listScUsrTask = await scUsrRespository.GetManyAsync(usr => usr.Status == "N" && usr.UsrType == "P");
                 return listScUsrTask.OrderByDescending(usr => usr.RegDt).ToList();
             }
-            else if ((bizMngSn != "0") && string.IsNullOrEmpty(expertType))
+            if ((bizMngSn != "0") && string.IsNullOrEmpty(expertType))
             {
-                listScUsrTask = await scUsrRespository.GetManyAsync(usr => usr.Status == "N" && usr.UsrType == "P" && usr.ScCompInfo.CompSn == int.Parse(bizMngSn));
+                listScUsrTask =
+                    await
+                        scUsrRespository.GetManyAsync(
+                            usr =>
+                                usr.Status == "N" && usr.UsrType == "P" && usr.ScCompInfo.CompSn == int.Parse(bizMngSn));
                 return listScUsrTask.OrderByDescending(usr => usr.RegDt).ToList();
             }
-            else if ((bizMngSn == "0") && !string.IsNullOrEmpty(expertType))
+            if ((bizMngSn == "0") && !string.IsNullOrEmpty(expertType))
             {
-                listScUsrTask = await scUsrRespository.GetManyAsync(usr => usr.Status == "N" && usr.UsrType == "P" && usr.UsrTypeDetail == expertType);
+                listScUsrTask =
+                    await
+                        scUsrRespository.GetManyAsync(
+                            usr => usr.Status == "N" && usr.UsrType == "P" && usr.UsrTypeDetail == expertType);
                 return listScUsrTask.OrderByDescending(usr => usr.RegDt).ToList();
             }
-            else 
-            {
-                listScUsrTask = await scUsrRespository.GetManyAsync(usr => usr.Status == "N" && usr.UsrType == "P" && usr.UsrTypeDetail == expertType && usr.ScCompInfo.CompSn == int.Parse(bizMngSn));
-                return listScUsrTask.OrderByDescending(usr => usr.RegDt).ToList();
-            }
-
-
+            listScUsrTask =
+                await
+                    scUsrRespository.GetManyAsync(
+                        usr =>
+                            usr.Status == "N" && usr.UsrType == "P" && usr.UsrTypeDetail == expertType &&
+                            usr.ScCompInfo.CompSn == int.Parse(bizMngSn));
+            return listScUsrTask.OrderByDescending(usr => usr.RegDt).ToList();
         }
 
         //public async Task<IList<ScUsr>> GetMentorListAsync(int mngCompSn)
@@ -221,7 +224,7 @@ namespace BizOneShot.Light.Services
         //    listScUsrTask = await scMentorMappingRepository.GetManyAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.ScCompInfo.CompSn == mngCompSn);
         //    return listScUsrTask.Select(mmp => mmp.ScUsr).OrderByDescending(usr => usr.RegDt).ToList();
         //}
-        
+
         public void SaveDbContext()
         {
             unitOfWork.Commit();

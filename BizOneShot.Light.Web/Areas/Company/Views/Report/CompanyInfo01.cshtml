@@ -170,12 +170,48 @@
     <div id="report_wm_step">
         <!--STEP 아이콘-->
         <ul>
-            <li class="basic_step01"><em>STEP01.진단개요</em></li>
-            <li class="basic_step02 on"><a href="" class="ablock"><em>STEP02.기업정보</em></a></li>
-            <li class="basic_step03"><a href="" class="ablock"><em>STEP03.경영진단</em></a></li>
-            <li class="basic_step04"><a href="" class="ablock"><em>STEP04.재무진단</em></a></li>
-            <li class="basic_step05"><a href="" class="ablock"><em>STEP05.조직진단</em></a></li>
-            <li class="basic_step06"><a href="" class="ablock"><em>STEP06.작성완료</em></a></li>
+            <li class="basic_step01"><a href="@Url.Action("Summary01","Report",new { area= "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="ablock"><em>STEP01.진단개요</em></a></li>
+            <li class="basic_step02 on"><a href="@Url.Action("CompanyInfo01","Report",new { area= "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="ablock"><em>STEP02.기업정보</em></a></li>
+            <li class="basic_step03">
+                @if (Model.Status == "C")
+                {
+                    <a href="@Url.Action("BizCheck01", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="ablock"><em>STEP03.경영진단</em></a>
+                }
+                else
+                {
+                    <em>STEP03.경영진단</em>
+                }
+            </li>
+            <li class="basic_step04">
+                @if (Model.Status == "C")
+                {
+                    <a href="@Url.Action("FinanceCheck01", "Report", new { area = "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="ablock"><em>STEP04.재무진단</em></a>
+                }
+                else
+                {
+                    <em>STEP04.재무진단</em>
+                }
+            </li>
+            <li class="basic_step05">
+                @if (Model.Status == "C")
+                {
+                    <a href="@Url.Action("OrgCheck01","Report",new { area= "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="ablock"><em>STEP05.조직진단</em></a>
+                }
+                else
+                {
+                    <em>STEP05.조직진단</em>
+                }
+            </li>
+            <li class="basic_step06">
+                @if (Model.Status == "C")
+                {
+                    <a href="@Url.Action("BasicSurveyComplete","Report",new { area= "Company", @questionSn = @Model.QuestionSn, @status = Model.Status })" class="ablock"><em>STEP06.작성완료</em></a>
+                }
+                else
+                {
+                    <em>STEP06.작성완료</em>
+                }
+            </li>
         </ul>
     </div>
 @using (Html.BeginForm("CompanyInfo01", "Report", FormMethod.Post, new { area = "Company", @class = "form-horizontal", role = "form", id = "mainForm" }))

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
@@ -35,6 +32,7 @@ namespace BizOneShot.Light.Services
         }
 
         #region SaveContext
+
         public void SaveDbContext()
         {
             unitOfWork.Commit();
@@ -44,6 +42,7 @@ namespace BizOneShot.Light.Services
         {
             return await unitOfWork.CommitAsync();
         }
+
         #endregion
     }
 }

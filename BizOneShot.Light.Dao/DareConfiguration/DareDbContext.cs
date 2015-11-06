@@ -5,6 +5,7 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
+
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 using System;
@@ -25,12 +26,9 @@ namespace BizOneShot.Light.Dao.DareConfiguration
 {
     public partial class DareDbContext : DbContext, IDareDbContext
     {
-        public DbSet<SHUSER_SboFinancialIndexT> SHUSER_SboFinancialIndexTs { get; set; } // SBO_FINANCIAL_INDEX_T
-        public DbSet<SHUSER_SyUser> SHUSER_SyUsers { get; set; } // SY_USER
-        
         static DareDbContext()
         {
-            System.Data.Entity.Database.SetInitializer<DareDbContext>(null);
+            Database.SetInitializer<DareDbContext>(null);
         }
 
         public DareDbContext()
@@ -44,10 +42,14 @@ namespace BizOneShot.Light.Dao.DareConfiguration
             InitializePartial();
         }
 
-        public DareDbContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model) : base(connectionString, model)
+        public DareDbContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model)
+            : base(connectionString, model)
         {
             InitializePartial();
         }
+
+        public DbSet<SHUSER_SboFinancialIndexT> SHUSER_SboFinancialIndexTs { get; set; } // SBO_FINANCIAL_INDEX_T
+        public DbSet<SHUSER_SyUser> SHUSER_SyUsers { get; set; } // SY_USER
 
         protected override void Dispose(bool disposing)
         {

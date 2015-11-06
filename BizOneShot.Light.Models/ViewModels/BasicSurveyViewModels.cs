@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BizOneShot.Light.Models.ViewModels
 {
-    class BasicSurveyViewModels
+    internal class BasicSurveyViewModels
     {
     }
+
     public class QuesMasterViewModel
     {
         public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
@@ -18,7 +16,6 @@ namespace BizOneShot.Light.Models.ViewModels
         public string Status { get; set; } // STATUS
         public string SubmitType { get; set; } // Submit 방식
         public QuesWriterViewModel QuesWriter { get; set; } // 작성자 정보
-
     }
 
     public class QuesWriterViewModel
@@ -270,7 +267,7 @@ namespace BizOneShot.Light.Models.ViewModels
         public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
         public string SubmitType { get; set; } // Submit 방식
         public string Status { get; set; } // STATUS
-        public QuesYearListViewModel RegPatent{ get; set; } //등록된 특허
+        public QuesYearListViewModel RegPatent { get; set; } //등록된 특허
         public QuesYearListViewModel RegUtilityModel { get; set; } // 등록된 실용신안
         public QuesYearListViewModel ApplyPatent { get; set; } //출원중인 특허
         public QuesYearListViewModel ApplyUtilityModel { get; set; } //출원중인 실용신안
@@ -278,7 +275,7 @@ namespace BizOneShot.Light.Models.ViewModels
         public QuesYearListViewModel TotalEmp { get; set; } //전체임직원
     }
 
-    public class  OrgCheck01ViewModel
+    public class OrgCheck01ViewModel
     {
         public int QuestionSn { get; set; } // QUESTION_SN (Primary key)
         public string SubmitType { get; set; } // Submit 방식
@@ -292,8 +289,6 @@ namespace BizOneShot.Light.Models.ViewModels
         public int? StaffSumCount { get; set; } // STAFF_COUNT
         public int? BeginnerSumCount { get; set; } // BEGINNER_COUNT
         public int? TotalSumCount { get; set; } // BEGINNER_COUNT
-
-
     }
 
     public class OrgCompositionViewModel
@@ -306,5 +301,4 @@ namespace BizOneShot.Light.Models.ViewModels
         public int BeginnerCount { get; set; } // BEGINNER_COUNT
         public int PartialSum { get; set; } // 부문별 합계
     }
-
 }

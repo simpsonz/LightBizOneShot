@@ -1,29 +1,32 @@
-// ReSharper disable RedundantUsingDirective
+﻿// ReSharper disable RedundantUsingDirective
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
+
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Data;
-using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using System.Threading;
 
 namespace BizOneShot.Light.Models.WebModels
 {
     // RPT_CHECK_LIST
-    [GeneratedCodeAttribute("EF.Reverse.POCO.Generator", "2.15.1.0")]
+    [GeneratedCode("EF.Reverse.POCO.Generator", "2.15.1.0")]
     public class RptCheckList
     {
+        public RptCheckList()
+        {
+            RptMentorChecks = new List<RptMentorCheck>();
+            RptMentorComments = new List<RptMentorComment>();
+            RptMentorRadios = new List<RptMentorRadio>();
+        }
+
         public string DetailCd { get; set; } // DETAIL_CD (Primary key). 상세코드
         public string LagreClassCd { get; set; } // LAGRE_CLASS_CD. 대분류코드
         public string MidiumClassCd { get; set; } // MIDIUM_CLASS_CD. 중분류코드
@@ -38,13 +41,5 @@ namespace BizOneShot.Light.Models.WebModels
         public virtual ICollection<RptMentorCheck> RptMentorChecks { get; set; } // Many to many mapping
         public virtual ICollection<RptMentorComment> RptMentorComments { get; set; } // Many to many mapping
         public virtual ICollection<RptMentorRadio> RptMentorRadios { get; set; } // Many to many mapping
-        
-        public RptCheckList()
-        {
-            RptMentorChecks = new List<RptMentorCheck>();
-            RptMentorComments = new List<RptMentorComment>();
-            RptMentorRadios = new List<RptMentorRadio>();
-        }
     }
-
 }

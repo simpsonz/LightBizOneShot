@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
+using BizOneShot.Light.Models.WebModels;
 
 namespace BizOneShot.Light.Services
 {
-
     public interface IScCompInfoService : IBaseService
     {
         IList<ScCompInfo> GetScCompInfoByName(string compNm);
@@ -23,22 +20,19 @@ namespace BizOneShot.Light.Services
 
         Task<IList<ScCompInfo>> GetScCompInfoByRegistationNo(string registationNo);
         Task<IList<ScUsr>> GetScCompInfoForSearchId(string registationNo);
-
-
     }
 
 
     public class ScCompInfoService : IScCompInfoService
     {
         private readonly IScCompInfoRepository scCompInfoRespository;
-        private readonly  IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
 
         public ScCompInfoService(IScCompInfoRepository scCompInfoRespository, IUnitOfWork unitOfWork)
         {
             this.scCompInfoRespository = scCompInfoRespository;
             this.unitOfWork = unitOfWork;
         }
-
 
 
         public IList<ScCompInfo> GetScCompInfoByName(string compNm)
@@ -52,10 +46,7 @@ namespace BizOneShot.Light.Services
             {
                 return scCompInfoRespository.GetAll();
             }
-            else
-            {
-                return scCompInfoRespository.GetAll().Where(ci => ci.CompNm == compNm);
-            }
+            return scCompInfoRespository.GetAll().Where(ci => ci.CompNm == compNm);
         }
 
         public ScCompInfo GetScCompInfo(int id)
@@ -83,8 +74,7 @@ namespace BizOneShot.Light.Services
 
             if (scCompInfo == null)
                 return new List<ScUsr>();
-            else
-                return scCompInfo.ScUsrs.ToList();
+            return scCompInfo.ScUsrs.ToList();
         }
 
         public void CreateScCompInfo(ScCompInfo scCompInfo)
@@ -101,8 +91,5 @@ namespace BizOneShot.Light.Services
         {
             return await unitOfWork.CommitAsync();
         }
-
-        
-
     }
 }

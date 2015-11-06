@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace BizOneShot.Light.Models.ViewModels
 {
     public class CsViewModels
     {
-
     }
 
     #region FAQ 뷰모델
+
     //public class SelectAdminFaqListViewModel
     //{
     //    public int TOT_CNT { get; set; }
@@ -40,7 +38,6 @@ namespace BizOneShot.Light.Models.ViewModels
         public string UpdId { get; set; } // UPD_ID. 수정자
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
         public string QclNm { get; set; } // QCL_NM. 질문분류 이름
-
     }
 
     public class QclDropDownModel
@@ -52,6 +49,7 @@ namespace BizOneShot.Light.Models.ViewModels
     #endregion
 
     #region Notice(공지사항) 뷰모델
+
     public class NoticeViewModel
     {
         public int NoticeSn { get; set; } // NOTICE_SN (Primary key). 공지사항순번
@@ -66,7 +64,7 @@ namespace BizOneShot.Light.Models.ViewModels
 
     public class NoticeDetailViewModel
     {
-        public int PreNoticeSn { get; set;}
+        public int PreNoticeSn { get; set; }
         public string PreSubject { get; set; }
         public int NextNoticeSn { get; set; }
         public string NextSubject { get; set; }
@@ -83,6 +81,7 @@ namespace BizOneShot.Light.Models.ViewModels
     #endregion
 
     #region Manual(매뉴얼) 뷰모델
+
     public class ManualViewModel
     {
         public int FormSn { get; set; } // FORM_SN (Primary key). 서식식별자(순번)
@@ -94,7 +93,6 @@ namespace BizOneShot.Light.Models.ViewModels
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시
         public string UpdId { get; set; } // UPD_ID. 수정자
         public DateTime? UpdDt { get; set; } // UPD_DT. 수정일시
-
     }
 
     public class ManualDetailViewModel
@@ -115,8 +113,6 @@ namespace BizOneShot.Light.Models.ViewModels
         public int FormSn { get; set; } // FORM_SN. 서식식별자(순번)
     }
 
-
-    
     #endregion
 
     public class FileInfoViewModel
@@ -128,5 +124,4 @@ namespace BizOneShot.Light.Models.ViewModels
         public string RegId { get; set; } // REG_ID. 등록자
         public DateTime? RegDt { get; set; } // REG_DT. 등록일시
     }
-
 }

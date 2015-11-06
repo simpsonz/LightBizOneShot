@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
@@ -37,55 +35,74 @@ namespace BizOneShot.Light.Services
 
         public async Task<IList<QuesMaster>> GetQuesMastersAsync(string registrationNo)
         {
-            var listQuesMaster = await _quesMasterRepository.GetQuesMastersAsync(qm => qm.RegistrationNo == registrationNo && qm.Status != "D");
+            var listQuesMaster =
+                await
+                    _quesMasterRepository.GetQuesMastersAsync(
+                        qm => qm.RegistrationNo == registrationNo && qm.Status != "D");
             return listQuesMaster.OrderByDescending(qm => qm.BasicYear).ToList();
         }
-        
+
         public async Task<QuesMaster> GetQuesMasterAsync(int questionSn)
         {
-            var quesMaster = await _quesMasterRepository.GetQuesMasterAsync(qm => qm.QuestionSn == questionSn && qm.Status != "D");
+            var quesMaster =
+                await _quesMasterRepository.GetQuesMasterAsync(qm => qm.QuestionSn == questionSn && qm.Status != "D");
             return quesMaster;
         }
 
         public async Task<QuesMaster> GetQuesMasterAsync(string registrationNo, int basicYear)
         {
-            var quesMaster = await _quesMasterRepository.GetQuesMasterAsync(qm => qm.RegistrationNo == registrationNo && qm.BasicYear == basicYear && qm.Status == "C");
+            var quesMaster =
+                await
+                    _quesMasterRepository.GetQuesMasterAsync(
+                        qm => qm.RegistrationNo == registrationNo && qm.BasicYear == basicYear && qm.Status == "C");
             return quesMaster;
         }
 
         public async Task<QuesMaster> GetQuesCompInfoAsync(int questionSn)
         {
-            var quesMaster = await _quesMasterRepository.GetQuesCompInfoAsync(qm => qm.QuestionSn == questionSn && qm.Status != "D");
+            var quesMaster =
+                await _quesMasterRepository.GetQuesCompInfoAsync(qm => qm.QuestionSn == questionSn && qm.Status != "D");
             return quesMaster;
         }
 
         public async Task<QuesMaster> GetQuesCompExtentionAsync(int questionSn)
         {
-            var quesMaster = await _quesMasterRepository.GetQuesCompExtentionAsync(qm => qm.QuestionSn == questionSn && qm.Status != "D");
+            var quesMaster =
+                await
+                    _quesMasterRepository.GetQuesCompExtentionAsync(
+                        qm => qm.QuestionSn == questionSn && qm.Status != "D");
             return quesMaster;
         }
 
         public async Task<QuesMaster> GetQuesResult1Async(int questionSn)
         {
-            var quesMaster = await _quesMasterRepository.GetQuesResult1Async(qm => qm.QuestionSn == questionSn && qm.Status != "D");
+            var quesMaster =
+                await _quesMasterRepository.GetQuesResult1Async(qm => qm.QuestionSn == questionSn && qm.Status != "D");
             return quesMaster;
         }
 
         public async Task<QuesMaster> GetQuesResult2Async(int questionSn)
         {
-            var quesMaster = await _quesMasterRepository.GetQuesResult2Async(qm => qm.QuestionSn == questionSn && qm.Status != "D");
+            var quesMaster =
+                await _quesMasterRepository.GetQuesResult2Async(qm => qm.QuestionSn == questionSn && qm.Status != "D");
             return quesMaster;
         }
 
         public async Task<QuesMaster> GetQuesOgranAnalysisAsync(int questionSn)
         {
-            var quesMaster = await _quesMasterRepository.GetQuesOgranAnalysisAsync(qm => qm.QuestionSn == questionSn && qm.Status != "D");
+            var quesMaster =
+                await
+                    _quesMasterRepository.GetQuesOgranAnalysisAsync(
+                        qm => qm.QuestionSn == questionSn && qm.Status != "D");
             return quesMaster;
         }
 
         public async Task<QuesMaster> GetQuesOgranAnalysisAsync(string registrationNo, int basicYear)
         {
-            var quesMaster = await _quesMasterRepository.GetQuesOgranAnalysisAsync(qm => qm.RegistrationNo == registrationNo && qm.BasicYear == basicYear  && qm.Status == "C");
+            var quesMaster =
+                await
+                    _quesMasterRepository.GetQuesOgranAnalysisAsync(
+                        qm => qm.RegistrationNo == registrationNo && qm.BasicYear == basicYear && qm.Status == "C");
             return quesMaster;
         }
 
@@ -101,10 +118,10 @@ namespace BizOneShot.Light.Services
             }
 
             return rstQuesMaster;
-
         }
 
         #region SaveContext
+
         public void SaveDbContext()
         {
             unitOfWork.Commit();
@@ -114,6 +131,7 @@ namespace BizOneShot.Light.Services
         {
             return await unitOfWork.CommitAsync();
         }
+
         #endregion
     }
 }

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
@@ -9,10 +7,8 @@ using BizOneShot.Light.Models.WebModels;
 
 namespace BizOneShot.Light.Services
 {
-
     public interface IRptFinanceCommentService : IBaseService
     {
-
         RptFinanceComment Insert(RptFinanceComment rptFinanceComment);
         Task<int> AddRptFinanceCommentAsync(RptFinanceComment rptFinanceComment);
 
@@ -32,6 +28,7 @@ namespace BizOneShot.Light.Services
             this.rptFinanceCommentRepository = rptFinanceCommentRepository;
             this.unitOfWork = unitOfWork;
         }
+
         public RptFinanceComment Insert(RptFinanceComment rptFinanceComment)
         {
             return rptFinanceCommentRepository.Insert(rptFinanceComment);
@@ -40,14 +37,23 @@ namespace BizOneShot.Light.Services
 
         public async Task<IList<RptFinanceComment>> GetRptFinanceCommentsAsync(int compSn, int basicYear, int basicMonth)
         {
-            var rptFinanceComments = await rptFinanceCommentRepository.GetRptFinanceCommentsAsync(rm => rm.CompSn == compSn && rm.BasicYear == basicYear && rm.BasicMonth == basicMonth);
+            var rptFinanceComments =
+                await
+                    rptFinanceCommentRepository.GetRptFinanceCommentsAsync(
+                        rm => rm.CompSn == compSn && rm.BasicYear == basicYear && rm.BasicMonth == basicMonth);
 
             return rptFinanceComments.OrderByDescending(bw => bw.WriteDt).ToList();
         }
 
-        public async Task<RptFinanceComment> GetRptFinanceCommentAsync(int bizWorkSn, int compSn, int basicYear, int basicMonth)
+        public async Task<RptFinanceComment> GetRptFinanceCommentAsync(int bizWorkSn, int compSn, int basicYear,
+            int basicMonth)
         {
-            var rptFinanceComment = await rptFinanceCommentRepository.GetRptFinanceCommentAsync(rm => rm.BizWorkSn == bizWorkSn && rm.CompSn == compSn && rm.BasicYear == basicYear && rm.BasicMonth == basicMonth);
+            var rptFinanceComment =
+                await
+                    rptFinanceCommentRepository.GetRptFinanceCommentAsync(
+                        rm =>
+                            rm.BizWorkSn == bizWorkSn && rm.CompSn == compSn && rm.BasicYear == basicYear &&
+                            rm.BasicMonth == basicMonth);
             return rptFinanceComment;
         }
 
@@ -59,11 +65,7 @@ namespace BizOneShot.Light.Services
             {
                 return -1;
             }
-            else
-            {
-                return await SaveDbContextAsync();
-            }
-
+            return await SaveDbContextAsync();
         }
 
 
@@ -71,7 +73,6 @@ namespace BizOneShot.Light.Services
         {
             rptFinanceCommentRepository.Update(rptFinanceComment);
         }
-
 
 
         public void SaveDbContext()

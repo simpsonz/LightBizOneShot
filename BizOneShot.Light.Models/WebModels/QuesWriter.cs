@@ -5,17 +5,13 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
+
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Data;
-using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using System.Threading;
 
 namespace BizOneShot.Light.Models.WebModels
@@ -38,5 +34,4 @@ namespace BizOneShot.Light.Models.WebModels
         // Foreign keys
         public virtual QuesMaster QuesMaster { get; set; } // FK_QUES_MASTER_TO_QUES_WRITER
     }
-
 }

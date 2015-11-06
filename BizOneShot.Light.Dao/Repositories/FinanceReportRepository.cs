@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Models.DareModels;
-using BizOneShot.Light.Models.WebModels;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
@@ -30,44 +26,75 @@ namespace BizOneShot.Light.Dao.Repositories
     }
 
 
-    public class FinanceReportRepository : DareRepositoryBase<SHUSER_SboMonthlySalesSelectReturnModel>, IFinanceReportRepository
+    public class FinanceReportRepository : DareRepositoryBase<SHUSER_SboMonthlySalesSelectReturnModel>,
+        IFinanceReportRepository
     {
-        public FinanceReportRepository(IDareDbFactory dbFactory) : base(dbFactory) { }
+        public FinanceReportRepository(IDareDbFactory dbFactory) : base(dbFactory)
+        {
+        }
 
         public async Task<IList<SHUSER_SboMonthlyCashSelectReturnModel>> GetMonthlyCashListAsync(object[] parameters)
         {
-            return await this.DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyCashSelectReturnModel>("SBO_MONTHLY_CASH_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ", parameters).ToListAsync();
+            return
+                await
+                    DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyCashSelectReturnModel>(
+                        "SBO_MONTHLY_CASH_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ",
+                        parameters).ToListAsync();
         }
 
         public async Task<IList<SHUSER_SboMonthlySalesSelectReturnModel>> GetMonthlySalesAsync(object[] parameters)
         {
-            return await this.DareDbContext.Database.SqlQuery<SHUSER_SboMonthlySalesSelectReturnModel>("SBO_MONTHLY_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ", parameters).ToListAsync();
+            return
+                await
+                    DareDbContext.Database.SqlQuery<SHUSER_SboMonthlySalesSelectReturnModel>(
+                        "SBO_MONTHLY_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ",
+                        parameters).ToListAsync();
         }
 
         public async Task<SHUSER_SboMonthlyYearSalesSelectReturnModel> GetYearTotalSalesAsync(object[] parameters)
         {
-            return await this.DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyYearSalesSelectReturnModel>("SBO_YEAR_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ", parameters).SingleOrDefaultAsync();
+            return
+                await
+                    DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyYearSalesSelectReturnModel>(
+                        "SBO_YEAR_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ",
+                        parameters).SingleOrDefaultAsync();
         }
 
-        public async Task<IList<SHUSER_SboMonthlyCostAnalysisSelectReturnModel>> GetCostAnalysisAsync(object[] parameters)
+        public async Task<IList<SHUSER_SboMonthlyCostAnalysisSelectReturnModel>> GetCostAnalysisAsync(
+            object[] parameters)
         {
-            return await this.DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyCostAnalysisSelectReturnModel>("SBO_MONTHLY_COST_ANALYSIS_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ", parameters).ToListAsync();
+            return
+                await
+                    DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyCostAnalysisSelectReturnModel>(
+                        "SBO_MONTHLY_COST_ANALYSIS_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ",
+                        parameters).ToListAsync();
         }
 
         public async Task<IList<SHUSER_SboMonthlyExpenseCostSelectReturnModel>> GetExpenseCostAsync(object[] parameters)
         {
-            return await this.DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyExpenseCostSelectReturnModel>("SBO_MONTHLY_EXPENSE_COST_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ", parameters).ToListAsync();
+            return
+                await
+                    DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyExpenseCostSelectReturnModel>(
+                        "SBO_MONTHLY_EXPENSE_COST_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ",
+                        parameters).ToListAsync();
         }
 
         public async Task<IList<SHUSER_SboMonthlyTaxSalesSelectReturnModel>> GetTaxSalesAsync(object[] parameters)
         {
-            return await this.DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyTaxSalesSelectReturnModel>("SBO_MONTHLY_TAX_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ", parameters).ToListAsync();
+            return
+                await
+                    DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyTaxSalesSelectReturnModel>(
+                        "SBO_MONTHLY_TAX_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ",
+                        parameters).ToListAsync();
         }
 
         public async Task<IList<SHUSER_SboMonthlyBankOutSelectReturnModel>> GetBankOutAsync(object[] parameters)
         {
-            return await this.DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyBankOutSelectReturnModel>("SBO_MONTHLY_BANK_OUT_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ", parameters).ToListAsync();
+            return
+                await
+                    DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyBankOutSelectReturnModel>(
+                        "SBO_MONTHLY_BANK_OUT_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ",
+                        parameters).ToListAsync();
         }
-
     }
 }

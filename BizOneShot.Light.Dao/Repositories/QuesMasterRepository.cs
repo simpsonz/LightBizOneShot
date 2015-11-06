@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Models.WebModels;
 
 namespace BizOneShot.Light.Dao.Repositories
 {
-
     public interface IQuesMasterRepository : IRepository<QuesMaster>
     {
         Task<IList<QuesMaster>> GetQuesMastersAsync(Expression<Func<QuesMaster, bool>> where);
@@ -22,13 +20,14 @@ namespace BizOneShot.Light.Dao.Repositories
         Task<QuesMaster> GetQuesResult2Async(Expression<Func<QuesMaster, bool>> where);
 
         Task<QuesMaster> GetQuesOgranAnalysisAsync(Expression<Func<QuesMaster, bool>> where);
-
     }
 
 
     public class QuesMasterRepository : RepositoryBase<QuesMaster>, IQuesMasterRepository
     {
-        public QuesMasterRepository(IDbFactory dbFactory) : base(dbFactory) { }
+        public QuesMasterRepository(IDbFactory dbFactory) : base(dbFactory)
+        {
+        }
 
         public async Task<IList<QuesMaster>> GetQuesMastersAsync(Expression<Func<QuesMaster, bool>> where)
         {
@@ -70,6 +69,5 @@ namespace BizOneShot.Light.Dao.Repositories
         {
             return DbContext.QuesMasters.Add(quesMaster);
         }
-
     }
 }

@@ -12,13 +12,13 @@ namespace BizOneShot.Light.Web.Mappings
 {
     public class ViewModelToDomainMappingProfile : Profile
     {
-        public override string ProfileName
-        {
-            get
-            {
-                return "ViewModelToDomainMapping";
-            }
-        }
+        //public override string ProfileName
+        //{
+        //    get
+        //    {
+        //        return "ViewModelToDomainMapping";
+        //    }
+        //}
 
         protected override void Configure()
         {

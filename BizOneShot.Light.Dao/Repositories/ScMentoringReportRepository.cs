@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
-using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Models.ViewModels;
-
+using BizOneShot.Light.Models.WebModels;
 using PagedList;
 using PagedList.EntityFramework;
 
@@ -18,24 +16,46 @@ namespace BizOneShot.Light.Dao.Repositories
     {
         Task<IList<int>> GetMentoringReportMentoringDt(string mentorId);
         Task<ScMentoringReport> GetMentoringReportById(int reportSn);
-        Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReportByMngComp(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null);
+
+        Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReportByMngComp(int page, int pageSize, int mngComSn,
+            string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null);
+
         Task<IList<ScMentoringReport>> GetMentoringReport(Expression<Func<ScMentoringReport, bool>> where);
-        Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReport(int page, int pageSize, string mentorId, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0);
+
+        Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReport(int page, int pageSize, string mentorId,
+            int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0);
+
         Task<ScMentoringReport> Insert(ScMentoringReport scMentoringReport);
-        Task<IList<MentoringStatsByCompanyGroupModel>> GetMentoringReportGroupBy(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth);
-        Task<IList<MentoringStatsByMentorGroupModel>> GetMentoringReportGroupByMentor(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth);
-        Task<IList<MentoringStatsByMentorCompGroupModel>> GetMentoringReportGroupByMentorComp(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth);
-        Task<IList<MentoringStatsByAreaGroupModel>> GetMentoringReportGroupByArea(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth);
+
+        Task<IList<MentoringStatsByCompanyGroupModel>> GetMentoringReportGroupBy(int bizWorkSn, int startYear,
+            int startMonth, int endYear, int endMonth);
+
+        Task<IList<MentoringStatsByMentorGroupModel>> GetMentoringReportGroupByMentor(int bizWorkSn, int startYear,
+            int startMonth, int endYear, int endMonth);
+
+        Task<IList<MentoringStatsByMentorCompGroupModel>> GetMentoringReportGroupByMentorComp(int bizWorkSn,
+            int startYear, int startMonth, int endYear, int endMonth);
+
+        Task<IList<MentoringStatsByAreaGroupModel>> GetMentoringReportGroupByArea(int bizWorkSn, int startYear,
+            int startMonth, int endYear, int endMonth);
     }
 
 
     public class ScMentoringReportRepository : RepositoryBase<ScMentoringReport>, IScMentoringReportRepository
     {
-        public ScMentoringReportRepository(IDbFactory dbFactory) : base(dbFactory) { }
+        public ScMentoringReportRepository(IDbFactory dbFactory) : base(dbFactory)
+        {
+        }
 
         public async Task<IList<int>> GetMentoringReportMentoringDt(string mentorId)
         {
-            return await this.DbContext.ScMentoringReports.Where(mtr => mtr.MentorId == mentorId && mtr.Status == "N").Select(mtr => mtr.MentoringDt.Value.Year).Distinct().OrderByDescending(dt => dt).ToListAsync();
+            return
+                await
+                    DbContext.ScMentoringReports.Where(mtr => mtr.MentorId == mentorId && mtr.Status == "N")
+                        .Select(mtr => mtr.MentoringDt.Value.Year)
+                        .Distinct()
+                        .OrderByDescending(dt => dt)
+                        .ToListAsync();
         }
 
         public async Task<ScMentoringReport> GetMentoringReportById(int reportSn)
@@ -50,7 +70,9 @@ namespace BizOneShot.Light.Dao.Repositories
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReportByMngComp(int page, int pageSize, int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0, string mentorId = null)
+        public async Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReportByMngComp(int page, int pageSize,
+            int mngComSn, string excutorId = null, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0,
+            string mentorId = null)
         {
             return await DbContext.ScMentoringReports
                 .Include(mtr => mtr.ScBizWork)
@@ -58,11 +80,20 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Include(mtr => mtr.ScUsr)
                 .Include(mtr => mtr.ScMentoringFileInfoes.Select(mtfi => mtfi.ScFileInfo))
                 .Where(mtr => mtr.ScBizWork.MngCompSn == mngComSn && mtr.Status == "N")
-                .Where(mtr => string.IsNullOrEmpty(excutorId) ? mtr.ScBizWork.ExecutorId != null : mtr.ScBizWork.ExecutorId == excutorId)
+                .Where(
+                    mtr =>
+                        string.IsNullOrEmpty(excutorId)
+                            ? mtr.ScBizWork.ExecutorId != null
+                            : mtr.ScBizWork.ExecutorId == excutorId)
                 .Where(mtr => compSn == 0 ? mtr.CompSn > compSn : mtr.CompSn == compSn)
                 .Where(mtr => mentorId == null ? mtr.MentorId != null : mtr.MentorId == mentorId)
                 .Where(mtr => bizWorkSn == 0 ? mtr.BizWorkSn > bizWorkSn : mtr.BizWorkSn == bizWorkSn)
-                .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
+                .Where(
+                    mtr =>
+                        bizWorkYear == 0
+                            ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0
+                            : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear &&
+                              mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
                 .OrderByDescending(mtr => mtr.ReportSn)
                 .AsNoTracking()
                 .ToPagedListAsync(page, pageSize);
@@ -99,9 +130,10 @@ namespace BizOneShot.Light.Dao.Repositories
         //}
 
 
-        public async Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReport(int page, int pageSize, string mentorId, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0)
+        public async Task<IPagedList<ScMentoringReport>> GetPagedListMentoringReport(int page, int pageSize,
+            string mentorId, int bizWorkYear = 0, int bizWorkSn = 0, int compSn = 0)
         {
-            DateTime date = DateTime.Now.Date;
+            var date = DateTime.Now.Date;
 
             return await DbContext.ScMentoringReports
                 .Include(mtr => mtr.ScBizWork)
@@ -112,7 +144,12 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Where(mtr => mtr.MentorId == mentorId && mtr.Status == "N")
                 .Where(mtr => bizWorkSn == 0 ? mtr.BizWorkSn > bizWorkSn : mtr.BizWorkSn == bizWorkSn)
                 .Where(mtr => compSn == 0 ? mtr.CompSn > compSn : mtr.CompSn == compSn)
-                .Where(mtr => bizWorkYear == 0 ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0 : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear && mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
+                .Where(
+                    mtr =>
+                        bizWorkYear == 0
+                            ? mtr.ScBizWork.BizWorkStDt.Value.Year > 0
+                            : mtr.ScBizWork.BizWorkStDt.Value.Year <= bizWorkYear &&
+                              mtr.ScBizWork.BizWorkEdDt.Value.Year >= bizWorkYear)
                 .OrderByDescending(mtr => mtr.ReportSn)
                 .AsNoTracking()
                 .ToPagedListAsync(page, pageSize);
@@ -136,8 +173,8 @@ namespace BizOneShot.Light.Dao.Repositories
         }
 
 
-
-        public async Task<IList<MentoringStatsByCompanyGroupModel>> GetMentoringReportGroupBy(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth)
+        public async Task<IList<MentoringStatsByCompanyGroupModel>> GetMentoringReportGroupBy(int bizWorkSn,
+            int startYear, int startMonth, int endYear, int endMonth)
         {
             var startDate = new DateTime(startYear, startMonth, 1);
             var endDate = new DateTime(endYear, endMonth, DateTime.DaysInMonth(endYear, endMonth));
@@ -147,7 +184,7 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Where(mr => mr.BizWorkSn == bizWorkSn)
                 .Where(mr => mr.MentoringDt.Value >= startDate)
                 .Where(mr => mr.MentoringDt.Value <= endDate)
-                .GroupBy(mr => new { mr.CompSn, mr.MentorAreaCd })
+                .GroupBy(mr => new {mr.CompSn, mr.MentorAreaCd})
                 .Select(g => new MentoringStatsByCompanyGroupModel
                 {
                     CompSn = g.Key.CompSn.Value,
@@ -159,44 +196,54 @@ namespace BizOneShot.Light.Dao.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IList<MentoringStatsByMentorGroupModel>> GetMentoringReportGroupByMentor(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth)
-        {
-            var startDate = new DateTime(startYear, startMonth, 1);
-            var endDate = new DateTime(endYear, endMonth, DateTime.DaysInMonth(endYear, endMonth));
-          
-            string sql = @"SELECT MENTOR_ID LoginId, MENTORING_DT MentoringDt, COUNT(REPORT_SN) Count, SUM(DATEDIFF(hour, CONVERT(time,MENTORING_ST_HR),CONVERT(time,MENTORING_ED_HR))) SumMentoringHours " +
-                            @" FROM SC_MENTORING_REPORT " +
-                            @" Where BIZ_WORK_SN={0} AND MENTORING_DT BETWEEN {1} AND {2} " +
-                            @" GROUP BY MENTOR_ID, MENTORING_DT";
-
-            List<Object> sqlParamsList = new List<object>();
-            sqlParamsList.Add(bizWorkSn);
-            sqlParamsList.Add(startDate);
-            sqlParamsList.Add(endDate);
-
-            return await DbContext.Database.SqlQuery<MentoringStatsByMentorGroupModel>(sql, sqlParamsList.ToArray()).ToListAsync();
-        }
-
-        public async Task<IList<MentoringStatsByMentorCompGroupModel>> GetMentoringReportGroupByMentorComp(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth)
+        public async Task<IList<MentoringStatsByMentorGroupModel>> GetMentoringReportGroupByMentor(int bizWorkSn,
+            int startYear, int startMonth, int endYear, int endMonth)
         {
             var startDate = new DateTime(startYear, startMonth, 1);
             var endDate = new DateTime(endYear, endMonth, DateTime.DaysInMonth(endYear, endMonth));
 
-            string sql = @"SELECT MENTOR_ID LoginId, COMP_SN CompSn, COUNT(REPORT_SN) Count " +
-                            @" FROM SC_MENTORING_REPORT " +
-                            @" Where BIZ_WORK_SN={0} AND MENTORING_DT BETWEEN {1} AND {2} " +
-                            @" GROUP BY MENTOR_ID, COMP_SN";
+            var sql =
+                @"SELECT MENTOR_ID LoginId, MENTORING_DT MentoringDt, COUNT(REPORT_SN) Count, SUM(DATEDIFF(hour, CONVERT(time,MENTORING_ST_HR),CONVERT(time,MENTORING_ED_HR))) SumMentoringHours " +
+                @" FROM SC_MENTORING_REPORT " +
+                @" Where BIZ_WORK_SN={0} AND MENTORING_DT BETWEEN {1} AND {2} " +
+                @" GROUP BY MENTOR_ID, MENTORING_DT";
 
-            List<Object> sqlParamsList = new List<object>();
+            var sqlParamsList = new List<object>();
             sqlParamsList.Add(bizWorkSn);
             sqlParamsList.Add(startDate);
             sqlParamsList.Add(endDate);
 
-            return await DbContext.Database.SqlQuery<MentoringStatsByMentorCompGroupModel>(sql, sqlParamsList.ToArray()).ToListAsync();
+            return
+                await
+                    DbContext.Database.SqlQuery<MentoringStatsByMentorGroupModel>(sql, sqlParamsList.ToArray())
+                        .ToListAsync();
+        }
+
+        public async Task<IList<MentoringStatsByMentorCompGroupModel>> GetMentoringReportGroupByMentorComp(
+            int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth)
+        {
+            var startDate = new DateTime(startYear, startMonth, 1);
+            var endDate = new DateTime(endYear, endMonth, DateTime.DaysInMonth(endYear, endMonth));
+
+            var sql = @"SELECT MENTOR_ID LoginId, COMP_SN CompSn, COUNT(REPORT_SN) Count " +
+                      @" FROM SC_MENTORING_REPORT " +
+                      @" Where BIZ_WORK_SN={0} AND MENTORING_DT BETWEEN {1} AND {2} " +
+                      @" GROUP BY MENTOR_ID, COMP_SN";
+
+            var sqlParamsList = new List<object>();
+            sqlParamsList.Add(bizWorkSn);
+            sqlParamsList.Add(startDate);
+            sqlParamsList.Add(endDate);
+
+            return
+                await
+                    DbContext.Database.SqlQuery<MentoringStatsByMentorCompGroupModel>(sql, sqlParamsList.ToArray())
+                        .ToListAsync();
         }
 
 
-        public async Task<IList<MentoringStatsByAreaGroupModel>> GetMentoringReportGroupByArea(int bizWorkSn, int startYear, int startMonth, int endYear, int endMonth)
+        public async Task<IList<MentoringStatsByAreaGroupModel>> GetMentoringReportGroupByArea(int bizWorkSn,
+            int startYear, int startMonth, int endYear, int endMonth)
         {
             var startDate = new DateTime(startYear, startMonth, 1);
             var endDate = new DateTime(endYear, endMonth, DateTime.DaysInMonth(endYear, endMonth));
@@ -206,7 +253,7 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Where(mr => mr.BizWorkSn == bizWorkSn)
                 .Where(mr => mr.MentoringDt.Value >= startDate)
                 .Where(mr => mr.MentoringDt.Value <= endDate)
-                .GroupBy(mr => new { mr.CompSn, mr.MentorAreaCd })
+                .GroupBy(mr => new {mr.CompSn, mr.MentorAreaCd})
                 .Select(g => new MentoringStatsByAreaGroupModel
                 {
                     MentoringAreaCd = g.Key.MentorAreaCd,
@@ -215,9 +262,6 @@ namespace BizOneShot.Light.Dao.Repositories
         }
 
 
-
         //MentoringStatsByMentorCompGroupModel
     }
-
-
 }

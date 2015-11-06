@@ -5,24 +5,19 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
+
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Data;
-using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using System.Threading;
 
 namespace BizOneShot.Light.Models.WebModels
 {
     public class UspSelectSidoForWebListReturnModel
     {
-        public String SIDO { get; set; }
+        public string SIDO { get; set; }
     }
-
 }

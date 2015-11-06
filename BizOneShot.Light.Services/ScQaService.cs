@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
@@ -10,13 +9,17 @@ using PagedList;
 
 namespace BizOneShot.Light.Services
 {
-
     public interface IScQaService : IBaseService
     {
-        Task<IPagedList<ScQa>> GetPagedListReceiveQAsByQuestionId(int page, int pageSize, string questionId, string expertType, DateTime? startDate = null, DateTime? endDate = null);
+        Task<IPagedList<ScQa>> GetPagedListReceiveQAsByQuestionId(int page, int pageSize, string questionId,
+            string expertType, DateTime? startDate = null, DateTime? endDate = null);
 
-        Task<IList<ScQa>> GetReceiveQAsAsync(string answerId, string checkYN, DateTime startDate, DateTime endDate, string comName = null, string registrationNo = null);
-        Task<IList<ScQa>> GetReceiveQAsByQuestionId(string questionId, string expertType, DateTime? startDate = null, DateTime? endDate = null);
+        Task<IList<ScQa>> GetReceiveQAsAsync(string answerId, string checkYN, DateTime startDate, DateTime endDate,
+            string comName = null, string registrationNo = null);
+
+        Task<IList<ScQa>> GetReceiveQAsByQuestionId(string questionId, string expertType, DateTime? startDate = null,
+            DateTime? endDate = null);
+
         Task<ScQa> GetQAAsync(int usrQaSn);
         Task<IDictionary<string, ScQa>> GetQADetailAsync(int usrQaSn, string questionId, string expertType);
         Task<int> AddQaAsync(ScQa scQa);
@@ -42,14 +45,14 @@ namespace BizOneShot.Light.Services
             return scQa;
         }
 
-        public async Task<IDictionary<string,ScQa>> GetQADetailAsync(int usrQaSn, string questionId, string expertType)
+        public async Task<IDictionary<string, ScQa>> GetQADetailAsync(int usrQaSn, string questionId, string expertType)
         {
             //이전
             var preScQaTask = await _scQaRepository.GetQAsAsync(
-                sq => sq.QuestionId == questionId 
-                && sq.ScUsr_AnswerId.UsrType=="P" 
-                && sq.ScUsr_AnswerId.UsrTypeDetail == expertType
-                && sq.UsrQaSn < usrQaSn);
+                sq => sq.QuestionId == questionId
+                      && sq.ScUsr_AnswerId.UsrType == "P"
+                      && sq.ScUsr_AnswerId.UsrTypeDetail == expertType
+                      && sq.UsrQaSn < usrQaSn);
             var preScQa = preScQaTask.OrderBy(sq => sq.UsrQaSn).LastOrDefault();
 
             //현
@@ -58,9 +61,9 @@ namespace BizOneShot.Light.Services
             //다음
             var nextScQaTask = await _scQaRepository.GetManyAsync(
                 sq => sq.QuestionId == questionId
-                && sq.ScUsr_AnswerId.UsrType == "P"
-                && sq.ScUsr_AnswerId.UsrTypeDetail == expertType
-                && sq.UsrQaSn > usrQaSn);
+                      && sq.ScUsr_AnswerId.UsrType == "P"
+                      && sq.ScUsr_AnswerId.UsrTypeDetail == expertType
+                      && sq.UsrQaSn > usrQaSn);
             var nextScQa = nextScQaTask.OrderBy(sq => sq.UsrQaSn).FirstOrDefault();
 
             var dicScQa = new Dictionary<string, ScQa>();
@@ -73,31 +76,41 @@ namespace BizOneShot.Light.Services
         }
 
 
-        public async Task<IList<ScQa>> GetReceiveQAsAsync(string answerId, string checkYN, DateTime startDate, DateTime endDate, string comName = null, string registrationNo = null)
+        public async Task<IList<ScQa>> GetReceiveQAsAsync(string answerId, string checkYN, DateTime startDate,
+            DateTime endDate, string comName = null, string registrationNo = null)
         {
-            var listScQaTask = await _scQaRepository.GetQAsAsync(sq => sq.AnswerId == answerId && sq.AnsYn.Contains(checkYN) && sq.ScUsr_QuestionId.ScCompInfo.CompNm.Contains(comName) && sq.ScUsr_QuestionId.ScCompInfo.RegistrationNo.Contains(registrationNo) && (sq.AskDt >= startDate && sq.AskDt <= endDate));
+            var listScQaTask =
+                await
+                    _scQaRepository.GetQAsAsync(
+                        sq =>
+                            sq.AnswerId == answerId && sq.AnsYn.Contains(checkYN) &&
+                            sq.ScUsr_QuestionId.ScCompInfo.CompNm.Contains(comName) &&
+                            sq.ScUsr_QuestionId.ScCompInfo.RegistrationNo.Contains(registrationNo) &&
+                            sq.AskDt >= startDate && sq.AskDt <= endDate);
             return listScQaTask.OrderByDescending(sq => sq.AskDt).ToList();
         }
 
-        public async Task<IPagedList<ScQa>> GetPagedListReceiveQAsByQuestionId(int page, int pageSize, string questionId, string expertType, DateTime? startDate = null, DateTime? endDate = null)
+        public async Task<IPagedList<ScQa>> GetPagedListReceiveQAsByQuestionId(int page, int pageSize, string questionId,
+            string expertType, DateTime? startDate = null, DateTime? endDate = null)
         {
             startDate = startDate ?? DateTime.Parse("1900-01-01");
             endDate = endDate ?? DateTime.Parse("2999-12-31");
 
-            return await _scQaRepository.GetpagedListQAsAsync(page, pageSize, questionId, expertType, startDate, endDate);
+            return
+                await _scQaRepository.GetpagedListQAsAsync(page, pageSize, questionId, expertType, startDate, endDate);
         }
 
 
-        public async Task<IList<ScQa>> GetReceiveQAsByQuestionId(string questionId, string expertType, DateTime? startDate = null, DateTime? endDate = null)
+        public async Task<IList<ScQa>> GetReceiveQAsByQuestionId(string questionId, string expertType,
+            DateTime? startDate = null, DateTime? endDate = null)
         {
             startDate = startDate ?? DateTime.Parse("1900-01-01");
             endDate = endDate ?? DateTime.Parse("2999-12-31");
 
             var listScQaTask = await _scQaRepository.GetQAsAsync(
                 sq => sq.QuestionId == questionId
-                && sq.ScUsr_AnswerId.UsrType == "P"
-                && sq.ScUsr_AnswerId.UsrTypeDetail == expertType
-                && (sq.AskDt >= startDate && sq.AskDt <= endDate));
+                      && sq.ScUsr_AnswerId.UsrType == "P"
+                      && sq.ScUsr_AnswerId.UsrTypeDetail == expertType && sq.AskDt >= startDate && sq.AskDt <= endDate);
             return listScQaTask.OrderByDescending(sq => sq.AskDt).ToList();
         }
 
@@ -109,14 +122,12 @@ namespace BizOneShot.Light.Services
             {
                 return -1;
             }
-            else
-            {
-                return await SaveDbContextAsync();
-            }
+            return await SaveDbContextAsync();
         }
 
         #region SaveContext
-        public void SaveDbContext() 
+
+        public void SaveDbContext()
         {
             unitOfWork.Commit();
         }
@@ -125,6 +136,7 @@ namespace BizOneShot.Light.Services
         {
             return await unitOfWork.CommitAsync();
         }
+
         #endregion
     }
 }

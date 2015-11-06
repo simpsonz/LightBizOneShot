@@ -5,6 +5,7 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
+
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 
@@ -31,18 +32,46 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             : this("dbo")
         {
         }
- 
+
         public QuesCheckListConfiguration(string schema)
         {
             ToTable(schema + ".QUES_CHECK_LIST");
             HasKey(x => x.CheckListSn);
 
-            Property(x => x.CheckListSn).HasColumnName("CHECK_LIST_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.LagreClassCd).HasColumnName("LAGRE_CLASS_CD").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(2);
-            Property(x => x.MidiumClassCd).HasColumnName("MIDIUM_CLASS_CD").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(4);
-            Property(x => x.SmallClassCd).HasColumnName("SMALL_CLASS_CD").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(6);
-            Property(x => x.DetailCd).HasColumnName("DETAIL_CD").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(8);
-            Property(x => x.ReportTitle).HasColumnName("REPORT_TITLE").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
+            Property(x => x.CheckListSn)
+                .HasColumnName("CHECK_LIST_SN")
+                .IsRequired()
+                .HasColumnType("int")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.LagreClassCd)
+                .HasColumnName("LAGRE_CLASS_CD")
+                .IsRequired()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(2);
+            Property(x => x.MidiumClassCd)
+                .HasColumnName("MIDIUM_CLASS_CD")
+                .IsRequired()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(4);
+            Property(x => x.SmallClassCd)
+                .HasColumnName("SMALL_CLASS_CD")
+                .IsRequired()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(6);
+            Property(x => x.DetailCd)
+                .HasColumnName("DETAIL_CD")
+                .IsRequired()
+                .IsUnicode(false)
+                .HasColumnType("varchar")
+                .HasMaxLength(8);
+            Property(x => x.ReportTitle)
+                .HasColumnName("REPORT_TITLE")
+                .IsOptional()
+                .HasColumnType("nvarchar")
+                .HasMaxLength(100);
             Property(x => x.Title).HasColumnName("TITLE").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
             Property(x => x.Content1).HasColumnName("CONTENT1").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
             Property(x => x.Content2).HasColumnName("CONTENT2").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
@@ -50,10 +79,16 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.GrowthStep).HasColumnName("GROWTH_STEP").IsOptional().HasColumnType("int");
             Property(x => x.IndependentStep).HasColumnName("INDEPENDENT_STEP").IsOptional().HasColumnType("int");
             Property(x => x.TotalStep).HasColumnName("TOTAL_STEP").IsOptional().HasColumnType("int");
-            Property(x => x.CurrentUseYn).HasColumnName("CURRENT_USE_YN").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
+            Property(x => x.CurrentUseYn)
+                .HasColumnName("CURRENT_USE_YN")
+                .IsOptional()
+                .IsFixedLength()
+                .IsUnicode(false)
+                .HasColumnType("char")
+                .HasMaxLength(1);
             InitializePartial();
         }
+
         partial void InitializePartial();
     }
-
 }

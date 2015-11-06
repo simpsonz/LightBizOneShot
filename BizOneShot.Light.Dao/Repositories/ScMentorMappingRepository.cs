@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Models.WebModels;
@@ -20,19 +19,22 @@ namespace BizOneShot.Light.Dao.Repositories
 
     public class ScMentorMappingRepository : RepositoryBase<ScMentorMappiing>, IScMentorMappingRepository
     {
-        public ScMentorMappingRepository(IDbFactory dbFactory) : base(dbFactory) { }
-
-
-        public async Task<IList<ScMentorMappiing>> GetMentorMappingsInScUsrAsync(Expression<Func<ScMentorMappiing, bool>> where)
+        public ScMentorMappingRepository(IDbFactory dbFactory) : base(dbFactory)
         {
-            return await this.DbContext.ScMentorMappiings
+        }
+
+
+        public async Task<IList<ScMentorMappiing>> GetMentorMappingsInScUsrAsync(
+            Expression<Func<ScMentorMappiing, bool>> where)
+        {
+            return await DbContext.ScMentorMappiings
                 .Include(mm => mm.ScUsr)
                 .Where(where).ToListAsync();
         }
 
         public async Task<IList<ScMentorMappiing>> GetMentorMappingsAsync(Expression<Func<ScMentorMappiing, bool>> where)
         {
-            return await this.DbContext.ScMentorMappiings
+            return await DbContext.ScMentorMappiings
                 .Include("ScBizWork")
                 .Include("ScUsr")
                 .Include("ScUsr.ScUsrResume.ScFileInfo")
@@ -41,7 +43,13 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<ScMentorMappiing> GetMentorMappingAsync(Expression<Func<ScMentorMappiing, bool>> where)
         {
-            return await this.DbContext.ScMentorMappiings.Include("ScBizWork").Include("ScUsr").Include("ScUsr.ScUsrResume.ScFileInfo").Where(where).SingleAsync();
+            return
+                await
+                    DbContext.ScMentorMappiings.Include("ScBizWork")
+                        .Include("ScUsr")
+                        .Include("ScUsr.ScUsrResume.ScFileInfo")
+                        .Where(where)
+                        .SingleAsync();
         }
     }
 }

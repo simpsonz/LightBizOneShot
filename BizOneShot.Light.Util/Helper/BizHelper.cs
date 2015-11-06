@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BizOneShot.Light.Util.Helper
+﻿namespace BizOneShot.Light.Util.Helper
 {
     public class BizHelper
     {
         public string getMentorAreaNm(string mentorAreaCd)
         {
-            string mentorAreaNm = string.Empty;
+            var mentorAreaNm = string.Empty;
             switch (mentorAreaCd.Trim())
             {
                 case "F":

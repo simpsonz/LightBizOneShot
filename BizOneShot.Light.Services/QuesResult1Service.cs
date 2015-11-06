@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
@@ -29,18 +27,29 @@ namespace BizOneShot.Light.Services
 
         public async Task<IList<QuesResult1>> GetQuesResult1sAsync(int questionSn, string code)
         {
-            var listQuesMaster = await _quesResult1Repository.GetQuesResult1sAsync(qr => qr.QuestionSn == questionSn && qr.QuesCheckList.CurrentUseYn == "Y" && qr.QuesCheckList.SmallClassCd == code);
+            var listQuesMaster =
+                await
+                    _quesResult1Repository.GetQuesResult1sAsync(
+                        qr =>
+                            qr.QuestionSn == questionSn && qr.QuesCheckList.CurrentUseYn == "Y" &&
+                            qr.QuesCheckList.SmallClassCd == code);
             return listQuesMaster.OrderBy(qr => qr.QuesCheckList.SmallClassCd).ToList();
         }
 
 
         public async Task<QuesResult1> GetQuesResult1Async(int questionSn, string detailCode)
         {
-            var quesMaster = await _quesResult1Repository.GetQuesResult1Async(qr => qr.QuestionSn == questionSn && qr.QuesCheckList.CurrentUseYn == "Y" && qr.QuesCheckList.DetailCd == detailCode);
+            var quesMaster =
+                await
+                    _quesResult1Repository.GetQuesResult1Async(
+                        qr =>
+                            qr.QuestionSn == questionSn && qr.QuesCheckList.CurrentUseYn == "Y" &&
+                            qr.QuesCheckList.DetailCd == detailCode);
             return quesMaster;
         }
 
         #region SaveContext
+
         public void SaveDbContext()
         {
             unitOfWork.Commit();
@@ -50,6 +59,7 @@ namespace BizOneShot.Light.Services
         {
             return await unitOfWork.CommitAsync();
         }
+
         #endregion
     }
 }

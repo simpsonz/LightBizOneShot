@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
 using BizOneShot.Light.Models.DareModels;
-using BizOneShot.Light.Models.WebModels;
 
 namespace BizOneShot.Light.Services
 {
-
     public interface IFinenceReportService : IBaseService
     {
         Task<IList<SHUSER_SboMonthlyCashSelectReturnModel>> GetMonthlyCashListAsync(object[] parameters);
@@ -35,7 +30,6 @@ namespace BizOneShot.Light.Services
         }
 
 
-
         public async Task<IList<SHUSER_SboMonthlyCashSelectReturnModel>> GetMonthlyCashListAsync(object[] parameters)
         {
             var cashListTask = await financeReportRepository.GetMonthlyCashListAsync(parameters);
@@ -54,7 +48,8 @@ namespace BizOneShot.Light.Services
             return yearTotalTask;
         }
 
-        public async Task<IList<SHUSER_SboMonthlyCostAnalysisSelectReturnModel>> GetCostAnalysisAsync(object[] parameters)
+        public async Task<IList<SHUSER_SboMonthlyCostAnalysisSelectReturnModel>> GetCostAnalysisAsync(
+            object[] parameters)
         {
             var costAnalysisListTask = await financeReportRepository.GetCostAnalysisAsync(parameters);
             return costAnalysisListTask;
@@ -79,6 +74,7 @@ namespace BizOneShot.Light.Services
         }
 
         #region SaveContext
+
         public void SaveDbContext()
         {
             unitOfWork.Commit();
@@ -88,6 +84,7 @@ namespace BizOneShot.Light.Services
         {
             return await unitOfWork.CommitAsync();
         }
+
         #endregion
     }
 }
