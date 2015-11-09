@@ -37,7 +37,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             if(Session[Global.UserLogo] == null)
             { 
-                base.SetLogo("headerwrap_main");
+                base.SetLogo("bi_main.png");
             }
             return View();
         }
@@ -46,7 +46,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             if (Session[Global.UserLogo] == null)
             {
-                base.SetLogo("headerwrap_main");
+                base.SetLogo("bi_main.png");
             }
 
             if(loginId == null)
@@ -67,7 +67,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             if (Session[Global.UserLogo] == null)
             {
-                base.SetLogo("headerwrap_main");
+                base.SetLogo("bi_main.png");
             }
 
             if (!ModelState.IsValid)
@@ -124,7 +124,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             if (Session[Global.UserLogo] == null)
             {
-                base.SetLogo("headerwrap_main");
+                base.SetLogo("bi_main.png");
             }
 
             if (!ModelState.IsValid)
@@ -216,13 +216,13 @@ namespace BizOneShot.Light.Web.Controllers
 
         public  ActionResult WoonjooUniv()
         {
-            base.SetLogo("headerwrap_woonjoouniv");
+            base.SetLogo("gangneung_logo_small.png");
             return RedirectToAction("Login", "Home");
         }
 
         public ActionResult SmartBizOn()
         {
-            base.SetLogo("headerwrap_main");
+            base.SetLogo("bi_main.png");
             return RedirectToAction("Index", "Home");
         }
 

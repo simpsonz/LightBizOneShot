@@ -9,6 +9,11 @@
         //top menu
         $('#naviwrap > .navi > a.navi02').addClass('on');
 
+        //비밀번호 규칙
+        ////$("#LoginPw, #ConfirmLoginPw").bind('keyup', function (event) {
+        ////    $(this).val($(this).val().replace(/[^a-zA-Z0-9~!@@#$%^&*()]/gi, ""));
+        ////});
+
         //아이디 중복 확인
         $('#BTN_LOGIN_ID_CHK').bind('click', function () {
             if ($('#LoginId').val() == "") {
@@ -26,6 +31,7 @@
                         $('#LoginIdChk').val(1);
                         alert('사용 가능한 아이디입니다.');
                         $('#BTN_LOGIN_ID_CHK').attr("disabled", "disabled");
+                        $('#LoginId').attr("readonly", "readonly");
                     }
                     else {
                         $('#LoginId').focus();
@@ -53,7 +59,7 @@
                     console.log(data);
                     if (data.result == true) {
                         //false값을 true로 바꾸고 운영반영해야함. false는 테스트용
-                        if (checkCertificate($('#USR_NO').val()) == true) {
+                        if (checkCertificate($('#USR_NO').val()) == false) {
                             $('#ComRegistrationNoChk').val(1);
                             alert('사용 가능한 사업자번호입니다.');
                             $('#BTN_USR_NO_CHK').attr("disabled", "disabled");
@@ -98,7 +104,9 @@
 
     function SelectBizManager()
     {
-        var comSn = $('#CompSn').val();
+        var comSn = $('#BizManager').val();
+
+        alert(comSn);
 
         if (comSn == 0) {
             $('#BizList').html("<option value='0'>사업명</option>");
@@ -108,7 +116,7 @@
             //$('#BizList').html("<option value='0'>사업명</option>");
             $('#BizList').html("");
             $.ajax({
-                url: '@Url.Action("GetBizList", "ExpertManager")',
+                url: '@Url.Action("GetBizList", "Account")',
                 type: "post",
                 dataType: "json",
                 data: { CompSn: comSn },
@@ -351,7 +359,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div id="btnwrap_sub">
-            <a href="@Url.Action("Index", "Home")" class="cancel2 right"><em>취소</em></a>
+            <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('회원가입을 취소하시겠습니까?')) location.href='@Url.Action("Index", "Home")'" />
             <input type="button" class="confirm right" value="확인" onclick="goSubmit();">
             
         </div><!--btnwrap//-->

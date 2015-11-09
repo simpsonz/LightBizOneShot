@@ -125,7 +125,7 @@ var INOUT_DATA_TYPE_FILE		= 103;
 var STORAGE_TYPE = HARD_DISK;
 
 // 보고자하는 인증서 정책 모음. 
-//var POLICIES = ALL_CERT_POLICIES; 
+var POLICIES = ALL_CERT_POLICIES; 
 var ALL_CERT_POLICIES = "";
 
 // 서명시 필요한 Config 조절.
