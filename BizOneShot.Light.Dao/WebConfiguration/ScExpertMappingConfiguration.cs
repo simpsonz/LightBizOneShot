@@ -5,7 +5,6 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 
@@ -32,54 +31,26 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             : this("dbo")
         {
         }
-
+ 
         public ScExpertMappingConfiguration(string schema)
         {
             ToTable(schema + ".SC_EXPERT_MAPPING");
-            HasKey(x => new {x.BizWorkSn, x.ExpertId});
+            HasKey(x => new { x.BizWorkSn, x.ExpertId });
 
-            Property(x => x.BizWorkSn)
-                .HasColumnName("BIZ_WORK_SN")
-                .IsRequired()
-                .HasColumnType("int")
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.ExpertId)
-                .HasColumnName("EXPERT_ID")
-                .IsRequired()
-                .IsUnicode(false)
-                .HasColumnType("varchar")
-                .HasMaxLength(25)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.Status)
-                .HasColumnName("STATUS")
-                .IsOptional()
-                .IsFixedLength()
-                .IsUnicode(false)
-                .HasColumnType("char")
-                .HasMaxLength(1);
-            Property(x => x.RegId)
-                .HasColumnName("REG_ID")
-                .IsOptional()
-                .IsUnicode(false)
-                .HasColumnType("varchar")
-                .HasMaxLength(25);
+            Property(x => x.BizWorkSn).HasColumnName("BIZ_WORK_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.ExpertId).HasColumnName("EXPERT_ID").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.Status).HasColumnName("STATUS").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
+            Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
-            Property(x => x.UpdId)
-                .HasColumnName("UPD_ID")
-                .IsOptional()
-                .IsUnicode(false)
-                .HasColumnType("varchar")
-                .HasMaxLength(25);
+            Property(x => x.UpdId).HasColumnName("UPD_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.UpdDt).HasColumnName("UPD_DT").IsOptional().HasColumnType("datetime");
 
             // Foreign keys
-            HasRequired(a => a.ScBizWork).WithMany(b => b.ScExpertMappings).HasForeignKey(c => c.BizWorkSn);
-                // FK_SC_BIZ_WORK_TO_SC_EXPERT_MAPPING
-            HasRequired(a => a.ScUsr).WithMany(b => b.ScExpertMappings).HasForeignKey(c => c.ExpertId);
-                // FK_SC_USR_TO_SC_EXPERT_MAPPING3
+            HasRequired(a => a.ScBizWork).WithMany(b => b.ScExpertMappings).HasForeignKey(c => c.BizWorkSn); // FK_SC_BIZ_WORK_TO_SC_EXPERT_MAPPING
+            HasRequired(a => a.ScUsr).WithMany(b => b.ScExpertMappings).HasForeignKey(c => c.ExpertId); // FK_SC_USR_TO_SC_EXPERT_MAPPING3
             InitializePartial();
         }
-
         partial void InitializePartial();
     }
+
 }

@@ -5,7 +5,6 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 
@@ -32,58 +31,30 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             : this("dbo")
         {
         }
-
+ 
         public ScMentoringTotalReportConfiguration(string schema)
         {
             ToTable(schema + ".SC_MENTORING_TOTAL_REPORT");
             HasKey(x => x.TotalReportSn);
 
-            Property(x => x.TotalReportSn)
-                .HasColumnName("TOTAL_REPORT_SN")
-                .IsRequired()
-                .HasColumnType("int")
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.TotalReportSn).HasColumnName("TOTAL_REPORT_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.BizWorkSn).HasColumnName("BIZ_WORK_SN").IsRequired().HasColumnType("int");
-            Property(x => x.MentorId)
-                .HasColumnName("MENTOR_ID")
-                .IsOptional()
-                .IsUnicode(false)
-                .HasColumnType("varchar")
-                .HasMaxLength(25);
+            Property(x => x.MentorId).HasColumnName("MENTOR_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.CompSn).HasColumnName("COMP_SN").IsOptional().HasColumnType("int");
             Property(x => x.SubmitDt).HasColumnName("SUBMIT_DT").IsOptional().HasColumnType("datetime");
-            Property(x => x.Status)
-                .HasColumnName("STATUS")
-                .IsOptional()
-                .IsFixedLength()
-                .IsUnicode(false)
-                .HasColumnType("char")
-                .HasMaxLength(1);
-            Property(x => x.RegId)
-                .HasColumnName("REG_ID")
-                .IsOptional()
-                .IsUnicode(false)
-                .HasColumnType("varchar")
-                .HasMaxLength(25);
+            Property(x => x.Status).HasColumnName("STATUS").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
+            Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
-            Property(x => x.UpdId)
-                .HasColumnName("UPD_ID")
-                .IsOptional()
-                .IsUnicode(false)
-                .HasColumnType("varchar")
-                .HasMaxLength(25);
+            Property(x => x.UpdId).HasColumnName("UPD_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.UpdDt).HasColumnName("UPD_DT").IsOptional().HasColumnType("datetime");
 
             // Foreign keys
-            HasOptional(a => a.ScCompInfo).WithMany(b => b.ScMentoringTotalReports).HasForeignKey(c => c.CompSn);
-                // FK_SC_COMP_INFO_TO_MENTORING_TOTAL_REPORT
-            HasOptional(a => a.ScUsr).WithMany(b => b.ScMentoringTotalReports).HasForeignKey(c => c.MentorId);
-                // FK_SC_USR_TO_MENTORING_TOTAL_REPORT
-            HasRequired(a => a.ScBizWork).WithMany(b => b.ScMentoringTotalReports).HasForeignKey(c => c.BizWorkSn);
-                // FK_SC_BIZ_WORK_TO_MENTORING_TOTAL_REPORT
+            HasOptional(a => a.ScCompInfo).WithMany(b => b.ScMentoringTotalReports).HasForeignKey(c => c.CompSn); // FK_SC_COMP_INFO_TO_MENTORING_TOTAL_REPORT
+            HasOptional(a => a.ScUsr).WithMany(b => b.ScMentoringTotalReports).HasForeignKey(c => c.MentorId); // FK_SC_USR_TO_MENTORING_TOTAL_REPORT
+            HasRequired(a => a.ScBizWork).WithMany(b => b.ScMentoringTotalReports).HasForeignKey(c => c.BizWorkSn); // FK_SC_BIZ_WORK_TO_MENTORING_TOTAL_REPORT
             InitializePartial();
         }
-
         partial void InitializePartial();
     }
+
 }

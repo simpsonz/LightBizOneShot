@@ -5,7 +5,6 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 
@@ -32,35 +31,20 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             : this("dbo")
         {
         }
-
+ 
         public QuesMasterConfiguration(string schema)
         {
             ToTable(schema + ".QUES_MASTER");
             HasKey(x => x.QuestionSn);
 
-            Property(x => x.QuestionSn)
-                .HasColumnName("QUESTION_SN")
-                .IsRequired()
-                .HasColumnType("int")
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.RegistrationNo)
-                .HasColumnName("REGISTRATION_NO")
-                .IsOptional()
-                .IsUnicode(false)
-                .HasColumnType("varchar")
-                .HasMaxLength(10);
+            Property(x => x.QuestionSn).HasColumnName("QUESTION_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.RegistrationNo).HasColumnName("REGISTRATION_NO").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(10);
             Property(x => x.BasicYear).HasColumnName("BASIC_YEAR").IsOptional().HasColumnType("int");
             Property(x => x.SaveStatus).HasColumnName("SAVE_STATUS").IsOptional().HasColumnType("int");
-            Property(x => x.Status)
-                .HasColumnName("STATUS")
-                .IsOptional()
-                .IsFixedLength()
-                .IsUnicode(false)
-                .HasColumnType("char")
-                .HasMaxLength(1);
+            Property(x => x.Status).HasColumnName("STATUS").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             InitializePartial();
         }
-
         partial void InitializePartial();
     }
+
 }

@@ -5,7 +5,6 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 
@@ -32,50 +31,24 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             : this("dbo")
         {
         }
-
+ 
         public ScQclConfiguration(string schema)
         {
             ToTable(schema + ".SC_QCL");
             HasKey(x => x.QclSn);
 
-            Property(x => x.QclSn)
-                .HasColumnName("QCL_SN")
-                .IsRequired()
-                .HasColumnType("int")
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.QclType)
-                .HasColumnName("QCL_TYPE")
-                .IsOptional()
-                .IsFixedLength()
-                .IsUnicode(false)
-                .HasColumnType("char")
-                .HasMaxLength(1);
+            Property(x => x.QclSn).HasColumnName("QCL_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.QclType).HasColumnName("QCL_TYPE").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             Property(x => x.QclNm).HasColumnName("QCL_NM").IsOptional().HasColumnType("nvarchar").HasMaxLength(100);
-            Property(x => x.Status)
-                .HasColumnName("STATUS")
-                .IsOptional()
-                .IsFixedLength()
-                .IsUnicode(false)
-                .HasColumnType("char")
-                .HasMaxLength(1);
+            Property(x => x.Status).HasColumnName("STATUS").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
             Property(x => x.DspOdr).HasColumnName("DSP_ODR").IsRequired().HasColumnType("int");
-            Property(x => x.RegId)
-                .HasColumnName("REG_ID")
-                .IsOptional()
-                .IsUnicode(false)
-                .HasColumnType("varchar")
-                .HasMaxLength(25);
+            Property(x => x.RegId).HasColumnName("REG_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
-            Property(x => x.UpdId)
-                .HasColumnName("UPD_ID")
-                .IsOptional()
-                .IsUnicode(false)
-                .HasColumnType("varchar")
-                .HasMaxLength(25);
+            Property(x => x.UpdId).HasColumnName("UPD_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.UpdDt).HasColumnName("UPD_DT").IsOptional().HasColumnType("datetime");
             InitializePartial();
         }
-
         partial void InitializePartial();
     }
+
 }
