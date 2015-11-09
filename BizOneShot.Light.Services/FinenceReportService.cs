@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using BizOneShot.Light.Dao.Infrastructure;
+﻿using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Dao.Repositories;
 using BizOneShot.Light.Models.DareModels;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BizOneShot.Light.Services
 {
