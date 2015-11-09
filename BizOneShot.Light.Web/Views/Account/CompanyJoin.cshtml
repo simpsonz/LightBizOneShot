@@ -59,7 +59,7 @@
                     console.log(data);
                     if (data.result == true) {
                         //false값을 true로 바꾸고 운영반영해야함. false는 테스트용
-                        if (checkCertificate($('#USR_NO').val()) == false) {
+                        if (checkCertificate($('#USR_NO').val()) == true) {
                             $('#ComRegistrationNoChk').val(1);
                             alert('사용 가능한 사업자번호입니다.');
                             $('#BTN_USR_NO_CHK').attr("disabled", "disabled");
