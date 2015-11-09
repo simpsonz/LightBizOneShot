@@ -6,6 +6,7 @@ using System.Web;
 using AutoMapper;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
+using BizOneShot.Light.Models.DareModels;
 using BizOneShot.Light.Util.Helper;
 
 namespace BizOneShot.Light.Web.Mappings
@@ -437,6 +438,13 @@ namespace BizOneShot.Light.Web.Mappings
             Mapper.CreateMap<RptFinanceComment, RegCommentViewModel>()
                 .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm))
                 .ForMember(d => d.ExpertNm, map => map.MapFrom(s => s.ScUsr.Name));
+
+
+            //업태/업종
+            Mapper.CreateMap<SHUSER_AcStdIncmrateBseIdstT, BizTypeViewModel>()
+                .ForMember(d => d.BizTypeCd, map => map.MapFrom(s => s.IdstCd))
+                .ForMember(d => d.BizTypeNm, map => map.MapFrom(s => s.IdstDtlNm));
+
 
         }
 

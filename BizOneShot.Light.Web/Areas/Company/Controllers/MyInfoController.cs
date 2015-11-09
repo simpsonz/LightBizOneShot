@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Threading.Tasks;
-using AutoMapper;
-using BizOneShot.Light.Web.ComLib;
+﻿using AutoMapper;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Services;
 using BizOneShot.Light.Util.Security;
+using BizOneShot.Light.Web.ComLib;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using PagedList;
 
 
 namespace BizOneShot.Light.Web.Areas.Company.Controllers
@@ -19,10 +18,12 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
     public class MyInfoController : BaseController
     {
         private readonly IScUsrService _scUsrService;
+        private readonly IDareAcStdIncmrateBseIdstTService _dareAcStdIncmrateBseIdstTService;
 
-        public MyInfoController(IScUsrService scUsrService)
+        public MyInfoController(IScUsrService scUsrService, IDareAcStdIncmrateBseIdstTService dareAcStdIncmrateBseIdstTService)
         {
             this._scUsrService = scUsrService;
+            _dareAcStdIncmrateBseIdstTService = dareAcStdIncmrateBseIdstTService;
         }
 
         // GET: Company/MyInfo
@@ -101,6 +102,24 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             await _scUsrService.SaveDbContextAsync();
 
             return RedirectToAction("MyInfo", "MyInfo");
+        }
+
+
+        [AllowAnonymous]
+        public async Task<ActionResult> SearchBizTypePopup(string Id, string curPage=null, string QUERY = null)
+        {
+            ViewBag.QUERY = QUERY;
+            ViewBag.Id = Id;
+
+            int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
+
+            var pagedListBizType = await _dareAcStdIncmrateBseIdstTService.GetBizTypes(int.Parse(curPage ?? "1"), pagingSize, QUERY);
+
+            var bizTypeView =
+                Mapper.Map<List<BizTypeViewModel>>(pagedListBizType);
+
+            return View(new StaticPagedList<BizTypeViewModel>(bizTypeView, int.Parse(curPage ?? "1"), pagingSize, pagedListBizType.TotalItemCount));
+
         }
 
 

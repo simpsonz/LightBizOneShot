@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BizOneShot.Light.Models.ViewModels
@@ -103,15 +104,17 @@ namespace BizOneShot.Light.Models.ViewModels
         public string ComUpdId { get; set; } // UPD_ID. 수정자
         public DateTime? ComUpdDt { get; set; } // UPD_DT. 수정일시
 
-        [Required]
-        [Display(Name = "업태")]
-        [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
-        public string ComBizClass { get; set; } // 업태
+        //[Required]
+        //[Display(Name = "업태")]
+        //[MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
+        //public string ComBizClass { get; set; } // 업태
 
-        [Required]
-        [Display(Name = "업종")]
-        [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
-        public string ComBizType { get; set; } // 업종
+        //[Required]
+        //[Display(Name = "업종")]
+        //[MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
+        //public string ComBizType { get; set; } // 업종
+
+        public IList<BizTypeViewModel> BizTypes { get; set; }
 
         //사업관리정보
         public int MngCompSn { get; set; } // COMP_SN. 기업식별자 (관리기관 식별자)
@@ -283,19 +286,28 @@ namespace BizOneShot.Light.Models.ViewModels
         [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
         public string ComOwnNm { get; set; } // OWN_NM. 대표자명
 
-        [Required]
-        [Display(Name = "업태")]
-        [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
-        public string ComBizClass { get; set; } // 업태
+        public IList<BizTypeViewModel> BizTypes { get; set; }
 
-        [Required]
-        [Display(Name = "업종")]
-        [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
-        public string ComBizType { get; set; } // 업종
+        //[Required]
+        //[Display(Name = "업태")]
+        //[MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
+        //public string ComBizClass { get; set; } // 업태
+
+        //[Required]
+        //[Display(Name = "업종")]
+        //[MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
+        //public string ComBizType { get; set; } // 업종
+
         //public string BizWorkName { get; set; } // BIZ_WORK_SN (Primary key). 사업식별자
         //public string MngCompName { get; set; } // COMP_SN. 기업식별자 (관리기관 식별자)
 
         ////사업관리정보
+    }
+
+    public class BizTypeViewModel
+    {
+        public string BizTypeCd { get; set; }
+        public string BizTypeNm { get; set; }
     }
 
     public class ModifyCompanyParamModel
