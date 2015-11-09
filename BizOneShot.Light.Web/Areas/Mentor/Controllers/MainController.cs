@@ -38,7 +38,7 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
             string agreeYn = Session[Global.AgreeYn].ToString();
 
             //개인정보 수집 및 이용에 대한 동의가 안되어 있으면 리다이렉트 함
-            if (agreeYn != "A")
+            if (agreeYn != "Y")
             {
                 TempData["alert"] = "개인정보 수집 및 이용을 동의하셔야 사용이 가능합니다";
 
@@ -64,13 +64,13 @@ namespace BizOneShot.Light.Web.Areas.Mentor.Controllers
         {
             ScUsr scUsr = await _scUsrService.SelectMentorInfo(Session[Global.LoginID].ToString());
 
-            scUsr.AgreeYn = "A";
+            scUsr.AgreeYn = "Y";
 
             _scUsrService.ModifyScUsr(scUsr);
 
             await _scUsrService.SaveDbContextAsync();
 
-            Session[Global.AgreeYn] = "A";
+            Session[Global.AgreeYn] = "Y";
 
             return RedirectToAction("Index", "Main");
         }

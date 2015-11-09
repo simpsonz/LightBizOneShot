@@ -31,12 +31,43 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
         // GET: Expert/Main
         public async Task<ActionResult> Index()
         {
+            string agreeYn = Session[Global.AgreeYn].ToString();
+
+            //개인정보 수집 및 이용에 대한 동의가 안되어 있으면 리다이렉트 함
+            if (agreeYn != "Y")
+            {
+                TempData["alert"] = "개인정보 수집 및 이용을 동의하셔야 사용이 가능합니다";
+
+                return RedirectToAction("ExpertAgreement", "Main");
+
+            }
             //var listScNtc = _scNtcService.GetNotices();
             var listScNtc = await _scNtcService.GetNoticesForMainAsync();
 
             var noticeViews =
                 Mapper.Map<List<NoticeViewModel>>(listScNtc);
             return View(noticeViews);
+        }
+
+        public ActionResult ExpertAgreement()
+        {
+
+            return View();
+        }
+
+        public async Task<ActionResult> AgreeExpertAgreement()
+        {
+            ScUsr scUsr = await _scUsrService.SelectMentorInfo(Session[Global.LoginID].ToString());
+
+            scUsr.AgreeYn = "Y";
+
+            _scUsrService.ModifyScUsr(scUsr);
+
+            await _scUsrService.SaveDbContextAsync();
+
+            Session[Global.AgreeYn] = "Y";
+
+            return RedirectToAction("Index", "Main");
         }
 
         public async Task<ActionResult> MyInfo()

@@ -75,6 +75,7 @@ namespace BizOneShot.Light.Web.Controllers
                 scUsr.Status = "N";
                 scUsr.UsrType = "C";
                 scUsr.UsrTypeDetail = "A";
+                scUsr.AgreeYn = "Y";
 
                 SHACryptography sha2 = new SHACryptography();
                 scUsr.LoginPw = sha2.EncryptString(scUsr.LoginPw);

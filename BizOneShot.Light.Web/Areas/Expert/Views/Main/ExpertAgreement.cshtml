@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = "~/Views/Shared/_JoinLayout.cshtml";
 }
 
@@ -30,7 +29,7 @@
     });
 </script>
 
-<form name="agreeForm" id="agreeForm" action="@Url.Action("AgreeMentorAgreement", "Main")" method="get">
+<form name="agreeForm" id="agreeForm" action="@Url.Action("AgreeExpertAgreement", "Main")" method="get">
     <div class="container">
         <div class="desc">
             <p class="title person_agree"><em>개인정보 수집 및 이용에 관한 동의</em></p>
@@ -51,4 +50,3 @@
         <input type="submit" class="agree" value="동의" /><input type="button" class="disagree" value="동의 안함" onclick="location.href='/';" />
     </div>
 </form>
-
