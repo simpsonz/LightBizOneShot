@@ -54,6 +54,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="DareConfiguration\SHUSER_AcStdIncmrateBseIdstTConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="DareConfiguration\SHUSER_SboFinancialIndexTConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>

@@ -50,6 +50,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="DareModels\SHUSER_AcStdIncmrateBseIdstT.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="DareModels\SHUSER_SboFinancialIndexT.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>

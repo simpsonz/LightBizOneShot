@@ -47,8 +47,16 @@
                 return false;
             }
 
-            var startDate = $('#StartYear').val() + $('#StartMonth').val();
-            var endDate = $('#EndYear').val() + $('#EndMonth').val();
+            var startMonth = $('#StartMonth').val();
+            if (startMonth.length == 1)
+                startMonth = "0" + startMonth;
+
+            var endMonth = $('#EndMonth').val();
+            if (endMonth.length == 1)
+                endMonth = "0" + endMonth;
+
+            var startDate = $('#StartYear').val() + startMonth;
+            var endDate = $('#EndYear').val() + endMonth;
 
             if (startDate > endDate)
             {

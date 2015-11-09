@@ -26,11 +26,13 @@ namespace BizOneShot.Light.Dao.DareConfiguration
     [GeneratedCodeAttribute("EF.Reverse.POCO.Generator", "2.15.1.0")]
     public class FakeDareDbContext : IDareDbContext
     {
+        public DbSet<SHUSER_AcStdIncmrateBseIdstT> SHUSER_AcStdIncmrateBseIdstTs { get; set; }
         public DbSet<SHUSER_SboFinancialIndexT> SHUSER_SboFinancialIndexTs { get; set; }
         public DbSet<SHUSER_SyUser> SHUSER_SyUsers { get; set; }
 
         public FakeDareDbContext()
         {
+            SHUSER_AcStdIncmrateBseIdstTs = new FakeDbSet<SHUSER_AcStdIncmrateBseIdstT>();
             SHUSER_SboFinancialIndexTs = new FakeDbSet<SHUSER_SboFinancialIndexT>();
             SHUSER_SyUsers = new FakeDbSet<SHUSER_SyUser>();
         }

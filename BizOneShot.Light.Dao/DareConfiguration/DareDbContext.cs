@@ -25,6 +25,7 @@ namespace BizOneShot.Light.Dao.DareConfiguration
 {
     public partial class DareDbContext : DbContext, IDareDbContext
     {
+        public DbSet<SHUSER_AcStdIncmrateBseIdstT> SHUSER_AcStdIncmrateBseIdstTs { get; set; } // AC_STD_INCMRATE_BSE_IDST_T
         public DbSet<SHUSER_SboFinancialIndexT> SHUSER_SboFinancialIndexTs { get; set; } // SBO_FINANCIAL_INDEX_T
         public DbSet<SHUSER_SyUser> SHUSER_SyUsers { get; set; } // SY_USER
         
@@ -58,6 +59,7 @@ namespace BizOneShot.Light.Dao.DareConfiguration
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Configurations.Add(new SHUSER_AcStdIncmrateBseIdstTConfiguration());
             modelBuilder.Configurations.Add(new SHUSER_SboFinancialIndexTConfiguration());
             modelBuilder.Configurations.Add(new SHUSER_SyUserConfiguration());
 
@@ -66,6 +68,7 @@ namespace BizOneShot.Light.Dao.DareConfiguration
 
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)
         {
+            modelBuilder.Configurations.Add(new SHUSER_AcStdIncmrateBseIdstTConfiguration(schema));
             modelBuilder.Configurations.Add(new SHUSER_SboFinancialIndexTConfiguration(schema));
             modelBuilder.Configurations.Add(new SHUSER_SyUserConfiguration(schema));
             return modelBuilder;

@@ -23,6 +23,10 @@ namespace BizOneShot.Light.Dao.Repositories
         Task<IList<SHUSER_SboMonthlyTaxSalesSelectReturnModel>> GetTaxSalesAsync(object[] parameters);
         //주요지출
         Task<IList<SHUSER_SboMonthlyBankOutSelectReturnModel>> GetBankOutAsync(object[] parameters);
+
+        Task<SHUSER_SboFinancialTab1SalesSelectReturnModel> GetCompanyMonthSalesAsync(object[] parameters);
+        Task<SHUSER_SboFinancialTab2SalesSelectReturnModel> GetCompanyQuarterSalesAsync(object[] parameters);
+        Task<SHUSER_SboFinancialTab3SalesSelectReturnModel> GetCompanyYearSalesAsync(object[] parameters);
     }
 
 
@@ -95,6 +99,21 @@ namespace BizOneShot.Light.Dao.Repositories
                     DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyBankOutSelectReturnModel>(
                         "SBO_MONTHLY_BANK_OUT_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ",
                         parameters).ToListAsync();
+        }
+
+        public async Task<SHUSER_SboFinancialTab1SalesSelectReturnModel> GetCompanyMonthSalesAsync(object[] parameters)
+        { 
+            return await DareDbContext.Database.SqlQuery<SHUSER_SboFinancialTab1SalesSelectReturnModel>("SBO_FINANCIAL_TAB1_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @FR_YM, @TO_YM, @BASE_DT", parameters).SingleOrDefaultAsync();
+        }
+
+        public async Task<SHUSER_SboFinancialTab2SalesSelectReturnModel> GetCompanyQuarterSalesAsync(object[] parameters)
+        {
+            return await DareDbContext.Database.SqlQuery<SHUSER_SboFinancialTab2SalesSelectReturnModel>("SBO_FINANCIAL_TAB2_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @FR_QT, @TO_QT, @YEAR, @BASE_DT", parameters).SingleOrDefaultAsync();
+        }
+
+        public async Task<SHUSER_SboFinancialTab3SalesSelectReturnModel> GetCompanyYearSalesAsync(object[] parameters)
+        {
+            return await DareDbContext.Database.SqlQuery<SHUSER_SboFinancialTab3SalesSelectReturnModel>("SBO_FINANCIAL_TAB3_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @YEAR, @BASE_DT", parameters).SingleOrDefaultAsync();
         }
     }
 }

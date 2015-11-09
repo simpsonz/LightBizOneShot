@@ -25,6 +25,7 @@ namespace BizOneShot.Light.Dao.DareConfiguration
 {
     public interface IDareDbContext : IDisposable
     {
+        DbSet<SHUSER_AcStdIncmrateBseIdstT> SHUSER_AcStdIncmrateBseIdstTs { get; set; } // AC_STD_INCMRATE_BSE_IDST_T
         DbSet<SHUSER_SboFinancialIndexT> SHUSER_SboFinancialIndexTs { get; set; } // SBO_FINANCIAL_INDEX_T
         DbSet<SHUSER_SyUser> SHUSER_SyUsers { get; set; } // SY_USER
 
