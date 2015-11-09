@@ -2,7 +2,7 @@
 
 <div id="headerwrap_biz">
     <div class="container">
-        <a href="@Url.Action("Index","Main",new { area= "Expert" })"><h1 class="gangneung_logo_small01"><em>전문가회원</em></h1></a><a href="#" class="name">@if (Session[BizOneShot.Light.Web.ComLib.Global.UserNM] != null)
+        <a href="@Url.Action("Index","Main",new { area= "Expert" })"><img src="~/images/gangneung_logo_small01.png" class="float_left" /></a><a href="#" class="name">@if (Session[BizOneShot.Light.Web.ComLib.Global.UserNM] != null)
         { @Session[BizOneShot.Light.Web.ComLib.Global.UserNM].ToString() }님</a><a href="#" class="down"></a>
         <div id="header_logoutwrap">
             <!--로그아웃 레이어(클릭시 보임)-->

@@ -150,6 +150,14 @@
     <div class="sub_right_title specialist_02_05">
         <em>기업별 통계</em>
     </div>
+    <div id="tabswrap_three" class="tab01">
+        <!--월별 조회 목록 탭-->
+        <ul>
+            <li><a href="@Url.Action("CompanyMonthlyStats","Report",new { area= "BizManager" })" class="on">월</a></li>
+            <li><a href="@Url.Action("CompanyQuarterlyStats","Report",new { area= "BizManager" })">분기</a></li>
+            <li><a href="@Url.Action("CompanyYearlyStats","Report",new { area= "BizManager" })">연간</a></li>
+        </ul>
+    </div>
 @using (Html.BeginForm("CompanyMonthlyStats", "Report", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form", id = "submit_form" }))
 {
     <div id="sub_inquiry_box">
