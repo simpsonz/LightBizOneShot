@@ -158,9 +158,94 @@
             return false;
         }
 
-        if (confirm('회원가입을 하시겠습니까?')) {
-            $('#mainForm').submit();
+
+        //업종Validation
+        var bizTypeValid = true;
+        var count = 0;
+        $('input[id^="bizTypeCd"]').each(function () {
+            if ($(this).val() == '') {
+
+                bizTypeValid = false;
+                return false;
+            }
+            else {
+                count = count + 1;
+            }
+            return bizTypeValid;
+        });
+
+        if (!bizTypeValid )
+        {
+            if (count == 0) {
+                alert("업종은 1개이상 선택해야 합니다.");
+            }
+            else {
+                alert("사용하지 않는 업종 칸은 삭제하세요");
+            }
+            return false;
         }
+
+  
+    }
+
+    //업종칸 추가시
+    function bizType_inpput_add(e) {
+        var temp = $(e).parent().parent().parent().find('div');
+
+        if (temp.length > 4) {
+            alert('업종은 최대 5개까지 가능합니다');
+            return false;
+        }
+        var $cloneEL = $(e).parent().parent().clone();
+
+        $($cloneEL).insertAfter(temp[temp.length - 1]);
+
+        $cloneEL.find('input[id^="bizTypeCd"]').val('');
+        $cloneEL.find('input[id^="bizTypeNm"]').val('');
+
+        var count = 0;
+        $('input[id^="bizTypeCd"]').each(function () {
+            $(this).attr('id', "bizTypeCd" + count);
+
+            count = count + 1;
+        });
+
+        count = 0;
+        $('input[id^="bizTypeNm"]').each(function () {
+            $(this).attr('id', "bizTypeNm" + count);
+
+            count = count + 1;
+        });
+
+        return false;
+    }
+    //업종칸 삭제
+    function bizType_inpput_remove(e) {
+        var temp = $(e).parent().parent().parent().find('div');
+
+        if (temp.length < 2) return false;
+
+        var $cloneEL = $(e).parent().parent().remove();
+
+        return false;
+    }
+    //업종 검색
+    function searchBizTypeOpen(e) {
+        var temp = $(e).parent().parent().find('input[id^="bizTypeCd"]').attr('id') + '';
+        var id = temp.substr(9, 1);
+
+        w = 725;    //팝업창의 너비
+        h = 460;    //팝업창의 높이
+        //중앙위치 구해오기
+        LeftPosition = (screen.width - w) / 2;
+        TopPosition = (screen.height - h) / 2;
+        var popUp = window.open('/Company/MyInfo/SearchBizTypePopup?Id=' + id , 'SearchBizType', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=no, resizable=no");
+        popUp.focus();
+    }
+
+    function resultReceive(id, bizTypeCd, bizTypeNm) {
+        $('#bizTypeCd' + id).val(bizTypeCd);
+        $('#bizTypeNm' + id).val(bizTypeNm);
     }
 
 </script>
@@ -214,22 +299,27 @@
                 <li class="info">@Html.TextBoxFor(model => model.ComRegistrationNo, new {@maxlength="10", @class = "w240", @placeholder = "-표시없이 기입해 주세요", @id= "USR_NO" })<input type="button" class="td_confirm" value="확인" id="BTN_USR_NO_CHK">  @Html.ValidationMessageFor(model => model.ComRegistrationNo, "", new { @class = "text-danger", @color = "#b94a48" })</li>
             </ul>
 
-            <ul>
+            @*<ul>
                 <li class="mark">업태</li>
                 <li class="info">@Html.TextBoxFor(model => model.ComBizClass, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComBizClass, "", new { @class = "text-danger", @color = "#b94a48" })</li>
             </ul>
             <ul>
                 <li class="mark">업종</li>
                 <li class="info">@Html.TextBoxFor(model => model.ComBizType, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComBizType, "", new { @class = "text-danger", @color = "#b94a48" })</li>
-            </ul>
-            @*<ul class="long_ul">
-                <li class="mark_long">업종/업태</li>
-                <div class="info_long"><li class="info"><input type="text" class="w115">&nbsp;&nbsp;<input type="text" class="w115"></li><li><button type="button" class="file_add" value="업종추가"></button></li></div>
-                <div class="info_long"><li class="info"><input type="text" class="w115">&nbsp;&nbsp;<input type="text" class="w115"></li><li><button type="button" class="file_add" value="업종추가"></button></li><li><button type="button" class="file_del" value="업종삭제"></button></li></div>
-                <div class="info_long"><li class="info"><input type="text" class="w115">&nbsp;&nbsp;<input type="text" class="w115"></li><li><button type="button" class="file_add" value="업종추가"></button></li><li><button type="button" class="file_del" value="업종삭제"></button></li></div>
-                <div class="info_long"><li class="info"><input type="text" class="w115">&nbsp;&nbsp;<input type="text" class="w115"></li><li><button type="button" class="file_add" value="업종추가"></button></li><li><button type="button" class="file_del" value="업종삭제"></button></li></div>
-                <div class="info_long"><li class="info"><input type="text" class="w115">&nbsp;&nbsp;<input type="text" class="w115"></li><li><button type="button" class="file_del" value="업종삭제"></button></li></div>
             </ul>*@
+            <ul class="long_ul">
+                <li class="mark_long">업종 / 종목</li>
+                <div class="info_long">
+                    <li class="info"><input type="text" class="w55" id="bizTypeCd0" name="BizTypeCd" readonly="readonly">&nbsp;&nbsp;<input type="text" class="w160" id="bizTypeNm0" name="BizTypeNm" readonly="readonly"></li>
+                    <li>
+                        <button type="button" class="bt_search_code" value="업종검색" onclick="searchBizTypeOpen(this)"></button>
+                        <button type="button" class="file_add" value="업종추가" onclick="bizType_inpput_add(this)"></button>
+                    </li>
+                    <li>
+                        <button type="button" class="file_del" value="업종삭제" onclick="bizType_inpput_remove(this)"></button>
+                    </li>
+                </div>
+            </ul>
 
 
             <ul>

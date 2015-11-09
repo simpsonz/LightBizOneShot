@@ -103,6 +103,7 @@
     <Compile Include="Repositories\ScQaRepository.cs" />
     <Compile Include="Repositories\ScReqDocFileRepository.cs" />
     <Compile Include="Repositories\ScReqDocRepository.cs" />
+    <Compile Include="Repositories\DareAcStdIncmrateBseIdstTRepository.cs" />
     <Compile Include="Repositories\SyUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ScCompInfoRepository.cs" />

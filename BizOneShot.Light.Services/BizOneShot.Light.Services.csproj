@@ -68,6 +68,7 @@
     <Compile Include="ScMentoringFileInfoService.cs" />
     <Compile Include="ScMentoringTrFileInfoService.cs" />
     <Compile Include="ScMentorMappingService.cs" />
+    <Compile Include="DareAcStdIncmrateBseIdstTService.cs" />
     <Compile Include="ScNtcService.cs" />
     <Compile Include="ScFaqService.cs" />
     <Compile Include="IBaseService.cs" />
