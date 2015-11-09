@@ -317,14 +317,10 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         {
             ViewBag.LeftMenu = Global.ComMng;
 
-            foreach (var compSn in compSns)
-            {
-                var array = compSn.Split('#');
-                var scCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(array[1]), int.Parse(array[0]));
-                scCompMapping.Status = "R";
-                await _scCompMappingService.SaveDbContextAsync();
-            }
+            await _scCompMappingService.CancelApproveCompMapping(compSns);
+
             return Json(new { result = true });
         }
+
     }
 }

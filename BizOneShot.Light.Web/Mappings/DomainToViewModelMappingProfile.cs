@@ -104,9 +104,11 @@ namespace BizOneShot.Light.Web.Mappings
 
             //사업 뷰 매핑
             Mapper.CreateMap<ScBizWork, BizWorkDropDownModel>();
+                //.ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.BizWorkNm + "(" + s.BizWorkStDt.Value.Year + ")"));
 
             Mapper.CreateMap<ScExpertMapping, BizWorkDropDownModel>()
                 .ForMember(d => d.BizWorkSn, map => map.MapFrom(s => s.ScBizWork.BizWorkSn))
+                //.ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm + "(" + s.ScBizWork.BizWorkStDt.Value.Year + ")"));
                 .ForMember(d => d.BizWorkNm, map => map.MapFrom(s => s.ScBizWork.BizWorkNm));
 
 

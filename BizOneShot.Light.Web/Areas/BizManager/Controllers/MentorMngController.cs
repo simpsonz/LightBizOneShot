@@ -115,7 +115,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
                 excutorId = Session[Global.LoginID].ToString();
             }
             //사업 DropDown List Data
-            var listScBizWork = await _scBizWorkService.GetBizWorkList(int.Parse(Session[Global.CompSN].ToString()));
+            var listScBizWork = await _scBizWorkService.GetBizWorkList(int.Parse(Session[Global.CompSN].ToString()), excutorId);
 
 
             var bizWorkDropDown =
@@ -133,7 +133,6 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
                 title.BizWorkNm = "사업명 선택";
                 bizWorkDropDown.Insert(0, title);
             }
-
 
             SelectList bizList = new SelectList(bizWorkDropDown, "BizWorkSn", "BizWorkNm");
 
