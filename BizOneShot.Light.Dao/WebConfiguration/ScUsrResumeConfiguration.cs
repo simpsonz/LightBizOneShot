@@ -5,7 +5,6 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 
@@ -32,28 +31,21 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             : this("dbo")
         {
         }
-
+ 
         public ScUsrResumeConfiguration(string schema)
         {
             ToTable(schema + ".SC_USR_RESUME");
             HasKey(x => x.LoginId);
 
-            Property(x => x.LoginId)
-                .HasColumnName("LOGIN_ID")
-                .IsRequired()
-                .IsUnicode(false)
-                .HasColumnType("varchar")
-                .HasMaxLength(25)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.LoginId).HasColumnName("LOGIN_ID").IsRequired().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.FileSn).HasColumnName("FILE_SN").IsOptional().HasColumnType("int");
 
             // Foreign keys
-            HasOptional(a => a.ScFileInfo).WithMany(b => b.ScUsrResumes).HasForeignKey(c => c.FileSn);
-                // FK_SC_FILE_INFO_TO_SC_USR_RESUME
+            HasOptional(a => a.ScFileInfo).WithMany(b => b.ScUsrResumes).HasForeignKey(c => c.FileSn); // FK_SC_FILE_INFO_TO_SC_USR_RESUME
             HasRequired(a => a.ScUsr).WithOptional(b => b.ScUsrResume); // FK_SC_USR_TO_SC_USR_RESUME
             InitializePartial();
         }
-
         partial void InitializePartial();
     }
+
 }

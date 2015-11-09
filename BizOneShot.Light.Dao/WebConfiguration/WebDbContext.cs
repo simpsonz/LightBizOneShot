@@ -5,7 +5,6 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 
@@ -27,28 +26,6 @@ namespace BizOneShot.Light.Dao.WebConfiguration
 {
     public partial class WebDbContext : DbContext, IWebDbContext
     {
-        static WebDbContext()
-        {
-            Database.SetInitializer<WebDbContext>(null);
-        }
-
-        public WebDbContext()
-            : base("Name=WebDbContext")
-        {
-            InitializePartial();
-        }
-
-        public WebDbContext(string connectionString) : base(connectionString)
-        {
-            InitializePartial();
-        }
-
-        public WebDbContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model)
-            : base(connectionString, model)
-        {
-            InitializePartial();
-        }
-
         public DbSet<QuesCheckList> QuesCheckLists { get; set; } // QUES_CHECK_LIST
         public DbSet<QuesCompExtention> QuesCompExtentions { get; set; } // QUES_COMP_EXTENTION
         public DbSet<QuesCompHistory> QuesCompHistories { get; set; } // QUES_COMP_HISTORY
@@ -88,6 +65,27 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         public DbSet<ScUsr> ScUsrs { get; set; } // SC_USR
         public DbSet<ScUsrResume> ScUsrResumes { get; set; } // SC_USR_RESUME
         public DbSet<SyDareDbInfo> SyDareDbInfoes { get; set; } // SY_DARE_DB_INFO
+        
+        static WebDbContext()
+        {
+            System.Data.Entity.Database.SetInitializer<WebDbContext>(null);
+        }
+
+        public WebDbContext()
+            : base("Name=WebDbContext")
+        {
+            InitializePartial();
+        }
+
+        public WebDbContext(string connectionString) : base(connectionString)
+        {
+            InitializePartial();
+        }
+
+        public WebDbContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model) : base(connectionString, model)
+        {
+            InitializePartial();
+        }
 
         protected override void Dispose(bool disposing)
         {

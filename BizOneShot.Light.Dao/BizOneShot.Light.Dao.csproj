@@ -53,9 +53,9 @@
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="DareConfiguration\Database1.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="DareConfiguration\FakeDareDbContext.cs">
       <DependentUpon>Database.tt</DependentUpon>

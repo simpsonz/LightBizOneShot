@@ -5,7 +5,6 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 
@@ -32,26 +31,21 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             : this("dbo")
         {
         }
-
+ 
         public ScFormFileConfiguration(string schema)
         {
             ToTable(schema + ".SC_FORM_FILE");
             HasKey(x => x.FileSn);
 
-            Property(x => x.FileSn)
-                .HasColumnName("FILE_SN")
-                .IsRequired()
-                .HasColumnType("int")
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.FileSn).HasColumnName("FILE_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.FormSn).HasColumnName("FORM_SN").IsRequired().HasColumnType("int");
 
             // Foreign keys
             HasRequired(a => a.ScFileInfo).WithOptional(b => b.ScFormFile); // FK_SC_FILE_INFO_TO_SC_FORM_FILE
-            HasRequired(a => a.ScForm).WithMany(b => b.ScFormFiles).HasForeignKey(c => c.FormSn);
-                // FK_SC_FORM_TO_SC_FORM_FILE
+            HasRequired(a => a.ScForm).WithMany(b => b.ScFormFiles).HasForeignKey(c => c.FormSn); // FK_SC_FORM_TO_SC_FORM_FILE
             InitializePartial();
         }
-
         partial void InitializePartial();
     }
+
 }

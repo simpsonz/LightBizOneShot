@@ -5,7 +5,6 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 
@@ -21,14 +20,53 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using BizOneShot.Light.Models.WebModels;
 using System.Threading;
-using System.Threading.Tasks;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
 namespace BizOneShot.Light.Dao.WebConfiguration
 {
-    [GeneratedCode("EF.Reverse.POCO.Generator", "2.15.1.0")]
+    [GeneratedCodeAttribute("EF.Reverse.POCO.Generator", "2.15.1.0")]
     public class FakeWebDbContext : IWebDbContext
     {
+        public DbSet<QuesCheckList> QuesCheckLists { get; set; }
+        public DbSet<QuesCompExtention> QuesCompExtentions { get; set; }
+        public DbSet<QuesCompHistory> QuesCompHistories { get; set; }
+        public DbSet<QuesCompInfo> QuesCompInfoes { get; set; }
+        public DbSet<QuesMaster> QuesMasters { get; set; }
+        public DbSet<QuesOgranAnalysis> QuesOgranAnalysis { get; set; }
+        public DbSet<QuesResult1> QuesResult1 { get; set; }
+        public DbSet<QuesResult2> QuesResult2 { get; set; }
+        public DbSet<QuesWriter> QuesWriters { get; set; }
+        public DbSet<RptCheckList> RptCheckLists { get; set; }
+        public DbSet<RptFinanceComment> RptFinanceComments { get; set; }
+        public DbSet<RptMaster> RptMasters { get; set; }
+        public DbSet<RptMentorCheck> RptMentorChecks { get; set; }
+        public DbSet<RptMentorComment> RptMentorComments { get; set; }
+        public DbSet<RptMentorRadio> RptMentorRadios { get; set; }
+        public DbSet<RptMngCode> RptMngCodes { get; set; }
+        public DbSet<RptMngComment> RptMngComments { get; set; }
+        public DbSet<ScBizType> ScBizTypes { get; set; }
+        public DbSet<ScBizWork> ScBizWorks { get; set; }
+        public DbSet<ScCompInfo> ScCompInfoes { get; set; }
+        public DbSet<ScCompMapping> ScCompMappings { get; set; }
+        public DbSet<ScExpertMapping> ScExpertMappings { get; set; }
+        public DbSet<ScFaq> ScFaqs { get; set; }
+        public DbSet<ScFileInfo> ScFileInfoes { get; set; }
+        public DbSet<ScForm> ScForms { get; set; }
+        public DbSet<ScFormFile> ScFormFiles { get; set; }
+        public DbSet<ScMentoringFileInfo> ScMentoringFileInfoes { get; set; }
+        public DbSet<ScMentoringReport> ScMentoringReports { get; set; }
+        public DbSet<ScMentoringTotalReport> ScMentoringTotalReports { get; set; }
+        public DbSet<ScMentoringTrFileInfo> ScMentoringTrFileInfoes { get; set; }
+        public DbSet<ScMentorMappiing> ScMentorMappiings { get; set; }
+        public DbSet<ScNtc> ScNtcs { get; set; }
+        public DbSet<ScQa> ScQas { get; set; }
+        public DbSet<ScQcl> ScQcls { get; set; }
+        public DbSet<ScReqDoc> ScReqDocs { get; set; }
+        public DbSet<ScReqDocFile> ScReqDocFiles { get; set; }
+        public DbSet<ScUsr> ScUsrs { get; set; }
+        public DbSet<ScUsrResume> ScUsrResumes { get; set; }
+        public DbSet<SyDareDbInfo> SyDareDbInfoes { get; set; }
+
         public FakeWebDbContext()
         {
             QuesCheckLists = new FakeDbSet<QuesCheckList>();
@@ -71,71 +109,31 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             ScUsrResumes = new FakeDbSet<ScUsrResume>();
             SyDareDbInfoes = new FakeDbSet<SyDareDbInfo>();
         }
-
-        public int SaveChangesCount { get; private set; }
-        public DbSet<QuesCheckList> QuesCheckLists { get; set; }
-        public DbSet<QuesCompExtention> QuesCompExtentions { get; set; }
-        public DbSet<QuesCompHistory> QuesCompHistories { get; set; }
-        public DbSet<QuesCompInfo> QuesCompInfoes { get; set; }
-        public DbSet<QuesMaster> QuesMasters { get; set; }
-        public DbSet<QuesOgranAnalysis> QuesOgranAnalysis { get; set; }
-        public DbSet<QuesResult1> QuesResult1 { get; set; }
-        public DbSet<QuesResult2> QuesResult2 { get; set; }
-        public DbSet<QuesWriter> QuesWriters { get; set; }
-        public DbSet<RptCheckList> RptCheckLists { get; set; }
-        public DbSet<RptFinanceComment> RptFinanceComments { get; set; }
-        public DbSet<RptMaster> RptMasters { get; set; }
-        public DbSet<RptMentorCheck> RptMentorChecks { get; set; }
-        public DbSet<RptMentorComment> RptMentorComments { get; set; }
-        public DbSet<RptMentorRadio> RptMentorRadios { get; set; }
-        public DbSet<RptMngCode> RptMngCodes { get; set; }
-        public DbSet<RptMngComment> RptMngComments { get; set; }
-        public DbSet<ScBizType> ScBizTypes { get; set; }
-        public DbSet<ScBizWork> ScBizWorks { get; set; }
-        public DbSet<ScCompInfo> ScCompInfoes { get; set; }
-        public DbSet<ScCompMapping> ScCompMappings { get; set; }
-        public DbSet<ScExpertMapping> ScExpertMappings { get; set; }
-        public DbSet<ScFaq> ScFaqs { get; set; }
-        public DbSet<ScFileInfo> ScFileInfoes { get; set; }
-        public DbSet<ScForm> ScForms { get; set; }
-        public DbSet<ScFormFile> ScFormFiles { get; set; }
-        public DbSet<ScMentoringFileInfo> ScMentoringFileInfoes { get; set; }
-        public DbSet<ScMentoringReport> ScMentoringReports { get; set; }
-        public DbSet<ScMentoringTotalReport> ScMentoringTotalReports { get; set; }
-        public DbSet<ScMentoringTrFileInfo> ScMentoringTrFileInfoes { get; set; }
-        public DbSet<ScMentorMappiing> ScMentorMappiings { get; set; }
-        public DbSet<ScNtc> ScNtcs { get; set; }
-        public DbSet<ScQa> ScQas { get; set; }
-        public DbSet<ScQcl> ScQcls { get; set; }
-        public DbSet<ScReqDoc> ScReqDocs { get; set; }
-        public DbSet<ScReqDocFile> ScReqDocFiles { get; set; }
-        public DbSet<ScUsr> ScUsrs { get; set; }
-        public DbSet<ScUsrResume> ScUsrResumes { get; set; }
-        public DbSet<SyDareDbInfo> SyDareDbInfoes { get; set; }
-
+        
+        public int SaveChangesCount { get; private set; } 
         public int SaveChanges()
         {
             ++SaveChangesCount;
             return 1;
         }
 
-        public Task<int> SaveChangesAsync()
+        public System.Threading.Tasks.Task<int> SaveChangesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        public System.Threading.Tasks.Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
         }
 
         protected virtual void Dispose(bool disposing)
         {
+        }
+        
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }
