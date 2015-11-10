@@ -118,13 +118,16 @@
                 return false;
             }
 
+
             ////빈란 삭제
             //$('input[type="file"]').each(function () {
             //    if ($(this).val() == '') {
             //        $(this).remove();
             //    }
             //});
-
+            if (!confirm('작성한 내용을 저장 하시겠습니까?')) {
+                return false;
+            }
 
         });
 

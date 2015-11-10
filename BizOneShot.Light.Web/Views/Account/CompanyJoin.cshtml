@@ -18,7 +18,6 @@
         $('#BTN_LOGIN_ID_CHK').bind('click', function () {
             if ($('#LoginId').val() == "") {
                 alert('아이디를 입력해주세요.');
-                $('#BTN_LOGIN_ID_CHK').attr("disabled", "disabled");
                 return false;
             }
             $.ajax({
@@ -105,8 +104,6 @@
     function SelectBizManager()
     {
         var comSn = $('#BizManager').val();
-
-        alert(comSn);
 
         if (comSn == 0) {
             $('#BizList').html("<option value='0'>사업명</option>");
@@ -284,56 +281,75 @@
             <li class="info">@Html.PasswordFor(model => model.ConfirmLoginPw, new { @class = "w240" })@*<span class="blue">비밀번호를 한 번 더 입력하세요</span>*@  @Html.ValidationMessageFor(model => model.ConfirmLoginPw, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
         </div><!--join_infoinput_wrap//-->
         <div class="line_dot10"></div>
-        <div class="join_infoinput_wrap">
-            <ul>
-                <li class="mark">사업관리기관</li>
-                <li class="info_short">
-                    @{
-                        if (ViewBag.SelectBizMngList != null)
-                        {
-                            @Html.DropDownListFor(model => model.MngCompSn, ViewBag.SelectBizMngList as SelectList, new { @class = "w250", @id= "BizManager" });
+        <div class="join_infoinput_wrap2">
+            <table>
+                <colgroup>
+                    <col width="120px" />
+                    <col width="590px" />
+                </colgroup>
+                <tr>
+                    <th>사업관리기관</th>
+                    <td class="form">
+                        @{
+                            if (ViewBag.SelectBizMngList != null)
+                            {
+                                @Html.DropDownListFor(model => model.MngCompSn, ViewBag.SelectBizMngList as SelectList, new { @class = "w250", @id = "BizManager" });
+                            }
                         }
-                    }
-                </li>
-                <li class="mark">사업명</li>
-                <li class="info_selectshort">
-                    <select id="BizList" name="BizList" class="w250" disabled="true"><option value="0">사업명</option></select>
-                </li>
-            </ul>
-            <ul><li class="mark">회사명</li><li class="info">@Html.TextBoxFor(model => model.CompNm, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.CompNm, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
-            <ul><li class="mark">대표자명</li><li class="info">@Html.TextBoxFor(model => model.ComOwnNm, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComOwnNm, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
-            <ul>
-                <li class="mark">사업자등록번호</li>
-                <li class="info">@Html.TextBoxFor(model => model.ComRegistrationNo, new {@maxlength="10", @class = "w240", @placeholder = "-표시없이 기입해 주세요", @id= "USR_NO" })<input type="button" class="td_confirm" value="확인" id="BTN_USR_NO_CHK">  @Html.ValidationMessageFor(model => model.ComRegistrationNo, "", new { @class = "text-danger", @color = "#b94a48" })</li>
-            </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>사업명</th>
+                    <td class="form">
+                        <select id="BizList" name="BizList" class="w250" disabled="true"><option value="0">사업명</option></select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>회사명</th>
+                    <td class="form">@Html.TextBoxFor(model => model.CompNm, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.CompNm, "", new { @class = "text-danger", @color = "#b94a48" })</td>
+                </tr>
+                <tr>
+                    <th>대표자명</th>
+                    <td class="form">@Html.TextBoxFor(model => model.ComOwnNm, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComOwnNm, "", new { @class = "text-danger", @color = "#b94a48" })</td>
+                </tr>
+                <tr>
+                    <th>사업자등록번호</th>
+                    <td class="form">@Html.TextBoxFor(model => model.ComRegistrationNo, new { @maxlength = "10", @class = "w240", @placeholder = "-표시없이 기입해 주세요", @id = "USR_NO" })<input type="button" class="td_confirm" value="확인" id="BTN_USR_NO_CHK">  @Html.ValidationMessageFor(model => model.ComRegistrationNo, "", new { @class = "text-danger", @color = "#b94a48" })</td>
+                </tr>
+                <tr>
+                    <th>업종 / 종목</th>
+                    <td colspan="5" class="nopad">
+                        <div id="list_writewrap">
+                            <ul>
+                                <li>
+                                    <input type="text" class="w55" id="bizTypeCd0" name="BizTypeCd" readonly="readonly">&nbsp;&nbsp;<input type="text" class="w165" id="bizTypeNm0" name="BizTypeNm" readonly="readonly">
+                                    <button type="button" class="bt_search_code" value="업종검색" onclick="searchBizTypeOpen(this)"></button>
+                                    <button type="button" class="file_add" value="업종추가" onclick="bizType_inpput_add(this)"></button>
+                                    <button type="button" class="file_del" value="업종삭제" onclick="bizType_inpput_remove(this)"></button>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
 
-            @*<ul>
-                <li class="mark">업태</li>
-                <li class="info">@Html.TextBoxFor(model => model.ComBizClass, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComBizClass, "", new { @class = "text-danger", @color = "#b94a48" })</li>
-            </ul>
-            <ul>
-                <li class="mark">업종</li>
-                <li class="info">@Html.TextBoxFor(model => model.ComBizType, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComBizType, "", new { @class = "text-danger", @color = "#b94a48" })</li>
-            </ul>*@
-            <ul class="long_ul">
-                <li class="mark_long">업종 / 종목</li>
-                <div class="info_long">
-                    <li class="info"><input type="text" class="w55" id="bizTypeCd0" name="BizTypeCd" readonly="readonly">&nbsp;&nbsp;<input type="text" class="w160" id="bizTypeNm0" name="BizTypeNm" readonly="readonly"></li>
-                    <li>
-                        <button type="button" class="bt_search_code" value="업종검색" onclick="searchBizTypeOpen(this)"></button>
-                        <button type="button" class="file_add" value="업종추가" onclick="bizType_inpput_add(this)"></button>
-                    </li>
-                    <li>
-                        <button type="button" class="file_del" value="업종삭제" onclick="bizType_inpput_remove(this)"></button>
-                    </li>
-                </div>
-            </ul>
+                @*<ul class="long_ul">
+                    <li class="mark_long">업종 / 종목</li>
+                    <div class="info_long">
+                        <li class="info"><input type="text" class="w55" id="bizTypeCd0" name="BizTypeCd" readonly="readonly">&nbsp;&nbsp;<input type="text" class="w160" id="bizTypeNm0" name="BizTypeNm" readonly="readonly"></li>
+                        <li>
+                            <button type="button" class="bt_search_code" value="업종검색" onclick="searchBizTypeOpen(this)"></button>
+                            <button type="button" class="file_add" value="업종추가" onclick="bizType_inpput_add(this)"></button>
+                        </li>
+                        <li>
+                            <button type="button" class="file_del" value="업종삭제" onclick="bizType_inpput_remove(this)"></button>
+                        </li>
+                    </div>
+                </ul>*@
 
-
-            <ul>
-                <li class="mark">전화번호</li>
-                <li class="info">
-                    @Html.DropDownListFor(model => model.ComTelNo1, new SelectList(
+                <tr>
+                    <th>전화번호</th>
+                    <td class="form">
+                        @Html.DropDownListFor(model => model.ComTelNo1, new SelectList(
                                       new List<Object>{
                                            new { value = "02" , text = "02"  },
                                            new { value = "031" , text = "031" },
@@ -355,17 +371,24 @@
                                         },
                                       "value",
                                       "text",
-                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.ComTelNo2, new { @class = "w80", @title = "전화번호 중간자리"})&nbsp;
+                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.ComTelNo2, new { @class = "w80", @title = "전화번호 중간자리" })&nbsp;
                                     -&nbsp;@Html.TextBoxFor(model => model.ComTelNo3, new { @class = "w80", @title = "전화번호 마지막자리" })
-                                </li>
-            </ul>
-            <ul>
-                <li class="mark rowspan">주소</li>
-                <li class="info"><input type="button" class="td_post" value="우편번호" onClick="javascript: open_post();">@Html.TextBoxFor(model => model.ComPostNo, new { @class = "w146", @readOnly = "readOnly", @id = "POST_NO" })</li>
-            </ul>
-            <ul>
-                <li class="mark"></li><li class="info">@Html.TextBoxFor(model => model.ComAddr1, new { @class = "w240", @id = "ADDR_1", @readOnly = "readOnly" }) @Html.TextBoxFor(model => model.ComAddr2, new { @class = "w240", @placeholder= "나머지주소입력란" })</li>
-            </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>주소</th>
+                    <td class="form nopad">
+                        <ul>
+                            <li class="line_bot">
+                                <button type="button" class="bt_post" value="우편번호" onClick="javascript: open_post();"></button>&nbsp;&nbsp;@Html.TextBoxFor(model => model.ComPostNo, new { @class = "w146", @readOnly = "readOnly", @id = "POST_NO" })
+                            </li>
+                            <li class="nobd">
+                                @Html.TextBoxFor(model => model.ComAddr1, new { @class = "w240", @id = "ADDR_1", @readOnly = "readOnly" }) @Html.TextBoxFor(model => model.ComAddr2, new { @class = "w240", @placeholder = "나머지주소입력란" })
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
         </div><!--join_infoinput_wrap//-->
         <div class="line_dot10"></div>
         <div class="join_infoinput_wrap">
@@ -447,12 +470,11 @@
             </ul>
         </div><!--join_infoinput_wrap//-->
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div id="btnwrap_sub">
-            <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('회원가입을 취소하시겠습니까?')) location.href='@Url.Action("Index", "Home")'" />
-            <input type="button" class="confirm right" value="확인" onclick="goSubmit();">
-            
+        <div class="btnwrap center">
+            <input type="button" class="confirm" value="확인" onclick="goSubmit();">
+            <input type="button" class="cancel" value="취소" onclick="if (confirm('회원가입을 취소하시겠습니까?')) location.href='@Url.Action("Index", "Home")'" />
         </div><!--btnwrap//-->
+                            
     }
 
     @section Scripts {

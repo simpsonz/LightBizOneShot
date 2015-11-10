@@ -42,13 +42,25 @@ namespace BizOneShot.Light.Web.Controllers
             return View();
         }
 
-        public ActionResult FinanceMng(int CompSn = 0, int BizWorkSn = 0)
+        public async Task<ActionResult> FinanceMng(int CompSn = 0, int BizWorkSn = 0)
         {
             ViewBag.LeftMenu = Global.Report;
 
             if(CompSn == 0)
             {
                 CompSn = int.Parse(Session[Global.CompSN].ToString());
+            }
+
+            //기업회원 승인된 사업이 없으면 리다이렉트 함
+            if(Session[Global.UserType].ToString() == Global.Company)
+            { 
+                var scCompMapping = await _scCompMappingService.GetCompMappingAsync(CompSn, "A");
+                if (scCompMapping == null)
+                {
+                    TempData["alert"] = "승인된 사업이 없습니다.";
+
+                    return RedirectToAction("index", "Company/Main");
+                }
             }
 
             // 로그인 기업의 승인된 사업정보를 가져옮
