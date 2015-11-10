@@ -55,7 +55,7 @@ namespace BizOneShot.Light.Services
                             ? bw.BizWorkStDt.Value.Year > 0
                             : bw.BizWorkStDt.Value.Year <= bizWorkYear && bw.BizWorkEdDt.Value.Year >= bizWorkYear);
 
-                return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
+                return scBizWorks.OrderByDescending(bw => bw.BizWorkStDt).OrderBy(bw => bw.BizWorkNm).ToList();
             }
             else
             {
@@ -69,7 +69,7 @@ namespace BizOneShot.Light.Services
                             ? bw.BizWorkStDt.Value.Year > 0
                             : bw.BizWorkStDt.Value.Year <= bizWorkYear && bw.BizWorkEdDt.Value.Year >= bizWorkYear);
 
-                return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
+                return scBizWorks.OrderByDescending(bw => bw.BizWorkStDt).OrderBy(bw => bw.BizWorkNm).ToList();
             }
         }
 

@@ -436,7 +436,7 @@
 
 
         <div id="btnwrap_sub">
-            <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('지금까지 작성된 내용을 취소하시겠습니까?')) location.href='@Url.Action("MentoringReportList", "MentoringReport")'" />
+            <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('지금까지 작성된 내용을 취소하시겠습니까?')) location.href='@Url.Action("MentoringReportDetail", "MentoringReport",  new { reportSn = Model.ReportSn} )'" />
             <button type="submit" class="save right"><em>저장</em></button>
         </div><!--btnwrap//-->
 

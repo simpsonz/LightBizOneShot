@@ -84,11 +84,13 @@ namespace BizOneShot.Light.Models.ViewModels
         public string TelNo1 { get; set; } // TEL_NO. 전화번호
 
         [Required]
-        [Display(Name = "전화번호")]
+        [Display(Name = "앞 전화번호")]
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
         public string TelNo2 { get; set; } // TEL_NO. 전화번호
 
         [Required]
-        [Display(Name = "전화번호")]
+        [Display(Name = "뒤 전화번호")]
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
         public string TelNo3 { get; set; } // TEL_NO. 전화번호
         public string TelNo { get; set; } // TEL_NO. 전화번호
 

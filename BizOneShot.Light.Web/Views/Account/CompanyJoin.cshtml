@@ -18,7 +18,6 @@
         $('#BTN_LOGIN_ID_CHK').bind('click', function () {
             if ($('#LoginId').val() == "") {
                 alert('아이디를 입력해주세요.');
-                $('#BTN_LOGIN_ID_CHK').attr("disabled", "disabled");
                 return false;
             }
             $.ajax({

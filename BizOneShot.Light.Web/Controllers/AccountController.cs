@@ -178,7 +178,7 @@ namespace BizOneShot.Light.Web.Controllers
                     switch(scUsr.UsrType)
                     {
                         case "C": //기업
-                            return RedirectToAction("index", "Commpany/Main");
+                            return RedirectToAction("index", "Commany/Main");
                         case "M": //멘토
                             return RedirectToAction("index", "Mentor/Main");
                         case "P": //전문가
