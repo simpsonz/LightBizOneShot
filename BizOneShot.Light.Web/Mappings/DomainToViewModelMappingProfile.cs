@@ -440,10 +440,13 @@ namespace BizOneShot.Light.Web.Mappings
                 .ForMember(d => d.ExpertNm, map => map.MapFrom(s => s.ScUsr.Name));
 
 
-            //업태/업종
+            //업태/업종 (다래테이블과)
             Mapper.CreateMap<SHUSER_AcStdIncmrateBseIdstT, BizTypeViewModel>()
                 .ForMember(d => d.BizTypeCd, map => map.MapFrom(s => s.IdstCd))
                 .ForMember(d => d.BizTypeNm, map => map.MapFrom(s => s.IdstDtlNm));
+
+            Mapper.CreateMap<ScBizType, BizTypeViewModel>();
+              
 
 
         }

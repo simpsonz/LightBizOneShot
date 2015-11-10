@@ -18,11 +18,13 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
     public class MyInfoController : BaseController
     {
         private readonly IScUsrService _scUsrService;
+        private readonly IScBizTypeService _scBizTypeService;
         private readonly IDareAcStdIncmrateBseIdstTService _dareAcStdIncmrateBseIdstTService;
-
-        public MyInfoController(IScUsrService scUsrService, IDareAcStdIncmrateBseIdstTService dareAcStdIncmrateBseIdstTService)
+        
+        public MyInfoController(IScUsrService scUsrService, IScBizTypeService scBizTypeService, IDareAcStdIncmrateBseIdstTService dareAcStdIncmrateBseIdstTService)
         {
-            this._scUsrService = scUsrService;
+            _scUsrService = scUsrService;
+            _scBizTypeService = scBizTypeService;
             _dareAcStdIncmrateBseIdstTService = dareAcStdIncmrateBseIdstTService;
         }
 
@@ -42,13 +44,27 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             var myInfo =
                Mapper.Map<CompanyMyInfoViewModel>(scUsr);
 
+            //업태, 업종
+            var listScBizType = await _scBizTypeService.GetScBizTypeByCompSn(int.Parse(Session[Global.CompSN].ToString()));
+            var bizTypeViewModel =
+               Mapper.Map<List<BizTypeViewModel>>(listScBizType);
+
+            myInfo.BizTypes = bizTypeViewModel;
+
             return View(myInfo);
         }
 
 
-        public ActionResult ModifyMyInfo(CompanyMyInfoViewModel myInfo)
+        public async Task<ActionResult> ModifyMyInfo(CompanyMyInfoViewModel myInfo)
         {
             ViewBag.LeftMenu = Global.MyInfo;
+
+            //업태, 업종
+            var listScBizType = await _scBizTypeService.GetScBizTypeByCompSn(int.Parse(Session[Global.CompSN].ToString()));
+            var bizTypeViewModel =
+               Mapper.Map<List<BizTypeViewModel>>(listScBizType);
+
+            myInfo.BizTypes = bizTypeViewModel;
 
             return View(myInfo);
         }
@@ -94,9 +110,28 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             scUsr.ScCompInfo.PostNo = companyInfoViewModel.ComPostNo;
             scUsr.ScCompInfo.Addr1 = companyInfoViewModel.ComAddr1;
             scUsr.ScCompInfo.Addr2 = companyInfoViewModel.ComAddr2;
-            //업태업종 처리해야함
 
             _scUsrService.ModifyScUsr(scUsr);
+
+            //업태업종 
+            int compSn = int.Parse(Session[Global.CompSN].ToString());
+            if (companyInfoViewModel.BizTypes.Count > 0)
+            {
+                _scBizTypeService.DeleteScBizTypeByCompSn(compSn);
+
+                foreach (var item in companyInfoViewModel.BizTypes)
+                {
+                    var scBizType = new ScBizType
+                    {
+                       CompSn = compSn,
+                       BizTypeCd = item.BizTypeCd,
+                       BizTypeNm = item.BizTypeNm
+                    };
+
+                    _scBizTypeService.AddScBizType(scBizType);
+                }
+            }
+            
 
             //다성공시 커밋
             await _scUsrService.SaveDbContextAsync();

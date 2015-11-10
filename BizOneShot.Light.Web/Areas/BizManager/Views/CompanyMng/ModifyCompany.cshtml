@@ -99,21 +99,22 @@
                     <td colspan="5" class="nopad">
                         <div id="list_downwrap">
                             <ul>
-                                <li>
-                                    <span>서비스</span><span> / </span><span>서비스</span>
-                                </li>
-                                <li>
-                                    <span>서비스</span><span> / </span><span>서비스</span>
-                                </li>
-                                <li>
-                                    <span>서비스</span><span> / </span><span>서비스</span>
-                                </li>
-                                <li>
-                                    <span>서비스</span><span> / </span><span>서비스</span>
-                                </li>
-                                <li>
-                                    <span>서비스</span><span> / </span><span>서비스</span>
-                                </li>
+                                @if (Model.BizTypes == null || Model.BizTypes.Count == 0)
+                                {
+                                    <li>
+                                        <span>검색결과가 없습니다.</span>
+                                    </li>
+                                }
+                                else
+                                {
+                                    foreach (var item in Model.BizTypes)
+                                    {
+                                        <li>
+                                            <span>@item.BizTypeCd</span><span> / </span><span>@item.BizTypeNm</span>
+                                        </li>
+                                    }
+                                }
+
                             </ul>
                         </div>
                     </td>
