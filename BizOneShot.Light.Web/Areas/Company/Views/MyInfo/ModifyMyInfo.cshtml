@@ -22,6 +22,47 @@
             }
             return false;
         });
+
+        $('#submit_form').bind('submit', function () {
+        
+            //업종Validation
+            var bizTypeValid = true;
+            var count = 0;
+            var bizTypes = new Array();
+            $('input[id^="bizTypeCd"]').each(function () {
+                if ($(this).val() == '') {
+
+                    bizTypeValid = false;
+                    return false;
+                }
+                else {
+                    bizTypes.push($(this).val());
+                    count = count + 1;
+                }
+                return bizTypeValid;
+            });
+
+            if (!bizTypeValid) {
+                if (count == 0) {
+                    alert("업종은 1개이상 선택해야 합니다.");
+                }
+                else {
+                    alert("사용하지 않는 업종 칸은 삭제하세요");
+                }
+                return false;
+            }
+
+            var hasDups = !bizTypes.every(function (v, i) {
+                return bizTypes.indexOf(v) == i;
+            });
+            if (hasDups) {
+                // having duplicate values
+                alert("업종 코드는 중복할 수 없습니다.");
+                return false;
+            }
+
+
+        });
     });
 
     function open_post() {
@@ -33,11 +74,81 @@
         var popUp = window.open('/Home/zipSearchPopup', 'zipSearchPopup', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=no, resizable=no");
         popUp.focus();
     }
-
+    //주소팝업 리턴
     function resultReceive(zip, address) {
         $('#POST_NO').val(zip);
         $('#ADDR_1').val(address);
     }
+
+
+
+    //업종칸 추가시
+    function bizType_inpput_add(e) {
+        var temp = $(e).parent().parent().find('li');
+
+        if (temp.length > 4) {
+            alert('업종은 최대 5개까지 가능합니다');
+            return false;
+        }
+        var $cloneEL = $(e).parent().clone();
+
+        $($cloneEL).insertAfter(temp[temp.length - 1]);
+
+        $cloneEL.find('input[id^="bizTypeCd"]').val('');
+        $cloneEL.find('input[id^="bizTypeNm"]').val('');
+
+        var count = 0;
+        $('input[id^="bizTypeCd"]').each(function () {
+            $(this).attr('id', "bizTypeCd" + count);
+            $(this).attr('name', "BizTypes[" + count + "].BizTypeCd");
+
+            count = count + 1;
+        });
+
+        count = 0;
+        $('input[id^="bizTypeNm"]').each(function () {
+            $(this).attr('id', "bizTypeNm" + count);
+            $(this).attr('name', "BizTypes[" + count + "].BizTypeNm");
+
+            count = count + 1;
+        });
+
+        return false;
+    }
+    //업종칸 삭제
+    function bizType_inpput_remove(e) {
+        var temp = $(e).parent().parent().find('li');
+
+        if (temp.length < 2) {
+            $(e).parent().find('input[id^="bizTypeCd"]').val('');
+            $(e).parent().find('input[id^="bizTypeNm"]').val('');
+            return false;
+        }
+
+        var $cloneEL = $(e).parent().remove();
+
+        return false;
+    }
+    //업종 검색
+    function searchBizTypeOpen(e) {
+        var temp = $(e).parent().find('input[id^="bizTypeCd"]').attr('id') + '';
+        var id = temp.substr(9, 1);
+
+        w = 725;    //팝업창의 너비
+        h = 460;    //팝업창의 높이
+        //중앙위치 구해오기
+        LeftPosition = (screen.width - w) / 2;
+        TopPosition = (screen.height - h) / 2;
+        var popUp = window.open('/Company/MyInfo/SearchBizTypePopup?Id=' + id, 'SearchBizType', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=no, resizable=no");
+        popUp.focus();
+    }
+
+    function resultReceive(id, bizTypeCd, bizTypeNm) {
+        $('#bizTypeCd' + id).val(bizTypeCd);
+        $('#bizTypeNm' + id).val(bizTypeNm);
+    }
+
+    
 
 </script>
 
@@ -104,22 +215,27 @@
                     <td colspan="5" class="nopad">
                         <div id="list_writewrap">
                             <ul>
-                                <li>
-                                    <input type="text" class="w110"> <input type="text" class="w110"> <button type="button" class="file_add" value="업종추가"></button>
-                                </li>
-                                <li>
-                                    <input type="text" class="w110"> <input type="text" class="w110"> <button type="button" class="file_add" value="업종추가"></button><button type="button" class="file_del" value="업종삭제"></button>
-                                </li>
-                                <li>
-                                    <input type="text" class="w110"> <input type="text" class="w110"> <button type="button" class="file_add" value="업종추가"></button><button type="button" class="file_del" value="업종삭제"></button>
-                                </li>
-                                <li>
-                                    <input type="text" class="w110"> <input type="text" class="w110"> <button type="button" class="file_add" value="업종추가"></button><button type="button" class="file_del" value="업종삭제"></button>
-                                </li>
-                                <li>
-                                    <input type="text" class="w110"> <input type="text" class="w110"> <button type="button" class="file_del" value="업종삭제"></button>
-                                </li>
+                                @if (Model.BizTypes == null || Model.BizTypes.Count == 0)
+                                {
+                                    <li>
+                                        <span>검색결과가 없습니다.</span>
+                                    </li>
+                                }
+                                else
+                                {
+                                    for (int i=0; i< Model.BizTypes.Count; i++)
+                                    {
+                                        <li>
+                                            @Html.TextBoxFor(model => model.BizTypes[i].BizTypeCd, new { @class= "w55", @id= "bizTypeCd0",@readonly ="true" })
+                                            @Html.TextBoxFor(model => model.BizTypes[i].BizTypeNm, new { @class = "w165", @id = "bizTypeNm0",@readonly = "true" })
+                                            <button type="button" class="bt_search_code" value="업종검색" onclick="searchBizTypeOpen(this)"></button>
+                                            <button type="button" class="file_add" value="업종추가" onclick="bizType_inpput_add(this)"></button>
+                                            <button type="button" class="file_del" value="업종삭제" onclick="bizType_inpput_remove(this)"></button>
+                                        </li>
+                                    }
+                                 }
                             </ul>
+
                         </div>
                     </td>
                 </tr>

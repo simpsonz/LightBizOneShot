@@ -22,13 +22,16 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         private readonly IScMentorMappingService _scMentorMappingService;
         private readonly IScUsrService _scUsrService;
         private readonly IScCompMappingService _scCompMappingService;
+        private readonly IScBizTypeService _scBizTypeService;
 
-        public CompanyMngController(IScBizWorkService _scBizWorkService, IScMentorMappingService _scMentorMappingService, IScUsrService _scUsrService, IScCompMappingService _scCompMappingService)
+        public CompanyMngController(IScBizWorkService _scBizWorkService, IScMentorMappingService _scMentorMappingService, IScUsrService _scUsrService
+            , IScCompMappingService _scCompMappingService, IScBizTypeService scBizTypeService)
         {
             this._scBizWorkService = _scBizWorkService;
             this._scMentorMappingService = _scMentorMappingService;
             this._scUsrService = _scUsrService;
             this._scCompMappingService = _scCompMappingService;
+            _scBizTypeService = scBizTypeService;
         }
 
         // GET: BizManager/CompanyMng
@@ -187,6 +190,13 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             var usrView =
                 Mapper.Map<CompanyMngViewModel>(scCompMapping);
 
+            //업태, 업종
+            var listScBizType = await _scBizTypeService.GetScBizTypeByCompSn(int.Parse(compSn));
+            var bizTypeViewModel =
+               Mapper.Map<List< BizTypeViewModel>> (listScBizType);
+
+            usrView.BizTypes = bizTypeViewModel;
+
             if (scCompMapping.Status == "R")
             {
                 //해당 사업의 멘토 리스트 조회
@@ -263,6 +273,13 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             var scCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(bizWorkSn), int.Parse(compSn));
             var usrView =
                 Mapper.Map<CompanyMngViewModel>(scCompMapping);
+
+            //업태, 업종
+            var listScBizType = await _scBizTypeService.GetScBizTypeByCompSn(int.Parse(compSn));
+            var bizTypeViewModel =
+               Mapper.Map<List<BizTypeViewModel>>(listScBizType);
+
+            usrView.BizTypes = bizTypeViewModel;
 
             //해당 사업의 멘토 리스트 조회
             var scMentorMappings = await _scMentorMappingService.GetMentorListAsync(int.Parse(Session[Global.CompSN].ToString()), int.Parse(bizWorkSn));
