@@ -37,8 +37,8 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             ToTable(schema + ".SC_BIZ_TYPE");
             HasKey(x => new { x.CompSn, x.BizTypeCd });
 
-            Property(x => x.CompSn).HasColumnName("COMP_SN").IsRequired().HasColumnType("int");
-            Property(x => x.BizTypeCd).HasColumnName("BIZ_TYPE_CD").IsRequired().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(6);
+            Property(x => x.CompSn).HasColumnName("COMP_SN").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(x => x.BizTypeCd).HasColumnName("BIZ_TYPE_CD").IsRequired().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(6).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.BizTypeNm).HasColumnName("BIZ_TYPE_NM").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(256);
 
             // Foreign keys

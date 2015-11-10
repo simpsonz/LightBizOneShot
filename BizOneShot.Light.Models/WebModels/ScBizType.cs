@@ -23,8 +23,8 @@ namespace BizOneShot.Light.Models.WebModels
     // SC_BIZ_TYPE
     public class ScBizType
     {
-        public int CompSn { get; set; } // COMP_SN. 기업식별자
-        public string BizTypeCd { get; set; } // BIZ_TYPE_CD. 업종코드
+        public int CompSn { get; set; } // COMP_SN (Primary key). 기업식별자
+        public string BizTypeCd { get; set; } // BIZ_TYPE_CD (Primary key). 업종코드
         public string BizTypeNm { get; set; } // BIZ_TYPE_NM. 업태코드
 
         // Foreign keys
