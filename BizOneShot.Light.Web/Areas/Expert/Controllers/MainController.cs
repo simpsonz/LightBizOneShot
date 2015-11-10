@@ -21,12 +21,14 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
         private readonly IScExpertMappingService _scExpertMappingService;
         private readonly IScUsrService _scUsrService;
         private readonly IScNtcService _scNtcService;
+        private readonly IScBizTypeService _scBizTypeService;
 
-        public MainController(IScNtcService scNtcServcie, IScExpertMappingService _scExpertMappingService, IScUsrService _scUsrService)
+        public MainController(IScNtcService scNtcServcie, IScExpertMappingService scExpertMappingService, IScUsrService scUsrService, IScBizTypeService scBizTypeService)
         {
-            this._scNtcService = scNtcServcie;
-            this._scExpertMappingService = _scExpertMappingService;
-            this._scUsrService = _scUsrService;
+            _scNtcService = scNtcServcie;
+            _scExpertMappingService = scExpertMappingService;
+            _scUsrService = scUsrService;
+            _scBizTypeService = scBizTypeService;
         }
         // GET: Expert/Main
         public async Task<ActionResult> Index()
@@ -78,6 +80,13 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             var usrView =
                Mapper.Map<JoinExpertViewModel>(scExpertMapping);
 
+            //업태, 업종
+            var listScBizType = await _scBizTypeService.GetScBizTypeByCompSn(int.Parse(Session[Global.CompSN].ToString()));
+            var bizTypeViewModel =
+               Mapper.Map<List<BizTypeViewModel>>(listScBizType);
+
+            usrView.BizTypes = bizTypeViewModel;
+
             return View(usrView);
         }
 
@@ -89,6 +98,13 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
 
             var usrView =
                Mapper.Map<JoinExpertViewModel>(scExpertMapping);
+
+            //업태, 업종
+            var listScBizType = await _scBizTypeService.GetScBizTypeByCompSn(int.Parse(Session[Global.CompSN].ToString()));
+            var bizTypeViewModel =
+               Mapper.Map<List<BizTypeViewModel>>(listScBizType);
+
+            usrView.BizTypes = bizTypeViewModel;
 
             return View(usrView);
         }
@@ -108,11 +124,29 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             scExpertMapping.ScUsr.ScCompInfo.CompNm = joinExpertViewModel.CompNm;
             scExpertMapping.ScUsr.ScCompInfo.OwnNm = joinExpertViewModel.ComOwnNm;
             scExpertMapping.ScUsr.ScCompInfo.RegistrationNo = joinExpertViewModel.ComRegistrationNo;
-            //업태업종 코드 추가해야함.
             scExpertMapping.ScUsr.ScCompInfo.TelNo = joinExpertViewModel.ComTelNo1 + "-" + joinExpertViewModel.ComTelNo2 + "-" + joinExpertViewModel.ComTelNo3;
             scExpertMapping.ScUsr.ScCompInfo.PostNo = joinExpertViewModel.ComPostNo;
             scExpertMapping.ScUsr.ScCompInfo.Addr1 = joinExpertViewModel.ComAddr1;
             scExpertMapping.ScUsr.ScCompInfo.Addr2 = joinExpertViewModel.ComAddr2;
+
+            //업태업종 
+            int compSn = int.Parse(Session[Global.CompSN].ToString());
+            if (joinExpertViewModel.BizTypes.Count > 0)
+            {
+                _scBizTypeService.DeleteScBizTypeByCompSn(compSn);
+
+                foreach (var item in joinExpertViewModel.BizTypes)
+                {
+                    var scBizType = new ScBizType
+                    {
+                        CompSn = compSn,
+                        BizTypeCd = item.BizTypeCd,
+                        BizTypeNm = item.BizTypeNm
+                    };
+
+                    _scBizTypeService.AddScBizType(scBizType);
+                }
+            }
 
             //파일정보 업데이트
             if (!string.IsNullOrEmpty(DeleteFileSn))

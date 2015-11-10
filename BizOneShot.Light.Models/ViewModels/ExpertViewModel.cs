@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
 
 namespace BizOneShot.Light.Models.ViewModels
 {
@@ -42,11 +44,19 @@ namespace BizOneShot.Light.Models.ViewModels
         [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
         public string Name { get; set; } // Name. 이름
         public string TelNo1 { get; set; } // TEL_NO. 전화번호
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string TelNo2 { get; set; } // TEL_NO. 전화번호
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string TelNo3 { get; set; } // TEL_NO. 전화번호
         public string TelNo { get; set; } // TEL_NO. 전화번호
         public string MbNo1 { get; set; } // MB_NO. 휴대폰
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string MbNo2 { get; set; } // MB_NO. 휴대폰
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string MbNo3 { get; set; } // MB_NO. 휴대폰
         public string MbNo { get; set; } // MB_NO. 휴대폰
         public string Email1 { get; set; } // EMAIL. 이메일
@@ -71,7 +81,11 @@ namespace BizOneShot.Light.Models.ViewModels
         [MaxLength(35, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
         public string CompNm { get; set; } // COMP_NM. 회사명
         public string ComTelNo1 { get; set; } // TEL_NO. 대표전화번호
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string ComTelNo2 { get; set; } // TEL_NO. 대표전화번호
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string ComTelNo3 { get; set; } // TEL_NO. 대표전화번호
         public string ComTelNo { get; set; } // TEL_NO. 대표전화번호
         public string ComPostNo { get; set; } // POST_NO. 우편번호
@@ -86,13 +100,8 @@ namespace BizOneShot.Light.Models.ViewModels
         public string ComUpdId { get; set; } // UPD_ID. 수정자
         public DateTime? ComUpdDt { get; set; } // UPD_DT. 수정일시
 
-        [Display(Name = "업태")]
-        [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
-        public string ComBizClass { get; set; } // 업태
-
-        [Display(Name = "업종")]
-        [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
-        public string ComBizType { get; set; } // 업종
+        //업종 /종목
+        public IList<BizTypeViewModel> BizTypes { get; set; }
 
         //이력서 정보
         public string ResumeName { get; set; } //이력서 파일명

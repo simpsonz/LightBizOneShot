@@ -86,11 +86,13 @@ namespace BizOneShot.Light.Models.ViewModels
         [Required]
         [Display(Name = "앞 전화번호")]
         [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string TelNo2 { get; set; } // TEL_NO. 전화번호
 
         [Required]
         [Display(Name = "뒤 전화번호")]
         [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string TelNo3 { get; set; } // TEL_NO. 전화번호
         public string TelNo { get; set; } // TEL_NO. 전화번호
 
@@ -99,10 +101,14 @@ namespace BizOneShot.Light.Models.ViewModels
 
         [Required]
         [Display(Name = "핸드폰번호")]
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string MbNo2 { get; set; } // MB_NO. 휴대폰
 
         [Required]
         [Display(Name = "핸드폰번호")]
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string MbNo3 { get; set; } // MB_NO. 휴대폰
         public string MbNo { get; set; } // MB_NO. 휴대폰
 
@@ -120,10 +126,14 @@ namespace BizOneShot.Light.Models.ViewModels
 
         [Required]
         [Display(Name = "팩스번호")]
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string FaxNo2 { get; set; } // FAX_NO. Fax
 
         [Required]
         [Display(Name = "팩스번호")]
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string FaxNo3 { get; set; } // FAX_NO. Fax
         public string FaxNo { get; set; } // FAX_NO. Fax
 

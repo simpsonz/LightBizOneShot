@@ -63,6 +63,43 @@
                 alert("등록할 파일 사이즈는 4MB 를 초과할 수 없습니다.");
                 return false;
             }
+
+
+            //업종Validation
+            var bizTypeValid = true;
+            var count = 0;
+            var bizTypes = new Array();
+            $('input[id^="bizTypeCd"]').each(function () {
+                if ($(this).val() == '') {
+
+                    bizTypeValid = false;
+                    return false;
+                }
+                else {
+                    bizTypes.push($(this).val());
+                    count = count + 1;
+                }
+                return bizTypeValid;
+            });
+
+            if (!bizTypeValid) {
+                if (count == 0) {
+                    alert("업종은 1개이상 선택해야 합니다.");
+                }
+                else {
+                    alert("사용하지 않는 업종 칸은 삭제하세요");
+                }
+                return false;
+            }
+
+            var hasDups = !bizTypes.every(function (v, i) {
+                return bizTypes.indexOf(v) == i;
+            });
+            if (hasDups) {
+                // having duplicate values
+                alert("업종 코드는 중복할 수 없습니다.");
+                return false;
+            }
         });
     });
 
@@ -85,6 +122,73 @@
     function delete_file(value) {
         $("#DeleteFileSn").val(value);
     };
+
+
+    //업종칸 추가시
+    function bizType_inpput_add(e) {
+        var temp = $(e).parent().parent().find('li');
+
+        if (temp.length > 4) {
+            alert('업종은 최대 5개까지 가능합니다');
+            return false;
+        }
+        var $cloneEL = $(e).parent().clone();
+
+        $($cloneEL).insertAfter(temp[temp.length - 1]);
+
+        $cloneEL.find('input[id^="bizTypeCd"]').val('');
+        $cloneEL.find('input[id^="bizTypeNm"]').val('');
+
+        var count = 0;
+        $('input[id^="bizTypeCd"]').each(function () {
+            $(this).attr('id', "bizTypeCd" + count);
+            $(this).attr('name', "BizTypes[" + count + "].BizTypeCd");
+
+            count = count + 1;
+        });
+
+        count = 0;
+        $('input[id^="bizTypeNm"]').each(function () {
+            $(this).attr('id', "bizTypeNm" + count);
+            $(this).attr('name', "BizTypes[" + count + "].BizTypeNm");
+
+            count = count + 1;
+        });
+
+        return false;
+    }
+    //업종칸 삭제
+    function bizType_inpput_remove(e) {
+        var temp = $(e).parent().parent().find('li');
+
+        if (temp.length < 2) {
+            $(e).parent().find('input[id^="bizTypeCd"]').val('');
+            $(e).parent().find('input[id^="bizTypeNm"]').val('');
+            return false;
+        }
+
+        var $cloneEL = $(e).parent().remove();
+
+        return false;
+    }
+    //업종 검색
+    function searchBizTypeOpen(e) {
+        var temp = $(e).parent().find('input[id^="bizTypeCd"]').attr('id') + '';
+        var id = temp.substr(9, 1);
+
+        w = 725;    //팝업창의 너비
+        h = 460;    //팝업창의 높이
+        //중앙위치 구해오기
+        LeftPosition = (screen.width - w) / 2;
+        TopPosition = (screen.height - h) / 2;
+        var popUp = window.open('/Company/MyInfo/SearchBizTypePopup?Id=' + id, 'SearchBizType', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=no, resizable=no");
+        popUp.focus();
+    }
+
+    function resultReceive(id, bizTypeCd, bizTypeNm) {
+        $('#bizTypeCd' + id).val(bizTypeCd);
+        $('#bizTypeNm' + id).val(bizTypeNm);
+    }
 </script>
 
 
@@ -163,122 +267,157 @@
                                         },
                                       "value",
                                       "text",
-                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.TelNo2, new { @class = "w80", @title = "전화번호 중간자리" })&nbsp;
-                                    -&nbsp;@Html.TextBoxFor(model => model.TelNo3, new { @class = "w80", @title = "전화번호 마지막자리" })
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>휴대폰</th>
-                                <td class="form">
-                                    @Html.DropDownListFor(model => model.MbNo1, new SelectList(
-                                      new List<Object>{
-                                           new { value = "010" , text = "010"  },
-                                           new { value = "011" , text = "011" },
-                                           new { value = "016" , text = "016" },
-                                           new { value = "017" , text = "017" },
-                                           new { value = "019" , text = "019" }
-                                        },
-                                      "value",
-                                      "text",
-                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.MbNo2, new { @class = "w80", @title = "휴대폰번호 중간자리" })&nbsp;-&nbsp;@Html.TextBoxFor(model => model.MbNo3, new { @class = "w80", @title = "휴대폰 번호 마지막자리" })
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>이메일 주소</th>
-                                <td class="form">
-                                    @Html.TextBoxFor(model => model.Email1, new { @class = "w115", @title = "이메일 아이디", @maxlength = "20" })&nbsp;@@&nbsp;
-                                    @Html.TextBoxFor(model => model.Email2, new { @class = "w115", @title = "이메일 도메인", @maxlength = "19" })
-                                    <select id="EMAIL_DOMAIN">
-                                        <option value="">직접입력</option>
-                                        <option value="naver.com">naver.com</option>
-                                        <option value="daum.net">daum.net</option>
-                                        <option value="chol.com">chol.com</option>
-                                        <option value="dreamwiz.com">dreamwiz.com</option>
-                                        <option value="empal.com">empal.com</option>
-                                        <option value="freechal.com">freechal.com</option>
-                                        <option value="gmail.com">gmail.com</option>
-                                        <option value="hanafos.com">hanafos.com</option>
-                                        <option value="hanmail.net">hanmail.net</option>
-                                        <option value="hanmir.com">hanmir.com</option>
-                                        <option value="hitel.net">hitel.net</option>
-                                        <option value="hotmail.com">hotmail.com</option>
-                                        <option value="korea.com">korea.com</option>
-                                        <option value="lycos.co.kr">lycos.co.kr</option>
-                                        <option value="nate.com">nate.com</option>
-                                        <option value="netian.com">netian.com</option>
-                                        <option value="paran.com">paran.com</option>
-                                        <option value="yahoo.com">yahoo.com</option>
-                                    </select>
-                                    @Html.ValidationMessageFor(model => model.Email1, "", new { @class = "text-danger", @color = "#b94a48" })
-                                    @Html.ValidationMessageFor(model => model.Email2, "", new { @class = "text-danger", @color = "#b94a48" })
-                                </td>
-                            </tr>
-                        </table>
+                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.TelNo2, new { @class = "w80", @title = "전화번호 중간자리", @maxlength = "4" })&nbsp;
+                                    -&nbsp;@Html.TextBoxFor(model => model.TelNo3, new { @class = "w80", @title = "전화번호 마지막자리", @maxlength = "4" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>휴대폰</th>
+                    <td class="form">
+                        @Html.DropDownListFor(model => model.MbNo1, new SelectList(
+                            new List<Object>{
+                                new { value = "010" , text = "010"  },
+                                new { value = "011" , text = "011" },
+                                new { value = "016" , text = "016" },
+                                new { value = "017" , text = "017" },
+                                new { value = "019" , text = "019" }
+                            },
+                            "value",
+                            "text",
+                            2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.MbNo2, new { @class = "w80", @title = "휴대폰번호 중간자리", @maxlength = "4" })&nbsp;-&nbsp;@Html.TextBoxFor(model => model.MbNo3, new { @class = "w80", @title = "휴대폰 번호 마지막자리", @maxlength = "4" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>이메일 주소</th>
+                    <td class="form">
+                        @Html.TextBoxFor(model => model.Email1, new { @class = "w115", @title = "이메일 아이디", @maxlength = "20" })&nbsp;@@&nbsp;
+                        @Html.TextBoxFor(model => model.Email2, new { @class = "w115", @title = "이메일 도메인", @maxlength = "19" })
+                        <select id="EMAIL_DOMAIN">
+                            <option value="">직접입력</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="daum.net">daum.net</option>
+                            <option value="chol.com">chol.com</option>
+                            <option value="dreamwiz.com">dreamwiz.com</option>
+                            <option value="empal.com">empal.com</option>
+                            <option value="freechal.com">freechal.com</option>
+                            <option value="gmail.com">gmail.com</option>
+                            <option value="hanafos.com">hanafos.com</option>
+                            <option value="hanmail.net">hanmail.net</option>
+                            <option value="hanmir.com">hanmir.com</option>
+                            <option value="hitel.net">hitel.net</option>
+                            <option value="hotmail.com">hotmail.com</option>
+                            <option value="korea.com">korea.com</option>
+                            <option value="lycos.co.kr">lycos.co.kr</option>
+                            <option value="nate.com">nate.com</option>
+                            <option value="netian.com">netian.com</option>
+                            <option value="paran.com">paran.com</option>
+                            <option value="yahoo.com">yahoo.com</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.Email1, "", new { @class = "text-danger", @color = "#b94a48" })
+                        @Html.ValidationMessageFor(model => model.Email2, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+                </tr>
+            </table>
             <div class="line_dot10"></div>
-            <div class="join_infoinput_wrap">
-                <ul><li class="mark">회사명</li><li class="info">@Html.TextBoxFor(model => model.CompNm, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.CompNm, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
-                <ul><li class="mark">대표자명</li><li class="info">@Html.TextBoxFor(model => model.ComOwnNm, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComOwnNm, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
-                <ul>
-                    <li class="mark">사업자등록번호</li>
-                    <li class="info">@Html.TextBoxFor(model => model.ComRegistrationNo, new { @maxlength = "10", @class = "w240", @placeholder = "-표시없이 기입해 주세요" }) @Html.ValidationMessageFor(model => model.ComRegistrationNo, "", new { @class = "text-danger", @color = "#b94a48" })</li>
-                </ul>
 
-                <ul>
-                    <li class="mark">업태</li>
-                    <li class="info">@Html.TextBoxFor(model => model.ComBizClass, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComBizClass, "", new { @class = "text-danger", @color = "#b94a48" })</li>
-                </ul>
-                <ul>
-                    <li class="mark">업종</li>
-                    <li class="info">@Html.TextBoxFor(model => model.ComBizType, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.ComBizType, "", new { @class = "text-danger", @color = "#b94a48" })</li>
-                </ul>
-                @*<ul class="long_ul">
-                <li class="mark_long">업종/업태</li>
-                <div class="info_long"><li class="info"><input type="text" class="w115">&nbsp;&nbsp;<input type="text" class="w115"></li><li><button type="button" class="file_add" value="업종추가"></button></li></div>
-                <div class="info_long"><li class="info"><input type="text" class="w115">&nbsp;&nbsp;<input type="text" class="w115"></li><li><button type="button" class="file_add" value="업종추가"></button></li><li><button type="button" class="file_del" value="업종삭제"></button></li></div>
-                <div class="info_long"><li class="info"><input type="text" class="w115">&nbsp;&nbsp;<input type="text" class="w115"></li><li><button type="button" class="file_add" value="업종추가"></button></li><li><button type="button" class="file_del" value="업종삭제"></button></li></div>
-                <div class="info_long"><li class="info"><input type="text" class="w115">&nbsp;&nbsp;<input type="text" class="w115"></li><li><button type="button" class="file_add" value="업종추가"></button></li><li><button type="button" class="file_del" value="업종삭제"></button></li></div>
-                <div class="info_long"><li class="info"><input type="text" class="w115">&nbsp;&nbsp;<input type="text" class="w115"></li><li><button type="button" class="file_del" value="업종삭제"></button></li></div>
-            </ul>*@
+           
+            <table>
+                <colgroup>
+                    <col width="140" />
+                    <col width="610" />
+                </colgroup>
+                <tr>
+                    <th>회사명</th>
+                    <td class="form">
+                        @Html.TextBoxFor(model => model.CompNm, new { @class = "w240", @placeholder = "회사명은필수값입니다." })
+                        @Html.ValidationMessageFor(model => model.CompNm, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>대표자명</th>
+                    <td class="form">
+                        @Html.TextBoxFor(model => model.ComOwnNm, new { @class = "w240", @placeholder = "대표자명은필수값입니다." })
+                        @Html.ValidationMessageFor(model => model.ComOwnNm, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>사업자등록번호</th>
+                    <td class="form">
+                        @Html.TextBoxFor(model => model.ComRegistrationNo, new { @maxlength = "10", @class = "w240", @placeholder = "-표시없이 기입해 주세요" })
+                        @Html.ValidationMessageFor(model => model.ComRegistrationNo, "", new { @class = "text-danger", @color = "#b94a48" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>업종 / 종목</th>
+                    <td colspan="5" class="nopad">
+                        <div id="list_writewrap">
+                            <ul>
+                                @if (Model.BizTypes == null || Model.BizTypes.Count == 0)
+                                {
+                                    <li>
+                                        <span>검색결과가 없습니다.</span>
+                                    </li>
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < Model.BizTypes.Count; i++)
+                                    {
+                                        <li>
+                                            @Html.TextBoxFor(model => model.BizTypes[i].BizTypeCd, new { @class = "w55", @id = "bizTypeCd0", @readonly = "true" })
+                                            @Html.TextBoxFor(model => model.BizTypes[i].BizTypeNm, new { @class = "w165", @id = "bizTypeNm0", @readonly = "true" })
+                                            <button type="button" class="bt_search_code" value="업종검색" onclick="searchBizTypeOpen(this)"></button>
+                                            <button type="button" class="file_add" value="업종추가" onclick="bizType_inpput_add(this)"></button>
+                                            <button type="button" class="file_del" value="업종삭제" onclick="bizType_inpput_remove(this)"></button>
+                                        </li>
+                                    }
+                                }
+                            </ul>
 
-
-                <ul>
-                    <li class="mark">전화번호</li>
-                    <li class="info">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td class="form">
                         @Html.DropDownListFor(model => model.ComTelNo1, new SelectList(
-                                      new List<Object>{
-                                           new { value = "02" , text = "02"  },
-                                           new { value = "031" , text = "031" },
-                                           new { value = "032" , text = "032" },
-                                           new { value = "033" , text = "033" },
-                                           new { value = "041" , text = "041" },
-                                           new { value = "043" , text = "043" },
-                                           new { value = "044" , text = "044" },
-                                           new { value = "051" , text = "051" },
-                                           new { value = "052" , text = "052" },
-                                           new { value = "053" , text = "053" },
-                                           new { value = "054" , text = "054" },
-                                           new { value = "055" , text = "055" },
-                                           new { value = "061" , text = "061" },
-                                           new { value = "062" , text = "062" },
-                                           new { value = "063" , text = "063" },
-                                           new { value = "064" , text = "064" },
-                                           new { value = "070" , text = "070" }
-                                        },
-                                      "value",
-                                      "text",
-                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.ComTelNo2, new { @class = "w80", @title = "전화번호 중간자리" })&nbsp;
-                                    -&nbsp;@Html.TextBoxFor(model => model.ComTelNo3, new { @class = "w80", @title = "전화번호 마지막자리" })
-                                </li>
-                            </ul>
-                            <ul>
-                                <li class="mark rowspan">주소</li>
-                                <li class="info"><input type="button" class="td_post" value="우편번호" onClick="javascript: open_post();">@Html.TextBoxFor(model => model.ComPostNo, new { @class = "w146", @readOnly = "readOnly", @id = "POST_NO" })</li>
-                            </ul>
-                            <ul>
-                                <li class="mark"></li>
-                                <li class="info">@Html.TextBoxFor(model => model.ComAddr1, new { @class = "w240", @id = "ADDR_1", @readOnly = "readOnly" }) @Html.TextBoxFor(model => model.ComAddr2, new { @class = "w240", @placeholder = "나머지주소입력란" })</li>
-                            </ul>
-                        </div><!--join_infoinput_wrap//-->
+                        new List<Object>{
+                                    new { value = "02" , text = "02"  },
+                                    new { value = "031" , text = "031" },
+                                    new { value = "032" , text = "032" },
+                                    new { value = "033" , text = "033" },
+                                    new { value = "041" , text = "041" },
+                                    new { value = "043" , text = "043" },
+                                    new { value = "044" , text = "044" },
+                                    new { value = "051" , text = "051" },
+                                    new { value = "052" , text = "052" },
+                                    new { value = "053" , text = "053" },
+                                    new { value = "054" , text = "054" },
+                                    new { value = "055" , text = "055" },
+                                    new { value = "061" , text = "061" },
+                                    new { value = "062" , text = "062" },
+                                    new { value = "063" , text = "063" },
+                                    new { value = "064" , text = "064" },
+                                    new { value = "070" , text = "070" }
+                        },
+                        "value",
+                        "text",
+                        2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.ComTelNo2, new { @class = "w70", @title = "전화번호 중간자리", @maxlength = "4" })&nbsp;
+                    -&nbsp;@Html.TextBoxFor(model => model.ComTelNo3, new { @class = "w70", @title = "전화번호 마지막자리", @maxlength = "4" })
+
+                    @Html.ValidationMessageFor(model => model.ComTelNo2, "", new { @class = "text-danger", @color = "#b94a48" })
+                    @Html.ValidationMessageFor(model => model.ComTelNo3, "", new { @class = "text-danger", @color = "#b94a48" })
+                </td>
+            </tr>
+            <tr>
+                <th>주소</th>
+                <td class="form nopad">
+                    <ul>
+                        <li class="info"><input type="button" class="td_post" value="우편번호" onClick="javascript: open_post();">@Html.TextBoxFor(model => model.ComPostNo, new { @class = "w146", @readOnly = "readOnly", @id = "POST_NO" })</li>
+                        <li class="info">@Html.TextBoxFor(model => model.ComAddr1, new { @class = "w240", @id = "ADDR_1", @readOnly = "readOnly" }) @Html.TextBoxFor(model => model.ComAddr2, new { @class = "w240", @placeholder = "나머지주소입력란" })</li>
+                    </ul>
+                </td>
+            </tr>
+            </table>
 
             <div class="line_dot10"></div>
             <table>

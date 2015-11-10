@@ -47,10 +47,18 @@ namespace BizOneShot.Light.Models.ViewModels
         public string FaxNo2 { get; set; } // FAX_NO. Fax
         public string FaxNo3 { get; set; } // FAX_NO. Fax
         public string TelNo1 { get; set; } // TEL_NO. 전화번호
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string TelNo2 { get; set; } // TEL_NO. 전화번호
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string TelNo3 { get; set; } // TEL_NO. 전화번호
         public string MbNo1 { get; set; } // MB_NO. 휴대폰
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string MbNo2 { get; set; } // MB_NO. 휴대폰
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string MbNo3 { get; set; } // MB_NO. 휴대폰
 
         [Required]
@@ -89,7 +97,11 @@ namespace BizOneShot.Light.Models.ViewModels
         public string CompNm { get; set; } // COMP_NM. 회사명
         public string ComEmail { get; set; } // EMAIL. 대표이메일주소
         public string ComTelNo1 { get; set; } // TEL_NO. 대표전화번호
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string ComTelNo2 { get; set; } // TEL_NO. 대표전화번호
+        [MaxLength(4, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string ComTelNo3 { get; set; } // TEL_NO. 대표전화번호
         public string ComPostNo { get; set; } // POST_NO. 우편번호
         public string ComAddr1 { get; set; } // ADDR_1. 주소1
@@ -286,17 +298,9 @@ namespace BizOneShot.Light.Models.ViewModels
         [MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
         public string ComOwnNm { get; set; } // OWN_NM. 대표자명
 
+
+        //업종/종목
         public IList<BizTypeViewModel> BizTypes { get; set; }
-
-        //[Required]
-        //[Display(Name = "업태")]
-        //[MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
-        //public string ComBizClass { get; set; } // 업태
-
-        //[Required]
-        //[Display(Name = "업종")]
-        //[MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
-        //public string ComBizType { get; set; } // 업종
 
         //public string BizWorkName { get; set; } // BIZ_WORK_SN (Primary key). 사업식별자
         //public string MngCompName { get; set; } // COMP_SN. 기업식별자 (관리기관 식별자)
