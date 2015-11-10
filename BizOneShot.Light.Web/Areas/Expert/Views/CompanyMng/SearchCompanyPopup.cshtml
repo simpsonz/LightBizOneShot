@@ -45,7 +45,7 @@
 
             <div id="popup_contwrap">
                 <p>기업명이나 사업자번호를 입력하고 검색해 주세요.</p>
-                @using (Html.BeginForm("BizWorkList", "BizWorkMng", FormMethod.Post, new { area = "BizManager", id = "searchForm" }))
+                @using (Html.BeginForm("SearchCompanyPopup", "CompanyMng", FormMethod.Get, new { area = "Expert", id = "searchForm" }))
                 {
                     <div class="inputwrap">
                         @Html.TextBox("QUERY", (object)ViewBag.QUERY, new { @class = "w360", @id = "QUERY" })

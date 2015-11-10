@@ -11,6 +11,24 @@
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_faq').addClass('on');
 
+        $('#mainForm').bind('submit', function () {
+
+            if ($('#QstTxt').val().trim().length == 0) {
+                alert("FAQ 질문을 입력하지 않았습니다.");
+                return false;
+            }
+
+            if ($('#AnsTxt').val().trim().length == 0) {
+                alert("FAQ 답변을 입력하지 않았습니다.");
+                return false;
+            }
+
+            if (!confirm("FAQ를 등록 하시겠습니까?")) {
+                return false;
+            }
+
+        });
+
     });
 </script>
 

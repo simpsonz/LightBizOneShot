@@ -69,10 +69,17 @@
 
 
         $('#submit_form').bind('submit', function () {
+
             if ($('#LoginIdChk').val() != 1) {
                 alert("로그인 중복확인을 하지 않았습니다.");
                 return false;
             }
+
+            if ($('#CompSn').val() == "0") {
+                alert("사업관리기관을 선택 하지 않았습니다.");
+                return false;
+            }
+
         });
     });
 
