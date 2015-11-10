@@ -24,6 +24,8 @@ namespace BizOneShot.Light.Services
         Task<IList<ScCompMapping>> GetExpertCompMappingsForPopupAsync(string expertId, string query);
         Task<IList<ScCompMapping>> GetCompMappingAsync(int bizWorkSn);
         Task<IList<ScCompMapping>> GetCompMappingsForCompanyAsync(int compSn);
+        Task CancelApproveCompMapping(IList<string> listCompSn);
+        Task CompMappingCancelApprove(int bizWorkSn, int compSn);
     }
 
     public class ScCompMappingService : IScCompMappingService
@@ -56,6 +58,30 @@ namespace BizOneShot.Light.Services
 
             return scCompMapping;
         }
+
+
+        public async Task CompMappingCancelApprove(int bizWorkSn, int compSn)
+        {
+            var scCompMapping =
+                await
+                    scCompMappingRepository.GetCompMappingAsync(
+                        scm => scm.BizWorkSn == bizWorkSn && scm.CompSn == compSn);
+
+            scCompMapping.Status = "R";
+            scCompMappingRepository.Update(scCompMapping);
+        }
+
+        public async Task CancelApproveCompMapping(IList<string> listCompSn)
+        {
+            foreach (var compSn in listCompSn)
+            {
+                var array = compSn.Split('#');
+                await Task.Run(() => CompMappingCancelApprove(int.Parse(array[1]), int.Parse(array[0])));
+            }
+
+            await SaveDbContextAsync();
+        }
+
 
         public async Task<IList<ScCompMapping>> GetCompMappingAsync(int bizWorkSn)
         {

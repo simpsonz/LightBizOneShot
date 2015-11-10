@@ -52,6 +52,12 @@
             var loginId = $('#MentorLoginId').val();
             //alert(loginId);
         });
+
+        $('#submit_form').bind('submit', function () {
+            if (!confirm('기업회원 승인을 완료하시겠습니까?')) {
+                return false;
+            }
+        });
     });
 
 
@@ -60,7 +66,7 @@
 <div id="sub_rightwrap">
     <div class="sub_right_title approve01"><em>기업승인관리</em></div>
 
-    @using (Html.BeginForm("ApproveCompany", "CompanyMng", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("ApproveCompany", "CompanyMng", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form", id= "submit_form" }))
     {
         @Html.HiddenFor(model => model.BizWorkSn)
         @Html.HiddenFor(model => model.CompSn)

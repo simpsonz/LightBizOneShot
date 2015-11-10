@@ -24,7 +24,6 @@
             $('input:checkbox').not(this).prop('checked', this.checked);
         });
 
-        //삭제버튼클릭
         $("#btn_delete").click(function () {
             if (confirm('선택하신 기업의 승인을 취소하시겠습니까?')) {
                 if ($(":checkbox[name='acc_choice']:checked").length < 1) {
@@ -41,6 +40,7 @@
 
                 $.ajaxSettings.traditional = true;
                 $.ajax({
+                   
                     type: "post",
                     url: '@Url.Action("CancelApprove", "CompanyMng")',
                     dataType: "json",
@@ -60,6 +60,7 @@
                 return false;
             }
         });
+
     });
 
     function goPage(page) {
