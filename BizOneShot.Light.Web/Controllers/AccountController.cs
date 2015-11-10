@@ -127,7 +127,7 @@ namespace BizOneShot.Light.Web.Controllers
                 //bool result = _scUsrService.AddCompanyUser(scCompInfo, scUsr, syUser);
                 int result = await _scUsrService.AddCompanyUserAsync(scCompInfo, scUsr, syUser);
 
-                //업태,업종처리
+                //업종,종목처리
                 int compSn = int.Parse(Session[Global.CompSN].ToString());
                 if (joinCompanyViewModel.BizTypes.Count > 0)
                 {

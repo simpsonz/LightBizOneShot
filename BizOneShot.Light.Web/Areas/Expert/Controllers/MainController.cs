@@ -80,7 +80,7 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             var usrView =
                Mapper.Map<JoinExpertViewModel>(scExpertMapping);
 
-            //업태, 업종
+            //업종, 종목
             var listScBizType = await _scBizTypeService.GetScBizTypeByCompSn(int.Parse(Session[Global.CompSN].ToString()));
             var bizTypeViewModel =
                Mapper.Map<List<BizTypeViewModel>>(listScBizType);
@@ -99,7 +99,7 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             var usrView =
                Mapper.Map<JoinExpertViewModel>(scExpertMapping);
 
-            //업태, 업종
+            //업종, 종목
             var listScBizType = await _scBizTypeService.GetScBizTypeByCompSn(int.Parse(Session[Global.CompSN].ToString()));
             var bizTypeViewModel =
                Mapper.Map<List<BizTypeViewModel>>(listScBizType);
@@ -129,7 +129,7 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
             scExpertMapping.ScUsr.ScCompInfo.Addr1 = joinExpertViewModel.ComAddr1;
             scExpertMapping.ScUsr.ScCompInfo.Addr2 = joinExpertViewModel.ComAddr2;
 
-            //업태업종 
+            //업종 , 종목
             int compSn = int.Parse(Session[Global.CompSN].ToString());
             if (joinExpertViewModel.BizTypes.Count > 0)
             {

@@ -25,7 +25,7 @@ namespace BizOneShot.Light.Models.WebModels
     {
         public int CompSn { get; set; } // COMP_SN (Primary key). 기업식별자
         public string BizTypeCd { get; set; } // BIZ_TYPE_CD (Primary key). 업종코드
-        public string BizTypeNm { get; set; } // BIZ_TYPE_NM. 업태코드
+        public string BizTypeNm { get; set; } // BIZ_TYPE_NM. 업종이름
 
         // Foreign keys
         public virtual ScCompInfo ScCompInfo { get; set; } // FK_SC_COMP_INFO_TO_SC_BIZ_TYPE

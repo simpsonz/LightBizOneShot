@@ -190,7 +190,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             var usrView =
                 Mapper.Map<CompanyMngViewModel>(scCompMapping);
 
-            //업태, 업종
+            //업종, 종목
             var listScBizType = await _scBizTypeService.GetScBizTypeByCompSn(int.Parse(compSn));
             var bizTypeViewModel =
                Mapper.Map<List< BizTypeViewModel>> (listScBizType);
@@ -274,7 +274,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             var usrView =
                 Mapper.Map<CompanyMngViewModel>(scCompMapping);
 
-            //업태, 업종
+            //업종, 종목
             var listScBizType = await _scBizTypeService.GetScBizTypeByCompSn(int.Parse(compSn));
             var bizTypeViewModel =
                Mapper.Map<List<BizTypeViewModel>>(listScBizType);

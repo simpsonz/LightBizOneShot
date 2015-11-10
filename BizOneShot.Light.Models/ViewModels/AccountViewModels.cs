@@ -116,16 +116,7 @@ namespace BizOneShot.Light.Models.ViewModels
         public string ComUpdId { get; set; } // UPD_ID. 수정자
         public DateTime? ComUpdDt { get; set; } // UPD_DT. 수정일시
 
-        //[Required]
-        //[Display(Name = "업태")]
-        //[MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
-        //public string ComBizClass { get; set; } // 업태
-
-        //[Required]
-        //[Display(Name = "업종")]
-        //[MaxLength(40, ErrorMessage = "{0}은 최대 {1}자 입니다..")]
-        //public string ComBizType { get; set; } // 업종
-
+       //업종, 종목
         public IList<BizTypeViewModel> BizTypes { get; set; }
 
         //사업관리정보
