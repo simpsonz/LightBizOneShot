@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace BizOneShot.Light.Models.ViewModels
 {
@@ -154,5 +155,7 @@ namespace BizOneShot.Light.Models.ViewModels
         public string MentorTelNo { get; set; } // TEL_NO. 전화번호
         public string MentorMbNo { get; set; } // MB_NO. 휴대폰
         public string MentorEmail { get; set; } // EMAIL. 이메일
+
+        public IList<BizTypeViewModel> BizTypes { get; set; } //업태, 업종
     }
 }
