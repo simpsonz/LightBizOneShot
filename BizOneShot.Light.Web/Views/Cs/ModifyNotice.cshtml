@@ -12,6 +12,24 @@
 
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_notice').addClass('on');
+
+        $('#mainForm').bind('submit', function () {
+
+            if ($('#Subject').val().trim().length == 0) {
+                alert("공지 제목을 입력하지 않았습니다.");
+                return false;
+            }
+
+            if ($('#RmkTxt').val().trim().length == 0) {
+                alert("공지 내용을 입력하지 않았습니다.");
+                return false;
+            }
+
+            if (!confirm("공지사항을 수정 하시겠습니까?")) {
+                return false;
+            }
+
+        });
     });
 
 

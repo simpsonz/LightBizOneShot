@@ -270,6 +270,8 @@ namespace BizOneShot.Light.Web.Controllers
                     if (Session[Global.UserType].ToString().Equals(Global.Company))
                     {// 기업회원
                         usrArea = "Company";
+                        return RedirectToAction("MyInfo", "MyInfo", new { area = usrArea });
+
                     }
                     else if (Session[Global.UserType].ToString().Equals(Global.Mentor))
                     {// 멘토

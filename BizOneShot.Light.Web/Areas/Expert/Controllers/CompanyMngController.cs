@@ -405,53 +405,48 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
         {
             ViewBag.LeftMenu = Global.CompanyMng;
 
-            if (ModelState.IsValid)
+            var scReqDoc = Mapper.Map<ScReqDoc>(dataRequestViewModel);
+
+            //회원정보 추가 정보 설정
+            scReqDoc.ChkYn = "N";
+            scReqDoc.ReqDt = DateTime.Now;
+            scReqDoc.SenderId = Session[Global.LoginID].ToString();
+            scReqDoc.Status = "N";
+
+            //신규파일정보저장 및 파일업로드
+            foreach (var file in files)
             {
-                var scReqDoc = Mapper.Map<ScReqDoc>(dataRequestViewModel);
-
-                //회원정보 추가 정보 설정
-                scReqDoc.ChkYn = "N";
-                scReqDoc.ReqDt = DateTime.Now;
-                scReqDoc.SenderId = Session[Global.LoginID].ToString();
-                scReqDoc.Status = "N";
-
-                //신규파일정보저장 및 파일업로드
-                foreach (var file in files)
+                if (file != null)
                 {
-                    if (file != null)
-                    {
-                        var fileHelper = new FileHelper();
+                    var fileHelper = new FileHelper();
 
-                        var savedFileName = fileHelper.GetUploadFileName(file);
+                    var savedFileName = fileHelper.GetUploadFileName(file);
 
-                        var subDirectoryPath = Path.Combine(FileType.Document.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
+                    var subDirectoryPath = Path.Combine(FileType.Document.ToString(), DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString());
 
-                        var savedFilePath = Path.Combine(subDirectoryPath, savedFileName);
+                    var savedFilePath = Path.Combine(subDirectoryPath, savedFileName);
 
-                        var scFileInfo = new ScFileInfo { FileNm = Path.GetFileName(file.FileName), FilePath = savedFilePath, Status = "N", RegId = Session[Global.LoginID].ToString(), RegDt = DateTime.Now };
+                    var scFileInfo = new ScFileInfo { FileNm = Path.GetFileName(file.FileName), FilePath = savedFilePath, Status = "N", RegId = Session[Global.LoginID].ToString(), RegDt = DateTime.Now };
 
-                        var scReqDocFile = new ScReqDocFile { ScFileInfo = scFileInfo };
-                        scReqDocFile.RegType = "S";
+                    var scReqDocFile = new ScReqDocFile { ScFileInfo = scFileInfo };
+                    scReqDocFile.RegType = "S";
 
-                        scReqDoc.ScReqDocFiles.Add(scReqDocFile);
+                    scReqDoc.ScReqDocFiles.Add(scReqDocFile);
 
-                        await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
-                    }
-                }
-
-                //저장
-                int result = await _scReqDocService.AddReqDocAsync(scReqDoc);
-
-                if (result != -1)
-                    return RedirectToAction("SendList", "CompanyMng");
-                else
-                {
-                    ModelState.AddModelError("", "자료요청 등록 실패.");
-                    return View(dataRequestViewModel);
+                    await fileHelper.UploadFile(file, subDirectoryPath, savedFileName);
                 }
             }
-            ModelState.AddModelError("", "입력값 검증 실패.");
-            return View(dataRequestViewModel);
+
+            //저장
+            int result = await _scReqDocService.AddReqDocAsync(scReqDoc);
+
+            if (result != -1)
+                return RedirectToAction("SendList", "CompanyMng");
+            else
+            {
+                ModelState.AddModelError("", "자료요청 등록 실패.");
+                return View(dataRequestViewModel);
+            }
         }
 
         public async Task<ActionResult> SearchCompanyPopup(string QUERY)

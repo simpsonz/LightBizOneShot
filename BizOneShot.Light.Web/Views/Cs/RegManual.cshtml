@@ -14,17 +14,17 @@
 
         $('#submit_form').bind('submit', function () {
             //필수값체크
-            if ($('#FormType').val() == "") {
+            if ($('#FormType').val().trim() == "") {
                 alert("구분은 필수값입니다.");
                 $('#FormType').focus();
                 return false;
             }
-            if ($('#subject').val() == "") {
+            if ($('#subject').val().trim() == "") {
                 alert("제목은 필수값입니다.");
                 $('#subject').focus();
                 return false;
             }
-            if ($('#contents').val() == "") {
+            if ($('#contents').val().trim() == "") {
                 alert("내용은 필수값입니다.");
                 $('#contents').focus();
                 return false;
@@ -66,6 +66,10 @@
             if (hasDups) {
                 // having duplicate values
                 alert("업로드할 파일에 같은 파일이 있습니다.");
+                return false;
+            }
+
+            if (!confirm("메뉴얼을 등록 하시겠습니까?")) {
                 return false;
             }
 
