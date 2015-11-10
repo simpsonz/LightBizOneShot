@@ -306,6 +306,35 @@ a.gangneung_logo{width:180px;height:51px}
 .join_infoinput_wrap ul li > input.w55{width:50px;border:1px solid #ddd;margin-right:5px;line-height:20px}
 .join_infoinput_wrap ul li > input.w160{width:155px;border:1px solid #ddd;margin-right:2px;line-height:20px}
 
+.join_infoinput_wrap2{position:relative;width:auto;height:auto;border-top:1px solid #ddd;}
+.join_infoinput_wrap2 table{width:100%;height:auto;}
+.join_infoinput_wrap2 table tr{text-align:left}
+.join_infoinput_wrap2 table tr th{height:30px;padding:5px 15px 5px 17px;border:1px solid #ddd;border-top:none;background-color:#fafafa;}
+.join_infoinput_wrap2 table tr td{height:30px;padding:6px 7px;border:1px solid #ddd;border-top:none;}
+.join_infoinput_wrap2 table tr td.left{text-align:left}
+.join_infoinput_wrap2 table tr td.read{padding:25px 25px;text-align:left;vertical-align:top;line-height:18px;height:auto;height:400px !important;min-height:400px;}
+.join_infoinput_wrap2 #list_writewrap ul{display:block;width:100%;height:auto;}
+.join_infoinput_wrap2 #list_writewrap ul li{display:block;height:25px;;padding:5px 30px 5px 0;}
+.join_infoinput_wrap2 ul li.line_bot{padding-bottom:5px}
+.join_infoinput_wrap2 #list_writewrap ul li:first-child{border-top:none;}
+.join_infoinput_wrap2 #list_writewrap input.w110{float:left;width:105px;border:1px solid #ddd;margin-right:5px;line-height:20px}
+.join_infoinput_wrap2 #list_writewrap input.w55{float:left;width:50px;border:1px solid #ddd;margin-right:5px;line-height:20px}
+.join_infoinput_wrap2 #list_writewrap input.w165{float:left;width:162px;border:1px solid #ddd;margin-right:8px;line-height:20px}
+
+.join_infoinput_wrap2 input.w240{width:230px;height:20px;border:1px solid #dbdbdb;}
+.join_infoinput_wrap2 input.w146{width:146px;height:20px;border:1px solid #dbdbdb;}
+.join_infoinput_wrap2 input.w80{width:70px;height:20px;border:1px solid #dbdbdb;}
+
+.join_infoinput_wrap2 #list_writewrap ul li > button.file_add{width:26px;height:28px;background:url('../images/bt_file_add.png');margin:0 5px 0 0;}
+.join_infoinput_wrap2 #list_writewrap ul li > button.file_del{width:26px;height:28px;background:url('../images/bt_file_del.png');margin:0 0 0 0;}
+.join_infoinput_wrap2 #list_writewrap select.w242{width:242px;height:28px;border:1px solid #dbdbdb;float:left;}
+.join_infoinput_wrap2 select.w60{width:55px;height:28px;border:1px solid #dbdbdb;}
+
+.join_infoinput_wrap2 button.file_add{width:26px;height:28px;background:url('../images/bt_file_add.png');margin:0 0 0 1px;}
+.join_infoinput_wrap2 button.file_del{width:26px;height:28px;background:url('../images/bt_file_del.png');margin:0 0 0 5px;}
+.join_infoinput_wrap2 button.file_add03{width:26px;height:28px;background:url('../images/bt_file_add.png');margin:0 5px;}
+.join_infoinput_wrap2 button.bt_post{float:left;width:79px;height:25px;background:url('../images/bt_td_post.png');}
+
 /*custom center*/
 .custom_gnbwrap{position:relative;width:200px;height:auto;}
 .custom_gnbwrap ul li.title{display:block;height:58px;border-bottom:3px solid #545151;background:url('../images/title_customcenter.png') no-repeat 10px top;}
