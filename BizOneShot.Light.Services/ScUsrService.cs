@@ -27,6 +27,7 @@ namespace BizOneShot.Light.Services
         Task<IList<ScUsr>> GetExpertManagerAsync(string bizMngSn = null, string expertType = null);
         //Task<IList<ScUsr>> GetMentorListAsync(int mngCompSn);
         Task<ScUsr> SelectScUsr(string loginId, string registrationNo);
+        int UpdatePassword(SHUSER_SyUser syUser);
     }
 
 
@@ -226,6 +227,11 @@ namespace BizOneShot.Light.Services
         //    listScUsrTask = await scMentorMappingRepository.GetManyAsync(mmp => mmp.Status == "N" && mmp.ScUsr.UsrType == "M" && mmp.ScCompInfo.CompSn == mngCompSn);
         //    return listScUsrTask.Select(mmp => mmp.ScUsr).OrderByDescending(usr => usr.RegDt).ToList();
         //}
+        public int UpdatePassword(SHUSER_SyUser syUser)
+        {
+            var rstSyUser = syUserRespository.UpdatePassword(syUser);
+            return rstSyUser;
+        }
 
         public void SaveDbContext()
         {
@@ -240,6 +246,11 @@ namespace BizOneShot.Light.Services
         public async Task<int> SaveDareDbContextAsync()
         {
             return await dareUnitOfWork.CommitAsync();
+        }
+
+        public void  SaveDareDbContext()
+        {
+            dareUnitOfWork.Commit();
         }
     }
 }

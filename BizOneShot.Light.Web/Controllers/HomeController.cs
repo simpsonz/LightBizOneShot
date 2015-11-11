@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity.Core.Objects;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,11 +7,11 @@ using System.Web.Mvc;
 using AutoMapper;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
+using BizOneShot.Light.Models.DareModels;
 using BizOneShot.Light.Services;
 using BizOneShot.Light.Util.Security;
 using BizOneShot.Light.Web.ComLib;
 using Microsoft.AspNet.Identity.Owin;
-using PagedList;
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -388,13 +385,20 @@ namespace BizOneShot.Light.Web.Controllers
         public async Task<JsonResult> UpdateLoginPassword(string ID, string LOGIN_PW)
         {
             ScUsr scUsr = await _scUsrService.SelectScUsr(ID);
+            
+            
             if (scUsr != null)
             {
                 //패스워드비교
                 SHACryptography sha2 = new SHACryptography();
-
                 scUsr.LoginPw = sha2.EncryptString(LOGIN_PW);
                 await _scUsrService.SaveDbContextAsync();
+
+                SHUSER_SyUser syUsr = new SHUSER_SyUser();
+                syUsr.SmartPwd = scUsr.LoginPw;
+                syUsr.IdUser = scUsr.LoginId;
+                syUsr.MembBusnpersNo = scUsr.ScCompInfo.RegistrationNo;
+                var rst = _scUsrService.UpdatePassword(syUsr);
 
                 return Json(new { result = true });
             }
