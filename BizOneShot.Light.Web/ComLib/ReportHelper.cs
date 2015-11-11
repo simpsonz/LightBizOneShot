@@ -461,6 +461,46 @@ namespace BizOneShot.Light.Web.ComLib
             return qm;
         }
 
+
+        public static CompnayStatsViewModel MakeMonthCompnayStatsViewModel(ScCompMapping scCompMapping, SHUSER_SboFinancialTab1SalesSelectReturnModel monthSales)
+        {
+            CompnayStatsViewModel model = new CompnayStatsViewModel();
+            model.CompNm = scCompMapping.ScCompInfo.CompNm;
+            model.AvgSales = Math.Truncate(monthSales.TERM_SALE_AVR.Value / 1000).ToString();
+            model.BeforeSales = Math.Truncate(monthSales.PRE_TO_SALE.Value / 1000).ToString();
+            model.CntEmploy = Math.Truncate(monthSales.QT_EMP.Value).ToString();
+            model.LastSales = Math.Truncate(monthSales.TO_SALE.Value).ToString();
+            model.SumSales = Math.Truncate(monthSales.TERM_SALE.Value).ToString();
+
+            return model;
+        }
+
+        public static CompnayStatsViewModel MakeQuarterCompnayStatsViewModel(ScCompMapping scCompMapping, SHUSER_SboFinancialTab2SalesSelectReturnModel quarterSales)
+        {
+            CompnayStatsViewModel model = new CompnayStatsViewModel();
+            model.CompNm = scCompMapping.ScCompInfo.CompNm;
+            model.AvgSales = Math.Truncate(quarterSales.QT_AVR.Value / 1000).ToString();
+            model.BeforeSales = Math.Truncate(quarterSales.PRE_TO_SALE.Value / 1000).ToString();
+            model.CntEmploy = Math.Truncate(quarterSales.QT_EMP.Value).ToString();
+            model.LastSales = Math.Truncate(quarterSales.TO_SALE.Value).ToString();
+            model.SumSales = Math.Truncate(quarterSales.TERM_SALE.Value).ToString();
+
+            return model;
+        }
+
+        public static CompnayStatsViewModel MakeYearCompnayStatsViewModel(ScCompMapping scCompMapping, SHUSER_SboFinancialTab3SalesSelectReturnModel yearSales)
+        {
+            CompnayStatsViewModel model = new CompnayStatsViewModel();
+            model.CompNm = scCompMapping.ScCompInfo.CompNm;
+            model.AvgSales = Math.Truncate(yearSales.TERM_SALE_AVR.Value / 1000).ToString();
+            model.BeforeSales = Math.Truncate(yearSales.PRE_TO_SALE.Value / 1000).ToString();
+            model.CntEmploy = Math.Truncate(yearSales.QT_EMP.Value).ToString();
+            //model.LastSales = Math.Truncate(yearSales.TO_SALE.Value).ToString();
+            model.SumSales = Math.Truncate(yearSales.TERM_SALE.Value).ToString();
+
+            return model;
+        }
+
         public static object[] MakeProcedureParams(string bpNo, string corpCd, string bizCd, string year, string month)
         {
             SqlParameter compRegNo = new SqlParameter("MEMB_BUSNPERS_NO", bpNo);
@@ -470,6 +510,74 @@ namespace BizOneShot.Light.Web.ComLib
             SqlParameter setMonth = new SqlParameter("SET_MONTH", month);
 
             object[] parameters = new object[] { compRegNo, corpCode, bizCode, setYear, setMonth };
+
+            return parameters;
+        }
+
+        public static object[] MakeSalesMonthProcedureParams(string bpNo, string corpCd, string bizCd, string startYear, string startMonth, string endYear, string endMonth)
+        {
+            if (startMonth.Length == 1)
+                startMonth = "0" + startMonth;
+
+            if (endMonth.Length == 1)
+                endMonth = "0" + endMonth;
+
+            DateTime lastday = new DateTime(int.Parse(endYear), int.Parse(endMonth), DateTime.DaysInMonth(int.Parse(endYear), int.Parse(endMonth)));
+
+            SqlParameter compRegNo = new SqlParameter("MEMB_BUSNPERS_NO", bpNo);
+            SqlParameter corpCode = new SqlParameter("CORP_CODE", corpCd);
+            SqlParameter bizCode = new SqlParameter("BIZ_CD", bizCd);
+            SqlParameter startYM = new SqlParameter("FR_YM", startYear + startMonth);
+            SqlParameter endYM = new SqlParameter("TO_YM", endYear + endMonth);
+            SqlParameter baseDt = new SqlParameter("BASE_DT", lastday.ToString("yyyyMMdd"));
+
+            object[] parameters = new object[] { compRegNo, corpCode, bizCode, startYM, endYM, baseDt };
+
+            return parameters;
+        }
+
+        public static object[] MakeSalesQuarterProcedureParams(string bpNo, string corpCd, string bizCd, string startYear, string startQuarter, string endYear, string endQuarter)
+        {
+            int endMonth = 0;
+
+            if (endQuarter == "1")
+                endMonth = 3;
+            else if (endQuarter == "2")
+                endMonth = 6;
+            else if (endQuarter == "3")
+                endMonth = 9;
+            else
+                endMonth = 12;
+
+            DateTime lastday = new DateTime(int.Parse(endYear), endMonth, DateTime.DaysInMonth(int.Parse(endYear), endMonth));
+
+            SqlParameter compRegNo = new SqlParameter("MEMB_BUSNPERS_NO", bpNo);
+            SqlParameter corpCode = new SqlParameter("CORP_CODE", corpCd);
+            SqlParameter bizCode = new SqlParameter("BIZ_CD", bizCd);
+            SqlParameter startY = new SqlParameter("FR_YEAR", startYear);
+            SqlParameter startQ = new SqlParameter("FR_QT", startQuarter);
+            SqlParameter endY = new SqlParameter("TO_YEAR", endYear);
+            SqlParameter endQ = new SqlParameter("TO_QT", endQuarter);
+            SqlParameter baseDt = new SqlParameter("BASE_DT", lastday.ToString("yyyyMMdd"));
+
+            object[] parameters = new object[] { compRegNo, corpCode, bizCode, startY, startQ, endY, endQ, baseDt };
+
+            return parameters;
+        }
+
+        public static object[] MakeSalesYearProcedureParams(string bpNo, string corpCd, string bizCd, string startYear, string endYear)
+        {
+
+            DateTime lastday = new DateTime(int.Parse(endYear), 12, DateTime.DaysInMonth(int.Parse(endYear), 12));
+
+            SqlParameter compRegNo = new SqlParameter("MEMB_BUSNPERS_NO", bpNo);
+            SqlParameter corpCode = new SqlParameter("CORP_CODE", corpCd);
+            SqlParameter bizCode = new SqlParameter("BIZ_CD", bizCd);
+            SqlParameter startYM = new SqlParameter("FR_YEAR", startYear);
+            SqlParameter endYM = new SqlParameter("TO_YEAR", endYear);
+            SqlParameter baseDt = new SqlParameter("BASE_DT", lastday.ToString("yyyyMMdd"));
+
+            object[] parameters = new object[] { compRegNo, corpCode, bizCode, startYM, endYM, baseDt };
 
             return parameters;
         }

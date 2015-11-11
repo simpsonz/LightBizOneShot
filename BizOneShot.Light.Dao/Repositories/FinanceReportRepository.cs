@@ -108,12 +108,12 @@ namespace BizOneShot.Light.Dao.Repositories
 
         public async Task<SHUSER_SboFinancialTab2SalesSelectReturnModel> GetCompanyQuarterSalesAsync(object[] parameters)
         {
-            return await DareDbContext.Database.SqlQuery<SHUSER_SboFinancialTab2SalesSelectReturnModel>("SBO_FINANCIAL_TAB2_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @FR_QT, @TO_QT, @YEAR, @BASE_DT", parameters).SingleOrDefaultAsync();
+            return await DareDbContext.Database.SqlQuery<SHUSER_SboFinancialTab2SalesSelectReturnModel>("SBO_FINANCIAL_TAB2_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @FR_YEAR, @FR_QT, @TO_YEAR, @TO_QT, @BASE_DT", parameters).SingleOrDefaultAsync();
         }
 
         public async Task<SHUSER_SboFinancialTab3SalesSelectReturnModel> GetCompanyYearSalesAsync(object[] parameters)
         {
-            return await DareDbContext.Database.SqlQuery<SHUSER_SboFinancialTab3SalesSelectReturnModel>("SBO_FINANCIAL_TAB3_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @YEAR, @BASE_DT", parameters).SingleOrDefaultAsync();
+            return await DareDbContext.Database.SqlQuery<SHUSER_SboFinancialTab3SalesSelectReturnModel>("SBO_FINANCIAL_TAB3_SALES_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @FR_YEAR, @TO_YEAR, @BASE_DT", parameters).SingleOrDefaultAsync();
         }
     }
 }

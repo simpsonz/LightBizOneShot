@@ -29,6 +29,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
         private readonly IRptMasterService rptMasterService;
         private readonly IScMentoringReportService _scMentoringReportService;
         private readonly IScMentoringFileInfoService _scMentoringFileInfoService;
+        private readonly IFinenceReportService _finenceReportService;
 
 
         public ReportController(IScBizWorkService scBizWorkService
@@ -39,6 +40,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             , IScMentoringReportService scMentoringReportService
             , IScMentoringFileInfoService scMentoringFileInfoService
             , IRptMasterService rptMasterService
+            , IFinenceReportService finenceReportService
             )
         {
             this._scBizWorkService = scBizWorkService;
@@ -49,6 +51,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             this._scMentoringReportService = scMentoringReportService;
             this._scMentoringFileInfoService = scMentoringFileInfoService;
             this.rptMasterService = rptMasterService;
+            this._finenceReportService = finenceReportService;
         }
 
 
@@ -954,14 +957,33 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             var bizInCompanyStatsView =  Mapper.Map<BizInCompanyStatsViewModel>(scBizWork);
             bizInCompanyStatsView.Display = "Y";
-
             var scCompMappingList = await _scCompMappingService.GetCompMappingAsync(BizWorkSn);
+            bizInCompanyStatsView.compnayStatsListViewModel = new List<CompnayStatsViewModel>();
 
-            bizInCompanyStatsView.compnayStatsListViewModel = Mapper.Map<List<CompnayStatsViewModel>>(scCompMappingList);
             bizInCompanyStatsView.StartYear = StartYear.ToString();
             bizInCompanyStatsView.StartMonth = StartMonth.ToString();
             bizInCompanyStatsView.EndYear = EndYear.ToString();
             bizInCompanyStatsView.EndMonth = EndMonth.ToString();
+
+            Dictionary<int, decimal> sales = new Dictionary<int, decimal>();
+            Dictionary<int, decimal> employ = new Dictionary<int, decimal>();
+
+            foreach(var item in scCompMappingList)
+            {
+                var result = await _finenceReportService.GetCompanyMonthSalesAsync(ReportHelper.MakeSalesMonthProcedureParams(item.ScCompInfo.RegistrationNo, "1000", "1100", StartYear.ToString(), StartMonth.ToString(), EndYear.ToString(), EndMonth.ToString()));
+                sales.Add(item.CompSn, result.TERM_SALE.Value);
+                employ.Add(item.CompSn, result.QT_EMP.Value);
+
+                bizInCompanyStatsView.compnayStatsListViewModel.Add(ReportHelper.MakeMonthCompnayStatsViewModel(item, result));
+            }
+
+            bizInCompanyStatsView.SumSales = Math.Truncate(sales.Values.Sum() / 1000).ToString();
+            bizInCompanyStatsView.AvgSales = Math.Truncate(sales.Values.Average() / 1000).ToString();
+
+            bizInCompanyStatsView.SumEmploy = Math.Truncate(employ.Values.Sum() / 1000).ToString();
+            bizInCompanyStatsView.AvgEmploy = Math.Truncate(employ.Values.Average() / 1000).ToString();
+
+
 
             return View(bizInCompanyStatsView);
         }
@@ -1024,11 +1046,17 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             var scCompMappingList = await _scCompMappingService.GetCompMappingAsync(BizWorkSn);
 
-            bizInCompanyStatsView.compnayStatsListViewModel = Mapper.Map<List<CompnayStatsViewModel>>(scCompMappingList);
+            bizInCompanyStatsView.compnayStatsListViewModel = new List<CompnayStatsViewModel>();
             bizInCompanyStatsView.StartYear = StartYear.ToString();
             bizInCompanyStatsView.StartMonth = StartMonth.ToString();
             bizInCompanyStatsView.EndYear = EndYear.ToString();
             bizInCompanyStatsView.EndMonth = EndMonth.ToString();
+
+            foreach (var item in scCompMappingList)
+            {
+                var result = await _finenceReportService.GetCompanyMonthSalesAsync(ReportHelper.MakeSalesMonthProcedureParams(item.ScCompInfo.RegistrationNo, "1000", "1100", StartYear.ToString(), StartMonth.ToString(), EndYear.ToString(), EndMonth.ToString()));
+                bizInCompanyStatsView.compnayStatsListViewModel.Add(ReportHelper.MakeMonthCompnayStatsViewModel(item, result));
+            }
 
             return View(bizInCompanyStatsView);
         }
@@ -1089,11 +1117,17 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             var scCompMappingList = await _scCompMappingService.GetCompMappingAsync(BizWorkSn);
 
-            bizInCompanyStatsView.compnayStatsListViewModel = Mapper.Map<List<CompnayStatsViewModel>>(scCompMappingList);
+            bizInCompanyStatsView.compnayStatsListViewModel = new List<CompnayStatsViewModel>();
             bizInCompanyStatsView.StartYear = StartYear.ToString();
             bizInCompanyStatsView.StartQuarter = StartQuarter.ToString();
             bizInCompanyStatsView.EndYear = EndYear.ToString();
             bizInCompanyStatsView.EndQuarter = EndQuarter.ToString();
+
+            foreach (var item in scCompMappingList)
+            {
+                var result = await _finenceReportService.GetCompanyQuarterSalesAsync(ReportHelper.MakeSalesQuarterProcedureParams(item.ScCompInfo.RegistrationNo, "1000", "1100", StartYear.ToString(), StartQuarter.ToString(), EndYear.ToString(), EndQuarter.ToString()));
+                bizInCompanyStatsView.compnayStatsListViewModel.Add(ReportHelper.MakeQuarterCompnayStatsViewModel(item, result));
+            }
 
             return View(bizInCompanyStatsView);
         }
@@ -1150,9 +1184,15 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             var scCompMappingList = await _scCompMappingService.GetCompMappingAsync(BizWorkSn);
 
-            bizInCompanyStatsView.compnayStatsListViewModel = Mapper.Map<List<CompnayStatsViewModel>>(scCompMappingList);
+            bizInCompanyStatsView.compnayStatsListViewModel = new List<CompnayStatsViewModel>(); 
             bizInCompanyStatsView.StartYear = StartYear.ToString();
             bizInCompanyStatsView.EndYear = EndYear.ToString();
+
+            foreach (var item in scCompMappingList)
+            {
+                var result = await _finenceReportService.GetCompanyYearSalesAsync(ReportHelper.MakeSalesYearProcedureParams(item.ScCompInfo.RegistrationNo, "1000", "1100", StartYear.ToString(), EndYear.ToString()));
+                bizInCompanyStatsView.compnayStatsListViewModel.Add(ReportHelper.MakeYearCompnayStatsViewModel(item, result));
+            }
 
             return View(bizInCompanyStatsView);
         }

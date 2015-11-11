@@ -124,7 +124,7 @@ namespace BizOneShot.Light.Web.Controllers
             financeMngViewModel.taxSalesListViewModel = ReportHelper.MakeTaxSalseListViewModel(taxSalesResult, salesResult);
 
             // 주요지출
-            var bankOutResult = await _finenceReportService.GetBankOutAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var bankOutResult = await _finenceReportService.GetBankOutAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString())); 
             financeMngViewModel.bankOutListViewModel = ReportHelper.MakeBnakOutListViewModel(bankOutResult);
 
             return View(financeMngViewModel);

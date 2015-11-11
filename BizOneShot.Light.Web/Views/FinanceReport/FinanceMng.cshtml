@@ -200,7 +200,7 @@
         //중앙위치 구해오기
         LeftPosition = (screen.width - w) / 2;
         TopPosition = (screen.height - h) / 2;
-        var popUp = window.open('/FinanceReport/RegCommentPopup?BasicYear=' + year +'&BasicMonth=' + month + '&BizWorkSn=' + bizWorkSn + '&CompSn=' + compSn, 'RegComment', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=no, resizable=no");
+        var popUp = window.open('/FinanceReport/RegCommentPopup?BasicYear=' + year +'&BasicMonth=' + month + '&BizWorkSn=' + bizWorkSn + '&CompSn=' + compSn, 'RegComment', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ",scrollbars=no,resizable=no");
         popUp.focus();
     }
 
@@ -217,8 +217,8 @@
         //중앙위치 구해오기
         LeftPosition = (screen.width - w) / 2;
         TopPosition = (screen.height - h) / 2;
-        var popUp = window.open('/FinanceReport/SearchCommentPopup?BasicYear=' + year +'&BasicMonth=' + month + '&BizWorkSn=' + bizWorkSn + '&CompSn=' + compSn, 'RegComment', "width=" + w + ",height=" + h + ",top=" + TopPosition + ",left=" + LeftPosition + ", scrollbars=yes, resizable=no");
-        popUp.focus();
+ 
+        window.open("/FinanceReport/SearchCommentPopup?BasicYear=" + year +"&BasicMonth=" + month + "&BizWorkSn=" + bizWorkSn + "&CompSn=" + compSn, "popup", "resizable=yes, scrollbars=yes, left=" + LeftPosition +", top=" + TopPosition + ", width=" + w + "px, height=" + h + "px" );
     }
 
 </script>

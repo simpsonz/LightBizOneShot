@@ -15,6 +15,10 @@ namespace BizOneShot.Light.Services
         Task<IList<SHUSER_SboMonthlyExpenseCostSelectReturnModel>> GetExpenseCostAsync(object[] parameters);
         Task<IList<SHUSER_SboMonthlyTaxSalesSelectReturnModel>> GetTaxSalesAsync(object[] parameters);
         Task<IList<SHUSER_SboMonthlyBankOutSelectReturnModel>> GetBankOutAsync(object[] parameters);
+
+        Task<SHUSER_SboFinancialTab1SalesSelectReturnModel> GetCompanyMonthSalesAsync(object[] parameters);
+        Task<SHUSER_SboFinancialTab2SalesSelectReturnModel> GetCompanyQuarterSalesAsync(object[] parameters);
+        Task<SHUSER_SboFinancialTab3SalesSelectReturnModel> GetCompanyYearSalesAsync(object[] parameters);
     }
 
 
@@ -71,6 +75,24 @@ namespace BizOneShot.Light.Services
         {
             var bankOutListTask = await financeReportRepository.GetBankOutAsync(parameters);
             return bankOutListTask;
+        }
+
+        public async Task<SHUSER_SboFinancialTab1SalesSelectReturnModel> GetCompanyMonthSalesAsync(object[] parameters)
+        {
+            var CompanyMonthSales = await financeReportRepository.GetCompanyMonthSalesAsync(parameters);
+            return CompanyMonthSales;
+        }
+
+        public async Task<SHUSER_SboFinancialTab2SalesSelectReturnModel> GetCompanyQuarterSalesAsync(object[] parameters)
+        {
+            var CompanyQuarterSales = await financeReportRepository.GetCompanyQuarterSalesAsync(parameters);
+            return CompanyQuarterSales;
+        }
+
+        public async Task<SHUSER_SboFinancialTab3SalesSelectReturnModel> GetCompanyYearSalesAsync(object[] parameters)
+        {
+            var CompanyYearSales = await financeReportRepository.GetCompanyYearSalesAsync(parameters);
+            return CompanyYearSales;
         }
 
         #region SaveContext

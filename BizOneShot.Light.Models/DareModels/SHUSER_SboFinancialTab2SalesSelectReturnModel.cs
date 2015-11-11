@@ -23,10 +23,7 @@ namespace BizOneShot.Light.Models.DareModels
     public class SHUSER_SboFinancialTab2SalesSelectReturnModel
     {
         public Decimal? TERM_SALE { get; set; }
-        public Decimal? QT1_AVR { get; set; }
-        public Decimal? QT2_AVR { get; set; }
-        public Decimal? QT3_AVR { get; set; }
-        public Decimal? QT4_AVR { get; set; }
+        public Decimal? QT_AVR { get; set; }
         public Decimal? TO_SALE { get; set; }
         public Decimal? PRE_TO_SALE { get; set; }
         public Decimal? QT_EMP { get; set; }
