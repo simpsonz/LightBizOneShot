@@ -142,7 +142,8 @@
         popUp.focus();
     }
 
-    function resultReceive(zip, address) {
+    function resultPostReceive(zip, address) {
+        alert("test");
         $('#POST_NO').val(zip);
         $('#ADDR_1').val(address);
     }
@@ -323,7 +324,7 @@
                 <tr>
                     <th>사업명</th>
                     <td class="form">
-                        <select id="BizList" name="BizList" class="w250" disabled="true"><option value="0">사업명</option></select>
+                        <select id="BizList" name="BizList" class="w250" disabled="disabled"><option value="0">사업명</option></select>
                     </td>
                 </tr>
                 <tr>

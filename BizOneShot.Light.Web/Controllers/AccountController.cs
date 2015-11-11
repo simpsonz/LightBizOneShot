@@ -265,6 +265,12 @@ namespace BizOneShot.Light.Web.Controllers
                     scUsr.LoginPw = sha2.EncryptString(model.NewLoginPw);
                     await _scUsrService.SaveDbContextAsync();
 
+                    SHUSER_SyUser syUsr = new SHUSER_SyUser();
+                    syUsr.SmartPwd = scUsr.LoginPw;
+                    syUsr.IdUser = scUsr.LoginId;
+                    syUsr.MembBusnpersNo = scUsr.ScCompInfo.RegistrationNo;
+                    var rst = _scUsrService.UpdatePassword(syUsr);
+
                     string usrArea;
 
                     if (Session[Global.UserType].ToString().Equals(Global.Company))
