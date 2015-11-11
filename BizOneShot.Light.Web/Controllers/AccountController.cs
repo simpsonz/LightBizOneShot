@@ -124,11 +124,7 @@ namespace BizOneShot.Light.Web.Controllers
                 scCompInfo.ScUsrs.Add(scUsr);
                 scCompInfo.ScCompMappings.Add(scm);
 
-                //bool result = _scUsrService.AddCompanyUser(scCompInfo, scUsr, syUser);
-                int result = await _scUsrService.AddCompanyUserAsync(scCompInfo, scUsr, syUser);
-
                 //업종,종목처리
-                int compSn = int.Parse(Session[Global.CompSN].ToString());
                 if (joinCompanyViewModel.BizTypes.Count > 0)
                 {
                     //._scBizTypeService.DeleteScBizTypeByCompSn(compSn);
@@ -137,16 +133,38 @@ namespace BizOneShot.Light.Web.Controllers
                     {
                         var scBizType = new ScBizType
                         {
-                            CompSn = compSn,
                             BizTypeCd = item.BizTypeCd,
                             BizTypeNm = item.BizTypeNm
                         };
 
-                        _scBizTypeService.AddScBizType(scBizType);
+                        scCompInfo.ScBizTypes.Add(scBizType);
                     }
 
-                    await _scBizTypeService.SaveDbContextAsync();
                 }
+
+                //bool result = _scUsrService.AddCompanyUser(scCompInfo, scUsr, syUser);
+                int result = await _scUsrService.AddCompanyUserAsync(scCompInfo, scUsr, syUser);
+
+                ////업종,종목처리
+                //int compSn = int.Parse(Session[Global.CompSN].ToString());
+                //if (joinCompanyViewModel.BizTypes.Count > 0)
+                //{
+                //    //._scBizTypeService.DeleteScBizTypeByCompSn(compSn);
+
+                //    foreach (var item in joinCompanyViewModel.BizTypes)
+                //    {
+                //        var scBizType = new ScBizType
+                //        {
+                //            CompSn = compSn,
+                //            BizTypeCd = item.BizTypeCd,
+                //            BizTypeNm = item.BizTypeNm
+                //        };
+
+                //        _scBizTypeService.AddScBizType(scBizType);
+                //    }
+
+                //    await _scBizTypeService.SaveDbContextAsync();
+                //}
 
               
 

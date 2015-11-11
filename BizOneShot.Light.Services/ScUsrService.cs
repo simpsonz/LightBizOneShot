@@ -116,10 +116,12 @@ namespace BizOneShot.Light.Services
             }
 
             var rst = await SaveDbContextAsync();
-            if (rst != 1)
-                return rst;
 
-            return await SaveDareDbContextAsync();
+            return rst;
+            //if (rst != 1)
+            //    return rst;
+
+            //return await SaveDareDbContextAsync();
         }
 
 

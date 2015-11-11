@@ -437,8 +437,6 @@
 
 
         function fnReturnZip(zip, address) {
-            alert(zip);
-            alert(address);
             $(opener.location).attr("href", "javascript:resultPostReceive('" + zip + "', '" + address + "')");
             self.close();
         }
