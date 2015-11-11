@@ -90,11 +90,11 @@
                             foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>
+                                    <td class="center">
                                         @Html.RadioButton("SelectBizType", item.BizTypeCd, new { @bizTypeNm = item.BizTypeNm })
                                     </td>
-                                    <td>@item.BizTypeCd</td>
-                                    <td>@item.BizTypeNm</td>
+                                    <td class="center">@item.BizTypeCd</td>
+                                    <td class="center">@item.BizTypeNm</td>
                                 </tr>
                             }
                         }
@@ -113,9 +113,6 @@
             </div><!--popup_contwrap//-->
 
         </div><!--popup_wrapper//-->
-
-
-        <div id="popup_footwrap"></div>
 
     </body>
 </html>
