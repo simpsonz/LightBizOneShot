@@ -343,12 +343,6 @@
                     <td colspan="5" class="nopad">
                         <div id="list_writewrap">
                             <ul>
-                                @*<li>
-                                    <input type="text" class="w55" id="bizTypeCd0" name="BizTypeCd" readonly="readonly">&nbsp;&nbsp;<input type="text" class="w165" id="bizTypeNm0" name="BizTypeNm" readonly="readonly">
-                                    <button type="button" class="bt_search_code" value="업종검색" onclick="searchBizTypeOpen(this)"></button>
-                                    <button type="button" class="file_add" value="업종추가" onclick="bizType_inpput_add(this)"></button>
-                                    <button type="button" class="file_del" value="업종삭제" onclick="bizType_inpput_remove(this)"></button>
-                                </li>*@
                                 <li>
                                     @Html.TextBoxFor(model => model.BizTypes[0].BizTypeCd, new { @class = "w55", @id = "bizTypeCd0", @readonly = "true" })
                                     @Html.TextBoxFor(model => model.BizTypes[0].BizTypeNm, new { @class = "w165", @id = "bizTypeNm0", @readonly = "true" })
@@ -361,21 +355,6 @@
                         </div>
                     </td>
                 </tr>
-
-                @*<ul class="long_ul">
-                    <li class="mark_long">업종 / 종목</li>
-                    <div class="info_long">
-                        <li class="info"><input type="text" class="w55" id="bizTypeCd0" name="BizTypeCd" readonly="readonly">&nbsp;&nbsp;<input type="text" class="w160" id="bizTypeNm0" name="BizTypeNm" readonly="readonly"></li>
-                        <li>
-                            <button type="button" class="bt_search_code" value="업종검색" onclick="searchBizTypeOpen(this)"></button>
-                            <button type="button" class="file_add" value="업종추가" onclick="bizType_inpput_add(this)"></button>
-                        </li>
-                        <li>
-                            <button type="button" class="file_del" value="업종삭제" onclick="bizType_inpput_remove(this)"></button>
-                        </li>
-                    </div>
-                </ul>*@
-
                 <tr>
                     <th>전화번호</th>
                     <td class="form">
