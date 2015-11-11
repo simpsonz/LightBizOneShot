@@ -6,9 +6,11 @@ using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Models.DareModels;
 using BizOneShot.Light.Util.Security;
+
 using AutoMapper;
 using System.Threading.Tasks;
 using BizOneShot.Light.Web.ComLib;
+
 
 namespace BizOneShot.Light.Web.Controllers
 {
@@ -18,12 +20,14 @@ namespace BizOneShot.Light.Web.Controllers
         private readonly IScUsrService _scUsrService;
         private readonly IScCompInfoService _scCompInfoService;
         private readonly IScBizWorkService _scBizWorkService;
+        private readonly IScBizTypeService _scBizTypeService;
 
-        public AccountController(IScUsrService scUsrService, IScCompInfoService _scCompInfoService, IScBizWorkService _scBizWorkService)
+        public AccountController(IScUsrService scUsrService, IScCompInfoService scCompInfoService, IScBizWorkService scBizWorkService, IScBizTypeService scBizTypeService)
         {
-            this._scUsrService = scUsrService;
-            this._scCompInfoService = _scCompInfoService;
-            this._scBizWorkService = _scBizWorkService;
+            _scUsrService = scUsrService;
+            _scCompInfoService = scCompInfoService;
+            _scBizWorkService = scBizWorkService;
+            _scBizTypeService = scBizTypeService;
         }
 
         [AllowAnonymous]
@@ -122,6 +126,29 @@ namespace BizOneShot.Light.Web.Controllers
 
                 //bool result = _scUsrService.AddCompanyUser(scCompInfo, scUsr, syUser);
                 int result = await _scUsrService.AddCompanyUserAsync(scCompInfo, scUsr, syUser);
+
+                //업종,종목처리
+                int compSn = int.Parse(Session[Global.CompSN].ToString());
+                if (joinCompanyViewModel.BizTypes.Count > 0)
+                {
+                    //._scBizTypeService.DeleteScBizTypeByCompSn(compSn);
+
+                    foreach (var item in joinCompanyViewModel.BizTypes)
+                    {
+                        var scBizType = new ScBizType
+                        {
+                            CompSn = compSn,
+                            BizTypeCd = item.BizTypeCd,
+                            BizTypeNm = item.BizTypeNm
+                        };
+
+                        _scBizTypeService.AddScBizType(scBizType);
+                    }
+
+                    await _scBizTypeService.SaveDbContextAsync();
+                }
+
+              
 
                 if (result != -1)
                     return RedirectToAction("CompanyJoinComplete", "Account");

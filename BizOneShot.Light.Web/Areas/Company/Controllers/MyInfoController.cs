@@ -44,7 +44,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             var myInfo =
                Mapper.Map<CompanyMyInfoViewModel>(scUsr);
 
-            //업태, 업종
+            //업종, 종목
             var listScBizType = await _scBizTypeService.GetScBizTypeByCompSn(int.Parse(Session[Global.CompSN].ToString()));
             var bizTypeViewModel =
                Mapper.Map<List<BizTypeViewModel>>(listScBizType);
@@ -59,7 +59,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
         {
             ViewBag.LeftMenu = Global.MyInfo;
 
-            //업태, 업종
+            //업종, 종목
             var listScBizType = await _scBizTypeService.GetScBizTypeByCompSn(int.Parse(Session[Global.CompSN].ToString()));
             var bizTypeViewModel =
                Mapper.Map<List<BizTypeViewModel>>(listScBizType);
@@ -113,7 +113,7 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
 
             _scUsrService.ModifyScUsr(scUsr);
 
-            //업태업종 
+            //업종 ,종목
             int compSn = int.Parse(Session[Global.CompSN].ToString());
             if (companyInfoViewModel.BizTypes.Count > 0)
             {

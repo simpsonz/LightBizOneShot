@@ -181,8 +181,8 @@
                                         },
                                       "value",
                                       "text",
-                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.TelNo2, new { @class = "w80", @title = "전화번호 중간자리" })&nbsp;
-                                    -&nbsp;@Html.TextBoxFor(model => model.TelNo3, new { @class = "w80", @title = "전화번호 마지막자리" })
+                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.TelNo2, new { @class = "w80", @title = "전화번호 중간자리", @maxlength="4" })&nbsp;
+                                    -&nbsp;@Html.TextBoxFor(model => model.TelNo3, new { @class = "w80", @title = "전화번호 마지막자리", @maxlength = "4" })
                         @Html.ValidationMessageFor(model => model.TelNo2, "", new { @class = "text-danger", @color = "#b94a48" })
                         @Html.ValidationMessageFor(model => model.TelNo3, "", new { @class = "text-danger", @color = "#b94a48" })
                     </td>
@@ -200,7 +200,8 @@
                                         },
                                       "value",
                                       "text",
-                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.MbNo2, new { @class = "w80", @title = "휴대폰번호 중간자리" })&nbsp;-&nbsp;@Html.TextBoxFor(model => model.MbNo3, new { @class = "w80", @title = "휴대폰 번호 마지막자리" })
+                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.MbNo2, new { @class = "w80", @title = "휴대폰번호 중간자리", @maxlength = "4" })&nbsp;
+                                    -&nbsp;@Html.TextBoxFor(model => model.MbNo3, new { @class = "w80", @title = "휴대폰 번호 마지막자리", @maxlength = "4" })
                         @Html.ValidationMessageFor(model => model.MbNo2, "", new { @class = "text-danger", @color = "#b94a48" })
                         @Html.ValidationMessageFor(model => model.MbNo3, "", new { @class = "text-danger", @color = "#b94a48" })
                     </td>
@@ -230,8 +231,8 @@
                                         },
                                       "value",
                                       "text",
-                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.FaxNo2, new { @class = "w80", @title = "팩스 중간자리" })&nbsp;
-                                    -&nbsp;@Html.TextBoxFor(model => model.FaxNo3, new { @class = "w80", @title = "팩스 마지막자리" })
+                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.FaxNo2, new { @class = "w80", @title = "팩스 중간자리", @maxlength = "4" })&nbsp;
+                                    -&nbsp;@Html.TextBoxFor(model => model.FaxNo3, new { @class = "w80", @title = "팩스 마지막자리", @maxlength = "4" })
 
                         @Html.ValidationMessageFor(model => model.FaxNo2, "", new { @class = "text-danger", @color = "#b94a48" })
                         @Html.ValidationMessageFor(model => model.FaxNo3, "", new { @class = "text-danger", @color = "#b94a48" })

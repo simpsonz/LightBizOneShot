@@ -2,6 +2,7 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 @import url("reset.css");
 html {overflow-y:scroll;}
+
 html,body{position:relative;height:100%;}
 
 /*---------------------------------------------------------------------------- wrap:980px ----------------------------------------------------------------------------*/

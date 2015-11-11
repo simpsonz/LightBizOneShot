@@ -41,13 +41,13 @@ namespace BizOneShot.Light.Services
         private readonly IUnitOfWork unitOfWork;
 
         public ScUsrService(IScUsrRepository scUsrRespository, IUnitOfWork unitOfWork,
-            ISyUserRepository syUserRespository, IDareUnitOfWork dareUnitOfWor,
+            ISyUserRepository syUserRespository, IDareUnitOfWork dareUnitOfWork,
             IScCompInfoRepository scCompInfoRespository, IScMentorMappingRepository scMentorMappingRepository)
         {
             this.scUsrRespository = scUsrRespository;
             this.unitOfWork = unitOfWork;
             this.syUserRespository = syUserRespository;
-            dareUnitOfWork = dareUnitOfWor;
+            this.dareUnitOfWork = dareUnitOfWork;
             this.scCompInfoRespository = scCompInfoRespository;
             this.scMentorMappingRepository = scMentorMappingRepository;
         }
@@ -113,12 +113,14 @@ namespace BizOneShot.Light.Services
             {
                 return -1;
             }
+
             var rst = await SaveDbContextAsync();
             if (rst != 1)
                 return rst;
 
             return await SaveDareDbContextAsync();
         }
+
 
         public async Task<int> AddBizManagerMemberAsync(ScUsr scUsr)
         {

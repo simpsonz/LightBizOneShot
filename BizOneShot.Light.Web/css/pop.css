@@ -2,6 +2,8 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 @import url("reset.css");
 /*html{overflow:hidden;}*/
+html{overflow:auto;}
+
 
 /* ---------------------- popup wrap----------------------*/
 #popup_wrapper{position:relative;width:100%;height:100%;}

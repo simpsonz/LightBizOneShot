@@ -23,12 +23,14 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
         private readonly IScUsrService _scUsrService;
         private readonly IScBizWorkService _scBizWorkService;
         private readonly IScExpertMappingService _scExpertMappingService;
+        private readonly IScBizTypeService _scBizTypeService;
 
-        public ExpertManagerController(IScUsrService scUsrService, IScBizWorkService _scBizWorkService, IScExpertMappingService _scExpertMappingService)
+        public ExpertManagerController(IScUsrService scUsrService, IScBizWorkService scBizWorkService, IScExpertMappingService scExpertMappingService, IScBizTypeService scBizTypeService)
         {
-            this._scUsrService = scUsrService;
-            this._scBizWorkService = _scBizWorkService;
-            this._scExpertMappingService = _scExpertMappingService;
+            _scUsrService = scUsrService;
+            _scBizWorkService = scBizWorkService;
+            _scExpertMappingService = scExpertMappingService;
+            _scBizTypeService = scBizTypeService;
         }
         // GET: SysManager/ExpertManager
         public ActionResult Index()
@@ -290,6 +292,13 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
             ScUsr scUsr = await _scUsrService.SelectScUsr(loginId);
             var myInfo =
               Mapper.Map<JoinExpertViewModel>(scUsr);
+
+            //업종, 종목
+            var listScBizType = await _scBizTypeService.GetScBizTypeByCompSn(myInfo.CompSn);
+            var bizTypeViewModel =
+               Mapper.Map<List<BizTypeViewModel>>(listScBizType);
+
+            myInfo.BizTypes = bizTypeViewModel;
 
             return View(myInfo);
         }

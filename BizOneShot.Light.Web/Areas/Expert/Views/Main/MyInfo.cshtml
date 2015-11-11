@@ -116,8 +116,29 @@
                 <td>@Model.ComRegistrationNo</td>
             </tr>
             <tr>
-                <th>업종 / 업태</th>
-                <td>@Model.ComBizClass / @Model.ComBizType</td>
+                <th>업종 / 종목</th>
+                <td colspan="5" class="nopad">
+                    <div id="list_downwrap">
+                        <ul>
+                            @if (Model.BizTypes == null || Model.BizTypes.Count == 0)
+                            {
+                                <li>
+                                    <span>검색결과가 없습니다.</span>
+                                </li>
+                            }
+                            else
+                            {
+                                foreach (var item in Model.BizTypes)
+                                {
+                                    <li>
+                                        <span>@item.BizTypeCd</span><span> / </span><span>@item.BizTypeNm</span>
+                                    </li>
+                                }
+                            }
+                        </ul>
+
+                    </div>
+                </td>
             </tr>
             <tr>
                 <th>전화번호</th>
