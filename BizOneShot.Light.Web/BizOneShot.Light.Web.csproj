@@ -344,6 +344,8 @@
     <Content Include="images\basic_step04.png" />
     <Content Include="images\basic_step05.png" />
     <Content Include="images\basic_step06.png" />
+    <Content Include="images\bizmanagerDetail.png" />
+    <Content Include="images\bizmanagerMng.png" />
     <Content Include="images\bizpost_bg.gif" />
     <Content Include="images\bizpost_resultbg.gif" />
     <Content Include="images\bizpost_title.gif" />
@@ -377,6 +379,7 @@
     <Content Include="images\main_partner06.jpg" />
     <Content Include="images\main_partner07.jpg" />
     <Content Include="images\main_partner08.jpg" />
+    <Content Include="images\mentor_total_detail.png" />
     <Content Include="images\report_view03.png" />
     <Content Include="images\report_write.png" />
     <Content Include="images\report_write_detail.png" />
