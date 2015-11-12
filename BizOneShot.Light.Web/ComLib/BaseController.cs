@@ -11,7 +11,6 @@ using System.Configuration;
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Models.ViewModels;
 using BizOneShot.Light.Services;
-using System.Threading.Tasks;
 
 namespace BizOneShot.Light.Web.ComLib
 {
@@ -33,9 +32,14 @@ namespace BizOneShot.Light.Web.ComLib
             if (filterContext.ExceptionHandled)
                 return ;
 
+
             string actionName = filterContext.RouteData.Values["action"].ToString();
             string controllerName = filterContext.RouteData.Values["controller"].ToString();
             Type controllerType = filterContext.Controller.GetType();
+            //var method = controllerType.GetMethod(actionName);   
+            //var returnType = method.ReturnType;
+
+            
 
             //통합관제 DB에 웹에러 로깅
             #region Insert WebLog
