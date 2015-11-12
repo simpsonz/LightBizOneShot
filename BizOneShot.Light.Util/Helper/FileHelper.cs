@@ -66,8 +66,6 @@ namespace BizOneShot.Light.Util.Helper
                 response.Flush();
             }
 
-            throw new Exception("test");
-
             response.End();
         }
 
