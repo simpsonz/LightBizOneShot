@@ -12,6 +12,7 @@ using BizOneShot.Light.Dao.Infrastructure;
 using BizOneShot.Light.Web.Mappings;
 using BizOneShot.Light.Services;
 using BizOneShot.Light.Dao.Repositories;
+using BizOneShot.Light.Web.ComLib;
 
 namespace BizOneShot.Light.Web.App_Start
 {
@@ -43,6 +44,7 @@ namespace BizOneShot.Light.Web.App_Start
             builder.RegisterType<DareDbFactory>().As<IDareDbFactory>()
                 //.InstancePerLifetimeScope();
                 .InstancePerRequest();
+
 
             // Repositories
             //builder.RegisterAssemblyTypes(typeof(ScFaqRepository).Assembly)

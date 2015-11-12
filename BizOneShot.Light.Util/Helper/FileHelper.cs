@@ -49,7 +49,11 @@ namespace BizOneShot.Light.Util.Helper
                             zipFile.AddEntry(fileName, temps);
                         }
                     }
-                    zipFile.Save(response.OutputStream);
+                    if (zipFile.Count > 0)
+                    {
+                        zipFile.Save(response.OutputStream);
+                    }
+                   
                     response.Flush();
                 }
             }
@@ -61,6 +65,8 @@ namespace BizOneShot.Light.Util.Helper
                 }
                 response.Flush();
             }
+
+            throw new Exception("test");
 
             response.End();
         }
