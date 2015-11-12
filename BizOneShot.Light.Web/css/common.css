@@ -1190,6 +1190,7 @@ input.list{width:114px;height:42px;background:url('../images/bt_list.png');color
 .sub_right_title.mentor_01_02_02{background:url('../images/title_mentor_01_02_02.png') no-repeat left top;} /*멘토링일지 상세보기*/
 .sub_right_title.mentor_01_03{background:url('../images/title_mentor_01_03.png') no-repeat left top;} /*멘토링 종합보고서 등록*/
 .sub_right_title.mentor_01_04{background:url('../images/title_mentor_01_04.png') no-repeat left top;} /*멘토링 종합보고서 조회*/
+.sub_right_title.mentor_01_04_02{background:url('../images/title_mentor_total_detail.png') no-repeat left top;} /*멘토링 종합보고서 상세*/
 .sub_right_title.mentor_03_01_02{background:url('../images/title_mentor_03_01_02.png') no-repeat left top;} /*공지사항 상세보기*/
 .sub_right_title.mentor_03_02{background:url('../images/title_mentor_03_02.png') no-repeat left top;} /*프로필관리*/
 .sub_right_title.mentor_03_02_02{background:url('../images/title_mentor_03_02_02.png') no-repeat left top;} /*FAQ상세보기*/

@@ -379,7 +379,7 @@
     <Content Include="images\main_partner06.jpg" />
     <Content Include="images\main_partner07.jpg" />
     <Content Include="images\main_partner08.jpg" />
-    <Content Include="images\mentor_total_detail.png" />
+    <Content Include="images\title_mentor_total_detail.png" />
     <Content Include="images\report_view03.png" />
     <Content Include="images\report_write.png" />
     <Content Include="images\report_write_detail.png" />
