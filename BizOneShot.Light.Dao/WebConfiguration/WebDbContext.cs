@@ -26,6 +26,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
 {
     public partial class WebDbContext : DbContext, IWebDbContext
     {
+        public DbSet<CtWebLog> CtWebLogs { get; set; } // CT_WEB_LOG
         public DbSet<QuesCheckList> QuesCheckLists { get; set; } // QUES_CHECK_LIST
         public DbSet<QuesCompExtention> QuesCompExtentions { get; set; } // QUES_COMP_EXTENTION
         public DbSet<QuesCompHistory> QuesCompHistories { get; set; } // QUES_COMP_HISTORY
@@ -96,6 +97,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Configurations.Add(new CtWebLogConfiguration());
             modelBuilder.Configurations.Add(new QuesCheckListConfiguration());
             modelBuilder.Configurations.Add(new QuesCompExtentionConfiguration());
             modelBuilder.Configurations.Add(new QuesCompHistoryConfiguration());
@@ -141,6 +143,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
 
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)
         {
+            modelBuilder.Configurations.Add(new CtWebLogConfiguration(schema));
             modelBuilder.Configurations.Add(new QuesCheckListConfiguration(schema));
             modelBuilder.Configurations.Add(new QuesCompExtentionConfiguration(schema));
             modelBuilder.Configurations.Add(new QuesCompHistoryConfiguration(schema));

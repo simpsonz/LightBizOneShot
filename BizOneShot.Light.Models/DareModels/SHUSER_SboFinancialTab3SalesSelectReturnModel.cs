@@ -24,6 +24,7 @@ namespace BizOneShot.Light.Models.DareModels
     {
         public Decimal? TERM_SALE { get; set; }
         public Decimal? TERM_SALE_AVR { get; set; }
+        public Decimal? TO_SALE { get; set; }
         public Decimal? PRE_TO_SALE { get; set; }
         public Decimal? QT_EMP { get; set; }
     }

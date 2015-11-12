@@ -42,6 +42,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CtWebLogService.cs" />
     <Compile Include="FinenceReportService.cs" />
     <Compile Include="PostService.cs" />
     <Compile Include="QuesCheckListService.cs" />

@@ -10,25 +10,13 @@ using System.Configuration;
 
 using BizOneShot.Light.Models.WebModels;
 using BizOneShot.Light.Models.ViewModels;
+using BizOneShot.Light.Services;
+using System.Threading.Tasks;
 
 namespace BizOneShot.Light.Web.ComLib
 {
     public class BaseController : Controller
     {
-        //private ILogService _logService;
-
-
-        //public BaseController()
-        //{
-        //    this._logService = new LogService();
-        //}
-
-        //public BaseController(ILogService logService)
-        //{
-        //    this._logService = logService;
-        //}
-
-
 
         #region 에러처리 및 로깅
 
@@ -40,30 +28,35 @@ namespace BizOneShot.Light.Web.ComLib
         /// <param name="filterContext"></param>
         protected override void OnException(ExceptionContext filterContext)
         {
+            var ctWebLogService = Resolver.GetService<ICtWebLogService>();
 
-            //if (filterContext.ExceptionHandled)
-            //    return;
+            if (filterContext.ExceptionHandled)
+                return ;
 
             string actionName = filterContext.RouteData.Values["action"].ToString();
             string controllerName = filterContext.RouteData.Values["controller"].ToString();
             Type controllerType = filterContext.Controller.GetType();
-            //var method = controllerType.GetMethod(actionName);   
-            //var returnType = method.ReturnType;
-
 
             //통합관제 DB에 웹에러 로깅
             #region Insert WebLog
-            //WebLogViewModel log = new WebLogViewModel
-            //{
-            //    SRV_CD = ConfigurationManager.AppSettings["ServiceCode"],
-            //    SVR_IP = HttpContext.Request.UserHostAddress,
-            //    RMK_TXT = filterContext.Exception.Message,
-            //    LINE = filterContext.Exception.StackTrace,
-            //    LOGIN_ID = (_LogOnUser != null) ? _LogOnUser.LOGIN_ID : "",
-            //    USR_AGN = HttpContext.Request.UserAgent,
-            //    FILE_NM = string.Format("/{0}/{1}", controllerName, actionName)
-            //};
-            //_logService.RegisterWeblog(log);
+            CtWebLog log = new CtWebLog
+            {
+                SrvCd = ConfigurationManager.AppSettings["ServiceCode"],
+                SvrIp = HttpContext.Request.UserHostAddress,
+                RmkTxt = filterContext.Exception.Message,
+                Line = filterContext.Exception.StackTrace,
+                LoginId = (_LogOnUser != null) ? _LogOnUser.LoginId : "",
+                UsrAgn = HttpContext.Request.UserAgent,
+                FileNm = string.Format("/{0}/{1}", controllerName, actionName),
+                RegDt = DateTime.Now
+            };
+
+            if(log.Line.Length > 500)
+            {
+                log.Line = log.Line.Substring(0, 500);
+            }
+
+            ctWebLogService.AddCtWebLogAsync(log);
             #endregion
 
             string userComment = "일시적인 장애가 발생했습니다.잠시후 다시 시도해주시기 바랍니다."; //리소스에서 메시지 가져오기
@@ -82,7 +75,6 @@ namespace BizOneShot.Light.Web.ComLib
             }
 
             filterContext.ExceptionHandled = true;
-
         }
         #endregion
 
@@ -116,9 +108,10 @@ namespace BizOneShot.Light.Web.ComLib
             Session[Global.AgreeYn] = user.AgreeYn;
         }
 
-        protected void SetLogo(string logo)
+        protected void SetLogo(string logo, string method)
         {
             Session[Global.UserLogo] = logo;
+            Session[Global.StartMethod] = method;
         }
 
         /// <summary>
@@ -126,12 +119,16 @@ namespace BizOneShot.Light.Web.ComLib
         /// [작성] : 2014-10-23 김충기
         /// [수정] :  
         /// </summary>
-        protected void LogOff()
+        protected string LogOff()
         {
             if (HasSession())
             {
+                var method = Session[Global.StartMethod].ToString();
                 Session.Abandon();
+                return method;
             }
+
+            return "";
         }
 
         /// <summary>
@@ -284,41 +281,6 @@ namespace BizOneShot.Light.Web.ComLib
             Response.Flush();
             Response.End();
         }
-        #endregion
-
-
-        #region 파일다운로드
-        /// <summary>
-        /// [기능] : 파일다운로드
-        /// [작성] : 2014-11-24 김충기
-        /// [수정] : 
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="fileUrl"></param>
-        /// <param name="folderType"></param>
-        /// <returns></returns>
-        //public FileResult FileDownload(string fileName, string fileUrl, FolderType folderType)
-        //{
-        //    string directory = "";
-        //    switch (folderType)
-        //    {
-        //        case FolderType.Document:
-        //            directory = ConfigurationManager.AppSettings["FilePath.Document"];
-        //            break;
-        //        case FolderType.Paper:
-        //            directory = ConfigurationManager.AppSettings["FilePath.Paper"];
-        //            break;
-        //        case FolderType.Board:
-        //            directory = ConfigurationManager.AppSettings["FilePath.Board"];
-        //            break;
-        //        case FolderType.Manual:
-        //            directory = ConfigurationManager.AppSettings["FilePath.Manual"];
-        //            break;
-        //    }
-        //    directory += fileUrl;
-        //    return File(directory, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-
-        //}
         #endregion
     }
 }

@@ -22,7 +22,22 @@ namespace BizOneShot.Light.Dao.Infrastructure
 
         public void Commit()
         {
-            DbContext.SaveChanges();
+            try
+            { 
+                DbContext.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var errors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in errors.ValidationErrors)
+                    {
+                        // get the error message 
+                        var errorMessage = validationError.ErrorMessage;
+                    }
+                }
+                throw ex;
+            }
         }
 
         public async Task<int> CommitAsync()

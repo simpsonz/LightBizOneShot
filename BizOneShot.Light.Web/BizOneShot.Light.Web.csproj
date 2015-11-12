@@ -265,6 +265,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BasicSurveyReportController.cs" />
     <Compile Include="Controllers\CsController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FinanceReportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
@@ -1553,6 +1554,7 @@
     <Content Include="Views\BasicSurveyReport\RiskMgmtLiquidity.cshtml" />
     <Content Include="Views\FinanceReport\RegCommentPopup.cshtml" />
     <Content Include="Views\FinanceReport\SearchCommentPopup.cshtml" />
+    <Content Include="Views\Error\Error500.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

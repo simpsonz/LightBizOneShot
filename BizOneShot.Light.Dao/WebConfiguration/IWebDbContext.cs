@@ -26,6 +26,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
 {
     public interface IWebDbContext : IDisposable
     {
+        DbSet<CtWebLog> CtWebLogs { get; set; } // CT_WEB_LOG
         DbSet<QuesCheckList> QuesCheckLists { get; set; } // QUES_CHECK_LIST
         DbSet<QuesCompExtention> QuesCompExtentions { get; set; } // QUES_COMP_EXTENTION
         DbSet<QuesCompHistory> QuesCompHistories { get; set; } // QUES_COMP_HISTORY

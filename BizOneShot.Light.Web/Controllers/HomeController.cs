@@ -34,7 +34,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             if(Session[Global.UserLogo] == null)
             { 
-                base.SetLogo("bi_main.png");
+                base.SetLogo("bi_main.png", "Login");
             }
             return View();
         }
@@ -43,7 +43,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             if (Session[Global.UserLogo] == null)
             {
-                base.SetLogo("bi_main.png");
+                base.SetLogo("bi_main.png", "Login");
             }
 
             if(loginId == null)
@@ -64,7 +64,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             if (Session[Global.UserLogo] == null)
             {
-                base.SetLogo("bi_main.png");
+                base.SetLogo("bi_main.png", "Login");
             }
 
             if (!ModelState.IsValid)
@@ -121,7 +121,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             if (Session[Global.UserLogo] == null)
             {
-                base.SetLogo("bi_main.png");
+                base.SetLogo("bi_main.png", "Login");
             }
 
             if (!ModelState.IsValid)
@@ -207,19 +207,24 @@ namespace BizOneShot.Light.Web.Controllers
 
         public ActionResult Logoff()
         {
-            LogOff();
-            return RedirectToAction("Login");
+            var method = base.LogOff();
+
+            if(method != "")
+            {
+                return RedirectToAction(method, "Home");
+            }
+            return RedirectToAction("Login", "Home");
         }
 
         public  ActionResult WoonjooUniv()
         {
-            base.SetLogo("gangneung_logo_small.png");
+            base.SetLogo("gangneung_logo_small.png", "WoonjooUniv");
             return RedirectToAction("Login", "Home");
         }
 
         public ActionResult SmartBizOn()
         {
-            base.SetLogo("bi_main.png");
+            base.SetLogo("bi_main.png", "Login");
             return RedirectToAction("Index", "Home");
         }
 

@@ -75,6 +75,7 @@
     <Compile Include="DareConfiguration\SHUSER_SyUserConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\CtWebLogRepository.cs" />
     <Compile Include="Repositories\FinanceReportRepository.cs" />
     <Compile Include="Repositories\PostRepository.cs" />
     <Compile Include="Repositories\QuesCheckListRepository.cs" />
@@ -119,6 +120,9 @@
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="Infrastructure\RepositoryBase.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
+    <Compile Include="WebConfiguration\CtWebLogConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="WebConfiguration\Database.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

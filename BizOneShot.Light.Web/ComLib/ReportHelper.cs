@@ -495,7 +495,7 @@ namespace BizOneShot.Light.Web.ComLib
             model.AvgSales = Math.Truncate(yearSales.TERM_SALE_AVR.Value / 1000).ToString();
             model.BeforeSales = Math.Truncate(yearSales.PRE_TO_SALE.Value / 1000).ToString();
             model.CntEmploy = Math.Truncate(yearSales.QT_EMP.Value).ToString();
-            //model.LastSales = Math.Truncate(yearSales.TO_SALE.Value).ToString();
+            model.LastSales = Math.Truncate(yearSales.TO_SALE.Value).ToString();
             model.SumSales = Math.Truncate(yearSales.TERM_SALE.Value).ToString();
 
             return model;

@@ -27,6 +27,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
     [GeneratedCodeAttribute("EF.Reverse.POCO.Generator", "2.15.1.0")]
     public class FakeWebDbContext : IWebDbContext
     {
+        public DbSet<CtWebLog> CtWebLogs { get; set; }
         public DbSet<QuesCheckList> QuesCheckLists { get; set; }
         public DbSet<QuesCompExtention> QuesCompExtentions { get; set; }
         public DbSet<QuesCompHistory> QuesCompHistories { get; set; }
@@ -69,6 +70,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
 
         public FakeWebDbContext()
         {
+            CtWebLogs = new FakeDbSet<CtWebLog>();
             QuesCheckLists = new FakeDbSet<QuesCheckList>();
             QuesCompExtentions = new FakeDbSet<QuesCompExtention>();
             QuesCompHistories = new FakeDbSet<QuesCompHistory>();
