@@ -1175,10 +1175,10 @@ input.list{width:114px;height:42px;background:url('../images/bt_list.png');color
 .sub_right_title.scpadmin_03_01{background:url('../images/title_scpadmin_03_01.png') no-repeat left top;} /*공지사항 관리*/
 .sub_right_title.scpadmin_03_02{background:url('../images/title_scpadmin_03_02.png') no-repeat left top;} /*FAQ 관리*/
 .sub_right_title.scpadmin_03_03{background:url('../images/title_scpadmin_03_03.png') no-repeat left top;} /*매뉴얼 및 서식 관리*/
-.sub_right_title.scpadmin_04_01{background:url('../images/title_scpadmin_04_01.png') no-repeat left top;} /*소속그룹 관리*/
-.sub_right_title.scpadmin_04_02{background:url('../images/title_scpadmin_04_02.png') no-repeat left top;} /*소속그룹 상세보기*/
+.sub_right_title.scpadmin_04_01{background:url('../images/title_scpadmin_04_01.png') no-repeat left top;} /*사업관리기관 관리*/
+.sub_right_title.scpadmin_04_02{background:url('../images/title_scpadmin_04_02.png') no-repeat left top;} /*사업관리기관 상세보기*/
 .sub_right_title.scpadmin_04_03{background:url('../images/title_scpadmin_04_03.png') no-repeat left top;} /*소속그룹 수정*/
-.sub_right_title.scpadmin_04_04{background:url('../images/title_scpadmin_04_04.png') no-repeat left top;} /*소속그룹 등록*/
+.sub_right_title.scpadmin_04_04{background:url('../images/title_scpadmin_04_04.png') no-repeat left top;} /*사업관리기관 등록*/
 
 /* ------------ 멘토 left title ---------- */
 .sub_gnbwrap ul li.title.mentor_report{background:url('../images/title_mentor_report.png') no-repeat 10px top;}

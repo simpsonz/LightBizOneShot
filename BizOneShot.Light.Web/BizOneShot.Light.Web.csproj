@@ -344,8 +344,7 @@
     <Content Include="images\basic_step04.png" />
     <Content Include="images\basic_step05.png" />
     <Content Include="images\basic_step06.png" />
-    <Content Include="images\bizmanagerDetail.png" />
-    <Content Include="images\bizmanagerMng.png" />
+    <Content Include="images\title_scpadmin_04_02.png" />
     <Content Include="images\bizpost_bg.gif" />
     <Content Include="images\bizpost_resultbg.gif" />
     <Content Include="images\bizpost_title.gif" />
@@ -392,6 +391,8 @@
     <Content Include="images\title_project_modify.png" />
     <Content Include="images\title_project_plus.png" />
     <Content Include="images\title_project_plus2.png" />
+    <Content Include="images\title_scpadmin_04_01.png" />
+    <Content Include="images\title_scpadmin_04_04.png" />
     <Content Include="images\title_special_02_02.png" />
     <Content Include="images\title_special_02_03.png" />
     <Content Include="images\title_special_02_04.png" />
@@ -1443,10 +1444,7 @@
     <Content Include="images\title_scpadmin_03_01.png" />
     <Content Include="images\title_scpadmin_03_02.png" />
     <Content Include="images\title_scpadmin_03_03.png" />
-    <Content Include="images\title_scpadmin_04_01.png" />
-    <Content Include="images\title_scpadmin_04_02.png" />
     <Content Include="images\title_scpadmin_04_03.png" />
-    <Content Include="images\title_scpadmin_04_04.png" />
     <Content Include="images\title_scpadmin_customcenter.png" />
     <Content Include="images\title_scpadmin_expert.png" />
     <Content Include="images\title_scpadmin_expert_detail.png" />
