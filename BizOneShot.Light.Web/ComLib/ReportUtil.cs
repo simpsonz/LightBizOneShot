@@ -331,7 +331,7 @@ namespace BizOneShot.Light.Web.ComLib
         {
             int count = 0;
 
-            foreach(var item in checkList.Values)
+            foreach (var item in checkList.Values)
             {
                 var quesResult1 = await quesResult1Service.GetQuesResult1Async(item, detailCd);
                 if (quesResult1 != null && quesResult1.AnsVal == true)
