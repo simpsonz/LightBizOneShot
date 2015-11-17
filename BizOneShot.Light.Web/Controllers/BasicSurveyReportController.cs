@@ -258,13 +258,35 @@ namespace BizOneShot.Light.Web.Controllers
 
             //6. 조직문화도 화살표  -------------> 해당 페이지 개발 후 적용 해야함.
             var orgDivided = await rptMentorCommentService.GetRptMentorCommentAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "02030901");
-            viewModel.OrgType = ReportHelper.GetArrowTypeE(int.Parse(orgDivided.Comment));
+
+            if(orgDivided != null)
+            { 
+                viewModel.OrgType = ReportHelper.GetArrowTypeE(int.Parse(orgDivided.Comment));
+            }
+            else
+            {
+                viewModel.OrgType = "C";
+            }
             //7. 고객의수, 상품의질 화살표 -------------> 해당 페이지 개발 후 적용 해야함.
             var custMng = await rptMentorCommentService.GetRptMentorCommentAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "02022112");
-            viewModel.CustMngType = ReportHelper.GetArrowTypeE(int.Parse(custMng.Comment));
+            if (custMng != null)
+            {
+                viewModel.CustMngType = ReportHelper.GetArrowTypeE(int.Parse(custMng.Comment));
+            }
+            else
+            {
+                viewModel.CustMngType = "C";
+            }
             //8. 전반적 제도 및 규정관리체계 화살표 -------------> 해당 페이지 개발 후 적용 해야함.02033128
             var rool = await rptMentorCommentService.GetRptMentorCommentAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "02033128");
-            viewModel.RoolType = ReportHelper.GetArrowTypeE(int.Parse(rool.Comment));
+            if (rool != null)
+            {
+                viewModel.RoolType = ReportHelper.GetArrowTypeE(int.Parse(rool.Comment));
+            }
+            else
+            {
+                viewModel.RoolType = "C";
+            }
 
             //9. 조직역량-인적자원관리 해당기업 점수
             OverallSummaryPointViewModel orgCapa = new OverallSummaryPointViewModel();
