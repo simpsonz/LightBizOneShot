@@ -279,6 +279,9 @@ namespace BizOneShot.Light.Web.Controllers
             }
             //8. 전반적 제도 및 규정관리체계 화살표 -------------> 해당 페이지 개발 후 적용 해야함.02033128
             var rool = await rptMentorCommentService.GetRptMentorCommentAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "02033128");
+
+            viewModel.RoolType = ReportHelper.GetArrowTypeE(int.Parse(rool.Comment));
+
             if (rool != null)
             {
                 viewModel.RoolType = ReportHelper.GetArrowTypeE(int.Parse(rool.Comment));
