@@ -193,25 +193,38 @@ namespace BizOneShot.Light.Web.Controllers
 
                     //해당기업을 찾아 점수를 별도로 저장한다.
                     if (quesMaster.QuestionSn == paramModel.QuestionSn)
-                            {
+                    {
                         basicCapa = bizInBasicCapa;
                         mkt = bizInMkt;
                         hrMng = bizInHrMng;
-                        workProductivity = Math.Truncate(Convert.ToDouble(((sboFinacialIndexT.CurrentSale - sboFinacialIndexT.MaterialCost) / sboFinacialIndexT.QtEmp) / 1000));
-                        salesEarning = Math.Round(Convert.ToDouble((sboFinacialIndexT.OperatingEarning / sboFinacialIndexT.CurrentSale) * 100), 1);
-                        current = Math.Round(Convert.ToDouble((sboFinacialIndexT.CurrentAsset / sboFinacialIndexT.CurrentLiability) * 100), 1);
-                            }
 
-                    dicBizInHrMng.Add(compMapping.ScCompInfo.RegistrationNo, bizInHrMng);
-                    dicBizInMkt.Add(compMapping.ScCompInfo.RegistrationNo, bizInMkt);
-                    dicBizInBasicCpas.Add(compMapping.ScCompInfo.RegistrationNo, bizInBasicCapa);
+                        if (sboFinacialIndexT.QtEmp != 0)
+                        {
+                            workProductivity = Math.Truncate(Convert.ToDouble(((sboFinacialIndexT.CurrentSale - sboFinacialIndexT.MaterialCost) / sboFinacialIndexT.QtEmp) / 1000));
+                        }
 
-                    dicSales.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentSale.Value);
-                    dicMaterrial.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.MaterialCost.Value);
-                    dicQtEmp.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.QtEmp.Value);
-                    dicOperatingErning.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.OperatingEarning.Value);
-                    dicCurrentAsset.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentAsset.Value);
-                    dicCurrentLiability.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentLiability.Value);
+                        if (sboFinacialIndexT.CurrentSale != 0)
+                        {
+                            salesEarning = Math.Round(Convert.ToDouble((sboFinacialIndexT.OperatingEarning / sboFinacialIndexT.CurrentSale) * 100), 1);
+                        }
+
+                        if (sboFinacialIndexT.CurrentLiability != 0)
+                        {
+                            current = Math.Round(Convert.ToDouble((sboFinacialIndexT.CurrentAsset / sboFinacialIndexT.CurrentLiability) * 100), 1);
+                        }
+
+
+                        dicBizInHrMng.Add(compMapping.ScCompInfo.RegistrationNo, bizInHrMng);
+                        dicBizInMkt.Add(compMapping.ScCompInfo.RegistrationNo, bizInMkt);
+                        dicBizInBasicCpas.Add(compMapping.ScCompInfo.RegistrationNo, bizInBasicCapa);
+
+                        dicSales.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentSale.Value);
+                        dicMaterrial.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.MaterialCost.Value);
+                        dicQtEmp.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.QtEmp.Value);
+                        dicOperatingErning.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.OperatingEarning.Value);
+                        dicCurrentAsset.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentAsset.Value);
+                        dicCurrentLiability.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentLiability.Value);
+                    }
 
                 }
             }
@@ -263,7 +276,10 @@ namespace BizOneShot.Light.Web.Controllers
             //18. 조직역량-1인당노동생산성 해당기업점수
             orgCapa.CompanyPoint2 = workProductivity;
             //21. 조직역량-1인당노동생산성 참여기업 평균
-            orgCapa.AvgBizInCompanyPoint2 = Math.Truncate(Convert.ToDouble(((dicSales.Values.Sum() - dicMaterrial.Values.Sum()) / dicQtEmp.Values.Sum()) / 1000));
+            if(dicQtEmp.Values.Sum() != 0)
+            { 
+                orgCapa.AvgBizInCompanyPoint2 = Math.Truncate(Convert.ToDouble(((dicSales.Values.Sum() - dicMaterrial.Values.Sum()) / dicQtEmp.Values.Sum()) / 1000));
+            }
             //24. 조직역량-1인당노동생산성 전체 평균
             orgCapa.AvgTotalPoint2 = Math.Truncate(Convert.ToDouble((((dicSales.Values.Sum() + 111710064106) - (dicMaterrial.Values.Sum() + 43571068769)) / (dicQtEmp.Values.Sum() + 718 )) / 1000));
             //27. 조직역량-1인당노동생산성 중소기업평균
@@ -280,7 +296,10 @@ namespace BizOneShot.Light.Web.Controllers
             //19. 상품화역량-매출영업이익률 해당기업 점수
             prductionCapa.CompanyPoint2 = salesEarning;
             //22. 상품화역량-매출영업이익률 참여기업 평균
-            prductionCapa.AvgBizInCompanyPoint2 = Math.Round(Convert.ToDouble((dicOperatingErning.Values.Sum() / dicSales.Values.Sum()) * 100), 1);
+            if(dicSales.Values.Sum() != 0)
+            { 
+                prductionCapa.AvgBizInCompanyPoint2 = Math.Round(Convert.ToDouble((dicOperatingErning.Values.Sum() / dicSales.Values.Sum()) * 100), 1);
+            }
             //25. 상품화역량-매출영업이익률 전체평균
             prductionCapa.AvgTotalPoint2 = Math.Round(Convert.ToDouble(((dicOperatingErning.Values.Sum() + 6689265895) / (dicSales.Values.Sum() + 111710064106)) * 100), 1);
             //28. 상품화역량-매출영업이익률 중소기업평균
@@ -297,7 +316,10 @@ namespace BizOneShot.Light.Web.Controllers
             //20. 위험관리역량-유동비율 해당기업 점수
             riskMngCapa.CompanyPoint2 = current;
             //23. 위험관리역량-유동비율 참여기업평균 점수
-            riskMngCapa.AvgBizInCompanyPoint2 = Math.Round(Convert.ToDouble((dicCurrentAsset.Values.Sum() / dicCurrentLiability.Values.Sum()) * 100), 1);
+            if(dicCurrentLiability.Values.Sum() != 0)
+            { 
+                riskMngCapa.AvgBizInCompanyPoint2 = Math.Round(Convert.ToDouble((dicCurrentAsset.Values.Sum() / dicCurrentLiability.Values.Sum()) * 100), 1);
+            }
             //26. 위험관리역량-유동비율 전체평균 점수
             riskMngCapa.AvgTotalPoint2 = Math.Round(Convert.ToDouble(((dicCurrentAsset.Values.Sum() + 58220981909) / (dicCurrentLiability.Values.Sum() + 23152799577)) * 100), 1);
             //29. 위험관리역량-유동비율 중소기업평균 점수
@@ -2990,7 +3012,7 @@ namespace BizOneShot.Light.Web.Controllers
                 rptMasterService.ModifyRptMaster(rptMater);
 
                 await rptMentorCommentService.SaveDbContextAsync();
-                return RedirectToAction("BasicSurveyCompanyList", "BasicSurveyReport", new { area = "" });
+                return RedirectToAction("BasicSurveyReport", "Report", new { area = "Mentor" });
             }
 
         }

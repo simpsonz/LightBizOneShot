@@ -61,7 +61,7 @@ namespace BizOneShot.Light.Dao.Repositories
             return await DbContext.RptMasters
                 .Include(rm => rm.ScBizWork)
                 .Include(rm => rm.ScCompInfo)
-                .Where(rm => rm.MentorId == mentorID && rm.BasicYear == basicYear && rm.Status.Contains(status))
+                .Where(rm => rm.MentorId == mentorID && rm.BasicYear == basicYear && rm.Status.Contains(status) && rm.Status != "D")
                 .Where(rm => bizWorkSn == 0 ? rm.BizWorkSn > 0 : rm.BizWorkSn == bizWorkSn)
                 .Where(rm => compSn == 0 ? rm.CompSn > 0 : rm.CompSn == compSn)
                 .OrderByDescending(rm => rm.RegDt)

@@ -139,7 +139,7 @@
             <div class="rightwrap right">
                 @if (ViewBag.paramModel.Status != "C")
                 {
-                    <button type="button" class="write_end" onclick="goSubmit('C');" value="작성완료" />
+                    <button type="button" class="write_end" onclick="goSubmit('N');" value="작성완료" />
                 }
                 else
                 {
@@ -154,6 +154,14 @@
                     else if (Session[Global.UserType].Equals(Global.Mentor))
                     {
                         <a href="@Url.Action("BasicSurveyReport", "Report", new { area = "Mentor"})" class="list2 right" value="목록"><em>목록</em></a>
+                    }
+                    else if (Session[Global.UserType].Equals(Global.Expert))
+                    {
+                        <a href="@Url.Action("BasicSurveyReport", "Report", new { area = "Expert"})" class="list2 right" value="목록"><em>목록</em></a>
+                    }
+                    else if (Session[Global.UserType].Equals(Global.SysManager))
+                    {
+                        <a href="@Url.Action("BasicSurveyReport", "Report", new { area = "SysManager"})" class="list2 right" value="목록"><em>목록</em></a>
                     }
                 }
             </div>

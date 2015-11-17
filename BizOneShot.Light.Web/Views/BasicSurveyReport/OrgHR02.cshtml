@@ -11,6 +11,25 @@
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
 
+        $('#mainForm').bind('submit', function () {
+
+            var valid = true;
+            if ($('#submitType').val() == "N") {
+
+                $('textarea[id^="comment"]').each(function () {
+                    if ($(this).val().length == 0 && valid == true) {
+                        alert("필수항목을 입력해 주세요");
+                        $(this).focus();
+                        valid = false;
+
+                        return false;
+                    }
+                });
+                return valid;
+            }
+
+        });
+
         if ($('#Status').val() == "C") {
             $('#mainForm input').attr('disabled', true);
             $('#mainForm textarea').attr('disabled', true);
@@ -194,7 +213,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    @Html.TextAreaFor(model => model.CommentList[0].Comment, new { @class = "bot_textarea", @placeholder = "500자 내로 작성하시기 바랍니다." })
+                    @Html.TextAreaFor(model => model.CommentList[0].Comment, new { @id = "comment0", @class = "bot_textarea", @placeholder = "500자 내로 작성하시기 바랍니다." })
                     @Html.HiddenFor(model => model.CommentList[0].DetailCd)
                 </div>
 
