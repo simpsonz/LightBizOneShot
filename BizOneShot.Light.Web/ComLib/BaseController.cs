@@ -18,6 +18,12 @@ namespace BizOneShot.Light.Web.ComLib
     {
 
         #region 에러처리 및 로깅
+        private readonly ICtWebLogService ctWebLogService;
+        public BaseController()
+        {
+            this.ctWebLogService = Resolver.GetService<ICtWebLogService>();
+        }
+
 
         /// <summary>
         /// [기능] : Exception 처리 및 로깅
@@ -27,7 +33,7 @@ namespace BizOneShot.Light.Web.ComLib
         /// <param name="filterContext"></param>
         protected override void OnException(ExceptionContext filterContext)
         {
-            var ctWebLogService = Resolver.GetService<ICtWebLogService>();
+            //var ctWebLogService = Resolver.GetService<ICtWebLogService>();
 
             if (filterContext.ExceptionHandled)
                 return ;
