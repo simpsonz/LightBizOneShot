@@ -113,7 +113,7 @@
         popUp.focus();
     }
 
-    function resultReceive(zip, address) {
+    function resultPostReceive(zip, address) {
         $('#POST_NO').val(zip);
         $('#ADDR_1').val(address);
     }
@@ -412,12 +412,16 @@
                 <th>주소</th>
                 <td class="form nopad">
                     <ul>
-                        <li class="info"><input type="button" class="td_post" value="우편번호" onClick="javascript: open_post();">@Html.TextBoxFor(model => model.ComPostNo, new { @class = "w146", @readOnly = "readOnly", @id = "POST_NO" })</li>
-                        <li class="info">@Html.TextBoxFor(model => model.ComAddr1, new { @class = "w240", @id = "ADDR_1", @readOnly = "readOnly" }) @Html.TextBoxFor(model => model.ComAddr2, new { @class = "w240", @placeholder = "나머지주소입력란" })</li>
+                        <li class="info"><input type="button" class="td_post" value="우편번호" onClick="javascript: open_post();">@Html.TextBoxFor(model => model.ComPostNo, new { @class = "w146", @readOnly = "readOnly", @id = "POST_NO" })@Html.ValidationMessageFor(model => model.ComPostNo, "", new { @class = "text-danger", @color = "#b94a48" })</li>
+                        <li class="info">@Html.TextBoxFor(model => model.ComAddr1, new { @class = "w240", @id = "ADDR_1", @readOnly = "readOnly" }) @Html.TextBoxFor(model => model.ComAddr2, new { @class = "w240", @placeholder = "나머지주소입력란" })
+                         </li>
                     </ul>
                 </td>
             </tr>
+                
             </table>
+            @Html.ValidationMessageFor(model => model.ComAddr1, "", new { @class = "text-danger", @color = "#b94a48" })
+            @Html.ValidationMessageFor(model => model.ComAddr2, "", new { @class = "text-danger", @color = "#b94a48" })
 
             <div class="line_dot10"></div>
             <table>

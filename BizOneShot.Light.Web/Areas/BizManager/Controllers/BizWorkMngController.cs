@@ -148,6 +148,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             //var listScNtc = _scNtcService.GetNotices(SelectList, Query);
             var scBizWork = await _scBizWorkService.GetBizWorkByBizWorkSn(bizWorkViewModel.BizWorkSn);
 
+            scBizWork.BizWorkNm = bizWorkViewModel.BizWorkNm;
             scBizWork.BizWorkSummary = bizWorkViewModel.BizWorkSummary;
             scBizWork.BizWorkStDt = DateTime.Parse(bizWorkViewModel.BizWorkStDt);
             scBizWork.BizWorkEdDt = DateTime.Parse(bizWorkViewModel.BizWorkEdDt);

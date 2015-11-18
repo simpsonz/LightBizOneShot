@@ -84,7 +84,7 @@
                 </colgroup>
                 <tr>
                     <th>사업명</th>
-                    <td>@Model.BizWorkNm</td>
+                    <td>@Html.TextBoxFor(model => model.BizWorkNm, new { @class = "w235" }) @Html.ValidationMessageFor(model => model.BizWorkNm, "", new { @class = "text-danger", @color = "#b94a48" })</td>
                 </tr>
                 <tr>
                     <th>사업개요</th>
