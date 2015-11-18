@@ -62,7 +62,9 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
 
             ViewBag.SelectBizWorkList = bizList;
 
-            var scCompMappings = await _scCompMappingService.GetExpertCompMappingsAsync(Session[Global.LoginID].ToString());
+            ViewBag.SelectCompInfoList = ReportHelper.MakeCompanyList(null);
+
+            var scCompMappings = await _scCompMappingService.GetExpertCompMappingsAsync(Session[Global.LoginID].ToString(), 0, 0);
 
             var companyList =
                 Mapper.Map<List<ExpertCompanyViewModel>>(scCompMappings);
@@ -73,7 +75,7 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CompanyList(string BizWorkList, string QUERY, string curPage)
+        public async Task<ActionResult> CompanyList(string BizWorkSn, string CompSn, string curPage)
         {
             ViewBag.LeftMenu = Global.CompanyMng;
 
@@ -94,7 +96,19 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
 
             ViewBag.SelectBizWorkList = bizList;
 
-            var scCompMappings = await _scCompMappingService.GetExpertCompMappingsAsync(Session[Global.LoginID].ToString(), int.Parse(BizWorkList), QUERY);
+            if(BizWorkSn == "0")
+            {
+                ViewBag.SelectCompInfoList = ReportHelper.MakeCompanyList(null);
+            }
+            else
+            {
+                var listScCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(BizWorkSn));
+                var listScCompInfo = listScCompMapping.Select(cmp => cmp.ScCompInfo).ToList();
+
+                ViewBag.SelectCompInfoList = ReportHelper.MakeCompanyList(listScCompInfo);
+            }
+
+            var scCompMappings = await _scCompMappingService.GetExpertCompMappingsAsync(Session[Global.LoginID].ToString(), int.Parse(BizWorkSn), int.Parse(CompSn));
 
             var companyList =
                 Mapper.Map<List<ExpertCompanyViewModel>>(scCompMappings);
@@ -631,6 +645,18 @@ namespace BizOneShot.Light.Web.Areas.Expert.Controllers
 
             new FileHelper().DownloadFile(files, archiveName);
 
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetBizWorkNm(int BizWorkSn)
+        {
+
+            var listScCompMapping = await _scCompMappingService.GetCompMappingAsync(BizWorkSn);
+            var listScCompInfo = listScCompMapping.Select(cmp => cmp.ScCompInfo).ToList();
+
+            var bizList = ReportHelper.MakeCompanyList(listScCompInfo);
+
+            return Json(bizList);
         }
 
     }
