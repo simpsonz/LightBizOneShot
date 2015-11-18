@@ -9,6 +9,36 @@
         $('#naviwrap_biz > .navi_biz > a.navi_expert01').addClass('on');
         //left menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_CompanyList').addClass('on');
+
+        $('#BizWorkSn').change(function () {
+            $('#curPage').val(1);
+
+            var bizWorkSn = $('#BizWorkSn').val();
+
+            if (bizWorkSn == 0) {
+                $('#CompSn').html("<option value='0'>기업명 선택</option>");
+            } else {
+                $('#CompSn').html("");
+
+                $.ajax({
+                    url: '@Url.Action("GetBizWorkNm", "CompanyMng")',
+                    type: "post",
+                    dataType: "json",
+                    data: { bizWorkSn: bizWorkSn },
+                    async: false,
+                    success: function (result) {
+                        for (var i = 0; i < result.length; i++) {
+                            $('#CompSn').append("<option value='" + result[i].Value + "'>" + result[i].Text + "</option>");
+                        }
+                    }
+                });
+            }
+
+        });
+
+        $('#CompSn').change(function () {
+            $('#curPage').val(1);
+        });
     });
 
     function goPage(page) {
@@ -32,13 +62,15 @@
                 <tr>
                     <th>사업명</th>
                     <td class="form">
-                        @Html.DropDownList("BizWorkList", ViewBag.SelectBizWorkList as SelectList, new { @class = "w130" })
+                        @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w130", @id = "BizWorkSn" })
+
                     </td>
                 </tr>
                 <tr>
                     <th>기업명</th>
                     <td class="form">
-                        @Html.TextBox("QUERY", null, new { @class = "w150", @placeholder = "기업명을 입력하세요", @id = "QUERY" })
+                        @*@Html.TextBox("QUERY", null, new { @class = "w150", @placeholder = "기업명을 입력하세요", @id = "QUERY" })*@
+                        @Html.DropDownList("CompSn", ViewBag.SelectCompInfoList as SelectList, new { @class = "w150", @id = "CompSn" })
                     </td>
                 </tr>
                 <tr>

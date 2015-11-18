@@ -21,6 +21,7 @@ namespace BizOneShot.Light.Services
         Task<ScCompMapping> GetCompMappingAsync(int bizWorkSn, int compSn);
         Task<ScCompMapping> GetCompMappingAsync(int compSn, string status = null);
         Task<IList<ScCompMapping>> GetExpertCompMappingsAsync(string expertId, int bizWorkSn = 0, string comName = null);
+        Task<IList<ScCompMapping>> GetExpertCompMappingsAsync(string expertId, int bizWorkSn = 0, int compSn = 0);
         Task<IList<ScCompMapping>> GetExpertCompMappingsForPopupAsync(string expertId, string query);
         Task<IList<ScCompMapping>> GetCompMappingAsync(int bizWorkSn);
         Task<IList<ScCompMapping>> GetCompMappingsForCompanyAsync(int compSn);
@@ -85,7 +86,7 @@ namespace BizOneShot.Light.Services
 
         public async Task<IList<ScCompMapping>> GetCompMappingAsync(int bizWorkSn)
         {
-            var scCompMapping = await scCompMappingRepository.GetCompMappingsAsync(scm => scm.BizWorkSn == bizWorkSn);
+            var scCompMapping = await scCompMappingRepository.GetCompMappingsAsync(scm => scm.BizWorkSn == bizWorkSn && scm.Status == "A");
 
             return scCompMapping;
         }
@@ -241,7 +242,19 @@ namespace BizOneShot.Light.Services
             }
                 listScCompMappingTask = await scCompMappingRepository.GetExpertCompanysAsync(expertId);
                 return listScCompMappingTask.OrderByDescending(scm => scm.RegDt).ToList();
-            }
+        }
+
+        public async Task<IList<ScCompMapping>> GetExpertCompMappingsAsync(string expertId, int bizWorkSn = 0, int compSn = 0)
+        {
+            var date = DateTime.Now.Date;
+
+            var listScCompMapping = await scCompMappingRepository.GetExpertCompanysAsync(expertId);
+
+            return listScCompMapping
+                    .Where(cmp => bizWorkSn == 0 ? cmp.ScBizWork.BizWorkSn > 0 : cmp.ScBizWork.BizWorkSn == bizWorkSn)
+                    .Where(cmp => compSn == 0 ? cmp.CompSn > 0 : cmp.CompSn == compSn)
+                    .ToList();
+        }
 
         public async Task<IList<ScCompMapping>> GetCompMappingListByMentorId(string mentorId = null,
             string status = null)
