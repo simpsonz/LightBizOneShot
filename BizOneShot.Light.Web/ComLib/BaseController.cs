@@ -18,6 +18,12 @@ namespace BizOneShot.Light.Web.ComLib
     {
 
         #region 에러처리 및 로깅
+        private readonly ICtWebLogService ctWebLogService;
+        public BaseController()
+        {
+            this.ctWebLogService = Resolver.GetService<ICtWebLogService>();
+        }
+
 
         /// <summary>
         /// [기능] : Exception 처리 및 로깅
@@ -28,8 +34,6 @@ namespace BizOneShot.Light.Web.ComLib
         protected override void OnException(ExceptionContext filterContext)
         {
             //var ctWebLogService = Resolver.GetService<ICtWebLogService>();
-            var ctWebLogService = new CtWebLogService(new Dao.Infrastructure.UnitOfWork(new Dao.Infrastructure.DbFactory())
-                , new Dao.Repositories.CtWebLogRepository(new Dao.Infrastructure.DbFactory()));
 
             if (filterContext.ExceptionHandled)
                 return ;
@@ -38,10 +42,6 @@ namespace BizOneShot.Light.Web.ComLib
             string actionName = filterContext.RouteData.Values["action"].ToString();
             string controllerName = filterContext.RouteData.Values["controller"].ToString();
             Type controllerType = filterContext.Controller.GetType();
-            //var method = controllerType.GetMethod(actionName);   
-            //var returnType = method.ReturnType;
-
-            
 
             //통합관제 DB에 웹에러 로깅
             #region Insert WebLog

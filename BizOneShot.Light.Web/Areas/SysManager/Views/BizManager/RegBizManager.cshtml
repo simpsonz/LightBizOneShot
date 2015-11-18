@@ -69,7 +69,7 @@
 
 <div id="sub_rightwrap">
     <div class="sub_right_title scpadmin_04_04"><em>소속그룹 등록</em></div>
-    <p>소속그룹(사업관리 기관)을 등록하고 담당자 아이디와 비밀번호를 부여합니다.</p>
+    <p>사업관리 기관을 등록하고 담당자 아이디와 비밀번호를 부여합니다.</p>
     <p>&nbsp;</p>
 
     @using (Html.BeginForm("RegBizManager", "BizManager", FormMethod.Post, new { area = "SysManager", @class = "form-horizontal", role = "form", id = "submit_form" }))
@@ -84,7 +84,7 @@
                     <col width="587px" />
                 </colgroup>
                 <tr>
-                    <th>그룹(기관)명</th>
+                    <th>사업관리기관명</th>
                     <td class="form">@Html.TextBoxFor(model => model.CompNm, new { @class = "w235" }) @Html.ValidationMessageFor(model => model.CompNm, "", new { @class = "text-danger", @color = "#b94a48" })</td>
                     
                 </tr>

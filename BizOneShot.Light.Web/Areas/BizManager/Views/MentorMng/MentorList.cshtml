@@ -77,7 +77,7 @@
         <div id="sub_inquiry_box">
             @Html.DropDownList("BizWorkList", ViewBag.SelectBizWorkList as SelectList, new { @class = "w130" })
             @Html.DropDownList("MentorPartList", ViewBag.SelectMentorPartList as SelectList, new { @class = "w130" })
-            <button type="submit" class="special_inquire" value="멘토 조회">멘토 조회</button>
+            <button type="submit" class="bt_inquiry_mento" value="멘토 조회">멘토 조회</button>
         </div><!--sub_inquiry_box//-->
         @Html.Hidden("curPage", "1")
     }
