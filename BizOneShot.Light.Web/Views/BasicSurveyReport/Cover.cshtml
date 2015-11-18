@@ -71,7 +71,28 @@
     <!--custom_rightwrap//-->
     <div id="btnwrap_sub" class="bottom_left2">
         <div class="rightwrap right">
-            <a href="@Url.Action("BasicSurveyCompanyList", "BasicSurveyReport", new { area = "" })" class="list2 left" value="목록"><em>목록</em></a>
+          
+            @if (Session[Global.UserType].Equals(Global.Company))
+            {
+                <a href="@Url.Action("BasicSurveyReport", "Report", new { area = "Company"})" class="list2 left" value="목록"><em>목록</em></a>
+            }
+            else if (Session[Global.UserType].Equals(Global.BizManager))
+            {
+                <a href="@Url.Action("BasicSurveyReport", "Report", new { area = "BizManager"})" class="list2 left" value="목록"><em>목록</em></a>
+            }
+            else if (Session[Global.UserType].Equals(Global.Mentor))
+            {
+                <a href="@Url.Action("BasicSurveyReport", "Report", new { area = "Mentor"})" class="list2 left" value="목록"><em>목록</em></a>
+            }
+            else if (Session[Global.UserType].Equals(Global.Expert))
+            {
+                <a href="@Url.Action("BasicSurveyReport", "Report", new { area = "Expert"})" class="list2 left" value="목록"><em>목록</em></a>
+            }
+            else if (Session[Global.UserType].Equals(Global.SysManager))
+            {
+                <a href="@Url.Action("BasicSurveyReport", "Report", new { area = "SysManager"})" class="list2 left" value="목록"><em>목록</em></a>
+            }
+
             <button class="print" value="출력"></button>
             @if(Model.Status == "T")
             { 

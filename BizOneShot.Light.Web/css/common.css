@@ -140,7 +140,7 @@ a.gangneung_logo{width:180px;height:51px}
 
 .navi_expert01{display:block;width:94px;height:32px;overflow:hidden;background:url('../images/expert_top01.png');} /*기업관리*/
 .navi_expert01:hover, .navi_expert01.on{background-position:0 32px;}
-.navi_expert02{display:block;width:104px;height:32px;overflow:hidden;background:url('../images/header_report_small.png') no-repeat;} /*보고서*/
+.navi_expert02{display:block;width:95px;height:32px;overflow:hidden;background:url('../images/header_scpadmin_report.png');} /*보고서*/
 .navi_expert02:hover, .navi_expert02.on{background-position:0 32px;}
 .navi_expert03{display:block;width:81px;height:32px;overflow:hidden;background:url('../images/header_customcenter.png');}	/*고객센터*/
 .navi_expert03:hover, .navi_expert03.on{background-position:0 32px;}
