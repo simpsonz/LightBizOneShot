@@ -93,7 +93,7 @@
                 <a href="@Url.Action("BasicSurveyReport", "Report", new { area = "SysManager"})" class="list2 left" value="목록"><em>목록</em></a>
             }
 
-            <button class="print" value="출력"></button>
+            <button class="print" value="출력" onclick="alert('차후 오픈 예정 입니다.')"></button>
             @if(Model.Status == "T")
             { 
             <a href="@Url.Action("CompanyInfo", "BasicSurveyReport", new { area = "" , BizWorkSn = Model.BizWorkSn, CompSn = Model.CompSn, BizWorkYear = Model.BizWorkYear, Status = Model.Status, QuestionSn = Model.QuestionSn})" class="write_start right" value="작성"><em>작성</em></a>

@@ -159,7 +159,7 @@
 
         <div id="btnwrap_sub">
             <div class="rightwrap">
-                <button type="submit" class="print" value="출력"><em>출력</em></button>
+                <button type="button" class="print" value="출력" onclick="alert('차후 오픈 예정 입니다.')"><em>출력</em></button>
                 <a href="@Url.Action("ModifyMentoringReport","MentoringReport", new { reportSn = Model.ReportSn })" class="modify" title="수정"><em>수정</em></a>
                 <a href="@Url.Action("MentoringReportList","MentoringReport", new {BizWorkYear= @ViewBag.SelectParam.BizWorkYear, BizWorkSn = @ViewBag.SelectParam.BizWorkSn, CompSn = @ViewBag.SelectParam.CompSn })" class="list2"><em>목록</em></a>
             </div>
