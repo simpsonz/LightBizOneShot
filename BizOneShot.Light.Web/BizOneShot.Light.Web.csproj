@@ -1557,6 +1557,7 @@
     <Content Include="Views\FinanceReport\RegCommentPopup.cshtml" />
     <Content Include="Views\FinanceReport\SearchCommentPopup.cshtml" />
     <Content Include="Views\Error\Error500.cshtml" />
+    <Content Include="Views\Shared\_CompanyIndexLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
