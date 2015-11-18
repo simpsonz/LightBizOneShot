@@ -207,7 +207,7 @@
                     <col width="610" />
                 </colgroup>
                 <tr>
-                    <th>아아디</th>
+                    <th>아이디</th>
                     <td>@Model.LoginId</td>
                 </tr>
             </table>
@@ -235,15 +235,15 @@
                     <col width="610" />
                 </colgroup>
                 <tr>
-                    <th>구분</th>
+                    <th>*전문분야</th>
                     <td class="form_radio">@Html.RadioButtonFor(model => model.UsrTypeDetail, "T", new { @checked = "checked" }) 세무회계<span class="empty_space"></span>@Html.RadioButtonFor(model => model.UsrTypeDetail, "L") 법무<span class="empty_space"></span>@Html.RadioButtonFor(model => model.UsrTypeDetail, "W") 노무<span class="empty_space"></span>@Html.RadioButtonFor(model => model.UsrTypeDetail, "P") 특허<span class="empty_space"></span>@Html.RadioButtonFor(model => model.UsrTypeDetail, "M") 마케팅</td>
                 </tr>
                 <tr>
-                    <th>이름</th>
+                    <th>*이름</th>
                     <td class="form">@Html.TextBoxFor(model => model.Name, new { @class = "w240" })  @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @color = "#b94a48" })</td>
                 </tr>
                 <tr>
-                    <th>전화번호</th>
+                    <th>*전화번호</th>
                     <td class="form">
                         @Html.DropDownListFor(model => model.TelNo1, new SelectList(
                                       new List<Object>{
@@ -272,7 +272,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>휴대폰</th>
+                    <th>*휴대폰</th>
                     <td class="form">
                         @Html.DropDownListFor(model => model.MbNo1, new SelectList(
                             new List<Object>{
@@ -288,7 +288,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>이메일 주소</th>
+                    <th>*이메일 주소</th>
                     <td class="form">
                         @Html.TextBoxFor(model => model.Email1, new { @class = "w115", @title = "이메일 아이디", @maxlength = "20" })&nbsp;@@&nbsp;
                         @Html.TextBoxFor(model => model.Email2, new { @class = "w115", @title = "이메일 도메인", @maxlength = "19" })
@@ -456,7 +456,6 @@
                     </td>
                 </tr>
             </table>
-
 
 
 
