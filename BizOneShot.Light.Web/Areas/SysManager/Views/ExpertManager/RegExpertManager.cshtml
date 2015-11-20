@@ -80,6 +80,10 @@
                 return false;
             }
 
+            if (!confirm('전문회원 등록을 완료 하시겠습니까?')) {
+                return false;
+            }
+
         });
     });
 
@@ -266,7 +270,9 @@
         <div id="btnwrap_sub">
             <div class="rightwrap">
                 <button type="submit" class="save" value="저장"></button>
-                <a href="@Url.Action("ExpertManager","ExpertManager")" class="cancel2 right"><em>취소</em></a>
+                <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('등록을 취소하고 목록으로 돌아가시겠습니까?')) location.href='@Url.Action("ExpertManager","ExpertManager")'" />
+
+                @*<a href="@Url.Action("ExpertManager","ExpertManager")" class="cancel2 right"><em>취소</em></a>*@
             </div>
         </div><!--btnwrap//-->
     }
