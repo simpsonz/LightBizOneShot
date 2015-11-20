@@ -11,6 +11,13 @@
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_RcvData').addClass('on');
 
+        $('#submit_form').bind('submit', function () {
+
+            if (!confirm('답변전송을 하시겠습니까?')) {
+                return false;
+            }
+        });
+
     });
 
 </script>
@@ -90,7 +97,8 @@
         <div id="btnwrap_sub">
             <div class="rightwrap">
                 <button type="submit" class="reply_submit rightmargin" value="답변 전송" ></button>
-                <a href="@Url.Action("ReceiveList", "CompanyMng")" class="list2 right"><em>목록</em></a>
+                <button type="button" class="list2 right" value="목록" onclick="if (confirm('작성을 취소하고 목록으로 돌아 가시겠습니까?')) location.href='@Url.Action("ReceiveList", "CompanyMng")'" />
+                @*<a href="@Url.Action("ReceiveList", "CompanyMng")" class="list2 right"><em>목록</em></a>*@
             </div>
         </div>
 

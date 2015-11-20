@@ -100,6 +100,10 @@
                 alert("업종 코드는 중복할 수 없습니다.");
                 return false;
             }
+
+            if (!confirm('저장 하시겠습니까?')) {
+                return false;
+            }
         });
     });
 
@@ -469,7 +473,8 @@
                             <div id="btnwrap_sub">
                                 <div class="rightwrap">
                                     <button type="submit" class="save" value="저장"></button>
-                                    <a href="@Url.Action("MyInfo","Main")" class="cancel2 right"><em>취소</em></a>
+                                    <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('취소 하시겠습니까?')) location.href='@Url.Action("MyInfo","Main")'" />
+                                    @*<a href="@Url.Action("MyInfo","Main")" class="cancel2 right"><em>취소</em></a>*@
                                 </div>
                             </div><!--btnwrap//-->
    }
