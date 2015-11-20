@@ -49,6 +49,11 @@
     });
 
     function goSubmit(submitType) {
+        if (submitType == "N") {
+            if (!confirm('작성완료 하시겠습니까?')) {
+                return false;
+            }
+        }
         $('#submitType').val(submitType);
         $('#mainForm').submit();
     }
