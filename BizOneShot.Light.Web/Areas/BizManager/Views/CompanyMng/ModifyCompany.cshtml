@@ -52,6 +52,13 @@
             var loginId = $('#MentorLoginId').val();
             //alert(loginId);
         });
+
+        $('#submit_form').bind('submit', function () {
+            if (!confirm("저장 하시겠습니까?")) {
+                return false;
+            }
+
+        });
     });
 
 
@@ -60,7 +67,7 @@
 <div id="sub_rightwrap">
     <div class="sub_right_title company_inquiry02"><em>기업정보수정</em></div>
 
-    @using (Html.BeginForm("ModifyCompany", "CompanyMng", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("ModifyCompany", "CompanyMng", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form", id = "submit_form" }))
     {
         @Html.HiddenFor(model => model.BizWorkSn)
         @Html.HiddenFor(model => model.CompSn)
@@ -191,7 +198,9 @@
 
         <div id="btnwrap_sub">
             <div class="rightwrap">
-                <button type="submit" class="save rightmargin" value="저장"></button><a href="@Url.Action("CompanyList", "CompanyMng")" class="cancel2 right"><em>취소</em></a>
+                <button type="submit" class="save rightmargin" value="저장"></button>
+                <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('수정을 취소 하시겠습니까?')) location.href='@Url.Action("CompanyList", "CompanyMng")'" />
+                @*<a href="@Url.Action("CompanyList", "CompanyMng")" class="cancel2 right"><em>취소</em></a>*@
             </div>
         </div>
     }

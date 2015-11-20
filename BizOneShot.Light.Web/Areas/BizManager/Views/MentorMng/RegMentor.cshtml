@@ -59,18 +59,15 @@
         });
 
         $('#submit_form').bind('submit', function () {
-            if (confirm('멘토 등록을 완료 하시겠습니까?'))
-            {
-                if ($('#LoginIdChk').val() != 1) {
-                    alert("아이디 중복확인을 하지 않았습니다.");
-                    return false;
-                }
-            }
-            else
-            {
+            if ($('#LoginIdChk').val() != 1) {
+                alert("아이디 중복확인을 하지 않았습니다.");
                 return false;
             }
             
+            if (!confirm('멘토 등록을 완료 하시겠습니까?'))
+            {
+                return false;
+            }
         });
     });
 

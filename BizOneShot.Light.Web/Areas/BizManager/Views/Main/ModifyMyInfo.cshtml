@@ -10,12 +10,19 @@
         $('#naviwrap_biz > .navi_biz > a.navi_business06').addClass('on');
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_MyInfo').addClass('on');
+
+        $('#submit_form').bind('submit', function () {
+            if (!confirm("저장 하시겠습니까?")) {
+                return false;
+            }
+
+        });
     });
 </script>
 
 <div id="sub_rightwrap">
     <div class="sub_right_title biz050103"><em>내정보 수정</em></div>
-    @using (Html.BeginForm("ModifyMyInfo", "Main", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("ModifyMyInfo", "Main", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form", id = "submit_form" }))
     {
         <div class="tablewrap">
             <table>
@@ -172,7 +179,8 @@
         </div><!--tablewrap//-->
 
         <div id="btnwrap_sub">
-            <a href="@Url.Action("MyInfo", "Main")" class="cancel2 right"><em>취소</em></a>
+            @*<a href="@Url.Action("MyInfo", "Main")" class="cancel2 right"><em>취소</em></a>*@
+            <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('수정을 취소 하시겠습니까?')) location.href='@Url.Action("MyInfo", "Main")'" />
             <button type="submit" class="save right" value="저장"></button>
             
         </div><!--btnwrap//-->
