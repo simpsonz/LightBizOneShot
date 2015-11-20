@@ -391,7 +391,6 @@ namespace BizOneShot.Light.Web.Controllers
         {
             ScUsr scUsr = await _scUsrService.SelectScUsr(ID);
             
-            
             if (scUsr != null)
             {
                 //패스워드비교

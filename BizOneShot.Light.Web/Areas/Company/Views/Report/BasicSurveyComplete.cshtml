@@ -11,6 +11,13 @@
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicsurvey').addClass('on');
 
+        $('#mainForm').bind('submit', function () {
+
+            if (!confirm('작성완료 하시겠습니까?')) {
+                return false;
+            }
+        });
+
     });
 
 </script>

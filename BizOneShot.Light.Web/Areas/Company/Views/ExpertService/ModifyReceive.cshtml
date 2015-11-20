@@ -66,6 +66,10 @@
                 return false;
             }
 
+            if (!confirm('수정 하시겠습니까?')) {
+                return false;
+            }
+
             ////빈란 삭제
             //$('input[type="file"]').each(function () {
             //    if ($(this).val() == '') {
