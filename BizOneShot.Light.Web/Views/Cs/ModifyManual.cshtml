@@ -180,7 +180,8 @@
     <div id="btnwrap_sub">
         <div class="rightwrap">
             <button type="submit" class="save2" id="btn_save" name="btn_save"><em>저장</em></button>
-            <a href="@Url.Action("Manual", "Cs")" class="cancel2 right"><em>취소</em></a>
+            <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('지금까지 작성된 내용을 취소하시겠습니까?')) location.href='@Url.Action("Manual", "Cs")'" />
+            @*<a href="@Url.Action("Manual", "Cs")" class="cancel2 right"><em>취소</em></a>*@
         </div>
     </div><!--btnwrap_sub//-->
 }

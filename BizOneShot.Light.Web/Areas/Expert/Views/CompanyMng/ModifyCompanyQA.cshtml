@@ -78,7 +78,9 @@
         </div><!--tablewrap//--><!--답변등록 끝-->
         <div id="btnwrap_sub">
             <div class="rightwrap">
-                <button type="button" onclick="goSubmit()" class="reply_submit" value="답변 전송"></button><a href="@Url.Action("CompanyQADetail", "CompanyMng", new { usrQaSn = @Model.UsrQaSn })" class="cancel2 right"><em>취소</em></a>
+                <button type="button" onclick="goSubmit();" class="reply_submit" value="답변 전송"></button>
+                @*<a href="@Url.Action("CompanyQADetail", "CompanyMng", new { usrQaSn = @Model.UsrQaSn })" class="cancel2 right"><em>취소</em></a>*@
+                <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('취소 하시겠습니까?')) location.href='@Url.Action("CompanyQADetail", "CompanyMng", new { usrQaSn = @Model.UsrQaSn })'" />
             </div>
         </div>
     }

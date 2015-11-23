@@ -88,8 +88,14 @@ namespace BizOneShot.Light.Models.ViewModels
         [Range(0, 9999, ErrorMessage = "올바른 전화번호를 입력하세요")]
         public string ComTelNo3 { get; set; } // TEL_NO. 대표전화번호
         public string ComTelNo { get; set; } // TEL_NO. 대표전화번호
+        [Required]
+        [Display(Name = "우편번호")]
         public string ComPostNo { get; set; } // POST_NO. 우편번호
+        [Required]
+        [Display(Name = "주소")]
         public string ComAddr1 { get; set; } // ADDR_1. 주소1
+        [Required]
+        [Display(Name = "주소상세")]
         public string ComAddr2 { get; set; } // ADDR_2. 주소2
 
         [Display(Name = "대표자명")]

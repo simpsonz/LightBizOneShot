@@ -94,6 +94,13 @@
             $(this).prev().focus();
             return false;
         });
+
+        $('#mainForm').bind('submit', function () {
+            if (!confirm("저장 하시겠습니까?")) {
+                return false;
+            }
+
+        });
     });
 </script>
 
@@ -104,7 +111,7 @@
 <div id="sub_rightwrap">
     <div class="sub_right_title bizadmin_03_03"><em>사업등록</em></div>
 
-    @using (Html.BeginForm("RegBizWork", "BizWorkMng", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("RegBizWork", "BizWorkMng", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form", @id = "mainForm" }))
     {
         @Html.AntiForgeryToken()
         @Html.Hidden("LoginIdChk")
@@ -280,7 +287,8 @@
             <div class="rightwrap">
                 @*<button type="submit" class="save rightmargin" value="저장"></button><button type="submit" class="cancel2" value="취소"></button>*@
                 <button type="submit" class="save" value="저장"></button>
-                <a href="@Url.Action("BizWorkList","BizWorkMng")" class="cancel2 right"><em>취소</em></a>
+                <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('등록을 취소 하시겠습니까?')) location.href='@Url.Action("BizWorkList","BizWorkMng")'" />
+                @*<a href="@Url.Action("BizWorkList","BizWorkMng")" class="cancel2 right"><em>취소</em></a>*@
             </div>
         </div><!--btnwrap//-->
         @section Scripts {

@@ -45,7 +45,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.Name).HasColumnName("NAME").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(50);
             Property(x => x.Email).HasColumnName("EMAIL").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(40);
             Property(x => x.RegistrationNo).HasColumnName("REGISTRATION_NO").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(10);
-            Property(x => x.CoRegistrationNo).HasColumnName("CO_REGISTRATION_NO").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(13);
+            Property(x => x.CoRegistrationNo).HasColumnName("CO_REGISTRATION_NO").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(15);
             Property(x => x.PublishDt).HasColumnName("PUBLISH_DT").IsOptional().HasColumnType("datetime");
             Property(x => x.HomeUrl).HasColumnName("HOME_URL").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(200);
             Property(x => x.CompAddr).HasColumnName("COMP_ADDR").IsOptional().HasColumnType("nvarchar").HasMaxLength(255);

@@ -27,9 +27,14 @@
             $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_marketing').addClass('on'); //마케팅
         }
 
+        $('#mainForm').bind('submit', function () {
+
+            if (!confirm('저장 하시겠습니까?')) {
+                return false;
+            }
+        });
+
     });
-
-
 </script>
 
 <div id="sub_rightwrap">
@@ -88,7 +93,9 @@
 
         <div id="btnwrap_sub">
             <div class="rightwrap">
-                <button type="submit" class="save rightmargin" value="저장"></button><a href="@Url.Action("CompanyQAList", "ExpertService", new { expertType = ViewBag.ExpertType })" class="cancel2 right"><em>취소</em></a>
+                <button type="submit" class="save rightmargin" value="저장"></button>
+                <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('취소 하시겠습니까?')) location.href='@Url.Action("CompanyQAList", "ExpertService", new { expertType = ViewBag.ExpertType })'" />
+                @*<a href="@Url.Action("CompanyQAList", "ExpertService", new { expertType = ViewBag.ExpertType })" class="cancel2 right"><em>취소</em></a>*@
             </div>
         </div><!--btnwrap//-->
 

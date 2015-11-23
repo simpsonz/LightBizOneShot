@@ -62,6 +62,10 @@
                 return false;
             }
 
+            if (!confirm('새 자료요청을 보내 시겠습니까?')) {
+                return false;
+            }
+
             ////빈란 삭제
             //$('input[type="file"]').each(function () {
             //    if ($(this).val() == '') {
@@ -143,7 +147,9 @@
         </div><!--tablewrap//--><!--답변 끝-->
         <div id="btnwrap_sub">
             <div class="rightwrap">
-                <button type="submit" class="newdata_require2 rightmargin" value="새 자료요청 보내기" ></button><a href="@Url.Action("SendList","ExpertService", new { expertType = ViewBag.ExpertType })" class="cancel2 right"><em>취소</em></a>
+                <button type="submit" class="newdata_require2 rightmargin" value="새 자료요청 보내기" />
+                <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('취소 하시겠습니까?')) location.href='@Url.Action("SendList","ExpertService", new { expertType = ViewBag.ExpertType })'" />
+                @*</button><a href="@Url.Action("SendList","ExpertService", new { expertType = ViewBag.ExpertType })" class="cancel2 right"><em>취소</em></a>*@
 
             </div>
         </div>

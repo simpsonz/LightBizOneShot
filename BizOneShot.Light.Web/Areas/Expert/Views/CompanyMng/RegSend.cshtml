@@ -11,6 +11,13 @@
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_SndData').addClass('on');
 
+        $('#submit_form').bind('submit', function () {
+
+            if (!confirm('새 자료요청 보내기를 하시겠습니까?')) {
+                return false;
+            }
+        });
+
     });
 
     function searchCompanyOpen()
@@ -84,7 +91,9 @@
         </div><!--tablewrap//--><!--답변 끝-->
         <div id="btnwrap_sub">
             <div class="rightwrap">
-                <button type="submit" class="newdata_require2 rightmargin" value="새 자료요청 보내기" ></button><a href="@Url.Action("SendList","CompanyMng")" class="cancel2 right"><em>취소</em></a>
+                <button type="submit" class="newdata_require2 rightmargin" value="새 자료요청 보내기" ></button>
+                <button type="button" class="cancel2 right" value="취소" onclick="if (confirm('취소 하시겠습니까?')) location.href='@Url.Action("SendList","CompanyMng")'" />
+                @*<a href="@Url.Action("SendList","CompanyMng")" class="cancel2 right"><em>취소</em></a>*@
 
             </div>
         </div>
