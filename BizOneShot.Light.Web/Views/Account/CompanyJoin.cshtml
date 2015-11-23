@@ -204,8 +204,10 @@
             alert("업종 코드는 중복할 수 없습니다.");
             return false;
         }
-
-        $('#mainForm').submit();
+        
+        if (confirm("회원가입 하시겠습니까?")) {
+            $('#mainForm').submit();
+        }
     }
 
     //업종칸 추가시
