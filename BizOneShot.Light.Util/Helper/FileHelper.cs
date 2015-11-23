@@ -46,6 +46,7 @@ namespace BizOneShot.Light.Util.Helper
                             var b = Encoding.Default.GetBytes(file.FileNm);
                             // IBM437로 변환해 준다.
                             var fileName = Encoding.GetEncoding("IBM437").GetString(b);
+
                             zipFile.AddEntry(fileName, temps);
                         }
                     }
