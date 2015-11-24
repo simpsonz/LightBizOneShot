@@ -54,8 +54,8 @@ namespace BizOneShot.Light.Web.Controllers
             //기업회원 승인된 사업이 없으면 리다이렉트 함
             if(Session[Global.UserType].ToString() == Global.Company)
             { 
-                var scCompMapping = await _scCompMappingService.GetCompMappingAsync(CompSn, "A");
-                if (scCompMapping == null)
+                var scCompMappings = await _scCompMappingService.GetCompMappingsForCompanyAsync(CompSn);
+                if (scCompMappings.Count == 0)
                 {
                     TempData["alert"] = "승인된 사업이 없습니다.";
 
