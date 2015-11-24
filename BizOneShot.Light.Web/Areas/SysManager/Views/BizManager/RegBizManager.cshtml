@@ -23,8 +23,8 @@
                 return false;
             }
 
-            if ($('#LoginId').val().length < 6) {
-                alert('아이디는 6자 이상입니다.');
+            if ($('#LoginId').val().length < 6 || $('#LoginId').val().length > 20) {
+                alert('아이디는 6자 이상 20자 이하이어야 합니다.');
                 return false;
             }
             $.ajax({
@@ -225,7 +225,7 @@
                 </colgroup>
                 <tr>
                     <th>아이디(ID)</th>
-                    <td class="form">@Html.TextBoxFor(model => model.LoginId, new { @class = "w235" })<input type="button" class="td_overlap" id="BTN_LOGIN_ID_CHK" value="중복확인"> @Html.ValidationMessageFor(model => model.LoginId, "", new { @class = "text-danger", @color = "#b94a48" })</td>
+                    <td class="form">@Html.TextBoxFor(model => model.LoginId, new { @class = "w235", @maxlength="20" })<input type="button" class="td_overlap" id="BTN_LOGIN_ID_CHK" value="중복확인"> @Html.ValidationMessageFor(model => model.LoginId, "", new { @class = "text-danger", @color = "#b94a48" })</td>
                     
                 </tr>
                

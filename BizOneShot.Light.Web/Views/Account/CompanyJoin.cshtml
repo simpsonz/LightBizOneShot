@@ -24,8 +24,8 @@
                 alert('아이디를 입력해주세요.');
                 return false;
             }
-            if ($('#LoginId').val().length > 12) {
-                alert('아이디는 12자리를초과할 수 없습니다.');
+            if ($('#LoginId').val().length > 20) {
+                alert('아이디는 20자리를초과할 수 없습니다.');
                 return false;
             }
 
@@ -302,7 +302,7 @@
 
         <div class="join_infoinput_wrap">
             <ul><li class="mark">아이디</li>
-            <li class="info">@Html.TextBoxFor(model => model.LoginId, new { @class = "w240" })<input type="button" class="td_overlap" id="BTN_LOGIN_ID_CHK" value="중복확인">  @Html.ValidationMessageFor(model => model.LoginId, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
+            <li class="info">@Html.TextBoxFor(model => model.LoginId, new { @class = "w240", @maxlength="20" })<input type="button" class="td_overlap" id="BTN_LOGIN_ID_CHK" value="중복확인">  @Html.ValidationMessageFor(model => model.LoginId, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
             
             <ul><li class="mark">비밀번호</li>
             <li class="info">@Html.PasswordFor(model => model.LoginPw, new { @class = "w240" })@*<span class="blue">영문+숫자 8~12자 가능</span>*@  @Html.ValidationMessageFor(model => model.LoginPw, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
@@ -387,7 +387,7 @@
                                         },
                                       "value",
                                       "text",
-                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.ComTelNo2, new { @class = "w80", @title = "전화번호 중간자리",@maxlength="4" })&nbsp;
+                                       2))&nbsp;-&nbsp;@Html.TextBoxFor(model => model.ComTelNo2, new { @class = "w80", @title = "전화번호 중간자리", @maxlength = "4" })&nbsp;
                                     -&nbsp;@Html.TextBoxFor(model => model.ComTelNo3, new { @class = "w80", @title = "전화번호 마지막자리", @maxlength = "4" })
                     </td>
                 </tr>
