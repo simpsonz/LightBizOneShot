@@ -147,7 +147,7 @@
                             <td>@item.BizWorkMngrNm</td>
                             <td>@item.BizWorkNm</td>
                             <td>
-                                <a onclick="CheckFinanceData(@item.CompSn , @item.BizWorkYear, this);" href="@Url.Action("Cover", "BasicSurveyReport", new { area = "", BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn } )" class="report_view"><em>보고서보기</em></a>
+                                <a onclick="CheckFinanceData(@item.CompSn , @item.BizWorkYear, this);" href="@Url.Action("BasicSurveyCover", "Report", new { area = "SysManager", BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn } )" class="report_view"><em>보고서보기</em></a>
                             </td>
                         </tr>
                     }
