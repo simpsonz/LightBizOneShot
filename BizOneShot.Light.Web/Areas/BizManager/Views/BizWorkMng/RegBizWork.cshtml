@@ -22,8 +22,8 @@
                 alert('아이디를 입력해주세요.');
                 return false;
             }
-            if ($('#LoginId').val().length < 6 || $('#LoginId').val().length > 12) {
-                alert('아이디는 6자 이상 12자 이하이어야 합니다.');
+            if ($('#LoginId').val().length < 6 || $('#LoginId').val().length > 20) {
+                alert('아이디는 6자 이상 20자 이하이어야 합니다.');
                 return false;
             }
             $.ajax({
@@ -283,7 +283,7 @@
             </table>
             <div class="line_dot10"></div>
             <div class="join_infoinput_wrap">
-                <ul><li class="mark">담당자 아이디</li><li class="info">@Html.TextBoxFor(model => model.LoginId, new { @class = "w240" })<input type="button" class="td_overlap" id="BTN_LOGIN_ID_CHK" value="중복확인">  @Html.ValidationMessageFor(model => model.LoginId, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
+                <ul><li class="mark">담당자 아이디</li><li class="info">@Html.TextBoxFor(model => model.LoginId, new { @class = "w240", @maxlength = "20" })<input type="button" class="td_overlap" id="BTN_LOGIN_ID_CHK" value="중복확인">  @Html.ValidationMessageFor(model => model.LoginId, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
                 <ul><li class="mark">비밀번호</li><li class="info">@Html.PasswordFor(model => model.LoginPw, new { @class = "w240" })@*<span class="blue">영문+숫자 8~12자 가능</span>*@  @Html.ValidationMessageFor(model => model.LoginPw, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
                 <ul><li class="mark">비밀번호 확인</li><li class="info">@Html.PasswordFor(model => model.ConfirmLoginPw, new { @class = "w240" })@*<span class="blue">비밀번호를 한 번 더 입력하세요</span>*@  @Html.ValidationMessageFor(model => model.ConfirmLoginPw, "", new { @class = "text-danger", @color = "#b94a48" })</li></ul>
             </div><!--join_infoinput_wrap//-->

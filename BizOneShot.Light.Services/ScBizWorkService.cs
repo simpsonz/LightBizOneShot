@@ -55,7 +55,8 @@ namespace BizOneShot.Light.Services
                             ? bw.BizWorkStDt.Value.Year > 0
                             : bw.BizWorkStDt.Value.Year <= bizWorkYear && bw.BizWorkEdDt.Value.Year >= bizWorkYear);
 
-                return scBizWorks.OrderByDescending(bw => bw.BizWorkStDt).OrderBy(bw => bw.BizWorkNm).ToList();
+                //return scBizWorks.OrderByDescending(bw => bw.BizWorkStDt).OrderBy(bw => bw.BizWorkNm).ToList();
+                return scBizWorks.OrderBy(bw => bw.BizWorkNm).OrderByDescending(bw => bw.BizWorkStDt).ToList();
             }
             else
             {
@@ -69,7 +70,8 @@ namespace BizOneShot.Light.Services
                             ? bw.BizWorkStDt.Value.Year > 0
                             : bw.BizWorkStDt.Value.Year <= bizWorkYear && bw.BizWorkEdDt.Value.Year >= bizWorkYear);
 
-                return scBizWorks.OrderByDescending(bw => bw.BizWorkStDt).OrderBy(bw => bw.BizWorkNm).ToList();
+                //return scBizWorks.OrderByDescending(bw => bw.BizWorkStDt).OrderBy(bw => bw.BizWorkNm).ToList();
+                return scBizWorks.OrderBy(bw => bw.BizWorkNm).OrderByDescending(bw => bw.BizWorkStDt).ToList();
             }
         }
 
@@ -105,7 +107,8 @@ namespace BizOneShot.Light.Services
             var scBizWorks =
                 await
                     scBizWorkRespository.GetBizWorksAsync(bw => bw.MngCompSn == mngComSn && bw.BizWorkNm.Contains(query));
-            return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
+            //return scBizWorks.OrderByDescending(bw => bw.BizWorkSn).ToList();
+            return scBizWorks.OrderBy(bw => bw.BizWorkNm).OrderByDescending(bw => bw.BizWorkStDt).ToList();
         }
 
         public async Task<ScBizWork> GetBizWorkByBizWorkSn(int bizWorkSn)

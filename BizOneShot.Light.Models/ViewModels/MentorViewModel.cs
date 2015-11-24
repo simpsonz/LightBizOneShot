@@ -13,8 +13,9 @@ namespace BizOneShot.Light.Models.ViewModels
         //회원정보
         [Required]
         [Display(Name = "아이디")]
-        [MaxLength(12, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [MaxLength(20, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
         [MinLength(6, ErrorMessage = "{0}는 {1}자 이상이어야 합니다.")]
+        [RegularExpression("^[0-9]*[a-zA-Z]+[a-zA-Z0-9]*$", ErrorMessage = "아이디는 알파벳 또는 알파벳 숫자 조합으로만 사용 가능합니다.")]
         public string LoginId { get; set; } // LOGIN_ID (Primary key). 로그인식별자
 
         [Required]
@@ -76,8 +77,9 @@ namespace BizOneShot.Light.Models.ViewModels
         //회원정보
         [Required]
         [Display(Name = "아이디")]
-        [MaxLength(12, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
+        [MaxLength(20, ErrorMessage = "{0}는 최대 {1}자 입니다..")]
         [MinLength(6, ErrorMessage = "{0}는 {1}자 이상이어야 합니다.")]
+        [RegularExpression("^[0-9]*[a-zA-Z]+[a-zA-Z0-9]*$", ErrorMessage = "아이디는 알파벳 또는 알파벳 숫자 조합으로만 사용 가능합니다.")]
         public string LoginId { get; set; } // LOGIN_ID (Primary key). 로그인식별자
 
         [Required]
