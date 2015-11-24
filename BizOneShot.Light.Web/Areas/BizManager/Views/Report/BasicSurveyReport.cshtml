@@ -101,7 +101,6 @@
     @using (Html.BeginForm("BasicSurveyReport", "Report", FormMethod.Post, new { area = "BizManager", id = "searchForm" }))
     {
         <div id="sub_inquiry_box">
-
             @Html.DropDownList("BizWorkYear", ViewBag.SelectBizWorkYearList as SelectList, new { @class = "w150", @id = "BizWorkYear" })
             @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150", @id = "BizWorkSn" })
             <button type="submit" class="bt_searchC right" value="종합보고서조회" style="margin:0">검색</button>
@@ -148,7 +147,7 @@
                             <td>@item.BizWorkNm</td>
                             <td>@item.BizWorkYear</td>
                             <td>
-                                <a onclick="CheckFinanceData(@item.CompSn , @item.BizWorkYear, this);" href="@Url.Action("Cover", "BasicSurveyReport", new { area = "", BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn } )" class="report_view"><em>보고서보기</em></a>
+                                <a onclick="CheckFinanceData(@item.CompSn , @item.BizWorkYear, this);" href="@Url.Action("BasicSurveyCover", "Report", new { area = "BizManager", BizWorkSn = item.BizWorkSn, CompSn = item.CompSn, BizWorkYear = item.BizWorkYear, Status = item.Status, QuestionSn = item.QuestionSn } )" class="report_view"><em>보고서보기</em></a>
                             </td>
                         </tr>
                     }

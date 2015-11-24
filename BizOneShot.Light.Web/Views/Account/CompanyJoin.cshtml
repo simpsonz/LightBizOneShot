@@ -13,6 +13,10 @@
         ////$("#LoginPw, #ConfirmLoginPw").bind('keyup', function (event) {
         ////    $(this).val($(this).val().replace(/[^a-zA-Z0-9~!@@#$%^&*()]/gi, ""));
         ////});
+        $('#LoginId').keyup(function () {
+            $('#LoginIdChk').val(0);
+            $('#BTN_LOGIN_ID_CHK').prop('disabled', false);
+        });
 
         //아이디 중복 확인
         $('#BTN_LOGIN_ID_CHK').bind('click', function () {
@@ -34,8 +38,9 @@
                     if (data.result == true) {
                         $('#LoginIdChk').val(1);
                         alert('사용 가능한 아이디입니다.');
-                        $('#BTN_LOGIN_ID_CHK').attr("disabled", "disabled");
-                        $('#LoginId').attr("readonly", "readonly");
+                        //$('#BTN_LOGIN_ID_CHK').attr("disabled", "disabled");
+                        $('#BTN_LOGIN_ID_CHK').prop('disabled', true);
+                        //$('#LoginId').attr("readonly", "readonly");
                     }
                     else {
                         $('#LoginId').focus();
@@ -188,10 +193,10 @@
 
         if (!bizTypeValid) {
             if (count == 0) {
-                alert("업종은 1개이상 선택해야 합니다.");
+                alert("업태/종목은 1개이상 선택해야 합니다.");
             }
             else {
-                alert("사용하지 않는 업종 칸은 삭제하세요");
+                alert("사용하지 않는 업태/종목 칸은 삭제하세요");
             }
             return false;
         }
@@ -201,7 +206,7 @@
         });
         if (hasDups) {
             // having duplicate values
-            alert("업종 코드는 중복할 수 없습니다.");
+            alert("업태/종목 코드는 중복할 수 없습니다.");
             return false;
         }
         
@@ -215,7 +220,7 @@
         var temp = $(e).parent().parent().find('li');
 
         if (temp.length > 4) {
-            alert('업종은 최대 5개까지 가능합니다');
+            alert('업태/종목은 최대 5개까지 가능합니다');
             return false;
         }
         var $cloneEL = $(e).parent().clone();
@@ -341,7 +346,7 @@
                     <td class="form">@Html.TextBoxFor(model => model.ComRegistrationNo, new { @maxlength = "10", @class = "w240", @placeholder = "-표시없이 기입해 주세요", @id = "USR_NO" })<input type="button" class="td_confirm" value="확인" id="BTN_USR_NO_CHK">  @Html.ValidationMessageFor(model => model.ComRegistrationNo, "", new { @class = "text-danger", @color = "#b94a48" })</td>
                 </tr>
                 <tr>
-                    <th>업종 / 종목</th>
+                    <th>업태 / 종목</th>
                     <td colspan="5" class="nopad">
                         <div id="list_writewrap">
                             <ul>

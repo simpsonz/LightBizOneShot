@@ -1228,12 +1228,13 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             //기초역량 보고서 조회
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
 
-            var rptMsters = await rptMasterService.GetRptMasterListForBizManager(int.Parse(curPage ?? "1"), pagingSize, executorId, paramModel.BizWorkYear, paramModel.BizWorkSn, int.Parse(compSn), "C");
+            //var rptMsters = await rptMasterService.GetRptMasterListForBizManager(int.Parse(curPage ?? "1"), pagingSize, executorId, paramModel.BizWorkYear, paramModel.BizWorkSn, int.Parse(compSn), "C");
+            var compMappings = await _scCompMappingService.GetPagedListCompMappingsForBasicReportAsync(int.Parse(curPage ?? "1"), pagingSize, int.Parse(compSn), executorId, paramModel.BizWorkSn);
 
             //뷰모델 맵핑
-            var rptMasterListView = Mapper.Map<List<BasicSurveyReportViewModel>>(rptMsters);
+            var rptMasterListView = Mapper.Map<List<BasicSurveyReportViewModel>>(compMappings);
 
-            return View(new StaticPagedList<BasicSurveyReportViewModel>(rptMasterListView, int.Parse(curPage ?? "1"), pagingSize, rptMsters.TotalItemCount));
+            return View(new StaticPagedList<BasicSurveyReportViewModel>(rptMasterListView, int.Parse(curPage ?? "1"), pagingSize, compMappings.TotalItemCount));
 
         }
 
@@ -1292,6 +1293,27 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             var rptMasterListView = Mapper.Map<List<BasicSurveyReportViewModel>>(scCompMappings.ToList());
 
             return View(new StaticPagedList<BasicSurveyReportViewModel>(rptMasterListView, int.Parse(curPage ?? "1"), pagingSize, scCompMappings.TotalItemCount));
+
+        }
+
+        public async Task<ActionResult> BasicSurveyCover(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            if (paramModel.CompSn == 0 || paramModel.BizWorkSn == 0)
+            {
+                return View(paramModel);
+            }
+
+            var scCompMapping = await _scCompMappingService.GetCompMappingAsync(paramModel.BizWorkSn, paramModel.CompSn);
+
+            ViewBag.SelectReportYearList = ReportHelper.MakeBasicSurveyYear(scCompMapping.ScCompInfo.RptMasters.ToList());
+
+            paramModel.CompNm = scCompMapping.ScCompInfo.CompNm;
+            paramModel.BizWorkNm = scCompMapping.ScBizWork.BizWorkNm;
+            paramModel.BizWorkYear = scCompMapping.ScCompInfo.RptMasters.Max(rm => rm.BasicYear);
+
+            return View(paramModel);
 
         }
 

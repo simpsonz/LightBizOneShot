@@ -1541,6 +1541,14 @@ TABLE.table_long {height:520px}
   color: #b94a48 !important;
 }
 
+.text-danger-white span {
+  color: #ffffff !important;
+}
+
+.text-danger-white ul li {
+  color: #ffffff !important;
+}
+
 
 
 

@@ -11,6 +11,11 @@
         //Accounting menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_regBizMng').addClass('on');
 
+        $('#LoginId').keyup(function () {
+            $('#LoginIdChk').val(0);
+            $('#BTN_LOGIN_ID_CHK').prop('disabled', false);
+        });
+
         //아이디 중복 확인
         $('#BTN_LOGIN_ID_CHK').bind('click', function () {
             if ($('#LoginId').val() == "") {
@@ -31,8 +36,9 @@
                     if (data.result == true) {
                         $('#LoginIdChk').val(1);
                         alert('사용 가능한 아이디입니다.');
-                        $('#BTN_LOGIN_ID_CHK').attr("disabled", "disabled");
-                        $('#LoginId').attr("readonly", "readonly");
+                        $('#BTN_LOGIN_ID_CHK').prop('disabled', true);
+                        //$('#LoginId').attr("readonly", "readonly");
+                       
                     }
                     else {
                         $('#LoginId').focus();

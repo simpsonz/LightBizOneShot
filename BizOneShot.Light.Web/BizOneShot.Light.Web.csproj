@@ -542,6 +542,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Areas\Expert\Views\Main\ExpertAgreement.cshtml" />
     <Content Include="Areas\Company\Views\MyInfo\SearchBizTypePopup.cshtml" />
+    <Content Include="Areas\BizManager\Views\Report\BasicSurveyCover.cshtml" />
     <None Include="Properties\PublishProfiles\Demo BizOneShot Lite.pubxml" />
     <None Include="Properties\PublishProfiles\SBO BizOneShot Lite.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

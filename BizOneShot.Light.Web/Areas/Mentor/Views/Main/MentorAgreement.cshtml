@@ -19,7 +19,6 @@
         $('#naviwrap_biz > .navi_biz >  a.navi_CS').removeAttr('href');
         $('#naviwrap_biz > .navi_biz >  a.navi_mentor04').removeAttr('href');
 
-
         $('#agreeForm').bind('submit', function () {
             if ($('input[name=article02]:checked').val() * 1 != 1) {
                 alert('개인정보 수집 및 이용을 동의하셔야 로그인이 가능합니다');
@@ -48,7 +47,9 @@
     </div><!--container//-->
 
     <div class="btnwrap center">
-        <input type="submit" class="agree" value="동의" /><input type="button" class="disagree" value="동의 안함" onclick="location.href='/';" />
+        <input type="submit" class="agree" value="동의" />
+        <input type="button" class="disagree" value="동의 안함" onclick="javascript: alert('개인정보 수집 및 이용을 동의하셔야 사용이 가능합니다.');" />
+        @*<input type="button" class="disagree" value="동의 안함" onclick="location.href='/';" />*@
     </div>
 </form>
 

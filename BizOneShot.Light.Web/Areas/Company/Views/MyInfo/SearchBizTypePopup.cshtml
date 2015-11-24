@@ -14,7 +14,7 @@
         var checkCnt = $(':radio[name="SelectBizType"]:checked').size();
         if (checkCnt == 0)
         {
-            alert("업종을 선택하지 않았습니다.");
+            alert("업태/종목을 선택하지 않았습니다.");
             return false;
         }
         
@@ -38,7 +38,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-        <title>업종/종목 검색</title>
+        <title>업태/종목 검색</title>
         <link rel="stylesheet" href="~/css/pop.css" />
         @Scripts.Render("~/bundles/modernizr")
         @Scripts.Render("~/bundles/jquery")
@@ -55,7 +55,7 @@
             </div><!--popup_headerwrap//-->
 
             <div id="popup_contwrap">
-                <p>업종코드나 업종명를 입력하고 검색해 주세요.</p>
+                <p>업태/종목 코드나 업종/종목명을 입력하고 검색해 주세요.</p>
                 @using (Html.BeginForm("SearchBizTypePopup", "MyInfo", FormMethod.Post, new { area = "Company", id = "searchForm" }))
                 {
                     <div class="inputwrap">
@@ -76,13 +76,13 @@
                         <tr>
                             <th class="topcen">선택</th>
                             <th class="topcen">코드</th>
-                            <th class="topcen">업종 / 종목</th>
+                            <th class="topcen">업태 / 종목</th>
                         </tr>
                         @if (Model == null || Model.TotalItemCount == 0)
                         {
                             <tr>
                                 
-                                <td colspan="3" style="text-align:center;"><p><span>죄송합니다.<br />일치하는 업종이 없습니다.</span><br />다시 한번 확인하고 검색해 주세요.</p></td>
+                                <td colspan="3" style="text-align:center;"><p><span>죄송합니다.<br />일치하는 업태/종목이 없습니다.</span><br />다시 한번 확인하고 검색해 주세요.</p></td>
                             </tr>
                         }
                         else

@@ -84,10 +84,10 @@
 
             if (!bizTypeValid) {
                 if (count == 0) {
-                    alert("업종은 1개이상 선택해야 합니다.");
+                    alert("업태/종목은 1개이상 선택해야 합니다.");
                 }
                 else {
-                    alert("사용하지 않는 업종 칸은 삭제하세요");
+                    alert("사용하지 않는 업태/종목 칸은 삭제하세요");
                 }
                 return false;
             }
@@ -97,7 +97,7 @@
             });
             if (hasDups) {
                 // having duplicate values
-                alert("업종 코드는 중복할 수 없습니다.");
+                alert("업태/종목 코드는 중복할 수 없습니다.");
                 return false;
             }
 
@@ -133,7 +133,7 @@
         var temp = $(e).parent().parent().find('li');
 
         if (temp.length > 4) {
-            alert('업종은 최대 5개까지 가능합니다');
+            alert('업태/종목은 최대 5개까지 가능합니다');
             return false;
         }
         var $cloneEL = $(e).parent().clone();
@@ -352,7 +352,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>업종 / 종목</th>
+                    <th>업태 / 종목</th>
                     <td colspan="5" class="nopad">
                         <div id="list_writewrap">
                             <ul>
@@ -464,7 +464,8 @@
                     </td>
                 </tr>
             </table>
-
+    <p></p>
+            *는 필수 입력 항목입니다.
 
 
 

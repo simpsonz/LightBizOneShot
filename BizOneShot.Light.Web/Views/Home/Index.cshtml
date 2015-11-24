@@ -33,15 +33,15 @@
         {
             @Html.AntiForgeryToken()
             <div id="main_loginwrap">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(true, "", new { @class = "text-danger-white" })
                 <p class="login_input">
                     @Html.TextBoxFor(m => m.ID, new { @placeholder = "아이디" })
                 </p>
-                @Html.ValidationMessageFor(m => m.ID, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(m => m.ID, "", new { @class = "text-danger-white" })
                 <p class="login_input">
                     @Html.PasswordFor(m => m.Password, new { @placeholder = "비밀번호" })
                 </p>
-                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger-white" })
                 <p>
                     @*<input type="checkbox"> <img src="../images/login_text_idsave.png"><em>아이디 저장</em>*@
                     <div class="checkbox">

@@ -168,7 +168,7 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
 
             BizMngDropDownModel title = new BizMngDropDownModel();
             title.CompSn = 0;
-            title.CompNm = "사업관리자 선택";
+            title.CompNm = "사업관리기관 선택";
             bizMngDropDown.Insert(0, title);
 
             SelectList bizList = new SelectList(bizMngDropDown, "CompSn", "CompNm");
@@ -189,7 +189,7 @@ namespace BizOneShot.Light.Web.Areas.SysManager.Controllers
                 Mapper.Map<List<BizMngDropDownModel>>(bizMngList);
             BizMngDropDownModel title = new BizMngDropDownModel();
             title.CompSn = 0;
-            title.CompNm = "사업관리자 선택";
+            title.CompNm = "사업관리기관 선택";
             bizMngDropDown.Insert(0, title);
             
             SelectList bizList = new SelectList(bizMngDropDown, "CompSn", "CompNm");

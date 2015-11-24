@@ -21,6 +21,7 @@ namespace BizOneShot.Light.Dao.Repositories
         Task<IList<ScCompInfo>> GetCompanysAsync(Expression<Func<ScCompMapping, bool>> where);
         Task<IPagedList<ScCompInfo>> GetPagedListCompanysAsync(Expression<Func<ScCompMapping, bool>> where, int page, int pageSize);
         Task<IPagedList<ScCompMapping>> GetPagedListCompMappingsAsync(int page, int pageSize, int compSn, string excutorId = null, int bizWorkSn = 0);
+        Task<IPagedList<ScCompMapping>> GetPagedListCompMappingsForBasicReportAsync(int page, int pageSize, int compSn, string excutorId = null, int bizWorkSn = 0);
 
         Task<IList<ScCompMapping>> GetExpertCompanysAsync(string loginId, string comName = null);
         Task<IList<ScCompMapping>> GetExpertCompanysAsync(Expression<Func<ScCompMapping, bool>> where);
@@ -64,6 +65,20 @@ namespace BizOneShot.Light.Dao.Repositories
                 .Where(scm => string.IsNullOrEmpty(excutorId) ? scm.ScBizWork.ExecutorId != null : scm.ScBizWork.ExecutorId == excutorId)
                 .Where(scm => compSn == 0 ? scm.ScBizWork.MngCompSn > compSn : scm.ScBizWork.MngCompSn == compSn)
                 .Where(scm => bizWorkSn == 0 ? scm.BizWorkSn > bizWorkSn : scm.BizWorkSn == bizWorkSn)
+                .OrderByDescending(scm => scm.RegDt).ToPagedListAsync(page, pageSize);
+
+        }
+
+        public async Task<IPagedList<ScCompMapping>> GetPagedListCompMappingsForBasicReportAsync(int page, int pageSize, int compSn, string excutorId = null, int bizWorkSn = 0)
+        {
+
+            return await DbContext.ScCompMappings
+                .Include("ScCompInfo")
+                .Include("ScBizWork")
+                .Where(scm => scm.Status != "D" && scm.ScBizWork.MngCompSn == compSn)
+                .Where(scm => string.IsNullOrEmpty(excutorId) ? scm.ScBizWork.ExecutorId != null : scm.ScBizWork.ExecutorId == excutorId)
+                .Where(scm => bizWorkSn == 0 ? scm.BizWorkSn > bizWorkSn : scm.BizWorkSn == bizWorkSn)
+                .Where(scm => scm.ScCompInfo.RptMasters.Where(rm => rm.Status == "C").Count() > 0)
                 .OrderByDescending(scm => scm.RegDt).ToPagedListAsync(page, pageSize);
 
         }

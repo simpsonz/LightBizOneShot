@@ -17,6 +17,7 @@ namespace BizOneShot.Light.Services
         Task<IList<ScCompInfo>> GetBizWorkComList(int mngComSn, string excutorId = null, int bizWorkSn = 0, int bizWorkYear = 0);
         Task<IPagedList<ScCompMapping>> GetPagedListCompMappingsAsync(int page, int pageSize, int compSn, int bizWorkSn = 0, string status = null, string compNm = null);
         Task<IPagedList<ScCompMapping>> GetPagedListCompMappingsAsync(int page, int pageSize, int compSn, string excutorId = null, int bizWorkSn = 0);
+        Task<IPagedList<ScCompMapping>> GetPagedListCompMappingsForBasicReportAsync(int page, int pageSize, int compSn, string excutorId = null, int bizWorkSn = 0);
         Task<IList<ScCompMapping>> GetCompMappingsAsync(int compSn, int bizWorkSn = 0, string status = null, string compNm = null);
         Task<ScCompMapping> GetCompMappingAsync(int bizWorkSn, int compSn);
         Task<ScCompMapping> GetCompMappingAsync(int compSn, string status = null);
@@ -124,6 +125,12 @@ namespace BizOneShot.Light.Services
         {
             return await scCompMappingRepository.GetPagedListCompMappingsAsync(page, pageSize, compSn, excutorId, bizWorkSn);
         }
+
+        public async Task<IPagedList<ScCompMapping>> GetPagedListCompMappingsForBasicReportAsync(int page, int pageSize, int compSn, string excutorId = null, int bizWorkSn = 0)
+        {
+            return await scCompMappingRepository.GetPagedListCompMappingsForBasicReportAsync(page, pageSize, compSn, excutorId, bizWorkSn);
+        }
+
 
         public async Task<IList<ScCompMapping>> GetCompMappingsAsync(int compSn, int bizWorkSn = 0, string status = null, string compNm = null)
         {

@@ -101,6 +101,22 @@ namespace BizOneShot.Light.Web.ComLib
             return yearList;
         }
 
+        public static SelectList MakeBasicSurveyYear(IList<RptMaster> rptMasterList)
+        {
+            //기초역량 레포트 년도
+            var year = new List<SelectListItem>();
+            year.Add(new SelectListItem { Value = "0", Text = "년도선택", Selected = true });
+
+            foreach (var item in rptMasterList)
+            {
+                year.Add(new SelectListItem { Value = item.BasicYear.ToString(), Text = item.BasicYear.ToString() + "년" });
+            }
+
+            SelectList yearList = new SelectList(year, "Value", "Text");
+
+            return yearList;
+        }
+
 
         /// <summary>
         /// 사업정보를 이용하여 특정년도의 유효한 월을 생성
