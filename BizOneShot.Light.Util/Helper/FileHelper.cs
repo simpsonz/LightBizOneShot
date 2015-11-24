@@ -27,26 +27,22 @@ namespace BizOneShot.Light.Util.Helper
 
             response.BufferOutput = false;
 
-            //response.ContentType = GetContentType(archiveName);
-            response.ContentType = "application / octet - stream";
+            response.ContentType = GetContentType(archiveName);
+            //response.ContentType = "application / octet - stream";
             var encodedFileName = HttpContext.Current.Server.UrlEncode(archiveName).Replace("+", "%20");
             response.AddHeader("Content-Disposition", "attachment; filename=" + encodedFileName);
 
             if (files.Count > 1)
             {
-                using (var zipFile = new ZipFile())
+                using (var zipFile = new ZipFile(Encoding.UTF8))
                 {
                     foreach (var file in files)
                     {
                         if (File.Exists(Path.Combine(rootFilePath, file.FilePath)))
                         {
                             var temps = File.ReadAllBytes(Path.Combine(rootFilePath, file.FilePath));
-                            // 시스템의 기본 인코딩 타입으로 읽어서
-
-                            var b = Encoding.Default.GetBytes(file.FileNm);
-                            // IBM437로 변환해 준다.
-                            var fileName = Encoding.GetEncoding("IBM437").GetString(b);
-                            zipFile.AddEntry(fileName, temps);
+                         
+                            zipFile.AddEntry(file.FileNm, temps);
                         }
                     }
                     if (zipFile.Count > 0)
