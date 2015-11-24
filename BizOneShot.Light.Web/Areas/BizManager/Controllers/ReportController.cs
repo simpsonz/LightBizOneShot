@@ -1306,12 +1306,49 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             }
 
             var scCompMapping = await _scCompMappingService.GetCompMappingAsync(paramModel.BizWorkSn, paramModel.CompSn);
+           
 
-            ViewBag.SelectReportYearList = ReportHelper.MakeBasicSurveyYear(scCompMapping.ScCompInfo.RptMasters.ToList());
+            paramModel.CompNm = scCompMapping.ScCompInfo.CompNm;
+
+            paramModel.BizWorkNm = scCompMapping.ScBizWork.BizWorkNm;
+            paramModel.BizWorkYear = scCompMapping.ScCompInfo.RptMasters.Max(rm => rm.BasicYear);
+
+            var rptMaster = scCompMapping.ScCompInfo.RptMasters.Where(rm => rm.BasicYear == paramModel.BizWorkYear && rm.BizWorkSn == paramModel.BizWorkSn && rm.CompSn == paramModel.CompSn).SingleOrDefault();
+
+            paramModel.QuestionSn = rptMaster.QuestionSn;
+            paramModel.Status = rptMaster.Status;
+            paramModel.RegistrationNo = scCompMapping.ScCompInfo.RegistrationNo;
+
+            var rptMaters = scCompMapping.ScCompInfo.RptMasters.Where(rm => rm.BizWorkSn == paramModel.BizWorkSn && rm.Status == "C").ToList();
+
+            ViewBag.SelectReportYearList = ReportHelper.MakeBasicSurveyYear(rptMaters, paramModel.BizWorkYear);
+
+            return View(paramModel);
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BasicSurveyCover(BasicSurveyReportViewModel paramModel, int curPage = 0)
+        {
+            ViewBag.LeftMenu = Global.Report;
+
+            if (paramModel.CompSn == 0 || paramModel.BizWorkSn == 0)
+            {
+                return View(paramModel);
+            }
+
+            var scCompMapping = await _scCompMappingService.GetCompMappingAsync(paramModel.BizWorkSn, paramModel.CompSn);
 
             paramModel.CompNm = scCompMapping.ScCompInfo.CompNm;
             paramModel.BizWorkNm = scCompMapping.ScBizWork.BizWorkNm;
-            paramModel.BizWorkYear = scCompMapping.ScCompInfo.RptMasters.Max(rm => rm.BasicYear);
+
+            var rptMaster = scCompMapping.ScCompInfo.RptMasters.Where(rm => rm.BasicYear == paramModel.BizWorkYear && rm.BizWorkSn == paramModel.BizWorkSn && rm.CompSn == paramModel.CompSn).SingleOrDefault();
+
+            paramModel.QuestionSn = rptMaster.QuestionSn;
+            paramModel.Status = rptMaster.Status;
+
+            var rptMaters = scCompMapping.ScCompInfo.RptMasters.Where(rm => rm.BizWorkSn == paramModel.BizWorkSn && rm.Status == "C").ToList();
+            ViewBag.SelectReportYearList = ReportHelper.MakeBasicSurveyYear(rptMaters, paramModel.BizWorkYear);
 
             return View(paramModel);
 

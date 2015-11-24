@@ -75,10 +75,11 @@ namespace BizOneShot.Light.Dao.Repositories
             return await DbContext.ScCompMappings
                 .Include("ScCompInfo")
                 .Include("ScBizWork")
-                .Where(scm => scm.Status != "D" && scm.ScBizWork.MngCompSn == compSn)
+                .Where(scm => scm.Status != "D")
+                .Where(scm => compSn == 0 ? scm.ScBizWork.MngCompSn > compSn : scm.ScBizWork.MngCompSn == compSn)
                 .Where(scm => string.IsNullOrEmpty(excutorId) ? scm.ScBizWork.ExecutorId != null : scm.ScBizWork.ExecutorId == excutorId)
                 .Where(scm => bizWorkSn == 0 ? scm.BizWorkSn > bizWorkSn : scm.BizWorkSn == bizWorkSn)
-                .Where(scm => scm.ScCompInfo.RptMasters.Where(rm => rm.Status == "C").Count() > 0)
+                .Where(scm => scm.ScCompInfo.RptMasters.Where(rm => rm.Status == "C" && scm.BizWorkSn == rm.BizWorkSn).Count() > 0)
                 .OrderByDescending(scm => scm.RegDt).ToPagedListAsync(page, pageSize);
 
         }

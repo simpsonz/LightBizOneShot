@@ -98,7 +98,7 @@ namespace BizOneShot.Light.Web.Controllers
             financeMngViewModel.CompNm = scCompInfo.CompNm;
 
             // 현금시제
-            var cashResultList = await _finenceReportService.GetMonthlyCashListAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "0100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var cashResultList = await _finenceReportService.GetMonthlyCashListAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
 
             financeMngViewModel.cashViewModel = ReportHelper.MakeCashViewModel(cashResultList);
 

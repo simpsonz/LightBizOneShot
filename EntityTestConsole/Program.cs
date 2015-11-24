@@ -106,14 +106,30 @@ namespace EntityTestConsole
             //    Console.ReadLine();
             //}
 
+            //using (var context = new WebDbContext())
+            //{
+            //    var listRptMatsers = context.ScExpertMappings.Where(em => em.ExpertId == "simpsonz23").Select(sm => sm.ScBizWork).Select(tt => tt.RptMasters).ToList();
+
+            //    IList<RptMaster> rptMaterView = new List<RptMaster>();
+            //    foreach (var rptMasters in listRptMatsers)
+            //    {
+            //        foreach(var rptMaster in rptMasters)
+            //        {
+            //            rptMaterView.Add(rptMaster);
+            //        }
+            //    }
+
+
+            //}
+
             using (var context = new WebDbContext())
             {
-                var listRptMatsers = context.ScExpertMappings.Where(em => em.ExpertId == "simpsonz23").Select(sm => sm.ScBizWork).Select(tt => tt.RptMasters).ToList();
+                var listRptMatsers = context.ScCompMappings.Where(cm => cm.CompSn == 94).Select(sm => sm.ScCompInfo).Select(tt => tt.RptMasters).ToList();
 
                 IList<RptMaster> rptMaterView = new List<RptMaster>();
                 foreach (var rptMasters in listRptMatsers)
                 {
-                    foreach(var rptMaster in rptMasters)
+                    foreach (var rptMaster in rptMasters)
                     {
                         rptMaterView.Add(rptMaster);
                     }

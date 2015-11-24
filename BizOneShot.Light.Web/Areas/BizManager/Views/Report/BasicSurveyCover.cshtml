@@ -20,29 +20,26 @@
     <div class="sub_right_title specialist_02_03">
         <em>기초경영역량 보고서</em>
     </div>
-    <div id="sub_term_box">
-        @Html.DropDownList("ReportYear", ViewBag.SelectReportYearList as SelectList, new { @class = "w150", @id = "ReportYear" })
-        <span class="noti_fo">사업명 : @Model.BizWorkNm</span>
-        <span class="noti_fo">년  도 : @Model.BizWorkYear</span>
-        <span class="noti_fo">기업명 : @Model.CompNm</span>
-        @if (Model.Status == "T")
-            {
-            <span class="noti_fo bold">작성상태 : 미작성</span>
-        }
-        else if (Model.Status == "P")
-        {
-            <span class="noti_fo bold">작성상태 : 작성중</span>
-        }
-        else
-        {
-            <span class="noti_fo bold">작성상태 : 작성완료</span>
-        }
-    </div>
+    @using (Html.BeginForm("BasicSurveyCover", "Report", FormMethod.Post, new { area = "BizManager", @class = "form-horizontal", role = "form", id = "submit_form" }))
+    {
+        <div id="sub_term_box">
+
+            <span class="noti_fo">사업명 : @Model.BizWorkNm</span>
+            <span class="noti_fo">보고서 년도 : </span>
+            @Html.DropDownListFor(model => model.BizWorkYear, ViewBag.SelectReportYearList as SelectList, new { @id = "ReportYear", @class = "year" })
+            
+            <button type="submit" id="view" class="report_view right" value="내용 보기">내용보기</button>
+        </div>
+        @Html.Hidden("BizWorkSn", @Model.BizWorkSn)
+        @Html.Hidden("CompSn", @Model.CompSn)
+        @Html.Hidden("QuestionSn", @Model.QuestionSn)
+        @Html.Hidden("Status", @Model.Status)
+    }
     <div class="sub_report_checkbox">
 
         <div class="report_main_top">
             <div class="title big">
-                @Model.CompNm<br>기초경영역량 진단 보고서
+                @Model.BizWorkYear 년<br>@Model.CompNm <br>기초경영역량 진단 보고서
             </div>
         </div>
         <div class="report_main_mid">
