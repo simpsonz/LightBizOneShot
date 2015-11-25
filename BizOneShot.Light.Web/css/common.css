@@ -2,7 +2,6 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 @import url("reset.css");
 html {overflow-y:scroll;}
-
 html,body{position:relative;height:100%;}
 
 /*---------------------------------------------------------------------------- wrap:980px ----------------------------------------------------------------------------*/
@@ -219,6 +218,8 @@ a.gangneung_logo{width:180px;height:51px}
 .box_red_mid .form_box_gray{width:380px;border:1px solid #d1d1d1;background-color:#f5f5f5;padding:12px 30px 12px 18px;font-weight:bold;margin-bottom:20px;}
 .box_red_mid .form_box_gray input{margin-left:20px;}
 .desc_red{height:auto;padding:45px 60px;background-color:transparent;}
+.box_red_mid .p_50 {padding:45px 50px !important;}
+.p_50 p {padding:7px 0;font-size:13px;font-weight:500;}
 .desc_red p input{margin-right:8px;}
 .desc_red p.title{font-family:'dotum';font-size:16px;color:#e60021;font-weight:bold;}
 .desc_red p.caption, .desc_red p.caption span{line-height:16px;margin:6px 0 20px;}
@@ -1532,8 +1533,6 @@ TABLE.table_long {height:520px}
 #report_wm_step ul li.basic_report03{display:block;width:245px;height:114px;background:url('../images/basic_report03.png');;margin-left:2px}
 #report_wm_step ul li.basic_report03:hover, #report_wm_step ul li.basic_report03.on{background-position:0px -115px;overflow:hidden;}
 
-
-
 .text-danger span {
   color: #b94a48 !important;
 }
@@ -1549,9 +1548,6 @@ TABLE.table_long {height:520px}
 .text-danger-white ul li {
   color: #ffffff !important;
 }
-
-
-
 
 /*2015-10-14 추가*/
 DIV.flow_chart03 {float:left;width:612px;height:46px;background:url('../images/flow_chart03.png') no-repeat;margin-left:55px}
