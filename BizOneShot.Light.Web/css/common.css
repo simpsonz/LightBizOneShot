@@ -994,6 +994,7 @@ button{color:transparent;}
 .sub_gnbwrap ul li.title.bizmanager_biz{background:url('../images/title_bizmanager_biz.png') no-repeat 10px top;}
 
 .bt_report_present{width:123px;height:28px;background:url('../images/bt_report_present.png');}
+.bt_total_report_present{width:123px;height:28px;background:url('../images/bt_total_report_present.png');}
 .bt_td_small_view{width:40px;height:28px;background:url('../images/bt_td_small_view.png');}
 .bt_inquire_company{width:105px;height:28px;background:url('../images/bt_inquire_company.png');}
 .bt_inquiry_mento{width:103px;height:28px;background:url('../images/bt_inquiry_mento.png');}

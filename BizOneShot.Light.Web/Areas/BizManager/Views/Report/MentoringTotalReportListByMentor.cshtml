@@ -88,7 +88,7 @@
             @Html.DropDownList("BizWorkYear", ViewBag.SelectBizWorkYearList as SelectList, new { @class = "w130", @id = "BizWorkYear" })
             @Html.DropDownList("BizWorkSn", ViewBag.SelectBizWorkList as SelectList, new { @class = "w150", @id = "BizWorkSn" })
             @Html.DropDownList("MentorId", ViewBag.SelectMentorList as SelectList, new { @class = "w150", @id = "MentorId" })
-            <button type="submit" class="bt_report_present" value="현황보고서">조회</button>
+            <button type="submit" class="bt_total_report_present" value="현황보고서">조회</button>
         </div><!--sub_inquiry_box//-->
         @Html.Hidden("curPage", "1")
     }
