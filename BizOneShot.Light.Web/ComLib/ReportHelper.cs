@@ -522,8 +522,8 @@ namespace BizOneShot.Light.Web.ComLib
 
         public static object[] MakeProcedureParams(string bpNo, string corpCd, string bizCd, string year, string month)
         {
-            corpCd = "1002";
-            bizCd = "1111";
+            //corpCd = "1002";
+            //bizCd = "1111";
 
             SqlParameter compRegNo = new SqlParameter("MEMB_BUSNPERS_NO", bpNo);
             SqlParameter corpCode = new SqlParameter("CORP_CODE", corpCd);
@@ -538,8 +538,8 @@ namespace BizOneShot.Light.Web.ComLib
 
         public static object[] MakeSalesMonthProcedureParams(string bpNo, string corpCd, string bizCd, string startYear, string startMonth, string endYear, string endMonth)
         {
-            corpCd = "1002";
-            bizCd = "1111";
+            //corpCd = "1002";
+            //bizCd = "1111";
 
             if (startMonth.Length == 1)
                 startMonth = "0" + startMonth;
@@ -563,8 +563,8 @@ namespace BizOneShot.Light.Web.ComLib
 
         public static object[] MakeSalesQuarterProcedureParams(string bpNo, string corpCd, string bizCd, string startYear, string startQuarter, string endYear, string endQuarter)
         {
-            corpCd = "1002";
-            bizCd = "1111";
+            //corpCd = "1002";
+            //bizCd = "1111";
 
             int endMonth = 0;
 
@@ -595,8 +595,8 @@ namespace BizOneShot.Light.Web.ComLib
 
         public static object[] MakeSalesYearProcedureParams(string bpNo, string corpCd, string bizCd, string startYear, string endYear)
         {
-            corpCd = "1002";
-            bizCd = "1111";
+            //corpCd = "1002";
+            //bizCd = "1111";
 
             DateTime lastday = new DateTime(int.Parse(endYear), 12, DateTime.DaysInMonth(int.Parse(endYear), 12));
 
