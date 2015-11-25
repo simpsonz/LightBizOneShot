@@ -53,21 +53,14 @@ namespace BizOneShot.Light.Web.Areas.Company.Controllers
             string compSn = Session[Global.CompSN].ToString();
 
             //승인된 사업이 없으면 리다이렉트 함
-            var scCompMapping = await _scCompMappingService.GetCompMappingAsync(int.Parse(compSn), "A");
-            if(scCompMapping == null)
+
+            var scCompMappings = await _scCompMappingService.GetCompMappingsForCompanyAsync(int.Parse(compSn));
+            if (scCompMappings.Count == 0)
             {
                 TempData["alert"] = "승인된 사업이 없습니다.";
 
                 return RedirectToAction("Index", "Main");
             }
-
-            //var scCompMappings = await _scCompMappingService.GetCompMappingsForCompanyAsync(int.Parse(compSn));
-            //if (scCompMappings.Count == 0)
-            //{
-            //    TempData["alert"] = "승인된 사업이 없습니다.";
-
-            //    return RedirectToAction("Index", "Main");
-            //}
 
             //수신함 가져오기(pagedList 방식)
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
