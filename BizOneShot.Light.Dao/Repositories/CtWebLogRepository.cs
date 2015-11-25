@@ -10,7 +10,7 @@ namespace BizOneShot.Light.Dao.Repositories
 {
     public interface ICtWebLogRepository : IRepository<CtWebLog>
     {
-        CtWebLog Insert(CtWebLog ctWebLog);
+        void Insert(CtWebLog ctWebLog);
     }
 
 
@@ -20,9 +20,12 @@ namespace BizOneShot.Light.Dao.Repositories
         {
         }
 
-        public CtWebLog Insert(CtWebLog ctWebLog)
+        public void Insert(CtWebLog ctWebLog)
         {
-            return DbContext.CtWebLogs.Add(ctWebLog);
+            var rstCtWebLog = DbContext.CtWebLogs.Add(ctWebLog);
+
+            if(rstCtWebLog != null)
+                DbContext.SaveChanges();
         }
     }
 }

@@ -28,9 +28,6 @@ namespace BizOneShot.Light.Web.ComLib
         /// <param name="filterContext"></param>
         protected override void OnException(ExceptionContext filterContext)
         {
-            //var ctWebLogService = Resolver.GetService<ICtWebLogService>();
-            var ctWebLogService = new CtWebLogService(new Dao.Infrastructure.UnitOfWork(new Dao.Infrastructure.DbFactory())
-                , new Dao.Repositories.CtWebLogRepository(new Dao.Infrastructure.DbFactory()));
 
             if (filterContext.ExceptionHandled)
                 return ;
@@ -59,6 +56,7 @@ namespace BizOneShot.Light.Web.ComLib
                 log.Line = log.Line.Substring(0, 500);
             }
 
+            var ctWebLogService = new CtWebLogService();
             ctWebLogService.AddCtWebLogAsync(log);
             #endregion
 

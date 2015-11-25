@@ -10,45 +10,26 @@ using BizOneShot.Light.Models.WebModels;
 namespace BizOneShot.Light.Services
 {
 
-    public interface ICtWebLogService : IBaseService
+    public interface ICtWebLogService
     {
         void AddCtWebLogAsync(CtWebLog ctWebLog);
     }
 
     public class CtWebLogService : ICtWebLogService
     {
-        private readonly ICtWebLogRepository ctWebLogRepository;
-        private readonly IUnitOfWork unitOfWork;
-
-        public CtWebLogService(IUnitOfWork unitOfWork,
-            ICtWebLogRepository ctWebLogRepository)
+      
+        public CtWebLogService()
         {
-            this.unitOfWork = unitOfWork;
-            this.ctWebLogRepository = ctWebLogRepository;
         }
 
         public void AddCtWebLogAsync(CtWebLog ctWebLog)
         {
-            var rstCtWebLog = ctWebLogRepository.Insert(ctWebLog);
+            var ctWebLogRepository = new CtWebLogRepository(new DbFactory());
 
-            if (rstCtWebLog != null)
-            {
-                SaveDbContext();
-            }
+            ctWebLogRepository.Insert(ctWebLog);
+
         }
 
-        #region SaveDbContext
 
-        public void SaveDbContext()
-        {
-            unitOfWork.Commit();
-        }
-
-        public async Task<int> SaveDbContextAsync()
-        {
-            return await unitOfWork.CommitAsync();
-        }
-
-        #endregion
     }
 }
