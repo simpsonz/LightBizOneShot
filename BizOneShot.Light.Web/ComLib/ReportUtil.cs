@@ -6,6 +6,7 @@ using System.Web;
 using BizOneShot.Light.Models.DareModels;
 using BizOneShot.Light.Services;
 using BizOneShot.Light.Models.ViewModels;
+using System.Configuration;
 
 namespace BizOneShot.Light.Web.ComLib
 {
@@ -53,7 +54,7 @@ namespace BizOneShot.Light.Web.ComLib
 
                     //다래 재무정보 유무 체크하는 로직 추가해야함.(문진표정보, 재무정보가 있어야 보고서 생성가능.)
                     //다래 재무정보 조회해야 함.
-                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, "1000", "1100", paramModel.BizWorkYear.ToString());
+                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], paramModel.BizWorkYear.ToString());
                     if (sboFinacialIndexT == null)
                     {
                         continue;

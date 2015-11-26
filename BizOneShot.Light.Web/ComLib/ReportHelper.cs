@@ -522,9 +522,6 @@ namespace BizOneShot.Light.Web.ComLib
 
         public static object[] MakeProcedureParams(string bpNo, string corpCd, string bizCd, string year, string month)
         {
-            //corpCd = "1002";
-            //bizCd = "1111";
-
             SqlParameter compRegNo = new SqlParameter("MEMB_BUSNPERS_NO", bpNo);
             SqlParameter corpCode = new SqlParameter("CORP_CODE", corpCd);
             SqlParameter bizCode = new SqlParameter("BIZ_CD", bizCd);
@@ -538,9 +535,6 @@ namespace BizOneShot.Light.Web.ComLib
 
         public static object[] MakeSalesMonthProcedureParams(string bpNo, string corpCd, string bizCd, string startYear, string startMonth, string endYear, string endMonth)
         {
-            //corpCd = "1002";
-            //bizCd = "1111";
-
             if (startMonth.Length == 1)
                 startMonth = "0" + startMonth;
 
@@ -563,9 +557,6 @@ namespace BizOneShot.Light.Web.ComLib
 
         public static object[] MakeSalesQuarterProcedureParams(string bpNo, string corpCd, string bizCd, string startYear, string startQuarter, string endYear, string endQuarter)
         {
-            //corpCd = "1002";
-            //bizCd = "1111";
-
             int endMonth = 0;
 
             if (endQuarter == "1")
@@ -595,9 +586,6 @@ namespace BizOneShot.Light.Web.ComLib
 
         public static object[] MakeSalesYearProcedureParams(string bpNo, string corpCd, string bizCd, string startYear, string endYear)
         {
-            //corpCd = "1002";
-            //bizCd = "1111";
-
             DateTime lastday = new DateTime(int.Parse(endYear), 12, DateTime.DaysInMonth(int.Parse(endYear), 12));
 
             SqlParameter compRegNo = new SqlParameter("MEMB_BUSNPERS_NO", bpNo);
@@ -1037,33 +1025,34 @@ namespace BizOneShot.Light.Web.ComLib
         public static double CalcFinancialPoint(SHUSER_SboFinancialIndexT sboFinancialIndexT)
         {
             //매출영업이익률(영업이익 ÷ 매출액)×100
-            double a = Convert.ToDouble((sboFinancialIndexT.OperatingEarning.Value / sboFinancialIndexT.CurrentSale.Value) * 100);
+            //if(sboFinancialIndexT.CurrentSale.Value == 0) ? 
+            double a = (sboFinancialIndexT.CurrentSale.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.OperatingEarning.Value / sboFinancialIndexT.CurrentSale.Value) * 100);
             //자기자본순이익률(당기순이익 ÷ 자본총계)×100
-            double b = Convert.ToDouble((sboFinancialIndexT.CurrentEarning.Value / sboFinancialIndexT.TotalCapital.Value) * 100);
+            double b = (sboFinancialIndexT.TotalCapital.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.CurrentEarning.Value / sboFinancialIndexT.TotalCapital.Value) * 100);
             //매출증가율((당기매출액 - 전기매출액) ÷ 전기매출액)×100
-            double c = Convert.ToDouble(((sboFinancialIndexT.CurrentSale.Value - sboFinancialIndexT.PrevSale.Value) / sboFinancialIndexT.PrevSale.Value) * 100);
+            double c = (sboFinancialIndexT.PrevSale.Value == 0) ? 0 : Convert.ToDouble(((sboFinancialIndexT.CurrentSale.Value - sboFinancialIndexT.PrevSale.Value) / sboFinancialIndexT.PrevSale.Value) * 100);
             //순이익증가율((당기순이익 - 전기순이익) ÷ 전기순이익)×100
-            double d = Convert.ToDouble(((sboFinancialIndexT.CurrentEarning.Value - sboFinancialIndexT.PrevEarning.Value) / sboFinancialIndexT.PrevEarning.Value) * 100);
+            double d = (sboFinancialIndexT.PrevEarning.Value == 0) ? 0 : Convert.ToDouble(((sboFinancialIndexT.CurrentEarning.Value - sboFinancialIndexT.PrevEarning.Value) / sboFinancialIndexT.PrevEarning.Value) * 100);
             //당좌비율((유동자산 - 재고자산) ÷ 유동부채)×100
-            double e = Convert.ToDouble(((sboFinancialIndexT.CurrentAsset.Value - sboFinancialIndexT.InventoryAsset.Value) / sboFinancialIndexT.CurrentLiability.Value) * 100);
+            double e = (sboFinancialIndexT.CurrentLiability.Value == 0) ? 0 : Convert.ToDouble(((sboFinancialIndexT.CurrentAsset.Value - sboFinancialIndexT.InventoryAsset.Value) / sboFinancialIndexT.CurrentLiability.Value) * 100);
             //유동비율(유동자산 ÷ 유동부채)×100 
-            double f = Convert.ToDouble((sboFinancialIndexT.CurrentAsset.Value / sboFinancialIndexT.CurrentLiability.Value) * 100);
+            double f = (sboFinancialIndexT.CurrentLiability.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.CurrentAsset.Value / sboFinancialIndexT.CurrentLiability.Value) * 100);
             //부채비율(부채 ÷ 자산총계)×100
-            double g = Convert.ToDouble((sboFinancialIndexT.TotalLiability.Value / sboFinancialIndexT.TotalAsset.Value) * 100);
+            double g = (sboFinancialIndexT.TotalAsset.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.TotalLiability.Value / sboFinancialIndexT.TotalAsset.Value) * 100);
             //이자보상비율(영업이익 ÷ 이자비용)×100
-            double h = Convert.ToDouble((sboFinancialIndexT.OperatingEarning.Value / sboFinancialIndexT.InterstCost.Value) * 100);
+            double h = (sboFinancialIndexT.InterstCost.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.OperatingEarning.Value / sboFinancialIndexT.InterstCost.Value) * 100);
             //총자산회전율(매출액 ÷ 총자산)×100
-            double i = Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.TotalAsset.Value) * 100);
+            double i = (sboFinancialIndexT.TotalAsset.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.TotalAsset.Value) * 100);
             //매출채권회전율(매출액 ÷ 매출채권(=외상매출금,미수금,받을어음))×100
-            double j = Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.SalesCredit.Value) * 100);
+            double j = (sboFinancialIndexT.SalesCredit.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.SalesCredit.Value) * 100);
             //재고자산회전율(매출액 ÷ 재고자산)×100
-            double k = Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.InventoryAsset.Value) * 100);
+            double k = (sboFinancialIndexT.InventoryAsset.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.InventoryAsset.Value) * 100);
             //부가가치율(부가가치 ÷ 매출액)×100
-            double l = Convert.ToDouble((sboFinancialIndexT.ValueAdded.Value / sboFinancialIndexT.CurrentSale.Value) * 100);
+            double l = (sboFinancialIndexT.CurrentSale.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.ValueAdded.Value / sboFinancialIndexT.CurrentSale.Value) * 100);
             //노동생산성(매출액-재료비) ÷ 종업원수
-            double m = Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value - sboFinancialIndexT.MaterialCost.Value) / sboFinancialIndexT.QtEmp.Value);
+            double m = (sboFinancialIndexT.QtEmp.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value - sboFinancialIndexT.MaterialCost.Value) / sboFinancialIndexT.QtEmp.Value);
             //자본생산성((부가가치 ÷ 자본총계)×100
-            double n = Convert.ToDouble((sboFinancialIndexT.ValueAdded.Value / sboFinancialIndexT.TotalCapital.Value) * 100);
+            double n = (sboFinancialIndexT.TotalCapital.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.ValueAdded.Value / sboFinancialIndexT.TotalCapital.Value) * 100);
 
             //재무점수로 환산
 

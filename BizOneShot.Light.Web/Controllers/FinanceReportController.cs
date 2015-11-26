@@ -98,33 +98,33 @@ namespace BizOneShot.Light.Web.Controllers
             financeMngViewModel.CompNm = scCompInfo.CompNm;
 
             // 현금시제
-            var cashResultList = await _finenceReportService.GetMonthlyCashListAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var cashResultList = await _finenceReportService.GetMonthlyCashListAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
 
             financeMngViewModel.cashViewModel = ReportHelper.MakeCashViewModel(cashResultList);
 
             // 매출
-            var salesResult = await _finenceReportService.GetMonthlySalesAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var salesResult = await _finenceReportService.GetMonthlySalesAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
 
-            var yearTotalResult = await _finenceReportService.GetYearTotalSalesAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var yearTotalResult = await _finenceReportService.GetYearTotalSalesAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
 
             financeMngViewModel.salesViewModel = ReportHelper.MakeSalesViewModel(salesResult, yearTotalResult);
 
             // 이익분석
-            var costAnalysisListResult = await _finenceReportService.GetCostAnalysisAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var costAnalysisListResult = await _finenceReportService.GetCostAnalysisAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
 
             financeMngViewModel.curMenthTotalCostViewModel = ReportHelper.MakeCostAnalysisViewModel(costAnalysisListResult[0]);
             //financeMngViewModel.lastMenthTotalCostViewModel = ReportHelper.MakeCostAnalysisViewModel(costAnalysisListResult[1]);
 
             // 비용분석
-            var expenseCostResult = await _finenceReportService.GetExpenseCostAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var expenseCostResult = await _finenceReportService.GetExpenseCostAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
             financeMngViewModel.expenseCostViewModel = ReportHelper.MakeExpenseCostViewModel(expenseCostResult[0]);
 
             // 주요매출
-            var taxSalesResult = await _finenceReportService.GetTaxSalesAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
+            var taxSalesResult = await _finenceReportService.GetTaxSalesAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString()));
             financeMngViewModel.taxSalesListViewModel = ReportHelper.MakeTaxSalseListViewModel(taxSalesResult, salesResult);
 
             // 주요지출
-            var bankOutResult = await _finenceReportService.GetBankOutAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, "1000", "1100", financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString())); 
+            var bankOutResult = await _finenceReportService.GetBankOutAsync(ReportHelper.MakeProcedureParams(scCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], financeMngViewModel.Year.ToString(), financeMngViewModel.Month.ToString())); 
             financeMngViewModel.bankOutListViewModel = ReportHelper.MakeBnakOutListViewModel(bankOutResult);
 
             return View(financeMngViewModel);

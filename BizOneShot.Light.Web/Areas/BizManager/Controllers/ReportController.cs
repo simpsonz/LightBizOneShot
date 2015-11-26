@@ -970,7 +970,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             foreach(var item in scCompMappingList)
             {
-                var result = await _finenceReportService.GetCompanyMonthSalesAsync(ReportHelper.MakeSalesMonthProcedureParams(item.ScCompInfo.RegistrationNo, "1000", "1100", StartYear.ToString(), StartMonth.ToString(), EndYear.ToString(), EndMonth.ToString()));
+                var result = await _finenceReportService.GetCompanyMonthSalesAsync(ReportHelper.MakeSalesMonthProcedureParams(item.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], StartYear.ToString(), StartMonth.ToString(), EndYear.ToString(), EndMonth.ToString()));
                 sales.Add(item.CompSn, result.TERM_SALE.Value);
                 employ.Add(item.CompSn, result.QT_EMP.Value);
 
@@ -1054,7 +1054,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             foreach (var item in scCompMappingList)
             {
-                var result = await _finenceReportService.GetCompanyMonthSalesAsync(ReportHelper.MakeSalesMonthProcedureParams(item.ScCompInfo.RegistrationNo, "1000", "1100", StartYear.ToString(), StartMonth.ToString(), EndYear.ToString(), EndMonth.ToString()));
+                var result = await _finenceReportService.GetCompanyMonthSalesAsync(ReportHelper.MakeSalesMonthProcedureParams(item.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], StartYear.ToString(), StartMonth.ToString(), EndYear.ToString(), EndMonth.ToString()));
                 bizInCompanyStatsView.compnayStatsListViewModel.Add(ReportHelper.MakeMonthCompnayStatsViewModel(item, result));
             }
 
@@ -1125,7 +1125,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             foreach (var item in scCompMappingList)
             {
-                var result = await _finenceReportService.GetCompanyQuarterSalesAsync(ReportHelper.MakeSalesQuarterProcedureParams(item.ScCompInfo.RegistrationNo, "1000", "1100", StartYear.ToString(), StartQuarter.ToString(), EndYear.ToString(), EndQuarter.ToString()));
+                var result = await _finenceReportService.GetCompanyQuarterSalesAsync(ReportHelper.MakeSalesQuarterProcedureParams(item.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], StartYear.ToString(), StartQuarter.ToString(), EndYear.ToString(), EndQuarter.ToString()));
                 bizInCompanyStatsView.compnayStatsListViewModel.Add(ReportHelper.MakeQuarterCompnayStatsViewModel(item, result));
             }
 
@@ -1190,7 +1190,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
 
             foreach (var item in scCompMappingList)
             {
-                var result = await _finenceReportService.GetCompanyYearSalesAsync(ReportHelper.MakeSalesYearProcedureParams(item.ScCompInfo.RegistrationNo, "1000", "1100", StartYear.ToString(), EndYear.ToString()));
+                var result = await _finenceReportService.GetCompanyYearSalesAsync(ReportHelper.MakeSalesYearProcedureParams(item.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], StartYear.ToString(), EndYear.ToString()));
                 bizInCompanyStatsView.compnayStatsListViewModel.Add(ReportHelper.MakeYearCompnayStatsViewModel(item, result));
             }
 

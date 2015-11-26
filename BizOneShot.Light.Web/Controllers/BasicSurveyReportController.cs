@@ -179,7 +179,7 @@ namespace BizOneShot.Light.Web.Controllers
                         continue;
                     }
                     //다래 재무정보 조회해야 함.
-                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, "1000", "1100", paramModel.BizWorkYear.ToString());
+                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], paramModel.BizWorkYear.ToString());
                     if (sboFinacialIndexT == null)
                     {
                         continue;
@@ -237,7 +237,7 @@ namespace BizOneShot.Light.Web.Controllers
             totalPoint = totalPoint + dicBizInHrMng.Values.Sum();
             totalPoint = totalPoint + dicBizInMkt.Values.Sum();
             totalPoint = totalPoint + dicBizInBasicCpas.Values.Sum();
-            viewModel.AvgTotalPoint = Math.Round(totalPoint / dicBizInHrMng.Count, 1);
+            viewModel.AvgTotalPoint = (dicBizInHrMng.Count == 0) ? 0 : Math.Round(totalPoint / dicBizInHrMng.Count, 1);
 
             //1-B. 해당 기업의 기초역량 점수 계산
             double companyPoint = 0;
@@ -280,8 +280,6 @@ namespace BizOneShot.Light.Web.Controllers
             //8. 전반적 제도 및 규정관리체계 화살표 -------------> 해당 페이지 개발 후 적용 해야함.02033128
             var rool = await rptMentorCommentService.GetRptMentorCommentAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "02033128");
 
-            viewModel.RoolType = ReportHelper.GetArrowTypeE(int.Parse(rool.Comment));
-
             if (rool != null)
             {
                 viewModel.RoolType = ReportHelper.GetArrowTypeE(int.Parse(rool.Comment));
@@ -301,10 +299,7 @@ namespace BizOneShot.Light.Web.Controllers
             //18. 조직역량-1인당노동생산성 해당기업점수
             orgCapa.CompanyPoint2 = workProductivity;
             //21. 조직역량-1인당노동생산성 참여기업 평균
-            if(dicQtEmp.Values.Sum() != 0)
-            { 
-                orgCapa.AvgBizInCompanyPoint2 = Math.Truncate(Convert.ToDouble(((dicSales.Values.Sum() - dicMaterrial.Values.Sum()) / dicQtEmp.Values.Sum()) / 1000));
-            }
+            orgCapa.AvgBizInCompanyPoint2 = (dicQtEmp.Values.Sum() == 0) ? 0 : Math.Truncate(Convert.ToDouble(((dicSales.Values.Sum() - dicMaterrial.Values.Sum()) / dicQtEmp.Values.Sum()) / 1000));
             //24. 조직역량-1인당노동생산성 전체 평균
             orgCapa.AvgTotalPoint2 = Math.Truncate(Convert.ToDouble((((dicSales.Values.Sum() + 111710064106) - (dicMaterrial.Values.Sum() + 43571068769)) / (dicQtEmp.Values.Sum() + 718 )) / 1000));
             //27. 조직역량-1인당노동생산성 중소기업평균
@@ -321,10 +316,7 @@ namespace BizOneShot.Light.Web.Controllers
             //19. 상품화역량-매출영업이익률 해당기업 점수
             prductionCapa.CompanyPoint2 = salesEarning;
             //22. 상품화역량-매출영업이익률 참여기업 평균
-            if(dicSales.Values.Sum() != 0)
-            { 
-                prductionCapa.AvgBizInCompanyPoint2 = Math.Round(Convert.ToDouble((dicOperatingErning.Values.Sum() / dicSales.Values.Sum()) * 100), 1);
-            }
+            prductionCapa.AvgBizInCompanyPoint2 = (dicSales.Values.Sum() == 0) ? 0 : Math.Round(Convert.ToDouble((dicOperatingErning.Values.Sum() / dicSales.Values.Sum()) * 100), 1);
             //25. 상품화역량-매출영업이익률 전체평균
             prductionCapa.AvgTotalPoint2 = Math.Round(Convert.ToDouble(((dicOperatingErning.Values.Sum() + 6689265895) / (dicSales.Values.Sum() + 111710064106)) * 100), 1);
             //28. 상품화역량-매출영업이익률 중소기업평균
@@ -341,10 +333,7 @@ namespace BizOneShot.Light.Web.Controllers
             //20. 위험관리역량-유동비율 해당기업 점수
             riskMngCapa.CompanyPoint2 = current;
             //23. 위험관리역량-유동비율 참여기업평균 점수
-            if(dicCurrentLiability.Values.Sum() != 0)
-            { 
-                riskMngCapa.AvgBizInCompanyPoint2 = Math.Round(Convert.ToDouble((dicCurrentAsset.Values.Sum() / dicCurrentLiability.Values.Sum()) * 100), 1);
-            }
+            riskMngCapa.AvgBizInCompanyPoint2 = (dicCurrentLiability.Values.Sum() == 0) ? 0 : Math.Round(Convert.ToDouble((dicCurrentAsset.Values.Sum() / dicCurrentLiability.Values.Sum()) * 100), 1);
             //26. 위험관리역량-유동비율 전체평균 점수
             riskMngCapa.AvgTotalPoint2 = Math.Round(Convert.ToDouble(((dicCurrentAsset.Values.Sum() + 58220981909) / (dicCurrentLiability.Values.Sum() + 23152799577)) * 100), 1);
             //29. 위험관리역량-유동비율 중소기업평균 점수
@@ -675,7 +664,7 @@ namespace BizOneShot.Light.Web.Controllers
                         continue;
                     }
                     //다래 재무정보 조회해야 함.
-                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, "1000", "1100", paramModel.BizWorkYear.ToString());
+                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], paramModel.BizWorkYear.ToString());
                     if (sboFinacialIndexT == null)
                     {
                         continue;
@@ -687,13 +676,13 @@ namespace BizOneShot.Light.Web.Controllers
 
                         viewModel.Productivity.Dividend = Math.Truncate(Convert.ToDouble((sboFinacialIndexT.CurrentSale.Value - sboFinacialIndexT.MaterialCost.Value) / 1000));
                         viewModel.Productivity.Divisor = Math.Round(Convert.ToDouble(sboFinacialIndexT.QtEmp.Value), 0);
-                        viewModel.Productivity.Result = Math.Truncate(viewModel.Productivity.Dividend / viewModel.Productivity.Divisor);
+                        viewModel.Productivity.Result = (viewModel.Productivity.Divisor == 0) ? 0 : Math.Truncate(viewModel.Productivity.Dividend / viewModel.Productivity.Divisor);
                         viewModel.Productivity.Company = viewModel.Productivity.Result;
                         viewModel.Productivity.AvgSMCompany = 135547;
 
                         viewModel.Activity.Dividend = Math.Truncate(Convert.ToDouble(sboFinacialIndexT.CurrentSale.Value / 1000));
                         viewModel.Activity.Divisor = Math.Truncate(Convert.ToDouble(sboFinacialIndexT.TotalAsset.Value / 1000));
-                        viewModel.Activity.Result = Math.Round((viewModel.Activity.Dividend / viewModel.Activity.Divisor) * 100, 1);
+                        viewModel.Activity.Result = (viewModel.Activity.Divisor == 0) ? 0 : Math.Round((viewModel.Activity.Dividend / viewModel.Activity.Divisor) * 100, 1);
                         viewModel.Activity.Company = viewModel.Activity.Result;
                         viewModel.Activity.AvgSMCompany = 114.8;
                     }
@@ -707,10 +696,10 @@ namespace BizOneShot.Light.Web.Controllers
             }
 
             //평균값 계산
-            viewModel.Productivity.AvgBizInCompany = Math.Truncate(Convert.ToDouble(((dicSales.Values.Sum() - dicMaterrial.Values.Sum()) / dicQtEmp.Values.Sum()) / 1000));
+            viewModel.Productivity.AvgBizInCompany = (dicQtEmp.Values.Sum() == 0) ? 0 : Math.Truncate(Convert.ToDouble(((dicSales.Values.Sum() - dicMaterrial.Values.Sum()) / dicQtEmp.Values.Sum()) / 1000));
             viewModel.Productivity.AvgTotal = Math.Truncate(Convert.ToDouble((((dicSales.Values.Sum() - dicMaterrial.Values.Sum()) + 68138995337) / (dicQtEmp.Values.Sum() + 718)) / 1000));
 
-            viewModel.Activity.AvgBizInCompany = Math.Round(Convert.ToDouble(dicSales.Values.Sum() / dicTotalAsset.Values.Sum() * 100));
+            viewModel.Activity.AvgBizInCompany = (dicTotalAsset.Values.Sum() == 0) ? 0 : Math.Round(Convert.ToDouble(dicSales.Values.Sum() / dicTotalAsset.Values.Sum() * 100));
             viewModel.Activity.AvgTotal = Math.Round(Convert.ToDouble((dicSales.Values.Sum() + 58431124392) / (dicTotalAsset.Values.Sum() + 46885784174) * 100));
 
 
@@ -789,7 +778,7 @@ namespace BizOneShot.Light.Web.Controllers
                         continue;
                     }
                     //다래 재무정보 조회해야 함.
-                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, "1000", "1100", paramModel.BizWorkYear.ToString());
+                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], paramModel.BizWorkYear.ToString());
                     if (sboFinacialIndexT == null)
                     {
                         continue;
@@ -864,10 +853,10 @@ namespace BizOneShot.Light.Web.Controllers
             }
             else
             { 
-                viewModel.Management.Company = Math.Round(Convert.ToDouble((viewModel.Management.PartialSum / viewModel.TotalSumCount)) * 100, 1);
-                viewModel.Produce.Company = Math.Round(Convert.ToDouble((viewModel.Produce.PartialSum / viewModel.TotalSumCount)) * 100, 1);
-                viewModel.RND.Company = Math.Round(Convert.ToDouble((viewModel.RND.PartialSum / viewModel.TotalSumCount)) * 100, 1);
-                viewModel.Salse.Company = Math.Round(Convert.ToDouble((viewModel.Salse.PartialSum / viewModel.TotalSumCount)) * 100, 1);
+                viewModel.Management.Company = (viewModel.TotalSumCount == 0) ? 0 : Math.Round(Convert.ToDouble((viewModel.Management.PartialSum / viewModel.TotalSumCount)) * 100, 1);
+                viewModel.Produce.Company = (viewModel.TotalSumCount == 0) ? 0 : Math.Round(Convert.ToDouble((viewModel.Produce.PartialSum / viewModel.TotalSumCount)) * 100, 1);
+                viewModel.RND.Company = (viewModel.TotalSumCount == 0) ? 0 : Math.Round(Convert.ToDouble((viewModel.RND.PartialSum / viewModel.TotalSumCount)) * 100, 1);
+                viewModel.Salse.Company = (viewModel.TotalSumCount == 0) ? 0 : Math.Round(Convert.ToDouble((viewModel.Salse.PartialSum / viewModel.TotalSumCount)) * 100, 1);
                 viewModel.CompanySum = 100;
             }
 
@@ -975,7 +964,7 @@ namespace BizOneShot.Light.Web.Controllers
 
                     //다래 재무정보 유무 체크하는 로직 추가해야함.(문진표정보, 재무정보가 있어야 보고서 생성가능.)
                     //다래 재무정보 조회해야 함.
-                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, "1000", "1100", paramModel.BizWorkYear.ToString());
+                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], paramModel.BizWorkYear.ToString());
                     if (sboFinacialIndexT == null)
                     {
                         continue;
@@ -984,7 +973,7 @@ namespace BizOneShot.Light.Web.Controllers
                     if (quesMaster.QuestionSn == paramModel.QuestionSn)
                     {
                         viewModel.value.Company = Math.Truncate(sboFinacialIndexT.ReserchAmt.Value / 1000).ToString();
-                        viewModel.percent.Company = Math.Round((sboFinacialIndexT.ReserchAmt.Value / sboFinacialIndexT.CurrentSale.Value * 100), 1).ToString();
+                        viewModel.percent.Company = (sboFinacialIndexT.CurrentSale.Value == 0) ? "0" : Math.Round((sboFinacialIndexT.ReserchAmt.Value / sboFinacialIndexT.CurrentSale.Value * 100), 1).ToString();
                     }
 
                     //종합점수 조회하여 분류별로 딕셔너리 저장
@@ -1108,7 +1097,7 @@ namespace BizOneShot.Light.Web.Controllers
 
                     //다래 재무정보 유무 체크하는 로직 추가해야함.(문진표정보, 재무정보가 있어야 보고서 생성가능.)
                     //다래 재무정보 조회해야 함.
-                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, "1000", "1100", paramModel.BizWorkYear.ToString());
+                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], paramModel.BizWorkYear.ToString());
                     if (sboFinacialIndexT == null)
                     {
                         continue;
@@ -1291,7 +1280,7 @@ namespace BizOneShot.Light.Web.Controllers
 
                     //다래 재무정보 유무 체크하는 로직 추가해야함.(문진표정보, 재무정보가 있어야 보고서 생성가능.)
                     //다래 재무정보 조회해야 함.
-                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, "1000", "1100", paramModel.BizWorkYear.ToString());
+                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], paramModel.BizWorkYear.ToString());
                     if (sboFinacialIndexT == null)
                     {
                         continue;
@@ -1440,7 +1429,7 @@ namespace BizOneShot.Light.Web.Controllers
                         continue;
                     }
                     //다래 재무정보 조회해야 함.
-                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, "1000", "1100", paramModel.BizWorkYear.ToString());
+                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], paramModel.BizWorkYear.ToString());
                     if (sboFinacialIndexT == null)
                     {
                         continue;
@@ -1452,13 +1441,13 @@ namespace BizOneShot.Light.Web.Controllers
 
                         viewModel.Profitability.Dividend = Math.Truncate(Convert.ToDouble(sboFinacialIndexT.OperatingEarning.Value / 1000));
                         viewModel.Profitability.Divisor = Math.Truncate(Convert.ToDouble(sboFinacialIndexT.CurrentSale.Value / 1000));
-                        viewModel.Profitability.Result = Math.Round(Convert.ToDouble(sboFinacialIndexT.OperatingEarning.Value / sboFinacialIndexT.CurrentSale.Value * 100), 1);
+                        viewModel.Profitability.Result = (sboFinacialIndexT.CurrentSale.Value == 0) ? 0 : Math.Round(Convert.ToDouble(sboFinacialIndexT.OperatingEarning.Value / sboFinacialIndexT.CurrentSale.Value * 100), 1);
                         viewModel.Profitability.Company = viewModel.Profitability.Result;
                         viewModel.Profitability.AvgSMCompany = 5.2;
 
                         viewModel.Growth.Dividend = Math.Truncate(Convert.ToDouble((sboFinacialIndexT.CurrentSale.Value - sboFinacialIndexT.PrevSale.Value) / 1000));
                         viewModel.Growth.Divisor = Math.Truncate(Convert.ToDouble(sboFinacialIndexT.PrevSale.Value / 1000));
-                        viewModel.Growth.Result = Math.Round(Convert.ToDouble((sboFinacialIndexT.CurrentSale.Value - sboFinacialIndexT.PrevSale.Value) / sboFinacialIndexT.PrevSale.Value * 100), 1);
+                        viewModel.Growth.Result = (sboFinacialIndexT.PrevSale.Value == 0) ? 0 : Math.Round(Convert.ToDouble((sboFinacialIndexT.CurrentSale.Value - sboFinacialIndexT.PrevSale.Value) / sboFinacialIndexT.PrevSale.Value * 100), 1);
                         viewModel.Growth.Company = viewModel.Growth.Result;
                         viewModel.Growth.AvgSMCompany = 4.9;
                     }
@@ -1471,10 +1460,10 @@ namespace BizOneShot.Light.Web.Controllers
             }
 
             //평균값 계산
-            viewModel.Profitability.AvgBizInCompany = Math.Round(Convert.ToDouble(dicOperatingEarning.Values.Sum() / dicSales.Values.Sum() * 100), 1);
+            viewModel.Profitability.AvgBizInCompany = (dicSales.Values.Sum() == 0) ? 0 : Math.Round(Convert.ToDouble(dicOperatingEarning.Values.Sum() / dicSales.Values.Sum() * 100), 1);
             viewModel.Profitability.AvgTotal = Math.Round(Convert.ToDouble((dicOperatingEarning.Values.Sum() + 6748926334) / (dicSales.Values.Sum() + 111666772288) * 100), 1);
 
-            viewModel.Growth.AvgBizInCompany = Math.Round(Convert.ToDouble((dicSales.Values.Sum() - dicPrevSales.Values.Sum()) / dicPrevSales.Values.Sum() * 100), 1);
+            viewModel.Growth.AvgBizInCompany = (dicPrevSales.Values.Sum() == 0) ? 0 : Math.Round(Convert.ToDouble((dicSales.Values.Sum() - dicPrevSales.Values.Sum()) / dicPrevSales.Values.Sum() * 100), 1);
             viewModel.Growth.AvgTotal = Math.Round(Convert.ToDouble(((dicSales.Values.Sum() - dicPrevSales.Values.Sum()) + 9517105574) / (dicPrevSales.Values.Sum() + 102192958532) * 100), 1);
 
 
@@ -1560,7 +1549,7 @@ namespace BizOneShot.Light.Web.Controllers
 
                     //다래 재무정보 유무 체크하는 로직 추가해야함.(문진표정보, 재무정보가 있어야 보고서 생성가능.)
                     //다래 재무정보 조회해야 함.
-                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, "1000", "1100", paramModel.BizWorkYear.ToString());
+                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], paramModel.BizWorkYear.ToString());
                     if (sboFinacialIndexT == null)
                     {
                         continue;
@@ -1705,7 +1694,7 @@ namespace BizOneShot.Light.Web.Controllers
                         continue;
                     }
                     //다래 재무정보 조회해야 함.
-                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, "1000", "1100", paramModel.BizWorkYear.ToString());
+                    var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compMapping.ScCompInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], paramModel.BizWorkYear.ToString());
                     if (sboFinacialIndexT == null)
                     {
                         continue;
@@ -1717,13 +1706,13 @@ namespace BizOneShot.Light.Web.Controllers
 
                         viewModel.Liquidity.Dividend = Math.Truncate(Convert.ToDouble(sboFinacialIndexT.CurrentAsset.Value / 1000));
                         viewModel.Liquidity.Divisor = Math.Truncate(Convert.ToDouble(sboFinacialIndexT.CurrentLiability.Value / 1000));
-                        viewModel.Liquidity.Result = Math.Round(Convert.ToDouble(sboFinacialIndexT.CurrentAsset.Value / sboFinacialIndexT.CurrentLiability.Value * 100), 1);
+                        viewModel.Liquidity.Result = (sboFinacialIndexT.CurrentLiability.Value == 0) ? 0 : Math.Round(Convert.ToDouble(sboFinacialIndexT.CurrentAsset.Value / sboFinacialIndexT.CurrentLiability.Value * 100), 1);
                         viewModel.Liquidity.Company = viewModel.Liquidity.Result;
                         viewModel.Liquidity.AvgSMCompany = 136.3;
 
                         viewModel.Stability.Dividend = Math.Truncate(Convert.ToDouble(sboFinacialIndexT.TotalLiability.Value / 1000));
                         viewModel.Stability.Divisor = Math.Truncate(Convert.ToDouble(sboFinacialIndexT.TotalCapital.Value / 1000));
-                        viewModel.Stability.Result = Math.Round(Convert.ToDouble(sboFinacialIndexT.TotalLiability.Value / sboFinacialIndexT.TotalCapital.Value * 100), 1);
+                        viewModel.Stability.Result = (sboFinacialIndexT.TotalCapital.Value == 0) ? 0 : Math.Round(Convert.ToDouble(sboFinacialIndexT.TotalLiability.Value / sboFinacialIndexT.TotalCapital.Value * 100), 1);
                         viewModel.Stability.Company = viewModel.Stability.Result;
                         viewModel.Stability.AvgSMCompany = 141.7;
                     }
@@ -1737,10 +1726,10 @@ namespace BizOneShot.Light.Web.Controllers
             }
 
             //평균값 계산
-            viewModel.Liquidity.AvgBizInCompany = Math.Round(Convert.ToDouble(dicCurrentAsset.Values.Sum() / dicCurrentLiability.Values.Sum() * 100), 1);
+            viewModel.Liquidity.AvgBizInCompany = (dicCurrentLiability.Values.Sum() == 0) ? 0 : Math.Round(Convert.ToDouble(dicCurrentAsset.Values.Sum() / dicCurrentLiability.Values.Sum() * 100), 1);
             viewModel.Liquidity.AvgTotal = Math.Round(Convert.ToDouble((dicCurrentAsset.Values.Sum() + 26161408957) / (dicCurrentLiability.Values.Sum() + 5869940384) * 100), 1);
 
-            viewModel.Stability.AvgBizInCompany = Math.Round(Convert.ToDouble(dicTotalLiability.Values.Sum() / dicTotalCapital.Values.Sum() * 100), 1);
+            viewModel.Stability.AvgBizInCompany = (dicTotalCapital.Values.Sum() == 0) ? 0 : Math.Round(Convert.ToDouble(dicTotalLiability.Values.Sum() / dicTotalCapital.Values.Sum() * 100), 1);
             viewModel.Stability.AvgTotal = Math.Round(Convert.ToDouble((dicTotalLiability.Values.Sum() + 21887099526) / (dicTotalCapital.Values.Sum() + 24998683648) * 100), 1);
 
 
@@ -3051,7 +3040,7 @@ namespace BizOneShot.Light.Web.Controllers
         {
             var compInfo = await scCompInfoService.GetScCompInfoByCompSn(CompSn);
             //다래 재무정보 조회해야 함.
-            var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compInfo.RegistrationNo, "1000", "1100", BasicYear.ToString());
+            var sboFinacialIndexT = await sboFinancialIndexTService.GetSHUSER_SboFinancialIndexT(compInfo.RegistrationNo, ConfigurationManager.AppSettings["CorpCode"], ConfigurationManager.AppSettings["BizCode"], BasicYear.ToString());
             if (sboFinacialIndexT != null)
             {
                 return Json(new { result = true });
