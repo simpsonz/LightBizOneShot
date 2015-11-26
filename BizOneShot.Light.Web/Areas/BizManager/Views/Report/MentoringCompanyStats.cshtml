@@ -142,8 +142,13 @@
             });
         }
     }
+
+    if (window.print) {
+        document.write('<form><input type=button name=print value="Print" onClick="window.print()"></form>');
+    }
 </script>
 
+@Styles.Render("~/css/print")
 
 <div id="sub_rightwrap_report">
 
@@ -357,7 +362,8 @@
     </div>
     <div id="btnwrap_sub">
         <div class="rightwrap right">
-            <button class="print" value="출력"  onclick="alert('차후 오픈 예정 입니다.')"></button>
+            <button class="print" value="출력" onclick="window.print()" />
+            @*<button class="print" value="출력"  onclick="alert('차후 오픈 예정 입니다.')"/>*@
         </div>
 
     </div>

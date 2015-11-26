@@ -12,6 +12,9 @@
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
     });
 
+    if (window.print) {
+        document.write('<form><input type=button name=print value="Print" onClick="window.print()"></form>');
+    }
 </script>
 
 <div id="sub_rightwrap_report">
@@ -72,7 +75,7 @@
 
             <a href="@Url.Action("BasicSurveyReport", "Report", new { area = "SysManager"})" class="list2 left" value="목록"><em>목록</em></a>
 
-            <button class="print" value="출력" onclick="alert('차후 오픈 예정 입니다.')"></button>
+            <button class="print" value="출력" onclick="location.href = '/BasicSurveyReport/print_03'"></button>
             @if (Model.Status == "T")
             {
                 <a href="@Url.Action("CompanyInfo", "BasicSurveyReport", new { area = "" , BizWorkSn = Model.BizWorkSn, CompSn = Model.CompSn, BizWorkYear = Model.BizWorkYear, Status = Model.Status, QuestionSn = Model.QuestionSn})" class="write_start right" value="작성"><em>작성</em></a>
