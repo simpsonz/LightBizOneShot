@@ -361,7 +361,7 @@
                             <tr>
                                 <td class="left_memo col_b3">조직역량</td>
                                 <td class="left_memo col_ee">조직분화도</td>
-                                <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[0].Comment, new { @id = "comment0", @placeholder = "300자 내로 작성하시기 바랍니다." })</td>
+                                <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[0].Comment, new { @id = "comment0", @maxlength = "300", @placeholder = "300자 내로 작성하시기 바랍니다." })</td>
                                 @Html.HiddenFor(model => model.CommentList[0].DetailCd)
                             </tr>
                             <tr>
@@ -371,7 +371,7 @@
                                 <td class="left_memo col_ee">
                                     고객의 수,<br>상품의 질 및<br>마케팅수준
                                 </td>
-                                <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[1].Comment, new { @id = "comment1", @placeholder = "300자 내로 작성하시기 바랍니다." })</td>
+                                <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[1].Comment, new { @id = "comment1", @maxlength = "300", @placeholder = "300자 내로 작성하시기 바랍니다." })</td>
                                 @Html.HiddenFor(model => model.CommentList[1].DetailCd)
                             </tr>
                             <tr>
@@ -381,7 +381,7 @@
                                 <td class="left_memo col_ee">
                                     재무회계<br>관리체계 및 <br>제도수준
                                 </td>
-                                <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[2].Comment, new { @id = "comment2", @placeholder = "300자 내로 작성하시기 바랍니다." })</td>
+                                <td class="center_td ">@Html.TextAreaFor(model => model.CommentList[2].Comment, new { @id = "comment2", @maxlength = "300", @placeholder = "300자 내로 작성하시기 바랍니다." })</td>
                                 @Html.HiddenFor(model => model.CommentList[2].DetailCd)
                             </tr>
                         </table>

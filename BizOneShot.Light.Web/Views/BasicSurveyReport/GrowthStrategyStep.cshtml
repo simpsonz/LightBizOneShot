@@ -11,36 +11,36 @@
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
 
-        $('#mainForm').bind('submit', function () {
+        //$('#mainForm').bind('submit', function () {
 
-            var valid = true;
-            if ($('#submitType').val() == "N") {
-                $('input[id^="comment"]').each(function () {
-                    if ($(this).val().length == 0) {
-                        alert("필수항목을 입력해 주세요");
-                        $(this).focus();
-                        valid = false;
+        //    var valid = true;
+        //    if ($('#submitType').val() == "N") {
+        //        $('input[id^="comment"]').each(function () {
+        //            if ($(this).val().length == 0) {
+        //                alert("필수항목을 입력해 주세요");
+        //                $(this).focus();
+        //                valid = false;
 
-                        return false;
-                    }
-                });
+        //                return false;
+        //            }
+        //        });
 
 
-                $('textarea[id^="comment"]').each(function () {
-                    if ($(this).val().length == 0 && valid == true) {
-                        alert("필수항목을 입력해 주세요");
-                        $(this).focus();
-                        valid = false;
+        //        $('textarea[id^="comment"]').each(function () {
+        //            if ($(this).val().length == 0 && valid == true) {
+        //                alert("필수항목을 입력해 주세요");
+        //                $(this).focus();
+        //                valid = false;
 
-                        return false;
-                    }
-                });
+        //                return false;
+        //            }
+        //        });
 
-                return valid;
+        //        return valid;
  
-            }
+        //    }
            
-        });
+        //});
 
         if ($('#Status').val() == "C") {
             $('#mainForm input').attr('disabled', true);
@@ -106,27 +106,27 @@
                             </tr>
                             <tr>
                                 <td class="left_memo">현 단계</td>
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[0].Comment, new { @id = "comment0", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[0].Comment, new { @id = "comment0", @class = "long_text2", @maxlength="10" })
                                     @Html.HiddenFor(model => model.CommentList[0].DetailCd)
                                 </td>
                                 
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[1].Comment, new { @id = "comment1", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[1].Comment, new { @id = "comment1", @class = "long_text2", @maxlength = "10" })
                                     @Html.HiddenFor(model => model.CommentList[1].DetailCd)
                                 </td>
                                 
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[2].Comment, new { @id = "comment2", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[2].Comment, new { @id = "comment2", @class = "long_text2", @maxlength = "10" })
                                     @Html.HiddenFor(model => model.CommentList[2].DetailCd)
                                 </td>
                                 
                             </tr>
                             <tr>
                                 <td class="left_memo">1년 이내 전략</td>
-                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[3].Comment, new { @id = "comment3", @class = "long_text2" })</td>
+                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[3].Comment, new { @id = "comment3", @class = "long_text2", @maxlength = "10" })</td>
                                     @Html.HiddenFor(model => model.CommentList[3].DetailCd)
-                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[4].Comment, new { @id = "comment4", @class = "long_text2" })
+                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[4].Comment, new { @id = "comment4", @class = "long_text2", @maxlength = "10" })
                                     @Html.HiddenFor(model => model.CommentList[4].DetailCd)
                                 </td>
-                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[5].Comment, new { @id = "comment5", @class = "long_text2" })
+                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[5].Comment, new { @id = "comment5", @class = "long_text2", @maxlength = "10" })
                                     @Html.HiddenFor(model => model.CommentList[5].DetailCd)
                                 </td>
                                 
@@ -134,13 +134,13 @@
                             </tr>
                             <tr>
                                 <td class="left_memo">2년 후 전략</td>
-                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[6].Comment, new { @id = "comment6", @class = "long_text2" })
+                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[6].Comment, new { @id = "comment6", @class = "long_text2", @maxlength = "10" })
                                     @Html.HiddenFor(model => model.CommentList[6].DetailCd)
                                 </td>
-                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[7].Comment, new { @id = "comment7", @class = "long_text2" })
+                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[7].Comment, new { @id = "comment7", @class = "long_text2", @maxlength = "10" })
                                     @Html.HiddenFor(model => model.CommentList[7].DetailCd)
                                 </td>
-                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[8].Comment, new { @id = "comment8", @class = "long_text2" })
+                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[8].Comment, new { @id = "comment8", @class = "long_text2", @maxlength = "10" })
                                     @Html.HiddenFor(model => model.CommentList[8].DetailCd)
                                 </td>
                             </tr>
@@ -167,28 +167,28 @@
                             </tr>
                             <tr>
                                 <td class="left_memo">조직역량</td>
-                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[9].Comment, new { @id = "comment9", @class = "long_text2" })
+                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[9].Comment, new { @id = "comment9", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[9].DetailCd)
                                 </td>
-                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[10].Comment, new { @id = "comment10", @class = "long_text2" })
+                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[10].Comment, new { @id = "comment10", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[10].DetailCd)
                                 </td>
                             </tr>
                             <tr>
                                 <td class="left_memo">상품화역량</td>
-                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[11].Comment, new { @id = "comment11", @class = "long_text2" })
+                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[11].Comment, new { @id = "comment11", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[11].DetailCd)
                                 </td>
-                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[12].Comment, new { @id = "comment12", @class = "long_text2" })
+                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[12].Comment, new { @id = "comment12", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[12].DetailCd)
                                 </td>
                             </tr>
                             <tr>
                                 <td class="left_memo">위험관리역량</td>
-                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[13].Comment, new { @id = "comment13", @class = "long_text2" })
+                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[13].Comment, new { @id = "comment13", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[13].DetailCd)
                                 </td>
-                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[14].Comment, new { @id = "comment14", @class = "long_text2" })
+                                <td class="center_td">@Html.TextBoxFor(model => model.CommentList[14].Comment, new { @id = "comment14", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[14].DetailCd)
                                 </td>
                             </tr>
@@ -215,57 +215,57 @@
                             <tr>
                                 <td class="center_td center bold" rowspan="2">가치창출전략</td>
                                 <td class="center_td center">현재 실행</td>
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[15].Comment, new { @id = "comment15", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[15].Comment, new { @id = "comment15", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[15].DetailCd)
                                 </td>
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[16].Comment, new { @id = "comment16", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[16].Comment, new { @id = "comment16", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[16].DetailCd)
                                 </td>
                             </tr>
                             <tr>
                                 <td class="center_td center">제안</td>
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[17].Comment, new { @id = "comment17", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[17].Comment, new { @id = "comment17", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[17].DetailCd)
                                 </td>
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[18].Comment, new { @id = "comment18", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[18].Comment, new { @id = "comment18", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[18].DetailCd)
                                 </td>  
                             </tr>
                             <tr>
                                 <td class="center_td center bold" rowspan="2">고객맞춤전략</td>
                                 <td class="center_td center">현재 실행</td>
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[19].Comment, new { @id = "comment19", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[19].Comment, new { @id = "comment19", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[19].DetailCd)
                                 </td>
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[20].Comment, new { @id = "comment20", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[20].Comment, new { @id = "comment20", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[20].DetailCd)
                                 </td>
                             </tr>
                             <tr>
                                 <td class="center_td center">제안</td>
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[21].Comment, new { @id = "comment21", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[21].Comment, new { @id = "comment21", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[21].DetailCd)
                                 </td>
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[22].Comment, new { @id = "comment22", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[22].Comment, new { @id = "comment22", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[22].DetailCd)
                                 </td>
                             </tr>
                             <tr>
                                 <td class="center_td center bold" rowspan="2">비용최소화전략<br>(위험회피전략)</td>
                                 <td class="center_td center">현재 실행</td>
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[23].Comment, new { @id = "comment23", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[23].Comment, new { @id = "comment23", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[23].DetailCd)
                                 </td>
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[24].Comment, new { @id = "comment24", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[24].Comment, new { @id = "comment24", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[24].DetailCd)
                                 </td> 
                             </tr>
                             <tr>
                                 <td class="center_td center">제안</td>
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[25].Comment, new { @id = "comment25", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[25].Comment, new { @id = "comment25", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[25].DetailCd)
                                 </td>
-                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[26].Comment, new { @id = "comment26", @class = "long_text2" })
+                                <td class="center_td center">@Html.TextBoxFor(model => model.CommentList[26].Comment, new { @id = "comment26", @class = "long_text2", @maxlength = "20" })
                                     @Html.HiddenFor(model => model.CommentList[26].DetailCd)
                                 </td>
                             </tr>
@@ -279,7 +279,7 @@
                         <div class="listBox_tap bg_on">
                             <span>핵심제안</span>
                         </div>
-                        @Html.TextAreaFor(model => model.CommentList[27].Comment, new { @id = "comment27", @class = "bot_textarea", @placeholder = "500자 내로 작성하시기 바랍니다." })
+                        @Html.TextAreaFor(model => model.CommentList[27].Comment, new { @id = "comment27", @class = "bot_textarea", @maxlength = "500", @placeholder = "500자 내로 작성하시기 바랍니다." })
                         @Html.HiddenFor(model => model.CommentList[27].DetailCd)
                     </div>
                 </div>

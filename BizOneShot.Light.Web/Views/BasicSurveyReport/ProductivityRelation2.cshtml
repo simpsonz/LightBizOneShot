@@ -33,52 +33,169 @@
             $('#sumcom2radio').val(sumradio);
         });
 
-
         $('#mainForm').bind('submit', function () {
 
             var valid = true;
-
             if ($('#submitType').val() == "N") {
-                $('input[id^="comment"]').each(function () {
-                    if ($(this).val().length == 0) {
-                        alert("필수항목을 입력해 주세요");
-                        $(this).focus();
-                        valid = false;
+                
 
-                        return false;
+                var com1radioCount = $('input:radio:checked[id^="com1radio"]').length;
+                var com2radioCount = $('input:radio:checked[id^="com2radio"]').length;
+
+             
+                var com1commentCount = 0;
+                $('textarea[id^="com1comment"]').each(function () {
+                    if ($(this).val().length > 0) {
+                        com1commentCount += 1;
+                    }
+                });
+                $('input[id^="com1comment"]').each(function () {
+                    if ($(this).val().length > 0) {
+                        com1commentCount += 1;
                     }
                 });
 
-
-                $('textarea[id^="comment"]').each(function () {
-                    if ($(this).val().length == 0 && valid == true) {
-                        alert("필수항목을 입력해 주세요");
-                        $(this).focus();
-                        valid = false;
-
-                        return false;
+                var com2commentCount = 0;
+                $('textarea[id^="com2comment"]').each(function () {
+                    if ($(this).val().length > 0) {
+                        com2commentCount += 1;
+                    }
+                });
+                $('input[id^="com2comment"]').each(function () {
+                    if ($(this).val().length > 0) {
+                        com2commentCount += 1;
                     }
                 });
 
-                var names = {};
-                $('input:radio').each(function () { // find unique names
-                    names[$(this).attr('name')] = true;
-                });
-                var count = 0;
-                $.each(names, function () { // then count them
-                    count++;
-                });
+                //경쟁사1 필수값체크
+                if (com1radioCount > 0 || com1commentCount > 0) {
+                    $('textarea[id^="com1comment"]').each(function () {
+                        if ($(this).val().length == 0 ) {
+                            alert("경쟁사1의 정보를 입력해 주세요");
+                            $(this).focus();
+                            valid = false;
 
-                if ($('input:radio:checked').length != count && valid == true) {
-                    alert("라디오버튼을 선택해 주세요");
-                    valid = false;
-                    return false;
+                            return false;
+                        }
+                    });
+
+                    $('input[id^="com1comment"]').each(function () {
+                        if ($(this).val().length == 0 && valid == true) {
+                            alert("경쟁사1의 정보를 입력해 주세요");
+                            $(this).focus();
+                            valid = false;
+
+                            return false;
+                        }
+                    });
+
+                    var names = {};
+                    $('input[type=radio][id^="com1radio"]').each(function () { // find unique names
+                        names[$(this).attr('name')] = true;
+                    });
+                    var count = 0;
+                    $.each(names, function () { // then count them
+                        count++;
+                    });
+
+                    if ($('input:radio:checked[id^="com1radio"]').length != count && valid == true) {
+                        alert("경쟁사1의 라디오버튼을 선택해 주세요");
+                        valid = false;
+                        return false;
+                    }
+                }
+
+                //경쟁사2 필수값 체크
+                if (com2radioCount > 0 || com2commentCount > 0 && valid == true) {
+
+                    $('textarea[id^="com2comment"]').each(function () {
+                        if ($(this).val().length == 0 ) {
+                            alert("경쟁사2의 정보를 입력해 주세요");
+                            $(this).focus();
+                            valid = false;
+
+                            return false;
+                        }
+                    });
+
+                    $('input[id^="com2comment"]').each(function () {
+                        if ($(this).val().length == 0 && valid == true) {
+                            alert("경쟁사2의 정보를 입력해 주세요");
+                            $(this).focus();
+                            valid = false;
+
+                            return false;
+                        }
+                    });
+
+                    var names = {};
+                    $('input[type=radio][id^="com2radio"]').each(function () { // find unique names
+                        names[$(this).attr('name')] = true;
+                    });
+                    var count = 0;
+                    $.each(names, function () { // then count them
+                        count++;
+                    });
+
+                    if ($('input:radio:checked[id^="com2radio"]').length != count && valid == true) {
+                        alert("경쟁사2의 라디오버튼을 선택해 주세요");
+                        valid = false;
+                        return false;
+                    }                    
                 }
 
                 return valid;
+
             }
 
         });
+
+
+        //$('#mainForm').bind('submit', function () {
+
+        //    var valid = true;
+
+        //    if ($('#submitType').val() == "N") {
+        //        $('input[id^="comment"]').each(function () {
+        //            if ($(this).val().length == 0) {
+        //                alert("필수항목을 입력해 주세요");
+        //                $(this).focus();
+        //                valid = false;
+
+        //                return false;
+        //            }
+        //        });
+
+
+        //        $('textarea[id^="comment"]').each(function () {
+        //            if ($(this).val().length == 0 && valid == true) {
+        //                alert("필수항목을 입력해 주세요");
+        //                $(this).focus();
+        //                valid = false;
+
+        //                return false;
+        //            }
+        //        });
+
+        //        var names = {};
+        //        $('input:radio').each(function () { // find unique names
+        //            names[$(this).attr('name')] = true;
+        //        });
+        //        var count = 0;
+        //        $.each(names, function () { // then count them
+        //            count++;
+        //        });
+
+        //        if ($('input:radio:checked').length != count && valid == true) {
+        //            alert("라디오버튼을 선택해 주세요");
+        //            valid = false;
+        //            return false;
+        //        }
+
+        //        return valid;
+        //    }
+
+        //});
 
         if ($('#Status').val() == "C") {
             $('#mainForm input').attr('disabled', true);
@@ -475,36 +592,36 @@
                             <tr>
                                 <td class="left_memo">개요</td>
                                 <td class="center">
-                                    @Html.TextAreaFor(model => model.CommentList[26].Comment, new { @id = "comment26"})
+                                    @Html.TextAreaFor(model => model.CommentList[26].Comment, new { @id = "com1comment26"})
                                     @Html.HiddenFor(model => model.CommentList[26].DetailCd)
                                 </td>
                                 <td class="left_memo">개요</td>
                                 <td class="center">
-                                    @Html.TextAreaFor(model => model.CommentList[27].Comment, new { @id = "comment27" })
+                                    @Html.TextAreaFor(model => model.CommentList[27].Comment, new { @id = "com2comment27" })
                                     @Html.HiddenFor(model => model.CommentList[27].DetailCd)
                                 </td>
                             </tr>
                             <tr>
                                 <td class="left_memo">회사명</td>
                                 <td class="center">
-                                    @Html.TextBoxFor(model => model.CommentList[28].Comment, new { @id = "comment28" })
+                                    @Html.TextBoxFor(model => model.CommentList[28].Comment, new { @id = "com1comment28" })
                                     @Html.HiddenFor(model => model.CommentList[28].DetailCd)
                                 </td>
                                 <td class="left_memo">회사명</td>
                                 <td class="center">
-                                    @Html.TextBoxFor(model => model.CommentList[29].Comment, new { @id = "comment29" })
+                                    @Html.TextBoxFor(model => model.CommentList[29].Comment, new { @id = "com2comment29" })
                                     @Html.HiddenFor(model => model.CommentList[29].DetailCd)
                                 </td>
                             </tr>
                             <tr>
                                 <td class="left_memo">상품명</td>
                                 <td class="center">
-                                    @Html.TextBoxFor(model => model.CommentList[30].Comment, new { @id = "comment30" })
+                                    @Html.TextBoxFor(model => model.CommentList[30].Comment, new { @id = "com1comment30" })
                                     @Html.HiddenFor(model => model.CommentList[30].DetailCd)
                                 </td>
                                 <td class="left_memo">상품명</td>
                                 <td class="center">
-                                    @Html.TextBoxFor(model => model.CommentList[31].Comment, new { @id = "comment31" })
+                                    @Html.TextBoxFor(model => model.CommentList[31].Comment, new { @id = "com2comment31" })
                                     @Html.HiddenFor(model => model.CommentList[31].DetailCd)
                                 </td>
                             </tr>

@@ -185,7 +185,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    @Html.TextAreaFor(model => model.CommentList[0].Comment, new { @id = "comment0", @class = "bot_textarea", @placeholder = "500자 내로 작성하시기 바랍니다." })
+                    @Html.TextAreaFor(model => model.CommentList[0].Comment, new { @id = "comment0", @class = "bot_textarea", @maxlength = "500", @placeholder = "500자 내로 작성하시기 바랍니다." })
                     @Html.HiddenFor(model => model.CommentList[0].DetailCd)
                 </div>
 

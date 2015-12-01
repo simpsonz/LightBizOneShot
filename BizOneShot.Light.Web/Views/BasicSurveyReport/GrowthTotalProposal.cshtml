@@ -11,35 +11,35 @@
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
 
-        $('#mainForm').bind('submit', function () {
+        //$('#mainForm').bind('submit', function () {
 
-            var valid = true;
-            if ($('#submitType').val() == "N") {
-                $('input[id^="comment"]').each(function () {
-                    if ($(this).val().length == 0) {
-                        alert("필수항목을 입력해 주세요");
-                        $(this).focus();
-                        valid = false;
+        //    var valid = true;
+        //    if ($('#submitType').val() == "N") {
+        //        $('input[id^="comment"]').each(function () {
+        //            if ($(this).val().length == 0) {
+        //                alert("필수항목을 입력해 주세요");
+        //                $(this).focus();
+        //                valid = false;
 
-                        return false;
-                    }
-                });
+        //                return false;
+        //            }
+        //        });
 
 
-                $('textarea[id^="comment"]').each(function () {
-                    if ($(this).val().length == 0 && valid == true) {
-                        alert("필수항목을 입력해 주세요");
-                        $(this).focus();
-                        valid = false;
+        //        $('textarea[id^="comment"]').each(function () {
+        //            if ($(this).val().length == 0 && valid == true) {
+        //                alert("필수항목을 입력해 주세요");
+        //                $(this).focus();
+        //                valid = false;
 
-                        return false;
-                    }
-                });
+        //                return false;
+        //            }
+        //        });
 
-                return valid;
-            }
+        //        return valid;
+        //    }
 
-        });
+        //});
 
         if ($('#Status').val() == "C") {
             $('#mainForm input').attr('disabled', true);
@@ -105,12 +105,12 @@
                     <p class="full_p">
                         <span class="big_span nomargin2"> • 현재 회사에서 가장 큰 문제는?</span>
                     </p>
-                    @Html.TextAreaFor(model => model.CommentList[0].Comment, new { @id = "comment0", @class = "notearea", @placeholder = "300자 내로 작성하시기 바랍니다." })
+                    @Html.TextAreaFor(model => model.CommentList[0].Comment, new { @id = "comment0", @class = "notearea", @maxlength = "500", @placeholder = "300자 내로 작성하시기 바랍니다." })
                     @Html.HiddenFor(model => model.CommentList[0].DetailCd)
                     <p class="full_p">
                         <span class="big_span nomargin2"> • 현 시점 회사의 당면 과제는?</span>
                     </p>
-                    @Html.TextAreaFor(model => model.CommentList[1].Comment, new { @id = "comment1", @class = "notearea", @placeholder = "300자 내로 작성하시기 바랍니다." })
+                    @Html.TextAreaFor(model => model.CommentList[1].Comment, new { @id = "comment1", @class = "notearea", @maxlength = "500", @placeholder = "300자 내로 작성하시기 바랍니다." })
                     @Html.HiddenFor(model => model.CommentList[1].DetailCd)
                     <p class="full_p">
                         <span class="big_span nomargin2">
@@ -118,7 +118,7 @@
                             문제가 되는 부분은?
                         </span>
                     </p>
-                    @Html.TextAreaFor(model => model.CommentList[2].Comment, new { @id = "comment2", @class = "notearea", @placeholder = "300자 내로 작성하시기 바랍니다." })
+                    @Html.TextAreaFor(model => model.CommentList[2].Comment, new { @id = "comment2", @class = "notearea", @maxlength = "500", @placeholder = "300자 내로 작성하시기 바랍니다." })
                     @Html.HiddenFor(model => model.CommentList[2].DetailCd)
                     <p class="full_p">
                         <span class="big_span nomargin2">
@@ -126,7 +126,7 @@
                             전반적으로 처리해야 할 당면과제는?(공공기관의 업무중심)
                         </span>
                     </p>
-                    @Html.TextAreaFor(model => model.CommentList[3].Comment, new { @id = "comment3", @class = "notearea", @placeholder = "300자 내로 작성하시기 바랍니다." })
+                    @Html.TextAreaFor(model => model.CommentList[3].Comment, new { @id = "comment3", @class = "notearea", @maxlength = "500", @placeholder = "300자 내로 작성하시기 바랍니다." })
                     @Html.HiddenFor(model => model.CommentList[3].DetailCd)
                 </div>
 
