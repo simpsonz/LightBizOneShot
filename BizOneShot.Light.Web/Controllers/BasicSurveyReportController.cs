@@ -144,6 +144,8 @@ namespace BizOneShot.Light.Web.Controllers
             double mkt = 0.0;
             //해당기업 인적자원관리
             double hrMng = 0.0;
+            //해당기업 재무관리
+            double financeMng = 0.0;
             //해당기업 1인당 노동생산성
             double workProductivity = 0.0;
             //해당기업 매출영업이익률
@@ -157,6 +159,8 @@ namespace BizOneShot.Light.Web.Controllers
 
             //인적자원관리
             Dictionary<string, double> dicBizInHrMng = new Dictionary<string, double>();
+            //재무관리
+            Dictionary<string, double> dicBizInFinanceMng = new Dictionary<string, double>();
             //기술경영마케팅
             Dictionary<string, double> dicBizInMkt = new Dictionary<string, double>();
             //기초역량
@@ -191,11 +195,16 @@ namespace BizOneShot.Light.Web.Controllers
                         continue;
                     }
 
-
                     //참여기업의 점수 계산
-                    var bizInHrMng = await reportUtil.GetHumanResourceMng(quesMaster.QuestionSn, sboFinacialIndexT);
+                    var bizInHrMng = await reportUtil.GetHumanResourceMng(quesMaster.QuestionSn);
                     var bizInMkt = await reportUtil.GetTechMng(quesMaster.QuestionSn, sboFinacialIndexT);
                     var bizInBasicCapa = await reportUtil.GetOverAllManagementTotalPoint(quesMaster.QuestionSn);
+                    var bizInFinance = await reportUtil.GetFinanceMng(quesMaster.QuestionSn, sboFinacialIndexT);
+
+                    // A1A202 : 조직만족도
+                    var quesResult2s = await quesResult2Service.GetQuesResult2sAsync(quesMaster.QuestionSn, "A1A202");
+                    // 총직원은 다래 재무정보가 아닌 문진표상에 총인원을 가지고 온다.
+                    var totalEmp = quesResult2s.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1A20201");
 
                     //해당기업을 찾아 점수를 별도로 저장한다.
                     if (quesMaster.QuestionSn == paramModel.QuestionSn)
@@ -203,10 +212,11 @@ namespace BizOneShot.Light.Web.Controllers
                         basicCapa = bizInBasicCapa;
                         mkt = bizInMkt;
                         hrMng = bizInHrMng;
+                        financeMng = bizInFinance;
 
                         if (sboFinacialIndexT.QtEmp != 0)
                         {
-                            workProductivity = Math.Truncate(Convert.ToDouble(((sboFinacialIndexT.CurrentSale - sboFinacialIndexT.MaterialCost) / sboFinacialIndexT.QtEmp) / 1000));
+                            workProductivity = Math.Truncate(Convert.ToDouble(((sboFinacialIndexT.CurrentSale - sboFinacialIndexT.MaterialCost) / decimal.Parse(totalEmp.D)) / 1000));
                         }
 
                         if (sboFinacialIndexT.CurrentSale != 0)
@@ -218,36 +228,36 @@ namespace BizOneShot.Light.Web.Controllers
                         {
                             current = Math.Round(Convert.ToDouble((sboFinacialIndexT.CurrentAsset / sboFinacialIndexT.CurrentLiability) * 100), 1);
                         }
-
-
-                        dicBizInHrMng.Add(compMapping.ScCompInfo.RegistrationNo, bizInHrMng);
-                        dicBizInMkt.Add(compMapping.ScCompInfo.RegistrationNo, bizInMkt);
-                        dicBizInBasicCpas.Add(compMapping.ScCompInfo.RegistrationNo, bizInBasicCapa);
-
-                        dicSales.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentSale.Value);
-                        dicMaterrial.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.MaterialCost.Value);
-                        dicQtEmp.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.QtEmp.Value);
-                        dicOperatingErning.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.OperatingEarning.Value);
-                        dicCurrentAsset.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentAsset.Value);
-                        dicCurrentLiability.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentLiability.Value);
                     }
+
+
+                    dicBizInHrMng.Add(compMapping.ScCompInfo.RegistrationNo, bizInHrMng);
+                    dicBizInMkt.Add(compMapping.ScCompInfo.RegistrationNo, bizInMkt);
+                    dicBizInBasicCpas.Add(compMapping.ScCompInfo.RegistrationNo, bizInBasicCapa);
+                    dicBizInFinanceMng.Add(compMapping.ScCompInfo.RegistrationNo, bizInFinance);
+
+                    dicSales.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentSale.Value);
+                    dicMaterrial.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.MaterialCost.Value);
+                    dicQtEmp.Add(compMapping.ScCompInfo.RegistrationNo, decimal.Parse(totalEmp.D));
+                    dicOperatingErning.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.OperatingEarning.Value);
+                    dicCurrentAsset.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentAsset.Value);
+                    dicCurrentLiability.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentLiability.Value);
+
 
                 }
             }
 
-            // 3) 기초자료 전체 평균
-            // 설명자료에 해당 내용 없음.
-
-            // 4) 전체 평균정수 계산
+            //1-A. 사업평균 점수 계산
             double totalPoint = 0;
             totalPoint = totalPoint + dicBizInHrMng.Values.Sum();
             totalPoint = totalPoint + dicBizInMkt.Values.Sum();
             totalPoint = totalPoint + dicBizInBasicCpas.Values.Sum();
+            totalPoint = totalPoint + dicBizInFinanceMng.Values.Sum();
             viewModel.AvgTotalPoint = (dicBizInHrMng.Count == 0) ? 0 : Math.Round(totalPoint / dicBizInHrMng.Count, 1);
 
             //1-B. 해당 기업의 기초역량 점수 계산
             double companyPoint = 0;
-            companyPoint = basicCapa + mkt + hrMng;
+            companyPoint = basicCapa + mkt + hrMng + financeMng;
             viewModel.CompanyPoint = Math.Round(companyPoint, 1);
 
             //2. 경영역량 총괄 화살표
@@ -676,12 +686,17 @@ namespace BizOneShot.Light.Web.Controllers
                         continue;
                     }
 
+                    // A1A202 : 조직만족도
+                    var quesResult2s = await quesResult2Service.GetQuesResult2sAsync(quesMaster.QuestionSn, "A1A202");
+                    // 총직원은 다래 재무정보가 아닌 문진표상에 총인원을 가지고 온다.
+                    var totalEmp = quesResult2s.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1A20201");
+
                     //해당기업을 찾아 점수를 별도로 저장한다.
                     if (quesMaster.QuestionSn == paramModel.QuestionSn)
                     {
 
                         viewModel.Productivity.Dividend = Math.Truncate(Convert.ToDouble((sboFinacialIndexT.CurrentSale.Value - sboFinacialIndexT.MaterialCost.Value) / 1000));
-                        viewModel.Productivity.Divisor = Math.Round(Convert.ToDouble(sboFinacialIndexT.QtEmp.Value), 0);
+                        viewModel.Productivity.Divisor = Math.Round(Convert.ToDouble(totalEmp.D), 0);
                         viewModel.Productivity.Result = (viewModel.Productivity.Divisor == 0) ? 0 : Math.Truncate(viewModel.Productivity.Dividend / viewModel.Productivity.Divisor);
                         viewModel.Productivity.Company = viewModel.Productivity.Result;
                         viewModel.Productivity.AvgSMCompany = 135547;
@@ -695,7 +710,7 @@ namespace BizOneShot.Light.Web.Controllers
 
                     dicSales.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentSale.Value);
                     dicMaterrial.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.MaterialCost.Value);
-                    dicQtEmp.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.QtEmp.Value);
+                    dicQtEmp.Add(compMapping.ScCompInfo.RegistrationNo, decimal.Parse(totalEmp.D));
                     dicTotalAsset.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.TotalAsset.Value);
 
                 }
@@ -844,12 +859,13 @@ namespace BizOneShot.Light.Web.Controllers
             viewModel.BeginnerSumCount = viewModel.Management.BeginnerCount + viewModel.Produce.BeginnerCount + viewModel.RND.BeginnerCount + viewModel.Salse.BeginnerCount;
 
             viewModel.TotalSumCount = viewModel.StaffSumCount + viewModel.ChiefSumCount + viewModel.OfficerSumCount + viewModel.BeginnerSumCount;
-
-
             //평균값생성
 
+            double companyTotalCnt = viewModel.TotalSumCount.Value;
+            double bizInCompanyTotalCnt = dicProduce.Values.Sum() + dicRnd.Values.Sum() + dicSalse.Values.Sum() + dicManagement.Values.Sum();
+
             //기획관리 평균값 생성
-            if(viewModel.TotalSumCount == 0)
+            if (viewModel.TotalSumCount == 0)
             {
                 viewModel.Management.Company = 0;
                 viewModel.Produce.Company = 0;
@@ -859,14 +875,14 @@ namespace BizOneShot.Light.Web.Controllers
             }
             else
             { 
-                viewModel.Management.Company = (viewModel.TotalSumCount == 0) ? 0 : Math.Round(Convert.ToDouble((viewModel.Management.PartialSum / viewModel.TotalSumCount)) * 100, 1);
-                viewModel.Produce.Company = (viewModel.TotalSumCount == 0) ? 0 : Math.Round(Convert.ToDouble((viewModel.Produce.PartialSum / viewModel.TotalSumCount)) * 100, 1);
-                viewModel.RND.Company = (viewModel.TotalSumCount == 0) ? 0 : Math.Round(Convert.ToDouble((viewModel.RND.PartialSum / viewModel.TotalSumCount)) * 100, 1);
-                viewModel.Salse.Company = (viewModel.TotalSumCount == 0) ? 0 : Math.Round(Convert.ToDouble((viewModel.Salse.PartialSum / viewModel.TotalSumCount)) * 100, 1);
+                viewModel.Management.Company = Math.Round(viewModel.Management.PartialSum / companyTotalCnt * 100, 1);
+                viewModel.Produce.Company = Math.Round(viewModel.Produce.PartialSum / companyTotalCnt * 100, 1);
+                viewModel.RND.Company = Math.Round(viewModel.RND.PartialSum / companyTotalCnt * 100, 1);
+                viewModel.Salse.Company = Math.Round(viewModel.Salse.PartialSum / companyTotalCnt * 100, 1);
                 viewModel.CompanySum = 100;
             }
 
-            if((dicProduce.Values.Sum() + dicRnd.Values.Sum() + dicSalse.Values.Sum()) == 0)
+            if((dicProduce.Values.Sum() + dicRnd.Values.Sum() + dicSalse.Values.Sum() + dicManagement.Values.Sum()) == 0)
             {
                 viewModel.Management.AvgBizInCompany = 0;
                 viewModel.Produce.AvgBizInCompany = 0;
@@ -876,17 +892,17 @@ namespace BizOneShot.Light.Web.Controllers
             }
             else
             { 
-                viewModel.Management.AvgBizInCompany = Math.Round(Convert.ToDouble((dicManagement.Values.Sum() / (dicProduce.Values.Sum() + dicRnd.Values.Sum() + dicSalse.Values.Sum()))) * 100, 1);
-                viewModel.Produce.AvgBizInCompany = Math.Round(Convert.ToDouble((dicProduce.Values.Sum() / (dicProduce.Values.Sum() + dicRnd.Values.Sum() + dicSalse.Values.Sum()))) * 100, 1);
-                viewModel.RND.AvgBizInCompany = Math.Round(Convert.ToDouble((dicRnd.Values.Sum() / (dicProduce.Values.Sum() + dicRnd.Values.Sum() + dicSalse.Values.Sum()))) * 100, 1);
-                viewModel.Salse.AvgBizInCompany = Math.Round(Convert.ToDouble((dicSalse.Values.Sum() / (dicProduce.Values.Sum() + dicRnd.Values.Sum() + dicSalse.Values.Sum()))) * 100, 1);
+                viewModel.Management.AvgBizInCompany = Math.Round(dicManagement.Values.Sum() / bizInCompanyTotalCnt * 100, 1);
+                viewModel.Produce.AvgBizInCompany = Math.Round(dicProduce.Values.Sum() / bizInCompanyTotalCnt * 100, 1);
+                viewModel.RND.AvgBizInCompany = Math.Round(dicRnd.Values.Sum() / bizInCompanyTotalCnt * 100, 1);
+                viewModel.Salse.AvgBizInCompany = Math.Round(dicSalse.Values.Sum() / bizInCompanyTotalCnt * 100, 1);
                 viewModel.AvgBizInCompanySum = 100;
             }
 
-            viewModel.Management.AvgTotal = Math.Round(((dicManagement.Values.Sum() + 112.0) / (dicProduce.Values.Sum() + dicRnd.Values.Sum() + dicSalse.Values.Sum() + 718)) * 100, 1);
-            viewModel.Produce.AvgTotal = Math.Round(Convert.ToDouble(((dicProduce.Values.Sum() + 305.0) / (dicProduce.Values.Sum() + dicRnd.Values.Sum() + dicSalse.Values.Sum() + 718))) * 100, 1);
-            viewModel.RND.AvgTotal = Math.Round(Convert.ToDouble(((dicRnd.Values.Sum() + 180.0) / (dicProduce.Values.Sum() + dicRnd.Values.Sum() + dicSalse.Values.Sum() + 718))) * 100, 1);
-            viewModel.Salse.AvgTotal = Math.Round(Convert.ToDouble(((dicSalse.Values.Sum() + 121.0) / (dicProduce.Values.Sum() + dicRnd.Values.Sum() + dicSalse.Values.Sum() + 718))) * 100, 1);
+            viewModel.Management.AvgTotal = Math.Round((dicManagement.Values.Sum() + 112) / (bizInCompanyTotalCnt + 718) * 100, 1);
+            viewModel.Produce.AvgTotal = Math.Round((dicProduce.Values.Sum() + 305) / (bizInCompanyTotalCnt + 718) * 100, 1);
+            viewModel.RND.AvgTotal = Math.Round((dicRnd.Values.Sum() + 180) / (bizInCompanyTotalCnt + 718) * 100, 1);
+            viewModel.Salse.AvgTotal = Math.Round((dicSalse.Values.Sum() + 121) / (bizInCompanyTotalCnt + 718) * 100, 1);
             viewModel.AvgTotalSum = 100;
 
 
@@ -1201,7 +1217,7 @@ namespace BizOneShot.Light.Web.Controllers
             viewModel.rndEmpRatio.TotalAvg = Math.Round(((dicStartUpRndEmp.Values.Sum() + dicGrowthRndEmp.Values.Sum() + dicIndependentRndEmp.Values.Sum() + 182.0) / (dicStartUpTotalEmp.Values.Sum() + dicGrowthTotalEmp.Values.Sum() + dicIndependentTotalEmp.Values.Sum() + 725) * 100), 1).ToString();
             viewModel.rndEmpLevelRatio.TotalAvg = Math.Round(((dicStartUpHighRnd.Values.Sum() + dicGrowthHighRnd.Values.Sum() + dicIndependentHighRnd.Values.Sum() + 87.0) / (dicStartUpRndEmp.Values.Sum() + dicGrowthRndEmp.Values.Sum() + dicIndependentRndEmp.Values.Sum() + 182) * 100), 1).ToString();
 
-            viewModel.rndEmpLevelRatio.SMCompanyAvg = "4.1";
+            viewModel.rndEmpRatio.SMCompanyAvg = "4.1";
 
 
 
@@ -1300,7 +1316,7 @@ namespace BizOneShot.Light.Web.Controllers
                     {
                         viewModel.BizResultCnt.Company = (int.Parse(BizResultCnt.D) + int.Parse(BizResultCnt.D451) + int.Parse(BizResultCnt.D452)).ToString();
 
-                        double avg = int.Parse(BizResultCnt.D) + int.Parse(BizResultCnt.D451) + int.Parse(BizResultCnt.D452) / 3;
+                        double avg = (int.Parse(BizResultCnt.D) + int.Parse(BizResultCnt.D451) + int.Parse(BizResultCnt.D452)) / 3.0;
                         viewModel.BizResultPoint.Company = Math.Round(ReportHelper.CalcPoint(ReportHelper.GetCodeTypeE(avg), 4), 1).ToString();
                     }
 
@@ -1324,36 +1340,36 @@ namespace BizOneShot.Light.Web.Controllers
             }
 
             //참업보육 평균
-            viewModel.BizResultCnt.StartUpAvg = Math.Round((dicStartUpCnt.Values.Sum() + 46.0) / (dicStartUpCnt.Count + 19), 1).ToString();
+            viewModel.BizResultCnt.StartUpAvg = Math.Round((dicStartUpCnt.Values.Sum() + 46) / (dicStartUpCnt.Count + 19.0), 1).ToString();
             double startUpSum = 0;
             foreach(var item in dicStartUpCnt.Values)
             {
-                startUpSum = startUpSum + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeE(item / 3), 4);
+                startUpSum = startUpSum + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeE(item / 3.0), 4);
             }
-            viewModel.BizResultPoint.StartUpAvg = Math.Round((startUpSum + 4) / (dicStartUpCnt.Count + 19), 1).ToString();
+            viewModel.BizResultPoint.StartUpAvg = Math.Round((startUpSum + 4) / (dicStartUpCnt.Count + 19.0), 1).ToString();
             //보육성장 평균
-            viewModel.BizResultCnt.GrowthAvg = Math.Round((dicGrowthCnt.Values.Sum() + 72.0) / (dicGrowthCnt.Count + 18), 1).ToString();
+            viewModel.BizResultCnt.GrowthAvg = Math.Round((dicGrowthCnt.Values.Sum() + 72) / (dicGrowthCnt.Count + 18.0), 1).ToString();
             double growthSum = 0;
             foreach (var item in dicGrowthCnt.Values)
             {
-                growthSum = growthSum + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeE(item / 3), 4);
+                growthSum = growthSum + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeE(item / 3.0), 4);
             }
-            viewModel.BizResultPoint.GrowthAvg = Math.Round((growthSum + 8) / (dicGrowthCnt.Count + 18), 1).ToString();
+            viewModel.BizResultPoint.GrowthAvg = Math.Round((growthSum + 8) / (dicGrowthCnt.Count + 18.0), 1).ToString();
             //자립성장 평균
-            viewModel.BizResultCnt.IndependentAvg = Math.Round((dicIndependentCnt.Values.Sum() + 4.0) / (dicIndependentCnt.Count + 2), 1).ToString();
+            viewModel.BizResultCnt.IndependentAvg = Math.Round((dicIndependentCnt.Values.Sum() + 4) / (dicIndependentCnt.Count + 2.0), 1).ToString();
             double independentSum = 0;
             foreach (var item in dicIndependentCnt.Values)
             {
-                independentSum = independentSum + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeE(item / 3), 4);
+                independentSum = independentSum + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeE(item / 3.0), 4);
             }
-            viewModel.BizResultPoint.IndependentAvg = Math.Round((independentSum + 0) / (dicIndependentCnt.Count + 2), 1).ToString();
+            viewModel.BizResultPoint.IndependentAvg = Math.Round((independentSum + 0) / (dicIndependentCnt.Count + 2.0), 1).ToString();
             //참여기업 평균
             viewModel.BizResultCnt.BizInCompanyAvg = Math.Round((dicIndependentCnt.Values.Sum() + dicStartUpCnt.Values.Sum() + dicGrowthCnt.Values.Sum() + 0.0) / (dicIndependentCnt.Count + dicStartUpCnt.Count + dicGrowthCnt.Count), 1).ToString();
-            viewModel.BizResultPoint.BizInCompanyAvg = Math.Round((independentSum + startUpSum + growthSum) / (dicIndependentCnt.Count + dicGrowthCnt.Count + dicStartUpCnt.Count), 1).ToString();
+            viewModel.BizResultPoint.BizInCompanyAvg = Math.Round((independentSum + startUpSum + growthSum) / (dicIndependentCnt.Count + dicGrowthCnt.Count + dicStartUpCnt.Count + 0.0), 1).ToString();
 
             //전체 평균
-            viewModel.BizResultCnt.TotalAvg = Math.Round((dicIndependentCnt.Values.Sum() + dicStartUpCnt.Values.Sum() + dicGrowthCnt.Values.Sum() + 122.0) / (dicIndependentCnt.Count + dicStartUpCnt.Count + dicGrowthCnt.Count + 39), 1).ToString();
-            viewModel.BizResultPoint.TotalAvg = Math.Round((independentSum + startUpSum + growthSum + 12) / (dicIndependentCnt.Count + dicGrowthCnt.Count + dicStartUpCnt.Count + 39), 1).ToString();
+            viewModel.BizResultCnt.TotalAvg = Math.Round((dicIndependentCnt.Values.Sum() + dicStartUpCnt.Values.Sum() + dicGrowthCnt.Values.Sum() + 122.0) / (dicIndependentCnt.Count + dicStartUpCnt.Count + dicGrowthCnt.Count + 39.0), 1).ToString();
+            viewModel.BizResultPoint.TotalAvg = Math.Round((independentSum + startUpSum + growthSum + 12) / (dicIndependentCnt.Count + dicGrowthCnt.Count + dicStartUpCnt.Count + 39.0), 1).ToString();
 
 
             //검토결과 데이터 생성

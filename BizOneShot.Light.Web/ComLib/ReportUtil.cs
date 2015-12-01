@@ -88,13 +88,13 @@ namespace BizOneShot.Light.Web.ComLib
                 checkListViewModel.Title = item.QuesCheckList.ReportTitle;
                 //창업보육단계 평균
                 int startUpCnt = await GetCheckListCnt(dicStartUp, checkListViewModel.DetailCd);
-                checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + item.QuesCheckList.StartUpStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                checkListViewModel.StartUpAvg = Math.Round(((startUpCnt + item.QuesCheckList.StartUpStep.Value + 0.0) / (19 + dicStartUp.Count)) * 100, 0).ToString();
                 //보육성장단계 평균
                 int growthCnt = await GetCheckListCnt(dicGrowth, checkListViewModel.DetailCd);
-                checkListViewModel.GrowthAvg = Math.Round(((growthCnt + item.QuesCheckList.GrowthStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                checkListViewModel.GrowthAvg = Math.Round(((growthCnt + item.QuesCheckList.GrowthStep.Value + 0.0) / (18 + dicGrowth.Count)) * 100, 0).ToString();
                 //자립성장단계 평균
                 int IndependentCnt = await GetCheckListCnt(dicIndependent, checkListViewModel.DetailCd);
-                checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + item.QuesCheckList.IndependentStep.Value + 0.0) / (39 + dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
+                checkListViewModel.IndependentAvg = Math.Round(((IndependentCnt + item.QuesCheckList.IndependentStep.Value + 0.0) / (2 + dicIndependent.Count)) * 100, 0).ToString();
                 //참여기업 평균
                 checkListViewModel.BizInCompanyAvg = Math.Round(((IndependentCnt + growthCnt + startUpCnt + 0.0) / (dicStartUp.Count + dicGrowth.Count + dicIndependent.Count)) * 100, 0).ToString();
                 //전체 평균
@@ -112,7 +112,8 @@ namespace BizOneShot.Light.Web.ComLib
 
             totalPoint = totalPoint + await GetOverAllManagementTotalPoint(qustionSn);
             totalPoint = totalPoint + await GetTechMng(qustionSn, sboFinancialIndexT);
-            totalPoint = totalPoint + await GetHumanResourceMng(qustionSn, sboFinancialIndexT);
+            totalPoint = totalPoint + await GetHumanResourceMng(qustionSn);
+            totalPoint = totalPoint + await GetFinanceMng(qustionSn, sboFinancialIndexT);
 
             return totalPoint;
         }
@@ -125,6 +126,7 @@ namespace BizOneShot.Light.Web.ComLib
         /// 
         public async Task<double> GetOverAllManagementTotalPoint(int questionSn)
         {
+            //엑셀산식 1-1 ~ 1-7
             double totalPoint = 0;
             //경영목표 및 전략
             // A1A101 : 경영목표 및 전략 코드
@@ -166,18 +168,18 @@ namespace BizOneShot.Light.Web.ComLib
 
             if (totalEmp.D451 == "0")
             {
-                double avg = (int.Parse(moveEmp.D) / int.Parse(totalEmp.D)) * 100;
+                double avg = (int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) * 100;
                 totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeD(avg), 3);
 
             }
             else if (totalEmp.D452 == "0")
             {
-                double avg = ((int.Parse(moveEmp.D) / int.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / int.Parse(totalEmp.D451))) / 2 * 100;
+                double avg = ((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / double.Parse(totalEmp.D451))) / 2.0 * 100;
                 totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeD(avg), 3);
             }
             else
             {
-                double avg = ((int.Parse(moveEmp.D) / int.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / int.Parse(totalEmp.D451)) + (int.Parse(moveEmp.D452) / int.Parse(totalEmp.D452))) / 3 * 100;
+                double avg = ((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / double.Parse(totalEmp.D451)) + (int.Parse(moveEmp.D452) / double.Parse(totalEmp.D452))) / 3.0 * 100;
                 totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeD(avg), 3);
             }
 
@@ -194,6 +196,7 @@ namespace BizOneShot.Light.Web.ComLib
         /// </summary>
         public async Task<double> GetTechMng(int questionSn, SHUSER_SboFinancialIndexT sboFinancialIndexT)
         {
+            //산식엑셀 1-8 ~ 1-17
             double totalPoint = 0;
 
             // 연구개발 투자
@@ -211,7 +214,7 @@ namespace BizOneShot.Light.Web.ComLib
             var RndEmp = quesResult2sEmpRate.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1B10201");
             if (int.Parse(TotalEmp.D) != 0)
             {
-                double avg = (int.Parse(RndEmp.D) / int.Parse(TotalEmp.D)) * 100;
+                double avg = (int.Parse(RndEmp.D) / double.Parse(TotalEmp.D)) * 100;
                 totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeE(avg), 1);
             }
 
@@ -230,7 +233,7 @@ namespace BizOneShot.Light.Web.ComLib
             var HighEmp = quesResult2sEmpCapa.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1B10305");
             if ((int.Parse(DoctorEmp.D) + int.Parse(MasterEmp.D) + int.Parse(CollegeEmp.D) + int.Parse(TechEmp.D) + int.Parse(HighEmp.D)) != 0)
             {
-                double avg = (int.Parse(DoctorEmp.D) * 5) + (int.Parse(MasterEmp.D) * 4) + (int.Parse(CollegeEmp.D) * 3) + (int.Parse(TechEmp.D) * 2) + (int.Parse(HighEmp.D) * 1) / (int.Parse(DoctorEmp.D) + int.Parse(MasterEmp.D) + int.Parse(CollegeEmp.D) + int.Parse(TechEmp.D) + int.Parse(HighEmp.D));
+                double avg = ((int.Parse(DoctorEmp.D) * 5) + (int.Parse(MasterEmp.D) * 4) + (int.Parse(CollegeEmp.D) * 3) + (int.Parse(TechEmp.D) * 2) + (int.Parse(HighEmp.D) * 1)) / (double.Parse(DoctorEmp.D) + double.Parse(MasterEmp.D) + double.Parse(CollegeEmp.D) + double.Parse(TechEmp.D) + double.Parse(HighEmp.D));
                 totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeF(avg), 3);
             }
 
@@ -245,7 +248,7 @@ namespace BizOneShot.Light.Web.ComLib
             //사업화실적 총 건수
             var BizResultCnt = quesResult2sBizResult.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1B10502");
             {
-                double avg = int.Parse(BizResultCnt.D) + int.Parse(BizResultCnt.D451) + int.Parse(BizResultCnt.D452) / 3;
+                double avg = (int.Parse(BizResultCnt.D) + int.Parse(BizResultCnt.D451) + int.Parse(BizResultCnt.D452)) / 3.0;
                 totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeE(avg), 4);
             }
 
@@ -281,17 +284,27 @@ namespace BizOneShot.Light.Web.ComLib
         /// </summary>
         /// <param name="questionSn"></param>
         /// <returns></returns>
-        public async Task<double> GetHumanResourceMng(int questionSn, SHUSER_SboFinancialIndexT sboFinancialIndexT)
+        public async Task<double> GetHumanResourceMng(int questionSn)
         {
+            //산식엑셀 1-18 ~ 1-19
             double totalPoint = 0;
 
             // A1D101 : 인적자윈의 확보와 개발관리
             var quesResult1sHrMng = await quesResult1Service.GetQuesResult1sAsync(questionSn, "A1D101");
             totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sHrMng)), 11);
 
-            // A1D102 : 이적자원의 보상 및 유지관리
+            // A1D102 : 인적자원의 보상 및 유지관리
             var quesResult1sMaintenance = await quesResult1Service.GetQuesResult1sAsync(questionSn, "A1D102");
             totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeA(ReportHelper.CalcCheckCount(quesResult1sMaintenance)), 8);
+
+
+            return totalPoint;
+        }
+
+        public async Task<double> GetFinanceMng(int questionSn, SHUSER_SboFinancialIndexT sboFinancialIndexT)
+        {
+            //산식엑셀 1-20 ~ 1-22
+            double totalPoint = 0;
 
             //재무적성과
             // 다래 DB를 통한 계산
@@ -320,7 +333,7 @@ namespace BizOneShot.Light.Web.ComLib
             var TotalEmploy = quesResult2sTotalEmp.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1E10301");
             if (int.Parse(TotalEmploy.D451) != 0)
             {
-                double avg = (int.Parse(TotalEmploy.D) / int.Parse(TotalEmploy.D451)) - 1;
+                double avg = (int.Parse(TotalEmploy.D) / double.Parse(TotalEmploy.D451)) - 1;
                 totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeI(avg), 3);
             }
 
