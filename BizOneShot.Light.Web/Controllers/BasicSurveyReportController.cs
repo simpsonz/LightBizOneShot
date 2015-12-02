@@ -2049,7 +2049,6 @@ namespace BizOneShot.Light.Web.Controllers
             RiskMgmtViewModel viewModel = new RiskMgmtViewModel();
             viewModel.CheckList = await reportUtil.getGrowthStepPointCheckList(paramModel, "A1C101");
 
-
             //검토결과 데이터 생성
             var listRptMentorComment = await rptMentorCommentService.GetRptMentorCommentListAsync(paramModel.QuestionSn, paramModel.BizWorkSn, paramModel.BizWorkYear, "17");
 
