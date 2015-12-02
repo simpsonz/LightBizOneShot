@@ -1217,7 +1217,7 @@ namespace BizOneShot.Light.Web.Controllers
             viewModel.rndEmpRatio.TotalAvg = Math.Round(((dicStartUpRndEmp.Values.Sum() + dicGrowthRndEmp.Values.Sum() + dicIndependentRndEmp.Values.Sum() + 182.0) / (dicStartUpTotalEmp.Values.Sum() + dicGrowthTotalEmp.Values.Sum() + dicIndependentTotalEmp.Values.Sum() + 725) * 100), 1).ToString();
             viewModel.rndEmpLevelRatio.TotalAvg = Math.Round(((dicStartUpHighRnd.Values.Sum() + dicGrowthHighRnd.Values.Sum() + dicIndependentHighRnd.Values.Sum() + 87.0) / (dicStartUpRndEmp.Values.Sum() + dicGrowthRndEmp.Values.Sum() + dicIndependentRndEmp.Values.Sum() + 182) * 100), 1).ToString();
 
-            viewModel.rndEmpRatio.SMCompanyAvg = "4.1";
+            viewModel.rndEmpRatio.SMCompanyAvg = "17.1";
 
 
 
@@ -1590,16 +1590,16 @@ namespace BizOneShot.Light.Web.Controllers
 
                         if (totalEmp.D451 == "0")
                         {
-                            viewModel.orgSatisfaction.Company = Math.Round(Convert.ToDouble((int.Parse(moveEmp.D) / int.Parse(totalEmp.D)) * 100), 1).ToString();
+                            viewModel.orgSatisfaction.Company = Math.Round(Convert.ToDouble((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) * 100), 1).ToString();
 
                         }
                         else if (totalEmp.D452 == "0")
                         {
-                            viewModel.orgSatisfaction.Company = Math.Round(Convert.ToDouble((((int.Parse(moveEmp.D) / int.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / int.Parse(totalEmp.D451))) / 2) * 100), 1).ToString();
+                            viewModel.orgSatisfaction.Company = Math.Round(Convert.ToDouble((((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / double.Parse(totalEmp.D451))) / 2) * 100), 1).ToString();
                         }
                         else
                         {
-                            viewModel.orgSatisfaction.Company = Math.Round(Convert.ToDouble((((int.Parse(moveEmp.D) / int.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / int.Parse(totalEmp.D451)) + (int.Parse(moveEmp.D452) / int.Parse(totalEmp.D452))) / 3) * 100), 1).ToString();
+                            viewModel.orgSatisfaction.Company = Math.Round(Convert.ToDouble((((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / double.Parse(totalEmp.D451)) + (int.Parse(moveEmp.D452) / double.Parse(totalEmp.D452))) / 3) * 100), 1).ToString();
                         }
                     }
 
