@@ -41,6 +41,23 @@
 
         //});
 
+        $('textarea[id^="comment"]').each(function () {
+            $(this).keydown(function () {
+                var lines = $(this).val().split("\n");
+                for (var i = 0; i < lines.length; i++) {
+                    if (lines[i].length <= 14) continue;
+                    var j = 0; space = 14;
+                    while (j++ <= 14) {
+                        if (lines[i].charAt(j) === " ") space = j;
+                    }
+                    lines[i + 1] = lines[i].substring(space + 1) + (lines[i + 1] || "");
+                    lines[i] = lines[i].substring(0, space);
+                }
+                $(this).val(lines.slice(0, 6).join("\n")) ;
+
+            });
+        });
+
         if ($('#Status').val() == "C") {
             $('#mainForm input').attr('disabled', true);
             $('#mainForm textarea').attr('disabled', true);
@@ -109,10 +126,10 @@
                                 <td class="left_memo">약점(W) → 보완</td>
                             </tr>
                             <tr>
-                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[0].Comment , new { @id ="comment1", @class = "swot_text", @maxlength="50" })
+                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[0].Comment , new { @id ="comment1", @class = "swot_text", @maxlength="90" })
                                     @Html.HiddenFor(model => model.CommentList[0].DetailCd)
                                 </td>
-                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[1].Comment , new { @id = "comment2", @class = "swot_text", @maxlength = "50" })
+                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[1].Comment , new { @id = "comment2", @class = "swot_text", @maxlength = "90" })
                                     @Html.HiddenFor(model => model.CommentList[1].DetailCd)
                                 </td>
                             </tr>
@@ -121,17 +138,17 @@
                                 <td class="center_td left_memo" rowspan="2">
                                     기<br>회<br>(O)<br>↓<br>포<br>착
                                 </td>
-                                <td class="center_td" rowspan="2">@Html.TextAreaFor(model => model.CommentList[2].Comment, new { @id = "comment3", @class = "swot_text", @maxlength = "50" })
+                                <td class="center_td" rowspan="2">@Html.TextAreaFor(model => model.CommentList[2].Comment, new { @id = "comment3", @class = "swot_text", @maxlength = "90" })
                                     @Html.HiddenFor(model => model.CommentList[2].DetailCd)
                                 </td>
                                 <td class="center_td center">강점강화 + 기회포착</td>
                                 <td class="center_td center">약점보완 + 기회포착</td>
                             </tr>
                             <tr>
-                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[3].Comment, new { @id = "comment4", @class = "swot_text", @maxlength = "50" })
+                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[3].Comment, new { @id = "comment4", @class = "swot_text", @maxlength = "90" })
                                     @Html.HiddenFor(model => model.CommentList[3].DetailCd)
                                 </td>
-                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[4].Comment, new { @id = "comment5", @class = "swot_text", @maxlength = "50" })
+                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[4].Comment, new { @id = "comment5", @class = "swot_text", @maxlength = "90" })
                                     @Html.HiddenFor(model => model.CommentList[4].DetailCd)
                                 </td>
                             </tr>
@@ -139,17 +156,17 @@
                                 <td class="center_td left_memo" rowspan="2">
                                     위<br>협<br>(T)<br>↓<br>포<br>착
                                 </td>
-                                <td class="center_td" rowspan="2">@Html.TextAreaFor(model => model.CommentList[5].Comment, new { @id = "comment6", @class = "swot_text", @maxlength = "50" })
+                                <td class="center_td" rowspan="2">@Html.TextAreaFor(model => model.CommentList[5].Comment, new { @id = "comment6", @class = "swot_text", @maxlength = "90" })
                                     @Html.HiddenFor(model => model.CommentList[5].DetailCd)
                                 </td>
                                 <td class="center_td center">강점강화 + 위협포착</td>
                                 <td class="center_td center">약점보완 + 위협포착</td>
                             </tr>
                             <tr>
-                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[6].Comment, new { @id = "comment7", @class = "swot_text", @maxlength = "50" })
+                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[6].Comment, new { @id = "comment7", @class = "swot_text", @maxlength = "90" })
                                     @Html.HiddenFor(model => model.CommentList[6].DetailCd)
                                 </td>
-                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[7].Comment, new { @id = "comment8", @class = "swot_text", @maxlength = "50" })
+                                <td class="center_td big_td">@Html.TextAreaFor(model => model.CommentList[7].Comment, new { @id = "comment8", @class = "swot_text", @maxlength = "90" })
                                     @Html.HiddenFor(model => model.CommentList[7].DetailCd)
                                 </td>
                             </tr>
@@ -165,7 +182,7 @@
                             <p class="right_p">가치창출, 비용최소화, 고객맞춤 중 현단계에 맞는 것을 제안</p>
                         </div>
                         @*<textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>*@
-                        @Html.TextAreaFor(model => model.CommentList[8].Comment, new { @id="comment9", @class = "bot_textarea", @placeholder = "500자 내로 작성하시기 바랍니다." })
+                        @Html.TextAreaFor(model => model.CommentList[8].Comment, new { @id="totcomment9", @class = "bot_textarea", @placeholder = "500자 내로 작성하시기 바랍니다." })
                         @Html.HiddenFor(model => model.CommentList[8].DetailCd)
                     </div>
 
