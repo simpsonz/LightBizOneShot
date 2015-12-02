@@ -1532,7 +1532,7 @@ namespace BizOneShot.Light.Web.Controllers
             }
             else
             {
-                return RedirectToAction("ProductivityTargetCustomer", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
+                return RedirectToAction("ProductivityValueChain", "BasicSurveyReport", new { BizWorkSn = paramModel.BizWorkSn, CompSn = paramModel.CompSn, BizWorkYear = paramModel.BizWorkYear, Status = paramModel.Status, QuestionSn = paramModel.QuestionSn });
             }
         }
 
