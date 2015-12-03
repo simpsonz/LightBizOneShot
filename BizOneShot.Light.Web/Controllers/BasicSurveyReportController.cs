@@ -70,6 +70,12 @@ namespace BizOneShot.Light.Web.Controllers
             return View();
         }
 
+        public ActionResult BasicSurveyReportPrint(BasicSurveyReportViewModel paramModel)
+        {
+            ViewBag.LeftMenu = Global.Report;
+            return View(paramModel);
+        }
+
         public async Task<ActionResult> Cover(BasicSurveyReportViewModel paramModel)
         {
             ViewBag.LeftMenu = Global.Report;

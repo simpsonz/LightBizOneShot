@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-<!--@Styles.Render("~/css/print") -->
+
 <script>
     $(document).ready(function () {
         //top menu
@@ -21,7 +21,10 @@
     var urlList = [];
 @{
 
-        string[] pagename = { "Cover","CompanyInfo", "OverallSummaryCover", "OverallSummary", "OverallResultCover", "OrgHR01", "OrgHR02", "OrgProductivity", "OrgDivided", "RndCost", "RndEmp", "ProductivityCommercialize", "ProductivityResult", "ProductivityMgmtFacility", "ProductivityProcessControl", "ProductivityQC", "ProductivityMgmtMarketing", "ProductivityMgmtCustomer", "ProductivityProfitability", "ProductivityValueChain", "ProductivityRelation", "ProductivityRelation2" ,"RiskMgmtVisionStrategy", "RiskMgmtLeadership", "RiskMgmtRelCEO", "RiskMgmtWorkingEnv", "RiskMgmtOrgSatisfaction", "RiskMgmtITSystem", "RiskMgmtLiquidity", "RiskMgmtEvalProfession", "GrowthRoadMapCover", "GrowthStrategyType", "GrowthStrategyStep", "GrowthCapabilityProposal", "GrowthTotalProposal"};
+        string[] pagename = { "Cover","CompanyInfo", "OverallSummaryCover", "OverallSummary", "OverallResultCover", "OrgHR01", "OrgHR02", "OrgProductivity", "OrgDivided", "RndCost",
+            "RndEmp", "ProductivityCommercialize", "ProductivityResult", "ProductivityMgmtFacility", "ProductivityProcessControl", "ProductivityQC", "ProductivityMgmtMarketing", "ProductivityMgmtCustomer", "ProductivityProfitability", "ProductivityTargetCustomer" ,
+            "ProductivityValueChain", "ProductivityRelation", "ProductivityRelation2" ,"RiskMgmtVisionStrategy", "RiskMgmtLeadership", "RiskMgmtRelCEO", "RiskMgmtWorkingEnv", "RiskMgmtOrgSatisfaction", "RiskMgmtITSystem", "RiskMgmtLiquidity",
+            "RiskMgmtEvalProfession", "GrowthRoadMapCover", "GrowthStrategyType", "GrowthStrategyStep", "GrowthCapabilityProposal", "GrowthTotalProposal"};
     }
 
     @foreach (var i in pagename)
@@ -33,7 +36,7 @@
 
     }
 
-    var allPages = 35;
+    var allPages = 36;
     var loadedPages = 0;
     //window.print();
 
@@ -169,10 +172,7 @@
 
 </script>
 @Styles.Render("~/css/print")
-
-<script src="/Scripts/highcharts.js"></script>
-<script src="/Scripts/highcharts-more.js"></script>
-
+@Scripts.Render("~/bundles/highcharts")
 
 <style>
     iframe {
