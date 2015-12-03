@@ -17,5 +17,35 @@
 	#btnwrap_sub .print {display:none !important;}
 	hr.pagebreak {page-break-after:always}
 	#sub_rightwrap_report {width:inherit;float:none;}
-	
+    div#headerwrap_Mentor {
+        display: none;
+    }
+}
+
+@media screen and (max-width:1024px) {
+    div#wrapper {margin:0;}
+	div#sub_wrapper {margin:0;}
+	* {visibility:hidden;}
+	#headerwrap_biz {display:none;}
+	#sub_leftwrap {display:none;}
+	div.footerWrap {display:none;}
+	div.sub_right_title {display:none;}
+	div#report_wm_step {display:none;}
+	div#sub_inquiry_box {display:none;}
+	div#sub_term_box {display:none;}
+	div#tabswrap_three {display:none;}
+	div.sub_report_checkbox {visibility:visible;position:relative;zoom:1.23;left:0;right:0;margin:auto auto;float:none;}
+	div.sub_report_checkbox+div.sub_report_checkbox {page-break-before:always;}
+	div.sub_report_checkbox  * {visibility:visible;}
+	#btnwrap_sub .print {display:none !important;}
+	hr.pagebreak {page-break-after:always}
+	#sub_rightwrap_report {width:inherit;float:none;}
+    div#headerwrap_Mentor {
+        display: none;
+    }
+}
+
+@media print and (-ms-high-contrast:none), (-ms-high-contrast:active) {
+    div.sub_report_checkbox {margin:0;zoom:1.32}
+    
 }

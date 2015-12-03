@@ -1478,6 +1478,7 @@
     <Content Include="Scripts\PIE.htc" />
     <Content Include="Scripts\PIE.js" />
     <Content Include="Scripts\placeholders.min.js" />
+    <Content Include="Views\BasicSurveyReport\BasicSurveyReportPrint.cshtml" />
     <Content Include="Views\Cs\NoticeDetail.cshtml" />
     <Content Include="Views\Home\zipSearchPopup.cshtml" />
     <Content Include="Web.config" />
@@ -1563,8 +1564,7 @@
     <Content Include="Views\FinanceReport\SearchCommentPopup.cshtml" />
     <Content Include="Views\Error\Error500.cshtml" />
     <Content Include="Views\Shared\_CompanyIndexLayout.cshtml" />
-    <Content Include="Views\BasicSurveyReport\print_03.cshtml" />
-    <Content Include="Views\BasicSurveyReport\BasicSurveyReportPrint.cshtml" />
+    <Content Include="Views\BasicSurveyReport\BasicSurveyReportPrintPopup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

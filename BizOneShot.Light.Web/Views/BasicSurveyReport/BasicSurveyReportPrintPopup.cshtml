@@ -1,6 +1,9 @@
-﻿@{
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+﻿@model BizOneShot.Light.Models.ViewModels.BasicSurveyPrintViewModel
+
+@{
+    Layout = null;
 }
+
 @Styles.Render("~/css/print")
 <script>
     $(document).ready(function () {
@@ -8,10 +11,116 @@
         $('#naviwrap_biz > .navi_biz >  a.navi_report').addClass('on');
         //Cs menu
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
+
+        $('#mainForm input').attr('disabled', true);
+        $('#mainForm textarea').attr('disabled', true);
+
+        makeBarChart("Productivity", @Model.orgProductivity.Productivity.Company, @Model.orgProductivity.Productivity.AvgBizInCompany, @Model.orgProductivity.Productivity.AvgTotal, @Model.orgProductivity.Productivity.AvgSMCompany, "천원", 0);
+        makeBarChart("Activity", @Model.orgProductivity.Activity.Company, @Model.orgProductivity.Activity.AvgBizInCompany, @Model.orgProductivity.Activity.AvgTotal, @Model.orgProductivity.Activity.AvgSMCompany, "%", 1);
+
+        makeBarChart("Profitability", @Model.productivityProfitability.Profitability.Company, @Model.productivityProfitability.Profitability.AvgBizInCompany, @Model.productivityProfitability.Profitability.AvgTotal, @Model.productivityProfitability.Profitability.AvgSMCompany, "%", 1);
+        makeBarChart("Growth", @Model.productivityProfitability.Growth.Company, @Model.productivityProfitability.Growth.AvgBizInCompany, @Model.productivityProfitability.Growth.AvgTotal, @Model.productivityProfitability.Growth.AvgSMCompany, "%", 1);
     });
+
+    function makeBarChart(divName, company, avgBizInCompany, avgTotal, avgSMCompany, unit, point) {
+        var param1 = company;
+        var param2 = avgBizInCompany;
+        var param3 = avgTotal;
+        var param4 = avgSMCompany;
+
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: '.',
+                thousandsSep: ','
+            }
+        });
+
+
+        chart = new Highcharts.Chart({
+            chart: {
+                type: 'column',
+                renderTo: divName,
+                margin: [10, 0, 25, 50],
+                spacingTop: 0,
+                //spacingBottom: 0,
+                //spacingLeft: 0,
+                spacingRight: 0
+            },
+            exporting: {                    // highcharts context menu 제거
+                buttons: {
+                    contextButtons: {
+                        enabled: false,
+                        menuItems: null
+                    }
+                },
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                style: {
+                    display: 'none'
+                }
+            },
+            xAxis: {
+                type: 'category',
+                gridLineWidth: 1
+            },
+            yAxis: {
+                gridLineWidth: 0,
+                title: {
+                    style: {
+                        display: 'none'
+                    }
+                },
+                labels: {
+                    enabled: true
+                },
+            },
+            legend: {
+                enabled:false
+            },
+            tooltip: { enabled: false },
+
+            series: [{
+                upColor: Highcharts.getOptions().colors[2],
+                color: Highcharts.getOptions().colors[3],
+                pointWidth: 35,
+                enableMouseTracking: false,
+                data: [{
+                    name: "해당기업",
+                    y: param1
+                }, {
+                    name: "참여기업평균",
+                    y: param2
+                }, {
+                    name: "전체평균",
+                    y: param3
+                }, {
+                    name: "중소기업 평균",
+                    y: param4
+                }],
+                dataLabels: {
+                    enabled: true,
+                    formatter: function () {
+                        return Highcharts.numberFormat(this.y, point, '.') + unit;
+                    },
+                    style: {
+                        color: '#000000',
+                        fontWeight: 'bold'//,
+                        //textShadow: '0px 0px 3px black'
+                    }
+                },
+                pointPadding: 0
+            }]
+        });
+    }
 
     window.print();
 </script>
+
+@Scripts.Render("~/bundles/highcharts")
 
 <div id="sub_rightwrap_report">
 
@@ -19,14 +128,25 @@
         <em>기초경영역량 보고서</em>
     </div>
     <div id="sub_term_box">
-        <span class="noti_fo">사업명 : 창업맞춤형사업</span>
-        <span class="noti_fo">기업명 : 스마트비즈온</span>
-        <span class="noti_fo bold">작성상태 : 미작성</span>
+        <span class="noti_fo">사업명 : @Model.cover.BizWorkNm</span>
+        <span class="noti_fo">기업명 : @Model.cover.CompNm</span>
+        @if (Model.cover.Status == "T")
+            {
+            <span class="noti_fo bold">작성상태 : 미작성</span>
+        }
+        else if (Model.cover.Status == "P")
+        {
+            <span class="noti_fo bold">작성상태 : 작성중</span>
+        }
+        else
+        {
+            <span class="noti_fo bold">작성상태 : 작성완료</span>
+        }
     </div>
     <div class="sub_report_checkbox">
         <div class="report_main_top">
             <div class="title big">
-                (주)가나다 회사<br>기초경영역량 진단 보고서
+                @Model.cover.CompNm<br>기초경영역량 진단 보고서
             </div>
         </div>
         <div class="report_main_mid">
@@ -73,63 +193,63 @@
                     </colgroup>
                     <tr>
                         <td rowspan="2" class="left_memo">회사명</td>
-                        <td>(한글)가나다</td>
+                        <td>(한글)@Model.companyInfo.CompNm</td>
                         <td rowspan="2" class="left_memo">연락처</td>
-                        <td>(전화)text</td>
+                        <td>(전화)@Model.companyInfo.TelNo</td>
                     </tr>
                     <tr>
-                        <td>(영문)text</td>
-                        <td>(팩스)text</td>
+                        <td>(영문)@Model.companyInfo.EngCompNm</td>
+                        <td>(팩스)@Model.companyInfo.FaxNo</td>
                     </tr>
                     <tr>
                         <td class="left_memo">대표자 성명</td>
-                        <td>text</td>
+                        <td>@Model.companyInfo.Name</td>
                         <td class="left_memo">대표자 e-mail</td>
-                        <td>text</td>
+                        <td>@Model.companyInfo.Email</td>
                     </tr>
                     <tr>
                         <td class="left_memo">
                             사업자<br>등록번호
                         </td>
-                        <td>text</td>
+                        <td>@Model.companyInfo.RegistrationNo</td>
                         <td class="left_memo">법인 등록번호</td>
-                        <td>text</td>
+                        <td>@Model.companyInfo.CoRegistrationNo</td>
                     </tr>
                     <tr>
                         <td class="left_memo">설립년.월일</td>
-                        <td>text</td>
+                        <td>@Model.companyInfo.PublishDt</td>
                         <td class="left_memo">홈페이지</td>
-                        <td>text</td>
+                        <td>@Model.companyInfo.HomeUrl</td>
                     </tr>
                     <tr>
                         <td class="left_memo" rowspan="3">사업장소재지</td>
-                        <td colspan="3">(본사)text</td>
+                        <td colspan="3">(본사)@Model.companyInfo.CompAddr</td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="checkbox" />자제공장보유<br> <input type="checkbox" />임대공장보유<br> <input type="checkbox" />공장없음
+                            @Html.RadioButtonFor(model => model.companyInfo.FacPossessYn, "M", new { @checked = "checked", @readonly = "readonly" })자제공장보유<br> @Html.RadioButtonFor(model => model.companyInfo.FacPossessYn, "R", new { @readonly = "readonly" })임대공장보유<br> @Html.RadioButtonFor(model => model.companyInfo.FacPossessYn, "N", new { @readonly = "readonly" })공장없음
                         </td>
-                        <td colspan="2">(공장 주소)text</td>
+                        <td colspan="2">(공장 주소)@Model.companyInfo.FactoryAddr</td>
                     </tr>
                     <tr>
                         <td style="width: 15%">
-                            <input type="checkbox" />기술연구소보유<br>
-                            <input type="checkbox" />기술연구소없음
+                            @Html.RadioButtonFor(model => model.companyInfo.RndYn, "Y", new { @checked = "checked", @readonly = "readonly" })기술연구소보유<br>
+                            @Html.RadioButtonFor(model => model.companyInfo.RndYn, "N", new { @readonly = "readonly" })기술연구소없음
                         </td>
-                        <td colspan="2">(기술연구소 주소)text</td>
+                        <td colspan="2">(기술연구소 주소)@Model.companyInfo.LabAddr</td>
                     </tr>
                     <tr>
                         <td class="left_memo" rowspan="3">
                             주요생산품<br>
                             <span>(중요순서에따라)</span>
                         </td>
-                        <td colspan="3">(제품/제품군 1)text</td>
+                        <td colspan="3">(제품/제품군 1)@Model.companyInfo.ProductNm1</td>
                     </tr>
                     <tr>
-                        <td colspan="3">(제품/제품군 2)text</td>
+                        <td colspan="3">(제품/제품군 2)@Model.companyInfo.ProductNm2</td>
                     </tr>
                     <tr>
-                        <td colspan="3">(제품/제품군 3)text</td>
+                        <td colspan="3">(제품/제품군 3)@Model.companyInfo.ProductNm3</td>
                     </tr>
                     <tr>
                         <td class="left_memo" rowspan="3">제품 판매처</td>
@@ -137,7 +257,7 @@
                     </tr>
                     <tr>
                         <td colspan="3" class="last_bottom">
-                            <input type="checkbox" />공공기관 <input type="checkbox" />민간기관 <input type="checkbox" />일반 소비자 <input type="checkbox" />해외 <input type="checkbox" />기타
+                            @Html.CheckBoxFor(model => model.companyInfo.MarketPublic, new { @readonly = "readonly" })공공기관 @Html.CheckBoxFor(model => model.companyInfo.MarketCivil, new { @readonly = "readonly" })민간기관 @Html.CheckBoxFor(model => model.companyInfo.MarketConsumer, new { @readonly = "readonly" })일반 소비자 @Html.CheckBoxFor(model => model.companyInfo.MarketForeing, new { @readonly = "readonly" })해외 @Html.CheckBoxFor(model => model.companyInfo.MarketEtc, new { @readonly = "readonly" })기타
                         </td>
                     </tr>
                 </table>
@@ -147,32 +267,39 @@
                 <table class="join_info">
                     <colgroup>
                         <col width="15%">
-                        <col width="85%">
+                        <col width="42%">
+                        <col width="43%">
                     </colgroup>
                     <tr>
                         <td class="left_memo" rowspan="2">기업유형</td>
                         <td>
-                            <input type="radio" />영세기업 (상시근로자 5인 미만) <input type="radio" />소기업 (상시근로자 49인 이하)
+                            @Html.RadioButtonFor(model => model.companyInfo.CompType, "P", new { @checked = "checked", @readonly = "readonly" }) 영세기업 (상시 근로자 5인 미만)
+                        </td>
+                        <td>
+                            @Html.RadioButtonFor(model => model.companyInfo.CompType, "S", new { @readonly = "readonly" }) 소기업 (상시 근로자 49인 이하)
                         </td>
 
                     </tr>
                     <tr>
                         <td>
-                            <input type="radio" />중기업 (상시근로자 299인 이하) <input type="radio" />중견기업 (상시근로자 300인 이상)
+                            @Html.RadioButtonFor(model => model.companyInfo.CompType, "M", new { @readonly = "readonly" })중기업 (상시 근로자 299인 이하)
+                        </td>
+                        <td>
+                            @Html.RadioButtonFor(model => model.companyInfo.CompType, "B", new { @readonly = "readonly" })중견기업 (상시 근로자 300인 이상)
                         </td>
                     </tr>
                     <tr>
                         <td class="left_memo">입주유무</td>
-                        <td>
-                            <input type="radio" />예비입주 <input type="radio" />입주기업
-                            <input type="radio" />졸업기업
+                        <td colspan="2">
+                            @Html.RadioButtonFor(model => model.companyInfo.ResidentType, "R", new { @checked = "checked", @readonly = "readonly" })예비입주 @Html.RadioButtonFor(model => model.companyInfo.ResidentType, "U", new { @readonly = "readonly" })입주기업
+                            @Html.RadioButtonFor(model => model.companyInfo.ResidentType, "C", new { @readonly = "readonly" })졸업기업
                         </td>
                     </tr>
                     <tr>
-                        <td class="last_bottom left_memo">입주유무</td>
-                        <td>
-                            <input type="checkbox" />벤처 <input type="checkbox" />이노비즈
-                            <input type="checkbox" />메인비즈 <input type="checkbox" />부설연구소
+                        <td class="last_bottom left_memo">인증유무</td>
+                        <td colspan="2">
+                            @Html.CheckBoxFor(model => model.companyInfo.CertiVenture, new { @readonly = "readonly" })벤처 @Html.CheckBoxFor(model => model.companyInfo.CertiInnobiz, new { @readonly = "readonly" })이노비즈
+                            @Html.CheckBoxFor(model => model.companyInfo.CertiMainbiz, new { @readonly = "readonly" })메인비즈 @Html.CheckBoxFor(model => model.companyInfo.CertiRnd, new { @readonly = "readonly" })부설연구소
                         </td>
                     </tr>
                 </table>
@@ -230,38 +357,150 @@
                     </div>
                     <div class="left_tableBg">
                         <!-- 발전단계 테이블 영역 -->
-                        <div class="table_title margin_t12">전체평균 : xxx.xx점</div>
-                        <div class="table_title margin_t2">해당기업 : xxx.xx점</div>
+                        <div class="table_title margin_t12">전체평균 : @Model.overallSummary.AvgTotalPoint 점</div>
+                        <div class="table_title margin_t2">해당기업 : @Model.overallSummary.CompanyPoint 점</div>
                     </div>
                     <div class="right_chart">
                         <!-- 차트가 표현되는 영역 -->
-                        <div class="topBg_01"></div><!-- 창업보육단계 -->
-                        <!--<div class="topBg_02"></div> 보육성장단계 -->
-                        <!--<div class="topBg_03"></div> 자립성장단계 -->
-                        <div class="flow_01">
-                            <div class="full"></div>
-                            <div class="blank"></div>
-                            <div class="blank"></div>
-                        </div>
-                        <div class="flow_02">
-                            <div class="full"></div>
-                            <div class="blank"></div>
-                        </div>
-                        <div class="flow_03">
-                            <div class="full"></div>
-                        </div>
-                        <div class="flow_01 margin_t1">
-                            <div class="full"></div>
-                            <div class="blank"></div>
-                            <div class="blank"></div>
-                        </div>
-                        <div class="flow_02">
-                            <div class="full"></div>
-                            <div class="blank"></div>
-                        </div>
-                        <div class="flow_03">
-                            <div class="full"></div>
-                        </div>
+                        @if (Model.overallSummary.BizCapaType == "C")
+                        {
+                            <div class="topBg_01"></div><!-- 창업보육단계 -->
+                        }
+                        else if (Model.overallSummary.BizCapaType == "B")
+                        {
+                            <div class="topBg_02"></div><!-- 보육성장단계 -->
+                        }
+                        else if (Model.overallSummary.BizCapaType == "A")
+                        {
+                            <div class="topBg_03"></div><!-- 자립성장단계 -->
+                        }
+
+                        @if (Model.overallSummary.HRMngType == "C")
+                        {
+                            <div class="flow_01">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                                <div class="blank"></div>
+                            </div>
+                        }
+                        else if (Model.overallSummary.HRMngType == "B")
+                        {
+                            <div class="flow_02">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                            </div>
+                        }
+                        else if (Model.overallSummary.HRMngType == "A")
+                        {
+                            <div class="flow_03">
+                                <div class="full"></div>
+                            </div>
+                        }
+                        @if (Model.overallSummary.OrgType == "C")
+                        {
+                            <div class="flow_01">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                                <div class="blank"></div>
+                            </div>
+                        }
+                        else if (Model.overallSummary.OrgType == "B")
+                        {
+                            <div class="flow_02">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                            </div>
+                        }
+                        else if (Model.overallSummary.OrgType == "A")
+                        {
+                            <div class="flow_03">
+                                <div class="full"></div>
+                            </div>
+                        }
+                        @if (Model.overallSummary.MarketingType == "C")
+                        {
+                            <div class="flow_01">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                                <div class="blank"></div>
+                            </div>
+                        }
+                        else if (Model.overallSummary.MarketingType == "B")
+                        {
+                            <div class="flow_02">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                            </div>
+                        }
+                        else if (Model.overallSummary.MarketingType == "A")
+                        {
+                            <div class="flow_03">
+                                <div class="full"></div>
+                            </div>
+                        }
+                        @if (Model.overallSummary.CustMngType == "C")
+                        {
+                            <div class="flow_01 margin_t1">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                                <div class="blank"></div>
+                            </div>
+                        }
+                        else if (Model.overallSummary.CustMngType == "B")
+                        {
+                            <div class="flow_02 margin_t1">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                            </div>
+                        }
+                        else if (Model.overallSummary.CustMngType == "A")
+                        {
+                            <div class="flow_03 margin_t1">
+                                <div class="full"></div>
+                            </div>
+                        }
+                        @if (Model.overallSummary.BasicCapaType == "C")
+                        {
+                            <div class="flow_01">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                                <div class="blank"></div>
+                            </div>
+                        }
+                        else if (Model.overallSummary.BasicCapaType == "B")
+                        {
+                            <div class="flow_02">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                            </div>
+                        }
+                        else if (Model.overallSummary.BasicCapaType == "A")
+                        {
+                            <div class="flow_03">
+                                <div class="full"></div>
+                            </div>
+                        }
+                        @if (Model.overallSummary.RoolType == "C")
+                        {
+                            <div class="flow_01">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                                <div class="blank"></div>
+                            </div>
+                        }
+                        else if (Model.overallSummary.RoolType == "B")
+                        {
+                            <div class="flow_02">
+                                <div class="full"></div>
+                                <div class="blank"></div>
+                            </div>
+                        }
+                        else if (Model.overallSummary.RoolType == "A")
+                        {
+                            <div class="flow_03">
+                                <div class="full"></div>
+                            </div>
+                        }
                     </div>
                 </div>
 
@@ -307,16 +546,16 @@
                             <td class="left_memo col_ee">
                                 인적자원<br>관리
                             </td>
-                            <td class="center_td small">xx.xx점</td>
-                            <td class="center_td small">xx.xx점</td>
-                            <td class="center_td small">xx.xx점</td>
+                            <td class="center_td small">@Model.overallSummary.OrgCapa.CompanyPoint 점</td>
+                            <td class="center_td small">@Model.overallSummary.OrgCapa.AvgBizInCompanyPoint 점</td>
+                            <td class="center_td small">@Model.overallSummary.OrgCapa.AvgTotalPoint 점</td>
                             <td class="left_memo col_ee">
                                 1인당<br>노동생산성
                             </td>
-                            <td class="center_td small">xx.xxx천원</td>
-                            <td class="center_td small">xx.xxx천원</td>
-                            <td class="center_td small">xx.xxx천원</td>
-                            <td class="center_td small">xx.xxx천원</td>
+                            <td class="center_td small">@Model.overallSummary.OrgCapa.CompanyPoint2 천원</td>
+                            <td class="center_td small">@Model.overallSummary.OrgCapa.AvgBizInCompanyPoint2 천원</td>
+                            <td class="center_td small">@Model.overallSummary.OrgCapa.AvgTotalPoint2 천원</td>
+                            <td class="center_td small">@Model.overallSummary.OrgCapa.AvgSMCompanyPoint 천원</td>
                         </tr>
                         <tr>
                             <td class="left_memo col_d6">
@@ -325,16 +564,16 @@
                             <td class="left_memo col_ee">
                                 기술경영<br>마케팅관리
                             </td>
-                            <td class="center_td small">xx.xx점</td>
-                            <td class="center_td small">xx.xx점</td>
-                            <td class="center_td small">xx.xx점</td>
+                            <td class="center_td small">@Model.overallSummary.ProductionCapa.CompanyPoint 점</td>
+                            <td class="center_td small">@Model.overallSummary.ProductionCapa.AvgBizInCompanyPoint 점</td>
+                            <td class="center_td small">@Model.overallSummary.ProductionCapa.AvgTotalPoint 점</td>
                             <td class="left_memo col_ee">
                                 매 출<br>영업이익률
                             </td>
-                            <td class="center_td small">xx.xx%</td>
-                            <td class="center_td small">xx.xx%</td>
-                            <td class="center_td small">xx.xx%</td>
-                            <td class="center_td small">xx.xx%</td>
+                            <td class="center_td small">@Model.overallSummary.ProductionCapa.CompanyPoint2 %</td>
+                            <td class="center_td small">@Model.overallSummary.ProductionCapa.AvgBizInCompanyPoint2 %</td>
+                            <td class="center_td small">@Model.overallSummary.ProductionCapa.AvgTotalPoint2 %</td>
+                            <td class="center_td small">@Model.overallSummary.ProductionCapa.AvgSMCompanyPoint %</td>
                         </tr>
                         <tr>
                             <td class="left_memo col_fd">
@@ -343,16 +582,16 @@
                             <td class="left_memo col_ee">
                                 기술경영<br>마케팅관리
                             </td>
-                            <td class="center_td">xx.xx점</td>
-                            <td class="center_td">xx.xx점</td>
-                            <td class="center_td">xx.xx점</td>
+                            <td class="center_td">@Model.overallSummary.RiskMngCapa.CompanyPoint 점</td>
+                            <td class="center_td">@Model.overallSummary.RiskMngCapa.AvgBizInCompanyPoint 점</td>
+                            <td class="center_td">@Model.overallSummary.RiskMngCapa.AvgTotalPoint 점</td>
                             <td class="left_memo col_ee">
                                 매 출<br>영업이익률
                             </td>
-                            <td class="center_td">xx.xx%</td>
-                            <td class="center_td">xx.xx%</td>
-                            <td class="center_td">xx.xx%</td>
-                            <td class="center_td">xx.xx%</td>
+                            <td class="center_td">@Model.overallSummary.RiskMngCapa.CompanyPoint2 %</td>
+                            <td class="center_td">@Model.overallSummary.RiskMngCapa.AvgBizInCompanyPoint2 %</td>
+                            <td class="center_td">@Model.overallSummary.RiskMngCapa.AvgTotalPoint2 %</td>
+                            <td class="center_td">@Model.overallSummary.RiskMngCapa.AvgSMCompanyPoint %</td>
                         </tr>
                     </table>
                 </div>
@@ -377,7 +616,7 @@
                         <tr>
                             <td class="left_memo col_b3">조직역량</td>
                             <td class="left_memo col_ee">조직분화도</td>
-                            <td class="center_td "><textarea></textarea></td>
+                            <td class="center_td ">@Model.overallSummary.CommentList[0].Comment</td>
                         </tr>
                         <tr>
                             <td class="left_memo col_d6">
@@ -386,7 +625,7 @@
                             <td class="left_memo col_ee">
                                 고객의 수,<br>상품의 질 및<br>마케팅수준
                             </td>
-                            <td class="center_td ">4줄 까지만 입력가능합니다.</td>
+                            <td class="center_td ">@Model.overallSummary.CommentList[1].Comment</td>
                         </tr>
                         <tr>
                             <td class="left_memo col_fd">
@@ -395,7 +634,7 @@
                             <td class="left_memo col_ee">
                                 재무회계<br>관리체계 및 <br>제도수준
                             </td>
-                            <td class="center_td "><textarea></textarea></td>
+                            <td class="center_td ">@Model.overallSummary.CommentList[2].Comment</td>
                         </tr>
                     </table>
                 </div>
@@ -541,58 +780,35 @@
                             </td>
                             <td class="left_memo">전체평균</td>
                         </tr>
-                        <tr>
-                            <td class="center_td center">1</td>
-                            <td class="center_td center">인력수급 계획</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">2</td>
-                            <td class="center_td center">
-                                종업원 선발,<br>채용 규정
-                            </td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">3</td>
-                            <td class="center_td center">승진 규정</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">4</td>
-                            <td class="center_td center">종업원의 능력향상 및 경력 개발 교육프로그램 보유</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">5</td>
-                            <td class="center_td center">최근 1년 임직원 교육 실적</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
+                        @if (Model.orgHR01 == null || Model.orgHR01.CheckList.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.orgHR01.CheckList)
+                            {
+                                <tr>
+                                    <td class="center_td center">@item.Count</td>
+                                    <td class="center_td center">@item.Title</td>
+                                    @if (item.AnsVal == true)
+                                    {
+                                        <td class="center_td center">∎</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="center_td center">□</td>
+                                    }
+                                    <td class="center_td center">@item.StartUpAvg %</td>
+                                    <td class="center_td center">@item.GrowthAvg %</td>
+                                    <td class="center_td center">@item.IndependentAvg %</td>
+                                    <td class="center_td center">@item.BizInCompanyAvg %</td>
+                                    <td class="center_td center">@item.TotalAvg %</td>
+                                </tr>
+                            }
+                        }
                     </table>
                 </div>
 
@@ -602,7 +818,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea">@Model.orgHR01.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
@@ -711,66 +927,35 @@
                                 비교지역<br>평균
                             </td>
                         </tr>
-                        <tr>
-                            <td class="center_td center">1</td>
-                            <td class="center_td center">임금체계 규정</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">2</td>
-                            <td class="center_td center">복리후생 규정 또는 제도</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">3</td>
-                            <td class="center_td center">종업원 인센티브 규정 또는 제도 마련</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">4</td>
-                            <td class="center_td center">종업원의 고충처리 제도</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">5</td>
-                            <td class="center_td center">사내 의사소통 시스템 존재</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">6</td>
-                            <td class="center_td center">제안 제도 운영 실적</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
+                        @if (Model.orgHR02 == null || Model.orgHR02.CheckList.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.orgHR02.CheckList)
+                            {
+                                <tr>
+                                    <td class="center_td center">@item.Count</td>
+                                    <td class="center_td center">@item.Title</td>
+                                    @if (item.AnsVal == true)
+                                    {
+                                        <td class="center_td center">∎</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="center_td center">□</td>
+                                    }
+                                    <td class="center_td center">@item.StartUpAvg %</td>
+                                    <td class="center_td center">@item.GrowthAvg %</td>
+                                    <td class="center_td center">@item.IndependentAvg %</td>
+                                    <td class="center_td center">@item.BizInCompanyAvg %</td>
+                                    <td class="center_td center">@item.TotalAvg %</td>
+                                </tr>
+                            }
+                        }
                     </table>
                 </div>
 
@@ -780,7 +965,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea">@Model.orgHR02.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
@@ -849,19 +1034,19 @@
                         </div>
                         <div class="index_left_mid">
                             <span>
-                                부가가치<br> 노동생산성 = <br>( )
+                                부가가치<br> 노동생산성 = <br>(@Model.orgProductivity.Productivity.Result )
                             </span>
                         </div>
                         <div class="index_right_mid">
                             <span class="right_mid_top">
-                                매출액-<br>재료비<br>(
+                                매출액-<br>재료비<br>(@Model.orgProductivity.Productivity.Dividend
                                 )
                             </span> <span class="right_mid_bot">
-                                종업원수<br>( )
+                                종업원수<br>(@Model.orgProductivity.Productivity.Divisor )
                             </span>
                         </div>
                     </div>
-                    <div class="index_chart">
+                    <div id="Productivity" class="index_chart">
                         <!-- 차트가 표시되는 부분 -->
                     </div>
                 </div>
@@ -872,7 +1057,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea w_short" onfocus="this.value=''">300자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea w_short">@Model.orgProductivity.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
@@ -893,19 +1078,19 @@
                         </div>
                         <div class="index_left_mid multi" style="padding-top: 14px">
                             <span>
-                                총자산<br> 회전율 = <br>( )
+                                총자산<br> 회전율 = <br>(@Model.orgProductivity.Activity.Result)
                             </span>
                         </div>
                         <div class="index_right_mid multi">
                             <span class="right_mid_top">
-                                매출액<br>( )
+                                <br> 매출액<br>(@Model.orgProductivity.Activity.Dividend)
                             </span> <span class="right_mid_bot">
-                                총자산<br>( )
+                                총자산<br>(@Model.orgProductivity.Activity.Divisor)
                             </span>
                         </div>
                         <div class="index_right_multi">X 100</div>
                     </div>
-                    <div class="index_chart h_109">
+                    <div id="Activity" class="index_chart">
                         <!-- 차트가 표시되는 부분 -->
                     </div>
                 </div>
@@ -916,7 +1101,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea w_short" onfocus="this.value=''">300자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea w_short">@Model.orgProductivity.CommentList[1].Comment</textarea>
                 </div>
 
             </div>
@@ -1015,87 +1200,72 @@
                     </tr>
                     <tr>
                         <td class="center_td">기획/관리</td>
-                        <td class="center_td"></td>
-                        <td class="center_td"></td>
-                        <td class="center_td">1</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">1</td>
-                        <td class="center_td">7.7%</td>
-                        <td class="center_td">14%</td>
-                        <td class="center_td">22%</td>
+                        <td class="center_td">@Model.orgDivided.Management.Dept1</td>
+                        <td class="center_td">@Model.orgDivided.Management.Dept2</td>
+                        <td class="center_td">@Model.orgDivided.Management.ChiefCount</td>
+                        <td class="center_td">@Model.orgDivided.Management.OfficerCount</td>
+                        <td class="center_td">@Model.orgDivided.Management.StaffCount</td>
+                        <td class="center_td">@Model.orgDivided.Management.BeginnerCount</td>
+                        <td class="center_td">@Model.orgDivided.Management.PartialSum</td>
+                        <td class="center_td">@Model.orgDivided.Management.Company%</td>
+                        <td class="center_td">@Model.orgDivided.Management.AvgBizInCompany%</td>
+                        <td class="center_td">@Model.orgDivided.Management.AvgTotal%</td>
                     </tr>
                     <tr>
                         <td class="center_td">
                             생산/<br>생산관리
                         </td>
-                        <td class="center_td"></td>
-                        <td class="center_td"></td>
-                        <td class="center_td">1</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">1</td>
-                        <td class="center_td">7.7%</td>
-                        <td class="center_td">14%</td>
-                        <td class="center_td">22%</td>
-                    </tr>
-                    <tr>
-                        <td class="center_td">
-                            생산/<br>생산관리
-                        </td>
-                        <td class="center_td"></td>
-                        <td class="center_td"></td>
-                        <td class="center_td">1</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">1</td>
-                        <td class="center_td">7.7%</td>
-                        <td class="center_td">14%</td>
-                        <td class="center_td">22%</td>
+                        <td class="center_td">@Model.orgDivided.Produce.Dept1</td>
+                        <td class="center_td">@Model.orgDivided.Produce.Dept2</td>
+                        <td class="center_td">@Model.orgDivided.Produce.ChiefCount</td>
+                        <td class="center_td">@Model.orgDivided.Produce.OfficerCount</td>
+                        <td class="center_td">@Model.orgDivided.Produce.StaffCount</td>
+                        <td class="center_td">@Model.orgDivided.Produce.BeginnerCount</td>
+                        <td class="center_td">@Model.orgDivided.Produce.PartialSum</td>
+                        <td class="center_td">@Model.orgDivided.Produce.Company%</td>
+                        <td class="center_td">@Model.orgDivided.Produce.AvgBizInCompany%</td>
+                        <td class="center_td">@Model.orgDivided.Produce.AvgTotal%</td>
                     </tr>
                     <tr>
                         <td class="center_td">
                             연구개발/<br>연구지원
                         </td>
-                        <td class="center_td"></td>
-                        <td class="center_td"></td>
-                        <td class="center_td">1</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">1</td>
-                        <td class="center_td">7.7%</td>
-                        <td class="center_td">14%</td>
-                        <td class="center_td">22%</td>
+                        <td class="center_td">@Model.orgDivided.RND.Dept1</td>
+                        <td class="center_td">@Model.orgDivided.RND.Dept2</td>
+                        <td class="center_td">@Model.orgDivided.RND.ChiefCount</td>
+                        <td class="center_td">@Model.orgDivided.RND.OfficerCount</td>
+                        <td class="center_td">@Model.orgDivided.RND.StaffCount</td>
+                        <td class="center_td">@Model.orgDivided.RND.BeginnerCount</td>
+                        <td class="center_td">@Model.orgDivided.RND.PartialSum</td>
+                        <td class="center_td">@Model.orgDivided.RND.Company%</td>
+                        <td class="center_td">@Model.orgDivided.RND.AvgBizInCompany%</td>
+                        <td class="center_td">@Model.orgDivided.RND.AvgTotal%</td>
                     </tr>
                     <tr>
                         <td class="center_td">
                             마케팅기획/<br>판매영업
                         </td>
-                        <td class="center_td"></td>
-                        <td class="center_td"></td>
-                        <td class="center_td">1</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">0</td>
-                        <td class="center_td">1</td>
-                        <td class="center_td">7.7%</td>
-                        <td class="center_td">14%</td>
-                        <td class="center_td">22%</td>
+                        <td class="center_td">@Model.orgDivided.Salse.Dept1</td>
+                        <td class="center_td">@Model.orgDivided.Salse.Dept2</td>
+                        <td class="center_td">@Model.orgDivided.Salse.ChiefCount</td>
+                        <td class="center_td">@Model.orgDivided.Salse.OfficerCount</td>
+                        <td class="center_td">@Model.orgDivided.Salse.StaffCount</td>
+                        <td class="center_td">@Model.orgDivided.Salse.BeginnerCount</td>
+                        <td class="center_td">@Model.orgDivided.Salse.PartialSum</td>
+                        <td class="center_td">@Model.orgDivided.Salse.Company%</td>
+                        <td class="center_td">@Model.orgDivided.Salse.AvgBizInCompany%</td>
+                        <td class="center_td">@Model.orgDivided.Salse.AvgTotal%</td>
                     </tr>
                     <tr>
                         <td class="center_td left_memo" colspan="3">총계</td>
-                        <td class="center_td">1</td>
-                        <td class="center_td">5</td>
-                        <td class="center_td">3</td>
-                        <td class="center_td">4</td>
-                        <td class="center_td">13</td>
-                        <td class="center_td">100%</td>
-                        <td class="center_td">100%</td>
-                        <td class="center_td">100%</td>
+                        <td class="center_td">@Model.orgDivided.ChiefSumCount</td>
+                        <td class="center_td">@Model.orgDivided.OfficerSumCount</td>
+                        <td class="center_td">@Model.orgDivided.StaffSumCount</td>
+                        <td class="center_td">@Model.orgDivided.BeginnerSumCount</td>
+                        <td class="center_td">@Model.orgDivided.TotalSumCount</td>
+                        <td class="center_td">@Model.orgDivided.CompanySum%</td>
+                        <td class="center_td">@Model.orgDivided.AvgBizInCompanySum%</td>
+                        <td class="center_td">@Model.orgDivided.AvgTotalSum%</td>
                     </tr>
                 </table>
                 <div class="stageBox">
@@ -1106,16 +1276,17 @@
                         </div>
                         <div class="stageBox_barbot">
                             <div class="label">
-                                대표<input type="radio" value="대표" />
+                                대표 @Html.RadioButtonFor(model => model.orgDivided.CommentList[0].Comment, "1", new { @id = "comment00", @checked = "checked" })
                             </div>
                             <div class="label">
-                                담당자<input type="radio" value="담당자" />
+                                담당자 @Html.RadioButtonFor(model => model.orgDivided.CommentList[0].Comment, "2", new { @id = "comment00" })
                             </div>
                             <div class="label">
-                                조직 4개 분화<input type="radio" value="조직 4개 분화" />
+                                조직 4개 분화 @Html.RadioButtonFor(model => model.orgDivided.CommentList[0].Comment, "3", new { @id = "comment00" })
                             </div>
                             <div class="label last">
-                                조직 8개 분화<input type="radio" value="조직 8개 분화" />
+                                조직 8개 분화 @Html.RadioButtonFor(model => model.orgDivided.CommentList[0].Comment, "4", new { @id = "comment00" })
+                                @Html.HiddenFor(model => model.orgDivided.CommentList[0].DetailCd)
                             </div>
                         </div>
                         <div class="stageBox_comment">
@@ -1238,21 +1409,23 @@
                             <td class="center_td center">
                                 연구개발비<br>(2개년평균)
                             </td>
-                            <td class="center_td center">00(%)</td>
                             <td class="center_td center">
-                                42,027,792<br>(8.9%)
+                                @string.Format("{0:N0}", int.Parse(Model.rndCost.value.Company))<br>(@Model.rndCost.percent.Company)%)
                             </td>
                             <td class="center_td center">
-                                42,027,792<br>(8.9%)
+                                @string.Format("{0:N0}", int.Parse(@Model.rndCost.value.StartUpAvg))<br>(@Model.rndCost.percent.StartUpAvg%)
                             </td>
                             <td class="center_td center">
-                                42,027,792<br>(8.9%)
+                                @string.Format("{0:N0}", int.Parse(@Model.rndCost.value.GrowthAvg))<br>(@Model.rndCost.percent.GrowthAvg%)
                             </td>
                             <td class="center_td center">
-                                42,027,792<br>(8.9%)
+                                @string.Format("{0:N0}", int.Parse(@Model.rndCost.value.IndependentAvg))<br>(@Model.rndCost.percent.IndependentAvg%)
                             </td>
                             <td class="center_td center">
-                                42,027,792<br>(8.9%)
+                                @string.Format("{0:N0}", int.Parse(@Model.rndCost.value.BizInCompanyAvg))<br>(@Model.rndCost.percent.BizInCompanyAvg%)
+                            </td>
+                            <td class="center_td center">
+                                @string.Format("{0:N0}", int.Parse(@Model.rndCost.value.TotalAvg))<br>(@Model.rndCost.percent.TotalAvg%)
                             </td>
                         </tr>
 
@@ -1268,7 +1441,7 @@
                             다른 멘토의견보기
                         </div>
                     </div>
-                    <textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea">@Model.rndCost.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
@@ -1390,12 +1563,12 @@
                             <td class="center_td center">
                                 연구개발<br>인력의 비율
                             </td>
-                            <td class="center_td center">25.0%</td>
-                            <td class="center_td center">50.8%</td>
-                            <td class="center_td center">50.8%</td>
-                            <td class="center_td center">50.8%</td>
-                            <td class="center_td center">50.8%</td>
-                            <td class="center_td center">50.8%</td>
+                            <td class="center_td center">@Model.rndEmp.rndEmpRatio.Company%</td>
+                            <td class="center_td center">@Model.rndEmp.rndEmpRatio.StartUpAvg%</td>
+                            <td class="center_td center">@Model.rndEmp.rndEmpRatio.GrowthAvg%</td>
+                            <td class="center_td center">@Model.rndEmp.rndEmpRatio.IndependentAvg%</td>
+                            <td class="center_td center">@Model.rndEmp.rndEmpRatio.BizInCompanyAvg%</td>
+                            <td class="center_td center">@Model.rndEmp.rndEmpRatio.TotalAvg%</td>
                             <td class="center_td center">-</td>
                         </tr>
                         <tr>
@@ -1403,13 +1576,13 @@
                                 연구개발<br>인력 중<br>석사급<br>이상
                                 비율
                             </td>
-                            <td class="center_td center">25.0%</td>
-                            <td class="center_td center">50.8%</td>
-                            <td class="center_td center">50.8%</td>
-                            <td class="center_td center">50.8%</td>
-                            <td class="center_td center">50.8%</td>
-                            <td class="center_td center">50.8%</td>
-                            <td class="center_td center">17.1%</td>
+                            <td class="center_td center">@Model.rndEmp.rndEmpLevelRatio.Company%</td>
+                            <td class="center_td center">@Model.rndEmp.rndEmpLevelRatio.StartUpAvg%</td>
+                            <td class="center_td center">@Model.rndEmp.rndEmpLevelRatio.GrowthAvg%</td>
+                            <td class="center_td center">@Model.rndEmp.rndEmpLevelRatio.IndependentAvg%</td>
+                            <td class="center_td center">@Model.rndEmp.rndEmpLevelRatio.BizInCompanyAvg%</td>
+                            <td class="center_td center">@Model.rndEmp.rndEmpLevelRatio.TotalAvg%</td>
+                            <td class="center_td center">@Model.rndEmp.rndEmpLevelRatio.SMCompanyAvg%</td>
                         </tr>
                     </table>
                 </div>
@@ -1420,7 +1593,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea">@Model.rndEmp.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
@@ -1536,64 +1709,35 @@
                             </td>
                             <td class="left_memo">전체평균</td>
                         </tr>
-                        <tr>
-                            <td class="center_td center">1</td>
-                            <td class="center_td center">
-                                임금체계 규정제품 개발<br>절차서 및
-                                메뉴얼 보유 여부
-                            </td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">2</td>
-                            <td class="center_td center">
-                                제품개발 단계별 일정계획<br>보유 여부
-                            </td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">3</td>
-                            <td class="center_td center">
-                                제품개발 소요예산의 객관적<br>평가
-                                여부
-                            </td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">4</td>
-                            <td class="center_td center">자사 및 경쟁제품의 기능분석 실행</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">5</td>
-                            <td class="center_td center">기술사업화에 대한 사내 협업 여부</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
+                        @if (Model.productivityCommercialize == null || Model.productivityCommercialize.CheckList.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.productivityCommercialize.CheckList)
+                            {
+                                <tr>
+                                    <td class="center_td center">@item.Count</td>
+                                    <td class="center_td center">@item.Title</td>
+                                    @if (item.AnsVal == true)
+                                    {
+                                        <td class="center_td center">∎</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="center_td center">□</td>
+                                    }
+                                    <td class="center_td center">@item.StartUpAvg %</td>
+                                    <td class="center_td center">@item.GrowthAvg %</td>
+                                    <td class="center_td center">@item.IndependentAvg %</td>
+                                    <td class="center_td center">@item.BizInCompanyAvg %</td>
+                                    <td class="center_td center">@item.TotalAvg %</td>
+                                </tr>
+                            }
+                        }
 
                     </table>
                 </div>
@@ -1604,7 +1748,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea">@Model.productivityCommercialize.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
@@ -1707,23 +1851,23 @@
                             <td class="center_td center">
                                 사업화 건수<br>(최근3개년 합계)
                             </td>
-                            <td class="center_td center">2</td>
-                            <td class="center_td center">1.1</td>
-                            <td class="center_td center">4.9</td>
-                            <td class="center_td center">2.0</td>
-                            <td class="center_td center">3.1</td>
-                            <td class="center_td center">3.0</td>
+                            <td class="center_td center">@Model.prductivityResult.BizResultCnt.Company</td>
+                            <td class="center_td center">@Model.prductivityResult.BizResultCnt.StartUpAvg</td>
+                            <td class="center_td center">@Model.prductivityResult.BizResultCnt.GrowthAvg</td>
+                            <td class="center_td center">@Model.prductivityResult.BizResultCnt.IndependentAvg</td>
+                            <td class="center_td center">@Model.prductivityResult.BizResultCnt.BizInCompanyAvg</td>
+                            <td class="center_td center">@Model.prductivityResult.BizResultCnt.TotalAvg</td>
                         </tr>
                         <tr>
                             <td class="center_td center">
                                 사업화 실적<br>(환산점수)
                             </td>
-                            <td class="center_td center">0</td>
-                            <td class="center_td center">0</td>
-                            <td class="center_td center">0.5</td>
-                            <td class="center_td center">0.0</td>
-                            <td class="center_td center">0.5</td>
-                            <td class="center_td center">0.3</td>
+                            <td class="center_td center">@Model.prductivityResult.BizResultPoint.Company</td>
+                            <td class="center_td center">@Model.prductivityResult.BizResultPoint.StartUpAvg</td>
+                            <td class="center_td center">@Model.prductivityResult.BizResultPoint.GrowthAvg</td>
+                            <td class="center_td center">@Model.prductivityResult.BizResultPoint.IndependentAvg</td>
+                            <td class="center_td center">@Model.prductivityResult.BizResultPoint.BizInCompanyAvg</td>
+                            <td class="center_td center">@Model.prductivityResult.BizResultPoint.TotalAvg</td>
                         </tr>
                     </table>
                 </div>
@@ -1734,7 +1878,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea">@Model.prductivityResult.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
@@ -1840,58 +1984,35 @@
                             </td>
                             <td class="left_memo">전체평균</td>
                         </tr>
-                        <tr>
-                            <td class="center_td center">1</td>
-                            <td class="center_td center">자체 공장(시스템) 보유 여부</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">2</td>
-                            <td class="center_td center">생산설비 관리전담 혹은 조직 보유 여부</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">3</td>
-                            <td class="center_td center">설비유지 정기검사 실시 여부</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">4</td>
-                            <td class="center_td center">
-                                최근 6개월 가동율 80%<br>여부
-                            </td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">5</td>
-                            <td class="center_td center">고장에 대한 대응책 및 기록 여부</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
+                        @if (Model.productivityMgmtFacility == null || Model.productivityMgmtFacility.CheckList.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.productivityMgmtFacility.CheckList)
+                            {
+                                <tr>
+                                    <td class="center_td center">@item.Count</td>
+                                    <td class="center_td center">@item.Title</td>
+                                    @if (item.AnsVal == true)
+                                    {
+                                        <td class="center_td center">∎</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="center_td center">□</td>
+                                    }
+                                    <td class="center_td center">@item.StartUpAvg %</td>
+                                    <td class="center_td center">@item.GrowthAvg %</td>
+                                    <td class="center_td center">@item.IndependentAvg %</td>
+                                    <td class="center_td center">@item.BizInCompanyAvg %</td>
+                                    <td class="center_td center">@item.TotalAvg %</td>
+                                </tr>
+                            }
+                        }
 
                     </table>
                 </div>
@@ -1902,7 +2023,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea">@Model.productivityMgmtFacility.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
@@ -2014,56 +2135,35 @@
                             </td>
                             <td class="left_memo">전체평균</td>
                         </tr>
-                        <tr>
-                            <td class="center_td center">1</td>
-                            <td class="center_td center">업무절차(공정)도의 명시적 존재 여부</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">2</td>
-                            <td class="center_td center">표준작업지시서 실행 여부</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">3</td>
-                            <td class="center_td center">공정트러블 관리 절차 실행 여부</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">4</td>
-                            <td class="center_td center">과학적인 공정관리 실행 여부</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">5</td>
-                            <td class="center_td center">주기적인 공정관리 실행 여부</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
+                        @if (Model.productivityProcessControl == null || Model.productivityProcessControl.CheckList.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.productivityProcessControl.CheckList)
+                            {
+                                <tr>
+                                    <td class="center_td center">@item.Count</td>
+                                    <td class="center_td center">@item.Title</td>
+                                    @if (item.AnsVal == true)
+                                    {
+                                        <td class="center_td center">∎</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="center_td center">□</td>
+                                    }
+                                    <td class="center_td center">@item.StartUpAvg %</td>
+                                    <td class="center_td center">@item.GrowthAvg %</td>
+                                    <td class="center_td center">@item.IndependentAvg %</td>
+                                    <td class="center_td center">@item.BizInCompanyAvg %</td>
+                                    <td class="center_td center">@item.TotalAvg %</td>
+                                </tr>
+                            }
+                        }
 
                     </table>
                 </div>
@@ -2074,7 +2174,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea">@Model.productivityProcessControl.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
@@ -2182,74 +2282,35 @@
                             </td>
                             <td class="left_memo">전체평균</td>
                         </tr>
-                        <tr>
-                            <td class="center_td center">1</td>
-                            <td class="center_td center">품질관리 전담부서 보유 여부</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">2</td>
-                            <td class="center_td center">
-                                품질관리 규정<br>및 지침 보유 여부
-                            </td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">3</td>
-                            <td class="center_td center">
-                                품질에 대한 기준의<br>규정 여부
-                            </td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">4</td>
-                            <td class="center_td center">주기적인 품질검사 시행 여부</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">5</td>
-                            <td class="center_td center">
-                                불량요인에 대한<br>원인분석 및 교정
-                            </td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">6</td>
-                            <td class="center_td center">
-                                품질관리 결과의<br>기록 및 관리
-                            </td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
+                        @if (Model.productivityQC == null || Model.productivityQC.CheckList.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.productivityQC.CheckList)
+                            {
+                                <tr>
+                                    <td class="center_td center">@item.Count</td>
+                                    <td class="center_td center">@item.Title</td>
+                                    @if (item.AnsVal == true)
+                                    {
+                                        <td class="center_td center">∎</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="center_td center">□</td>
+                                    }
+                                    <td class="center_td center">@item.StartUpAvg %</td>
+                                    <td class="center_td center">@item.GrowthAvg %</td>
+                                    <td class="center_td center">@item.IndependentAvg %</td>
+                                    <td class="center_td center">@item.BizInCompanyAvg %</td>
+                                    <td class="center_td center">@item.TotalAvg %</td>
+                                </tr>
+                            }
+                        }
                     </table>
                 </div>
 
@@ -2259,7 +2320,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea">@Model.productivityQC.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
@@ -2364,82 +2425,35 @@
                             </td>
                             <td class="left_memo">전체평균</td>
                         </tr>
-                        <tr>
-                            <td class="center_td center">1</td>
-                            <td class="center_td center">마케팅 담당 부서 또는 인력 존재</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">2</td>
-                            <td class="center_td center">제품의 목표시장 설정</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">3</td>
-                            <td class="center_td center">
-                                가격 결정 시 제품원가,<br>소비자의
-                                수요 또는 경쟁 <br>제품 가격을 고려하여 결정
-                            </td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">4</td>
-                            <td class="center_td center">자체 상품(브랜드) 보유</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">5</td>
-                            <td class="center_td center">복수의 유통경로 보유</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">6</td>
-                            <td class="center_td center">해외 수출망</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">7</td>
-                            <td class="center_td center">
-                                광고, 홍보, 인적판매, 판매촉진 방식 중
-                                정책실행 실적
-                            </td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
+                        @if (Model.productivityMgmtMarketing == null || Model.productivityMgmtMarketing.CheckList.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.productivityMgmtMarketing.CheckList)
+                            {
+                                <tr>
+                                    <td class="center_td center">@item.Count</td>
+                                    <td class="center_td center">@item.Title</td>
+                                    @if (item.AnsVal == true)
+                                    {
+                                        <td class="center_td center">∎</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="center_td center">□</td>
+                                    }
+                                    <td class="center_td center">@item.StartUpAvg %</td>
+                                    <td class="center_td center">@item.GrowthAvg %</td>
+                                    <td class="center_td center">@item.IndependentAvg %</td>
+                                    <td class="center_td center">@item.BizInCompanyAvg %</td>
+                                    <td class="center_td center">@item.TotalAvg %</td>
+                                </tr>
+                            }
+                        }
                     </table>
                 </div>
 
@@ -2449,7 +2463,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea">@Model.productivityMgmtMarketing.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
@@ -2549,56 +2563,35 @@
                             </td>
                             <td class="left_memo">전체평균</td>
                         </tr>
-                        <tr>
-                            <td class="center_td center">1</td>
-                            <td class="center_td center">고객상담 전담조직, 인력 보유</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">2</td>
-                            <td class="center_td center">주요 고객 현황자료</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">3</td>
-                            <td class="center_td center">고객 불만 해소 사례</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">4</td>
-                            <td class="center_td center">주요 고객 요구사항 파악, 기록관리</td>
-                            <td class="center_td center">□</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
-                        <tr>
-                            <td class="center_td center">5</td>
-                            <td class="center_td center">고객 요구사항을 경영진에 전달 반영 사례</td>
-                            <td class="center_td center">∎</td>
-                            <td class="center_td center">9%</td>
-                            <td class="center_td center">45%</td>
-                            <td class="center_td center">100%</td>
-                            <td class="center_td center">0%</td>
-                            <td class="center_td center">33%</td>
-                        </tr>
+                        @if (Model.productivityMgmtCustomer == null || Model.productivityMgmtCustomer.CheckList.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="7" style="text-align:center;">검색 결과가 없습니다.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.productivityMgmtCustomer.CheckList)
+                            {
+                                <tr>
+                                    <td class="center_td center">@item.Count</td>
+                                    <td class="center_td center">@item.Title</td>
+                                    @if (item.AnsVal == true)
+                                    {
+                                        <td class="center_td center">∎</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="center_td center">□</td>
+                                    }
+                                    <td class="center_td center">@item.StartUpAvg %</td>
+                                    <td class="center_td center">@item.GrowthAvg %</td>
+                                    <td class="center_td center">@item.IndependentAvg %</td>
+                                    <td class="center_td center">@item.BizInCompanyAvg %</td>
+                                    <td class="center_td center">@item.TotalAvg %</td>
+                                </tr>
+                            }
+                        }
 
                     </table>
                 </div>
@@ -2609,7 +2602,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea">@Model.productivityMgmtCustomer.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
@@ -2678,19 +2671,19 @@
                         </div>
                         <div class="index_left_mid multi" style="padding-top: 14px">
                             <span>
-                                매출영업<br> 이익률 = <br>( )
+                                매출영업<br> 이익률 = <br>(@Model.productivityProfitability.Profitability.Result)
                             </span>
                         </div>
                         <div class="index_right_mid multi">
                             <span class="right_mid_top">
-                                영업이익<br>( )
+                                영업이익<br>(@Model.productivityProfitability.Profitability.Dividend)
                             </span> <span class="right_mid_bot">
-                                매출<br>( )
+                                매출<br>(@Model.productivityProfitability.Profitability.Divisor)
                             </span>
                         </div>
                         <div class="index_right_multi">X 100</div>
                     </div>
-                    <div class="index_chart h_109">
+                    <div id="Profitability" class="index_chart h_109">
                         <!-- 차트가 표시되는 부분 -->
                     </div>
                 </div>
@@ -2701,7 +2694,7 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea w_short" onfocus="this.value=''">300자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea w_short">@Model.productivityProfitability.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
@@ -2722,21 +2715,19 @@
                         </div>
                         <div class="index_left_mid multi" style="padding-top: 27px">
                             <span>
-                                매출<br> 증가율 = <br>( )
+                                매출<br> 증가율 = <br>(@Model.productivityProfitability.Growth.Result)
                             </span>
                         </div>
                         <div class="index_right_mid multi">
                             <span class="right_mid_top">
-                                (당기-전기)<br>매출액<br>(
-                                )
+                                (당기-전기)<br>매출액<br>(@Model.productivityProfitability.Growth.Dividend)
                             </span> <span class="right_mid_bot">
-                                전기<br>매출액<br>(
-                                )
+                                전기<br>매출액<br>(@Model.productivityProfitability.Growth.Divisor)
                             </span>
                         </div>
                         <div class="index_right_multi2">X 100</div>
                     </div>
-                    <div class="index_chart h_136">
+                    <div id="Growth" class="index_chart h_136">
                         <!-- 차트가 표시되는 부분 -->
                     </div>
                 </div>
@@ -2747,215 +2738,215 @@
                     <div class="listBox_tap bg_on">
                         <span>검토결과</span>
                     </div>
-                    <textarea class="bot_textarea w_short" onfocus="this.value=''">300자 내로 작성하시기 바랍니다.</textarea>
+                    <textarea class="bot_textarea w_short">@Model.productivityProfitability.CommentList[0].Comment</textarea>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <div class="sub_report_checkbox">
-        <div class="report_main_top2"></div>
-        <div class="report_main_mid">
-            <div class="main_mid_cont">
-                <p class="title_mid">
-                    Ⅱ. 기초역량검토 종합결과 _ <span class="small_span float_right">
-                        역량별
-                        검토결과
-                    </span>
-                </p>
-            </div>
-            <div class="main_mid_cont">
-                <div class="main_mid_listBox nomargin2">
+    @*<div class="sub_report_checkbox">
+            <div class="report_main_top2"></div>
+            <div class="report_main_mid">
+                <div class="main_mid_cont">
+                    <p class="title_mid">
+                        Ⅱ. 기초역량검토 종합결과 _ <span class="small_span float_right">
+                            역량별
+                            검토결과
+                        </span>
+                    </p>
+                </div>
+                <div class="main_mid_cont">
+                    <div class="main_mid_listBox nomargin2">
 
-                    <div class="listBox_tap longbg_on noline">
-                        <span>(2)상품화역량</span>
+                        <div class="listBox_tap longbg_on noline">
+                            <span>(2)상품화역량</span>
+                        </div>
+                        <table class="join_info">
+                            <colgroup>
+                                <col width="20%">
+                                <col width="20%">
+                                <col width="60%">
+                            </colgroup>
+                            <tr>
+                                <td class="left_memo">역량 검토 항목</td>
+                                <td>
+                                    <span class="span_weak">□ 기초역량 평가</span> <span class="span_weak">□ 재무지표 평가</span> <span class="span_on">
+                                        □
+                                        전문가 평가
+                                    </span>
+                                </td>
+                                <td class="center_td">
+                                    <div class="label_td">타깃고객 검토</div> <span class="label_span"></span>
+                                </td>
+                            </tr>
+
+
+                        </table>
                     </div>
-                    <table class="join_info">
-                        <colgroup>
-                            <col width="20%">
-                            <col width="20%">
-                            <col width="60%">
-                        </colgroup>
-                        <tr>
-                            <td class="left_memo">역량 검토 항목</td>
-                            <td>
-                                <span class="span_weak">□ 기초역량 평가</span> <span class="span_weak">□ 재무지표 평가</span> <span class="span_on">
-                                    □
-                                    전문가 평가
-                                </span>
-                            </td>
-                            <td class="center_td">
-                                <div class="label_td">타깃고객 검토</div> <span class="label_span"></span>
-                            </td>
-                        </tr>
 
+                </div>
+                <div class="main_mid_cont">
+                    <div class="main_mid_listBox nomargin2">
+                        <div class="listBox_tap longbg_on full_line">
+                            <span>1차 타깃고객 설정</span>
+                        </div>
+                        <div class="targetBox">
+                            <div class="targetBox_title bold p4">B2B 중심</div>
+                            <div class="targetBox_mid">
+                                <div class="label">
+                                    <input type="checkbox" /> 완성품 제조업자
+                                </div>
+                                <div class="label">
+                                    <input type="checkbox" /> 중간재업자
+                                </div>
+                                <div class="label">
+                                    <input type="checkbox" /> 도매업자
+                                </div>
+                                <div class="label">
+                                    <input type="checkbox" /> 소매업자
+                                </div>
+                                <div class="label">
+                                    <input type="checkbox" /> 기타
+                                </div>
+                            </div>
+                        </div>
+                        <div class="targetBox">
+                            <div class="targetBox_title bold p4">B2C 중심</div>
+                            <div class="targetBox_mid">
+                                <div class="label p10">
+                                    연령대 (<input type="text" class="w65_02" />)
+                                </div>
+                                <div class="label p10">
+                                    성 별 (<input type="text" class="w65_02" />)
+                                </div>
+                                <div class="label p10">
+                                    구매목적 <input type="text" class="w65_02" />
+                                </div>
 
-                    </table>
+                            </div>
+                        </div>
+                        <div class="targetBox">
+                            <div class="targetBox_title bold p4">타깃고객의 일반특성</div>
+                            <div class="targetBox_mid">
+                                <textarea rows="5"></textarea>
+                            </div>
+                        </div>
+                        <div class="targetBox">
+                            <div class="targetBox_title bold p4">현재 핵심 영업방법(복수)</div>
+                            <div class="targetBox_mid">
+                                <div class="label half">
+                                    <input type="checkbox" /> 대중광고
+                                </div>
+                                <div class="label half">
+                                    <input type="checkbox" /> 기존고객
+                                </div>
+                                <div class="label half">
+                                    <input type="checkbox" /> SNS 중심
+                                </div>
+                                <div class="label half">
+                                    <input type="checkbox" /> 영업직원
+                                </div>
+                                <div class="label half">
+                                    <input type="checkbox" /> 검색광고
+                                </div>
+                                <div class="label half">
+                                    <input type="checkbox" /> 대리점
+                                </div>
+                                <div class="label half">
+                                    <input type="checkbox" /> 총판
+                                </div>
+                                <div class="label half">
+                                    <input type="checkbox" /> 온라인
+                                </div>
+                                <div class="label half">
+                                    <input type="checkbox" /> 기타
+                                </div>
+                            </div>
+                        </div>
+                        <div class="targetBox">
+                            <div class="targetBox_title bold p4">현재 영업도구</div>
+                            <div class="targetBox_mid">
+                                <div class="label p6 bold">
+                                    <input type="checkbox" /> 제안서 수준
+                                </div>
+                                <div class="label p6 bold">
+                                    <input type="checkbox" /> 온라인
+                                </div>
+                                <div class="label p6 bold">
+                                    <input type="checkbox" /> 제품패키징
+                                </div>
+                                <div class="label p6 bold">
+                                    <input type="checkbox" /> 카탈로그수준
+                                </div>
+                            </div>
+                        </div>
+                        <div class="targetBox">
+                            <div class="targetBox_title bold p4">고객의 구매이유</div>
+                            <div class="targetBox_mid">
+                                <textarea rows="5"></textarea>
+                            </div>
+                        </div>
+                        <div class="listBox_tap longbg_on full_line "
+                             style="margin-top: 15px">
+                            <span>영업관리방법 검토</span>
+                        </div>
+                        <div class="targetBox">
+                            <div class="targetBox_title bold p4">영업관리방법</div>
+                            <div class="targetBox_mid">
+                                <div class="label p6 bold">
+                                    영업회의간격 (<input type="text" class="w45" />)
+                                </div>
+                                <div class="label p6 bold">
+                                    영업매뉴얼화 (<input type="text" class="w45" />)
+                                </div>
+                                <div class="label p6 bold">
+                                    인센티브방법 (<input type="text" class="w45" />)
+                                </div>
+                                <div class="label p6 bold">
+                                    사후관리여부 (<input type="text" class="w45" />)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="targetBox">
+                            <div class="targetBox_title bold p4">핵심 영업추진 담당</div>
+                            <div class="targetBox_mid">
+                                <div class="label p6 bold">
+                                    대표 등 (<input type="text" class="w45" />)
+                                </div>
+                                <div class="label p6 bold">
+                                    영업팀 (<input type="text" class="w45" />)
+                                </div>
+                                <div class="label p6 bold">
+                                    외부영업팀 (<input type="text" class="w45" />)
+                                </div>
+                                <div class="label p6 bold">
+                                    기타수단 (<input type="text" class="w45" />)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="targetBox">
+                            <div class="targetBox_title bold p4">영업프로세스 체계화여부</div>
+                            <div class="targetBox_mid">
+                                <textarea rows="5" class="w124"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-            </div>
-            <div class="main_mid_cont">
-                <div class="main_mid_listBox nomargin2">
-                    <div class="listBox_tap longbg_on full_line">
-                        <span>1차 타깃고객 설정</span>
-                    </div>
-                    <div class="targetBox">
-                        <div class="targetBox_title bold p4">B2B 중심</div>
-                        <div class="targetBox_mid">
-                            <div class="label">
-                                <input type="checkbox" /> 완성품 제조업자
-                            </div>
-                            <div class="label">
-                                <input type="checkbox" /> 중간재업자
-                            </div>
-                            <div class="label">
-                                <input type="checkbox" /> 도매업자
-                            </div>
-                            <div class="label">
-                                <input type="checkbox" /> 소매업자
-                            </div>
-                            <div class="label">
-                                <input type="checkbox" /> 기타
-                            </div>
-                        </div>
-                    </div>
-                    <div class="targetBox">
-                        <div class="targetBox_title bold p4">B2C 중심</div>
-                        <div class="targetBox_mid">
-                            <div class="label p10">
-                                연령대 (<input type="text" class="w65_02" />)
-                            </div>
-                            <div class="label p10">
-                                성 별 (<input type="text" class="w65_02" />)
-                            </div>
-                            <div class="label p10">
-                                구매목적 <input type="text" class="w65_02" />
-                            </div>
 
+                <div class="main_mid_cont fix_bot list_print">
+                    <div class="main_mid_listBox nomargin2">
+                        <div class="listBox_tap bg_on">
+                            <span>제안</span>
                         </div>
+                        <textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>
                     </div>
-                    <div class="targetBox">
-                        <div class="targetBox_title bold p4">타깃고객의 일반특성</div>
-                        <div class="targetBox_mid">
-                            <textarea rows="5"></textarea>
-                        </div>
-                    </div>
-                    <div class="targetBox">
-                        <div class="targetBox_title bold p4">현재 핵심 영업방법(복수)</div>
-                        <div class="targetBox_mid">
-                            <div class="label half">
-                                <input type="checkbox" /> 대중광고
-                            </div>
-                            <div class="label half">
-                                <input type="checkbox" /> 기존고객
-                            </div>
-                            <div class="label half">
-                                <input type="checkbox" /> SNS 중심
-                            </div>
-                            <div class="label half">
-                                <input type="checkbox" /> 영업직원
-                            </div>
-                            <div class="label half">
-                                <input type="checkbox" /> 검색광고
-                            </div>
-                            <div class="label half">
-                                <input type="checkbox" /> 대리점
-                            </div>
-                            <div class="label half">
-                                <input type="checkbox" /> 총판
-                            </div>
-                            <div class="label half">
-                                <input type="checkbox" /> 온라인
-                            </div>
-                            <div class="label half">
-                                <input type="checkbox" /> 기타
-                            </div>
-                        </div>
-                    </div>
-                    <div class="targetBox">
-                        <div class="targetBox_title bold p4">현재 영업도구</div>
-                        <div class="targetBox_mid">
-                            <div class="label p6 bold">
-                                <input type="checkbox" /> 제안서 수준
-                            </div>
-                            <div class="label p6 bold">
-                                <input type="checkbox" /> 온라인
-                            </div>
-                            <div class="label p6 bold">
-                                <input type="checkbox" /> 제품패키징
-                            </div>
-                            <div class="label p6 bold">
-                                <input type="checkbox" /> 카탈로그수준
-                            </div>
-                        </div>
-                    </div>
-                    <div class="targetBox">
-                        <div class="targetBox_title bold p4">고객의 구매이유</div>
-                        <div class="targetBox_mid">
-                            <textarea rows="5"></textarea>
-                        </div>
-                    </div>
-                    <div class="listBox_tap longbg_on full_line "
-                         style="margin-top: 15px">
-                        <span>영업관리방법 검토</span>
-                    </div>
-                    <div class="targetBox">
-                        <div class="targetBox_title bold p4">영업관리방법</div>
-                        <div class="targetBox_mid">
-                            <div class="label p6 bold">
-                                영업회의간격 (<input type="text" class="w45" />)
-                            </div>
-                            <div class="label p6 bold">
-                                영업매뉴얼화 (<input type="text" class="w45" />)
-                            </div>
-                            <div class="label p6 bold">
-                                인센티브방법 (<input type="text" class="w45" />)
-                            </div>
-                            <div class="label p6 bold">
-                                사후관리여부 (<input type="text" class="w45" />)
-                            </div>
-                        </div>
-                    </div>
-                    <div class="targetBox">
-                        <div class="targetBox_title bold p4">핵심 영업추진 담당</div>
-                        <div class="targetBox_mid">
-                            <div class="label p6 bold">
-                                대표 등 (<input type="text" class="w45" />)
-                            </div>
-                            <div class="label p6 bold">
-                                영업팀 (<input type="text" class="w45" />)
-                            </div>
-                            <div class="label p6 bold">
-                                외부영업팀 (<input type="text" class="w45" />)
-                            </div>
-                            <div class="label p6 bold">
-                                기타수단 (<input type="text" class="w45" />)
-                            </div>
-                        </div>
-                    </div>
-                    <div class="targetBox">
-                        <div class="targetBox_title bold p4">영업프로세스 체계화여부</div>
-                        <div class="targetBox_mid">
-                            <textarea rows="5" class="w124"></textarea>
-                        </div>
-                    </div>
+
                 </div>
-
             </div>
-
-
-            <div class="main_mid_cont fix_bot list_print">
-                <div class="main_mid_listBox nomargin2">
-                    <div class="listBox_tap bg_on">
-                        <span>제안</span>
-                    </div>
-                    <textarea class="bot_textarea" onfocus="this.value=''">500자 내로 작성하시기 바랍니다.</textarea>
-                </div>
-
-            </div>
-        </div>
-    </div>
+        </div>*@
 
     <div class="sub_report_checkbox">
         <div class="report_main_top2"></div>
@@ -3024,45 +3015,50 @@
                             <td class="center_td center bold">창업보육</td>
                             <td class="center_td center bold">서비스</td>
                             <td class="center_td center">
-                                고객맞춤형 <input type="checkbox" />
+                                고객맞춤형 @Html.CheckBoxFor(model => model.productivityValueChain.CheckBoxList[0].CheckVal, new { @id = "check0" })
                             </td>
                             <td class="center_td center">
-                                기능적 완성 <input type="checkbox" />
+                                기능적 완성 @Html.CheckBoxFor(model => model.productivityValueChain.CheckBoxList[1].CheckVal, new { @id = "check1" })
                             </td>
-                            <td class="center_td center">총판방식 <input type="checkbox" /></td>
                             <td class="center_td center">
-                                서비스 / 용역 <input type="checkbox" />
+                                총판방식 @Html.CheckBoxFor(model => model.productivityValueChain.CheckBoxList[2].CheckVal, new { @id = "check2" })
+                            </td>
+                            <td class="center_td center">
+                                서비스 / 용역 @Html.CheckBoxFor(model => model.productivityValueChain.CheckBoxList[3].CheckVal, new { @id = "check3" })
                             </td>
                         </tr>
                         <tr>
                             <td class="center_td center bold">보육성장</td>
                             <td class="center_td center bold">솔루션</td>
                             <td class="center_td center">
-                                가치창출형 <input type="checkbox" />
+                                가치창출형 @Html.CheckBoxFor(model => model.productivityValueChain.CheckBoxList[4].CheckVal, new { @id = "check4" })
                             </td>
                             <td class="center_td center">
-                                제품적 완성 <input type="checkbox" />
+                                제품적 완성 @Html.CheckBoxFor(model => model.productivityValueChain.CheckBoxList[5].CheckVal, new { @id = "check5" })
                             </td>
                             <td class="center_td center">
-                                영업팀운영 <input type="checkbox" />
+                                영업팀운영 @Html.CheckBoxFor(model => model.productivityValueChain.CheckBoxList[6].CheckVal, new { @id = "check6" })
                             </td>
                             <td class="center_td center">
-                                부품 / 원료<input type="checkbox" /><br>(솔루션)
+                                부품 / 원료 @Html.CheckBoxFor(model => model.productivityValueChain.CheckBoxList[7].CheckVal, new { @id = "check7" })
+                                <br>(솔루션)
                             </td>
                         </tr>
                         <tr>
                             <td class="center_td center bold">자립성장</td>
                             <td class="center_td center bold">상품화</td>
                             <td class="center_td center">
-                                비용최소화 <input type="checkbox" />
+                                비용최소화 @Html.CheckBoxFor(model => model.productivityValueChain.CheckBoxList[8].CheckVal, new { @id = "check8" })
                             </td>
                             <td class="center_td center">
-                                영업적 완성 <input type="checkbox" />
+                                영업적 완성 @Html.CheckBoxFor(model => model.productivityValueChain.CheckBoxList[9].CheckVal, new { @id = "check9" })
                             </td>
                             <td class="center_td center">
-                                대리점 운영 <input type="checkbox" />
+                                대리점 운영 @Html.CheckBoxFor(model => model.productivityValueChain.CheckBoxList[10].CheckVal, new { @id = "check10" })
                             </td>
-                            <td class="center_td center">완제품 <input type="checkbox" /></td>
+                            <td class="center_td center">
+                                완제품 @Html.CheckBoxFor(model => model.productivityValueChain.CheckBoxList[11].CheckVal, new { @id = "check11" })
+                            </td>
                         </tr>
 
                     </table>
@@ -3070,13 +3066,16 @@
                         <div class="capacity_comment_left bold">종합 의견</div>
                         <div class="capacity_comment_right">
                             <div class="label bold">
-                                창업보육단계<input type="radio" />
+                                창업보육단계
+                                @Html.RadioButtonFor(model => model.productivityValueChain.CommentList[0].Comment, "1", new { @id = "comment0" })
                             </div>
                             <div class="label bold">
-                                보육성장단계<input type="radio" />
+                                보육성장단계
+                                @Html.RadioButtonFor(model => model.productivityValueChain.CommentList[0].Comment, "2", new { @id = "comment0" })
                             </div>
                             <div class="label bold">
-                                자립성장단계<input type="radio" />
+                                자립성장단계
+                                @Html.RadioButtonFor(model => model.productivityValueChain.CommentList[0].Comment, "3", new { @id = "comment0" })
                             </div>
                         </div>
                     </div>
@@ -3219,126 +3218,127 @@
                         <tr>
                             <td class="center_td center bold" rowspan="3">시장현황</td>
                             <td class="center_td center bold">서비스</td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[0].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[1].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[2].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[3].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[4].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[5].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[6].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[7].Comment</td>
                         </tr>
                         <tr>
                             <td class="center_td center bold">솔루션</td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[8].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[9].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[10].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[11].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[12].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[13].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[14].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[15].Comment</td>
                         </tr>
                         <tr>
                             <td class="center_td center bold">상품화</td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
-                            <td class="center_td center"></td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[16].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[17].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[18].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[19].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[20].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[21].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[22].Comment</td>
+                            <td class="center_td center">@Model.productivityRelation.MngComment[23].Comment</td>
                         </tr>
+
                         <tr>
                             <td class="center_td center bold" rowspan="3">자사현황</td>
                             <td class="center_td center bold">상황</td>
                             <td class="center_td center">
                                 <div class="contact">
-                                    <input type="radio" />●
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[0].Comment, "1", new { @id = "radio0" }) ●
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />△
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[0].Comment, "2", new { @id = "radio0" }) △
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />ⅹ
-                                </div>
-                            </td>
-                            <td class="center_td center">
-                                <div class="contact">
-                                    <input type="radio" />●
-                                </div>
-                                <div class="contact">
-                                    <input type="radio" />△
-                                </div>
-                                <div class="contact">
-                                    <input type="radio" />ⅹ
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[0].Comment, "3", new { @id = "radio0" }) ⅹ
                                 </div>
                             </td>
                             <td class="center_td center">
                                 <div class="contact">
-                                    <input type="radio" />●
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[1].Comment, "1", new { @id = "radio1" }) ●
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />△
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[1].Comment, "2", new { @id = "radio1" }) △
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />ⅹ
-                                </div>
-                            </td>
-                            <td class="center_td center">
-                                <div class="contact">
-                                    <input type="radio" />●
-                                </div>
-                                <div class="contact">
-                                    <input type="radio" />△
-                                </div>
-                                <div class="contact">
-                                    <input type="radio" />ⅹ
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[1].Comment, "3", new { @id = "radio1" }) ⅹ
                                 </div>
                             </td>
                             <td class="center_td center">
                                 <div class="contact">
-                                    <input type="radio" />●
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[2].Comment, "1", new { @id = "comment2" }) ●
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />△
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[2].Comment, "2", new { @id = "comment2" }) △
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />ⅹ
-                                </div>
-                            </td>
-                            <td class="center_td center">
-                                <div class="contact">
-                                    <input type="radio" />●
-                                </div>
-                                <div class="contact">
-                                    <input type="radio" />△
-                                </div>
-                                <div class="contact">
-                                    <input type="radio" />ⅹ
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[2].Comment, "3", new { @id = "comment2" }) ⅹ
                                 </div>
                             </td>
                             <td class="center_td center">
                                 <div class="contact">
-                                    <input type="radio" />●
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[3].Comment, "1", new { @id = "comment3" }) ●
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />△
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[3].Comment, "2", new { @id = "comment3" }) △
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />ⅹ
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[3].Comment, "3", new { @id = "comment3" }) ⅹ
                                 </div>
                             </td>
                             <td class="center_td center">
                                 <div class="contact">
-                                    <input type="radio" />●
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[4].Comment, "1", new { @id = "comment4" }) ●
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />△
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[4].Comment, "2", new { @id = "comment4" }) △
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />ⅹ
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[4].Comment, "3", new { @id = "comment4" }) ⅹ
+                                </div>
+                            </td>
+                            <td class="center_td center">
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[5].Comment, "1", new { @id = "comment5" }) ●
+                                </div>
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[5].Comment, "2", new { @id = "comment5" }) △
+                                </div>
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[5].Comment, "3", new { @id = "comment5" }) ⅹ
+                                </div>
+                            </td>
+                            <td class="center_td center">
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[6].Comment, "1", new { @id = "comment6" }) ●
+                                </div>
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[6].Comment, "2", new { @id = "comment6" }) △
+                                </div>
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[6].Comment, "3", new { @id = "comment6" }) ⅹ
+                                </div>
+                            </td>
+                            <td class="center_td center">
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[7].Comment, "1", new { @id = "comment7" }) ●
+                                </div>
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[7].Comment, "2", new { @id = "comment7" }) △
+                                </div>
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[7].Comment, "3", new { @id = "comment7" }) ⅹ
                                 </div>
                             </td>
                         </tr>
@@ -3346,115 +3346,147 @@
                             <td class="center_td center bold">
                                 누가<br>(외부이면표시)
                             </td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[8].Comment, new { @id = "comment8" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[9].Comment, new { @id = "comment9" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[10].Comment, new { @id = "comment10" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[11].Comment, new { @id = "comment11" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[12].Comment, new { @id = "comment12" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[13].Comment, new { @id = "comment13" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[14].Comment, new { @id = "comment14" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[15].Comment, new { @id = "comment15" })
+                            </td>
                         </tr>
                         <tr>
                             <td class="center_td center bold">향후목표</td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
-                            <td class="center_td center"><input type="text" /></td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[16].Comment, new { @id = "comment16" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[17].Comment, new { @id = "comment17" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[18].Comment, new { @id = "comment18" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[19].Comment, new { @id = "comment19" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[20].Comment, new { @id = "comment20" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[21].Comment, new { @id = "comment21" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[22].Comment, new { @id = "comment22" })
+                            </td>
+                            <td class="center_td center">
+                                @Html.TextBoxFor(model => model.productivityRelation.CommentList[23].Comment, new { @id = "comment23" })
+                            </td>
                         </tr>
                         <tr>
                             <td class="center_td center bold">경쟁자</td>
                             <td class="center_td center bold"></td>
                             <td class="center_td center">
                                 <div class="contact">
-                                    <input type="radio" />●
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[24].Comment, "1", new { @id = "comment24" }) ●
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />△
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[24].Comment, "2", new { @id = "comment24" }) △
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />ⅹ
-                                </div>
-                            </td>
-                            <td class="center_td center">
-                                <div class="contact">
-                                    <input type="radio" />●
-                                </div>
-                                <div class="contact">
-                                    <input type="radio" />△
-                                </div>
-                                <div class="contact">
-                                    <input type="radio" />ⅹ
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[24].Comment, "3", new { @id = "comment24" }) ⅹ
                                 </div>
                             </td>
                             <td class="center_td center">
                                 <div class="contact">
-                                    <input type="radio" />●
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[25].Comment, "1", new { @id = "comment25" }) ●
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />△
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[25].Comment, "2", new { @id = "comment25" }) △
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />ⅹ
-                                </div>
-                            </td>
-                            <td class="center_td center">
-                                <div class="contact">
-                                    <input type="radio" />●
-                                </div>
-                                <div class="contact">
-                                    <input type="radio" />△
-                                </div>
-                                <div class="contact">
-                                    <input type="radio" />ⅹ
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[25].Comment, "3", new { @id = "comment25" }) ⅹ
                                 </div>
                             </td>
                             <td class="center_td center">
                                 <div class="contact">
-                                    <input type="radio" />●
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[26].Comment, "1", new { @id = "comment26" }) ●
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />△
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[26].Comment, "2", new { @id = "comment26" }) △
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />ⅹ
-                                </div>
-                            </td>
-                            <td class="center_td center">
-                                <div class="contact">
-                                    <input type="radio" />●
-                                </div>
-                                <div class="contact">
-                                    <input type="radio" />△
-                                </div>
-                                <div class="contact">
-                                    <input type="radio" />ⅹ
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[26].Comment, "3", new { @id = "comment26" }) ⅹ
                                 </div>
                             </td>
                             <td class="center_td center">
                                 <div class="contact">
-                                    <input type="radio" />●
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[27].Comment, "1", new { @id = "comment27" }) ●
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />△
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[27].Comment, "2", new { @id = "comment27" }) △
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />ⅹ
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[27].Comment, "3", new { @id = "comment27" }) ⅹ
                                 </div>
                             </td>
                             <td class="center_td center">
                                 <div class="contact">
-                                    <input type="radio" />●
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[28].Comment, "1", new { @id = "comment28" }) ●
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />△
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[28].Comment, "2", new { @id = "comment28" }) △
                                 </div>
                                 <div class="contact">
-                                    <input type="radio" />ⅹ
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[28].Comment, "3", new { @id = "comment28" }) ⅹ
+                                </div>
+                            </td>
+                            <td class="center_td center">
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[29].Comment, "1", new { @id = "comment29" }) ●
+                                </div>
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[29].Comment, "2", new { @id = "comment29" }) △
+                                </div>
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[29].Comment, "3", new { @id = "comment29" }) ⅹ
+                                </div>
+                            </td>
+                            <td class="center_td center">
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[30].Comment, "1", new { @id = "comment30" }) ●
+                                </div>
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[30].Comment, "2", new { @id = "comment30" }) △
+                                </div>
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[30].Comment, "3", new { @id = "comment30" }) ⅹ
+                                </div>
+                            </td>
+                            <td class="center_td center">
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[31].Comment, "1", new { @id = "comment31" }) ●
+                                </div>
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[31].Comment, "2", new { @id = "comment31" }) △
+                                </div>
+                                <div class="contact">
+                                    @Html.RadioButtonFor(model => model.productivityRelation.CommentList[31].Comment, "3", new { @id = "comment31" }) ⅹ
                                 </div>
                             </td>
                         </tr>
@@ -5625,4 +5657,5 @@
     <!--custom_rightwrap//-->
 
 </div>
+
 
