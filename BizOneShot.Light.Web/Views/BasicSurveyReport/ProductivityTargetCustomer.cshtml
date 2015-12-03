@@ -52,7 +52,7 @@
         $('#mainForm').submit();
     }
 </script>
-
+@Styles.Render("~/css/print")
 <div id="sub_rightwrap_report">
     <div class="sub_right_title specialist_02_03">
         <em>기초경영역량 보고서</em>
@@ -118,7 +118,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="main_mid_cont">
+                <div class="main_mid_cont margin_b10">
                     <div class="main_mid_listBox nomargin2">
                         <div class="listBox_tap longbg_on full_line">
                             <span>1차 타깃고객 설정</span>
@@ -242,8 +242,7 @@
                                 @Html.HiddenFor(model => model.CommentList[4].DetailCd)
                             </div>
                         </div>
-                        <div class="listBox_tap longbg_on full_line "
-                             style="margin-top: 15px">
+                        <div class="listBox_tap longbg_on full_line" style="margin-top: 15px">
                             <span>영업관리방법 검토</span>
                         </div>
                         <div class="targetBox">
@@ -297,7 +296,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="main_mid_cont fix_bot">
+                <div class="main_mid_cont fix_bot list_print nomargin2">
                     <div class="main_mid_listBox nomargin2">
                         <div class="listBox_tap bg_on">
                             <span>제안</span>

@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
+<!--@Styles.Render("~/css/print") -->
 <script>
     $(document).ready(function () {
         //top menu
@@ -172,7 +172,10 @@
 
 </script>
 @Styles.Render("~/css/print")
-@Scripts.Render("~/bundles/highcharts")
+
+<script src="/Scripts/highcharts.js"></script>
+<script src="/Scripts/highcharts-more.js"></script>
+
 
 <style>
     iframe {

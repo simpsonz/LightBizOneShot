@@ -14,7 +14,7 @@
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_basicReport').addClass('on');
     });
 </script>
-
+@Styles.Render("~/css/print")
 <div id="sub_rightwrap_report">
     @Html.HiddenFor(model => model.QuestionSn, new { @id = "QuestionSn" })
 
