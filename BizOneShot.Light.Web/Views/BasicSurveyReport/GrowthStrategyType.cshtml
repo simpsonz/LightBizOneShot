@@ -41,6 +41,8 @@
 
         //});
 
+
+        //TextArea 글자 창 안넘어가게 조정(라인6, 라인당 글자 14)
         $('textarea[id^="comment"]').each(function () {
             $(this).keydown(function () {
                 var lines = $(this).val().split("\n");
