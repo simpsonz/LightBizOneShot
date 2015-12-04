@@ -255,7 +255,7 @@ namespace BizOneShot.Light.Web.Controllers
             totalPoint = totalPoint + dicBizInFinanceMng.Values.Sum();
             viewModel.AvgTotalPoint = (dicBizInHrMng.Count == 0) ? 0 : Math.Round(totalPoint / dicBizInHrMng.Count, 1);
 
-            //1-B. 해당 기업의 기초역량 점수 계산
+            //1-B. 해당 기업의 기초역량 점수 계산 
             double companyPoint = 0;
             companyPoint = basicCapa + mkt + hrMng + financeMng;
             viewModel.CompanyPoint = Math.Round(companyPoint, 1);
