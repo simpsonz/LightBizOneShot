@@ -20,13 +20,15 @@ using System.Threading;
 
 namespace BizOneShot.Light.Models.DareModels
 {
-    public class SHUSER_SboMonthlyCashSelect20150327ReturnModel
+    public class SHUSER_SboMonthlyCashSelect20151222ReturnModel
     {
-        public Decimal? LAST_MONTH_CASH { get; set; }
-        public Decimal? CUR_MONTH_CASH { get; set; }
         public Decimal? INPUT_AMT { get; set; }
         public Decimal? OUTPUT_AMT { get; set; }
-        public Decimal? LAST_QUARTER_CASH_AVG { get; set; }
+        public Decimal? CASH_AMT { get; set; }
+        public String ACC_YEAR { get; set; }
+        public String ACC_MONTH { get; set; }
+        public Int64? ROW_NUM { get; set; }
+        public Decimal? LAST_AMT { get; set; }
     }
 
 }

@@ -323,30 +323,30 @@ namespace BizOneShot.Light.Web.ComLib
 
 
         //Cash Model 생성
-        public static CashViewModel MakeCashViewModel(IList<SHUSER_SboMonthlyCashSelectReturnModel> cashList)
+        public static CashViewModel MakeCashViewModel(IList<SHUSER_SboBosLiteMonthlyCashReturnModel> cashList)
         {
             CashViewModel cashViewModel = new CashViewModel();
 
-            cashViewModel.ForwardAmt = string.Format("{0:n0}", Convert.ToInt64((cashList[1].LAST_AMT / 1000)));   //이월액
-            cashViewModel.LastMonthCashBalance = string.Format("{0:n0}", Convert.ToInt64((cashList[1].LAST_AMT / 1000))); //전월잔고
-            cashViewModel.CashBalance = string.Format("{0:n0}", Convert.ToInt64((cashList[0].LAST_AMT / 1000))); //현재잔고
+            cashViewModel.ForwardAmt = string.Format("{0:n0}", Convert.ToInt64((cashList[0].LAST_MONTH_CASH / 1000)));   //이월액
+            cashViewModel.LastMonthCashBalance = string.Format("{0:n0}", Convert.ToInt64((cashList[0].LAST_MONTH_CASH / 1000))); //전월잔고
+            cashViewModel.CashBalance = string.Format("{0:n0}", Convert.ToInt64((cashList[0].CUR_MONTH_CASH / 1000))); //현재잔고
             cashViewModel.ReceivedAmt = string.Format("{0:n0}", Convert.ToInt64((cashList[0].INPUT_AMT / 1000))); //입금액
             cashViewModel.ContributionAmt = string.Format("{0:n0}", Convert.ToInt64((cashList[0].OUTPUT_AMT / 1000))); //출급액
 
-            var qm = CalcBeforQuarter(int.Parse(cashList[0].ACC_YEAR), int.Parse(cashList[0].ACC_MONTH));
+            //var qm = CalcBeforQuarter(int.Parse(cashList[0].ACC_YEAR), int.Parse(cashList[0].ACC_MONTH));
 
-            Int64 avrBeforQuarter = 0;
-            int cnt = 0;
-            foreach (var cash in cashList)
-            {
-                if (int.Parse(cash.ACC_YEAR) == qm.Year && (int.Parse(cash.ACC_MONTH) >= qm.Quarter * 3 - 2 && int.Parse(cash.ACC_MONTH) <= qm.Quarter * 3))
-                {
-                    avrBeforQuarter = avrBeforQuarter + Convert.ToInt64(cash.LAST_AMT);
-                    cnt++;
-                }
-            }
+            //Int64 avrBeforQuarter = 0;
+            //int cnt = 0;
+            //foreach (var cash in cashList)
+            //{
+            //    if (int.Parse(cash.ACC_YEAR) == qm.Year && (int.Parse(cash.ACC_MONTH) >= qm.Quarter * 3 - 2 && int.Parse(cash.ACC_MONTH) <= qm.Quarter * 3))
+            //    {
+            //        avrBeforQuarter = avrBeforQuarter + Convert.ToInt64(cash.LAST_AMT);
+            //        cnt++;
+            //    }
+            //}
 
-            cashViewModel.BeforeQuarterlyCashBalance = string.Format("{0:n0}", ((avrBeforQuarter / 3) / 1000)); //전분기
+            cashViewModel.BeforeQuarterlyCashBalance = string.Format("{0:n0}", Convert.ToInt64((cashList[0].LAST_QUARTER_CASH_AVG / 1000))); //전분기
             return cashViewModel;
         }
 

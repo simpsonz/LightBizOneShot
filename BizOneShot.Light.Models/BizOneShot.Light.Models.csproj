@@ -53,6 +53,9 @@
     <Compile Include="DareModels\SHUSER_AcStdIncmrateBseIdstT.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="DareModels\SHUSER_SboBosLiteMonthlyCashReturnModel.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="DareModels\SHUSER_SboFinancialIndexT.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
@@ -69,6 +72,9 @@
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="DareModels\SHUSER_SboMonthlyCashSelect20150327ReturnModel.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DareModels\SHUSER_SboMonthlyCashSelect20151222ReturnModel.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="DareModels\SHUSER_SboMonthlyCashSelectReturnModel.cs">

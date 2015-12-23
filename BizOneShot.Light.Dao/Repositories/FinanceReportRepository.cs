@@ -8,7 +8,7 @@ namespace BizOneShot.Light.Dao.Repositories
     public interface IFinanceReportRepository : IRepository<SHUSER_SboMonthlySalesSelectReturnModel>
     {
         //현금시재조회
-        Task<IList<SHUSER_SboMonthlyCashSelectReturnModel>> GetMonthlyCashListAsync(object[] parameters);
+        Task<IList<SHUSER_SboBosLiteMonthlyCashReturnModel>> GetMonthlyCashListAsync(object[] parameters);
         //매출조회 당월, 전월
         Task<IList<SHUSER_SboMonthlySalesSelectReturnModel>> GetMonthlySalesAsync(object[] parameters);
         //매출조회 년 누적
@@ -37,12 +37,12 @@ namespace BizOneShot.Light.Dao.Repositories
         {
         }
 
-        public async Task<IList<SHUSER_SboMonthlyCashSelectReturnModel>> GetMonthlyCashListAsync(object[] parameters)
+        public async Task<IList<SHUSER_SboBosLiteMonthlyCashReturnModel>> GetMonthlyCashListAsync(object[] parameters)
         {
             return
                 await
-                    DareDbContext.Database.SqlQuery<SHUSER_SboMonthlyCashSelectReturnModel>(
-                        "SBO_MONTHLY_CASH_SELECT @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ",
+                    DareDbContext.Database.SqlQuery<SHUSER_SboBosLiteMonthlyCashReturnModel>(
+                        "SBO_BOS_LITE_MONTHLY_CASH @MEMB_BUSNPERS_NO, @CORP_CODE, @BIZ_CD, @SET_YEAR, @SET_MONTH ",
                         parameters).ToListAsync();
         }
 
