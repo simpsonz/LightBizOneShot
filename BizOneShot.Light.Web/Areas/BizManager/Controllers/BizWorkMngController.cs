@@ -102,7 +102,7 @@ namespace BizOneShot.Light.Web.Areas.BizManager.Controllers
             ViewBag.BizWorkNm = bizWorkNm;
 
             int pagingSize = int.Parse(ConfigurationManager.AppSettings["PagingSize"]);
-            pagingSize  = 2;
+
             var pagedListScBizWork = await _scBizWorkService.GetPagedListBizWorkComList(int.Parse(bizWorkSn), int.Parse(curPage ?? "1"), pagingSize);
 
             var comListViews =

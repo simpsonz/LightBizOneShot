@@ -43,7 +43,7 @@ namespace BizOneShot.Light.Web.ComLib
 
             var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
             {
-                var compMappings = curBizWork.ScCompMappings;
+                var compMappings = curBizWork.ScCompMappings.Where(sc => sc.Status == "A");
                 foreach (var compMapping in compMappings)
                 {
                     var quesMasters = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);

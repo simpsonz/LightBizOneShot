@@ -179,7 +179,7 @@ namespace BizOneShot.Light.Web.Controllers
             Dictionary<string, decimal> dicCurrentLiability = new Dictionary<string, decimal>();
 
             {
-                var compMappings = curBizWork.ScCompMappings;
+                var compMappings = curBizWork.ScCompMappings.Where(sc => sc.Status == "A");
                 foreach (var compMapping in compMappings)
                 {
                     //문진표 작성내역 조회
@@ -670,7 +670,7 @@ namespace BizOneShot.Light.Web.Controllers
             Dictionary<string, decimal> dicTotalAsset = new Dictionary<string, decimal>();
 
             {
-                var compMappings = curBizWork.ScCompMappings;
+                var compMappings = curBizWork.ScCompMappings.Where(sc => sc.Status == "A");
                 foreach (var compMapping in compMappings)
                 {
                     //문진표 작성내역 조회
@@ -789,7 +789,7 @@ namespace BizOneShot.Light.Web.Controllers
             Dictionary<string, int> dicSalse = new Dictionary<string, int>();
 
             {
-                var compMappings = curBizWork.ScCompMappings;
+                var compMappings = curBizWork.ScCompMappings.Where(sc => sc.Status == "A");
                 foreach (var compMapping in compMappings)
                 {
                     //문진표 작성내역 조회
@@ -975,7 +975,7 @@ namespace BizOneShot.Light.Web.Controllers
 
             var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
             {
-                var compMappings = curBizWork.ScCompMappings;
+                var compMappings = curBizWork.ScCompMappings.Where(sc => sc.Status == "A");
                 foreach (var compMapping in compMappings)
                 {
                     var quesMaster = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);
@@ -1108,7 +1108,7 @@ namespace BizOneShot.Light.Web.Controllers
 
             var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
             {
-                var compMappings = curBizWork.ScCompMappings;
+                var compMappings = curBizWork.ScCompMappings.Where(sc => sc.Status == "A");
                 foreach (var compMapping in compMappings)
                 {
                     var quesMaster = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);
@@ -1291,7 +1291,7 @@ namespace BizOneShot.Light.Web.Controllers
 
             var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
             {
-                var compMappings = curBizWork.ScCompMappings;
+                var compMappings = curBizWork.ScCompMappings.Where(sc => sc.Status == "A");
                 foreach (var compMapping in compMappings)
                 {
                     var quesMaster = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);
@@ -1441,7 +1441,7 @@ namespace BizOneShot.Light.Web.Controllers
             Dictionary<string, decimal> dicPrevSales = new Dictionary<string, decimal>();
 
             {
-                var compMappings = curBizWork.ScCompMappings;
+                var compMappings = curBizWork.ScCompMappings.Where(sc => sc.Status == "A");
                 foreach (var compMapping in compMappings)
                 {
                     //문진표 작성내역 조회
@@ -1560,7 +1560,7 @@ namespace BizOneShot.Light.Web.Controllers
 
             var curBizWork = await scBizWorkService.GetBizWorkByBizWorkSn(paramModel.BizWorkSn);
             {
-                var compMappings = curBizWork.ScCompMappings;
+                var compMappings = curBizWork.ScCompMappings.Where(sc => sc.Status == "A");
                 foreach (var compMapping in compMappings)
                 {
                     var quesMaster = await quesMasterService.GetQuesMasterAsync(compMapping.ScCompInfo.RegistrationNo, paramModel.BizWorkYear);
@@ -1706,7 +1706,7 @@ namespace BizOneShot.Light.Web.Controllers
             Dictionary<string, decimal> dicTotalCapital = new Dictionary<string, decimal>();
 
             {
-                var compMappings = curBizWork.ScCompMappings;
+                var compMappings = curBizWork.ScCompMappings.Where(sc => sc.Status == "A");
                 foreach (var compMapping in compMappings)
                 {
                     //문진표 작성내역 조회

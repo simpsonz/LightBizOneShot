@@ -58,14 +58,29 @@ namespace BizOneShot.Light.Dao.Repositories
         public async Task<IPagedList<RptMaster>> GetRptMasters(int page, int pageSize, string mentorID, int basicYear,
             int bizWorkSn, int compSn, string status)
         {
-            return await DbContext.RptMasters
-                .Include(rm => rm.ScBizWork)
-                .Include(rm => rm.ScCompInfo)
-                .Where(rm => rm.MentorId == mentorID && rm.BasicYear == basicYear && rm.Status.Contains(status) && rm.Status != "D")
-                .Where(rm => bizWorkSn == 0 ? rm.BizWorkSn > 0 : rm.BizWorkSn == bizWorkSn)
-                .Where(rm => compSn == 0 ? rm.CompSn > 0 : rm.CompSn == compSn)
-                .OrderByDescending(rm => rm.RegDt)
-                .AsNoTracking().ToPagedListAsync(page, pageSize);
+            //return await DbContext.RptMasters
+            //    .Include(rm => rm.ScBizWork)
+            //    .Include(rm => rm.ScCompInfo)
+            //    .Where(rm => rm.MentorId == mentorID && rm.BasicYear == basicYear && rm.Status.Contains(status) && rm.Status != "D")
+            //    .Where(rm => bizWorkSn == 0 ? rm.BizWorkSn > 0 : rm.BizWorkSn == bizWorkSn)
+            //    .Where(rm => compSn == 0 ? rm.CompSn > 0 : rm.CompSn == compSn)
+            //    .OrderByDescending(rm => rm.RegDt)
+            //    .AsNoTracking().ToPagedListAsync(page, pageSize);
+
+            var rptMasters =  DbContext.RptMasters
+                             .Where(rm => rm.MentorId == mentorID && rm.BasicYear == basicYear && rm.Status.Contains(status) && rm.Status != "D")
+                             .Where(rm => bizWorkSn == 0 ? rm.BizWorkSn > 0 : rm.BizWorkSn == bizWorkSn)
+                             .Where(rm => compSn == 0 ? rm.CompSn > 0 : rm.CompSn == compSn);
+
+            var joinList = from a in rptMasters
+                           join c in DbContext.ScCompMappings on new { a.BizWorkSn, a.CompSn } equals new { c.BizWorkSn, c.CompSn }
+                           where c.Status == "A"
+                           select a;
+
+
+            return await joinList.Include("ScBizWork").Include("ScCompInfo")
+                   .OrderByDescending(rm => rm.RegDt)
+                   .AsNoTracking().ToPagedListAsync(page, pageSize);
         }
 
         public async Task<IPagedList<RptMaster>> GetRptMastersForBizManager(int page, int pageSize, string executorId,
