@@ -80,7 +80,6 @@
     UnitOfWorkNamespace = "";	
     PocoConfigurationNamespace = "";
 
-    
     // Schema *****************************************************************************************************************************
     // If there are multiple schemas, then the table name is prefixed with the schema, except for dbo.
     // Ie. dbo.hello will be Hello.

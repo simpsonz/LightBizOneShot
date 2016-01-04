@@ -69,51 +69,6 @@
     <Compile Include="DareModels\SHUSER_SboFinancialTab3SalesSelectReturnModel.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyBankOutSelectReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyCashSelectReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyCostAnalysisSelectForPartReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyCostAnalysisSelectReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyCreditSelectReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyDepartmentCostAnalysisSelectForPartReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyDepartmentCostAnalysisSelectReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyDeptCostSelectForPartReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyDeptCostSelectReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyExpenseCostSelectReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyProperCostSelectReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlySalesAnalysisSelectReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlySalesSelectReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyTaxSalesSelectReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyYearSalesSelectReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
     <Compile Include="DareModels\SHUSER_SyUser.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
