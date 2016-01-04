@@ -35,6 +35,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -71,12 +72,6 @@
     <Compile Include="DareModels\SHUSER_SboMonthlyBankOutSelectReturnModel.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyCashSelect20150327ReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyCashSelect20151222ReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
     <Compile Include="DareModels\SHUSER_SboMonthlyCashSelectReturnModel.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
@@ -84,9 +79,6 @@
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="DareModels\SHUSER_SboMonthlyCostAnalysisSelectReturnModel.cs">
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DareModels\SHUSER_SboMonthlyCreditSelect20150327ReturnModel.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="DareModels\SHUSER_SboMonthlyCreditSelectReturnModel.cs">

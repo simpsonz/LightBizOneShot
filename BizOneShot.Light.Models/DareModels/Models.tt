@@ -110,6 +110,7 @@
     // Use the following regex filters to include or exclude stored procedures
     StoredProcedureFilterExclude = new Regex("WEEKLY | ANNUAL | QUARTERLY");
     StoredProcedureFilterInclude = new Regex("SBO_MONTHLY|SBO_FINANCIAL_TAB|SBO_BOS_LITE_");
+	
 
 
     // Table renaming *********************************************************************************************************************

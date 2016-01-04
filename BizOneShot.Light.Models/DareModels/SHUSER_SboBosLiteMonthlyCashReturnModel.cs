@@ -20,7 +20,7 @@ using System.Threading;
 
 namespace BizOneShot.Light.Models.DareModels
 {
-    public class SHUSER_SboMonthlyCashSelect20150327ReturnModel
+    public class SHUSER_SboBosLiteMonthlyCashReturnModel
     {
         public Decimal? LAST_MONTH_CASH { get; set; }
         public Decimal? CUR_MONTH_CASH { get; set; }
