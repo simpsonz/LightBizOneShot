@@ -1024,39 +1024,163 @@ namespace BizOneShot.Light.Web.ComLib
 
         public static double CalcFinancialPoint(SHUSER_SboFinancialIndexT sboFinancialIndexT)
         {
+            //각 항목의 계산값이 0보다 작을경우는 0점으로 처리한다.
+
+
             //매출영업이익률(영업이익 ÷ 매출액)×100
             //if(sboFinancialIndexT.CurrentSale.Value == 0) ? 
             double a = (sboFinancialIndexT.CurrentSale.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.OperatingEarning.Value / sboFinancialIndexT.CurrentSale.Value) * 100);
+
+            double aPoint = (a / (5.24 + a)) * 17;
+
+            if (a < 0)
+            {
+                aPoint = 0;
+            }
             //자기자본순이익률(당기순이익 ÷ 자본총계)×100
             double b = (sboFinancialIndexT.TotalCapital.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.CurrentEarning.Value / sboFinancialIndexT.TotalCapital.Value) * 100);
+
+            double bPoint = (b / (5.19 + b)) * 6;
+            if (b < 0)
+            {
+                bPoint = 0;
+            }
             //매출증가율((당기매출액 - 전기매출액) ÷ 전기매출액)×100
             double c = (sboFinancialIndexT.PrevSale.Value == 0) ? 0 : Convert.ToDouble(((sboFinancialIndexT.CurrentSale.Value - sboFinancialIndexT.PrevSale.Value) / sboFinancialIndexT.PrevSale.Value) * 100);
+
+            double cPoint = ((c / (4.93 + c)) * 9);
+
+            if (c < 0 )
+            {
+                cPoint = 0;
+            }
+
+            //전기매출액이 0 이고 당기매출액이 0 일때 =  0점
+            //전기매출액이 0 이고 당기매출액이 0 이상일때 = 9점
+            if (sboFinancialIndexT.PrevSale.Value == 0 && sboFinancialIndexT.CurrentSale.Value > 0)
+            {
+                cPoint = 9;
+            }
+
+            if(sboFinancialIndexT.PrevSale.Value == 0 && sboFinancialIndexT.CurrentSale.Value == 0)
+            {
+                cPoint = 0;
+            }
+
             //순이익증가율((당기순이익 - 전기순이익) ÷ 전기순이익)×100
             double d = (sboFinancialIndexT.PrevEarning.Value == 0) ? 0 : Convert.ToDouble(((sboFinancialIndexT.CurrentEarning.Value - sboFinancialIndexT.PrevEarning.Value) / sboFinancialIndexT.PrevEarning.Value) * 100);
+
+            double dPoint = (d / (19.96 + d)) * 14;
+            if (d < 0)
+            {
+                dPoint = 0;
+            }
+
+            //당기손익이 0또는 손실(음수)일때에는  전기손익에 관계없이 = 0점
+            //당기손익이 이익(양수)이고 전기손익이 0 또는 손실(음수) 일때 = 14점
+            if (sboFinancialIndexT.CurrentEarning.Value <= 0)
+            {
+                dPoint = 0;
+            }
+
+            if (sboFinancialIndexT.CurrentEarning.Value > 0 && sboFinancialIndexT.PrevEarning.Value <= 0)
+            {
+                dPoint = 14;
+            }
+
+
             //당좌비율((유동자산 - 재고자산) ÷ 유동부채)×100
             double e = (sboFinancialIndexT.CurrentLiability.Value == 0) ? 0 : Convert.ToDouble(((sboFinancialIndexT.CurrentAsset.Value - sboFinancialIndexT.InventoryAsset.Value) / sboFinancialIndexT.CurrentLiability.Value) * 100);
+
+            double ePoint = (e / (102.09 + e)) * 4;
+            if (e < 0)
+            {
+                ePoint = 0;
+            }
+
             //유동비율(유동자산 ÷ 유동부채)×100 
             double f = (sboFinancialIndexT.CurrentLiability.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.CurrentAsset.Value / sboFinancialIndexT.CurrentLiability.Value) * 100);
-            //부채비율(부채 ÷ 자산총계)×100
-            double g = (sboFinancialIndexT.TotalAsset.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.TotalLiability.Value / sboFinancialIndexT.TotalAsset.Value) * 100);
+
+            double fPoint = (f / (136.27 + f)) * 13;
+
+            if (f < 0)
+            {
+                f = 0;
+            }
+
+            //부채비율(부채 ÷ 자본총계)×100
+            double g = (sboFinancialIndexT.TotalAsset.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.TotalLiability.Value / sboFinancialIndexT.TotalCapital.Value) * 100);
+
+            double gPoint = (g / (141.66 + g)) * 9;
+
+            if (g < 0)
+            {
+                gPoint = 0;
+            }
             //이자보상비율(영업이익 ÷ 이자비용)×100
             double h = (sboFinancialIndexT.InterstCost.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.OperatingEarning.Value / sboFinancialIndexT.InterstCost.Value) * 100);
+
+            double hPoint = (h / (333.63 + h)) * 7;
+
+            if (h < 0)
+            {
+                hPoint = 0;
+            }
             //총자산회전율(매출액 ÷ 총자산)×100
             double i = (sboFinancialIndexT.TotalAsset.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.TotalAsset.Value) * 100);
+
+            double iPoint = (i / (114.75 + i)) * 3;
+            if (i < 0)
+            {
+                iPoint = 0;
+            }
             //매출채권회전율(매출액 ÷ 매출채권(=외상매출금,미수금,받을어음))×100
             double j = (sboFinancialIndexT.SalesCredit.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.SalesCredit.Value) * 100);
+            double jPoint = (j / (569.36 + j)) * 3;
+            if (j < 0)
+            {
+                jPoint = 0;
+            }
             //재고자산회전율(매출액 ÷ 재고자산)×100
             double k = (sboFinancialIndexT.InventoryAsset.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value / sboFinancialIndexT.InventoryAsset.Value) * 100);
+            double kPoint = (k / (915.48 + k)) * 4;
+            if (k < 0)
+            {
+                kPoint = 0;
+            }
+
+            //재고자산이 0일때 = 4점
+            if(sboFinancialIndexT.InventoryAsset.Value == 0)
+            {
+                kPoint = 4;
+            }
+
             //부가가치율(부가가치 ÷ 매출액)×100
             double l = (sboFinancialIndexT.CurrentSale.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.ValueAdded.Value / sboFinancialIndexT.CurrentSale.Value) * 100);
+
+            double lPoint = (l / (24.02 + l)) * 4;
+            if (l < 0)
+            {
+                lPoint = 0;
+            }
             //노동생산성(매출액-재료비) ÷ 종업원수
             double m = (sboFinancialIndexT.QtEmp.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.CurrentSale.Value - sboFinancialIndexT.MaterialCost.Value) / sboFinancialIndexT.QtEmp.Value);
+            double mPoint = (m / (16163671 + m)) * 4;
+            if (m < 0)
+            {
+                mPoint = 0;
+            }
             //자본생산성((부가가치 ÷ 자본총계)×100
             double n = (sboFinancialIndexT.TotalCapital.Value == 0) ? 0 : Convert.ToDouble((sboFinancialIndexT.ValueAdded.Value / sboFinancialIndexT.TotalCapital.Value) * 100);
+            double nPoint = (n / (137.01 + n)) * 3;
+            if (n < 0)
+            {
+                nPoint = 0;
+            }
 
             //재무점수로 환산
 
-            double point = ((a / (5.24 + a)) * 17) + ((b / (5.19 + b)) * 6) + ((c / (4.93 + c)) * 9) + ((d / (19.96 + d)) * 14) + ((e / (102.09 + e)) * 4) + ((f / (136.27 + f)) * 13) + ((g / (141.66 + g)) * 9) + ((h / (333.63 + h)) * 7) + ((i / (114.75 + i)) * 3) + ((j / (569.36 + j)) * 3) + ((k / (915.48 + k)) * 4) + ((l / (24.02 + l)) * 4) + ((m / (16163671 + m)) * 4) + ((n / (137.01 + n)) * 3);
+            double point = aPoint + bPoint + cPoint + dPoint + ePoint + fPoint + gPoint + hPoint + iPoint + jPoint + kPoint + lPoint + mPoint + nPoint;
 
             return point;
 

@@ -195,16 +195,19 @@ namespace BizOneShot.Light.Web.Controllers
                         continue;
                     }
 
+                    // A1A202 : 조직만족도
+                    var quesResult2s = await quesResult2Service.GetQuesResult2sAsync(quesMaster.QuestionSn, "A1A202");
+                    // 총직원은 다래 재무정보가 아닌 문진표상에 총인원을 가지고 온다.
+                    var totalEmp = quesResult2s.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1A20201");
+                    sboFinacialIndexT.QtEmp = decimal.Parse(totalEmp.D);
+
                     //참여기업의 점수 계산
                     var bizInHrMng = await reportUtil.GetHumanResourceMng(quesMaster.QuestionSn);
                     var bizInMkt = await reportUtil.GetTechMng(quesMaster.QuestionSn, sboFinacialIndexT);
                     var bizInBasicCapa = await reportUtil.GetOverAllManagementTotalPoint(quesMaster.QuestionSn);
                     var bizInFinance = await reportUtil.GetFinanceMng(quesMaster.QuestionSn, sboFinacialIndexT);
 
-                    // A1A202 : 조직만족도
-                    var quesResult2s = await quesResult2Service.GetQuesResult2sAsync(quesMaster.QuestionSn, "A1A202");
-                    // 총직원은 다래 재무정보가 아닌 문진표상에 총인원을 가지고 온다.
-                    var totalEmp = quesResult2s.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1A20201");
+                    
 
                     //해당기업을 찾아 점수를 별도로 저장한다.
                     if (quesMaster.QuestionSn == paramModel.QuestionSn)
@@ -1739,10 +1742,14 @@ namespace BizOneShot.Light.Web.Controllers
                         viewModel.Stability.AvgSMCompany = 141.7;
                     }
 
-                    dicCurrentAsset.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentSale.Value);
-                    dicCurrentLiability.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.OperatingEarning.Value);
-                    dicTotalLiability.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.PrevSale.Value);
-                    dicTotalCapital.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.PrevSale.Value);
+                    //dicCurrentAsset.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentSale.Value);
+                    //dicCurrentLiability.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.OperatingEarning.Value);
+                    //dicTotalLiability.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.PrevSale.Value);
+                    //dicTotalCapital.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.PrevSale.Value);
+                    dicCurrentAsset.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentAsset.Value);
+                    dicCurrentLiability.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.CurrentLiability.Value);
+                    dicTotalLiability.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.TotalLiability.Value);
+                    dicTotalCapital.Add(compMapping.ScCompInfo.RegistrationNo, sboFinacialIndexT.TotalCapital.Value);
 
                 }
             }

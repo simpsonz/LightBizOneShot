@@ -166,22 +166,27 @@ namespace BizOneShot.Light.Web.ComLib
             //이직직원
             var moveEmp = quesResult2s.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1A20202");
 
-            if (totalEmp.D451 == "0")
-            {
-                double avg = (int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) * 100;
-                totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeD(avg), 3);
 
-            }
-            else if (totalEmp.D452 == "0")
-            {
-                double avg = ((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / double.Parse(totalEmp.D451))) / 2.0 * 100;
-                totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeD(avg), 3);
-            }
-            else
-            {
-                double avg = ((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / double.Parse(totalEmp.D451)) + (int.Parse(moveEmp.D452) / double.Parse(totalEmp.D452))) / 3.0 * 100;
-                totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeD(avg), 3);
-            }
+            // 당해년도 1년 것만 계산하기로 함.
+            //if (totalEmp.D451 == "0")
+            //{
+            //    double avg = (int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) * 100;
+            //    totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeD(avg), 3);
+
+            //}
+            //else if (totalEmp.D452 == "0")
+            //{
+            //    double avg = ((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / double.Parse(totalEmp.D451))) / 2.0 * 100;
+            //    totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeD(avg), 3);
+            //}
+            //else
+            //{
+            //    double avg = ((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / double.Parse(totalEmp.D451)) + (int.Parse(moveEmp.D452) / double.Parse(totalEmp.D452))) / 3.0 * 100;
+            //    totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeD(avg), 3);
+            //}
+
+            double avg = (int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) * 100;
+            totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeD(avg), 3);
 
 
             // A1A203 : 정보시스템 활용
@@ -234,7 +239,7 @@ namespace BizOneShot.Light.Web.ComLib
             if ((int.Parse(DoctorEmp.D) + int.Parse(MasterEmp.D) + int.Parse(CollegeEmp.D) + int.Parse(TechEmp.D) + int.Parse(HighEmp.D)) != 0)
             {
                 double avg = ((int.Parse(DoctorEmp.D) * 5) + (int.Parse(MasterEmp.D) * 4) + (int.Parse(CollegeEmp.D) * 3) + (int.Parse(TechEmp.D) * 2) + (int.Parse(HighEmp.D) * 1)) / (double.Parse(DoctorEmp.D) + double.Parse(MasterEmp.D) + double.Parse(CollegeEmp.D) + double.Parse(TechEmp.D) + double.Parse(HighEmp.D));
-                totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeF(avg), 3);
+                totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeE(avg), 3);
             }
 
 
@@ -333,7 +338,8 @@ namespace BizOneShot.Light.Web.ComLib
             var TotalEmploy = quesResult2sTotalEmp.SingleOrDefault(i => i.QuesCheckList.DetailCd == "A1E10301");
             if (int.Parse(TotalEmploy.D451) != 0)
             {
-                double avg = (int.Parse(TotalEmploy.D) / double.Parse(TotalEmploy.D451)) - 1;
+                //double avg = (int.Parse(TotalEmploy.D) / double.Parse(TotalEmploy.D451)) - 1;
+                double avg = (int.Parse(TotalEmploy.D) - double.Parse(TotalEmploy.D451)) / double.Parse(TotalEmploy.D451) * 100;
                 totalPoint = totalPoint + ReportHelper.CalcPoint(ReportHelper.GetCodeTypeI(avg), 3);
             }
 
