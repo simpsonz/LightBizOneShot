@@ -354,7 +354,7 @@ namespace BizOneShot.Light.Web.Controllers
             //23. 위험관리역량-유동비율 참여기업평균 점수
             riskMngCapa.AvgBizInCompanyPoint2 = (dicCurrentLiability.Values.Sum() == 0) ? 0 : Math.Round(Convert.ToDouble((dicCurrentAsset.Values.Sum() / dicCurrentLiability.Values.Sum()) * 100), 1);
             //26. 위험관리역량-유동비율 전체평균 점수
-            riskMngCapa.AvgTotalPoint2 = Math.Round(Convert.ToDouble(((dicCurrentAsset.Values.Sum() + 58220981909) / (dicCurrentLiability.Values.Sum() + 23152799577)) * 100), 1);
+            riskMngCapa.AvgTotalPoint2 = Math.Round(Convert.ToDouble(((dicCurrentAsset.Values.Sum() + 26161408957) / (dicCurrentLiability.Values.Sum() + 5869940384)) * 100), 1);
             //29. 위험관리역량-유동비율 중소기업평균 점수
             riskMngCapa.AvgSMCompanyPoint = 136.3;
             viewModel.RiskMngCapa = riskMngCapa;
@@ -723,8 +723,8 @@ namespace BizOneShot.Light.Web.Controllers
             viewModel.Productivity.AvgBizInCompany = (dicQtEmp.Values.Sum() == 0) ? 0 : Math.Truncate(Convert.ToDouble(((dicSales.Values.Sum() - dicMaterrial.Values.Sum()) / dicQtEmp.Values.Sum()) / 1000));
             viewModel.Productivity.AvgTotal = Math.Truncate(Convert.ToDouble((((dicSales.Values.Sum() - dicMaterrial.Values.Sum()) + 68138995337) / (dicQtEmp.Values.Sum() + 718)) / 1000));
 
-            viewModel.Activity.AvgBizInCompany = (dicTotalAsset.Values.Sum() == 0) ? 0 : Math.Round(Convert.ToDouble(dicSales.Values.Sum() / dicTotalAsset.Values.Sum() * 100));
-            viewModel.Activity.AvgTotal = Math.Round(Convert.ToDouble((dicSales.Values.Sum() + 58431124392) / (dicTotalAsset.Values.Sum() + 46885784174) * 100));
+            viewModel.Activity.AvgBizInCompany = (dicTotalAsset.Values.Sum() == 0) ? 0 : Math.Round(Convert.ToDouble(dicSales.Values.Sum() / dicTotalAsset.Values.Sum() * 100), 1);
+            viewModel.Activity.AvgTotal = Math.Round(Convert.ToDouble((dicSales.Values.Sum() + 58431124392) / (dicTotalAsset.Values.Sum() + 46885784174) * 100), 1);
 
 
 
@@ -1589,21 +1589,21 @@ namespace BizOneShot.Light.Web.Controllers
 
                     if (quesMaster.QuestionSn == paramModel.QuestionSn)
                     {
-                        
+                        viewModel.orgSatisfaction.Company = Math.Round(Convert.ToDouble((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) * 100), 1).ToString();
+                        //평균값 계산 문제로 해당년도의 값만 계산하기로 함.
+                        //if (totalEmp.D451 == "0")
+                        //{
+                        //    viewModel.orgSatisfaction.Company = Math.Round(Convert.ToDouble((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) * 100), 1).ToString();
 
-                        if (totalEmp.D451 == "0")
-                        {
-                            viewModel.orgSatisfaction.Company = Math.Round(Convert.ToDouble((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) * 100), 1).ToString();
-
-                        }
-                        else if (totalEmp.D452 == "0")
-                        {
-                            viewModel.orgSatisfaction.Company = Math.Round(Convert.ToDouble((((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / double.Parse(totalEmp.D451))) / 2) * 100), 1).ToString();
-                        }
-                        else
-                        {
-                            viewModel.orgSatisfaction.Company = Math.Round(Convert.ToDouble((((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / double.Parse(totalEmp.D451)) + (int.Parse(moveEmp.D452) / double.Parse(totalEmp.D452))) / 3) * 100), 1).ToString();
-                        }
+                        //}
+                        //else if (totalEmp.D452 == "0")
+                        //{
+                        //    viewModel.orgSatisfaction.Company = Math.Round(Convert.ToDouble((((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / double.Parse(totalEmp.D451))) / 2) * 100), 1).ToString();
+                        //}
+                        //else
+                        //{
+                        //    viewModel.orgSatisfaction.Company = Math.Round(Convert.ToDouble((((int.Parse(moveEmp.D) / double.Parse(totalEmp.D)) + (int.Parse(moveEmp.D451) / double.Parse(totalEmp.D451)) + (int.Parse(moveEmp.D452) / double.Parse(totalEmp.D452))) / 3) * 100), 1).ToString();
+                        //}
                     }
 
                     //종합점수 조회하여 분류별로 딕셔너리 저장
