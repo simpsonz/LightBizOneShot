@@ -12,6 +12,20 @@
         $('#sub_leftwrap > .sub_gnbwrap > ul > li > a.gnb_SndData').addClass('on');
 
         $('#submit_form').bind('submit', function () {
+            if ($('#QUERY').val() == null || $('#QUERY').val().trim() == "") {
+                alert("수신자를 선택하지 않았습니다.");
+                return false;
+            }
+
+            if ($('#ReqSubject').val() == null || $('#ReqSubject').val().trim() == "") {
+                alert("제목을 작성하지 않았습니다.");
+                return false;
+            }
+
+            if ($('#ReqContents').val() == null || $('#ReqContents').val().trim() == "") {
+                alert("내용을 작성하지 않았습니다.");
+                return false;
+            }
 
             if (!confirm('새 자료요청 보내기를 하시겠습니까?')) {
                 return false;

@@ -66,7 +66,12 @@
                 return false;
             }
 
-            if (!confirm('수정 하시겠습니까?')) {
+            if ($('#ResContents').val() == null || $('#ResContents').val().trim() == "") {
+                alert("답변을 작성하지 않았습니다.");
+                return false;
+            }
+
+            if (!confirm('답변을 전송 하시겠습니까?')) {
                 return false;
             }
 
