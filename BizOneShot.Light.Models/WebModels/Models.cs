@@ -7,10 +7,10 @@
 // 
 //     Configuration file:     "BizOneShot.Light.Dao\App.config"
 //     Connection String Name: "WebDbContext"
-//     Connection String:      "Data Source=192.168.100.65;password=**zapped**;"
+//     Connection String:      "Data Source=221.144.139.21,22714;password=**zapped**;"
 
-// Database Edition: Enterprise Edition (64-bit)
-// Database Engine Edition: Enterprise
+// Database Edition: Standard Edition (64-bit)
+// Database Engine Edition: Standard
 
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable DoNotCallOverridableMethodsInConstructor

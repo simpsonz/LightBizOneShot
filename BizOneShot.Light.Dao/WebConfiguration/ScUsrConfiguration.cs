@@ -60,6 +60,7 @@ namespace BizOneShot.Light.Dao.WebConfiguration
             Property(x => x.RegDt).HasColumnName("REG_DT").IsOptional().HasColumnType("datetime");
             Property(x => x.UpdId).HasColumnName("UPD_ID").IsOptional().IsUnicode(false).HasColumnType("varchar").HasMaxLength(25);
             Property(x => x.UpdDt).HasColumnName("UPD_DT").IsOptional().HasColumnType("datetime");
+            Property(x => x.UseErp).HasColumnName("USE_ERP").IsOptional().IsFixedLength().IsUnicode(false).HasColumnType("char").HasMaxLength(1);
 
             // Foreign keys
             HasOptional(a => a.SyDareDbInfo).WithMany(b => b.ScUsrs).HasForeignKey(c => c.DbType); // FK_SY_DARE_DB_INFO_TO_SC_USR

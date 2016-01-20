@@ -256,6 +256,9 @@
     <Compile Include="WebModels\SyDareDbInfo.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="WebModels\UspDareScUsrCompInfoSelectReturnModel.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="WebModels\UspSelectAddressByBuildingSearchForWebListReturnModel.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
